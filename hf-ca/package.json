@@ -1,0 +1,85 @@
+{
+  "name": "hf-ca",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/drawer": "^6.6.2",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "color": "^4.2.3",
+    "expo": "~48.0.18",
+    "expo-application": "~5.1.1",
+    "expo-asset": "~8.9.1",
+    "expo-constants": "~14.2.1",
+    "expo-font": "~11.1.1",
+    "expo-image": "~1.0.1",
+    "expo-splash-screen": "~0.18.2",
+    "expo-status-bar": "~1.4.4",
+    "jest": "^29.2.1",
+    "jest-expo": "^48.0.2",
+    "lodash": "^4.17.21",
+    "react": "18.2.0",
+    "react-native": "0.71.8",
+    "react-native-gesture-handler": "~2.9.0",
+    "react-native-reanimated": "~2.14.4",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0",
+    "react-redux": "^8.0.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-dynamic-import-node": "^2.3.3",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-native": "^4.1.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-react-native": "^3.8.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "eslint --cache --fix"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules",
+      ".history",
+      ".history/*"
+    ],
+    "collectCoverageFrom": [
+      "**/src/utils/*.{js,jsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/.history/"
+    ]
+  },
+  "private": true
+}
