@@ -16,6 +16,7 @@ import HomeScreen from "../screens/home/HomeScreen";
 import HuntingScreen from "../screens/hunting/HuntingScreen";
 import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
+import FishingScreen from "../screens/fish/FishingScreen";
 
 export const navigationRef = React.createRef();
 
@@ -107,6 +108,7 @@ function TabNav() {
         <BottomTab.Navigator screenOptions={screenOpt} tabBar={(props) => <TabContent {...props} />}>
             <BottomTab.Screen name={Routers.home} component={HomeScreen} />
             <BottomTab.Screen name={Routers.hunting} component={HuntingScreen} />
+            <BottomTab.Screen name={Routers.fishing} component={FishingScreen} />
         </BottomTab.Navigator>
     );
 }

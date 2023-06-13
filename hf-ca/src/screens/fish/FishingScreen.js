@@ -12,15 +12,15 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function HuntingScreen() {
+export default function FishingScreen() {
     return (
         <Page style={styles.content}>
             <HuntFishContent
-                category={CATEGORY.Hunting}
-                title={AppContract.strings.hunt_page_title}
-                description={AppContract.strings.hunt_page_description}
-                primaryColor={AppTheme.colors.hunting_green}
-                purchaseDescription={AppContract.strings.huntPurchaseDescription}
+                category={CATEGORY.Fishing}
+                title={AppContract.strings.fish_page_title}
+                description={AppContract.strings.fish_page_description}
+                primaryColor={AppTheme.colors.fishing_blue}
+                purchaseDescription={AppContract.strings.fishPurchaseDescription}
             />
         </Page>
     );
