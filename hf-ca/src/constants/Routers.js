@@ -6,4 +6,5 @@ export default {
     onBoarding: "onBoardingScreen",
     home: "homeScreen",
     hunting: "huntingScreen",
+    fishing: "fishingScreen",
 };
