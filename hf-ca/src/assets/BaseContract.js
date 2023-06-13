@@ -1,6 +1,9 @@
 const BaseContract = {
     strings: {
         sign_in: "Sign In",
+        create_account: "Create Account",
+        splash_title: "Live Life Outside",
+        splash_sub_title: "Welcome to CDFW's Online License Sales and Services",
         discovery: "Discovery",
         weather: "Weather",
         solunar: "Solunar",

@@ -9,10 +9,14 @@
     "splash": {
       "image": "./src/assets/_default/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F0F3F4"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#F0F3F4",
+      "barStyle": "dark-content"
     },
     "assetBundlePatterns": [
-      "**/*"
+      "./src/assets/_default/*"
     ],
     "ios": {
       "requireFullScreen": true,

@@ -11,9 +11,6 @@ const AppContract = {
         Medium: require("./fonts/Roboto-Medium.ttf"),
         Regular: require("./fonts/Roboto-Regular.ttf"),
     },
-    images: {
-        logo: require("./images/icon.png"),
-    },
     URL: {
         qa: "https://uwp.ue1qa1.nonprod.aspiraint.com/",
         uat: "https://uatcan-psapirest.reserveamerica.com/",

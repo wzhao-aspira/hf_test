@@ -1,4 +1,6 @@
 export const KEY_CONSTANT = {
+    keyLoginSplash: "keyLoginSplash",
+    keyAppConfig: "keyAppConfig",
     keyWeatherFahrenheit: "keyWeatherFahrenheit",
 };
 export const DEBUG_MODE = false;
