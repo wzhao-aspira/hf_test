@@ -5,6 +5,7 @@ import * as Font from "expo-font";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
 import AppContract from "./src/assets/_default/AppContract";
+import { initAppConfig } from "./src/services/AppConfigService";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -17,6 +18,7 @@ export default function App() {
             await Font.loadAsync(AppContract.fonts);
             // await getConfig1();
             // await getConfig2();
+            await initAppConfig();
             setAppReady(true);
             await SplashScreen.hideAsync();
         };
