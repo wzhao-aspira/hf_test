@@ -6,6 +6,7 @@ import { faChevronDown } from "@fortawesome/pro-light-svg-icons";
 import AppTheme from "../assets/_default/AppTheme";
 import AppContract from "../assets/_default/AppContract";
 import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";
+import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
     cityContainer: {
@@ -25,6 +26,8 @@ export default function WeatherCity(props) {
     const cityName = city || AppContract.weather.defaultCityName;
     return (
         <Pressable
+            testID={genTestId("city_switching")}
+            accessibilityLabel={AppContract.accessibilityLabels.city_switching}
             onPress={() => {
                 // NavigationService.navigate("ChangeLocScreen");
             }}

@@ -1,7 +1,7 @@
 export const KEY_CONSTANT = {
     keyLoginSplash: "keyLoginSplash",
     keyAppConfig: "keyAppConfig",
-    keyWeatherFahrenheit: "keyWeatherFahrenheit",
+    keyLatLon: "keyLatLon",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fulfilled", rejected: "rejected" };

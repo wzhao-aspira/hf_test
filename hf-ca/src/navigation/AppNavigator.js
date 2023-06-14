@@ -17,8 +17,9 @@ import HuntingScreen from "../screens/hunting/HuntingScreen";
 import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
 import FishingScreen from "../screens/fish/FishingScreen";
-
-export const navigationRef = React.createRef();
+import WeatherScreen from "../screens/discovery/WeatherScreen";
+import SolunarScreen from "../screens/discovery/SolunarScreen";
+import { navigationRef } from "./NavigationService";
 
 const NavTheme = {
     colors: {
@@ -98,6 +99,8 @@ function MainNav() {
     return (
         <MainStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.tabNav}>
             <MainStack.Screen name={Routers.tabNav} component={TabNav} />
+            <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
+            <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
         </MainStack.Navigator>
     );
 }
