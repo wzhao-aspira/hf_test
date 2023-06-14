@@ -7,4 +7,6 @@ export default {
     home: "homeScreen",
     hunting: "huntingScreen",
     fishing: "fishingScreen",
+    weather: "weatherScreen",
+    solunar: "solunarScreen",
 };

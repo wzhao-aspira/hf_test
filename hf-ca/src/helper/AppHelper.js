@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 import { camelCase } from "lodash";
+import Toast from "react-native-root-toast";
 import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
 
@@ -29,6 +30,18 @@ export function getBaseURL() {
         return AppContract.URL.prod;
     }
     return AppContract.URL.qa;
+}
+
+export function showToast(message, option = {}) {
+    Toast.show(message, {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: false,
+        delay: 0,
+        ...option,
+    });
 }
 
 export function genTestId(testID) {

@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
+import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
     container: {
@@ -41,6 +42,8 @@ export default function WeekItem(props) {
                 const sel = item == selLabel;
                 return (
                     <Pressable
+                        testID={genTestId(label)}
+                        accessibilityLabel={label}
                         key={item}
                         onPress={() => {
                             onPress(item);

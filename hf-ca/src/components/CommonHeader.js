@@ -5,6 +5,8 @@ import { faChevronLeft } from "@fortawesome/pro-light-svg-icons";
 import AppTheme from "../assets/_default/AppTheme";
 import NavigationService from "../navigation/NavigationService";
 import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";
+import { genTestId } from "../helper/AppHelper";
+import AppContract from "../assets/_default/AppContract";
 
 const styles = StyleSheet.create({
     container: {
@@ -45,6 +47,8 @@ const CommonHeader = ({
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Pressable
+                    testID={genTestId("back_to_previous_page")}
+                    accessibilityLabel={AppContract.accessibilityLabels.back_to_previous_page}
                     onPress={onBackClick}
                     style={{ flexDirection: "row", width: 20 }}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}

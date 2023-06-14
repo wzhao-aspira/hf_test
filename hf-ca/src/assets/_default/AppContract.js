@@ -3,6 +3,7 @@ import { merge } from "lodash";
 import BaseContract from "../BaseContract";
 
 const AppContract = {
+    divisionCountry: "US",
     contractName: "CA",
     appId: "com.aspiraconnect.hf.ca",
     fonts: {

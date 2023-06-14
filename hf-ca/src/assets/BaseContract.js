@@ -51,14 +51,21 @@ const BaseContract = {
         hh_ss_am_pm: "HH:ss A",
         h_ss: "h:ss",
         am_pm: "A",
+        dddd: "dddd",
     },
     weather: {
         apiKey: "1423c70493d248528de23809211305",
         defaultCityName: "Denver",
     },
-    error: {
-        networkErrorTitle: "No Network Connection",
-        networkErrorMsg: "Please check your network settings.",
+    errors: {
+        can_not_get_weather_data: "Can not get the weather data, please retry later!",
+    },
+    accessibilityLabels: {
+        back_to_previous_page: "Back To Previous Page",
+        weather_card: "Weather Card",
+        solunar_card: "Solunar Card",
+        fahrenheit_switching: "Fahrenheit Switching",
+        city_switching: "City Switching",
     },
 };
 
