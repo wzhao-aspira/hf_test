@@ -2,8 +2,8 @@ import * as React from "react";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { View, StyleSheet, Text, Pressable } from "react-native";
-import AppTheme from "../../assets/_default/AppTheme";
-import { genTestId } from "../../helper/AppHelper";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { genTestId } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     otherInfoItem: {

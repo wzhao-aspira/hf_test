@@ -1,9 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { faClipboardList, faShoppingCart } from "@fortawesome/pro-light-svg-icons";
-import AppContract from "../../assets/_default/AppContract";
-import AppTheme from "../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN } from "../../constants/Dimension";
+import AppContract from "../../../assets/_default/AppContract";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import HuntFishCardItem from "./HuntFishCardItem";
 
 export const styles = StyleSheet.create({

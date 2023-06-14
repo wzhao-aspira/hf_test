@@ -1,9 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import AppTheme from "../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN } from "../../constants/Dimension";
-import AppContract from "../../assets/_default/AppContract";
-import { CATEGORY } from "../../constants/Constants";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN } from "../../../constants/Dimension";
+import AppContract from "../../../assets/_default/AppContract";
+import { CATEGORY } from "../../../constants/Constants";
 import HuntFishOtherInfoItem from "./HuntFishOtherInfoItem";
 
 const styles = StyleSheet.create({

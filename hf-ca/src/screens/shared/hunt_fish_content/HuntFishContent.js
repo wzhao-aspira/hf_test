@@ -1,8 +1,8 @@
 import * as React from "react";
 import { View, StyleSheet, Text, ScrollView } from "react-native";
-import AppTheme from "../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
-import SplitLine from "../SplitLine";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
+import SplitLine from "../../../components/SplitLine";
 import HuntFishList from "./HuntFishList";
 import HuntFishOtherInfo from "./HuntFishOtherInfo";
 

@@ -43,7 +43,7 @@ const BaseContract = {
         huntPurchaseDescription: "Purchase or renew hunting licenses",
         hunt_page_description: "View rules and regulations, submit harvest reports, and view your licenses from here.",
 
-        fish_page_title: "Angling",
+        fish_page_title: "Fishing",
         fishPurchaseDescription: "Purchase or renew fishing licenses",
         fish_page_description: "View licenses, rules and regulations, and other important information here.",
     },

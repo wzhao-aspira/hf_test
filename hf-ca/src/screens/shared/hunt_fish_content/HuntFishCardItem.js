@@ -1,9 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import AppTheme from "../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN } from "../../constants/Dimension";
-import { genTestId } from "../../helper/AppHelper";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN } from "../../../constants/Dimension";
+import { genTestId } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     cardItem: {
