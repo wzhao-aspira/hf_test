@@ -38,12 +38,11 @@ export default function WeekItem(props) {
 
     return (
         <View style={styles.container}>
-            {label.map((item) => {
+            {label.map((item, index) => {
                 const sel = item == selLabel;
                 return (
                     <Pressable
-                        testID={genTestId(label)}
-                        accessibilityLabel={label}
+                        testID={genTestId(`WeekItem${index + 1}Button`)}
                         key={item}
                         onPress={() => {
                             onPress(item);
@@ -51,7 +50,12 @@ export default function WeekItem(props) {
                     >
                         <View style={[sel ? styles.labelWrapper : null]}>
                             {!startsWith(item, "test_") && (
-                                <Text style={[sel ? styles.selLabelStyle : styles.labelStyle]}>{item}</Text>
+                                <Text
+                                    testID={genTestId(`WeekItem${index + 1}Label`)}
+                                    style={[sel ? styles.selLabelStyle : styles.labelStyle]}
+                                >
+                                    {item}
+                                </Text>
                             )}
                         </View>
                     </Pressable>

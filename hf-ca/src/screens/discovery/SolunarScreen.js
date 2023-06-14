@@ -14,6 +14,7 @@ import { REQUEST_STATUS } from "../../constants/Constants";
 import WeatherCity from "../../components/WeatherCity";
 import Page from "../../components/Page";
 import { getWeatherDataFromRedux, weather } from "../../redux/WeatherSlice";
+import { genTestId } from "../../helper/AppHelper";
 
 const styles = StyleSheet.create({
     headerContainer: {
@@ -71,6 +72,7 @@ export default function SolunarScreen() {
         <View style={{ flex: 1 }}>
             <CommonHeader title={AppContract.strings.solunar} />
             <ScrollView
+                testID={genTestId("SolunarContentScrollView")}
                 refreshControl={
                     <RefreshControl
                         colors={[AppTheme.colors.primary]}

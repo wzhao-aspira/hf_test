@@ -15,6 +15,7 @@ import WeatherCity from "../../components/WeatherCity";
 import Page from "../../components/Page";
 import { getWeatherDataFromRedux, weather, updateFahrenheitInd } from "../../redux/WeatherSlice";
 import { genTestId } from "../../helper/AppHelper";
+import { REQUEST_STATUS } from "../../constants/Constants";
 
 const styles = StyleSheet.create({
     headerContainer: {
@@ -60,11 +61,12 @@ export default function WeatherScreen() {
         <View style={{ flex: 1 }}>
             <CommonHeader title={AppContract.strings.weather} />
             <ScrollView
+                testID={genTestId("WeatherContentScrollView")}
                 refreshControl={
                     <RefreshControl
                         colors={[AppTheme.colors.primary]}
                         tintColor={AppTheme.colors.primary}
-                        refreshing={requestStatus}
+                        refreshing={requestStatus == REQUEST_STATUS.pending}
                         onRefresh={() => {
                             dispatch(getWeatherDataFromRedux({ isForce: true }));
                         }}
@@ -76,8 +78,7 @@ export default function WeatherScreen() {
                         <View style={styles.weatherCityContainer}>
                             <WeatherCity city={weatherData?.location?.name} />
                             <SwitchSelector
-                                testID={genTestId("fahrenheit_switching")}
-                                accessibilityLabel={AppContract.accessibilityLabels.fahrenheit_switching}
+                                testID={genTestId("FahrenheitSwitchingButton")}
                                 onPress={(value) => {
                                     dispatch(updateFahrenheitInd(value));
                                 }}

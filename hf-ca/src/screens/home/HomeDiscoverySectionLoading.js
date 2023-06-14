@@ -5,6 +5,7 @@ import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../constants/Di
 import HomeStyles from "./HomeStyles";
 import AppContract from "../../assets/_default/AppContract";
 import SkeletonLoader from "../../components/SkeletonLoader";
+import { genTestId } from "../../helper/AppHelper";
 
 const styles = StyleSheet.create({
     cardContainer: {
@@ -61,12 +62,14 @@ const HomeDiscoverySectionLoading = () => {
         },
     ];
 
-    const renderCard = (title) => {
+    const renderCard = (title, testID) => {
         return (
             <View style={styles.card}>
                 <SkeletonLoader layout={layout} />
                 <View style={styles.bottomContainer}>
-                    <Text style={styles.cardBottomLabel}>{title}</Text>
+                    <Text testID={genTestId(`${testID}BottomLabel`)} style={styles.cardBottomLabel}>
+                        {title}
+                    </Text>
                 </View>
             </View>
         );
@@ -75,11 +78,13 @@ const HomeDiscoverySectionLoading = () => {
     return (
         <View>
             <View style={HomeStyles.sectionTitleContainer}>
-                <Text style={HomeStyles.sectionTitle}>{AppContract.strings.discovery}</Text>
+                <Text testID={genTestId("DiscoveryLabel")} style={HomeStyles.sectionTitle}>
+                    {AppContract.strings.discovery}
+                </Text>
             </View>
             <View style={styles.cardContainer}>
-                {renderCard(AppContract.strings.weather)}
-                {renderCard(AppContract.strings.solunar)}
+                {renderCard(AppContract.strings.weather, "Weather")}
+                {renderCard(AppContract.strings.solunar, "Solunar")}
             </View>
         </View>
     );
