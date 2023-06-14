@@ -24,6 +24,9 @@ const BaseContract = {
         moonrise_and_moonset: "Moonrise and Moonset",
         moonset: "Moonset",
         moonrise: "Moonrise",
+        tabHome: "Home",
+        tabHunting: "Hunting",
+        tabFishing: "Fishing",
 
         hf_pg_my_lic: "My Licenses",
         my_draw_summary: "My Draw Summary",
