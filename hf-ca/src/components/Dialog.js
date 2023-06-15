@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, Modal, View, Text } from "react-native";
+import { StyleSheet, Modal, View, Text, ActivityIndicator } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";
 import PrimaryBtn from "./PrimaryBtn";
+import OutlinedBtn from "./OutlinedBtn";
 
 const styles = StyleSheet.create({
     centeredView: {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
     contentStyle: {
         borderRadius: 10,
         width: SCREEN_WIDTH - DEFAULT_MARGIN * 2,
-        backgroundColor: AppTheme.colors.page_bg,
+        backgroundColor: AppTheme.colors.font_color_4,
         alignSelf: "center",
     },
     title: {
@@ -31,6 +32,11 @@ const styles = StyleSheet.create({
     },
     okBtn: {
         margin: 10,
+    },
+    cancelBtn: {
+        marginTop: -10,
+        marginBottom: 10,
+        borderWidth: 0,
     },
 });
 
@@ -51,12 +57,52 @@ export const SimpleDialog = (props) => {
         </Modal>
     );
 };
+
+// with two buttons
+export const SelectDialog = (props) => {
+    const {
+        title = "Alert",
+        message = "Msg",
+        visible = false,
+        okText = "OK",
+        okAction = () => {},
+        cancelText = "Cancel",
+        cancelAction = () => {},
+    } = props;
+
+    return (
+        <Modal visible={visible} animationType="none" transparent>
+            <View style={styles.centeredView}>
+                <View style={styles.contentStyle}>
+                    <View style={{ padding: DEFAULT_MARGIN }}>
+                        <Text style={styles.title}>{title}</Text>
+                        <Text style={styles.message}>{message}</Text>
+                        <PrimaryBtn onPress={okAction} label={okText} style={styles.okBtn} />
+                        <OutlinedBtn onPress={cancelAction} label={cancelText} style={styles.cancelBtn} />
+                    </View>
+                </View>
+            </View>
+        </Modal>
+    );
+};
+
 export const Dialog = (props) => {
     const { visible = false, children = <></> } = props;
     return (
         <Modal visible={visible} animationType="none" transparent>
             <View style={styles.centeredView}>
                 <View style={styles.contentStyle}>{children}</View>
+            </View>
+        </Modal>
+    );
+};
+
+export const Indicator = (props) => {
+    const { visible } = props;
+    return (
+        <Modal visible={visible} animationType="none" transparent>
+            <View style={[styles.centeredView, { backgroundColor: AppTheme.colors.backdrop_light }]}>
+                <ActivityIndicator size="small" color={AppTheme.colors.primary} />
             </View>
         </Modal>
     );
