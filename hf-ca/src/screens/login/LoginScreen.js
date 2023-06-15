@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     },
     loginArea: {
         padding: 40,
-        justifyContent: "center",
         flexGrow: 1,
     },
     loginAreaContainer: {
@@ -82,7 +81,12 @@ export default function LoginScreen() {
                 source={getLogo()}
             />
 
-            <ScrollView style={styles.loginAreaContainer} bounces={false} contentContainerStyle={styles.loginArea}>
+            <ScrollView
+                style={styles.loginAreaContainer}
+                bounces={false}
+                contentContainerStyle={styles.loginArea}
+                showsVerticalScrollIndicator={false}
+            >
                 <View>
                     <Text style={styles.title}>{AppContract.strings.splash_title}</Text>
                     <SplitLine style={{ backgroundColor: AppTheme.colors.font_color_1 }} />
