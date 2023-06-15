@@ -26,15 +26,14 @@ export default function WeatherCity(props) {
     const cityName = city || AppContract.weather.defaultCityName;
     return (
         <Pressable
-            testID={genTestId("city_switching")}
-            accessibilityLabel={AppContract.accessibilityLabels.city_switching}
+            testID={genTestId("CitySwitchingButton")}
             onPress={() => {
                 // NavigationService.navigate("ChangeLocScreen");
             }}
         >
             <View style={styles.cityContainer}>
                 <FontAwesomeIcon icon={faMapMarker} size={14} color={AppTheme.colors.primary} />
-                <Text style={styles.city} numberOfLines={2}>
+                <Text testID={genTestId("CityNameLabel")} style={styles.city} numberOfLines={2}>
                     {cityName}
                 </Text>
                 <FontAwesomeIcon icon={faChevronDown} size={14} color={AppTheme.colors.primary_2} />

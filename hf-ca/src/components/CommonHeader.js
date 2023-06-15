@@ -6,7 +6,6 @@ import AppTheme from "../assets/_default/AppTheme";
 import NavigationService from "../navigation/NavigationService";
 import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";
 import { genTestId } from "../helper/AppHelper";
-import AppContract from "../assets/_default/AppContract";
 
 const styles = StyleSheet.create({
     container: {
@@ -47,8 +46,7 @@ const CommonHeader = ({
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Pressable
-                    testID={genTestId("back_to_previous_page")}
-                    accessibilityLabel={AppContract.accessibilityLabels.back_to_previous_page}
+                    testID={genTestId("BackToPreviousPageButton")}
                     onPress={onBackClick}
                     style={{ flexDirection: "row", width: 20 }}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
@@ -56,11 +54,12 @@ const CommonHeader = ({
                     {showLeft && <FontAwesomeIcon icon={leftIcon} size={20} color={AppTheme.colors.primary_2} />}
                 </Pressable>
                 <View style={styles.headerTextContainer}>
-                    <Text style={styles.headerText} numberOfLines={2}>
+                    <Text testID={genTestId("HeaderTitleLabel")} style={styles.headerText} numberOfLines={2}>
                         {title}
                     </Text>
                 </View>
                 <Pressable
+                    testID={genTestId("GoToNextPageButton")}
                     onPress={onRightClick}
                     style={{ flexDirection: "row", width: 20 }}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}

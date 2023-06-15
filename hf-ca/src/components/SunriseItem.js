@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../constants/Dimension";
+import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
     container: {
@@ -39,20 +40,31 @@ const styles = StyleSheet.create({
 
 export default function SunriseItem(props) {
     const { title, leftLabel, leftValue, icon, rightLabel, rightValue } = props;
+    const testID = title.replace(/\s*/g, "");
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{title}</Text>
+            <Text testID={genTestId(`${testID}TitleLabel`)} style={styles.title}>
+                {title}
+            </Text>
             <View style={styles.itemContainer}>
                 <View style={[styles.labelContainer, { flex: 1.2 }]}>
-                    <Text style={styles.label}>{leftLabel}</Text>
-                    <Text style={styles.value}>{leftValue || "-"}</Text>
+                    <Text testID={genTestId(`${testID}LeftTitleLabel`)} style={styles.label}>
+                        {leftLabel}
+                    </Text>
+                    <Text testID={genTestId(`${testID}LeftValueLabel`)} style={styles.value}>
+                        {leftValue || "-"}
+                    </Text>
                 </View>
                 <View style={[styles.labelContainer, { alignItems: "flex-start" }]}>
                     <FontAwesomeIcon icon={icon} size={32} color={AppTheme.colors.primary} />
                 </View>
                 <View style={styles.labelContainer}>
-                    <Text style={styles.label}>{rightLabel}</Text>
-                    <Text style={styles.value}>{rightValue || "-"}</Text>
+                    <Text testID={genTestId(`${testID}RightTitleLabel`)} style={styles.label}>
+                        {rightLabel}
+                    </Text>
+                    <Text testID={genTestId(`${testID}RightValueLabel`)} style={styles.value}>
+                        {rightValue || "-"}
+                    </Text>
                 </View>
             </View>
         </View>

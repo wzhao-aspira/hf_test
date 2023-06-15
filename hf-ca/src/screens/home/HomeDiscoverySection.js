@@ -94,10 +94,10 @@ export default function HomeDiscoverySection() {
     const weatherFromRedux = useSelector(weather);
     const { weatherData, fahrenheitInd } = weatherFromRedux;
 
-    const renderCity = (cityName) => {
+    const renderCity = (cityName, testID) => {
         return (
             <View style={styles.cityContainer}>
-                <Text style={styles.cardTitle} numberOfLines={2}>
+                <Text testID={genTestId(testID)} style={styles.cardTitle} numberOfLines={2}>
                     {cityName}
                 </Text>
                 <FontAwesomeIcon icon={faLocationArrow} size={8} color={AppTheme.colors.primary_2} />
@@ -105,10 +105,12 @@ export default function HomeDiscoverySection() {
         );
     };
 
-    const renderBottom = (value) => {
+    const renderBottom = (value, testID) => {
         return (
             <View style={styles.bottomContainer}>
-                <Text style={styles.cardBottomLabel}>{value}</Text>
+                <Text testID={genTestId(testID)} style={styles.cardBottomLabel}>
+                    {value}
+                </Text>
             </View>
         );
     };
@@ -125,17 +127,17 @@ export default function HomeDiscoverySection() {
         return (
             <View style={styles.card}>
                 <Pressable
-                    testID={genTestId("weather_card")}
-                    accessibilityLabel={AppContract.accessibilityLabels.weather_card}
+                    testID={genTestId("WeatherCard")}
                     style={{ height: "100%" }}
                     onPress={() => {
                         NavigationService.navigate(Routers.weather);
                     }}
                 >
-                    {renderCity(cityName)}
+                    {renderCity(cityName, "WeatherCardCityNameLabel")}
                     <View style={styles.weatherContainer}>
                         <View style={{ flexDirection: "row" }}>
                             <Text
+                                testID={genTestId("TemperatureLabel")}
                                 style={{
                                     ...AppTheme.typography.primary_heading,
                                     color: AppTheme.colors.font_color_1,
@@ -143,13 +145,20 @@ export default function HomeDiscoverySection() {
                             >
                                 {tempFStr}
                             </Text>
-                            {tempF && <Text style={{ ...AppTheme.typography.section_header }}>{temperatureFlag}</Text>}
+                            {tempF && (
+                                <Text
+                                    testID={genTestId("TemperatureFlagLabel")}
+                                    style={{ ...AppTheme.typography.section_header }}
+                                >
+                                    {temperatureFlag}
+                                </Text>
+                            )}
                         </View>
                     </View>
-                    <Text style={styles.stateLabel} numberOfLines={1}>
+                    <Text testID={genTestId("ConditionTextLabel")} style={styles.stateLabel} numberOfLines={1}>
                         {conditionText}
                     </Text>
-                    {renderBottom(AppContract.strings.weather)}
+                    {renderBottom(AppContract.strings.weather, "WeatherCardBottomLabel")}
                 </Pressable>
             </View>
         );
@@ -181,37 +190,50 @@ export default function HomeDiscoverySection() {
         return (
             <View style={styles.card}>
                 <Pressable
-                    testID={genTestId("solunar_card")}
-                    accessibilityLabel={AppContract.accessibilityLabels.solunar_card}
+                    testID={genTestId("SolunarCard")}
                     style={{ height: "100%" }}
                     onPress={() => {
                         NavigationService.navigate(Routers.solunar);
                     }}
                 >
-                    {renderCity(cityName)}
+                    {renderCity(cityName, "SolunarCardCityNameLabel")}
                     <View style={styles.sunContainer}>
                         <View style={{ alignItems: "center" }}>
                             <View style={styles.sunItem}>
                                 <FontAwesomeIcon icon={faSunrise} size={16} color={AppTheme.colors.primary_2} />
-                                <Text numberOfLines={1} style={styles.timeLabel}>
+                                <Text testID={genTestId("SunriseTimeLabel")} numberOfLines={1} style={styles.timeLabel}>
                                     {formattedSunrise}{" "}
-                                    <Text style={{ ...AppTheme.typography.am_pm }}>{formattedSunriseAmPm}</Text>
+                                    <Text
+                                        testID={genTestId("SunriseTimeAmPmLabel")}
+                                        style={{ ...AppTheme.typography.am_pm }}
+                                    >
+                                        {formattedSunriseAmPm}
+                                    </Text>
                                 </Text>
                             </View>
-                            <Text style={styles.sunSetRiseLabel}>{AppContract.strings.sunrise}</Text>
+                            <Text testID={genTestId("SunriseLabel")} style={styles.sunSetRiseLabel}>
+                                {AppContract.strings.sunrise}
+                            </Text>
                         </View>
                         <View style={{ alignItems: "center" }}>
                             <View style={styles.sunItem}>
                                 <FontAwesomeIcon icon={faSunset} size={16} color={AppTheme.colors.primary_2} />
-                                <Text numberOfLines={1} style={styles.timeLabel}>
+                                <Text testID={genTestId("SunsetTimeLabel")} numberOfLines={1} style={styles.timeLabel}>
                                     {formattedSunset}{" "}
-                                    <Text style={{ ...AppTheme.typography.am_pm }}>{formattedSunsetAmPm}</Text>
+                                    <Text
+                                        testID={genTestId("SunsetTimeAmPmLabel")}
+                                        style={{ ...AppTheme.typography.am_pm }}
+                                    >
+                                        {formattedSunsetAmPm}
+                                    </Text>
                                 </Text>
                             </View>
-                            <Text style={styles.sunSetRiseLabel}>{AppContract.strings.sunset}</Text>
+                            <Text testID={genTestId("SunsetLabel")} style={styles.sunSetRiseLabel}>
+                                {AppContract.strings.sunset}
+                            </Text>
                         </View>
                     </View>
-                    {renderBottom(AppContract.strings.solunar)}
+                    {renderBottom(AppContract.strings.solunar, "SolunarCardBottomLabel")}
                 </Pressable>
             </View>
         );
@@ -220,7 +242,9 @@ export default function HomeDiscoverySection() {
     return (
         <View>
             <View style={HomeStyles.sectionTitleContainer}>
-                <Text style={HomeStyles.sectionTitle}>{AppContract.strings.discovery}</Text>
+                <Text testID={genTestId("DiscoveryLabel")} style={HomeStyles.sectionTitle}>
+                    {AppContract.strings.discovery}
+                </Text>
             </View>
             <View style={styles.cardContainer}>
                 {renderWeatherCard()}

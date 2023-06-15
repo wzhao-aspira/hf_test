@@ -11,10 +11,11 @@ import { REQUEST_STATUS } from "../../constants/Constants";
 import AppContract from "../../assets/_default/AppContract";
 import HeaderBar from "../../components/HeaderBar";
 import WelcomeBar from "../../components/WelcomeBar";
+import { genTestId } from "../../helper/AppHelper";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
-    const weatherRequestStatus = useSelector((state) => state.requestStatus);
+    const weatherRequestStatus = useSelector((state) => state.weather.requestStatus);
 
     useEffect(() => {
         dispatch(getWeatherDataFromRedux({}));
@@ -37,6 +38,7 @@ export default function HomeScreen() {
                 <HeaderBar />
                 <WelcomeBar firstName="Hannah" />
                 <FlatList
+                    testID={genTestId("HomeContentFlatList")}
                     refreshControl={
                         <RefreshControl
                             colors={[AppTheme.colors.primary]}

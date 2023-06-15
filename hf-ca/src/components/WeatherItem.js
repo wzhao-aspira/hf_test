@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
+import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
     container: {
@@ -26,10 +27,21 @@ export default function WeatherItem(props) {
     return (
         <View style={[styles.container, style]}>
             <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-                <Text style={styles.title}>{title || "-"}</Text>
-                {title && subTitle && <Text style={[styles.title, { fontSize: 20, lineHeight: 28 }]}>{subTitle}</Text>}
+                <Text testID={genTestId("WeatherItemTitleLabel")} style={styles.title}>
+                    {title || "-"}
+                </Text>
+                {title && subTitle && (
+                    <Text
+                        testID={genTestId("WeatherItemSubTitleLabel")}
+                        style={[styles.title, { fontSize: 20, lineHeight: 28 }]}
+                    >
+                        {subTitle}
+                    </Text>
+                )}
             </View>
-            <Text style={styles.content}>{content || "-"}</Text>
+            <Text testID={genTestId("WeatherItemContentLabel")} style={styles.content}>
+                {content || "-"}
+            </Text>
         </View>
     );
 }
