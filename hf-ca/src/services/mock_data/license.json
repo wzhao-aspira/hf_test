@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1141138844,
+    "productName": "Supl Black Bear R",
+    "validTo": "2023,Nov 30",
+    "legalName": "Resident Supplemental Black Bear Licence"
+  },
+  {
+    "id": 1141138843,
+    "productName": "Black Bear R",
+    "validTo": "2023,Nov 30",
+    "legalName": "Resident Black Bear Licence"
+  },
+  {
+    "id": 1141138842,
+    "productName": "Game Bird R",
+    "validTo": "2023,Nov 30",
+    "legalName": "Resident Game Bird Licence"
+  },
+  {
+    "id": 1141138841,
+    "productName": "Bowhunting R",
+    "validTo": "2023,Nov 30",
+    "legalName": "Resident Bowhunting Permit"
+  },
+  {
+    "id": 1141138840,
+    "productName": "GHS Surcharge",
+    "legalName": "Game Harvest Survey Surcharge"
+  },
+  {
+    "id": 1141138839,
+    "productName": "Wildlife Certificate",
+    "validTo": "2023,Nov 20",
+    "legalName": "Wildlife Certificate Resource Development Certificate"
+  },
+  {
+    "id": 1131279391,
+    "productName": "Sportfishing Annual R",
+    "validTo": "2023,Nov 10",
+    "legalName": "Resident Sportfishing Licence"
+  },
+  {
+    "id": 1027182608,
+    "productName": "GHS Surcharge",
+    "legalName": "Game Harvest Survey Surcharge"
+  },
+  {
+    "id": 672961665,
+    "productName": "WIN Activation",
+    "legalName": "WIN Activation"
+  },
+  {
+    "id": 1102842451,
+    "productName": "Antlerless Elk R U/S",
+    "legalName": "Resident Antlerless Elk Special Licence"
+  },
+  {
+    "id": 1090959353,
+    "productName": "Game Bird R",
+    "validTo": "2023,Mar 22",
+    "legalName": "Resident Game Bird Licence"
+  }
+]

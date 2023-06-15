@@ -16,6 +16,7 @@ import HomeScreen from "../screens/home/HomeScreen";
 import HuntingScreen from "../screens/hunting/HuntingScreen";
 import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
+import LicenseListScreen from "../screens/licenses/LicenseListScreen";
 import FishingScreen from "../screens/fish/FishingScreen";
 import WeatherScreen from "../screens/discovery/WeatherScreen";
 import SolunarScreen from "../screens/discovery/SolunarScreen";
@@ -99,6 +100,7 @@ function MainNav() {
     return (
         <MainStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.tabNav}>
             <MainStack.Screen name={Routers.tabNav} component={TabNav} />
+            <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
         </MainStack.Navigator>

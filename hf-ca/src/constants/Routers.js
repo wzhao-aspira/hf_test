@@ -4,6 +4,7 @@ export default {
     tabNav: "tabNav",
     login: "loginScreen",
     onBoarding: "onBoardingScreen",
+    licenseList: "licenseList",
     home: "homeScreen",
     hunting: "huntingScreen",
     fishing: "fishingScreen",
