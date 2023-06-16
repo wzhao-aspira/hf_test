@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
 import { faMoon, faSun } from "@fortawesome/pro-light-svg-icons";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import AppContract from "../../assets/_default/AppContract";
 import CommonHeader from "../../components/CommonHeader";
 import WeatherItem from "../../components/WeatherItem";
@@ -31,6 +32,8 @@ const styles = StyleSheet.create({
 });
 
 export default function SolunarScreen() {
+    const { t } = useTranslation();
+
     const dispatch = useDispatch();
     const weatherFromRedux = useSelector(weather);
     const { weatherData, requestStatus } = weatherFromRedux;
@@ -70,7 +73,7 @@ export default function SolunarScreen() {
 
     return (
         <View style={{ flex: 1 }}>
-            <CommonHeader title={AppContract.strings.solunar} />
+            <CommonHeader title={t("discovery.solunar")} />
             <ScrollView
                 testID={genTestId("SolunarContentScrollView")}
                 refreshControl={
@@ -104,19 +107,19 @@ export default function SolunarScreen() {
                     </View>
                     <View>
                         <SunriseItem
-                            title={AppContract.strings.sunrise_and_sunset}
-                            leftLabel={AppContract.strings.sunrise}
+                            title={t("discovery.sunriseAndSunset")}
+                            leftLabel={t("discovery.sunrise")}
                             leftValue={forecast?.astro?.sunrise}
                             icon={faSun}
-                            rightLabel={AppContract.strings.sunset}
+                            rightLabel={t("discovery.sunset")}
                             rightValue={forecast?.astro?.sunset}
                         />
                         <SunriseItem
-                            title={AppContract.strings.moonrise_and_moonset}
-                            leftLabel={AppContract.strings.moonrise}
+                            title={t("discovery.moonriseAndMoonset")}
+                            leftLabel={t("discovery.moonrise")}
                             leftValue={forecast?.astro?.moonrise}
                             icon={faMoon}
-                            rightLabel={AppContract.strings.moonset}
+                            rightLabel={t("discovery.moonset")}
                             rightValue={forecast?.astro?.moonset}
                         />
                     </View>

@@ -20,6 +20,7 @@ import LicenseListScreen from "../screens/licenses/LicenseListScreen";
 import FishingScreen from "../screens/fish/FishingScreen";
 import WeatherScreen from "../screens/discovery/WeatherScreen";
 import SolunarScreen from "../screens/discovery/SolunarScreen";
+import CRSSScreen from "../screens/shared/CRSSScreen";
 import { navigationRef } from "./NavigationService";
 
 const NavTheme = {
@@ -103,6 +104,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
+            <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
         </MainStack.Navigator>
     );
 }

@@ -12,6 +12,9 @@ import AppContract from "../../assets/_default/AppContract";
 import HeaderBar from "../../components/HeaderBar";
 import WelcomeBar from "../../components/WelcomeBar";
 import { genTestId } from "../../helper/AppHelper";
+import Routers from "../../constants/Routers";
+import NavigationService from "../../navigation/NavigationService";
+import PrimaryBtn from "../../components/PrimaryBtn";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -25,11 +28,23 @@ export default function HomeScreen() {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
     };
 
-    const renderItem = () => {
-        if (weatherRequestStatus == REQUEST_STATUS.pending) {
-            return <HomeDiscoverySectionLoading />;
+    const renderItem = (index) => {
+        if (index == 0) {
+            if (weatherRequestStatus == REQUEST_STATUS.pending) {
+                return <HomeDiscoverySectionLoading />;
+            }
+            return <HomeDiscoverySection />;
         }
-        return <HomeDiscoverySection />;
+        if (index == 1) {
+            return (
+                <PrimaryBtn
+                    style={{ margin: 20 }}
+                    label="Show CRSS Screen"
+                    onPress={() => NavigationService.navigate(Routers.crss, { from: Routers.home })}
+                />
+            );
+        }
+        return <></>;
     };
 
     return (
@@ -44,14 +59,14 @@ export default function HomeScreen() {
                             colors={[AppTheme.colors.primary]}
                             tintColor={AppTheme.colors.primary}
                             refreshing={weatherRequestStatus == REQUEST_STATUS.pending}
-                            onRefresh={() => {
-                                refreshData();
+                            onRefresh={(index) => {
+                                refreshData(index);
                             }}
                         />
                     }
-                    data={[AppContract.strings.discovery]}
-                    renderItem={() => {
-                        return renderItem();
+                    data={[AppContract.strings.discovery, "ShowCRSSSCreen"]}
+                    renderItem={({ index }) => {
+                        return renderItem(index);
                     }}
                     keyExtractor={(item) => JSON.stringify(item)}
                     contentContainerStyle={{ paddingBottom: 41 + PAGE_MARGIN_BOTTOM }}

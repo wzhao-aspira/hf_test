@@ -7,26 +7,7 @@ const BaseContract = {
         create_account: "Create Account",
         splash_title: "Live Life Outside",
         splash_sub_title: "Welcome to CDFW's Online License Sales and Services",
-        discovery: "Discovery",
-        weather: "Weather",
-        solunar: "Solunar",
-        sunrise: "Sunrise",
-        sunset: "Sunset",
-        sunrise_and_sunset: "Sunrise and Sunset",
-        today: "Today",
-        wind: "Wind",
-        speed: "Speed",
-        direction: "Direction",
-        precipitation: "Precipitation",
-        type: "Type",
-        probability: "Probability",
-        rain: "Rain",
-        barometric_pressure: "Barometric Pressure",
-        low: "Low",
-        high: "High",
-        moonrise_and_moonset: "Moonrise and Moonset",
-        moonset: "Moonset",
-        moonrise: "Moonrise",
+
         tabHome: "Home",
         tabHunting: "Hunting",
         tabFishing: "Fishing",
@@ -59,9 +40,6 @@ const BaseContract = {
     weather: {
         apiKey: "1423c70493d248528de23809211305",
         defaultCityName: "Sacramento",
-    },
-    errors: {
-        can_not_get_weather_data: "Can not get the weather data, please retry later!",
     },
 };
 

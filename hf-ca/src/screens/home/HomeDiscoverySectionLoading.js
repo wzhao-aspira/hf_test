@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { Trans, useTranslation } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../constants/Dimension";
 import HomeStyles from "./HomeStyles";
-import AppContract from "../../assets/_default/AppContract";
 import SkeletonLoader from "../../components/SkeletonLoader";
 import { genTestId } from "../../helper/AppHelper";
 
@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
 const width = (SCREEN_WIDTH - DEFAULT_MARGIN * 2 - 18) / 2;
 
 const HomeDiscoverySectionLoading = () => {
+    const { t } = useTranslation();
+
     const layout = [
         {
             width: width * 0.38,
@@ -79,12 +81,12 @@ const HomeDiscoverySectionLoading = () => {
         <View>
             <View style={HomeStyles.sectionTitleContainer}>
                 <Text testID={genTestId("DiscoveryLabel")} style={HomeStyles.sectionTitle}>
-                    {AppContract.strings.discovery}
+                    <Trans i18nKey="discovery.discovery" />
                 </Text>
             </View>
             <View style={styles.cardContainer}>
-                {renderCard(AppContract.strings.weather, "Weather")}
-                {renderCard(AppContract.strings.solunar, "Solunar")}
+                {renderCard(t("discovery.weather"), "Weather")}
+                {renderCard(t("discovery.solunar"), "Solunar")}
             </View>
         </View>
     );
