@@ -1,8 +1,7 @@
 /* eslint-disable global-require */
-import { isEqual, merge } from "lodash";
+import { isEqual } from "lodash";
 import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
-import AppContract from "../assets/_default/AppContract";
 import appConfig from "./mock_data/app_config.json";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
@@ -12,7 +11,7 @@ import { isJpgFormat } from "../utils/GenUtil";
 export async function initAppConfig() {
     const jsonData = await getAppJsonConfig();
     console.log("jsonData", jsonData);
-    merge(AppContract.strings, jsonData?.strings);
+    // merge(AppContract.strings, jsonData?.strings);
 
     const keyLoginSplash = await retrieveItem(KEY_CONSTANT.keyLoginSplash);
     const remoteLoginSplash = jsonData?.login_splash;

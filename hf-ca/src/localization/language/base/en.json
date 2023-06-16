@@ -14,6 +14,19 @@
         "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button"
     },
 
+    "login" :{
+        "sign_in": "Sign In",
+        "create_account": "Create Account",
+        "splash_title": "Live Life Outside",
+        "splash_sub_title": "Welcome to CDFW's Online License Sales and Services"
+    },
+
+    "tabBar":{
+        "tabHome": "Home",
+        "tabHunting": "Hunting",
+        "tabFishing": "Fishing"
+    },
+    
     "discovery": {
         "discovery": "Discovery",
         "weather": "Weather",

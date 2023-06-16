@@ -3,14 +3,6 @@ const BaseContract = {
         no_lic_title: "No licenses found",
         no_lic_introduction: "Purchase your hunting or fishing license now",
         purchase_license: "Purchase License",
-        sign_in: "Sign In",
-        create_account: "Create Account",
-        splash_title: "Live Life Outside",
-        splash_sub_title: "Welcome to CDFW's Online License Sales and Services",
-
-        tabHome: "Home",
-        tabHunting: "Hunting",
-        tabFishing: "Fishing",
 
         hf_pg_my_lic: "My Licenses",
         my_draw_summary: "My Draw Summary",

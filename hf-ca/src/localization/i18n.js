@@ -13,17 +13,19 @@ const languageDetector = {
     cacheUserLanguage: () => {},
 };
 
-i18n.use(languageDetector)
-    .use(initReactI18next)
-    .init({
-        compatibilityJSON: "v3",
-        fallbackLng: "en",
-        debug: isQaEnv(),
-        resources: {
-            en: {
-                translation: merge(baseEN, en),
+if (!i18n.isInitialized) {
+    i18n.use(languageDetector)
+        .use(initReactI18next)
+        .init({
+            compatibilityJSON: "v3",
+            fallbackLng: "en",
+            debug: isQaEnv(),
+            resources: {
+                en: {
+                    translation: merge(baseEN, en),
+                },
             },
-        },
-    });
+        });
+}
 
 export default i18n;
