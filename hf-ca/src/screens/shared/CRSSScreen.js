@@ -3,7 +3,6 @@ import { StyleSheet, View, Text } from "react-native";
 import { isEmpty } from "lodash";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import AppContract from "../../assets/_default/AppContract";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import AppTheme from "../../assets/_default/AppTheme";
@@ -61,7 +60,7 @@ export default function CRSSScreen(props) {
 
     return (
         <View style={{ flex: 1 }}>
-            <CommonHeader title={AppContract.strings.enter_your_password} />
+            <CommonHeader title={t("crss.enterYourPassword")} />
             <Page>
                 <View style={styles.page_container}>
                     <Text testID={genTestId("AttentionLabel")} style={styles.attention_label}>

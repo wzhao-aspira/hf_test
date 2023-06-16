@@ -8,7 +8,6 @@ import AppTheme from "../../assets/_default/AppTheme";
 import Page from "../../components/Page";
 import { getWeatherDataFromRedux } from "../../redux/WeatherSlice";
 import { REQUEST_STATUS } from "../../constants/Constants";
-import AppContract from "../../assets/_default/AppContract";
 import HeaderBar from "../../components/HeaderBar";
 import WelcomeBar from "../../components/WelcomeBar";
 import { genTestId } from "../../helper/AppHelper";
@@ -64,7 +63,7 @@ export default function HomeScreen() {
                             }}
                         />
                     }
-                    data={[AppContract.strings.discovery, "ShowCRSSSCreen"]}
+                    data={["Discovery", "ShowCRSSSCreen"]}
                     renderItem={({ index }) => {
                         return renderItem(index);
                     }}
