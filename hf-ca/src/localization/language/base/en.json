@@ -12,17 +12,25 @@
 
     "errMsg": {
         "emptyPassword": "Please enter Password",
-        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button."
+        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button",
+        "emptyDateOfBirth": "Please enter Date Of Birth",
+        "emptyFirstName": "Please enter First Name",
+        "emptyLastName": "Please enter Last Name",
+        "emptyIdentificationNumber": "Please enter Number",
+        "emptyBusinessGOIDNumber": "Please enter Business GO ID #",
+        "emptyPostalCodeNumber": "Please enter Postal Code #",
+        "emptyVesselGOIDNumber": "Please enter Vessel GO ID #",
+        "emptyVesselFGNumber": "Please enter Vessel FG #"
     },
 
-    "login" :{
+    "login": {
         "sign_in": "Sign In",
         "create_account": "Create Account",
         "splash_title": "Live Life Outside",
         "splash_sub_title": "Welcome to CDFW's Online License Sales and Services"
     },
 
-    "tabBar":{
+    "tabBar": {
         "tabHome": "Home",
         "tabHunting": "Hunting",
         "tabFishing": "Fishing"
@@ -31,7 +39,23 @@
     "home": {
         "greeting": "Welcome, {{name}}!"
     },
-
+    "profile": {
+        "addProfile": "Add Profile",
+        "youAre": "You are",
+        "dateOfBirth": "Date Of Birth",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "identificationOwner": "Identification Owner",
+        "identificationType": "Identification Type",
+        "countryIssued": "Country Issued",
+        "stateIssued": "State Issued",
+        "identificationNumber": "Number",
+        "addProfileProceed": "Add Profile & Proceed",
+        "businessGOIDNumber": "Business GO ID #",
+        "postalCodeNumber": "Postal Code #",
+        "vesselGOIDNumber": "Vessel GO ID #",
+        "fgNumber": "FG #"
+    },
     "discovery": {
         "discovery": "Discovery",
         "weather": "Weather",
@@ -54,11 +78,10 @@
         "low": "Low",
         "high": "High"
     },
-    
+
     "crss": {
         "enterYourPassword": "Enter your password",
         "attentionContent": "You've added a password to increase security on your record. As it's enabled, please enter the password to access your record online.",
         "account": "Account"
     }
 }
-

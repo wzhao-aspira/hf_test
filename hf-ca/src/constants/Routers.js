@@ -11,4 +11,5 @@ export default {
     weather: "weatherScreen",
     solunar: "solunarScreen",
     crss: "crssScreen",
+    addProfile: "addProfileScreen",
 };

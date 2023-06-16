@@ -14,6 +14,7 @@ import AppTheme from "../assets/_default/AppTheme";
 import { DRAWER_WIDTH } from "../constants/Dimension";
 import HomeScreen from "../screens/home/HomeScreen";
 import HuntingScreen from "../screens/hunting/HuntingScreen";
+import AddProfileScreen from "../screens/profile/add_profile_screen/AddProfileScreen";
 import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
 import LicenseListScreen from "../screens/licenses/LicenseListScreen";
@@ -105,6 +106,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
+            <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
         </MainStack.Navigator>
     );
 }
