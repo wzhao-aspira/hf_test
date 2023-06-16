@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { isEmpty } from "lodash";
+import { Trans, useTranslation } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import AppContract from "../../assets/_default/AppContract";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../constants/Dimension";
@@ -91,6 +92,8 @@ const styles = StyleSheet.create({
 });
 
 export default function HomeDiscoverySection() {
+    const { t } = useTranslation();
+
     const weatherFromRedux = useSelector(weather);
     const { weatherData, fahrenheitInd } = weatherFromRedux;
 
@@ -158,7 +161,7 @@ export default function HomeDiscoverySection() {
                     <Text testID={genTestId("ConditionTextLabel")} style={styles.stateLabel} numberOfLines={1}>
                         {conditionText}
                     </Text>
-                    {renderBottom(AppContract.strings.weather, "WeatherCardBottomLabel")}
+                    {renderBottom(t("discovery.weather"), "WeatherCardBottomLabel")}
                 </Pressable>
             </View>
         );
@@ -233,7 +236,7 @@ export default function HomeDiscoverySection() {
                             </Text>
                         </View>
                     </View>
-                    {renderBottom(AppContract.strings.solunar, "SolunarCardBottomLabel")}
+                    {renderBottom(t("discovery.solunar"), "SolunarCardBottomLabel")}
                 </Pressable>
             </View>
         );
@@ -243,7 +246,7 @@ export default function HomeDiscoverySection() {
         <View>
             <View style={HomeStyles.sectionTitleContainer}>
                 <Text testID={genTestId("DiscoveryLabel")} style={HomeStyles.sectionTitle}>
-                    {AppContract.strings.discovery}
+                    <Trans i18nKey="discovery.discovery" />
                 </Text>
             </View>
             <View style={styles.cardContainer}>

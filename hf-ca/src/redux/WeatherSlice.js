@@ -73,7 +73,6 @@ const weatherSlice = createSlice({
                     updateTime: dateNow,
                 });
             } else {
-                showToast(AppContract.errors.can_not_get_weather_data);
                 Object.assign(state, { requestStatus: REQUEST_STATUS.rejected });
             }
         });

@@ -4,7 +4,7 @@ import SwitchSelector from "react-native-switch-selector";
 import { faCloudShowersHeavy, faCompass, faSun, faThermometerHalf } from "@fortawesome/pro-light-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
-import AppContract from "../../assets/_default/AppContract";
+import { useTranslation } from "react-i18next";
 import CommonHeader from "../../components/CommonHeader";
 import WeatherItem from "../../components/WeatherItem";
 import SunriseItem from "../../components/SunriseItem";
@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
 });
 
 export default function WeatherScreen() {
+    const { t } = useTranslation();
+
     const dispatch = useDispatch();
     const weatherFromRedux = useSelector(weather);
     const { weatherData, requestStatus, fahrenheitInd } = weatherFromRedux;
@@ -59,7 +61,7 @@ export default function WeatherScreen() {
 
     return (
         <View style={{ flex: 1 }}>
-            <CommonHeader title={AppContract.strings.weather} />
+            <CommonHeader title={t("discovery.weather")} />
             <ScrollView
                 testID={genTestId("WeatherContentScrollView")}
                 refreshControl={
@@ -101,31 +103,31 @@ export default function WeatherScreen() {
                             />
                         </View>
                         <WeatherItem title={temperatureValue} content={weatherData?.current?.condition?.text} />
-                        <WeekItem label={[AppContract.strings.today]} />
+                        <WeekItem label={[t("discovery.today")]} />
                     </View>
                     <View>
                         <SunriseItem
-                            title={AppContract.strings.sunrise_and_sunset}
-                            leftLabel={AppContract.strings.sunrise}
+                            title={t("discovery.sunriseAndSunset")}
+                            leftLabel={t("discovery.sunrise")}
                             leftValue={weatherData?.forecast?.forecastday[0]?.astro?.sunrise}
                             icon={faSun}
-                            rightLabel={AppContract.strings.sunset}
+                            rightLabel={t("discovery.sunset")}
                             rightValue={weatherData?.forecast?.forecastday[0]?.astro?.sunset}
                         />
                         <SunriseItem
-                            title={AppContract.strings.wind}
-                            leftLabel={AppContract.strings.speed}
+                            title={t("discovery.wind")}
+                            leftLabel={t("discovery.speed")}
                             leftValue={weatherData ? `${weatherData?.current?.wind_mph}mph` : ""}
                             icon={faCompass}
-                            rightLabel={AppContract.strings.direction}
+                            rightLabel={t("discovery.direction")}
                             rightValue={weatherData?.current?.wind_dir}
                         />
                         <SunriseItem
-                            title={AppContract.strings.precipitation}
-                            leftLabel={AppContract.strings.type}
-                            leftValue={AppContract.strings.rain}
+                            title={t("discovery.precipitation")}
+                            leftLabel={t("discovery.type")}
+                            leftValue={t("discovery.rain")}
                             icon={faCloudShowersHeavy}
-                            rightLabel={AppContract.strings.probability}
+                            rightLabel={t("discovery.probability")}
                             rightValue={
                                 weatherData?.forecast?.forecastday[0]
                                     ? `${weatherData?.forecast?.forecastday[0]?.day?.daily_chance_of_rain}%`
@@ -133,11 +135,11 @@ export default function WeatherScreen() {
                             }
                         />
                         <SunriseItem
-                            title={AppContract.strings.barometric_pressure}
-                            leftLabel={AppContract.strings.low}
+                            title={t("discovery.barometricPressure")}
+                            leftLabel={t("discovery.low")}
                             leftValue={calPressure()[0]}
                             icon={faThermometerHalf}
-                            rightLabel={AppContract.strings.high}
+                            rightLabel={t("discovery.high")}
                             rightValue={calPressure()[1]}
                         />
                     </View>

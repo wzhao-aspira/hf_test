@@ -10,4 +10,5 @@ export default {
     fishing: "fishingScreen",
     weather: "weatherScreen",
     solunar: "solunarScreen",
+    crss: "crssScreen",
 };

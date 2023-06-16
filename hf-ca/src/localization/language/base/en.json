@@ -1,4 +1,46 @@
 {
-    "noLicTitle": "No licenses found"
+    "noLicTitle": "No licenses found",
+
+    "common": {
+        "attention": "Attention",
+        "pleaseEnter": "Please Enter",
+        "password": "Password",
+        "forgotPassword": "Forgot Password?",
+        "submit": "Submit"
+    },
+
+    "errMsg": {
+        "emptyPassword": "Please enter Password",
+        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button"
+    },
+
+    "discovery": {
+        "discovery": "Discovery",
+        "weather": "Weather",
+        "solunar": "Solunar",
+        "sunriseAndSunset": "Sunrise and Sunset",
+        "sunrise": "Sunrise",
+        "sunset": "Sunset",
+        "moonriseAndMoonset": "Moonrise and Moonset",
+        "moonrise": "Moonrise",
+        "moonset": "Moonset",
+        "today": "Today",
+        "wind": "Wind",
+        "speed": "Speed",
+        "direction": "Direction",
+        "precipitation": "Precipitation",
+        "type": "Type",
+        "probability": "Probability",
+        "rain": "Rain",
+        "barometricPressure": "Barometric Pressure",
+        "low": "Low",
+        "high": "High"
+    },
+    
+    "crss": {
+        "enterYourPassword": "Enter your password",
+        "attentionContent": "You've added a password to increase security on your record. As it's enabled, please enter the password to access your record online.",
+        "account": "Account"
+    }
 }
 
