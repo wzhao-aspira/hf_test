@@ -3,10 +3,10 @@ import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { useDispatch } from "react-redux";
 import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 import LoginStep from "../../constants/LoginStep";
 import { updateLoginStep } from "../../redux/AppSlice";
 import PrimaryBtn from "../../components/PrimaryBtn";
-import AppContract from "../../assets/_default/AppContract";
 import { DEFAULT_MARGIN, SCREEN_HEIGHT } from "../../constants/Dimension";
 import AppTheme from "../../assets/_default/AppTheme";
 import { getLoginSplash, getLogo, getLogoRatio } from "../../helper/ImgHelper";
@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
 export default function LoginScreen() {
     const dispatch = useDispatch();
     const inset = useSafeAreaInsets();
+    const { t } = useTranslation();
+
     const [image, setImage] = useState(null);
 
     useEffect(() => {
@@ -88,16 +90,18 @@ export default function LoginScreen() {
                 showsVerticalScrollIndicator={false}
             >
                 <View>
-                    <Text style={styles.title}>{AppContract.strings.splash_title}</Text>
+                    <Text style={styles.title}>{t("login.splash_title")}</Text>
                     <SplitLine style={{ backgroundColor: AppTheme.colors.font_color_1 }} />
-                    <Text style={styles.subTitle}>{AppContract.strings.splash_sub_title}</Text>
+                    <Text style={styles.subTitle}>{t("login.splash_sub_title")}</Text>
                     <PrimaryBtn
-                        label={AppContract.strings.sign_in}
+                        testID="signInBtn"
+                        label={t("login.sign_in")}
                         onPress={() => dispatch(updateLoginStep(LoginStep.home))}
                     />
                     <OutlinedBtn
+                        testID="signUpBtn"
                         style={{ marginTop: 20 }}
-                        label={AppContract.strings.create_account}
+                        label={t("login.create_account")}
                         onPress={() => {
                             console.log("create account");
                         }}
