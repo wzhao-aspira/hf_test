@@ -6,12 +6,13 @@
         "pleaseEnter": "Please Enter",
         "password": "Password",
         "forgotPassword": "Forgot Password?",
-        "submit": "Submit"
+        "submit": "Submit",
+        "error": "Error"
     },
 
     "errMsg": {
         "emptyPassword": "Please enter Password",
-        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button"
+        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button."
     },
 
     "login" :{

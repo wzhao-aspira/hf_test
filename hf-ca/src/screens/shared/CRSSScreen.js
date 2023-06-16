@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     account_container: {
         alignSelf: "flex-start",
         borderRadius: DEFAULT_BTN_RADIUS,
-        backgroundColor: AppTheme.colors.question_date_picker_disable_color,
+        backgroundColor: AppTheme.colors.body_100,
     },
     account_content: {
         padding: 10,
@@ -122,7 +122,12 @@ export default function CRSSScreen(props) {
                                     NavigationService.navigate(Routers.home);
                                 }
                             } else {
-                                dispatch(showSimpleDialog({ message: t("errMsg.incorrectPassword") }));
+                                dispatch(
+                                    showSimpleDialog({
+                                        title: t("common.error"),
+                                        message: t("errMsg.incorrectPassword"),
+                                    })
+                                );
                             }
                         }}
                     />
