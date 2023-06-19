@@ -67,9 +67,9 @@ const IdentifierTypeSelector = React.forwardRef(
                 : t("errMsg.emptyIdentificationNumber");
         const validate = () => {
             const errorOfIdentificationType =
-                identificationType?.id === "-1"
-                    ? { error: true, errorMsg: t("errMsg.emptyIdentificationType") }
-                    : { error: false };
+                identificationType && identificationType.id && identificationType.id !== "-1"
+                    ? { error: false }
+                    : { error: true, errorMsg: t("errMsg.emptyIdentificationType") };
             identificationTypeRef?.current?.setError(errorOfIdentificationType);
 
             const errorOfIDNumber = emptyValidate(identificationInfo?.idNumber, idNumberError);
