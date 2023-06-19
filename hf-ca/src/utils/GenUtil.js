@@ -26,3 +26,25 @@ export function checkNeedAutoRefreshData(updateTime) {
 
     return result;
 }
+
+export function isBlank(str) {
+    return !str || str.trim().length === 0;
+}
+
+// "Ethan Li" or "Li,Ethan" -> "EL"
+export function shortName(fullName) {
+    if (isBlank(fullName)) {
+        return "";
+    }
+    let shortNameStr = fullName.charAt(0);
+    let names = fullName.split(",");
+    if (names.length >= 2) {
+        shortNameStr = `${names[names.length - 1].charAt(0)}${names[0].charAt(0)}`;
+    } else {
+        names = fullName.split(" ");
+        if (names.length >= 2) {
+            shortNameStr = `${names[0].charAt(0)}${names[names.length - 1].charAt(0)}`;
+        }
+    }
+    return shortNameStr.toUpperCase();
+}

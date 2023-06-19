@@ -42,13 +42,6 @@ export default function HomeScreen() {
                         label="Show CRSS Screen"
                         onPress={() => NavigationService.navigate(Routers.crss)}
                     />
-                    <PrimaryBtn
-                        style={{ margin: 20 }}
-                        onPress={() => {
-                            NavigationService.navigate(Routers.addProfile);
-                        }}
-                        label="Add profile"
-                    />
                 </>
             );
         }

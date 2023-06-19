@@ -23,6 +23,7 @@ import WeatherScreen from "../screens/discovery/WeatherScreen";
 import SolunarScreen from "../screens/discovery/SolunarScreen";
 import CRSSScreen from "../screens/shared/CRSSScreen";
 import { navigationRef } from "./NavigationService";
+import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
 
 const NavTheme = {
     colors: {
@@ -107,6 +108,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
+            <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
         </MainStack.Navigator>
     );
 }
