@@ -19,6 +19,8 @@
         "emptyDateOfBirth": "Please enter Date Of Birth",
         "emptyFirstName": "Please enter First Name",
         "emptyLastName": "Please enter Last Name",
+        "emptyIdentificationType": "Please select Identity Type",
+        "emptyIdentificationGOID": "Please enter GO ID",
         "emptyIdentificationNumber": "Please enter Number",
         "emptyBusinessGOIDNumber": "Please enter Business GO ID #",
         "emptyPostalCodeNumber": "Please enter Postal Code #",
@@ -51,6 +53,7 @@
         "lastName": "Last Name",
         "identificationOwner": "Identification Owner",
         "identificationType": "Identification Type",
+        "identificationTypeGOID": "GO ID",
         "countryIssued": "Country Issued",
         "stateIssued": "State Issued",
         "identificationNumber": "Number",
@@ -59,11 +62,12 @@
         "postalCodeNumber": "Postal Code #",
         "vesselGOIDNumber": "Vessel GO ID #",
         "goIDNumber": "GO ID #",
-        "fgNumber": "FG #",
         "manageProfile": "Manage Profile",
         "currentlyInUse": "Currently In Use",
         "switchProfile": "Switch Profile",
-        "otherProfiles": "Other Profiles"
+        "otherProfiles": "Other Profiles",
+        "selectOne": "[Select One]",
+        "fgNumber": "FG #"
     },
     "discovery": {
         "discovery": "Discovery",
@@ -94,11 +98,10 @@
         "account": "Account"
     },
 
-    "onboarding":{
-        "location" : { 
+    "onboarding": {
+        "location": {
             "title": "Location Access",
-            "subTitle":
-            "Enable location to get a better experience and features catered specifically to your location.",
+            "subTitle": "Enable location to get a better experience and features catered specifically to your location.",
             "turnOnLocation": "Turn on Location",
             "notNow": "Not Now"
         }
