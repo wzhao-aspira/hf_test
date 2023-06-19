@@ -83,5 +83,15 @@
         "enterYourPassword": "Enter your password",
         "attentionContent": "You've added a password to increase security on your record. As it's enabled, please enter the password to access your record online.",
         "account": "Account"
+    },
+
+    "onboarding":{
+        "location" : { 
+            "title": "Location Access",
+            "subTitle":
+            "Enable location to get a better experience and features catered specifically to your location.",
+            "turnOnLocation": "Turn on Location",
+            "notNow": "Not Now"
+        }
     }
 }

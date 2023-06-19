@@ -2,6 +2,7 @@ export const KEY_CONSTANT = {
     keyLoginSplash: "keyLoginSplash",
     keyAppConfig: "keyAppConfig",
     keyLatLon: "keyLatLon",
+    keyOnboardingLocation: "keyOnboardingLocation",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fulfilled", rejected: "rejected" };

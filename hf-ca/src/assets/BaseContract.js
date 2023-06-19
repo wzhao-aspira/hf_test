@@ -1,4 +1,8 @@
 const BaseContract = {
+    function: {
+        biometric_enabled: false,
+    },
+
     strings: {
         no_lic_title: "No licenses found",
         no_lic_introduction: "Purchase your hunting or fishing license now",
