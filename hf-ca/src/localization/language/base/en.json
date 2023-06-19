@@ -2,6 +2,9 @@
     "noLicTitle": "No licenses found",
 
     "common": {
+        "alert": "Alert",
+        "message": "Message",
+        "ok": "OK",
         "attention": "Attention",
         "pleaseEnter": "Please Enter",
         "password": "Password",

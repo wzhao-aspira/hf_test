@@ -40,7 +40,7 @@ export default function HomeScreen() {
                     <PrimaryBtn
                         style={{ margin: 20 }}
                         label="Show CRSS Screen"
-                        onPress={() => NavigationService.navigate(Routers.crss, { from: Routers.home })}
+                        onPress={() => NavigationService.navigate(Routers.crss)}
                     />
                     <PrimaryBtn
                         style={{ margin: 20 }}

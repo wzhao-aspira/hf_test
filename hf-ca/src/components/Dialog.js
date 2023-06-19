@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Modal, View, Text, ActivityIndicator } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/Dimension";
 import PrimaryBtn from "./PrimaryBtn";
@@ -43,15 +44,22 @@ const styles = StyleSheet.create({
 
 // with one button
 export const SimpleDialog = (props) => {
-    const { title = "Alert", message = "Msg", visible = false, okText = "OK", okAction = () => {} } = props;
+    const { t } = useTranslation();
+    const {
+        title = "common.alert",
+        message = "common.message",
+        visible = false,
+        okText = "common.ok",
+        okAction = () => {},
+    } = props;
     return (
         <Modal visible={visible} animationType="none" transparent>
             <View style={styles.centeredView}>
                 <View style={styles.contentStyle}>
                     <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.message}>{message}</Text>
-                        <PrimaryBtn onPress={okAction} label={okText} style={styles.okBtn} />
+                        <Text style={styles.title}>{t(title)}</Text>
+                        <Text style={styles.message}>{t(message)}</Text>
+                        <PrimaryBtn onPress={okAction} label={t(okText)} style={styles.okBtn} />
                     </View>
                 </View>
             </View>
