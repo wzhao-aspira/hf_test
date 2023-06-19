@@ -6,6 +6,10 @@ import { Asset } from "expo-asset";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { retrieveItem } from "./StorageHelper";
 
+export function getLocationImage() {
+    return require("../assets/_default/images/location.png");
+}
+
 export async function getLoginSplash() {
     const keyLoginSplash = await retrieveItem(KEY_CONSTANT.keyLoginSplash);
     if (!isEmpty(keyLoginSplash)) {
