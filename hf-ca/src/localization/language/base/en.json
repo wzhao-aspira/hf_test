@@ -15,7 +15,7 @@
 
     "errMsg": {
         "emptyPassword": "Please enter Password",
-        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button",
+        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button.",
         "emptyDateOfBirth": "Please enter Date Of Birth",
         "emptyFirstName": "Please enter First Name",
         "emptyLastName": "Please enter Last Name",
@@ -28,6 +28,7 @@
 
     "login": {
         "sign_in": "Sign In",
+        "signOut": "Sign Out",
         "create_account": "Create Account",
         "splash_title": "Live Life Outside",
         "splash_sub_title": "Welcome to CDFW's Online License Sales and Services"
@@ -57,7 +58,12 @@
         "businessGOIDNumber": "Business GO ID #",
         "postalCodeNumber": "Postal Code #",
         "vesselGOIDNumber": "Vessel GO ID #",
-        "fgNumber": "FG #"
+        "goIDNumber": "GO ID #",
+        "fgNumber": "FG #",
+        "manageProfile": "Manage Profile",
+        "currentlyInUse": "Currently In Use",
+        "switchProfile": "Switch Profile",
+        "otherProfiles": "Other Profiles"
     },
     "discovery": {
         "discovery": "Discovery",

@@ -12,4 +12,5 @@ export default {
     solunar: "solunarScreen",
     crss: "crssScreen",
     addProfile: "addProfileScreen",
+    manageProfile: "ManageProfile",
 };
