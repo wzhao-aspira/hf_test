@@ -3,7 +3,7 @@ import React, { useImperativeHandle, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import color from "color";
-import { faCaretDown } from "@fortawesome/pro-light-svg-icons";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import AppTheme from "../assets/_default/AppTheme";
 import SVGIcon, { pathList } from "./SVGIcon";
 import { Dialog } from "./Dialog";
