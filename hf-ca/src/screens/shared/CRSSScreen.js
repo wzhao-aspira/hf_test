@@ -12,7 +12,6 @@ import { genTestId } from "../../helper/AppHelper";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
-import Routers from "../../constants/Routers";
 import { showSimpleDialog } from "../../redux/AppSlice";
 
 const styles = StyleSheet.create({
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function CRSSScreen(props) {
+export default function CRSSScreen({ route }) {
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
@@ -64,19 +63,22 @@ export default function CRSSScreen(props) {
         if (error.error) {
             passwordRef?.current.setError(error);
         } else if (password == "888888") {
-            const { from } = props;
-            if (isEmpty(from) || from == Routers.home) {
+            const { params } = route;
+            if (!isEmpty(params)) {
+                const { routeScreen } = params;
+                if (isEmpty(routeScreen)) {
+                    NavigationService.back();
+                } else {
+                    NavigationService.navigate(routeScreen);
+                }
+            } else {
                 NavigationService.back();
-            } else if (from == "SignUpScreen") {
-                NavigationService.navigate(Routers.login);
-            } else if (from == "AddProfileScreen") {
-                NavigationService.navigate(Routers.home);
             }
         } else {
             dispatch(
                 showSimpleDialog({
-                    title: t("common.error"),
-                    message: t("errMsg.incorrectPassword"),
+                    title: "common.error",
+                    message: "errMsg.incorrectPassword",
                 })
             );
         }
