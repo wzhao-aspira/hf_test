@@ -6,7 +6,7 @@ import StatefulTextInput from "../../../components/StatefulTextInput";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 
-function VesselScreen({ profile, setProfile }) {
+function VesselProfileInfo({ profile, setProfile }) {
     const { t } = useTranslation();
     const goIDNumberRef = useRef();
     const fgNumberRef = useRef();
@@ -50,4 +50,4 @@ function VesselScreen({ profile, setProfile }) {
     );
 }
 
-export default VesselScreen;
+export default VesselProfileInfo;

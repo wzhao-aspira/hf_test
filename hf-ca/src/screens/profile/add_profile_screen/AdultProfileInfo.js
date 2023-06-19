@@ -8,7 +8,7 @@ import AppTheme from "../../../assets/_default/AppTheme";
 import { getIdentificationTypes } from "../../../services/ProfileService";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 
-function AdultScreen({ profile, setProfile }) {
+function AdultProfileInfo({ profile, setProfile }) {
     const { t } = useTranslation();
     const dateOfBirthRef = useRef();
     const lastNameRef = useRef();
@@ -69,4 +69,4 @@ function AdultScreen({ profile, setProfile }) {
     );
 }
 
-export default AdultScreen;
+export default AdultProfileInfo;

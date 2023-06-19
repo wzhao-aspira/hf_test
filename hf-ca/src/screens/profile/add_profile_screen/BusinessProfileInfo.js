@@ -6,7 +6,7 @@ import StatefulTextInput from "../../../components/StatefulTextInput";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 
-function BusinessScreen({ profile, setProfile }) {
+function BusinessProfileInfo({ profile, setProfile }) {
     const { t } = useTranslation();
     const goIDNumberRef = useRef();
     const postalCodeNumberRef = useRef();
@@ -50,4 +50,4 @@ function BusinessScreen({ profile, setProfile }) {
     );
 }
 
-export default BusinessScreen;
+export default BusinessProfileInfo;

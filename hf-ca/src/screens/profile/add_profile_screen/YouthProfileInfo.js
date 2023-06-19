@@ -10,7 +10,7 @@ import { getIdentificationTypes, getIdentificationOwners } from "../../../servic
 import { IDENTIFICATION_OWNER_YOUTH } from "../../../constants/Constants";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 
-function YouthScreen({ profile, setProfile }) {
+function YouthProfileInfo({ profile, setProfile }) {
     const { t } = useTranslation();
     const dateOfBirthRef = useRef();
     const firstNameRef = useRef();
@@ -125,4 +125,4 @@ function YouthScreen({ profile, setProfile }) {
     );
 }
 
-export default YouthScreen;
+export default YouthProfileInfo;

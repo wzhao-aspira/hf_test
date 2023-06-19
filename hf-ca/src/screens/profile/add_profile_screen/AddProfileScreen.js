@@ -12,10 +12,10 @@ import AppTheme from "../../../assets/_default/AppTheme";
 import { PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
 import { saveProfile } from "../../../services/ProfileService";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES } from "../../../constants/Constants";
-import AdultScreen from "./AdultScreen";
-import YouthScreen from "./YouthScreen";
-import BusinessScreen from "./BusinessScreen";
-import VesselScreen from "./VesselScreen";
+import AdultProfileInfo from "./AdultProfileInfo";
+import YouthProfileInfo from "./YouthProfileInfo";
+import BusinessProfileInfo from "./BusinessProfileInfo";
+import VesselProfileInfo from "./VesselProfileInfo";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -66,16 +66,16 @@ function AddProfileScreen() {
                             onSelect={(index) => changeProfileType(index)}
                         />
                         {PROFILE_TYPE_IDS.adult === profileType.id && (
-                            <AdultScreen profile={profile} setProfile={setProfile} />
+                            <AdultProfileInfo profile={profile} setProfile={setProfile} />
                         )}
                         {PROFILE_TYPE_IDS.youth === profileType.id && (
-                            <YouthScreen profile={profile} setProfile={setProfile} />
+                            <YouthProfileInfo profile={profile} setProfile={setProfile} />
                         )}
                         {PROFILE_TYPE_IDS.business === profileType.id && (
-                            <BusinessScreen profile={profile} setProfile={setProfile} />
+                            <BusinessProfileInfo profile={profile} setProfile={setProfile} />
                         )}
                         {PROFILE_TYPE_IDS.vessel === profileType.id && (
-                            <VesselScreen profile={profile} setProfile={setProfile} />
+                            <VesselProfileInfo profile={profile} setProfile={setProfile} />
                         )}
 
                         <PrimaryBtn
