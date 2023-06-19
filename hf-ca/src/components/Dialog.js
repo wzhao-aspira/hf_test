@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Modal, View, Text, ActivityIndicator } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppTheme from "../assets/_default/AppTheme";
-import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";
+import { DEFAULT_MARGIN, SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/Dimension";
 import PrimaryBtn from "./PrimaryBtn";
 import OutlinedBtn from "./OutlinedBtn";
 
@@ -88,10 +89,13 @@ export const SelectDialog = (props) => {
 
 export const Dialog = (props) => {
     const { visible = false, children = <></> } = props;
+    const inset = useSafeAreaInsets();
     return (
         <Modal visible={visible} animationType="none" transparent>
             <View style={styles.centeredView}>
-                <View style={styles.contentStyle}>{children}</View>
+                <View style={[styles.contentStyle, { maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 2 - inset?.top * 2 }]}>
+                    {children}
+                </View>
             </View>
         </Modal>
     );

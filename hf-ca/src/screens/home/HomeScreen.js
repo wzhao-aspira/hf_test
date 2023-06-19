@@ -36,11 +36,20 @@ export default function HomeScreen() {
         }
         if (index == 1) {
             return (
-                <PrimaryBtn
-                    style={{ margin: 20 }}
-                    label="Show CRSS Screen"
-                    onPress={() => NavigationService.navigate(Routers.crss, { from: Routers.home })}
-                />
+                <>
+                    <PrimaryBtn
+                        style={{ margin: 20 }}
+                        label="Show CRSS Screen"
+                        onPress={() => NavigationService.navigate(Routers.crss, { from: Routers.home })}
+                    />
+                    <PrimaryBtn
+                        style={{ margin: 20 }}
+                        onPress={() => {
+                            NavigationService.navigate(Routers.addProfile);
+                        }}
+                        label="Add profile"
+                    />
+                </>
             );
         }
         return <></>;
