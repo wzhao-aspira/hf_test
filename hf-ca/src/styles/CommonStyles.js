@@ -8,7 +8,7 @@ export const SharedStyles = StyleSheet.create({
         color: AppTheme.colors.font_color_2,
     },
     page_content_text: {
-        ...AppTheme.typography.sub_text,
+        ...AppTheme.typography.sub_section,
         color: AppTheme.colors.font_color_2,
     },
 });

@@ -23,11 +23,12 @@ const styles = StyleSheet.create({
     },
     attention_label: {
         ...SharedStyles.page_content_title,
-        marginVertical: 20,
+        marginTop: 30,
+        marginBottom: 15,
     },
     account_label: {
         ...SharedStyles.page_content_title,
-        marginTop: 40,
+        marginTop: 30,
         marginBottom: 10,
     },
     account_container: {
@@ -58,6 +59,29 @@ export default function CRSSScreen(props) {
         };
     };
 
+    const onSubmit = () => {
+        const error = emptyValidate(password, t("errMsg.emptyPassword"));
+        if (error.error) {
+            passwordRef?.current.setError(error);
+        } else if (password == "888888") {
+            const { from } = props;
+            if (isEmpty(from) || from == Routers.home) {
+                NavigationService.back();
+            } else if (from == "SignUpScreen") {
+                NavigationService.navigate(Routers.login);
+            } else if (from == "AddProfileScreen") {
+                NavigationService.navigate(Routers.home);
+            }
+        } else {
+            dispatch(
+                showSimpleDialog({
+                    title: t("common.error"),
+                    message: t("errMsg.incorrectPassword"),
+                })
+            );
+        }
+    };
+
     return (
         <View style={{ flex: 1 }}>
             <CommonHeader title={t("crss.enterYourPassword")} />
@@ -80,7 +104,7 @@ export default function CRSSScreen(props) {
                     <StatefulTextInput
                         testID={genTestId("PasswordInput")}
                         ref={passwordRef}
-                        style={{ marginTop: 20 }}
+                        style={{ marginTop: 30 }}
                         hint={t("common.pleaseEnter")}
                         label={t("common.password")}
                         labelStyle={SharedStyles.page_content_title}
@@ -109,26 +133,7 @@ export default function CRSSScreen(props) {
                         style={styles.submit_button}
                         label={t("common.submit")}
                         onPress={() => {
-                            const error = emptyValidate(password, t("errMsg.emptyPassword"));
-                            if (error.error) {
-                                passwordRef?.current.setError(error);
-                            } else if (password == "888888") {
-                                const { from } = props;
-                                if (isEmpty(from) || from == Routers.home) {
-                                    NavigationService.back();
-                                } else if (from == "SignUpScreen") {
-                                    NavigationService.navigate(Routers.login);
-                                } else if (from == "AddProfileScreen") {
-                                    NavigationService.navigate(Routers.home);
-                                }
-                            } else {
-                                dispatch(
-                                    showSimpleDialog({
-                                        title: t("common.error"),
-                                        message: t("errMsg.incorrectPassword"),
-                                    })
-                                );
-                            }
+                            onSubmit();
                         }}
                     />
                 </View>
