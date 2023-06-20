@@ -85,10 +85,11 @@ function DrawerNav() {
             screenOptions={{
                 ...screenOpt,
                 drawerPosition: "right",
-                swipeEnabled: true,
+                swipeEnabled: false,
                 drawerStyle: {
                     width: DRAWER_WIDTH,
                 },
+                drawerType: "front",
             }}
             detachInactiveScreens={false}
             // https://reactnavigation.org/docs/drawer-navigator#providing-a-custom-drawercontent
