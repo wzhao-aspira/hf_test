@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
+import { Trans } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
-import AppContract from "../../assets/_default/AppContract";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";
 // import NavigationService from "../../navigation/NavigationService";
@@ -47,10 +47,10 @@ const LicenseListEmpty = () => {
         <View style={styles.emptyContainer}>
             <View style={styles.emptyArea}>
                 <Text testID={genTestId("noLicenses")} style={styles.emptyTitle}>
-                    {AppContract.strings.no_lic_title}
+                    <Trans i18nKey="license.noLicenseTitle" />
                 </Text>
                 <Text testID={genTestId("licIntroduction")} style={styles.emptyDescription}>
-                    {AppContract.strings.no_lic_introduction}
+                    <Trans i18nKey="license.noLicenseIntroduction" />
                 </Text>
                 {
                     <Pressable
@@ -61,7 +61,7 @@ const LicenseListEmpty = () => {
                         }}
                     >
                         <Text testID={genTestId("purchaseLicense")} style={styles.emptyButtonTitle}>
-                            {AppContract.strings.purchase_license}
+                            <Trans i18nKey="license.purchaseLicense" />
                         </Text>
                     </Pressable>
                 }

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, FlatList, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+import { getLicense } from "../../redux/LicenseSlice";
+import { selectLicenseForList } from "../../redux/LicenseSelector";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
-import AppContract from "../../assets/_default/AppContract";
 import LicenseCardLoading from "./LicenseCardLoading";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import AppTheme from "../../assets/_default/AppTheme";
 import LicenseItem from "./LicenseItem";
 import LicenseListEmpty from "./LicenseListEmpty";
-import { getLicenseData, getLoadingData } from "../../services/LicenseService";
+import { getLoadingData } from "../../services/LicenseService";
 import { genTestId } from "../../helper/AppHelper";
+import { REQUEST_STATUS } from "../../constants/Constants";
 
 export const styles = StyleSheet.create({
     container: {
@@ -18,35 +22,26 @@ export const styles = StyleSheet.create({
     },
 });
 
-const LicenseListScreen = (props) => {
-    const { navigation } = props;
+const LicenseListScreen = () => {
+    const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
-    const [data, setData] = useState(getLoadingData());
-    const [refreshing, setRefreshing] = useState(false);
-
-    const getData = async () => {
-        setRefreshing(true);
-        const newData = await getLicenseData();
-        setData(newData);
-        setRefreshing(false);
-    };
+    const reduxData = useSelector(selectLicenseForList);
+    const refreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
+    const data = refreshing ? getLoadingData() : reduxData.data;
+    const { t } = useTranslation();
 
     useEffect(() => {
-        getData();
+        dispatch(getLicense({ isForce: false }));
     }, []);
 
     return (
         <Page style={styles.container}>
-            <CommonHeader
-                title={AppContract.strings.hf_pg_my_lic}
-                onBackClick={() => {
-                    navigation.goBack();
-                }}
-            />
+            <CommonHeader title={t("license.myLicense")} />
             <FlatList
                 testID={genTestId("licenseList")}
                 contentContainerStyle={{
                     flexGrow: 1,
+                    marginTop: 20,
                     paddingBottom: insets.bottom + PAGE_MARGIN_BOTTOM,
                 }}
                 refreshControl={
@@ -55,14 +50,14 @@ const LicenseListScreen = (props) => {
                         tintColor={AppTheme.colors.primary}
                         refreshing={refreshing}
                         onRefresh={() => {
-                            getData();
+                            dispatch(getLicense({ isForce: true }));
                         }}
                     />
                 }
                 scrollIndicatorInsets={{ right: 1 }}
                 data={data}
                 renderItem={({ item }) => {
-                    if (item.isLoading) {
+                    if (refreshing) {
                         return <LicenseCardLoading />;
                     }
 

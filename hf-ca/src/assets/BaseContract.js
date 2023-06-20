@@ -4,10 +4,6 @@ const BaseContract = {
     },
 
     strings: {
-        no_lic_title: "No licenses found",
-        no_lic_introduction: "Purchase your hunting or fishing license now",
-        purchase_license: "Purchase License",
-
         hf_pg_my_lic: "My Licenses",
     },
     dateFormats: {
@@ -15,6 +11,17 @@ const BaseContract = {
         h_ss: "h:ss",
         am_pm: "A",
         dddd: "dddd",
+    },
+    inputFormat: {
+        fmt_1: "YYYY-MM-DD HH:mm",
+        fmt_2: "YYYY-MM-DD",
+        fmt_3: "YYYY-MM-DDTHH:mm:ss", // 2021-08-03T17:03:52
+        fmt_4: "YYYY-MM-DD HH:mm:ss",
+    },
+    outputFormat: {
+        fmt_1: "MMM DD, YYYY",
+        fmt_2: "MM/DD/YYYY",
+        fmt_3: "MMM DD, YYYY, h:mm A",
     },
     weather: {
         apiKey: "1423c70493d248528de23809211305",
