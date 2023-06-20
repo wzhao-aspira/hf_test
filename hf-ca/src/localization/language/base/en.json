@@ -1,6 +1,15 @@
 {
     "noLicTitle": "No licenses found",
-
+    "license": {
+        "myLicense": "My Licenses",
+        "license": "License",
+        "validFrom": "Valid From",
+        "validTo": "Valid To",
+        "viewAllLicenses": "View All Licenses",
+        "noLicenseTitle": "No licenses found",
+        "noLicenseIntroduction": "Purchase your hunting or fishing license now",
+        "purchaseLicense": "Purchase License"
+    },
     "common": {
         "alert": "Alert",
         "message": "Message",
@@ -12,7 +21,6 @@
         "submit": "Submit",
         "error": "Error"
     },
-
     "errMsg": {
         "emptyPassword": "Please enter Password",
         "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button.",
@@ -27,7 +35,6 @@
         "emptyVesselGOIDNumber": "Please enter Vessel GO ID #",
         "emptyVesselFGNumber": "Please enter Vessel FG #"
     },
-
     "login": {
         "signIn": "Sign In",
         "signOut": "Sign Out",
@@ -35,13 +42,11 @@
         "splashTitle": "Live Life Outside",
         "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
     },
-
     "tabBar": {
         "tabHome": "Home",
         "tabHunting": "Hunting",
         "tabFishing": "Fishing"
     },
-
     "home": {
         "greeting": "Welcome, {{name}}!"
     },
@@ -91,13 +96,11 @@
         "low": "Low",
         "high": "High"
     },
-
     "crss": {
         "enterYourPassword": "Enter your password",
         "attentionContent": "You've added a password to increase security on your record. As it's enabled, please enter the password to access your record online.",
         "account": "Account"
     },
-
     "onboarding": {
         "location": {
             "title": "Location Access",
