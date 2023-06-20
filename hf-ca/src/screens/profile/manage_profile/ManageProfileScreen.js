@@ -53,7 +53,7 @@ export default function ManageProfileScreen() {
                     </View>
 
                     <ProfileItem
-                        isListView
+                        showGoToDetailsPageButton
                         profile={activeProfile}
                         onPress={() => {}}
                         profileItemStyles={{

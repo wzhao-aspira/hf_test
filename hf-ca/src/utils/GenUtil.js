@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import moment from "moment";
-import { isEqual } from "lodash";
+import { isEmpty, isEqual } from "lodash";
 import { AUTO_REFRESH_TIMEOUT } from "../constants/Constants";
 
 export function sum(a, b) {
@@ -27,13 +27,9 @@ export function checkNeedAutoRefreshData(updateTime) {
     return result;
 }
 
-export function isBlank(str) {
-    return !str || str.trim().length === 0;
-}
-
 // "Ethan Li" or "Li,Ethan" -> "EL"
 export function shortName(fullName) {
-    if (isBlank(fullName)) {
+    if (isEmpty(fullName)) {
         return "";
     }
     let shortNameStr = fullName.charAt(0);

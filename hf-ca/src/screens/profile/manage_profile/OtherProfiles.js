@@ -42,7 +42,7 @@ export default function OtherProfiles({ otherProfiles = [] }) {
                         shortNameContainer: commonStyles.profileShortNameContainer,
                         pressable: { marginTop: 20 },
                     }}
-                    isListView
+                    showGoToDetailsPageButton
                     key={profile.profileId}
                     profile={profile}
                     onPress={() => {}}
