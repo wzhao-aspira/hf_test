@@ -1,5 +1,4 @@
 import * as React from "react";
-import { isEmpty } from "lodash";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons";
@@ -46,8 +45,7 @@ export const styles = StyleSheet.create({
 });
 
 function getProductName(itemData) {
-    const { legalName, productName = "" } = itemData;
-    const name = legalName === "-" || isEmpty(legalName) ? productName : legalName;
+    const { name } = itemData;
     return (
         <Text testID={genTestId(name)} numberOfLines={0} style={styles.productName}>
             {name}
