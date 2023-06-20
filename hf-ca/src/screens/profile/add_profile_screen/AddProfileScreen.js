@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -11,11 +11,18 @@ import CommonHeader from "../../../components/CommonHeader";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
 import { saveProfile } from "../../../services/ProfileService";
-import { PROFILE_TYPE_IDS, PROFILE_TYPES } from "../../../constants/Constants";
+import {
+    PROFILE_TYPE_IDS,
+    PROFILE_TYPES,
+    IDENTIFICATION_OWNER_YOUTH,
+    IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION,
+} from "../../../constants/Constants";
 import AdultProfileInfo from "./AdultProfileInfo";
 import YouthProfileInfo from "./YouthProfileInfo";
 import BusinessProfileInfo from "./BusinessProfileInfo";
 import VesselProfileInfo from "./VesselProfileInfo";
+import Routers from "../../../constants/Routers";
+import NavigationService from "../../../navigation/NavigationService";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -29,19 +36,45 @@ const styles = StyleSheet.create({
     },
 });
 
-function AddProfileScreen() {
+const AddProfileScreen = () => {
     const { t } = useTranslation();
-    const [profile, setProfile] = useState({});
+    const [profile, setProfile] = useState({
+        profileType: PROFILE_TYPES[0],
+        identificationOwner: { id: IDENTIFICATION_OWNER_YOUTH, name: IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION },
+    });
 
     const safeAreaInsets = useSafeAreaInsets();
 
     const profileTypeNames = PROFILE_TYPES.map((pt) => pt.name);
-    const [profileType, setProfileType] = useState(profile.profileType || PROFILE_TYPES[0]);
+    const { profileType } = profile;
+
+    const [identificationOwnerChanged, setIdentificationOwnerChanged] = useState(true);
 
     const changeProfileType = (index) => {
         const selectedProfileType = PROFILE_TYPES[index];
-        setProfileType(selectedProfileType);
-        setProfile({ ...profile, profileType });
+        setProfile({ ...profile, profileType: selectedProfileType });
+        setIdentificationOwnerChanged(false);
+        setTimeout(() => setIdentificationOwnerChanged(true), 0);
+    };
+    const adultProfileInfoRef = useRef();
+    const youthProfileInfoRef = useRef();
+    const businessProfileInfoRef = useRef();
+    const vesselProfileInfoRef = useRef();
+
+    const onSave = () => {
+        let errorReported = false;
+        if (PROFILE_TYPE_IDS.adult === profileType.id) {
+            errorReported = adultProfileInfoRef.current.validate();
+        } else if (PROFILE_TYPE_IDS.youth === profileType.id) {
+            errorReported = youthProfileInfoRef.current.validate();
+        } else if (PROFILE_TYPE_IDS.business === profileType.id) {
+            errorReported = businessProfileInfoRef.current.validate();
+        } else if (PROFILE_TYPE_IDS.vessel === profileType.id) {
+            errorReported = vesselProfileInfoRef.current.validate();
+        }
+        if (errorReported) return;
+        saveProfile(profile);
+        NavigationService.navigate(Routers.manageProfile);
     };
 
     return (
@@ -66,30 +99,33 @@ function AddProfileScreen() {
                             onSelect={(index) => changeProfileType(index)}
                         />
                         {PROFILE_TYPE_IDS.adult === profileType.id && (
-                            <AdultProfileInfo profile={profile} setProfile={setProfile} />
+                            <AdultProfileInfo ref={adultProfileInfoRef} profile={profile} setProfile={setProfile} />
                         )}
                         {PROFILE_TYPE_IDS.youth === profileType.id && (
-                            <YouthProfileInfo profile={profile} setProfile={setProfile} />
+                            <YouthProfileInfo
+                                ref={youthProfileInfoRef}
+                                profile={profile}
+                                setProfile={setProfile}
+                                identificationOwnerChanged={identificationOwnerChanged}
+                            />
                         )}
                         {PROFILE_TYPE_IDS.business === profileType.id && (
-                            <BusinessProfileInfo profile={profile} setProfile={setProfile} />
+                            <BusinessProfileInfo
+                                ref={businessProfileInfoRef}
+                                profile={profile}
+                                setProfile={setProfile}
+                            />
                         )}
                         {PROFILE_TYPE_IDS.vessel === profileType.id && (
-                            <VesselProfileInfo profile={profile} setProfile={setProfile} />
+                            <VesselProfileInfo ref={vesselProfileInfoRef} profile={profile} setProfile={setProfile} />
                         )}
 
-                        <PrimaryBtn
-                            style={{ marginTop: 40 }}
-                            label={t("profile.addProfileProceed")}
-                            onPress={() => {
-                                saveProfile(profile);
-                            }}
-                        />
+                        <PrimaryBtn style={{ marginTop: 40 }} label={t("profile.addProfileProceed")} onPress={onSave} />
                     </View>
                 </KeyboardAwareScrollView>
             </Page>
         </View>
     );
-}
+};
 
 export default AddProfileScreen;

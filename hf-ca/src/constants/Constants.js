@@ -9,7 +9,8 @@ export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fu
 export const AUTO_REFRESH_TIMEOUT = 0.5 * 60 * 60;
 
 export const CATEGORY = { Hunting: 1, Fishing: 2 };
-
+export const IDENTIFICATION_TYPE_GO_ID = "1";
+export const DATE_OF_BIRTH_PLACEHOLDER = "MM/DD/YYYY";
 export const PROFILE_TYPE_IDS = {
     adult: "1",
     youth: "2",
@@ -35,4 +36,5 @@ export const PROFILE_TYPES = [
     },
 ];
 export const IDENTIFICATION_OWNER_YOUTH = "Youth";
+export const IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION = "Youth Identification";
 export const IDENTIFICATION_OWNER_PARENT = "Parent";

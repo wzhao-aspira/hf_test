@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useImperativeHandle, useRef } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { genTestId } from "../../../helper/AppHelper";
@@ -6,15 +6,26 @@ import StatefulTextInput from "../../../components/StatefulTextInput";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 
-function VesselProfileInfo({ profile, setProfile }) {
+const VesselProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
     const { t } = useTranslation();
     const goIDNumberRef = useRef();
     const fgNumberRef = useRef();
+    const validate = () => {
+        const errorOfGOIDNumber = emptyValidate(profile?.goIDNumber, t("errMsg.emptyVesselGOIDNumber"));
+        goIDNumberRef?.current.setError(errorOfGOIDNumber);
+        const errorOfFGNumber = emptyValidate(profile?.fgNumber, t("errMsg.emptyVesselFGNumber"));
+        fgNumberRef?.current.setError(errorOfFGNumber);
+        return errorOfGOIDNumber.error || errorOfFGNumber.error;
+    };
+    useImperativeHandle(ref, () => ({
+        validate,
+    }));
     return (
         <View>
             <StatefulTextInput
                 testID={genTestId("VesselGOIDNumberInput")}
                 label={t("profile.vesselGOIDNumber")}
+                hint={t("common.pleaseEnter")}
                 ref={goIDNumberRef}
                 style={{ marginTop: 20 }}
                 labelStyle={{ color: AppTheme.colors.font_color_1 }}
@@ -32,6 +43,7 @@ function VesselProfileInfo({ profile, setProfile }) {
             <StatefulTextInput
                 testID={genTestId("FGNumberInput")}
                 label={t("profile.fgNumber")}
+                hint={t("common.pleaseEnter")}
                 ref={fgNumberRef}
                 style={{ marginTop: 20 }}
                 labelStyle={{ color: AppTheme.colors.font_color_1 }}
@@ -48,6 +60,6 @@ function VesselProfileInfo({ profile, setProfile }) {
             />
         </View>
     );
-}
+});
 
 export default VesselProfileInfo;
