@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { useTranslation } from "react-i18next";
 import { faClipboardList, faShoppingCart } from "@fortawesome/pro-light-svg-icons";
-import AppContract from "../../../assets/_default/AppContract";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import HuntFishCardItem from "./HuntFishCardItem";
@@ -21,14 +21,15 @@ export const styles = StyleSheet.create({
 
 function HuntFishList(props) {
     const { primaryColor, purchaseDescription } = props;
+    const { t } = useTranslation();
 
     return (
         <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{AppContract.strings.hunt_fish_donging_title}</Text>
+            <Text style={styles.sectionTitle}>{t("huntAndFish.dongingTitle")}</Text>
 
             <HuntFishCardItem
-                title={AppContract.strings.hunt_fish_harvest_report_title}
-                description={AppContract.strings.hunt_fish_harvest_report_description}
+                title={t("huntAndFish.reportTitle")}
+                description={t("huntAndFish.reportDescription")}
                 icon={faClipboardList}
                 primaryColor={primaryColor}
                 onPress={() => {
@@ -37,7 +38,7 @@ function HuntFishList(props) {
             />
 
             <HuntFishCardItem
-                title={AppContract.strings.hunt_fish_purchase_title}
+                title={t("huntAndFish.purchaseTitle")}
                 description={purchaseDescription}
                 icon={faShoppingCart}
                 primaryColor={primaryColor}
