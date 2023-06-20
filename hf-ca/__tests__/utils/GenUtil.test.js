@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 /* eslint-disable no-undef */
 
-import { isJpgFormat, sum, checkNeedAutoRefreshData, isBlank, shortName } from "../../src/utils/GenUtil";
+import { isJpgFormat, sum, checkNeedAutoRefreshData, shortName } from "../../src/utils/GenUtil";
 
 describe("GenUtil", () => {
     test("sum", () => {
@@ -18,11 +18,6 @@ describe("GenUtil", () => {
     test("checkNeedAutoRefreshData", () => {
         expect(checkNeedAutoRefreshData(null)).toBe(true);
         expect(checkNeedAutoRefreshData(1000000)).toBe(true);
-    });
-
-    test("isBlank", () => {
-        const v1 = isBlank(undefined) || isBlank(null) || isBlank("") || isBlank(" ");
-        expect(v1).toBe(true);
     });
 
     test("shortName", () => {

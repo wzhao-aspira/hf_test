@@ -29,19 +29,19 @@ const getGOIDLabel = (t, profile) => {
     return t("profile.goIDNumber");
 };
 
-const ProfileItem = ({ profile, onPress, isListView, profileItemStyles }) => {
+const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, profileItemStyles = {} }) => {
     const { t } = useTranslation();
 
     return (
         <Pressable
             onPress={() => {
-                onPress();
+                onPress && onPress();
             }}
             style={profileItemStyles.pressable}
             testID={genTestId(`profile_${profile.profileId}`)}
         >
             <View style={profileItemStyles.container}>
-                <View style={profileItemStyles.shortNameContainer}>
+                <View style={[commonStyles.profileShortNameContainer, profileItemStyles.shortNameContainer]}>
                     <Text style={commonStyles.profileShortName} testID={genTestId("profileShortName")}>
                         {getProfileShortName(profile)}
                     </Text>
@@ -57,7 +57,9 @@ const ProfileItem = ({ profile, onPress, isListView, profileItemStyles }) => {
                 </View>
 
                 <View style={{ flexGrow: 1 }} />
-                {isListView && <FontAwesomeIcon icon={faChevronRight} size={22} color={AppTheme.colors.primary_2} />}
+                {showGoToDetailsPageButton && (
+                    <FontAwesomeIcon icon={faChevronRight} size={22} color={AppTheme.colors.primary_2} />
+                )}
             </View>
         </Pressable>
     );
