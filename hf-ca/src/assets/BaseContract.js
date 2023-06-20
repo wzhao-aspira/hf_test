@@ -3,9 +3,7 @@ const BaseContract = {
         biometric_enabled: false,
     },
 
-    strings: {
-        hf_pg_my_lic: "My Licenses",
-    },
+    strings: {},
     dateFormats: {
         hh_ss_am_pm: "HH:ss A",
         h_ss: "h:ss",
