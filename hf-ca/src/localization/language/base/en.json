@@ -69,6 +69,28 @@
         "selectOne": "[Select One]",
         "fgNumber": "FG #"
     },
+
+    "huntAndFish": {
+        "myLicenses": "My Licenses",
+        "myDrawSummary": "My Draw Summary",
+        "myDrawApplications": "My Draw Applications",
+        "ruleRegulations": "Rules and Regulations",
+        "usefulLink": "Useful Links",
+        "otherInfomation": "Other Information",
+        "dongingTitle": "What are you doing today?",
+        "reportTitle": "Harvest Reports",
+        "reportDescription": "Submit or view reports",
+        "purchaseTitle": "Purchase License",
+
+        "huntTitle": "Hunting",
+        "huntPurchaseDescription": "Purchase or renew hunting licenses",
+        "huntDescription": "View rules and regulations, submit harvest reports, and view your licenses from here.",
+
+        "fishTitle": "Fishing",
+        "fishPurchaseDescription": "Purchase or renew fishing licenses",
+        "fishDescription": "View licenses, rules and regulations, and other important information here."
+    },
+
     "discovery": {
         "discovery": "Discovery",
         "weather": "Weather",

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { useTranslation } from "react-i18next";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
-import AppContract from "../../../assets/_default/AppContract";
 import { CATEGORY } from "../../../constants/Constants";
 import HuntFishOtherInfoItem from "./HuntFishOtherInfoItem";
 import Routers from "../../../constants/Routers";
@@ -27,11 +27,13 @@ const styles = StyleSheet.create({
 });
 
 function HuntFishOtherInfo(props) {
-    const { category, myLicenseTitle = AppContract.strings.hf_pg_my_lic } = props;
+    const { t } = useTranslation();
+    const defaultLicenseTitle = t("huntAndFish.myLicenses");
+    const { category, myLicenseTitle = defaultLicenseTitle } = props;
 
     return (
         <View>
-            <Text style={styles.sectionTitle}>{AppContract.strings.hunt_fish_other_info_title}</Text>
+            <Text style={styles.sectionTitle}>{t("huntAndFish.otherInfomation")}</Text>
             <View style={styles.otherInfo}>
                 <HuntFishOtherInfoItem
                     title={myLicenseTitle}
@@ -40,11 +42,11 @@ function HuntFishOtherInfo(props) {
                     }}
                 />
                 {category == CATEGORY.Hunting && (
-                    <HuntFishOtherInfoItem title={AppContract.strings.my_draw_applications} onPress={() => {}} />
+                    <HuntFishOtherInfoItem title={t("huntAndFish.myDrawApplications")} onPress={() => {}} />
                 )}
-                <HuntFishOtherInfoItem title={AppContract.strings.my_draw_summary} onPress={() => {}} />
-                <HuntFishOtherInfoItem title={AppContract.strings.rule_regulations} onPress={() => {}} />
-                <HuntFishOtherInfoItem title={AppContract.strings.usefulLink} onPress={() => {}} />
+                <HuntFishOtherInfoItem title={t("huntAndFish.myDrawSummary")} onPress={() => {}} />
+                <HuntFishOtherInfoItem title={t("huntAndFish.ruleRegulations")} onPress={() => {}} />
+                <HuntFishOtherInfoItem title={t("huntAndFish.usefulLink")} onPress={() => {}} />
             </View>
         </View>
     );
