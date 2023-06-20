@@ -23,8 +23,9 @@ export async function initAppConfig() {
         );
         console.log("remoteLoginSplash", remoteLoginSplash);
         console.log(`status, ${status} mimeType, ${mimeType}`);
-        console.log("headers", headers?.["content-type"]);
-        if (status == 200 && (isJpgFormat(headers?.["content-type"]) || isJpgFormat(mimeType))) {
+        const contentType = headers?.["content-type"] || headers?.["Content-Type"];
+        console.log("contentType", contentType);
+        if (status == 200 && (isJpgFormat(contentType) || isJpgFormat(mimeType))) {
             await FileSystem.moveAsync({
                 from: `${FileSystem.documentDirectory}login_splash_tmp.jpg`,
                 to: `${FileSystem.documentDirectory}login_splash.jpg`,

@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
         backgroundColor: AppTheme.colors.font_color_4,
         borderBottomColor: AppTheme.colors.primary_900,
         borderBottomWidth: 2,
-        marginBottom: 30,
     },
     label: {
         textAlignVertical: "center",
