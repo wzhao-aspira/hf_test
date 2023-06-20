@@ -20,8 +20,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    imageContainer: {
+        height: SCREEN_HEIGHT * 0.5,
+    },
     image: {
-        flex: 1,
+        width: "100%",
+        height: "100%",
     },
     logo: {
         position: "absolute",
@@ -32,14 +36,9 @@ const styles = StyleSheet.create({
     },
     loginArea: {
         padding: 40,
-        flexGrow: 1,
     },
     loginAreaContainer: {
-        position: "absolute",
-        bottom: 0,
         backgroundColor: AppTheme.colors.page_bg,
-        width: "100%",
-        height: SCREEN_HEIGHT / 2,
     },
     title: {
         ...AppTheme.typography.primary_heading,
@@ -71,7 +70,9 @@ export default function LoginScreen() {
 
     return (
         <View style={styles.container}>
-            <Image contentPosition="top" style={styles.image} source={image} contentFit="contain" transition={200} />
+            <View style={styles.imageContainer}>
+                <Image style={styles.image} source={image} contentFit="cover" transition={200} />
+            </View>
             <Image
                 style={[
                     styles.logo,
@@ -89,24 +90,24 @@ export default function LoginScreen() {
                 contentContainerStyle={styles.loginArea}
                 showsVerticalScrollIndicator={false}
             >
-                <View>
-                    <Text style={styles.title}>{t("login.splash_title")}</Text>
+                <>
+                    <Text style={styles.title}>{t("login.splashTitle")}</Text>
                     <SplitLine style={{ backgroundColor: AppTheme.colors.font_color_1 }} />
-                    <Text style={styles.subTitle}>{t("login.splash_sub_title")}</Text>
+                    <Text style={styles.subTitle}>{t("login.splashSubTitle")}</Text>
                     <PrimaryBtn
                         testID="signInBtn"
-                        label={t("login.sign_in")}
-                        onPress={() => dispatch(updateLoginStep(LoginStep.onBoarding))}
+                        label={t("login.signIn")}
+                        onPress={() => dispatch(updateLoginStep(LoginStep.home))}
                     />
                     <OutlinedBtn
                         testID="signUpBtn"
                         style={{ marginTop: 20 }}
-                        label={t("login.create_account")}
+                        label={t("login.createAccount")}
                         onPress={() => {
                             console.log("create account");
                         }}
                     />
-                </View>
+                </>
             </ScrollView>
         </View>
     );

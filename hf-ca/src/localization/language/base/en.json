@@ -27,11 +27,11 @@
     },
 
     "login": {
-        "sign_in": "Sign In",
+        "signIn": "Sign In",
         "signOut": "Sign Out",
-        "create_account": "Create Account",
-        "splash_title": "Live Life Outside",
-        "splash_sub_title": "Welcome to CDFW's Online License Sales and Services"
+        "createAccount": "Create Account",
+        "splashTitle": "Live Life Outside",
+        "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
     },
 
     "tabBar": {
