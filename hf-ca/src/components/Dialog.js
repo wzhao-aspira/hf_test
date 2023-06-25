@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Modal, View, Text, ActivityIndicator } from "react-native";
+import { StyleSheet, Modal, View, Text, ActivityIndicator, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import AppTheme from "../assets/_default/AppTheme";
@@ -96,15 +96,28 @@ export const SelectDialog = (props) => {
 };
 
 export const Dialog = (props) => {
-    const { visible = false, children = <></> } = props;
+    const { visible = false, children = <></>, closeModal } = props;
     const inset = useSafeAreaInsets();
+
     return (
         <Modal visible={visible} animationType="none" transparent>
-            <View style={styles.centeredView}>
-                <View style={[styles.contentStyle, { maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 2 - inset?.top * 2 }]}>
-                    {children}
+            <Pressable
+                style={{ flex: 1 }}
+                onPress={() => {
+                    closeModal && closeModal();
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View
+                        style={[
+                            styles.contentStyle,
+                            { maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 4 - inset?.top * 2 },
+                        ]}
+                    >
+                        {children}
+                    </View>
                 </View>
-            </View>
+            </Pressable>
         </Modal>
     );
 };
