@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 
 // with one button
 export const SimpleDialog = (props) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         title = "common.alert",
         message = "common.message",
@@ -57,9 +57,9 @@ export const SimpleDialog = (props) => {
             <View style={styles.centeredView}>
                 <View style={styles.contentStyle}>
                     <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text style={styles.title}>{t(title)}</Text>
-                        <Text style={styles.message}>{t(message)}</Text>
-                        <PrimaryBtn onPress={okAction} label={t(okText)} style={styles.okBtn} />
+                        <Text style={styles.title}>{i18n.exists(title) && t(title)}</Text>
+                        <Text style={styles.message}>{i18n.exists(message) && t(message)}</Text>
+                        <PrimaryBtn onPress={okAction} label={i18n.exists(okText) && t(okText)} style={styles.okBtn} />
                     </View>
                 </View>
             </View>
