@@ -1,0 +1,10 @@
+global-libraries:
+  - react-native
+
+rules:
+  has-valid-accessibility-actions: true
+  has-valid-accessibility-role: true
+  has-valid-accessibility-state: true
+  has-valid-accessibility-value: true
+  image-has-accessibility-label: false
+  has-accessibility-role: false
