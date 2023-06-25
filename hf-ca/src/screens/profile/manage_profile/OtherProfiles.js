@@ -1,7 +1,8 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronRight, faPlus } from "@fortawesome/pro-light-svg-icons";
+import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
+import { faPlus } from "@fortawesome/pro-regular-svg-icons";
 import { useTranslation } from "react-i18next";
 import AppTheme from "../../../assets/_default/AppTheme";
 import ProfileItem from "./ProfileItem";
@@ -39,7 +40,6 @@ export default function OtherProfiles({ otherProfiles = [] }) {
                 <ProfileItem
                     profileItemStyles={{
                         container: commonStyles.profileContainer,
-                        shortNameContainer: commonStyles.profileShortNameContainer,
                         pressable: { marginTop: 20 },
                     }}
                     showGoToDetailsPageButton

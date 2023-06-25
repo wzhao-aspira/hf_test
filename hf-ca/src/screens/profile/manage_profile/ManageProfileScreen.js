@@ -58,7 +58,6 @@ export default function ManageProfileScreen() {
                         onPress={() => {}}
                         profileItemStyles={{
                             container: commonStyles.profileContainer,
-                            shortNameContainer: commonStyles.profileShortNameContainer,
                         }}
                     />
                     <OtherProfiles otherProfiles={otherProfiles} />

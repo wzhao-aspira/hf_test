@@ -1,22 +1,40 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
+import { faBuilding, faShip } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useTranslation } from "react-i18next";
 import AppTheme from "../../../assets/_default/AppTheme";
-import { commonStyles } from "./Styles";
+import { commonStyles, profileItemCommonStyle } from "./Styles";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { shortName } from "../../../utils/GenUtil";
 import { genTestId } from "../../../helper/AppHelper";
 
-const getProfileShortName = (profile) => {
-    if (profile.profileType === PROFILE_TYPE_IDS.business) {
-        return "B"; // TODO: UI design not ready
+const typeIcons = {
+    [PROFILE_TYPE_IDS.business]: faBuilding,
+    [PROFILE_TYPE_IDS.vessel]: faShip,
+};
+
+const ProfileShortNameOrIcon = ({ profile, shortNameContainer = {} }) => {
+    const { profileType, displayName, isPrimary } = profile;
+    const typeIcon = typeIcons[profileType];
+    const borderColor = isPrimary ? AppTheme.colors.error : AppTheme.colors.primary_2;
+
+    if (profileType === PROFILE_TYPE_IDS.business || profileType === PROFILE_TYPE_IDS.vessel) {
+        return (
+            <View style={profileItemCommonStyle.profileTypeContainer}>
+                <FontAwesomeIcon icon={typeIcon} size={26} />
+            </View>
+        );
     }
-    if (profile.profileType === PROFILE_TYPE_IDS.vessel) {
-        return "V"; // TODO: UI design not ready
-    }
-    return shortName(profile.displayName);
+
+    return (
+        <View style={[commonStyles.profileShortNameContainer, shortNameContainer, { borderColor }]}>
+            <Text style={commonStyles.profileShortName} testID={genTestId("profileShortName")}>
+                {shortName(displayName)}
+            </Text>
+        </View>
+    );
 };
 
 const getGOIDLabel = (t, profile) => {
@@ -41,18 +59,14 @@ const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, profileItemS
             testID={genTestId(`profile_${profile.profileId}`)}
         >
             <View style={profileItemStyles.container}>
-                <View style={[commonStyles.profileShortNameContainer, profileItemStyles.shortNameContainer]}>
-                    <Text style={commonStyles.profileShortName} testID={genTestId("profileShortName")}>
-                        {getProfileShortName(profile)}
-                    </Text>
-                </View>
+                <ProfileShortNameOrIcon profile={profile} shortNameContainer={profileItemStyles.shortNameContainer} />
 
                 <View>
                     <Text style={commonStyles.profileDisplayName} testID={genTestId("profileName")}>
                         {profile.displayName}
                     </Text>
                     <Text style={commonStyles.profileItemNumber} testID={genTestId("profileGoIdNumber")}>
-                        {getGOIDLabel(t, profile)} : {profile.goIDNumber}
+                        {getGOIDLabel(t, profile)} #: {profile.goIDNumber}
                     </Text>
                 </View>
 

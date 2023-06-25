@@ -2,6 +2,17 @@ import { StyleSheet } from "react-native";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 
+export const profileItemCommonStyle = StyleSheet.create({
+    profileTypeContainer: {
+        width: 36,
+        height: 36,
+        marginRight: 16,
+        alignItems: "center",
+        textAlign: "center",
+        justifyContent: "center",
+    },
+});
+
 export const commonStyles = StyleSheet.create({
     subTitle: {
         ...AppTheme.typography.section_header,
@@ -17,15 +28,11 @@ export const commonStyles = StyleSheet.create({
         paddingVertical: 20,
         ...AppTheme.shadow,
     },
+
     profileShortNameContainer: {
-        width: 36,
-        height: 36,
+        ...profileItemCommonStyle.profileTypeContainer,
         borderRadius: 18,
-        marginRight: 16,
-        textAlign: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        borderColor: AppTheme.colors.secondary_900,
+        borderColor: AppTheme.colors.primary_2,
         borderWidth: 3,
     },
 
@@ -57,10 +64,9 @@ export const dialogStyles = StyleSheet.create({
         paddingTop: 6,
         paddingBottom: 28,
         overflow: "hidden",
-        height: "100%",
+        maxHeight: "100%",
     },
     shortNameContainer: (circleRadius) => ({
-        ...commonStyles.profileShortNameContainer,
         width: circleRadius * 2,
         height: circleRadius * 2,
         borderRadius: circleRadius,
