@@ -20,6 +20,7 @@
         "pleaseEnter": "Please Enter",
         "password": "Password",
         "forgotPassword": "Forgot Password?",
+        "gotIt": "Got it",
         "account": "Account",
         "attention": "Attention",
         "purchase": "Purchase Privilege",
@@ -49,6 +50,17 @@
         "splashTitle": "Live Life Outside",
         "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
     },
+
+    "signIn": {
+        "userId": "User ID",
+        "noAccount": "Don't have an account?",
+        "userIdEmpty": "Please enter your User ID",
+        "userIdInvalid": "User ID must be email, please check your input.",
+        "passwordEmpty": "Please enter password",
+        "accountNotFound": "Account not found, please check your input.",
+        "userIdHint": "Please Enter Email:"
+    },
+
     "tabBar": {
         "tabHome": "Home",
         "tabHunting": "Hunting",

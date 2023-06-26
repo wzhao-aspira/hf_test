@@ -24,6 +24,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "color": "^4.2.3",
+    "email-validator": "^2.0.4",
     "expo": "~48.0.18",
     "expo-application": "~5.1.1",
     "expo-asset": "~8.9.1",
