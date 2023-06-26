@@ -64,6 +64,9 @@ export default function ManageProfileScreen() {
 
                     {showSwitchProfile && (
                         <SwitchProfileDialog
+                            closeModal={() => {
+                                setShowSwitchProfile(false);
+                            }}
                             hideDialog={hideDialog}
                             inactiveProfiles={otherProfiles}
                             activeProfile={activeProfile}

@@ -6,11 +6,11 @@ import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
 import { updateActiveProfileByID } from "../../../redux/ProfileSlice";
 
-export default function SwitchProfileDialog({ hideDialog, activeProfile, inactiveProfiles = [] }) {
+export default function SwitchProfileDialog({ closeModal, hideDialog, activeProfile, inactiveProfiles = [] }) {
     const dispatch = useDispatch();
 
     return (
-        <Dialog visible>
+        <Dialog visible closeModal={closeModal}>
             <View style={dialogStyles.switchProfileContainer}>
                 <ProfileItem
                     profile={activeProfile}
