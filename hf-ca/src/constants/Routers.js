@@ -13,4 +13,5 @@ export default {
     crss: "crssScreen",
     addProfile: "addProfileScreen",
     manageProfile: "ManageProfile",
+    signIn: "signIn",
 };

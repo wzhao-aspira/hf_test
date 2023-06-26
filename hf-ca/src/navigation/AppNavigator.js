@@ -24,6 +24,7 @@ import SolunarScreen from "../screens/discovery/SolunarScreen";
 import CRSSScreen from "../screens/shared/CRSSScreen";
 import { navigationRef } from "./NavigationService";
 import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
+import SignInScreen from "../screens/sign_in/SignInScreen";
 
 const NavTheme = {
     colors: {
@@ -72,6 +73,7 @@ const AppNavigator = () => {
                 {loginStep === LoginStep.onBoarding && (
                     <RootStack.Screen name={Routers.onBoarding} component={OnBoardingScreen} />
                 )}
+                {loginStep === LoginStep.signIn && <RootStack.Screen name={Routers.signIn} component={SignInScreen} />}
                 {loginStep === LoginStep.home && <RootStack.Screen name={Routers.drawerNav} component={DrawerNav} />}
             </RootStack.Navigator>
         </NavigationContainer>

@@ -97,7 +97,7 @@ export default function LoginScreen() {
                     <PrimaryBtn
                         testID="signInBtn"
                         label={t("login.signIn")}
-                        onPress={() => dispatch(updateLoginStep(LoginStep.home))}
+                        onPress={() => dispatch(updateLoginStep(LoginStep.signIn))}
                     />
                     <OutlinedBtn
                         testID="signUpBtn"
