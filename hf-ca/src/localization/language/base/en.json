@@ -11,15 +11,21 @@
         "purchaseLicense": "Purchase License"
     },
     "common": {
-        "alert": "Alert",
-        "message": "Message",
         "ok": "OK",
-        "attention": "Attention",
+        "cancel": "Cancel",
+        "alert": "Alert",
+        "error": "Error",
+        "message": "Message",
+        "submit": "Submit",
         "pleaseEnter": "Please Enter",
         "password": "Password",
         "forgotPassword": "Forgot Password?",
-        "submit": "Submit",
-        "error": "Error"
+        "account": "Account",
+        "attention": "Attention",
+        "purchase": "Purchase Privilege",
+        "agentLocations": "Sales Agents",
+        "contactUs": "Contact Us",
+        "followUs": "Follow Us"
     },
     "errMsg": {
         "emptyPassword": "Please enter Password",
@@ -38,6 +44,7 @@
     "login": {
         "signIn": "Sign In",
         "signOut": "Sign Out",
+        "signOutTipMessage": "Are you sure you want to sign out?",
         "createAccount": "Create Account",
         "splashTitle": "Live Life Outside",
         "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
@@ -67,7 +74,7 @@
         "postalCodeNumber": "Postal Code",
         "vesselGOIDNumber": "Vessel GO ID",
         "goIDNumber": "GO ID",
-        "manageProfile": "Manage Profile",
+        "manageProfile": "Manage Profiles",
         "currentlyInUse": "Currently In Use",
         "switchProfile": "Switch Profile",
         "otherProfiles": "Other Profiles",
@@ -120,8 +127,7 @@
     },
     "crss": {
         "enterYourPassword": "Enter your password",
-        "attentionContent": "You've added a password to increase security on your record. As it's enabled, please enter the password to access your record online.",
-        "account": "Account"
+        "attentionContent": "You've added a password to increase security on your record. As it's enabled, please enter the password to access your record online."
     },
     "onboarding": {
         "location": {
@@ -130,5 +136,12 @@
             "turnOnLocation": "Turn on Location",
             "notNow": "Not Now"
         }
+    },
+    "hamburgerMenu": {
+        "general": "General",
+        "quickAccess": "Quick Access",
+        "settings": "Settings",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service"
     }
 }

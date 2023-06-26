@@ -6,6 +6,7 @@ import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/Dimension";
 import PrimaryBtn from "./PrimaryBtn";
 import OutlinedBtn from "./OutlinedBtn";
+import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
     centeredView: {
@@ -57,9 +58,18 @@ export const SimpleDialog = (props) => {
             <View style={styles.centeredView}>
                 <View style={styles.contentStyle}>
                     <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text style={styles.title}>{i18n.exists(title) && t(title)}</Text>
-                        <Text style={styles.message}>{i18n.exists(message) && t(message)}</Text>
-                        <PrimaryBtn onPress={okAction} label={i18n.exists(okText) && t(okText)} style={styles.okBtn} />
+                        <Text testID={genTestId("SimpleDialogTitle")} style={styles.title}>
+                            {i18n.exists(title) && t(title)}
+                        </Text>
+                        <Text testID={genTestId("SimpleDialogMessage")} style={styles.message}>
+                            {i18n.exists(message) && t(message)}
+                        </Text>
+                        <PrimaryBtn
+                            testID="SimpleDialogOKButton"
+                            onPress={okAction}
+                            label={i18n.exists(okText) && t(okText)}
+                            style={styles.okBtn}
+                        />
                     </View>
                 </View>
             </View>
@@ -69,13 +79,14 @@ export const SimpleDialog = (props) => {
 
 // with two buttons
 export const SelectDialog = (props) => {
+    const { t, i18n } = useTranslation();
     const {
-        title = "Alert",
-        message = "Msg",
+        title = "common.alert",
+        message = "common.message",
         visible = false,
-        okText = "OK",
+        okText = "common.ok",
         okAction = () => {},
-        cancelText = "Cancel",
+        cancelText = "common.cancel",
         cancelAction = () => {},
     } = props;
 
@@ -84,10 +95,24 @@ export const SelectDialog = (props) => {
             <View style={styles.centeredView}>
                 <View style={styles.contentStyle}>
                     <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.message}>{message}</Text>
-                        <PrimaryBtn onPress={okAction} label={okText} style={styles.okBtn} />
-                        <OutlinedBtn onPress={cancelAction} label={cancelText} style={styles.cancelBtn} />
+                        <Text testID={genTestId("SelectDialogTitle")} style={styles.title}>
+                            {i18n.exists(title) ? t(title) : title}
+                        </Text>
+                        <Text testID={genTestId("SelectDialogTitle")} style={styles.message}>
+                            {i18n.exists(message) ? t(message) : message}
+                        </Text>
+                        <PrimaryBtn
+                            onPress={okAction}
+                            label={i18n.exists(okText) ? t(okText) : okText}
+                            style={styles.okBtn}
+                            testID="SelectDialogOKButton"
+                        />
+                        <OutlinedBtn
+                            onPress={cancelAction}
+                            label={i18n.exists(cancelText) ? t(cancelText) : cancelText}
+                            style={styles.cancelBtn}
+                            testID="SelectDialogCancelButton"
+                        />
                     </View>
                 </View>
             </View>

@@ -96,7 +96,7 @@ export default function CRSSScreen({ route }) {
                         <Trans i18nKey="crss.attentionContent" />
                     </Text>
                     <Text testID={genTestId("AccountLabel")} style={styles.account_label}>
-                        <Trans i18nKey="crss.account" />
+                        <Trans i18nKey="common.account" />
                     </Text>
                     <View style={styles.account_container}>
                         <Text testID={genTestId("AccountContent")} style={styles.account_content}>
