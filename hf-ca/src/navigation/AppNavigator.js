@@ -88,6 +88,7 @@ function DrawerNav() {
                 swipeEnabled: false,
                 drawerStyle: {
                     width: DRAWER_WIDTH,
+                    backgroundColor: AppTheme.colors.font_color_4,
                 },
                 drawerType: "front",
             }}

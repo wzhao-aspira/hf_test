@@ -12,9 +12,6 @@ import { REQUEST_STATUS } from "../../constants/Constants";
 import HeaderBar from "../../components/HeaderBar";
 import WelcomeBar from "../../components/WelcomeBar";
 import { genTestId } from "../../helper/AppHelper";
-import Routers from "../../constants/Routers";
-import NavigationService from "../../navigation/NavigationService";
-import PrimaryBtn from "../../components/PrimaryBtn";
 import { getLicense } from "../../redux/LicenseSlice";
 import { selectLicenseForDashboard } from "../../redux/LicenseSelector";
 import HomeLicenseSection from "./license/HomeLicenseSection";
@@ -55,17 +52,6 @@ export default function HomeScreen() {
             }
             return <HomeDiscoverySection />;
         }
-        if (index == 2) {
-            return (
-                <>
-                    <PrimaryBtn
-                        style={{ margin: 20 }}
-                        label="Show CRSS Screen"
-                        onPress={() => NavigationService.navigate(Routers.crss)}
-                    />
-                </>
-            );
-        }
         return <></>;
     };
 
@@ -86,7 +72,7 @@ export default function HomeScreen() {
                             }}
                         />
                     }
-                    data={["Licenses", "Discovery", "ShowCRSSSCreen"]}
+                    data={["Licenses", "Discovery"]}
                     renderItem={({ index }) => {
                         return renderItem(index);
                     }}

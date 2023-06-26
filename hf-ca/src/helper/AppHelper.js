@@ -10,6 +10,10 @@ export function isAndroid() {
     return Platform.OS == "android";
 }
 
+export function isIos() {
+    return Platform.OS == "ios";
+}
+
 export function isQaEnv() {
     return CHANNEL.includes("DEV");
 }

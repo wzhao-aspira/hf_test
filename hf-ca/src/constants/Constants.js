@@ -3,6 +3,7 @@ export const KEY_CONSTANT = {
     keyAppConfig: "keyAppConfig",
     keyLatLon: "keyLatLon",
     keyOnboardingLocation: "keyOnboardingLocation",
+    keyLastUsedMobileAccountId: "keyLastUsedMobileAccountId",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fulfilled", rejected: "rejected" };
