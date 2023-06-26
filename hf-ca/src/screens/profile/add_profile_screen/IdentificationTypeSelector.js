@@ -9,8 +9,8 @@ import { getCountriesStates } from "../../../services/ProfileService";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 import { IDENTIFICATION_TYPE_GO_ID } from "../../../constants/Constants";
 
-const IdentifierTypeSelector = React.forwardRef(
-    ({ identificationTypes, identificationType, handleIdentificationType, identificationTypeChanged }, ref) => {
+const IdentificationTypeSelector = React.forwardRef(
+    ({ identificationTypes, identificationType, handleIdentificationType }, ref) => {
         const { t } = useTranslation();
         const idNumberLabel =
             identificationType?.id === IDENTIFICATION_TYPE_GO_ID
@@ -18,7 +18,6 @@ const IdentifierTypeSelector = React.forwardRef(
                 : t("profile.identificationNumber");
         const identificationTypeRef = useRef();
         const idNumberRef = useRef();
-        const idTypeNames = identificationTypes ? identificationTypes.map((idType) => idType.name) : [];
 
         const findIdentificationConfig = (idType) => {
             const { config } = identificationTypes?.find((type) => idType && type.id === idType.id) || {};
@@ -32,9 +31,6 @@ const IdentifierTypeSelector = React.forwardRef(
         const [countriesStates, setCountriesStates] = useState();
 
         const { countries, states } = countriesStates || {};
-
-        const issuedCountriesNames = countries ? countries.map((country) => country.name) : [];
-        const issuedStatesNames = states ? states.map((state) => state.name) : [];
 
         const changeCountryIssued = (index) => {
             const selectedCountryIssued = countries[index];
@@ -85,6 +81,8 @@ const IdentifierTypeSelector = React.forwardRef(
             identificationTypeRef?.current?.setError(emptyError);
             idNumberRef?.current?.setError(emptyError);
         };
+
+        const isShowAssociateItem = identificationType && identificationType.id != -1;
         useImperativeHandle(ref, () => ({
             validate,
         }));
@@ -93,66 +91,68 @@ const IdentifierTypeSelector = React.forwardRef(
         }, []);
         return (
             <View>
-                {identificationTypeChanged && (
-                    <PopupDropdown
-                        ref={identificationTypeRef}
-                        testID={genTestId("IdentificationTypeDropdown")}
-                        label={t("profile.identificationType")}
-                        containerStyle={{ marginTop: 20 }}
-                        valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
-                        labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                        options={idTypeNames}
-                        defaultValue={t("profile.selectOne")}
-                        onSelect={(index) => changeIdentificationType(index)}
-                    />
-                )}
-                {currentIdentificationConfig.issuedCountryRequired && (
-                    <PopupDropdown
-                        testID={genTestId("CountryIssuedDropdown")}
-                        label={t("profile.countryIssued")}
-                        containerStyle={{ marginTop: 20 }}
-                        valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
-                        labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                        options={issuedCountriesNames}
-                        defaultValue={identificationInfo?.countryIssued?.name || issuedCountriesNames[0]}
-                        onSelect={(index) => changeCountryIssued(index)}
-                    />
-                )}
-                {currentIdentificationConfig.issuedStateRequired && (
-                    <PopupDropdown
-                        testID={genTestId("StateIssuedDropdown")}
-                        label={t("profile.stateIssued")}
-                        containerStyle={{ marginTop: 20 }}
-                        valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
-                        labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                        options={issuedStatesNames}
-                        defaultValue={identificationInfo?.stateIssued?.name || issuedStatesNames[0]}
-                        onSelect={(index) => changeStateIssued(index)}
-                    />
-                )}
-                {currentIdentificationConfig.idNumberRequired && (
-                    <StatefulTextInput
-                        testID={genTestId("IdentificationNumberDropdown")}
-                        label={idNumberLabel}
-                        ref={idNumberRef}
-                        hint={t("common.pleaseEnter")}
-                        style={{ marginTop: 20 }}
-                        labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                        inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
-                        onChangeText={(text) => {
-                            changeIdNumber(text);
-                            idNumberRef.current.setError(emptyError);
-                        }}
-                        value={identificationInfo?.idNumber}
-                        onBlur={() => {
-                            const error = emptyValidate(identificationInfo?.idNumber, idNumberError);
-                            idNumberRef.current.setError(error);
-                        }}
-                    />
+                <PopupDropdown
+                    ref={identificationTypeRef}
+                    testID={genTestId("IdentificationTypeDropdown")}
+                    label={t("profile.identificationType")}
+                    containerStyle={{ marginTop: 20 }}
+                    valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                    labelStyle={{ color: AppTheme.colors.font_color_1 }}
+                    options={identificationTypes}
+                    value={identificationType?.name}
+                    onSelect={(index) => changeIdentificationType(index)}
+                />
+                {isShowAssociateItem && (
+                    <>
+                        {currentIdentificationConfig.issuedCountryRequired && (
+                            <PopupDropdown
+                                testID={genTestId("CountryIssuedDropdown")}
+                                label={t("profile.countryIssued")}
+                                containerStyle={{ marginTop: 20 }}
+                                valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                                labelStyle={{ color: AppTheme.colors.font_color_1 }}
+                                options={countries}
+                                value={identificationInfo?.countryIssued?.name}
+                                onSelect={(index) => changeCountryIssued(index)}
+                            />
+                        )}
+                        {currentIdentificationConfig.issuedStateRequired && (
+                            <PopupDropdown
+                                testID={genTestId("StateIssuedDropdown")}
+                                label={t("profile.stateIssued")}
+                                containerStyle={{ marginTop: 20 }}
+                                valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                                labelStyle={{ color: AppTheme.colors.font_color_1 }}
+                                options={states}
+                                value={identificationInfo?.stateIssued?.name}
+                                onSelect={(index) => changeStateIssued(index)}
+                            />
+                        )}
+                        {currentIdentificationConfig.idNumberRequired && (
+                            <StatefulTextInput
+                                testID={genTestId("IdentificationNumberDropdown")}
+                                label={idNumberLabel}
+                                ref={idNumberRef}
+                                hint={t("common.pleaseEnter")}
+                                style={{ marginTop: 20 }}
+                                labelStyle={{ color: AppTheme.colors.font_color_1 }}
+                                inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                                onChangeText={(text) => {
+                                    changeIdNumber(text);
+                                    idNumberRef.current.setError(emptyError);
+                                }}
+                                value={identificationInfo?.idNumber}
+                                onBlur={() => {
+                                    const error = emptyValidate(identificationInfo?.idNumber, idNumberError);
+                                    idNumberRef.current.setError(error);
+                                }}
+                            />
+                        )}
+                    </>
                 )}
             </View>
         );
     }
 );
 
-export default IdentifierTypeSelector;
+export default IdentificationTypeSelector;

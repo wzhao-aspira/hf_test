@@ -82,7 +82,6 @@ const AdultProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
                 identificationTypes={identificationTypes}
                 identificationType={profile?.identificationType}
                 handleIdentificationType={handleIdentificationType}
-                identificationTypeChanged
             />
         </View>
     );

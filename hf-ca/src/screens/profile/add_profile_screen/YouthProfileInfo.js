@@ -21,11 +21,9 @@ const YouthProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
         setProfile({ ...profile, identificationType });
     };
     const [identificationOwners, setIdentificationOwners] = useState([]);
-    const identificationOwnerNames = identificationOwners ? identificationOwners.map((idOwner) => idOwner.name) : [];
 
     const [identificationTypes, setIdentificationTypes] = useState([]);
     const [currentIdentificationTypes, setCurrentIdentificationTypes] = useState([]);
-    const [identificationTypeChanged, setIdentificationTypeChanged] = useState(true);
     const setCurrentIdentificationTypesWhenOwnerChanged = (selectedIdentificationOwner) => {
         const selectedIdentificationTypes =
             selectedIdentificationOwner && IDENTIFICATION_OWNER_YOUTH === selectedIdentificationOwner.id
@@ -37,9 +35,6 @@ const YouthProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
             identificationOwner: selectedIdentificationOwner,
             identificationType: !isEmpty(selectedIdentificationTypes) ? selectedIdentificationTypes[0] : {},
         });
-        console.log();
-        setIdentificationTypeChanged(false);
-        setTimeout(() => setIdentificationTypeChanged(true), 0);
         identificationTypeSelectorRef.current?.validate();
     };
 
@@ -137,8 +132,8 @@ const YouthProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
                 containerStyle={{ marginTop: 20 }}
                 valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
                 labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                options={identificationOwnerNames}
-                defaultValue={profile?.identificationOwner?.name || identificationOwnerNames[0]}
+                options={identificationOwners}
+                value={profile?.identificationOwner?.name}
                 onSelect={(index) => changeIdentificationOwner(index)}
             />
             {profile.identificationOwner && (
@@ -147,7 +142,6 @@ const YouthProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
                     identificationTypes={currentIdentificationTypes}
                     identificationType={profile?.identificationType}
                     handleIdentificationType={handleIdentificationType}
-                    identificationTypeChanged={identificationTypeChanged}
                 />
             )}
         </View>
