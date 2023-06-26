@@ -88,7 +88,9 @@ const PopupDropdown = React.forwardRef((props, ref) => {
         options,
         label,
         helpText,
-        defaultValue = "Please Select",
+        value = "Please Select",
+        idName = "id",
+        valueName = "name",
         onSelect,
         disabled = false,
         display = true,
@@ -98,7 +100,6 @@ const PopupDropdown = React.forwardRef((props, ref) => {
     } = props;
     const [errorObj, setErrorObj] = useState({ error: false, errorMsg: undefined });
     const [popupVisible, setPopVisible] = useState(false);
-    const [value, setValue] = useState(defaultValue);
     const hasError = errorObj.error;
     const hasValue = options?.indexOf(value) >= 0;
 
@@ -107,36 +108,26 @@ const PopupDropdown = React.forwardRef((props, ref) => {
             setErrorObj({ ...obj });
             return obj.error;
         },
-        select: (index) => {
-            console.log(`${index}:${defaultValue}`);
-            if (index < 0) {
-                setValue(defaultValue);
-            } else {
-                setValue(options[index]);
-                onSelect(index, options[index]);
-            }
-        },
     }));
     if (!display) {
         return null;
     }
 
     const RenderItem = ({ item, index }) => {
-        const selected = options.indexOf(value) == index;
+        const selected = options[index][valueName] === value;
         return (
             <Pressable
                 onPress={() => {
                     setPopVisible(false);
-                    if (item == value) {
+                    if (item[valueName] == value) {
                         return;
                     }
-                    setValue(item);
                     setErrorObj({ error: false });
                     onSelect && onSelect(index, item);
                 }}
             >
                 <View style={{ ...styles.optionContainer }}>
-                    <Text style={styles.value}>{item}</Text>
+                    <Text style={styles.value}>{item[valueName]}</Text>
                     <SVGIcon pathList={selected ? pathList.circleChecked : pathList.circleUnchecked} />
                 </View>
             </Pressable>
@@ -171,7 +162,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
             )}
             {hasError && <Text style={styles.errorMsg}> {errorObj.errorMsg} </Text>}
             <Dialog visible={popupVisible}>
-                <FlatList data={options} renderItem={RenderItem} keyExtractor={(item) => item.toString()} />
+                <FlatList data={options} renderItem={RenderItem} keyExtractor={(item) => item[idName]} />
             </Dialog>
         </View>
     );

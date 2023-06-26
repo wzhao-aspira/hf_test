@@ -45,7 +45,6 @@ const AddProfileScreen = () => {
 
     const safeAreaInsets = useSafeAreaInsets();
 
-    const profileTypeNames = PROFILE_TYPES.map((pt) => pt.name);
     const { profileType } = profile;
 
     const [identificationOwnerChanged, setIdentificationOwnerChanged] = useState(true);
@@ -94,8 +93,8 @@ const AddProfileScreen = () => {
                             containerStyle={{ marginTop: 20 }}
                             valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
                             labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                            options={profileTypeNames}
-                            defaultValue={profileType.name}
+                            options={PROFILE_TYPES}
+                            value={profileType.name}
                             onSelect={(index) => changeProfileType(index)}
                         />
                         {PROFILE_TYPE_IDS.adult === profileType.id && (
