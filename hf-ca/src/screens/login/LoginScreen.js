@@ -97,15 +97,13 @@ export default function LoginScreen() {
                     <PrimaryBtn
                         testID="signInBtn"
                         label={t("login.signIn")}
-                        onPress={() => dispatch(updateLoginStep(LoginStep.home))}
+                        onPress={() => dispatch(updateLoginStep(LoginStep.signIn))}
                     />
                     <OutlinedBtn
                         testID="signUpBtn"
                         style={{ marginTop: 20 }}
                         label={t("login.createAccount")}
-                        onPress={() => {
-                            console.log("create account");
-                        }}
+                        onPress={() => dispatch(updateLoginStep(LoginStep.signUp))}
                     />
                 </>
             </ScrollView>

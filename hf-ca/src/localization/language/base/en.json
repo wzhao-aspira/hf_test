@@ -17,29 +17,44 @@
         "error": "Error",
         "message": "Message",
         "submit": "Submit",
+        "yes": "Yes",
+        "no": "No",
+        "show": "Show",
+        "hide": "Hide",
+        "userID": "User ID",
         "pleaseEnter": "Please Enter",
+        "pleaseEnterEmail": "Please Enter Email: xx@xx.com",
         "password": "Password",
+        "confirmPassword": "Confirm Password",
         "forgotPassword": "Forgot Password?",
+        "gotIt": "Got it",
         "account": "Account",
         "attention": "Attention",
         "purchase": "Purchase Privilege",
         "agentLocations": "Sales Agents",
         "contactUs": "Contact Us",
-        "followUs": "Follow Us"
+        "followUs": "Follow Us",
+        "create": "Create"
     },
     "errMsg": {
+        "emptyUserID": "Please enter User ID",
         "emptyPassword": "Please enter Password",
+        "emptyConfirmPassword": "Please enter Confirm Password",
         "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button.",
         "emptyDateOfBirth": "Please enter Date of Birth",
         "emptyFirstName": "Please enter First Name",
         "emptyLastName": "Please enter Last Name",
-        "emptyIdentificationType": "Please select Identity Type",
+        "emptyIdentificationType": "Please select Identification Type",
         "emptyIdentificationGOID": "Please enter GO ID",
         "emptyIdentificationNumber": "Please enter Number",
         "emptyBusinessGOIDNumber": "Please enter Business GO ID",
         "emptyPostalCodeNumber": "Please enter Postal Code",
         "emptyVesselGOIDNumber": "Please enter Vessel GO ID",
-        "emptyVesselFGNumber": "Please enter Vessel FG #"
+        "emptyVesselFGNumber": "Please enter Vessel FG #",
+        "addedProfileIsInvalid": "The added profile is invalid, please check and re-enter.",
+        "foundExistingAccount": "We found existing account, please re-enter or retrieve password.",
+        "passwordDotNotMatch": "Passwords don't match.",
+        "profileAlreadyExists": "The profile already exists, please check and re-enter."
     },
     "login": {
         "signIn": "Sign In",
@@ -48,6 +63,24 @@
         "createAccount": "Create Account",
         "splashTitle": "Live Life Outside",
         "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
+    },
+
+    "signIn": {
+        "userId": "User ID",
+        "noAccount": "Don't have an account?",
+        "userIdEmpty": "Please enter your User ID",
+        "userIdInvalid": "User ID must be email, please check your input.",
+        "passwordEmpty": "Please enter password",
+        "accountNotFound": "Account not found, please check your input.",
+        "userIdHint": "Please Enter Email:"
+    },
+
+    "signUp": {
+        "createMobileAccount": "Create Mobile Account",
+        "alreadyHaveAccount": "Already have account?",
+        "exitSignUp": "Exit Sign Up",
+        "areYouSureExitSignUp": "Are you sure you want to exit sign up?",
+        "addPrimaryProfile": "Add Existing Primary Profile"
     },
     "tabBar": {
         "tabHome": "Home",

@@ -12,7 +12,9 @@ import { genTestId } from "../../helper/AppHelper";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
-import { showSimpleDialog } from "../../redux/AppSlice";
+import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
+import { saveProfile } from "../../services/ProfileService";
+import LoginStep from "../../constants/LoginStep";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -45,7 +47,8 @@ const styles = StyleSheet.create({
 
 export default function CRSSScreen({ route }) {
     const { t } = useTranslation();
-
+    const { params } = route || {};
+    const { mobileAccount, profile, routeScreen } = params || {};
     const dispatch = useDispatch();
 
     const passwordRef = React.createRef();
@@ -57,22 +60,16 @@ export default function CRSSScreen({ route }) {
             errorMsg: msg,
         };
     };
-
-    const onSubmit = () => {
+    const onSubmit = async () => {
         const error = emptyValidate(password, t("errMsg.emptyPassword"));
         if (error.error) {
             passwordRef?.current.setError(error);
-        } else if (password == "888888") {
-            const { params } = route;
-            if (!isEmpty(params)) {
-                const { routeScreen } = params;
-                if (isEmpty(routeScreen)) {
-                    NavigationService.back();
-                } else {
-                    NavigationService.navigate(routeScreen);
-                }
+        } else if (password == profile?.crssPassword) {
+            await saveProfile(mobileAccount, profile);
+            if (!isEmpty(routeScreen)) {
+                NavigationService.navigate(routeScreen);
             } else {
-                NavigationService.back();
+                dispatch(updateLoginStep(LoginStep.onBoarding));
             }
         } else {
             dispatch(
@@ -100,7 +97,7 @@ export default function CRSSScreen({ route }) {
                     </Text>
                     <View style={styles.account_container}>
                         <Text testID={genTestId("AccountContent")} style={styles.account_content}>
-                            email@example.com
+                            {profile?.crssEmail}
                         </Text>
                     </View>
                     <StatefulTextInput

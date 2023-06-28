@@ -37,6 +37,16 @@ export const PROFILE_TYPES = [
         name: "Vessel",
     },
 ];
+export const PROFILE_TYPES_SIGN_UP = PROFILE_TYPES.filter(
+    (p) => PROFILE_TYPE_IDS.adult === p.id || PROFILE_TYPE_IDS.youth === p.id
+);
 export const IDENTIFICATION_OWNER_YOUTH = "Youth";
 export const IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION = "Youth Identification";
 export const IDENTIFICATION_OWNER_PARENT = "Parent";
+export const ERROR_CODE = {
+    COMMON_ERROR: -1,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    SQLITE_CONSTRAINT_UNIQUE: 2067,
+};
