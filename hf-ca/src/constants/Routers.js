@@ -1,6 +1,7 @@
 export default {
     drawerNav: "drawerNav",
     mainNav: "mainNav",
+    signUpNav: "signUpNav",
     tabNav: "tabNav",
     login: "loginScreen",
     onBoarding: "onBoardingScreen",
@@ -11,7 +12,9 @@ export default {
     weather: "weatherScreen",
     solunar: "solunarScreen",
     crss: "crssScreen",
+    signUp: "signUpScreen",
     addProfile: "addProfileScreen",
+    addPrimaryProfile: "addPrimaryProfileScreen",
     manageProfile: "ManageProfile",
     signIn: "signIn",
 };

@@ -47,8 +47,7 @@ const SignInScreen = () => {
         //     setErrorMsg("signIn.accountNotFound");
         //     return;
         // }
-
-        dispatch(updateLoginStep(LoginStep.home));
+        dispatch(updateLoginStep(LoginStep.onBoarding));
     };
 
     return (
@@ -98,9 +97,15 @@ const SignInScreen = () => {
 
                     <PrimaryBtn style={styles.marginTopStyle(30)} label={sighInLable} onPress={handleSignIn} />
 
-                    <Text style={styles.signUpStr}>
+                    <Text testID={genTestId("signUpText")} style={styles.signUpStr}>
                         {t("signIn.noAccount")}
-                        <Text style={styles.signUpBtn} onPress={() => {}}>
+                        <Text
+                            testID={genTestId("signUpLink")}
+                            style={styles.signUpBtn}
+                            onPress={() => {
+                                dispatch(updateLoginStep(LoginStep.signUp));
+                            }}
+                        >
                             {` ${t("login.createAccount")}`}
                         </Text>
                     </Text>

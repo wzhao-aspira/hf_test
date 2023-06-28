@@ -103,9 +103,7 @@ export default function LoginScreen() {
                         testID="signUpBtn"
                         style={{ marginTop: 20 }}
                         label={t("login.createAccount")}
-                        onPress={() => {
-                            console.log("create account");
-                        }}
+                        onPress={() => dispatch(updateLoginStep(LoginStep.signUp))}
                     />
                 </>
             </ScrollView>

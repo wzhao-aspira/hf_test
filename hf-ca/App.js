@@ -8,6 +8,7 @@ import store from "./src/redux/Store";
 import AppContract from "./src/assets/_default/AppContract";
 import { initAppConfig } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
+import { dbCreate } from "./src/helper/DBHelper";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -21,6 +22,7 @@ export default function App() {
             // await getConfig1();
             // await getConfig2();
             await initAppConfig();
+            await dbCreate();
             setAppReady(true);
             await SplashScreen.hideAsync();
         };
