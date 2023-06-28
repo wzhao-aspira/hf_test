@@ -26,6 +26,12 @@
       "userInterfaceStyle": "light",
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "UIStatusBarStyle": "UIStatusBarStyleLightContent",
+        "MinimumOSVersion": "13.0",
+        "NSLocationWhenInUseUsageDescription": "This is used to search for retail licensing locations close to your location.",
+        "NSFaceIDUsageDescription": "Enabling Face ID allows you quick and secure access to your account."
       }
     },
     "android": {
@@ -34,7 +40,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/_default/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
+      ]
     },
     "web": {
       "favicon": "./src/assets/_default/images/favicon.png"

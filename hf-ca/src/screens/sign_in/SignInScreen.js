@@ -4,14 +4,18 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import emailValidator from "email-validator";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { isEmpty } from "lodash";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import Page from "../../components/Page";
-import { updateLoginStep } from "../../redux/AppSlice";
+import { updateLoginStep, updateUsername } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
 import { genTestId } from "../../helper/AppHelper";
+import OnBoardingHelper from "../../helper/OnBoardingHelper";
+import { storeItem } from "../../helper/StorageHelper";
+import { KEY_CONSTANT } from "../../constants/Constants";
 
 const SignInScreen = () => {
     const { t } = useTranslation();
@@ -28,7 +32,7 @@ const SignInScreen = () => {
     const [errorMsg, setErrorMsg] = useState();
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
-    const handleSignIn = () => {
+    const handleSignIn = async () => {
         const validateUserId = validateRequiredInput(userId, userIdRef, userIdEmptyMsg);
         const validatePassword = validateRequiredInput(password, passwordRef, passwordEmptyMsg);
 
@@ -47,7 +51,14 @@ const SignInScreen = () => {
         //     setErrorMsg("signIn.accountNotFound");
         //     return;
         // }
-        dispatch(updateLoginStep(LoginStep.onBoarding));
+        dispatch(updateUsername(userId));
+        storeItem(KEY_CONSTANT.keyLastUsedMobileAccountId, userId);
+        const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userId);
+        if (!isEmpty(onBoardingScreens)) {
+            dispatch(updateLoginStep(LoginStep.onBoarding));
+        } else {
+            dispatch(updateLoginStep(LoginStep.home));
+        }
     };
 
     return (

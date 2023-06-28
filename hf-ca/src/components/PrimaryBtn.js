@@ -17,8 +17,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
 });
-const PrimaryBtn = (props) => {
-    const { label = "Primary Btn", onPress, testID, style = {} } = props;
+const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {} }) => {
     const calTestID = testID || label;
     return (
         <Pressable

@@ -1,6 +1,7 @@
 import * as Location from "expo-location";
 import { isEmpty } from "lodash";
 import { KEY_CONSTANT } from "../constants/Constants";
+import { checkAuthOnboarding } from "./LocalAuthHelper";
 import { retrieveItem } from "./StorageHelper";
 
 export const OnboardingType = {
@@ -9,10 +10,9 @@ export const OnboardingType = {
 };
 
 export default {
-    checkOnBoarding: async () => {
+    checkOnBoarding: async (userName) => {
         const result = [];
         const onboardingRecord = await retrieveItem(KEY_CONSTANT.keyOnboardingLocation);
-        console.log(`onboardingRecord:${JSON.stringify(onboardingRecord)}`);
         if (isEmpty(onboardingRecord) || onboardingRecord.result == false) {
             try {
                 const permissionResponse = await Location.getForegroundPermissionsAsync();
@@ -25,8 +25,11 @@ export default {
             }
         }
 
-        return new Promise((resolve) => {
-            resolve(result);
-        });
+        const needBiometricCheck = await checkAuthOnboarding(userName);
+        if (needBiometricCheck) {
+            result.push(OnboardingType.biometricLogin);
+        }
+        console.log(`onBoarding result:${JSON.stringify(result)}`);
+        return result;
     },
 };

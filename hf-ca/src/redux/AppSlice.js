@@ -19,6 +19,11 @@ const initialState = {
         cancelText: "",
         cancelAction: () => {},
     },
+    localAuth: {
+        available: false,
+        typeName: "",
+        enable: false,
+    },
 };
 
 const appSlice = createSlice({
@@ -46,6 +51,9 @@ const appSlice = createSlice({
         hideSelectDialog: (state) => {
             Object.assign(state, { selectDialog: { ...state.selectDialog, visible: false } });
         },
+        setLocalAuth: (state, action) => {
+            Object.assign(state, { localAuth: action.payload });
+        },
     },
 });
 
@@ -57,6 +65,7 @@ export const {
     hideSimpleDialog,
     showSelectDialog,
     hideSelectDialog,
+    setLocalAuth,
 } = appSlice.actions;
 
 export const selectUsername = (state) => state.app.username;
@@ -64,6 +73,7 @@ export const selectLoginStep = (state) => state.app.loginStep;
 export const selectSimpleDialog = (state) => state.app.simpleDialog;
 export const selectSelectDialog = (state) => state.app.selectDialog;
 export const selectIndicator = (state) => state.app.indicator;
+export const selectLocalAuth = (state) => state.app.localAuth;
 
 const appReducer = appSlice.reducer;
 export default appReducer;

@@ -4,6 +4,11 @@ export const KEY_CONSTANT = {
     keyLatLon: "keyLatLon",
     keyOnboardingLocation: "keyOnboardingLocation",
     keyLastUsedMobileAccountId: "keyLastUsedMobileAccountId",
+    keyOnboardingBiometric: "keyOnboardingBiometricLogin",
+    localAuthOnboardingHasAppear: "localAuthOnboardingHasAppear",
+    biometricIDSwitchBlock: "biometricIDSwitchBlock",
+    biometricIDSwitch: "biometricIDSwitch",
+    loginCredential: "loginCredential",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fulfilled", rejected: "rejected" };
