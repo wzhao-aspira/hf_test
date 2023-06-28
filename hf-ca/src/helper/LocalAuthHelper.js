@@ -39,7 +39,7 @@ export async function getAuthInfo() {
     let authInfo = false;
     const available = await checkAuthAvailable();
     if (available) {
-        const userName = await getUserName();
+        const userName = await getUserID();
         if (userName) {
             const biometricIDSwitch = await LocalStorage.get(AsyncConstants.biometricIDSwitch + userName, false);
             const isBlock = await checkBlockBiometricIDLogin();
@@ -85,14 +85,15 @@ export async function getAuthType() {
     return authType;
 }
 
-async function getUserName() {
+export async function getUserID() {
     // Get mobile account id from the local storage
-    return retrieveItem(KEY_CONSTANT.keyLastUsedMobileAccountId);
+    const userID = await retrieveItem(KEY_CONSTANT.keyLastUsedMobileAccountId);
+    return userID;
 }
 
 export async function checkBlockBiometricIDLogin() {
     let result = false;
-    const userName = await getUserName();
+    const userName = await getUserID();
     if (userName) {
         result = await LocalStorage.get(AsyncConstants.biometricIDSwitchBlock + userName, false);
     }

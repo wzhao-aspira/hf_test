@@ -14,13 +14,15 @@ import AppTheme from "../assets/_default/AppTheme";
 import { DRAWER_WIDTH } from "../constants/Dimension";
 import HomeScreen from "../screens/home/HomeScreen";
 import HuntingScreen from "../screens/hunting/HuntingScreen";
-import AddProfileScreen from "../screens/profile/add_profile_screen/AddProfileScreen";
+import AddProfileScreen from "../screens/profile/add_profile/AddProfileScreen";
+import AddPrimaryProfileScreen from "../screens/sign_up/AddPrimaryProfileScreen";
 import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
 import LicenseListScreen from "../screens/licenses/LicenseListScreen";
 import FishingScreen from "../screens/fish/FishingScreen";
 import WeatherScreen from "../screens/discovery/WeatherScreen";
 import SolunarScreen from "../screens/discovery/SolunarScreen";
+import SignUpScreen from "../screens/sign_up/SignUpScreen";
 import CRSSScreen from "../screens/shared/CRSSScreen";
 import { navigationRef } from "./NavigationService";
 import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
@@ -33,6 +35,7 @@ const NavTheme = {
 };
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
+const SignUpStack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const BottomTab = createBottomTabNavigator();
 const screenOpt = {
@@ -74,6 +77,7 @@ const AppNavigator = () => {
                     <RootStack.Screen name={Routers.onBoarding} component={OnBoardingScreen} />
                 )}
                 {loginStep === LoginStep.signIn && <RootStack.Screen name={Routers.signIn} component={SignInScreen} />}
+                {loginStep === LoginStep.signUp && <RootStack.Screen name={Routers.signUpNav} component={SignUpNav} />}
                 {loginStep === LoginStep.home && <RootStack.Screen name={Routers.drawerNav} component={DrawerNav} />}
             </RootStack.Navigator>
         </NavigationContainer>
@@ -114,6 +118,16 @@ function MainNav() {
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
         </MainStack.Navigator>
+    );
+}
+
+function SignUpNav() {
+    return (
+        <SignUpStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.signUp}>
+            <SignUpStack.Screen name={Routers.signUp} component={SignUpScreen} />
+            <SignUpStack.Screen name={Routers.addPrimaryProfile} component={AddPrimaryProfileScreen} />
+            <SignUpStack.Screen name={Routers.crss} component={CRSSScreen} />
+        </SignUpStack.Navigator>
     );
 }
 

@@ -17,11 +17,9 @@ const AdultProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
     const handleIdentificationType = (identificationType) => {
         setProfile({ ...profile, identificationType });
     };
-    // const selectOneLabel = t("profile.selectOne");
     const [identificationTypes, setIdentificationTypes] = useState([]);
     const getIdentificationTypesData = async () => {
         const identificationTypesData = await getIdentificationTypes();
-        // const idTypes = [{ id: -1, name: selectOneLabel }, ...identificationTypesData.adultOrYouth];
         setIdentificationTypes(identificationTypesData?.adultOrYouth);
         setProfile({ ...profile, identificationType: identificationTypesData?.adultOrYouth[0] });
     };

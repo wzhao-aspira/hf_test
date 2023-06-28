@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import AppTheme from "../../assets/BaseTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
-import { emptyValidate } from "../profile/add_profile_screen/ProfileValidate";
+import { emptyValidate } from "../profile/add_profile/ProfileValidate";
 
 export const styles = StyleSheet.create({
     contentContainerStyle: {
