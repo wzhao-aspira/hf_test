@@ -1,6 +1,6 @@
 const BaseContract = {
     function: {
-        biometric_enabled: false,
+        biometric_enabled: true,
     },
 
     strings: {},

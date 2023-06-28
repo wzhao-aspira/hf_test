@@ -143,5 +143,18 @@
         "settings": "Settings",
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service"
+    },
+    "auth": {
+        "biometricID": "Biometric ID",
+        "faceID": "Face ID",
+        "touchID": "Touch ID",
+        "fingerprint": "Fingerprint",
+        "use": "Use",
+        "permissionDescription": "You can use your {{authType}} to access your account, so you won’t need to type your password each time.",
+        "promptMessage": "Access your account",
+        "fallbackLabel": "Enter passcode",
+        "tooManyAttempts": "Too many attempts. Try again later",
+        "unableToUse": "Unable to use Face ID. Please sign in using Username and Password.",
+        "authFailed": "Authorization failed"
     }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +10,12 @@ import {
     selectLoginStep,
     selectSelectDialog,
     selectSimpleDialog,
+    setLocalAuth,
 } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
 import { Indicator, SelectDialog, SimpleDialog } from "../components/Dialog";
 import { genTestId } from "../helper/AppHelper";
+import { getAuthInfo } from "../helper/LocalAuthHelper";
 
 export default function RootScreen() {
     const dispatch = useDispatch();
@@ -21,6 +23,16 @@ export default function RootScreen() {
     const simpleDialog = useSelector(selectSimpleDialog);
     const selectDialog = useSelector(selectSelectDialog);
     const indicator = useSelector(selectIndicator);
+
+    useEffect(() => {
+        const getLocalAuthInfo = async () => {
+            // todo get active userId from db or localStorage
+            const userName = "wzhao1";
+            const authInfo = await getAuthInfo(userName);
+            dispatch(setLocalAuth(authInfo));
+        };
+        getLocalAuthInfo();
+    }, []);
 
     return (
         <SafeAreaProvider>

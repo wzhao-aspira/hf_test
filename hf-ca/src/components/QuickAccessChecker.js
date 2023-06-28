@@ -1,20 +1,22 @@
 import React, { useEffect, useImperativeHandle } from "react";
-import { AppState } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
-import { checkAuthAvailable, getAuthInfo, getCurrentAuthTypeName } from "../helper/LocalAuthHelper";
+import { useSelector } from "react-redux";
+import { checkAuthAvailable, getAuthInfo } from "../helper/LocalAuthHelper";
+import { selectUsername } from "../redux/AppSlice";
+import useAppState from "../hooks/useAppState";
 
 const QuickAccessChecker = React.forwardRef((props, ref) => {
-    const { onHardwareInfo, onAuthTypeChange } = props;
+    const { onHardwareInfo, onAuthTypeChange, children } = props;
+
+    const userName = useSelector(selectUsername);
 
     const checkAccessMethods = async () => {
-        console.log("QuickAccessChecker : checkAccessMethods");
         const hardwareAvailable = await checkAuthAvailable();
         onHardwareInfo && onHardwareInfo(hardwareAvailable);
         let typeName = "None";
         if (hardwareAvailable) {
-            const biometricAuthEnable = await getAuthInfo();
-            if (biometricAuthEnable) {
-                typeName = await getCurrentAuthTypeName();
+            const authInfo = await getAuthInfo(userName);
+            if (authInfo) {
+                typeName = authInfo.typeName;
             }
         } else {
             // Do nothing
@@ -22,20 +24,15 @@ const QuickAccessChecker = React.forwardRef((props, ref) => {
         onAuthTypeChange && onAuthTypeChange(typeName);
     };
 
-    const handleAppStateChange = (nextAppState) => {
+    useAppState((nextAppState) => {
         if (nextAppState != "inactive" && nextAppState != "background") {
             checkAccessMethods();
         }
-    };
+    });
 
     useEffect(() => {
-        AppState.addEventListener("change", handleAppStateChange);
         checkAccessMethods();
     }, []);
-
-    useFocusEffect(() => {
-        checkAccessMethods();
-    });
 
     useImperativeHandle(ref, () => ({
         doCheck: () => {
@@ -43,7 +40,7 @@ const QuickAccessChecker = React.forwardRef((props, ref) => {
         },
     }));
 
-    return null;
+    return <>{children}</>;
 });
 
 export default QuickAccessChecker;
