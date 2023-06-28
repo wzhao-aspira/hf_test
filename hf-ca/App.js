@@ -52,8 +52,8 @@ export default function App() {
             // await getConfig2();
             await initAppConfig();
             await dbCreate();
-            setAppReady(true);
             await getMobileAccountInfoFromDB();
+            setAppReady(true);
             await SplashScreen.hideAsync();
         };
         hideScreen();

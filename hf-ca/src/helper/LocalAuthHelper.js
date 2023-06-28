@@ -6,26 +6,12 @@ import { retrieveItem, storeItem } from "./StorageHelper";
 import i18n from "../localization/i18n";
 import store from "../redux/Store";
 import { showSimpleDialog } from "../redux/AppSlice";
-
-const LocalStorage = {
-    get: retrieveItem,
-    set: storeItem,
-    multiRemove: async (keys) => {
-        await AsyncStorage.multiRemove(keys);
-    },
-};
-
-const AsyncConstants = {
-    localAuthOnboardingHasAppear: "localAuthOnboardingHasAppear",
-    biometricIDSwitchBlock: "biometricIDSwitchBlock",
-    biometricIDSwitch: "biometricIDSwitch",
-    loginCredential: "loginCredential",
-};
+import { KEY_CONSTANT } from "../constants/Constants";
 
 export async function saveOnboardingPageAppear(userId) {
     console.log(`saveOnboardingPageAppear:${userId}`);
     const appear = { result: true };
-    LocalStorage.set(`${AsyncConstants.localAuthOnboardingHasAppear}_${userId}`, appear);
+    storeItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`, appear);
 }
 
 export async function checkAuthOnboarding(userId) {
@@ -35,7 +21,7 @@ export async function checkAuthOnboarding(userId) {
         return false;
     }
 
-    const appear = await LocalStorage.get(`${AsyncConstants.localAuthOnboardingHasAppear}_${userId}`);
+    const appear = await retrieveItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`);
     console.log(`auth appear:${JSON.stringify(appear)}`);
     if (appear == "" || appear == null || appear.result == false) {
         return true;
@@ -71,7 +57,7 @@ export async function getAuthInfo(userName) {
     if (available) {
         res.typeName = await getAuthType();
         if (userName) {
-            const biometricIDSwitch = await LocalStorage.get(AsyncConstants.biometricIDSwitch + userName, false);
+            const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userName, false);
             const isBlock = await checkBlockBiometricIDLogin();
 
             res.enable = !isBlock && biometricIDSwitch;
@@ -106,21 +92,21 @@ export async function getAuthType() {
 // }
 
 export async function checkBlockBiometricIDLogin(userName) {
-    const result = await LocalStorage.get(AsyncConstants.biometricIDSwitchBlock + userName, false);
+    const result = await retrieveItem(KEY_CONSTANT.biometricIDSwitchBlock + userName, false);
 
     return result;
 }
 export async function blockBiometricIDLogin(userName) {
-    await LocalStorage.set(AsyncConstants.biometricIDSwitchBlock + userName, true);
+    await storeItem(KEY_CONSTANT.biometricIDSwitchBlock + userName, true);
 }
 
 export async function resetBiometricIDLoginBlock(userName) {
-    await LocalStorage.multiRemove([AsyncConstants.biometricIDSwitchBlock + userName]);
+    await AsyncStorage.multiRemove([KEY_CONSTANT.biometricIDSwitchBlock + userName]);
 }
 
 export async function updateAuthInfo(authEnable, userName) {
     if (userName) {
-        await LocalStorage.set(AsyncConstants.biometricIDSwitch + userName, authEnable);
+        await storeItem(KEY_CONSTANT.biometricIDSwitch + userName, authEnable);
         await resetBiometricIDLoginBlock();
     }
 }
@@ -132,14 +118,14 @@ export async function setLoginCredential(userName) {
     //         const loginInfo = res.profile?.searchParams;
     //         console.log(`save loginInfo:${JSON.stringify(loginInfo)}`);
     //         const encrypted = SecurityUtil.encrypt(JSON.stringify(loginInfo), true);
-    //         LocalStorage.set(`${AsyncConstants.loginCredential}_${userName}`, encrypted);
+    //         storeItem(`${KEY_CONSTANT.loginCredential}_${userName}`, encrypted);
     //     }
     // });
 }
 
 export async function getLoginCredential(userName) {
     console.log(`getLoginCredential:${userName}`);
-    // const encrypted = await LocalStorage.get(`${AsyncConstants.loginCredential}_${userName}`);
+    // const encrypted = await retrieveItem(`${KEY_CONSTANT.loginCredential}_${userName}`);
     // if (isEmpty(encrypted)) {
     //     return undefined;
     // }
@@ -149,7 +135,7 @@ export async function getLoginCredential(userName) {
 }
 
 export async function clearLoginCredential(userName) {
-    LocalStorage.multiRemove([`${AsyncConstants.loginCredential}_${userName}`]);
+    AsyncStorage.multiRemove([`${KEY_CONSTANT.loginCredential}_${userName}`]);
 }
 
 export async function clearLocalAuth(userName) {

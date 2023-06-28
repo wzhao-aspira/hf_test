@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AppManager from "../helper/AppStateHelper";
+import { AppState } from "react-native";
 
 export default function useAppState(callback) {
     const [appState, setAppState] = useState("active");
@@ -8,8 +8,8 @@ export default function useAppState(callback) {
             callback && callback(nextAppState, appState);
             setAppState(nextAppState);
         };
-        const unSub = AppManager.addAppStateListener(handleAppStateChange);
-        return () => unSub && unSub();
+        const sub = AppState.addEventListener("change", handleAppStateChange);
+        return () => sub?.remove();
     });
 
     return appState;
