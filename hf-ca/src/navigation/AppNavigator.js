@@ -27,6 +27,7 @@ import CRSSScreen from "../screens/shared/CRSSScreen";
 import { navigationRef } from "./NavigationService";
 import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
 import SignInScreen from "../screens/sign_in/SignInScreen";
+import DeleteAccountScreen from "../screens/delete-account/DeleteAccountScreen";
 
 const NavTheme = {
     colors: {
@@ -117,6 +118,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
+            <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
         </MainStack.Navigator>
     );
 }
