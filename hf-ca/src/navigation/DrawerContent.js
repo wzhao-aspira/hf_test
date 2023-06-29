@@ -13,11 +13,9 @@ import SplitLine from "../components/SplitLine";
 import { getActiveProfile } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { genTestId } from "../helper/AppHelper";
+import { genTestId, setActiveUserID } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
 import { showSelectDialog, updateLoginStep } from "../redux/AppSlice";
-import { storeItem } from "../helper/StorageHelper";
-import { KEY_CONSTANT } from "../constants/Constants";
 import LoginStep from "../constants/LoginStep";
 
 const styles = StyleSheet.create({
@@ -109,11 +107,11 @@ export default function DrawerContent({ navigation }) {
         if (drawerStatus == "open") {
             drawerContentScrollView.current.scrollTo({ x: 0, y: 0, animated: false });
         }
-    }, []);
+    }, [drawerStatus]);
 
     const onSignOut = async () => {
         // Clear the mobile account that saved in local storage
-        await storeItem(KEY_CONSTANT.keyLastUsedMobileAccountId, null);
+        await setActiveUserID(null);
         // Set login step
         dispatch(updateLoginStep(LoginStep.login));
     };

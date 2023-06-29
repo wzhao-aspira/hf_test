@@ -3,6 +3,8 @@ import { camelCase } from "lodash";
 import Toast from "react-native-root-toast";
 import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
+import { retrieveItem, storeItem } from "./StorageHelper";
+import { KEY_CONSTANT } from "../constants/Constants";
 
 export const CHANNEL = BuildType.toUpperCase();
 
@@ -57,4 +59,12 @@ export function genTestId(testID) {
         return idPrefix + camelCase(testID);
     }
     return camelCase(testID);
+}
+
+export async function getActiveUserID() {
+    return retrieveItem(KEY_CONSTANT.keyLastUsedMobileAccountId);
+}
+
+export async function setActiveUserID(userId) {
+    return storeItem(KEY_CONSTANT.keyLastUsedMobileAccountId, userId);
 }

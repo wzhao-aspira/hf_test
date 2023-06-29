@@ -1,7 +1,5 @@
-import { getUserID } from "../helper/LocalAuthHelper";
 import { getMobileAccountById, deleteMobileAccount } from "../helper/DBHelper";
-import { KEY_CONSTANT } from "../constants/Constants";
-import { storeItem } from "../helper/StorageHelper";
+import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 
 async function verifyPassword(accountID: string, accountPassword: string) {
     try {
@@ -23,7 +21,7 @@ async function verifyPassword(accountID: string, accountPassword: string) {
 }
 
 async function verifyCurrentAccountPassword(currentAccountPassword) {
-    const userID = await getUserID();
+    const userID = await getActiveUserID();
 
     return verifyPassword(userID, currentAccountPassword);
 }
@@ -36,7 +34,7 @@ async function deleteAccount(accountID: string, accountPassword: string) {
             const result = await deleteMobileAccount(accountID);
 
             if (result?.success) {
-                await storeItem(KEY_CONSTANT.keyLastUsedMobileAccountId, null);
+                setActiveUserID(null);
                 return "succeeded";
             }
         }
@@ -48,7 +46,7 @@ async function deleteAccount(accountID: string, accountPassword: string) {
 }
 
 async function deleteCurrentAccount(currentAccountPassword) {
-    const userID = await getUserID();
+    const userID = await getActiveUserID();
 
     return deleteAccount(userID, currentAccountPassword);
 }

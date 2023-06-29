@@ -14,22 +14,6 @@ export async function saveOnboardingPageAppear(userId) {
     storeItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`, appear);
 }
 
-export async function checkAuthOnboarding(userId) {
-    console.log(`checkAuthOnboarding:${userId}`);
-    const available = await checkAuthAvailable();
-    if (!available) {
-        return false;
-    }
-
-    const appear = await retrieveItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`);
-    console.log(`auth appear:${JSON.stringify(appear)}`);
-    if (appear == "" || appear == null || appear.result == false) {
-        return true;
-    }
-
-    return false;
-}
-
 export async function checkAuthAvailable() {
     let available = false;
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
@@ -45,26 +29,20 @@ export async function checkAuthAvailable() {
     return available;
 }
 
-export async function getAuthInfo(userName) {
-    const res = {
-        available: false,
-        typeName: "",
-        enable: false,
-    };
-
+export async function checkAuthOnboarding(userId) {
+    console.log(`checkAuthOnboarding:${userId}`);
     const available = await checkAuthAvailable();
-    res.available = available;
-    if (available) {
-        res.typeName = await getAuthType();
-        if (userName) {
-            const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userName, false);
-            const isBlock = await checkBlockBiometricIDLogin();
-
-            res.enable = !isBlock && biometricIDSwitch;
-        }
+    if (!available) {
+        return false;
     }
-    console.log(`auth info:${JSON.stringify(res)}`);
-    return res;
+
+    const appear = await retrieveItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`);
+    console.log(`auth appear:${JSON.stringify(appear)}`);
+    if (appear == "" || appear == null || appear.result == false) {
+        return true;
+    }
+
+    return false;
 }
 
 export async function getAuthType() {
@@ -85,11 +63,6 @@ export async function getAuthType() {
 
     return authType;
 }
-
-// async function getUserName() {
-//     // Get mobile account id from the local storage
-//     return retrieveItem(KEY_CONSTANT.keyLastUsedMobileAccountId);
-// }
 
 export async function checkBlockBiometricIDLogin(userName) {
     const result = await retrieveItem(KEY_CONSTANT.biometricIDSwitchBlock + userName, false);
@@ -143,6 +116,28 @@ export async function clearLocalAuth(userName) {
     clearLoginCredential(userName);
 }
 
+export async function getAuthInfo(userName) {
+    const res = {
+        available: false,
+        typeName: "",
+        enable: false,
+    };
+
+    const available = await checkAuthAvailable();
+    res.available = available;
+    if (available) {
+        res.typeName = await getAuthType();
+        if (userName) {
+            const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userName, false);
+            const isBlock = await checkBlockBiometricIDLogin();
+
+            res.enable = !isBlock && biometricIDSwitch;
+        }
+    }
+    console.log(`auth info:${JSON.stringify(res)}`);
+    return res;
+}
+
 export async function startBiometricAuth(userName, onFinish = () => {}, onError = () => {}) {
     let disableDeviceFallback = true;
     if (isIos()) {
@@ -158,7 +153,9 @@ export async function startBiometricAuth(userName, onFinish = () => {}, onError 
         if (result.success) {
             console.log("auth successfully");
             updateAuthInfo(true, userName);
-            onFinish && onFinish();
+            if (onFinish) {
+                onFinish();
+            }
         } else if (!isEmpty(result.error)) {
             console.log(`auth failed:${JSON.stringify(result)}`);
             if (result.error != "user_cancel") {

@@ -12,10 +12,8 @@ import { updateLoginStep, updateUsername } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
-import { genTestId } from "../../helper/AppHelper";
+import { genTestId, setActiveUserID } from "../../helper/AppHelper";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
-import { storeItem } from "../../helper/StorageHelper";
-import { KEY_CONSTANT } from "../../constants/Constants";
 
 const SignInScreen = () => {
     const { t } = useTranslation();
@@ -52,7 +50,7 @@ const SignInScreen = () => {
         //     return;
         // }
         dispatch(updateUsername(userId));
-        storeItem(KEY_CONSTANT.keyLastUsedMobileAccountId, userId);
+        setActiveUserID(userId);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userId);
         if (!isEmpty(onBoardingScreens)) {
             dispatch(updateLoginStep(LoginStep.onBoarding));
