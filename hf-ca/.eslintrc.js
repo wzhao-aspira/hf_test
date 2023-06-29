@@ -1,25 +1,45 @@
 module.exports = {
+    root: true,
     env: {
         browser: true,
         es2020: true,
         node: true,
         "react-native/react-native": true,
     },
-    extends: ["airbnb", "react-native", "plugin:prettier/recommended", "prettier/react", "prettier"],
-    parser: "babel-eslint",
+    extends: [
+        "airbnb",
+        "airbnb/hooks",
+        "airbnb-typescript",
+        "react-native",
+        "plugin:prettier/recommended",
+        "prettier/react",
+        "prettier",
+    ],
+    parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
         },
         ecmaVersion: 2020,
         sourceType: "module",
+        project: "tsconfig.json",
     },
     plugins: ["react", "react-native", "babel", "prettier"],
+    settings: {
+        react: {
+            version: "detect",
+        },
+    },
+    overrides: [
+        {
+            files: ["*.jsx"],
+        },
+    ],
     rules: {
         // This rule make prettier style check error display as eslint error
         "prettier/prettier": "error",
         // This rule allow .js extensions for JSX
-        "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
+        "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx", ".tsx"] }],
         "react-native/no-unused-styles": "error",
         "react-native/split-platform-components": "error",
         // Disable this rule in legacy project, but nedd open it in new project
@@ -47,5 +67,14 @@ module.exports = {
         "react/display-name": "off",
         "no-console": "off",
         "react/jsx-handler-names": "off",
+        "@typescript-eslint/comma-dangle": "off",
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/no-shadow": "warn",
+        "@typescript-eslint/no-unused-expressions": "warn",
+        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/quotes": "off",
+        "no-duplicate-imports": "off",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/react-in-jsx-scope": "off",
     },
 };
