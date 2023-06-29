@@ -79,6 +79,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
         note,
         onClickNote,
         onBlur,
+        testID,
     } = props;
 
     const [secureTextEntry, setSecureTextEntry] = useState(password);
@@ -96,14 +97,14 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
     return (
         <View style={[styles.container, { ...style }]}>
             <Text
-                testID={genTestId(`${label}InputLabel`)}
+                testID={genTestId(`${testID}InputLabel`)}
                 style={[{ ...statefulStyle(styles.label, disabled, hasError) }, labelStyle]}
             >
                 {label}
             </Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TextInput
-                    testID={genTestId(`${label}Input`)}
+                    testID={genTestId(`${testID}Input`)}
                     autoComplete={autoComplete}
                     autogrow={autogrow}
                     multiline={multiline}
@@ -138,7 +139,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
                 />
                 {password && (
                     <Pressable
-                        testID={genTestId(`${label}InputSecureSwitchingButton`)}
+                        testID={genTestId(`${testID}InputSecureSwitchingButton`)}
                         style={styles.showPass}
                         onPress={() => {
                             if (password) {
@@ -146,7 +147,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
                             }
                         }}
                     >
-                        <Text testID={genTestId(`${label}InputSecureSwitchingText`)} style={styles.showPassText}>
+                        <Text testID={genTestId(`${testID}InputSecureSwitchingText`)} style={styles.showPassText}>
                             {showPassLabel}
                         </Text>
                     </Pressable>
@@ -154,11 +155,11 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
             </View>
             {helpText && (
                 <Pressable
-                    testID={genTestId(`${label}InputHelpButton`)}
+                    testID={genTestId(`${testID}InputHelpButton`)}
                     onPress={() => onClickHelpText && onClickHelpText()}
                 >
                     <Text
-                        testID={genTestId(`${label}InputHelpText`)}
+                        testID={genTestId(`${testID}InputHelpText`)}
                         style={statefulStyle({ ...styles.helpText, ...helpTextStyle }, disabled, hasError)}
                     >
                         {helpText}
@@ -167,13 +168,13 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
             )}
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 {hasError && (
-                    <Text testID={genTestId(`${label}InputErrorMsg`)} style={styles.errorMsg}>
+                    <Text testID={genTestId(`${testID}InputErrorMsg`)} style={styles.errorMsg}>
                         {errorObj.errorMsg}{" "}
                     </Text>
                 )}
                 {note && (
-                    <Pressable testID={genTestId(`${label}InputNoteButton`)} onPress={onClickNote} style={styles.note}>
-                        <Text testID={genTestId(`${label}InputNoteText`)} style={styles.note}>
+                    <Pressable testID={genTestId(`${testID}InputNoteButton`)} onPress={onClickNote} style={styles.note}>
+                        <Text testID={genTestId(`${testID}InputNoteText`)} style={styles.note}>
                             {note}
                         </Text>
                     </Pressable>

@@ -29,6 +29,9 @@ import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfile
 import ProfileDetailsScreen from "../screens/profile/profile_details/ProfileDetailsScreen";
 import SignInScreen from "../screens/sign_in/SignInScreen";
 import DeleteAccountScreen from "../screens/delete-account/DeleteAccountScreen";
+import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
+import ForgotPasswordEnterValidationCodeScreen from "../screens/forgot_password/ForgotPasswordEnterValidationCodeScreen";
+import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
 
 const NavTheme = {
     colors: {
@@ -36,6 +39,7 @@ const NavTheme = {
     },
 };
 const RootStack = createNativeStackNavigator();
+const SignInStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 const SignUpStack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -78,13 +82,30 @@ const AppNavigator = () => {
                 {loginStep === LoginStep.onBoarding && (
                     <RootStack.Screen name={Routers.onBoarding} component={OnBoardingScreen} />
                 )}
-                {loginStep === LoginStep.signIn && <RootStack.Screen name={Routers.signIn} component={SignInScreen} />}
                 {loginStep === LoginStep.signUp && <RootStack.Screen name={Routers.signUpNav} component={SignUpNav} />}
+                {loginStep === LoginStep.signIn && <RootStack.Screen name={Routers.signInNav} component={SignInNav} />}
                 {loginStep === LoginStep.home && <RootStack.Screen name={Routers.drawerNav} component={DrawerNav} />}
             </RootStack.Navigator>
         </NavigationContainer>
     );
 };
+
+function SignInNav() {
+    return (
+        <SignInStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.signIn}>
+            <SignInStack.Screen name={Routers.signIn} component={SignInScreen} />
+            <SignInStack.Screen name={Routers.forgotPasswordEnterEmail} component={ForgotPasswordEnterEmailScreen} />
+            <SignInStack.Screen
+                name={Routers.forgotPasswordEnterValidationCode}
+                component={ForgotPasswordEnterValidationCodeScreen}
+            />
+            <SignInStack.Screen
+                name={Routers.forgotPasswordResetPassword}
+                component={ForgotPasswordResetPasswordScreen}
+            />
+        </SignInStack.Navigator>
+    );
+}
 
 function DrawerNav() {
     return (

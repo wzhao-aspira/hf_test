@@ -1,4 +1,4 @@
-import { getMobileAccountById, deleteMobileAccount } from "../helper/DBHelper";
+import { getMobileAccountById, deleteMobileAccount, checkMobileAccount, updateMobileAccountPasswordById } from "../helper/DBHelper";
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 
 async function verifyPassword(accountID: string, accountPassword: string) {
@@ -51,7 +51,21 @@ async function deleteCurrentAccount(currentAccountPassword) {
     return deleteAccount(userID, currentAccountPassword);
 }
 
+async function isMobileAccountExisted(userID: string) {
+    const result = await checkMobileAccount(userID);
+    if (result.success && result.count > 0) {
+        return true;
+    }
+    return false;
+}
+
+async function updateMobileAccountPasswordByUserId(userID: string, password: string) {
+    return updateMobileAccountPasswordById(userID, password);
+}
+
 export default {
     verifyCurrentAccountPassword,
     deleteCurrentAccount,
+    isMobileAccountExisted,
+    updateMobileAccountPasswordByUserId,
 };
