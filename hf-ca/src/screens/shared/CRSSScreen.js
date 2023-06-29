@@ -101,7 +101,7 @@ export default function CRSSScreen({ route }) {
                         </Text>
                     </View>
                     <StatefulTextInput
-                        testID={genTestId("PasswordInput")}
+                        testID="CRSSPassword"
                         ref={passwordRef}
                         style={{ marginTop: 30 }}
                         hint={t("common.pleaseEnter")}

@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
 });
 
 export default function SunriseItem(props) {
-    const { title, leftLabel, leftValue, icon, rightLabel, rightValue } = props;
-    const testID = title.replace(/\s*/g, "");
+    const { title, leftLabel, leftValue, icon, rightLabel, rightValue, testID } = props;
     return (
         <View style={styles.container}>
             <Text testID={genTestId(`${testID}TitleLabel`)} style={styles.title}>

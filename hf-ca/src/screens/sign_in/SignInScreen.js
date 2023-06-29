@@ -14,6 +14,8 @@ import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
 import { genTestId, setActiveUserID } from "../../helper/AppHelper";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
+import NavigationService from "../../navigation/NavigationService";
+import Routers from "../../constants/Routers";
 
 const SignInScreen = () => {
     const { t } = useTranslation();
@@ -94,7 +96,9 @@ const SignInScreen = () => {
                         style={styles.marginTopStyle(20)}
                         labelStyle={styles.labelStyle}
                         inputStyle={styles.inputStyle}
-                        onClickNote={() => {}}
+                        onClickNote={() => {
+                            NavigationService.navigate(Routers.forgotPasswordEnterEmail);
+                        }}
                         onChangeText={(text) => {
                             setPassword(text);
                             passwordRef.current?.setError({});

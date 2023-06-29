@@ -1,4 +1,5 @@
 export default {
+    signInNav: "signInNav",
     drawerNav: "drawerNav",
     mainNav: "mainNav",
     signUpNav: "signUpNav",
@@ -19,4 +20,7 @@ export default {
     manageProfile: "ManageProfile",
     signIn: "signIn",
     deleteAccount: "deleteAccountScreen",
+    forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
+    forgotPasswordEnterValidationCode: "forgotPasswordValidationCodeScreen",
+    forgotPasswordResetPassword: "forgotPasswordResetPasswordScreen",
 };

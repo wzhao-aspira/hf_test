@@ -148,6 +148,30 @@ export function updateMobileAccount(id, password, primaryProfileId, otherProfile
     });
 }
 
+/**
+ * @param {string} id
+ * @param {string} password
+ */
+export function updateMobileAccountPasswordById(id, password) {
+    return new Promise((resolve) => {
+        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+        db.transaction(
+            (tx) => {
+                tx.executeSql(`UPDATE MOBILE_ACCOUNT SET PASSWORD=? WHERE ID=?;`, [password, `${id}`]);
+            },
+            () => {
+                console.log(`DB UPDATE ERROR!`);
+                resolve(result);
+            },
+            () => {
+                console.log("DB UPDATE SUCCESS!");
+                result.success = true;
+                resolve(result);
+            }
+        );
+    });
+}
+
 export function getMobileAccountById(id) {
     return new Promise((resolve) => {
         const upperCaseID = id?.toUpperCase();

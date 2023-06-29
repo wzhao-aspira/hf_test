@@ -107,6 +107,7 @@ export default function WeatherScreen() {
                     </View>
                     <View>
                         <SunriseItem
+                            testID="WeatherSunriseAndSunset"
                             title={t("discovery.sunriseAndSunset")}
                             leftLabel={t("discovery.sunrise")}
                             leftValue={weatherData?.forecast?.forecastday[0]?.astro?.sunrise}
@@ -115,6 +116,7 @@ export default function WeatherScreen() {
                             rightValue={weatherData?.forecast?.forecastday[0]?.astro?.sunset}
                         />
                         <SunriseItem
+                            testID="WeatherWind"
                             title={t("discovery.wind")}
                             leftLabel={t("discovery.speed")}
                             leftValue={weatherData ? `${weatherData?.current?.wind_mph}mph` : ""}
@@ -123,6 +125,7 @@ export default function WeatherScreen() {
                             rightValue={weatherData?.current?.wind_dir}
                         />
                         <SunriseItem
+                            testID="WeatherPrecipitation"
                             title={t("discovery.precipitation")}
                             leftLabel={t("discovery.type")}
                             leftValue={t("discovery.rain")}
@@ -135,6 +138,7 @@ export default function WeatherScreen() {
                             }
                         />
                         <SunriseItem
+                            testID="WeatherBarometricPressure"
                             title={t("discovery.barometricPressure")}
                             leftLabel={t("discovery.low")}
                             leftValue={calPressure()[0]}

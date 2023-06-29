@@ -107,6 +107,7 @@ export default function SolunarScreen() {
                     </View>
                     <View>
                         <SunriseItem
+                            testID="SolunarSunriseAndSunset"
                             title={t("discovery.sunriseAndSunset")}
                             leftLabel={t("discovery.sunrise")}
                             leftValue={forecast?.astro?.sunrise}
@@ -115,6 +116,7 @@ export default function SolunarScreen() {
                             rightValue={forecast?.astro?.sunset}
                         />
                         <SunriseItem
+                            testID="SolunarMoonriseAndMoonset"
                             title={t("discovery.moonriseAndMoonset")}
                             leftLabel={t("discovery.moonrise")}
                             leftValue={forecast?.astro?.moonrise}
