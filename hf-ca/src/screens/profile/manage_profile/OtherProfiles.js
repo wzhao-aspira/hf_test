@@ -45,7 +45,11 @@ export default function OtherProfiles({ otherProfiles = [] }) {
                     showGoToDetailsPageButton
                     key={profile.profileId}
                     profile={profile}
-                    onPress={() => {}}
+                    onPress={() => {
+                        NavigationService.navigate(Routers.profileDetails, {
+                            profileId: profile.profileId,
+                        });
+                    }}
                 />
             ))}
         </View>

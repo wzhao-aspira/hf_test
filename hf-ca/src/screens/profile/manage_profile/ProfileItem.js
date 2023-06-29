@@ -15,29 +15,37 @@ const typeIcons = {
     [PROFILE_TYPE_IDS.vessel]: faShip,
 };
 
-const ProfileShortNameOrIcon = ({ profile, shortNameContainer = {} }) => {
+export const ProfileShortNameOrIcon = ({
+    profile,
+    shortNameContainer = {},
+    profileShortNameStyles = {},
+    iconStyles = {},
+}) => {
     const { profileType, displayName, isPrimary } = profile;
     const typeIcon = typeIcons[profileType];
     const borderColor = isPrimary ? AppTheme.colors.error : AppTheme.colors.primary_2;
 
     if (profileType === PROFILE_TYPE_IDS.business || profileType === PROFILE_TYPE_IDS.vessel) {
         return (
-            <View style={profileItemCommonStyle.profileTypeContainer}>
-                <FontAwesomeIcon icon={typeIcon} size={26} />
+            <View style={[profileItemCommonStyle.profileTypeContainer, iconStyles.container]}>
+                <FontAwesomeIcon icon={typeIcon} size={iconStyles.iconSize || 26} color={AppTheme.colors.primary_2} />
             </View>
         );
     }
 
     return (
         <View style={[commonStyles.profileShortNameContainer, shortNameContainer, { borderColor }]}>
-            <Text style={commonStyles.profileShortName} testID={genTestId("profileShortName")}>
+            <Text
+                style={[commonStyles.profileShortName, profileShortNameStyles]}
+                testID={genTestId("profileShortName")}
+            >
                 {shortName(displayName)}
             </Text>
         </View>
     );
 };
 
-const getGOIDLabel = (t, profile) => {
+export const getGOIDLabel = (t, profile) => {
     if (profile.profileType === PROFILE_TYPE_IDS.business) {
         return t("profile.businessGOIDNumber");
     }
@@ -47,8 +55,13 @@ const getGOIDLabel = (t, profile) => {
     return t("profile.goIDNumber");
 };
 
-const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, profileItemStyles = {} }) => {
+const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, showNameInOneLine, profileItemStyles = {} }) => {
     const { t } = useTranslation();
+    let nameProps = {};
+
+    if (showNameInOneLine) {
+        nameProps = { numberOfLines: 1, ellipsizeMode: "tail" };
+    }
 
     return (
         <Pressable
@@ -61,8 +74,8 @@ const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, profileItemS
             <View style={profileItemStyles.container}>
                 <ProfileShortNameOrIcon profile={profile} shortNameContainer={profileItemStyles.shortNameContainer} />
 
-                <View>
-                    <Text style={commonStyles.profileDisplayName} testID={genTestId("profileName")}>
+                <View style={{ flex: 1 }}>
+                    <Text style={commonStyles.profileDisplayName} testID={genTestId("profileName")} {...nameProps}>
                         {profile.displayName}
                     </Text>
                     <Text style={commonStyles.profileItemNumber} testID={genTestId("profileGoIdNumber")}>
@@ -70,7 +83,6 @@ const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, profileItemS
                     </Text>
                 </View>
 
-                <View style={{ flexGrow: 1 }} />
                 {showGoToDetailsPageButton && (
                     <FontAwesomeIcon icon={faChevronRight} size={22} color={AppTheme.colors.primary_2} />
                 )}
