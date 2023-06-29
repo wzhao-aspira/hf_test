@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import LoginStep from "../constants/LoginStep";
+import { setActiveUserID } from "../helper/AppHelper";
 
 const dialogObj = {
     visible: false,
@@ -10,7 +11,7 @@ const dialogObj = {
 };
 
 const initialState = {
-    username: "wzhao",
+    user: { username: "wzhao" },
     loginStep: LoginStep.login,
     indicator: false,
     simpleDialog: dialogObj,
@@ -30,8 +31,8 @@ const appSlice = createSlice({
     name: "app",
     initialState,
     reducers: {
-        updateUsername(state, action) {
-            Object.assign(state, { username: action?.payload });
+        updateUser(state, action) {
+            Object.assign(state, { user: action?.payload });
         },
         updateLoginStep(state, action) {
             Object.assign(state, { loginStep: action?.payload });
@@ -58,7 +59,7 @@ const appSlice = createSlice({
 });
 
 export const {
-    updateUsername,
+    updateUser,
     toggleIndicator,
     updateLoginStep,
     showSimpleDialog,
@@ -68,12 +69,29 @@ export const {
     setLocalAuth,
 } = appSlice.actions;
 
-export const selectUsername = (state) => state.app.username;
+export const selectUsername = (state) => state.app.user.username;
 export const selectLoginStep = (state) => state.app.loginStep;
 export const selectSimpleDialog = (state) => state.app.simpleDialog;
 export const selectSelectDialog = (state) => state.app.selectDialog;
 export const selectIndicator = (state) => state.app.indicator;
 export const selectLocalAuth = (state) => state.app.localAuth;
+
+const initUserData = (user) => async (dispatch) => {
+    try {
+        const { userID, primaryProfileId, otherProfileIds } = user;
+
+        setActiveUserID(userID);
+        dispatch(updateUser({ username: userID, primaryProfileId, otherProfileIds }));
+
+        // TODO get user profiles
+    } catch (error) {
+        console.log("initUserData error", error);
+    }
+};
+
+export const thunkActions = {
+    initUserData,
+};
 
 const appReducer = appSlice.reducer;
 export default appReducer;

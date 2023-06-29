@@ -8,14 +8,15 @@ import { isEmpty } from "lodash";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import Page from "../../components/Page";
-import { updateLoginStep, updateUsername } from "../../redux/AppSlice";
+import { thunkActions as AppThunkActions, updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
-import { genTestId, setActiveUserID } from "../../helper/AppHelper";
+import { genTestId } from "../../helper/AppHelper";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
+import AccountService from "../../services/AccountService";
 
 const SignInScreen = () => {
     const { t } = useTranslation();
@@ -45,14 +46,16 @@ const SignInScreen = () => {
             setErrorMsg("signIn.userIdInvalid");
             return;
         }
-        // TODO: accountNotFound validator
-        // if (!validateProfile()) {
-        //     setShowErrorDialog(true);
-        //     setErrorMsg("signIn.accountNotFound");
-        //     return;
-        // }
-        dispatch(updateUsername(userId));
-        setActiveUserID(userId);
+
+        const response = await AccountService.authSignin(userId, password);
+        if (!response.success) {
+            setShowErrorDialog(true);
+            setErrorMsg("signIn.accountNotFound");
+            return;
+        }
+
+        dispatch(AppThunkActions.initUserData(response.userInfo));
+
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userId);
         if (!isEmpty(onBoardingScreens)) {
             dispatch(updateLoginStep(LoginStep.onBoarding));
@@ -72,7 +75,7 @@ const SignInScreen = () => {
                         value={userId}
                         label={t("signIn.userId")}
                         hint={`${t("signIn.userIdHint")} xx@xx.com`}
-                        testID={genTestId("userIdInput")}
+                        testID="userIdInput"
                         style={styles.marginTopStyle(20)}
                         labelStyle={styles.labelStyle}
                         inputStyle={styles.inputStyle}
@@ -92,7 +95,7 @@ const SignInScreen = () => {
                         label={t("common.password")}
                         hint={t("common.pleaseEnter")}
                         note={t("common.forgotPassword")}
-                        testID={genTestId("passwordInput")}
+                        testID="passwordInput"
                         style={styles.marginTopStyle(20)}
                         labelStyle={styles.labelStyle}
                         inputStyle={styles.inputStyle}

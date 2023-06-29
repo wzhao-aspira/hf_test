@@ -10,7 +10,7 @@ import AppContract from "./src/assets/_default/AppContract";
 import { initAppConfig } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
 import { dbCreate, getMobileAccountById } from "./src/helper/DBHelper";
-import { setLocalAuth, updateLoginStep } from "./src/redux/AppSlice";
+import { setLocalAuth, thunkActions as AppThunkActions, updateLoginStep } from "./src/redux/AppSlice";
 import LoginStep from "./src/constants/LoginStep";
 import { getAuthInfo } from "./src/helper/LocalAuthHelper";
 import { getActiveUserID } from "./src/helper/AppHelper";
@@ -26,20 +26,13 @@ export default function App() {
         const authInfo = await getAuthInfo(lastUsedMobileAccountId);
         store.dispatch(setLocalAuth(authInfo));
         if (!isEmpty(lastUsedMobileAccountId)) {
-            // store.getState().app.loginStep = LoginStep.home;
             const dbResult = await getMobileAccountById(lastUsedMobileAccountId);
             if (dbResult.success) {
                 const mobileAccountInfo = dbResult.account;
                 if (!isEmpty(mobileAccountInfo)) {
-                    // TODO:
-                    // Set profiles to redux based on the profileIds
-                    // dispatch(setProfileList());
-                    // Update the current in use profile based on the currentInUseProfileId
-                    // dispatch(updateActiveProfileByID());
+                    store.dispatch(AppThunkActions.initUserData(mobileAccountInfo));
                 }
             }
-            // TODO:
-            // dispatch(updateUsername(lastUsedMobileAccountId));
             store.dispatch(updateLoginStep(LoginStep.home));
         }
     };
