@@ -146,7 +146,13 @@ export default function DrawerContent({ navigation }) {
         return (
             <ProfileItem
                 showGoToDetailsPageButton
+                showNameInOneLine
                 profile={activeProfile}
+                onPress={() =>
+                    navigation.navigate(Routers.profileDetails, {
+                        profileId: activeProfile.profileId,
+                    })
+                }
                 profileItemStyles={{
                     pressable: styles.profileRowContainer,
                     container: styles.profileRowSubContainer,

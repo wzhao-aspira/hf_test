@@ -15,6 +15,7 @@ export default {
     signUp: "signUpScreen",
     addProfile: "addProfileScreen",
     addPrimaryProfile: "addPrimaryProfileScreen",
+    profileDetails: "profileDetailsScreen",
     manageProfile: "ManageProfile",
     signIn: "signIn",
     deleteAccount: "deleteAccountScreen",

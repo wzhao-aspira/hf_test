@@ -113,7 +113,24 @@
         "switchProfile": "Switch Profile",
         "otherProfiles": "Other Profiles",
         "selectOne": "[Select One]",
-        "fgNumber": "FG #"
+        "fgNumber": "FG #",
+        "address": "Address",
+        "basicInformation": "Basic Information",
+        "profileDetails": "Profile Details",
+        "removeProfile": "Remove Profile",
+        "sex": "Sex",
+        "hair": "Hair",
+        "eyes": "Eyes",
+        "height": "Height",
+        "weight": "Weight",
+        "fishBusinessID": "Fish Business ID",
+        "ownershipType": "Ownership Type",
+        "vesselName": "Vessel Name",
+        "ownerName": "Owner Name",
+        "purchaseDate": "Purchase Date",
+        "currentDocumentation": "Current Documentation",
+        "physicalAddress": "Physical Address",
+        "mailingAddress": "Mailing Address"
     },
 
     "huntAndFish": {
