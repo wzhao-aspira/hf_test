@@ -3,8 +3,7 @@ import identificationTypesMockData from "./mock_data/identification_types.json";
 import identificationOwnersMockData from "./mock_data/identification_owners.json";
 import profileList from "./mock_data/profiles.json";
 import { checkMobileAccount, getMobileAccountById, insertMobileAccount, updateMobileAccount } from "../helper/DBHelper";
-import { storeItem } from "../helper/StorageHelper";
-import { KEY_CONSTANT } from "../constants/Constants";
+import { setActiveUserID } from "../helper/AppHelper";
 
 export async function getProfileList() {
     return new Promise((res) => {
@@ -55,7 +54,7 @@ export async function getMobileAccountByUserId(userID) {
 export async function saveProfile(mobileAccount, profile) {
     if (profile.isPrimary) {
         await insertMobileAccount(mobileAccount.userID, mobileAccount.password, profile.profileId, "");
-        await storeItem(KEY_CONSTANT.keyLastUsedMobileAccountId, mobileAccount.userID);
+        setActiveUserID(mobileAccount.userID);
     } else {
         await updateMobileAccount(
             mobileAccount.userID,
