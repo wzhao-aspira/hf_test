@@ -10,7 +10,7 @@ import AppTheme from "../../assets/_default/AppTheme";
 import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import AccountService from "../../services/AccountService";
-import { emptyValidate } from "./ForgotPasswordScreenUtils";
+import { emptyValidate, testIdPrefix } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
 import ActionButton from "./ActionButton";
 
@@ -27,8 +27,6 @@ export default function ForgotPasswordScreen({ route }) {
 
     const newPasswordRef = createRef();
     const confirmPasswordRef = createRef();
-
-    const testIDStr = "ForgotPasswordResetPassword";
 
     const resetPasswordValidation = () => {
         let error = emptyValidate(newPassword, t("errMsg.emptyNewPassword"));
@@ -71,7 +69,7 @@ export default function ForgotPasswordScreen({ route }) {
         return (
             <>
                 <StatefulTextInput
-                    testID={`${testIDStr}NewPassword`}
+                    testID={`${testIdPrefix}NewPassword`}
                     ref={newPasswordRef}
                     style={{ marginTop: 30 }}
                     hint={t("common.pleaseEnter")}
@@ -94,11 +92,11 @@ export default function ForgotPasswordScreen({ route }) {
                     }}
                 />
                 <StatefulTextInput
-                    testID={`${testIDStr}ConfirmPassword`}
+                    testID={`${testIdPrefix}ConfirmPassword`}
                     ref={confirmPasswordRef}
                     style={{ marginTop: 30 }}
                     hint={t("common.pleaseEnter")}
-                    label={t("forgotPassword.resetPassword.confirmPassword")}
+                    label={t("common.confirmPassword")}
                     labelStyle={SharedStyles.page_content_title}
                     inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
                     onChangeText={(text) => {
@@ -127,7 +125,7 @@ export default function ForgotPasswordScreen({ route }) {
                 <View style={ForgotPasswordStyles.page_container}>
                     {renderResetPasswordSection()}
                     <ActionButton
-                        testID="ForgotPasswordResetPassword"
+                        testID={testIdPrefix}
                         label={t("forgotPassword.resetPassword.reset")}
                         onAction={onReset}
                     />
