@@ -1,5 +1,7 @@
 import { isEmpty } from "lodash";
 
+export const testIdPrefix = "ForgotPassword";
+
 export const emptyValidate = (input, msg = "required") => {
     return {
         error: isEmpty(input),

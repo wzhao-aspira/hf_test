@@ -9,7 +9,7 @@ import { genTestId } from "../../helper/AppHelper";
 import AppTheme from "../../assets/_default/AppTheme";
 import CountdownTextInput from "../../components/CountdownTextInput";
 import { showSimpleDialog } from "../../redux/AppSlice";
-import { emptyValidate, headerTitleSubString } from "./ForgotPasswordScreenUtils";
+import { emptyValidate, headerTitleSubString, testIdPrefix } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
 import AttentionSection from "./AttentionSection";
 import ActionButton from "./ActionButton";
@@ -30,7 +30,6 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
     const emailValidationCodeRef = createRef();
 
     const headerTitle = t("common.forgotPassword");
-    const testIDStr = "ForgotPasswordEnterValidationCode";
 
     const emailValidationCodeValidation = () => {
         const error = emptyValidate(emailValidationCode, t("errMsg.emptyEmailValidationCode"));
@@ -62,7 +61,7 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
         return (
             <>
                 <CountdownTextInput
-                    testID={testIDStr}
+                    testID={`${testIdPrefix}EmailValidationCode`}
                     ref={emailValidationCodeRef}
                     value={emailValidationCode}
                     label={t("forgotPassword.enterValidationCode.emailValidationCode")}
@@ -94,7 +93,7 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
     const renderTipMessageSection = () => {
         return (
             <>
-                <Text testID={genTestId(`${testIDStr}TipMessage`)} style={ForgotPasswordStyles.tip_message}>
+                <Text testID={genTestId(`${testIdPrefix}TipMessage`)} style={ForgotPasswordStyles.tip_message}>
                     <Trans i18nKey="forgotPassword.enterValidationCode.tipMessage" />
                 </Text>
             </>
@@ -107,11 +106,11 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
                 <View style={ForgotPasswordStyles.page_container}>
                     <AttentionSection
-                        testID={testIDStr}
+                        testID={testIdPrefix}
                         contentKey="forgotPassword.enterValidationCode.attentionContent"
                     />
                     {renderEmailValidationCodeSection()}
-                    <ActionButton testID={testIDStr} label={t("common.submit")} onAction={onSubmit} />
+                    <ActionButton testID={testIdPrefix} label={t("common.submit")} onAction={onSubmit} />
                     {renderTipMessageSection()}
                 </View>
             </View>

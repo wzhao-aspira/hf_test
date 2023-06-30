@@ -10,7 +10,7 @@ import StatefulTextInput from "../../components/StatefulTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
 import { showSimpleDialog } from "../../redux/AppSlice";
 import AccountService from "../../services/AccountService";
-import { emptyValidate, headerTitleSubString } from "./ForgotPasswordScreenUtils";
+import { emptyValidate, headerTitleSubString, testIdPrefix } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
 import AttentionSection from "./AttentionSection";
 import ActionButton from "./ActionButton";
@@ -26,7 +26,6 @@ export default function ForgotPasswordEnterEmailScreen() {
     const emailAddressRef = createRef();
 
     const headerTitle = t("common.forgotPassword");
-    const testIDStr = "ForgotPasswordEnterEmail";
 
     const emailAddressValidation = async () => {
         const error = emptyValidate(emailAddress, t("signIn.userIdEmpty"));
@@ -70,7 +69,7 @@ export default function ForgotPasswordEnterEmailScreen() {
         return (
             <>
                 <StatefulTextInput
-                    testID={testIDStr}
+                    testID={`${testIdPrefix}EmailAddress`}
                     ref={emailAddressRef}
                     value={emailAddress}
                     label={t("forgotPassword.enterEmail.emailAddress")}
@@ -96,9 +95,9 @@ export default function ForgotPasswordEnterEmailScreen() {
             <View style={{ flex: 1 }}>
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
                 <View style={ForgotPasswordStyles.page_container}>
-                    <AttentionSection testID={testIDStr} contentKey="forgotPassword.enterEmail.attentionContent" />
+                    <AttentionSection testID={testIdPrefix} contentKey="forgotPassword.enterEmail.attentionContent" />
                     {renderEmailAddressSection()}
-                    <ActionButton testID={testIDStr} label={t("forgotPassword.enterEmail.send")} onAction={onSend} />
+                    <ActionButton testID={testIdPrefix} label={t("forgotPassword.enterEmail.send")} onAction={onSend} />
                 </View>
             </View>
         </Page>

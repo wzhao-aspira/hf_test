@@ -238,14 +238,13 @@
             "send": "Send"
         },
         "enterValidationCode": {
-            "attentionContent": "Please enter the verification code and please note hte code will be expired in 20(configurable) minutes.",
+            "attentionContent": "Please enter the verification code and please note the code will be expired in 20(configurable) minutes.",
             "emailValidationCode": "Email Validation Code",
             "resend": "Resend",
             "tipMessage": "If you are having issues with accessing your customer record, contact CDFW at (916)928-2537 or LRB@wildlife.ca.gov."
         },
         "resetPassword": {
             "newPassword": "New Password",
-            "confirmPassword": "Confirm Password",
             "reset": "Reset"
         }
     }
