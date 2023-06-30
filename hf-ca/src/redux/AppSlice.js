@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import LoginStep from "../constants/LoginStep";
-import { setActiveUserID } from "../helper/AppHelper";
 
 const dialogObj = {
     visible: false,
@@ -69,29 +68,20 @@ export const {
     setLocalAuth,
 } = appSlice.actions;
 
+const selectAppState = (/** @type{import('./Store').RootState */ state) => state.app;
 export const selectUsername = (state) => state.app.user.username;
 export const selectLoginStep = (state) => state.app.loginStep;
 export const selectSimpleDialog = (state) => state.app.simpleDialog;
 export const selectSelectDialog = (state) => state.app.selectDialog;
 export const selectIndicator = (state) => state.app.indicator;
 export const selectLocalAuth = (state) => state.app.localAuth;
+const selectUser = createSelector(selectAppState, (app) => app.user);
 
-const initUserData = (user) => async (dispatch) => {
-    try {
-        const { userID, primaryProfileId, otherProfileIds } = user;
-
-        setActiveUserID(userID);
-        dispatch(updateUser({ username: userID, primaryProfileId, otherProfileIds }));
-
-        // TODO get user profiles
-    } catch (error) {
-        console.log("initUserData error", error);
-    }
+const selectors = {
+    selectUser,
 };
 
-export const thunkActions = {
-    initUserData,
-};
+const { reducer, actions } = appSlice;
 
-const appReducer = appSlice.reducer;
-export default appReducer;
+export { actions, selectors };
+export default reducer;
