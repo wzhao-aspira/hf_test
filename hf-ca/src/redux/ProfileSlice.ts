@@ -5,16 +5,16 @@ import type { Profile } from "../types/profile";
 import profileSelectors from "./ProfileSelector";
 
 interface InitialState {
-    activeProfileID: string | null;
+    currentInUseProfileID: string | null;
     primaryProfileID: string | null;
-    otherProfileIDs: string[] | null;
+    profilesIDs: string[] | null;
     profileList: Profile[];
 }
 
 const initialState: InitialState = {
-    activeProfileID: null,
+    currentInUseProfileID: null,
     primaryProfileID: null,
-    otherProfileIDs: null,
+    profilesIDs: null,
     profileList: [],
 };
 
@@ -32,51 +32,33 @@ const profileSlice = createSlice({
 
             state.profileList = [...state.profileList, payload];
         },
-        /** @deprecated */
-        updateActiveProfileByID(state, { payload }) {
-            const newList = state.profileList.map((item) => {
-                Object.assign(item, { isActive: item.profileId === payload });
-                return item;
-            });
-            Object.assign(state, { profileList: newList });
-        },
-        updateActiveProfileID(state, action: PayloadAction<string>) {
+        updateCurrentInUseProfileID(state, action: PayloadAction<string>) {
             const { payload } = action;
 
-            state.activeProfileID = payload;
+            state.currentInUseProfileID = payload;
         },
         updatePrimaryProfileID(state, action: PayloadAction<string>) {
             const { payload } = action;
 
             state.primaryProfileID = payload;
         },
-        updateOtherProfileIDs(state, action: PayloadAction<[string]>) {
+        updateProfileIDs(state, action: PayloadAction<string[]>) {
             const { payload } = action;
 
-            state.otherProfileIDs = payload ? null : payload;
+            state.profilesIDs = payload || null;
         },
     },
 });
 
 const selectProfile = (state) => state.profile;
-export const getActiveProfile = createSelector(
-    selectProfile,
-    (profile) => profile.profileList.find((item) => item.isActive) || {}
-);
-export const getOtherProfiles = createSelector(selectProfile, (profile) =>
-    profile.profileList.filter((item) => !item.isActive)
-);
+
 export const getProfileDetailsById = (profileId) =>
     createSelector(selectProfile, (profile) => profile.profileList.find((item) => item.profileId === profileId) || {});
 
-const selectors = {
-    getActiveProfile,
-    getOtherProfiles,
-    ...profileSelectors,
-};
+const selectors = profileSelectors;
 
 const { actions, reducer } = profileSlice;
 
-export const { setProfileList, updateActiveProfileByID } = profileSlice.actions;
+export const { setProfileList } = profileSlice.actions;
 export { actions, selectors };
 export default reducer;

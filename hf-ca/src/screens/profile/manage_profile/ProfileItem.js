@@ -1,4 +1,3 @@
-import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
 import { faBuilding, faShip } from "@fortawesome/pro-regular-svg-icons";
@@ -69,17 +68,17 @@ const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, showNameInOn
                 onPress && onPress();
             }}
             style={profileItemStyles.pressable}
-            testID={genTestId(`profile_${profile.profileId}`)}
+            testID={genTestId(`profile_${profile?.profileId}`)}
         >
             <View style={profileItemStyles.container}>
                 <ProfileShortNameOrIcon profile={profile} shortNameContainer={profileItemStyles.shortNameContainer} />
 
                 <View style={{ flex: 1 }}>
                     <Text style={commonStyles.profileDisplayName} testID={genTestId("profileName")} {...nameProps}>
-                        {profile.displayName}
+                        {profile?.displayName}
                     </Text>
                     <Text style={commonStyles.profileItemNumber} testID={genTestId("profileGoIdNumber")}>
-                        {getGOIDLabel(t, profile)} #: {profile.goIDNumber}
+                        {getGOIDLabel(t, profile)} #: {profile?.goIDNumber}
                     </Text>
                 </View>
 
