@@ -79,6 +79,7 @@ const selectSortedByDisplayNameOtherProfileList = createSelector(selectOtherProf
 const selectors = {
     selectCurrentInUseProfile,
     selectSortedByDisplayNameOtherProfileList,
+    selectCurrentInUseProfileID,
 };
 
 export default selectors;

@@ -15,6 +15,7 @@ import LicenseListEmpty from "./LicenseListEmpty";
 import { getLoadingData } from "../../services/LicenseService";
 import { genTestId } from "../../helper/AppHelper";
 import { REQUEST_STATUS } from "../../constants/Constants";
+import profileSelectors from "../../redux/ProfileSelector";
 
 export const styles = StyleSheet.create({
     container: {
@@ -29,9 +30,14 @@ const LicenseListScreen = () => {
     const refreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
     const data = refreshing ? getLoadingData() : reduxData.data;
     const { t } = useTranslation();
+    const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
+
+    const getLicenseOfActiveProfile = (isForce) => {
+        dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
+    };
 
     useEffect(() => {
-        dispatch(getLicense({ isForce: false }));
+        getLicenseOfActiveProfile(false);
     }, []);
 
     return (
@@ -50,7 +56,7 @@ const LicenseListScreen = () => {
                         tintColor={AppTheme.colors.primary}
                         refreshing={refreshing}
                         onRefresh={() => {
-                            dispatch(getLicense({ isForce: true }));
+                            getLicenseOfActiveProfile(true);
                         }}
                     />
                 }

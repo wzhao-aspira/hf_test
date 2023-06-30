@@ -16,6 +16,7 @@ import { getLicense } from "../../redux/LicenseSlice";
 import { selectLicenseForDashboard } from "../../redux/LicenseSelector";
 import HomeLicenseSection from "./license/HomeLicenseSection";
 import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
+import profileSelectors from "../../redux/ProfileSelector";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -23,6 +24,13 @@ export default function HomeScreen() {
     const licenseReduxData = useSelector(selectLicenseForDashboard);
     const licenseRefreshing = licenseReduxData.requestStatus === REQUEST_STATUS.pending;
     const licenseData = licenseReduxData.data;
+    const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
+    console.log(activeProfileId);
+    const getLicenseOfActiveProfile = (isForce) => {
+        if (activeProfileId) {
+            dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
+        }
+    };
 
     useEffect(() => {
         dispatch(getWeatherDataFromRedux({}));
@@ -30,13 +38,13 @@ export default function HomeScreen() {
 
     useFocusEffect(
         useCallback(() => {
-            dispatch(getLicense({ isForce: false }));
-        }, [])
+            getLicenseOfActiveProfile(false);
+        }, [activeProfileId])
     );
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
-        dispatch(getLicense({ isForce: true }));
+        getLicenseOfActiveProfile(true);
     };
 
     const renderItem = (index) => {

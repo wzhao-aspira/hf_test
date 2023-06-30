@@ -24,11 +24,14 @@ export const formateDateForDashboard = (item) => {
     return formateDate(item, AppContract.outputFormat.fmt_2);
 };
 
-export async function getLicenseData() {
-    const mockData = licenseData.map((item) => {
-        const name = getName(item);
-        return { id: item.id, validFrom: item.validFrom, validTo: item.validTo, name };
-    });
+export async function getLicenseData(searchParams) {
+    const { activeProfileId } = searchParams;
+    const mockData = licenseData
+        .filter((item) => item.profileId === activeProfileId)
+        .map((item) => {
+            const name = getName(item);
+            return { id: item.id, validFrom: item.validFrom, validTo: item.validTo, name };
+        });
 
     return new Promise((res) => {
         setTimeout(() => res(mockData), 3000);
