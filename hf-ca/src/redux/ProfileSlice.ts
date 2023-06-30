@@ -6,11 +6,15 @@ import profileSelectors from "./ProfileSelector";
 
 interface InitialState {
     activeProfileID: string | null;
+    primaryProfileID: string | null;
+    otherProfileIDs: string[] | null;
     profileList: Profile[];
 }
 
 const initialState: InitialState = {
     activeProfileID: null,
+    primaryProfileID: null,
+    otherProfileIDs: null,
     profileList: [],
 };
 
@@ -40,6 +44,16 @@ const profileSlice = createSlice({
             const { payload } = action;
 
             state.activeProfileID = payload;
+        },
+        updatePrimaryProfileID(state, action: PayloadAction<string>) {
+            const { payload } = action;
+
+            state.primaryProfileID = payload;
+        },
+        updateOtherProfileIDs(state, action: PayloadAction<[string]>) {
+            const { payload } = action;
+
+            state.otherProfileIDs = payload ? null : payload;
         },
     },
 });

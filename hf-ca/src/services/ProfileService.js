@@ -11,6 +11,12 @@ export async function getProfileList() {
     });
 }
 
+export async function getProfileListByIDs(profileListIDs) {
+    const profileList = await getProfileList();
+
+    return profileList.filter((profile) => profileListIDs.includes(profile.profileId));
+}
+
 export async function getCountriesStates() {
     return new Promise((res) => {
         setTimeout(() => res(countryStateMockData), 100);

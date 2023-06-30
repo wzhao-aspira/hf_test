@@ -10,7 +10,8 @@ import AppContract from "./src/assets/_default/AppContract";
 import { initAppConfig } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
 import { dbCreate, getMobileAccountById } from "./src/helper/DBHelper";
-import { setLocalAuth, thunkActions as AppThunkActions, updateLoginStep } from "./src/redux/AppSlice";
+import { setLocalAuth, updateLoginStep } from "./src/redux/AppSlice";
+import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
 import { getAuthInfo } from "./src/helper/LocalAuthHelper";
 import { getActiveUserID } from "./src/helper/AppHelper";
@@ -30,7 +31,7 @@ export default function App() {
             if (dbResult.success) {
                 const mobileAccountInfo = dbResult.account;
                 if (!isEmpty(mobileAccountInfo)) {
-                    store.dispatch(AppThunkActions.initUserData(mobileAccountInfo));
+                    store.dispatch(appThunkActions.initUserData(mobileAccountInfo));
                 }
             }
             store.dispatch(updateLoginStep(LoginStep.home));
