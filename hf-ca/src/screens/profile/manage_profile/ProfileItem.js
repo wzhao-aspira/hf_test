@@ -62,6 +62,8 @@ const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, showNameInOn
         nameProps = { numberOfLines: 1, ellipsizeMode: "tail" };
     }
 
+    if (!profile) return null;
+
     return (
         <Pressable
             onPress={() => {
