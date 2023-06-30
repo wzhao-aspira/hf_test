@@ -15,6 +15,7 @@
         "cancel": "Cancel",
         "alert": "Alert",
         "error": "Error",
+        "connectionError": "Connection Error",
         "message": "Message",
         "submit": "Submit",
         "yes": "Yes",
@@ -37,6 +38,7 @@
         "create": "Create"
     },
     "errMsg": {
+        "unableEstablishService": "Unable to establish service connection.",
         "emptyUserID": "Please enter User ID",
         "emptyPassword": "Please enter Password",
         "emptyConfirmPassword": "Please enter Confirm Password",
@@ -52,6 +54,7 @@
         "emptyPostalCodeNumber": "Please enter Postal Code",
         "emptyVesselGOIDNumber": "Please enter Vessel GO ID",
         "emptyVesselFGNumber": "Please enter Vessel FG #",
+        "saveProfileFailure": "Unable to establish service connection.",
         "addedProfileIsInvalid": "The added profile is invalid, please check and re-enter.",
         "foundExistingAccount": "We found existing account, please re-enter or retrieve password.",
         "passwordDotNotMatch": "Passwords don't match.",
@@ -82,7 +85,6 @@
 
     "signUp": {
         "createMobileAccount": "Create Mobile Account",
-        "alreadyHaveAccount": "Already have account?",
         "exitSignUp": "Exit Sign Up",
         "areYouSureExitSignUp": "Are you sure you want to exit sign up?",
         "addPrimaryProfile": "Add Existing Primary Profile"

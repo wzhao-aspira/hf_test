@@ -8,7 +8,8 @@ import { isEmpty } from "lodash";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import Page from "../../components/Page";
-import { thunkActions as AppThunkActions, updateLoginStep } from "../../redux/AppSlice";
+import { updateLoginStep } from "../../redux/AppSlice";
+import appThunkActions from "../../redux/AppThunk";
 import LoginStep from "../../constants/LoginStep";
 import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
@@ -18,7 +19,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 
-const SignInScreen = () => {
+const SignInScreen = (route) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -54,7 +55,7 @@ const SignInScreen = () => {
             return;
         }
 
-        dispatch(AppThunkActions.initUserData(response.userInfo));
+        dispatch(appThunkActions.initUserData(response.userInfo));
 
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userId);
         if (!isEmpty(onBoardingScreens)) {
@@ -119,7 +120,7 @@ const SignInScreen = () => {
                             testID={genTestId("signUpLink")}
                             style={styles.signUpBtn}
                             onPress={() => {
-                                dispatch(updateLoginStep(LoginStep.signUp));
+                                route?.navigation?.push(Routers.signUpNav);
                             }}
                         >
                             {` ${t("login.createAccount")}`}

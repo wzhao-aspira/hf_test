@@ -1,7 +1,6 @@
 import React, { useImperativeHandle, useRef } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { genTestId } from "../../../helper/AppHelper";
 import StatefulTextInput from "../../../components/StatefulTextInput";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "./ProfileValidate";
@@ -23,7 +22,7 @@ const BusinessProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
     return (
         <View>
             <StatefulTextInput
-                testID={genTestId("BusinessGOIDNumberInput")}
+                testID="BusinessGOIDNumber"
                 label={t("profile.businessGOIDNumber")}
                 hint={t("common.pleaseEnter")}
                 ref={goIDNumberRef}
@@ -41,7 +40,7 @@ const BusinessProfileInfo = React.forwardRef(({ profile, setProfile }, ref) => {
                 }}
             />
             <StatefulTextInput
-                testID={genTestId("PostalCodeNumberInput")}
+                testID="PostalCodeNumber"
                 label={t("profile.postalCodeNumber")}
                 hint={t("common.pleaseEnter")}
                 ref={postalCodeNumberRef}

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const SignUpScreen = () => {
+const SignUpScreen = (route) => {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
@@ -37,7 +37,11 @@ const SignUpScreen = () => {
                 okText: "common.yes",
                 cancelText: "common.no",
                 okAction: () => {
-                    dispatch(updateLoginStep(LoginStep.login));
+                    if (route?.navigation?.canGoBack()) {
+                        route?.navigation?.goBack();
+                    } else {
+                        dispatch(updateLoginStep(LoginStep.login));
+                    }
                 },
             })
         );

@@ -2,21 +2,19 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import CommonHeader from "../../components/CommonHeader";
-import {
-    PROFILE_TYPES_SIGN_UP,
-    IDENTIFICATION_OWNER_YOUTH,
-    IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION,
-} from "../../constants/Constants";
 import AddProfileInfo from "../profile/add_profile/AddProfileInfo";
+import { getIdentificationTypes, getIndividualProfileTypes } from "../../services/ProfileService";
 
 const AddPrimaryProfileScreen = ({ route }) => {
     const { t } = useTranslation();
     const { params } = route;
     const { mobileAccount } = params;
+    const individualProfileTypes = getIndividualProfileTypes();
+    const allIdentificationTypes = getIdentificationTypes();
     const [profile, setProfile] = useState({
         isPrimary: true,
-        profileType: PROFILE_TYPES_SIGN_UP[0],
-        identificationOwner: { id: IDENTIFICATION_OWNER_YOUTH, name: IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION },
+        profileType: individualProfileTypes[0],
+        identificationType: allIdentificationTypes.adultOrYouth[0],
     });
     return (
         <View style={{ flex: 1 }}>
@@ -25,7 +23,9 @@ const AddPrimaryProfileScreen = ({ route }) => {
                 profile={profile}
                 setProfile={setProfile}
                 mobileAccount={mobileAccount}
-                profileTypes={PROFILE_TYPES_SIGN_UP}
+                profileTypes={individualProfileTypes}
+                allIdentificationTypes={allIdentificationTypes}
+                isAddPrimaryProfile
             />
         </View>
     );

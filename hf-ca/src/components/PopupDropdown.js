@@ -7,6 +7,7 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import AppTheme from "../assets/_default/AppTheme";
 import SVGIcon, { pathList } from "./SVGIcon";
 import { Dialog } from "./Dialog";
+import { genTestId } from "../helper/AppHelper";
 
 const statefulStyle = (style, disabled, error, focused = false) => {
     let textColor = style.color;
@@ -97,6 +98,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
         containerStyle,
         labelStyle,
         valueContainerStyle,
+        testID,
     } = props;
     const [errorObj, setErrorObj] = useState({ error: false, errorMsg: undefined });
     const [popupVisible, setPopVisible] = useState(false);
@@ -127,7 +129,9 @@ const PopupDropdown = React.forwardRef((props, ref) => {
                 }}
             >
                 <View style={{ ...styles.optionContainer }}>
-                    <Text style={styles.value}>{item[valueName]}</Text>
+                    <Text testID={genTestId(`${testID}ItemIconValue`)} style={styles.value}>
+                        {item[valueName]}
+                    </Text>
                     <SVGIcon pathList={selected ? pathList.circleChecked : pathList.circleUnchecked} />
                 </View>
             </Pressable>
@@ -136,7 +140,14 @@ const PopupDropdown = React.forwardRef((props, ref) => {
 
     return (
         <View style={containerStyle}>
-            {label && <Text style={[statefulStyle(styles.label, disabled, hasError), labelStyle]}>{label}</Text>}
+            {label && (
+                <Text
+                    testID={genTestId(`${testID}ItemValueLabel`)}
+                    style={[statefulStyle(styles.label, disabled, hasError), labelStyle]}
+                >
+                    {label}
+                </Text>
+            )}
             <Pressable
                 onPress={() => {
                     if (disabled) {
@@ -147,6 +158,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
             >
                 <View style={[statefulStyle(styles.valueContainer, disabled, hasError), valueContainerStyle]}>
                     <Text
+                        testID={genTestId(`${testID}ItemValue`)}
                         style={[
                             statefulStyle(styles.value, disabled, hasError),
                             !hasValue ? { color: AppTheme.colors.font_color_2 } : {},
@@ -158,10 +170,21 @@ const PopupDropdown = React.forwardRef((props, ref) => {
                 </View>
             </Pressable>
             {!hasError && helpText && (
-                <Text style={statefulStyle(styles.helpText, disabled, hasError)}> {helpText} </Text>
+                <Text
+                    testID={genTestId(`${testID}HelpText`)}
+                    style={statefulStyle(styles.helpText, disabled, hasError)}
+                >
+                    {" "}
+                    {helpText}{" "}
+                </Text>
             )}
-            {hasError && <Text style={styles.errorMsg}> {errorObj.errorMsg} </Text>}
-            <Dialog visible={popupVisible}>
+            {hasError && (
+                <Text testID={genTestId(`${testID}ErrorMsg`)} style={styles.errorMsg}>
+                    {" "}
+                    {errorObj.errorMsg}{" "}
+                </Text>
+            )}
+            <Dialog visible={popupVisible} closeModal={() => setPopVisible(false)}>
                 <FlatList data={options} renderItem={RenderItem} keyExtractor={(item) => item[idName]} />
             </Dialog>
         </View>
