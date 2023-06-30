@@ -105,11 +105,10 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
         <Page>
             <View style={{ flex: 1 }}>
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
-
                 <View style={ForgotPasswordStyles.page_container}>
                     <AttentionSection
                         testID={testIDStr}
-                        attentionContent={t("forgotPassword.enterValidationCode.attentionContent")}
+                        contentKey="forgotPassword.enterValidationCode.attentionContent"
                     />
                     {renderEmailValidationCodeSection()}
                     <ActionButton testID={testIDStr} label={t("common.submit")} onAction={onSubmit} />
