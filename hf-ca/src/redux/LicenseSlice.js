@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
-import { isEmpty } from "lodash";
 import { getLicenseData } from "../services/LicenseService";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
@@ -9,14 +8,15 @@ import { REQUEST_STATUS } from "../constants/Constants";
 
 export const getLicense = createAsyncThunk(
     "license/getLicense",
-    async ({ rejectWithValue }) => {
+    async ({ rejectWithValue, searchParams }) => {
         const result = { success: false };
         try {
-            const data = await getLicenseData();
-            if (!isEmpty(data)) {
-                result.success = true;
-                result.data = data;
-            }
+            const data = await getLicenseData(searchParams);
+            console.log("getLicense");
+            console.log(searchParams);
+            console.log(data);
+            result.success = true;
+            result.data = data;
             return result;
         } catch (error) {
             console.log("getLicense --- get error", error);
@@ -33,7 +33,9 @@ export const getLicense = createAsyncThunk(
             if (isForce) {
                 return true;
             }
-            return checkNeedAutoRefreshData(updateTime);
+            const result = checkNeedAutoRefreshData(updateTime);
+            console.log(`result:${result}`);
+            return result;
         },
     }
 );
