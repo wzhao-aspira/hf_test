@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import { DRAWER_WIDTH } from "../constants/Dimension";
 import AppTheme from "../assets/_default/AppTheme";
 import { getLogo } from "../helper/ImgHelper";
 import SplitLine from "../components/SplitLine";
-import { getActiveProfile } from "../redux/ProfileSlice";
+import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
 import { genTestId, setActiveUserID } from "../helper/AppHelper";
@@ -93,7 +93,7 @@ export default function DrawerContent({ navigation }) {
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
-    const activeProfile = useSelector(getActiveProfile);
+    const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
     const drawerStatus = useDrawerStatus();
     const drawerContentScrollView = useRef();

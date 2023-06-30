@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Dialog } from "../../../components/Dialog";
 import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
-import { updateActiveProfileByID } from "../../../redux/ProfileSlice";
+import profileThunkActions from "../../../redux/ProfileThunk";
 
 export default function SwitchProfileDialog({ closeModal, hideDialog, activeProfile, inactiveProfiles = [] }) {
     const dispatch = useDispatch();
@@ -29,8 +29,11 @@ export default function SwitchProfileDialog({ closeModal, hideDialog, activeProf
                                 key={profile.profileId}
                                 profile={profile}
                                 onPress={() => {
-                                    dispatch(updateActiveProfileByID(profile.profileId));
-                                    hideDialog();
+                                    dispatch(profileThunkActions.switchCurrentInUseProfile(profile.profileId)).then(
+                                        () => {
+                                            hideDialog();
+                                        }
+                                    );
                                 }}
                                 profileItemStyles={{
                                     container: dialogStyles.profileItemContainer,

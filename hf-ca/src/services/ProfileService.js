@@ -15,7 +15,9 @@ import {
     DATE_OF_BIRTH_DISPLAY_FORMAT,
     DEFAULT_DATE_FORMAT,
     PROFILE_TYPES,
+    KEY_CONSTANT,
 } from "../constants/Constants";
+import { storeItem, retrieveItem } from "../helper/StorageHelper";
 
 export function getProfileList() {
     return profileList;
@@ -181,4 +183,38 @@ export async function findProfile(profile) {
         }
         return false;
     });
+}
+
+export async function updateCurrentInUseProfileID(accountID, currentInUseProfileID) {
+    const currentInUseProfileIDOfAccounts = await retrieveItem(KEY_CONSTANT.currentInUseProfileIDOfAccounts);
+
+    if (currentInUseProfileIDOfAccounts) {
+        const parsedCurrentInUseProfileIDOfAccounts = JSON.parse(currentInUseProfileIDOfAccounts);
+        const updatedCurrentInUseProfileIDOfAccount = {
+            ...parsedCurrentInUseProfileIDOfAccounts,
+            [accountID]: currentInUseProfileID,
+        };
+
+        await storeItem(
+            KEY_CONSTANT.currentInUseProfileIDOfAccounts,
+            JSON.stringify(updatedCurrentInUseProfileIDOfAccount)
+        );
+    } else {
+        await storeItem(
+            KEY_CONSTANT.currentInUseProfileIDOfAccounts,
+            JSON.stringify({ [accountID]: currentInUseProfileID })
+        );
+    }
+}
+
+export async function getCurrentInUseProfileID(accountID) {
+    const currentInUseProfileIDOfAccounts = await retrieveItem(KEY_CONSTANT.currentInUseProfileIDOfAccounts);
+
+    if (currentInUseProfileIDOfAccounts) {
+        const parsedCurrentInUseProfileIDOfAccounts = JSON.parse(currentInUseProfileIDOfAccounts);
+
+        return parsedCurrentInUseProfileIDOfAccounts[accountID];
+    }
+
+    return null;
 }

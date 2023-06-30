@@ -9,6 +9,7 @@ export const KEY_CONSTANT = {
     biometricIDSwitchBlock: "biometricIDSwitchBlock",
     biometricIDSwitch: "biometricIDSwitch",
     loginCredential: "loginCredential",
+    currentInUseProfileIDOfAccounts: "currentInUseProfileIDOfAccounts",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fulfilled", rejected: "rejected" };
