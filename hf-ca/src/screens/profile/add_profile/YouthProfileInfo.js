@@ -8,7 +8,7 @@ import PopupDropdown from "../../../components/PopupDropdown";
 import HfDatePicker from "../../../components/HfDatePicker";
 import IdentificationTypeSelector from "./IdentificationTypeSelector";
 import AppTheme from "../../../assets/_default/AppTheme";
-import { IDENTIFICATION_OWNER_YOUTH, DATE_OF_BIRTH_FORMAT } from "../../../constants/Constants";
+import { IDENTIFICATION_OWNER_YOUTH, DEFAULT_DATE_FORMAT } from "../../../constants/Constants";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 
 const YouthProfileInfo = React.forwardRef(
@@ -75,10 +75,10 @@ const YouthProfileInfo = React.forwardRef(
                     testID="DateOfBirth"
                     label={t("profile.dateOfBirth")}
                     ref={dateOfBirthRef}
-                    hint={DATE_OF_BIRTH_FORMAT}
+                    hint={DEFAULT_DATE_FORMAT}
                     style={{ marginTop: 20 }}
                     onConfirm={(date) => {
-                        const dateOfBirth = moment(date).format(DATE_OF_BIRTH_FORMAT);
+                        const dateOfBirth = moment(date).format(DEFAULT_DATE_FORMAT);
                         setProfile({ ...profile, dateOfBirth });
                     }}
                     value={profile.dateOfBirth}

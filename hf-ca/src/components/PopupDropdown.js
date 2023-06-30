@@ -119,6 +119,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
         const selected = options[index][valueName] === value;
         return (
             <Pressable
+                testID={genTestId(`${testID}ItemBtn`)}
                 onPress={() => {
                     setPopVisible(false);
                     if (item[valueName] == value) {
@@ -149,6 +150,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
                 </Text>
             )}
             <Pressable
+                testID={genTestId(`${testID}Btn`)}
                 onPress={() => {
                     if (disabled) {
                         return;

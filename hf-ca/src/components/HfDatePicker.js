@@ -7,6 +7,7 @@ import moment from "moment";
 import color from "color";
 import AppTheme from "../assets/_default/AppTheme";
 import { genTestId } from "../helper/AppHelper";
+import { DEFAULT_DATE_FORMAT } from "../constants/Constants";
 
 const styles = StyleSheet.create({
     label: {
@@ -76,7 +77,7 @@ const HfDatePicker = React.forwardRef((props, ref) => {
 
     const {
         value,
-        valueFormat = "MM DD YYYY",
+        valueFormat = DEFAULT_DATE_FORMAT,
         label,
         helpText,
         style,
@@ -84,7 +85,7 @@ const HfDatePicker = React.forwardRef((props, ref) => {
         display = true,
         onConfirm,
         mode = "date",
-        hint = "MM DD YYYY",
+        hint = DEFAULT_DATE_FORMAT,
         onCancel,
         validate = () => {
             return { error: false, errorMsg: "" };
@@ -115,6 +116,7 @@ const HfDatePicker = React.forwardRef((props, ref) => {
                 </Text>
             )}
             <Pressable
+                testID={genTestId(`${testID}Btn`)}
                 onPress={() => {
                     if (disabled) {
                         return;

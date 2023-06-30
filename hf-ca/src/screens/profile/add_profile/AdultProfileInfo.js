@@ -6,7 +6,7 @@ import StatefulTextInput from "../../../components/StatefulTextInput";
 import IdentificationTypeSelector from "./IdentificationTypeSelector";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "./ProfileValidate";
-import { DATE_OF_BIRTH_FORMAT } from "../../../constants/Constants";
+import { DEFAULT_DATE_FORMAT } from "../../../constants/Constants";
 import HfDatePicker from "../../../components/HfDatePicker";
 
 const AdultProfileInfo = React.forwardRef(({ profile, setProfile, identificationTypes }, ref) => {
@@ -34,10 +34,10 @@ const AdultProfileInfo = React.forwardRef(({ profile, setProfile, identification
                 testID="DateOfBirth"
                 label={t("profile.dateOfBirth")}
                 ref={dateOfBirthRef}
-                hint={DATE_OF_BIRTH_FORMAT}
+                hint={DEFAULT_DATE_FORMAT}
                 style={{ marginTop: 20 }}
                 onConfirm={(date) => {
-                    const dateOfBirth = moment(date).format(DATE_OF_BIRTH_FORMAT);
+                    const dateOfBirth = moment(date).format(DEFAULT_DATE_FORMAT);
                     setProfile({ ...profile, dateOfBirth });
                 }}
                 value={profile.dateOfBirth}

@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { genTestId } from "../../../helper/AppHelper";
 import PopupDropdown from "../../../components/PopupDropdown";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import AppTheme from "../../../assets/_default/AppTheme";
@@ -184,7 +183,7 @@ const AddProfileInfo = ({
         >
             <View style={styles.page_container}>
                 <PopupDropdown
-                    testID={genTestId("YouAreDropdown")}
+                    testID="YouAreDropdown"
                     label={t("profile.youAre")}
                     containerStyle={{ marginTop: 20 }}
                     valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}

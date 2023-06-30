@@ -13,7 +13,7 @@ import {
 import {
     PROFILE_TYPE_IDS,
     DATE_OF_BIRTH_DISPLAY_FORMAT,
-    DATE_OF_BIRTH_FORMAT,
+    DEFAULT_DATE_FORMAT,
     PROFILE_TYPES,
 } from "../constants/Constants";
 
@@ -153,7 +153,7 @@ export async function findProfile(profile) {
         if (PROFILE_TYPE_IDS.adult === profile.profileType.id) {
             return (
                 moment(p?.dateOfBirth, DATE_OF_BIRTH_DISPLAY_FORMAT)?.isSame(
-                    moment(profile.dateOfBirth, DATE_OF_BIRTH_FORMAT)
+                    moment(profile.dateOfBirth, DEFAULT_DATE_FORMAT)
                 ) &&
                 p.lastName?.toUpperCase()?.trim() === profile.lastName.toUpperCase().trim() &&
                 isProfileIdentificationMatched(p.identification, profile.identificationType)
