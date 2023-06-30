@@ -1,6 +1,16 @@
+/* eslint-disable no-param-reassign */
 import { createSelector, createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { Profile } from "../types/profile";
+import profileSelectors from "./ProfileSelector";
 
-const initialState = {
+interface InitialState {
+    activeProfileID: string | null;
+    profileList: Profile[];
+}
+
+const initialState: InitialState = {
+    activeProfileID: null,
     profileList: [],
 };
 
@@ -8,9 +18,17 @@ const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        setProfileList(state, action) {
-            Object.assign(state, { profileList: action?.payload });
+        setProfileList(state, action: PayloadAction<Profile[]>) {
+            const { payload } = action;
+
+            state.profileList = payload;
         },
+        addProfileToProfileList(state, action: PayloadAction<Profile>) {
+            const { payload } = action;
+
+            state.profileList = [...state.profileList, payload];
+        },
+        /** @deprecated */
         updateActiveProfileByID(state, { payload }) {
             const newList = state.profileList.map((item) => {
                 Object.assign(item, { isActive: item.profileId === payload });
@@ -18,10 +36,13 @@ const profileSlice = createSlice({
             });
             Object.assign(state, { profileList: newList });
         },
+        updateActiveProfileID(state, action: PayloadAction<string>) {
+            const { payload } = action;
+
+            state.activeProfileID = payload;
+        },
     },
 });
-
-export const { setProfileList, updateActiveProfileByID } = profileSlice.actions;
 
 const selectProfile = (state) => state.profile;
 export const getActiveProfile = createSelector(
@@ -34,5 +55,14 @@ export const getOtherProfiles = createSelector(selectProfile, (profile) =>
 export const getProfileDetailsById = (profileId) =>
     createSelector(selectProfile, (profile) => profile.profileList.find((item) => item.profileId === profileId) || {});
 
-const profileReducer = profileSlice.reducer;
-export default profileReducer;
+const selectors = {
+    getActiveProfile,
+    getOtherProfiles,
+    ...profileSelectors,
+};
+
+const { actions, reducer } = profileSlice;
+
+export const { setProfileList, updateActiveProfileByID } = profileSlice.actions;
+export { actions, selectors };
+export default reducer;
