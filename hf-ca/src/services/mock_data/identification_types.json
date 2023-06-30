@@ -107,7 +107,7 @@
             "config": {
                 "issuedCountryRequired": true,
                 "issuedStateRequired": false,
-                "idNumberRequired": false
+                "idNumberRequired": true
             }
         }
     ]

@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import emailValidator from "email-validator";
-import { genTestId } from "../../helper/AppHelper";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "../profile/add_profile/ProfileValidate";
@@ -11,8 +10,7 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { checkAccountEmailIsExisting } from "../../services/ProfileService";
-import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
-import LoginStep from "../../constants/LoginStep";
+import { showSimpleDialog } from "../../redux/AppSlice";
 
 const SignUp = () => {
     const { t } = useTranslation();
@@ -33,7 +31,7 @@ const SignUp = () => {
     const onSave = async () => {
         const errorReported = validate();
         if (errorReported) return;
-        if (!emailValidator.validate(mobileAccount.userID)) {
+        if (!emailValidator.validate(mobileAccount?.userID)) {
             dispatch(
                 showSimpleDialog({
                     title: "common.error",
@@ -43,7 +41,7 @@ const SignUp = () => {
             );
             return;
         }
-        if (mobileAccount.password !== mobileAccount.confirmPassword) {
+        if (mobileAccount?.password !== mobileAccount?.confirmPassword) {
             dispatch(
                 showSimpleDialog({
                     title: "common.error",
@@ -53,7 +51,7 @@ const SignUp = () => {
             );
             return;
         }
-        const existing = await checkAccountEmailIsExisting(mobileAccount.userID);
+        const existing = await checkAccountEmailIsExisting(mobileAccount?.userID);
         if (existing) {
             dispatch(
                 showSimpleDialog({
@@ -69,7 +67,7 @@ const SignUp = () => {
     return (
         <View>
             <StatefulTextInput
-                testID={genTestId("UserIDInput")}
+                testID="UserID"
                 label={t("common.userID")}
                 hint={t("common.pleaseEnterEmail")}
                 ref={userIDRef}
@@ -87,7 +85,7 @@ const SignUp = () => {
                 }}
             />
             <StatefulTextInput
-                testID={genTestId("PasswordInput")}
+                testID="Password"
                 label={t("common.password")}
                 hint={t("common.pleaseEnter")}
                 password
@@ -106,7 +104,7 @@ const SignUp = () => {
                 }}
             />
             <StatefulTextInput
-                testID={genTestId("ConfirmPasswordInput")}
+                testID="ConfirmPassword"
                 label={t("common.confirmPassword")}
                 hint={t("common.pleaseEnter")}
                 password
@@ -125,26 +123,6 @@ const SignUp = () => {
                 }}
             />
             <PrimaryBtn style={{ marginTop: 40 }} label={t("common.create")} onPress={onSave} />
-            <Text
-                testID={genTestId("signInText")}
-                style={{
-                    marginTop: 20,
-                    alignSelf: "center",
-                    ...AppTheme.typography.sub_section,
-                    color: AppTheme.colors.font_color_1,
-                }}
-            >
-                {t("signUp.alreadyHaveAccount")}
-                <Text
-                    testID={genTestId("signInLink")}
-                    style={{ ...AppTheme.typography.card_title, color: AppTheme.colors.primary_2 }}
-                    onPress={() => {
-                        dispatch(updateLoginStep(LoginStep.signIn));
-                    }}
-                >
-                    {` ${t("login.signIn")}`}
-                </Text>
-            </Text>
         </View>
     );
 };

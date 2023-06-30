@@ -4,13 +4,17 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { genTestId } from "../../../helper/AppHelper";
 import PopupDropdown from "../../../components/PopupDropdown";
-import Page from "../../../components/Page";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
-import { saveProfile, findProfile, isProfileAlreadyAssociatedWithAccount } from "../../../services/ProfileService";
+import {
+    addProfile,
+    addPrimaryProfile,
+    findProfile,
+    isProfileAlreadyAssociatedWithAccount,
+    getIdentificationOwners,
+} from "../../../services/ProfileService";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import AdultProfileInfo from "./AdultProfileInfo";
 import YouthProfileInfo from "./YouthProfileInfo";
@@ -20,6 +24,7 @@ import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
 import { showSimpleDialog, updateLoginStep } from "../../../redux/AppSlice";
 import LoginStep from "../../../constants/LoginStep";
+import appThunkActions from "../../../redux/AppThunk";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -33,19 +38,83 @@ const styles = StyleSheet.create({
     },
 });
 
-const AddProfileInfo = ({ mobileAccount, profile, setProfile, routeScreen, profileTypes }) => {
+export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, existingProfile) => {
+    if (isAddPrimaryProfile) {
+        const isSaveSuccess = await addPrimaryProfile(mobileAccount, existingProfile.profileId);
+        if (!isSaveSuccess) {
+            dispatch(
+                showSimpleDialog({
+                    title: "common.connectionError",
+                    message: "errMsg.unableEstablishService",
+                    okText: "common.gotIt",
+                })
+            );
+            return false;
+        }
+        dispatch(
+            appThunkActions.initUserData({
+                userID: mobileAccount.userID,
+                primaryProfileId: existingProfile.profileId,
+                otherProfileIds: [],
+            })
+        );
+    } else {
+        const isSaveSuccess = await addProfile(mobileAccount, existingProfile.profileId);
+        if (!isSaveSuccess) {
+            dispatch(
+                showSimpleDialog({
+                    title: "common.connectionError",
+                    message: "errMsg.unableEstablishService",
+                    okText: "common.gotIt",
+                })
+            );
+            return false;
+        }
+        dispatch(
+            appThunkActions.initUserData({
+                userID: mobileAccount.userID,
+                primaryProfileId: mobileAccount.primaryProfileId,
+                otherProfileIds: [...mobileAccount.otherProfileIds, existingProfile.profileId],
+            })
+        );
+    }
+    return true;
+};
+
+const AddProfileInfo = ({
+    mobileAccount,
+    profile,
+    setProfile,
+    routeScreen,
+    profileTypes,
+    allIdentificationTypes,
+    isAddPrimaryProfile,
+}) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const safeAreaInsets = useSafeAreaInsets();
     const { profileType } = profile;
-
-    const [identificationOwnerChanged, setIdentificationOwnerChanged] = useState(true);
-
+    const identificationOwners = getIdentificationOwners();
+    const [identificationTypes, setIdentificationTypes] = useState(allIdentificationTypes.adultOrYouth);
     const changeProfileType = (index) => {
         const selectedProfileType = profileTypes[index];
-        setProfile({ ...profile, profileType: selectedProfileType });
-        setIdentificationOwnerChanged(false);
-        setTimeout(() => setIdentificationOwnerChanged(true), 0);
+        let defaultIdentificationOwner = {};
+        let defaultIdentificationTypes = [];
+        let defaultIdentificationType = {};
+        if (PROFILE_TYPE_IDS.adult === selectedProfileType.id) {
+            defaultIdentificationTypes = allIdentificationTypes.adultOrYouth;
+            defaultIdentificationType = { ...allIdentificationTypes.adultOrYouth[0] };
+        } else if (PROFILE_TYPE_IDS.youth === selectedProfileType.id) {
+            defaultIdentificationOwner = { ...identificationOwners[0] };
+            defaultIdentificationTypes = allIdentificationTypes.adultOrYouth;
+            defaultIdentificationType = { ...allIdentificationTypes.adultOrYouth[0] };
+        }
+        setIdentificationTypes(defaultIdentificationTypes);
+        setProfile({
+            profileType: selectedProfileType,
+            identificationOwner: defaultIdentificationOwner,
+            identificationType: defaultIdentificationType,
+        });
     };
     const adultProfileInfoRef = useRef();
     const youthProfileInfoRef = useRef();
@@ -70,18 +139,17 @@ const AddProfileInfo = ({ mobileAccount, profile, setProfile, routeScreen, profi
                 showSimpleDialog({
                     title: "common.error",
                     message: "errMsg.addedProfileIsInvalid",
+                    okText: "common.gotIt",
                 })
             );
         } else {
-            const alreadyAssociatedWithAccount = await isProfileAlreadyAssociatedWithAccount(
-                mobileAccount,
-                existingProfile
-            );
+            const alreadyAssociatedWithAccount = isProfileAlreadyAssociatedWithAccount(mobileAccount, existingProfile);
             if (alreadyAssociatedWithAccount) {
                 dispatch(
                     showSimpleDialog({
                         title: "common.error",
                         message: "errMsg.profileAlreadyExists",
+                        okText: "common.gotIt",
                     })
                 );
                 return;
@@ -89,11 +157,15 @@ const AddProfileInfo = ({ mobileAccount, profile, setProfile, routeScreen, profi
             if (existingProfile.isNeedCRSS) {
                 NavigationService.navigate(Routers.crss, {
                     mobileAccount,
-                    profile: { ...existingProfile, isPrimary: profile.isPrimary },
+                    profile: { ...existingProfile },
                     routeScreen,
+                    isAddPrimaryProfile,
                 });
             } else {
-                await saveProfile(mobileAccount, { ...existingProfile, isPrimary: profile.isPrimary });
+                const isSaveSuccess = await saveProfile(dispatch, isAddPrimaryProfile, mobileAccount, existingProfile);
+                if (!isSaveSuccess) {
+                    return;
+                }
                 if (routeScreen) {
                     NavigationService.navigate(routeScreen);
                 } else {
@@ -102,48 +174,53 @@ const AddProfileInfo = ({ mobileAccount, profile, setProfile, routeScreen, profi
             }
         }
     };
-
     return (
-        <Page>
-            <KeyboardAwareScrollView
-                contentContainerStyle={{
-                    ...styles.contentContainerStyle,
-                    paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM,
-                }}
-            >
-                <View style={styles.page_container}>
-                    <PopupDropdown
-                        testID={genTestId("YouAreDropdown")}
-                        label={t("profile.youAre")}
-                        containerStyle={{ marginTop: 20 }}
-                        valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
-                        labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                        options={profileTypes}
-                        value={profileType?.name}
-                        onSelect={(index) => changeProfileType(index)}
+        <KeyboardAwareScrollView
+            contentContainerStyle={{
+                ...styles.contentContainerStyle,
+                paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM,
+            }}
+        >
+            <View style={styles.page_container}>
+                <PopupDropdown
+                    testID="YouAreDropdown"
+                    label={t("profile.youAre")}
+                    containerStyle={{ marginTop: 20 }}
+                    valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                    labelStyle={{ color: AppTheme.colors.font_color_1 }}
+                    options={profileTypes}
+                    value={profileType?.name}
+                    onSelect={(index) => changeProfileType(index)}
+                />
+                {PROFILE_TYPE_IDS.adult === profileType?.id && (
+                    <AdultProfileInfo
+                        ref={adultProfileInfoRef}
+                        profile={profile}
+                        setProfile={setProfile}
+                        identificationTypes={identificationTypes}
                     />
-                    {PROFILE_TYPE_IDS.adult === profileType.id && (
-                        <AdultProfileInfo ref={adultProfileInfoRef} profile={profile} setProfile={setProfile} />
-                    )}
-                    {PROFILE_TYPE_IDS.youth === profileType.id && (
-                        <YouthProfileInfo
-                            ref={youthProfileInfoRef}
-                            profile={profile}
-                            setProfile={setProfile}
-                            identificationOwnerChanged={identificationOwnerChanged}
-                        />
-                    )}
-                    {PROFILE_TYPE_IDS.business === profileType.id && (
-                        <BusinessProfileInfo ref={businessProfileInfoRef} profile={profile} setProfile={setProfile} />
-                    )}
-                    {PROFILE_TYPE_IDS.vessel === profileType.id && (
-                        <VesselProfileInfo ref={vesselProfileInfoRef} profile={profile} setProfile={setProfile} />
-                    )}
+                )}
+                {PROFILE_TYPE_IDS.youth === profileType?.id && (
+                    <YouthProfileInfo
+                        ref={youthProfileInfoRef}
+                        profile={profile}
+                        setProfile={setProfile}
+                        identificationOwners={identificationOwners}
+                        allIdentificationTypes={allIdentificationTypes}
+                        identificationTypes={identificationTypes}
+                        setIdentificationTypes={setIdentificationTypes}
+                    />
+                )}
+                {PROFILE_TYPE_IDS.business === profileType?.id && (
+                    <BusinessProfileInfo ref={businessProfileInfoRef} profile={profile} setProfile={setProfile} />
+                )}
+                {PROFILE_TYPE_IDS.vessel === profileType?.id && (
+                    <VesselProfileInfo ref={vesselProfileInfoRef} profile={profile} setProfile={setProfile} />
+                )}
 
-                    <PrimaryBtn style={{ marginTop: 40 }} label={t("profile.addProfileProceed")} onPress={onSave} />
-                </View>
-            </KeyboardAwareScrollView>
-        </Page>
+                <PrimaryBtn style={{ marginTop: 40 }} label={t("profile.addProfileProceed")} onPress={onSave} />
+            </View>
+        </KeyboardAwareScrollView>
     );
 };
 

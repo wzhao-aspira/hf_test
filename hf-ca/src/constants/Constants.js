@@ -16,7 +16,8 @@ export const AUTO_REFRESH_TIMEOUT = 0.5 * 60 * 60;
 
 export const CATEGORY = { Hunting: 1, Fishing: 2 };
 export const IDENTIFICATION_TYPE_GO_ID = "1";
-export const DATE_OF_BIRTH_PLACEHOLDER = "MM/DD/YYYY";
+export const DEFAULT_DATE_FORMAT = "MM DD YYYY";
+export const DATE_OF_BIRTH_DISPLAY_FORMAT = "MM/DD/YYYY";
 export const PROFILE_TYPE_IDS = {
     adult: "1",
     youth: "2",
@@ -41,9 +42,7 @@ export const PROFILE_TYPES = [
         name: "Vessel",
     },
 ];
-export const PROFILE_TYPES_SIGN_UP = PROFILE_TYPES.filter(
-    (p) => PROFILE_TYPE_IDS.adult === p.id || PROFILE_TYPE_IDS.youth === p.id
-);
+
 export const IDENTIFICATION_OWNER_YOUTH = "Youth";
 export const IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION = "Youth Identification";
 export const IDENTIFICATION_OWNER_PARENT = "Parent";
@@ -54,3 +53,4 @@ export const ERROR_CODE = {
     NOT_FOUND: 404,
     SQLITE_CONSTRAINT_UNIQUE: 2067,
 };
+export const DEFAULT_STATE_ID = "6";

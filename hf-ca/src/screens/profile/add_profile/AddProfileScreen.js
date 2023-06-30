@@ -3,30 +3,31 @@ import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import CommonHeader from "../../../components/CommonHeader";
-import {
-    PROFILE_TYPES,
-    IDENTIFICATION_OWNER_YOUTH,
-    IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION,
-} from "../../../constants/Constants";
 import AddProfileInfo from "./AddProfileInfo";
 import Routers from "../../../constants/Routers";
-import { getMobileAccountByUserId } from "../../../services/ProfileService";
+import { getMobileAccountByUserId, getProfileTypes, getIdentificationTypes } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
 
 const AddProfileScreen = () => {
     const { t } = useTranslation();
-    const [profile, setProfile] = useState({
-        profileType: PROFILE_TYPES[0],
-        identificationOwner: { id: IDENTIFICATION_OWNER_YOUTH, name: IDENTIFICATION_OWNER_YOUTH_IDENTIFICATION },
-    });
     const [mobileAccount, setMobileAccount] = useState();
+    const [profileTypes, setProfileTypes] = useState([]);
+    const [profile, setProfile] = useState({});
     const userName = useSelector(selectUsername);
-    const getLoginMobileAccount = async () => {
+    const allIdentificationTypes = getIdentificationTypes();
+    const getData = async () => {
         const mobileAccountData = await getMobileAccountByUserId(userName);
         setMobileAccount(mobileAccountData);
+        const profileTypesData = getProfileTypes(mobileAccountData);
+        setProfileTypes(profileTypesData);
+        setProfile({
+            ...profile,
+            profileType: profileTypesData[0],
+            identificationType: allIdentificationTypes.adultOrYouth[0],
+        });
     };
     useEffect(() => {
-        getLoginMobileAccount();
+        getData();
     }, []);
     return (
         <View style={{ flex: 1 }}>
@@ -35,7 +36,8 @@ const AddProfileScreen = () => {
                 mobileAccount={mobileAccount}
                 profile={profile}
                 setProfile={setProfile}
-                profileTypes={PROFILE_TYPES}
+                profileTypes={profileTypes}
+                allIdentificationTypes={allIdentificationTypes}
                 routeScreen={Routers.manageProfile}
             />
         </View>

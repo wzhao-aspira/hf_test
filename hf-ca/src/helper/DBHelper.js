@@ -15,8 +15,8 @@ export async function dbCreate() {
                     "CREATE TABLE IF NOT EXISTS MOBILE_ACCOUNT (ID TEXT PRIMARY KEY NOT NULL, PASSWORD TEXT, PRIMARY_PROFILE_ID TEXT, OTHER_PROFILE_IDS TEXT);"
                 );
             },
-            () => {
-                console.log("CREATE TABLE ERROR!");
+            (error) => {
+                console.log(`CREATE TABLE ERROR! - ${JSON.stringify(error)}`);
                 resolve(result);
             },
             () => {
@@ -35,8 +35,8 @@ export async function dbDrop() {
             (tx) => {
                 tx.executeSql("DROP TABLE IF EXISTS MOBILE_ACCOUNT;");
             },
-            () => {
-                console.log("DROP TABLE ERROR!");
+            (error) => {
+                console.log(`DROP TABLE ERROR! - ${JSON.stringify(error)}`);
                 resolve(result);
             },
             () => {
@@ -55,8 +55,8 @@ export async function dbClear() {
             (tx) => {
                 tx.executeSql("DELETE FROM MOBILE_ACCOUNT;");
             },
-            () => {
-                console.log("DELETE TABLE ERROR!");
+            (error) => {
+                console.log(`DELETE TABLE ERROR! - ${JSON.stringify(error)}`);
                 resolve(result);
             },
             () => {
@@ -85,8 +85,8 @@ export async function insertMobileAccount(id, password, primaryProfileId, otherP
                             [`${id}`, password, `${primaryProfileId}`, otherProfileIds]
                         );
                     },
-                    () => {
-                        console.log("DB INSERT ERROR!");
+                    (error) => {
+                        console.log(`DB INSERT ERROR! - ${JSON.stringify(error)}`);
                         resolve(result);
                     },
                     () => {
@@ -110,8 +110,8 @@ export async function deleteMobileAccount(id) {
                     (tx) => {
                         tx.executeSql(`DELETE FROM MOBILE_ACCOUNT WHERE ID=?;`, [`${id}`]);
                     },
-                    () => {
-                        console.log(`DB DELETE ERROR!`);
+                    (error) => {
+                        console.log(`DB DELETE ERROR! - ${JSON.stringify(error)}`);
                         resolve(result);
                     },
                     () => {
@@ -125,18 +125,15 @@ export async function deleteMobileAccount(id) {
     });
 }
 
-export function updateMobileAccount(id, password, primaryProfileId, otherProfileIds) {
+export async function updateMobileAccountOtherProfileIds(id, otherProfileIds) {
     return new Promise((resolve) => {
         const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
         db.transaction(
             (tx) => {
-                tx.executeSql(
-                    `UPDATE MOBILE_ACCOUNT SET PASSWORD=?, PRIMARY_PROFILE_ID=?, OTHER_PROFILE_IDS=? WHERE ID=?;`,
-                    [password, `${primaryProfileId}`, otherProfileIds, `${id}`]
-                );
+                tx.executeSql(`UPDATE MOBILE_ACCOUNT SET OTHER_PROFILE_IDS=? WHERE ID=?;`, [otherProfileIds, `${id}`]);
             },
-            () => {
-                console.log(`DB UPDATE ERROR!`);
+            (error) => {
+                console.log(`DB UPDATE ERROR! - ${JSON.stringify(error)}`);
                 resolve(result);
             },
             () => {
@@ -159,8 +156,8 @@ export function updateMobileAccountPasswordById(id, password) {
             (tx) => {
                 tx.executeSql(`UPDATE MOBILE_ACCOUNT SET PASSWORD=? WHERE ID=?;`, [password, `${id}`]);
             },
-            () => {
-                console.log(`DB UPDATE ERROR!`);
+            (error) => {
+                console.log(`DB UPDATE ERROR! - ${JSON.stringify(error)}`);
                 resolve(result);
             },
             () => {
@@ -172,14 +169,19 @@ export function updateMobileAccountPasswordById(id, password) {
     });
 }
 
-export function getMobileAccountById(id) {
+export async function getMobileAccountById(id) {
     return new Promise((resolve) => {
-        const upperCaseID = id?.toUpperCase();
         const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+        if (isEmpty(id)) {
+            console.log("ID IS REQUIRED!");
+            result.account = null;
+            resolve(result);
+            return;
+        }
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT * FROM MOBILE_ACCOUNT WHERE UPPER(ID) = (?);",
-                [`${upperCaseID}`],
+                "SELECT * FROM MOBILE_ACCOUNT WHERE ID = (?);",
+                [`${id}`],
                 (_, { rows }) => {
                     result.success = true;
                     console.log(`rows:${JSON.stringify(rows)}`);
@@ -202,8 +204,8 @@ export function getMobileAccountById(id) {
                         resolve(result);
                     }
                 },
-                () => {
-                    console.log("DB QUERY ERROR!");
+                (error) => {
+                    console.log(`DB QUERY ERROR! - ${JSON.stringify(error)}`);
                     resolve(result);
                 }
             );
@@ -214,21 +216,28 @@ export function getMobileAccountById(id) {
 /**
  * @param {string} id
  */
-export function checkMobileAccount(id) {
+export async function checkMobileAccount(id) {
     return new Promise((resolve) => {
         const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+        if (isEmpty(id)) {
+            console.log("ID IS REQUIRED!");
+            result.account = null;
+            resolve(result);
+            return;
+        }
+        const upperCaseID = id.toUpperCase();
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT COUNT(*) FROM MOBILE_ACCOUNT WHERE ID = (?);",
-                [`${id}`],
+                "SELECT COUNT(*) FROM MOBILE_ACCOUNT WHERE UPPER(ID) = (?);",
+                [`${upperCaseID}`],
                 (_, { rows }) => {
                     console.log("DB QUERY SUCCESS!");
                     result.success = true;
                     result.count = rows._array[0]["COUNT(*)"];
                     resolve(result);
                 },
-                () => {
-                    console.log("DB QUERY ERROR!");
+                (error) => {
+                    console.log(`DB QUERY ERROR! - ${JSON.stringify(error)}`);
                     resolve(result);
                 }
             );

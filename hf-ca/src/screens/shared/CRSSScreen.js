@@ -13,8 +13,8 @@ import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
-import { saveProfile } from "../../services/ProfileService";
 import LoginStep from "../../constants/LoginStep";
+import { saveProfile } from "../profile/add_profile/AddProfileInfo";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 export default function CRSSScreen({ route }) {
     const { t } = useTranslation();
     const { params } = route || {};
-    const { mobileAccount, profile, routeScreen } = params || {};
+    const { mobileAccount, profile, routeScreen, isAddPrimaryProfile } = params || {};
     const dispatch = useDispatch();
 
     const passwordRef = React.createRef();
@@ -65,7 +65,10 @@ export default function CRSSScreen({ route }) {
         if (error.error) {
             passwordRef?.current.setError(error);
         } else if (password == profile?.crssPassword) {
-            await saveProfile(mobileAccount, profile);
+            const isSaveSuccess = await saveProfile(dispatch, isAddPrimaryProfile, mobileAccount, profile);
+            if (!isSaveSuccess) {
+                return;
+            }
             if (!isEmpty(routeScreen)) {
                 NavigationService.navigate(routeScreen);
             } else {
