@@ -95,12 +95,8 @@ export default function ForgotPasswordEnterEmailScreen() {
         <Page>
             <View style={{ flex: 1 }}>
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
-
                 <View style={ForgotPasswordStyles.page_container}>
-                    <AttentionSection
-                        testID={testIDStr}
-                        attentionContent={t("forgotPassword.enterEmail.attentionContent")}
-                    />
+                    <AttentionSection testID={testIDStr} contentKey="forgotPassword.enterEmail.attentionContent" />
                     {renderEmailAddressSection()}
                     <ActionButton testID={testIDStr} label={t("forgotPassword.enterEmail.send")} onAction={onSend} />
                 </View>

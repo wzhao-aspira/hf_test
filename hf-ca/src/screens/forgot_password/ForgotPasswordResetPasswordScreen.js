@@ -124,7 +124,6 @@ export default function ForgotPasswordScreen({ route }) {
         <Page>
             <View style={{ flex: 1 }}>
                 <CommonHeader title={`${t("forgotPassword.resetPassword.reset")} ${t("common.password")}`} />
-
                 <View style={ForgotPasswordStyles.page_container}>
                     {renderResetPasswordSection()}
                     <ActionButton

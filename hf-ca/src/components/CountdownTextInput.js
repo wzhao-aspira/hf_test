@@ -115,7 +115,9 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
                     onFocus={() => setFocused(true)}
                     onBlur={() => {
                         setFocused(false);
-                        onBlur && onBlur();
+                        if (onBlur) {
+                            onBlur();
+                        }
                     }}
                 />
                 {isShowCountdown && (
