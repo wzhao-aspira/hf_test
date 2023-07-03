@@ -66,7 +66,7 @@ export default function HomeScreen() {
         <View style={{ flex: 1 }}>
             <Page style={{ paddingBottom: 0, backgroundColor: AppTheme.colors.page_bg }}>
                 <HeaderBar />
-                <WelcomeBar firstName="Hannah" />
+                <WelcomeBar />
                 <FlatList
                     testID={genTestId("HomeContentFlatList")}
                     refreshControl={

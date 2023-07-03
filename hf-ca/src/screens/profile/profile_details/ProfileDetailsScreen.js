@@ -79,9 +79,9 @@ const ProfileDetailsScreen = ({ route }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
-    const primaryProfileId = useSelector(selectors.getPrimaryProfileID);
+    const primaryProfileId = useSelector(selectors.selectPrimaryProfileID);
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
-    const profileDetails = useSelector(selectors.getProfileDetailsById(profileId));
+    const profileDetails = useSelector(selectors.selectProfileDetailsById(profileId));
     const userID = useSelector(selectUsername);
 
     const [showSwitchProfile, setShowSwitchProfile] = useState(false);

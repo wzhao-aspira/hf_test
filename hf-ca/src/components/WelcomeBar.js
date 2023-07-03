@@ -1,8 +1,9 @@
-import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
+import { selectors as profileSelectors } from "../redux/ProfileSlice";
 
 const styles = StyleSheet.create({
     container: {
@@ -20,13 +21,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const WelcomeBar = (props) => {
-    const { firstName = "Hannah" } = props;
+const WelcomeBar = () => {
     const { t } = useTranslation();
+    const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
+
     return (
         <View style={styles.container}>
             <Text style={styles.label} numberOfLines={1} ellipsizeMode="tail">
-                {t("home.greeting", { name: firstName })}
+                {t("home.greeting", { name: currentInUseProfile.displayName })}
             </Text>
         </View>
     );

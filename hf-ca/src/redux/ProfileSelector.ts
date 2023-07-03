@@ -6,6 +6,8 @@ const selectProfileState = (state: RootState) => state.profile;
 
 const selectProfileIDs = createSelector(selectProfileState, (state) => state.profilesIDs);
 
+const selectPrimaryProfileID = createSelector(selectProfileState, (profileState) => profileState.primaryProfileID);
+
 const selectCurrentInUseProfileID = createSelector(selectProfileState, (state) => state.currentInUseProfileID);
 
 const selectOtherProfileIDs = createSelector(
@@ -60,8 +62,6 @@ const selectOtherProfileList = createSelector(
     selectProcessedProfileList,
     selectOtherProfileIDs,
     (profileList, otherProfileIDs) => {
-        console.log({ profileList, otherProfileIDs });
-
         if (!otherProfileIDs || otherProfileIDs?.length <= 0) return [];
 
         return profileList.filter((profile) => otherProfileIDs.includes(profile.profileId));
@@ -76,20 +76,18 @@ const selectSortedByDisplayNameOtherProfileList = createSelector(selectOtherProf
     });
 });
 
-const getProfileDetailsById = (profileId) =>
+const selectProfileDetailsById = (profileId) =>
     createSelector(
         selectProcessedProfileList,
         (profileList) => profileList.find((item) => item.profileId === profileId) || {}
     );
 
-const getPrimaryProfileID = createSelector(selectProfileState, (profile) => profile.primaryProfileID);
-
 const selectors = {
-    selectCurrentInUseProfileID,
     selectCurrentInUseProfile,
+    selectCurrentInUseProfileID,
+    selectPrimaryProfileID,
+    selectProfileDetailsById,
     selectSortedByDisplayNameOtherProfileList,
-    getProfileDetailsById,
-    getPrimaryProfileID,
 };
 
 export default selectors;

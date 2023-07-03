@@ -39,7 +39,7 @@ async function deleteAccount(accountID: string, accountPassword: string) {
             const result = await deleteMobileAccount(accountID);
 
             if (result?.success) {
-                setActiveUserID(null);
+                await setActiveUserID(null);
                 return "succeeded";
             }
         }

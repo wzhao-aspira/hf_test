@@ -98,6 +98,8 @@ export default function SettingsScreen() {
     const { t } = useTranslation();
     const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
+    if (!activeProfile) return null;
+
     return (
         <Page style={{ paddingBottom: 0 }}>
             <CommonHeader title={t("hamburgerMenu.settings")} />

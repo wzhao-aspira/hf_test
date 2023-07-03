@@ -1,4 +1,5 @@
 import { Pressable, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
 import { faBuilding, faShip } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -9,6 +10,8 @@ import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { shortName } from "../../../utils/GenUtil";
 import { genTestId } from "../../../helper/AppHelper";
 import getGOIDLabel from "../../../helper/ProfileHelper";
+
+import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 
 const typeIcons = {
     [PROFILE_TYPE_IDS.business]: faBuilding,
@@ -21,9 +24,10 @@ export const ProfileShortNameOrIcon = ({
     profileShortNameStyles = {},
     iconStyles = {},
 }) => {
-    const { profileType, displayName, isPrimary } = profile;
+    const { profileType, displayName, profileId } = profile;
     const typeIcon = typeIcons[profileType];
-    const borderColor = isPrimary ? AppTheme.colors.error : AppTheme.colors.primary_2;
+    const primaryProfileID = useSelector(profileSelectors.selectPrimaryProfileID);
+    const borderColor = primaryProfileID === profileId ? AppTheme.colors.error : AppTheme.colors.primary_2;
 
     if (profileType === PROFILE_TYPE_IDS.business || profileType === PROFILE_TYPE_IDS.vessel) {
         return (
