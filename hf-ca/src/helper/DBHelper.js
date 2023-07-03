@@ -178,10 +178,11 @@ export async function getMobileAccountById(id) {
             resolve(result);
             return;
         }
+        const upperCaseID = id.toUpperCase();
         db.transaction((tx) => {
             tx.executeSql(
-                "SELECT * FROM MOBILE_ACCOUNT WHERE ID = (?);",
-                [`${id}`],
+                "SELECT * FROM MOBILE_ACCOUNT WHERE UPPER(ID) = (?);",
+                [`${upperCaseID}`],
                 (_, { rows }) => {
                     result.success = true;
                     console.log(`rows:${JSON.stringify(rows)}`);
