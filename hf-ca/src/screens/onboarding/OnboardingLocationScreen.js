@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import * as Location from "expo-location";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import SplitLine from "../../components/SplitLine";
 import { storeItem } from "../../helper/StorageHelper";
@@ -60,9 +60,9 @@ export default function OnboardingLocationScreen(props) {
         <View style={styles.content}>
             <View style={styles.titleView}>
                 <View style={{ justifyContent: "center" }}>
-                    <Text style={styles.title}>{t("onboarding.location.title")}</Text>
+                    <Text style={styles.title}><Trans i18nKey="onboarding.location.title" /></Text>
                     <SplitLine style={{ alignSelf: "center", backgroundColor: AppTheme.colors.font_color_1 }} />
-                    <Text style={styles.subTitle}>{t("onboarding.location.subTitle")}</Text>
+                    <Text style={styles.subTitle}><Trans i18nKey="onboarding.location.subTitle" /></Text>
                 </View>
             </View>
 

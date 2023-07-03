@@ -215,7 +215,7 @@ export default function DrawerContent({ navigation }) {
                     )}
                     <MenuItem
                         onClick={() => {
-                            // navigation.navigate("Settings");
+                            navigation.navigate(Routers.setting);
                         }}
                         title="hamburgerMenu.settings"
                         testID="Settings"
@@ -323,14 +323,6 @@ export default function DrawerContent({ navigation }) {
                 {renderAccountSection()}
                 {renderContactUsSection()}
                 {renderSignOutSection()}
-                <Pressable
-                    onPress={() => {
-                        console.log("delete account");
-                        navigation.navigate(Routers.deleteAccount);
-                    }}
-                >
-                    <Text>delete account</Text>
-                </Pressable>
             </ScrollView>
             {renderBottomSection()}
             <QuickAccessChecker

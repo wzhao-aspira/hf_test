@@ -9,9 +9,10 @@ import CommonHeader from "../../../components/CommonHeader";
 import Page from "../../../components/Page";
 import { getAddressList, getInfoList, styles } from "./ProfileDetailsUtils";
 import { getProfileDetailsById } from "../../../redux/ProfileSlice";
-import { ProfileShortNameOrIcon, getGOIDLabel } from "../manage_profile/ProfileItem";
+import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { genTestId } from "../../../helper/AppHelper";
+import { getGOIDLabel } from "../../../helper/ProfileHelper";
 
 const RenderItem = ({ item, divider }) => {
     if (!item.value) {
