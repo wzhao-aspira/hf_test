@@ -1,19 +1,23 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dialog } from "../../../components/Dialog";
 import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
+import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
 
-export default function SwitchProfileDialog({ closeModal, hideDialog, activeProfile, inactiveProfiles = [] }) {
+export default function SwitchProfileDialog({ hideDialog }) {
     const dispatch = useDispatch();
 
+    const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
+    const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
+
     return (
-        <Dialog visible closeModal={closeModal}>
+        <Dialog visible closeModal={hideDialog}>
             <View style={dialogStyles.switchProfileContainer}>
                 <ProfileItem
-                    profile={activeProfile}
+                    profile={currentInUseProfile}
                     onPress={hideDialog}
                     profileItemStyles={{
                         container: dialogStyles.profileItemContainer,
@@ -23,7 +27,7 @@ export default function SwitchProfileDialog({ closeModal, hideDialog, activeProf
                 <View style={commonStyles.divider} />
 
                 <ScrollView>
-                    {inactiveProfiles.map((profile) => {
+                    {otherProfiles.map((profile) => {
                         return (
                             <ProfileItem
                                 key={profile.profileId}

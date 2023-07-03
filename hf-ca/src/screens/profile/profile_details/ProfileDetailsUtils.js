@@ -91,7 +91,43 @@ export const styles = StyleSheet.create({
         ...AppTheme.typography.sub_section,
         marginLeft: 20,
     },
+    removeMsgContainer: {
+        marginTop: 10,
+    },
+    removeMsg: {
+        ...AppTheme.typography.overlay_sub_text,
+        color: AppTheme.colors.font_color_2,
+        lineHeight: 20,
+        marginLeft: 10,
+    },
 });
+
+export const switchAction = "switch";
+export const removeAction = "remove";
+
+export const removeProfileTypes = {
+    currentInUse: {
+        okText: "profile.switchProfile",
+        message: "profile.removeCurrentInUseProfileMsg",
+        okAction: switchAction,
+    },
+    associatedProfileIsCurrentInUse: {
+        okText: "profile.switchProfile",
+        message: "profile.removeAssociatedProfileIsInUserMsg",
+        okAction: switchAction,
+    },
+    hasAssociatedProfile: {
+        okText: "profile.removeProfile",
+        message: "profile.removeAssociatedProfilesMsg",
+        okAction: removeAction,
+        showAssociatedProfileNames: true,
+    },
+    normal: {
+        okText: "profile.removeProfile",
+        message: "profile.removeProfileMsg",
+        okAction: removeAction,
+    },
+};
 
 export const getHeight = (height) => {
     if (height) {
@@ -191,21 +227,16 @@ export const getAddressList = (profile, t) => {
         return [];
     }
 
-    const profilesInfo = [
-        {
+    const profilesInfo = [];
+    if (profile.residenceAddress) {
+        profilesInfo.push({
             type: t("profile.physicalAddress"),
             value: profile.residenceAddress,
-        },
-        {
-            type: t("profile.mailingAddress"),
-            value: profile.mailingAddress,
-        },
-    ];
+        });
+    }
+    if (profile.mailingAddress) {
+        profilesInfo.push({ type: t("profile.mailingAddress"), value: profile.mailingAddress });
+    }
 
-    return profilesInfo.map((item) => {
-        return {
-            type: item.type,
-            value: item.value || "-",
-        };
-    });
+    return profilesInfo;
 };

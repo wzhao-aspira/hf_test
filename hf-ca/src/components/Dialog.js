@@ -88,6 +88,7 @@ export const SelectDialog = (props) => {
         okAction = () => {},
         cancelText = "common.cancel",
         cancelAction = () => {},
+        children = <></>,
     } = props;
 
     return (
@@ -101,6 +102,7 @@ export const SelectDialog = (props) => {
                         <Text testID={genTestId("SelectDialogTitle")} style={styles.message}>
                             {i18n.exists(message) ? t(message) : message}
                         </Text>
+                        {children}
                         <PrimaryBtn
                             onPress={okAction}
                             label={i18n.exists(okText) ? t(okText) : okText}

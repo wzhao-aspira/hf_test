@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { isEmpty, difference } from "lodash";
 import moment from "moment";
 import countryStateMockData from "./mock_data/country_states.json";
 import identificationTypesMockData from "./mock_data/identification_types.json";
@@ -55,6 +55,22 @@ export async function checkAccountEmailIsExisting(userID) {
 export async function getMobileAccountByUserId(userID) {
     const mobileAccount = await getMobileAccountById(userID);
     return mobileAccount?.account;
+}
+export async function removeProfilesByUserId(userID, deletedProfileIds) {
+    const mobileAccount = await getMobileAccountById(userID);
+    if (!mobileAccount?.account) {
+        return { success: false };
+    }
+    const { otherProfileIds } = mobileAccount.account;
+
+    const newOtherProfileIds = difference(otherProfileIds, deletedProfileIds);
+    const updateResponse = await updateMobileAccountOtherProfileIds(userID, newOtherProfileIds.join(","));
+
+    if (updateResponse.success) {
+        return { success: true };
+    }
+
+    return { success: false };
 }
 
 export async function addPrimaryProfile(mobileAccount, profileId) {

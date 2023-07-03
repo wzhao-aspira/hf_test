@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Profile } from "../types/profile";
 import profileSelectors from "./ProfileSelector";
@@ -49,11 +49,6 @@ const profileSlice = createSlice({
         },
     },
 });
-
-const selectProfile = (state) => state.profile;
-
-export const getProfileDetailsById = (profileId) =>
-    createSelector(selectProfile, (profile) => profile.profileList.find((item) => item.profileId === profileId) || {});
 
 const selectors = profileSelectors;
 
