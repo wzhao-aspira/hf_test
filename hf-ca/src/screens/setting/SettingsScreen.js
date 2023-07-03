@@ -3,6 +3,7 @@ import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import Page from "../../components/Page";
@@ -11,9 +12,8 @@ import SplitLine from "../../components/SplitLine";
 import SeparateLine from "../../components/SeparateLine";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
-import { useSelector } from "react-redux";
-import { selectors as profileSelectors } from '../../redux/ProfileSlice';
-import { getGOIDLabel } from "../../helper/ProfileHelper";
+import { selectors as profileSelectors } from "../../redux/ProfileSlice";
+import getGOIDLabel from "../../helper/ProfileHelper";
 
 const styles = StyleSheet.create({
     titleArea: {
@@ -105,7 +105,9 @@ export default function SettingsScreen() {
                 <View style={styles.titleArea}>
                     <Text style={styles.title}>{activeProfile?.displayName}</Text>
                     <SplitLine style={styles.line} />
-                    <Text style={styles.description}>{getGOIDLabel(t, activeProfile)} #: {activeProfile?.goIDNumber}</Text>
+                    <Text style={styles.description}>
+                        {getGOIDLabel(t, activeProfile)} #: {activeProfile?.goIDNumber}
+                    </Text>
                 </View>
 
                 <View style={styles.sectionContainer}>

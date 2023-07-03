@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons";
@@ -22,7 +22,6 @@ import SwitchProfileDialog from "../manage_profile/SwitchProfileDialog";
 import NavigationService from "../../../navigation/NavigationService";
 
 import { genTestId } from "../../../helper/AppHelper";
-import { getGOIDLabel } from "../../../helper/ProfileHelper";
 import {
     getAddressList,
     getInfoList,
@@ -31,6 +30,7 @@ import {
     styles,
     switchAction,
 } from "./ProfileDetailsUtils";
+import getGOIDLabel from "../../../helper/ProfileHelper";
 
 const RenderItem = ({ item, divider }) => {
     if (!item.value) {
