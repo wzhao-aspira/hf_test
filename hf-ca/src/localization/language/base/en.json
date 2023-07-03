@@ -136,7 +136,13 @@
         "purchaseDate": "Purchase Date",
         "currentDocumentation": "Current Documentation",
         "physicalAddress": "Physical Address",
-        "mailingAddress": "Mailing Address"
+        "mailingAddress": "Mailing Address",
+        "removeProfileMsg": "Are you sure you want to remove this profile?",
+        "removePrimaryProfileMsg": "The primary profile can not be removed.",
+        "removeCurrentInUseProfileMsg": "The profile is current in use, please switch profile first.",
+        "removeAssociatedProfileIsInUserMsg": "The associated profile is current in use, please switch profile first.",
+        "removeAssociatedProfilesMsg": "Are you sure you want to remove current profile, the associated profile will be removed as well.",
+        "associatedProfiles": "Associated profile(s):"
     },
 
     "huntAndFish": {

@@ -25,7 +25,7 @@ const selectProcessedProfileList = createSelector(selectProfileList, (profileLis
         // get vessel owner name
         if (profile.profileType === PROFILE_TYPE_IDS.vessel) {
             const ownerProfile = profileList.find((item) => item.profileId === profile.ownerId);
-            const ownerName = ownerProfile.displayName;
+            const ownerName = ownerProfile?.displayName;
             return { ...profile, ownerName };
         }
 
@@ -76,10 +76,20 @@ const selectSortedByDisplayNameOtherProfileList = createSelector(selectOtherProf
     });
 });
 
+const getProfileDetailsById = (profileId) =>
+    createSelector(
+        selectProcessedProfileList,
+        (profileList) => profileList.find((item) => item.profileId === profileId) || {}
+    );
+
+const getPrimaryProfileID = createSelector(selectProfileState, (profile) => profile.primaryProfileID);
+
 const selectors = {
+    selectCurrentInUseProfileID,
     selectCurrentInUseProfile,
     selectSortedByDisplayNameOtherProfileList,
-    selectCurrentInUseProfileID,
+    getProfileDetailsById,
+    getPrimaryProfileID,
 };
 
 export default selectors;

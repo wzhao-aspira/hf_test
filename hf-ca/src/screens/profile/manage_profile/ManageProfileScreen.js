@@ -57,16 +57,7 @@ export default function ManageProfileScreen() {
                     />
                     <OtherProfiles otherProfiles={otherProfiles} />
 
-                    {showSwitchProfile && (
-                        <SwitchProfileDialog
-                            closeModal={() => {
-                                setShowSwitchProfile(false);
-                            }}
-                            hideDialog={hideDialog}
-                            inactiveProfiles={otherProfiles}
-                            activeProfile={currentInUseProfile}
-                        />
-                    )}
+                    {showSwitchProfile && <SwitchProfileDialog hideDialog={hideDialog} />}
                 </Page>
             </ScrollView>
         </Page>
