@@ -18,6 +18,7 @@ import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
+import BiometricLoginBtn from "../../components/BiometricLoginBtn";
 
 const SignInScreen = (route) => {
     const { t } = useTranslation();
@@ -34,7 +35,25 @@ const SignInScreen = (route) => {
     const [errorMsg, setErrorMsg] = useState();
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
-    const handleSignIn = async () => {
+    const doSignIn = async (uid = userId, pwd = password) => {
+        const response = await AccountService.authSignin(uid, pwd);
+        if (!response.success) {
+            setShowErrorDialog(true);
+            setErrorMsg("signIn.accountNotFound");
+            return;
+        }
+
+        dispatch(appThunkActions.initUserData(response.userInfo));
+
+        const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
+        if (!isEmpty(onBoardingScreens)) {
+            dispatch(updateLoginStep(LoginStep.onBoarding));
+        } else {
+            dispatch(updateLoginStep(LoginStep.home));
+        }
+    };
+
+    const clickSignIn = async () => {
         const validateUserId = validateRequiredInput(userId, userIdRef, userIdEmptyMsg);
         const validatePassword = validateRequiredInput(password, passwordRef, passwordEmptyMsg);
 
@@ -47,22 +66,7 @@ const SignInScreen = (route) => {
             setErrorMsg("signIn.userIdInvalid");
             return;
         }
-
-        const response = await AccountService.authSignin(userId, password);
-        if (!response.success) {
-            setShowErrorDialog(true);
-            setErrorMsg("signIn.accountNotFound");
-            return;
-        }
-
-        dispatch(appThunkActions.initUserData(response.userInfo));
-
-        const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userId);
-        if (!isEmpty(onBoardingScreens)) {
-            dispatch(updateLoginStep(LoginStep.onBoarding));
-        } else {
-            dispatch(updateLoginStep(LoginStep.home));
-        }
+        doSignIn();
     };
 
     return (
@@ -112,7 +116,15 @@ const SignInScreen = (route) => {
                         }}
                     />
 
-                    <PrimaryBtn style={styles.marginTopStyle(30)} label={sighInLable} onPress={handleSignIn} />
+                    <PrimaryBtn style={styles.marginTopStyle(30)} label={sighInLable} onPress={clickSignIn} />
+
+                    <BiometricLoginBtn
+                        onAuthSuccess={(authInfo) => {
+                            console.log("onAuthSuccess", authInfo);
+                            const { userID, password: pwd } = authInfo;
+                            doSignIn(userID, pwd);
+                        }}
+                    />
 
                     <Text testID={genTestId("signUpText")} style={styles.signUpStr}>
                         {t("signIn.noAccount")}

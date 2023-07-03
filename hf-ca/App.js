@@ -10,10 +10,9 @@ import AppContract from "./src/assets/_default/AppContract";
 import { initAppConfig } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
 import { dbCreate, getMobileAccountById } from "./src/helper/DBHelper";
-import { setLocalAuth, updateLoginStep } from "./src/redux/AppSlice";
+import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
-import { getAuthInfo } from "./src/helper/LocalAuthHelper";
 import { getActiveUserID } from "./src/helper/AppHelper";
 
 // Keep the splash screen visible while we fetch resources
@@ -24,8 +23,6 @@ export default function App() {
 
     const getMobileAccountInfoFromDB = async () => {
         const lastUsedMobileAccountId = await getActiveUserID();
-        const authInfo = await getAuthInfo(lastUsedMobileAccountId);
-        store.dispatch(setLocalAuth(authInfo));
         if (!isEmpty(lastUsedMobileAccountId)) {
             const dbResult = await getMobileAccountById(lastUsedMobileAccountId);
             if (dbResult.success) {

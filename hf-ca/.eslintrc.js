@@ -71,7 +71,7 @@ module.exports = {
         "@typescript-eslint/indent": "off",
         "@typescript-eslint/no-shadow": "warn",
         "@typescript-eslint/no-unused-expressions": "warn",
-        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/quotes": "off",
         "no-duplicate-imports": "off",
         "react-hooks/exhaustive-deps": "warn",

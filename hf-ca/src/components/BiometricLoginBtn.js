@@ -1,0 +1,96 @@
+import React, { useCallback, useEffect, useRef } from "react";
+
+import { useTranslation } from "react-i18next";
+import { isEmpty } from "lodash";
+import {
+    startBiometricAuth,
+    getLoginCredential,
+    getAuthInfo,
+    getLastBiometricLoginUser,
+} from "../helper/LocalAuthHelper";
+import AppContract from "../assets/BaseContract";
+import QuickAccessChecker from "./QuickAccessChecker";
+import OutlinedBtn from "./OutlinedBtn";
+
+const startAuth = async (onAuthSuccess, onError) => {
+    const userID = await getLastBiometricLoginUser();
+    startBiometricAuth(
+        userID,
+        async () => {
+            const mobileAccount = await getLoginCredential(userID);
+            const userInfo = mobileAccount?.account;
+            if (isEmpty(userInfo)) {
+                return;
+            }
+            console.log(userInfo);
+            onAuthSuccess(userInfo);
+        },
+        (res) => {
+            if (res.error != "user_cancel") {
+                onError();
+            }
+        }
+    );
+};
+
+export default function BiometricLoginBtn({ onAuthSuccess }) {
+    const { t } = useTranslation();
+    const [showBtn, setShowBtn] = React.useState(false);
+    const [type, setTypeName] = React.useState("");
+    const quickAccessChecker = useRef();
+    const useAuthStr = `${t("auth.use")} ${type}`;
+    const checkBiometricLogin = useCallback(
+        async (startAuthenticate) => {
+            const { biometric_enabled: biometricEnabled } = AppContract.function;
+            if (!biometricEnabled) {
+                return;
+            }
+            const userID = await getLastBiometricLoginUser();
+            if (isEmpty(userID)) {
+                return;
+            }
+            const { available, enable, typeName } = await getAuthInfo(userID);
+            setTypeName(typeName);
+            setShowBtn(available && enable);
+            if (available && startAuthenticate) {
+                startAuth(onAuthSuccess, () => setShowBtn(false));
+            }
+        },
+        [onAuthSuccess]
+    );
+    useEffect(() => {
+        checkBiometricLogin(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+        <>
+            {showBtn && (
+                <OutlinedBtn
+                    style={{ marginTop: 20 }}
+                    testID="useBiometricBtn"
+                    label={useAuthStr}
+                    onPress={() => {
+                        startAuth(onAuthSuccess, () => setShowBtn(false));
+                    }}
+                />
+            )}
+            <QuickAccessChecker
+                ref={quickAccessChecker}
+                onHardwareInfo={(available) => {
+                    if (!available) {
+                        setShowBtn(false);
+                    }
+                }}
+                onAuthTypeChange={(authType) => {
+                    const enable = authType != "None";
+                    if (enable) {
+                        checkBiometricLogin(false);
+                    } else {
+                        setShowBtn(false);
+                    }
+                }}
+            />
+        </>
+    );
+}

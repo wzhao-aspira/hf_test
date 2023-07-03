@@ -14,6 +14,7 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
+import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import { saveProfile } from "../profile/add_profile/AddProfileInfo";
 
 const styles = StyleSheet.create({
@@ -72,7 +73,13 @@ export default function CRSSScreen({ route }) {
             if (!isEmpty(routeScreen)) {
                 NavigationService.navigate(routeScreen);
             } else {
-                dispatch(updateLoginStep(LoginStep.onBoarding));
+                const { userID } = mobileAccount;
+                const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
+                if (!isEmpty(onBoardingScreens)) {
+                    dispatch(updateLoginStep(LoginStep.onBoarding));
+                } else {
+                    dispatch(updateLoginStep(LoginStep.home));
+                }
             }
         } else {
             dispatch(

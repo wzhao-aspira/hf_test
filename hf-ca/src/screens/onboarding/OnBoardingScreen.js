@@ -7,7 +7,7 @@ import LoginStep from "../../constants/LoginStep";
 import OnBoardingHelper, { OnboardingType } from "../../helper/OnBoardingHelper";
 import OnboardingBiometricIDScreen from "./OnboardingBiometricIDScreen";
 import Page from "../../components/Page";
-import { saveOnboardingPageAppear, setLoginCredential } from "../../helper/LocalAuthHelper";
+import { saveOnboardingPageAppear, setLastBiometricLoginUser, setLoginCredential } from "../../helper/LocalAuthHelper";
 
 export default function OnBoardingScreen() {
     const dispatch = useDispatch();
@@ -44,6 +44,7 @@ export default function OnBoardingScreen() {
                     userName={userName}
                     onFinish={(localAuthSet) => {
                         if (localAuthSet) {
+                            setLastBiometricLoginUser(userName);
                             setLoginCredential(userName);
                         }
                         saveOnboardingPageAppear(userName);

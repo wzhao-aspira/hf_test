@@ -1,27 +1,18 @@
 import React, { useEffect, useImperativeHandle } from "react";
-import { useSelector } from "react-redux";
-import { checkAuthAvailable, getAuthInfo } from "../helper/LocalAuthHelper";
-import { selectUsername } from "../redux/AppSlice";
+import { checkAuthAvailable, getAuthType } from "../helper/LocalAuthHelper";
 import useAppState from "../hooks/useAppState";
 
 const QuickAccessChecker = React.forwardRef((props, ref) => {
     const { onHardwareInfo, onAuthTypeChange, children } = props;
 
-    const userName = useSelector(selectUsername);
-
     const checkAccessMethods = async () => {
         const hardwareAvailable = await checkAuthAvailable();
-        onHardwareInfo && onHardwareInfo(hardwareAvailable);
+        onHardwareInfo?.(hardwareAvailable);
         let typeName = "None";
         if (hardwareAvailable) {
-            const authInfo = await getAuthInfo(userName);
-            if (authInfo) {
-                typeName = authInfo.typeName;
-            }
-        } else {
-            // Do nothing
+            typeName = await getAuthType();
         }
-        onAuthTypeChange && onAuthTypeChange(typeName);
+        onAuthTypeChange?.(typeName);
     };
 
     useAppState((nextAppState) => {
