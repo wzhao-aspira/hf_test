@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import LoginStep from "../constants/LoginStep";
 
@@ -27,6 +28,9 @@ const appSlice = createSlice({
     reducers: {
         updateUser(state, action) {
             Object.assign(state, { user: action?.payload });
+        },
+        resetUser(state) {
+            state.user = initialState.user;
         },
         updateLoginStep(state, action) {
             Object.assign(state, { loginStep: action?.payload });
@@ -69,6 +73,7 @@ export const selectIndicator = (state) => state.app.indicator;
 const selectUser = createSelector(selectAppState, (app) => app.user);
 
 const selectors = {
+    selectUsername,
     selectUser,
 };
 

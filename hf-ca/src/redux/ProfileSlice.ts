@@ -32,21 +32,22 @@ const profileSlice = createSlice({
 
             state.profileList = [...state.profileList, payload];
         },
-        updateCurrentInUseProfileID(state, action: PayloadAction<string>) {
+        updateCurrentInUseProfileID(state, action: PayloadAction<Profile["profileId"]>) {
             const { payload } = action;
 
             state.currentInUseProfileID = payload;
         },
-        updatePrimaryProfileID(state, action: PayloadAction<string>) {
+        updatePrimaryProfileID(state, action: PayloadAction<Profile["profileId"]>) {
             const { payload } = action;
 
             state.primaryProfileID = payload;
         },
-        updateProfileIDs(state, action: PayloadAction<string[]>) {
+        updateProfileIDs(state, action: PayloadAction<Profile["profileId"][]>) {
             const { payload } = action;
 
             state.profilesIDs = payload || null;
         },
+        restProfileToInitialState: () => initialState,
     },
 });
 

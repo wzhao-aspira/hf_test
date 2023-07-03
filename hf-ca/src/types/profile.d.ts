@@ -2,6 +2,7 @@ export interface Identification {
     ownerTypeId: null | string;
     typeId: string;
     idNumber: string;
+    countryIssuedId?: string;
 }
 
 export interface Profile {
@@ -9,7 +10,7 @@ export interface Profile {
     ownerId: null | string;
     profileType: string;
     dateOfBirth: null | string;
-    goIDNumber: null | string;
+    goIDNumber: string;
     firstName: null | string;
     lastName: null | string;
     businessName?: null | string;
@@ -17,7 +18,7 @@ export interface Profile {
     isNeedCRSS: boolean;
     crssPassword: null | string;
     crssEmail: null | string;
-    postalCodeNumber: null;
+    postalCodeNumber: null | string;
     fgNumber: null | string;
     identification: Identification[] | null;
     residenceAddress: null | string;
@@ -32,4 +33,5 @@ export interface Profile {
     vesselName: null | string;
     purchaseDate: null | string;
     currentDocumentation: null | string;
+    middleName?: string;
 }

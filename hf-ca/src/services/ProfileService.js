@@ -240,3 +240,20 @@ export async function getCurrentInUseProfileID(accountID) {
 
     return null;
 }
+
+export async function removeAccountCurrentInUseProfileID(accountID) {
+    const currentInUseProfileIDOfAccounts = await retrieveItem(KEY_CONSTANT.currentInUseProfileIDOfAccounts);
+
+    if (currentInUseProfileIDOfAccounts) {
+        const parsedAccountsCurrentInUseProfileID = JSON.parse(currentInUseProfileIDOfAccounts);
+
+        if (parsedAccountsCurrentInUseProfileID[accountID]) {
+            delete parsedAccountsCurrentInUseProfileID[accountID];
+
+            await storeItem(
+                KEY_CONSTANT.currentInUseProfileIDOfAccounts,
+                JSON.stringify(parsedAccountsCurrentInUseProfileID)
+            );
+        }
+    }
+}
