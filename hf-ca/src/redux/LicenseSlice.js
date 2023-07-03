@@ -8,19 +8,16 @@ import { REQUEST_STATUS } from "../constants/Constants";
 
 export const getLicense = createAsyncThunk(
     "license/getLicense",
-    async ({ rejectWithValue, searchParams }) => {
+    async ({ searchParams }, { rejectWithValue }) => {
         const result = { success: false };
         try {
             const data = await getLicenseData(searchParams);
-            console.log("getLicense");
-            console.log(searchParams);
-            console.log(data);
             result.success = true;
             result.data = data;
             return result;
         } catch (error) {
             console.log("getLicense --- get error", error);
-            throw rejectWithValue(error);
+            return rejectWithValue(error);
         }
     },
     {

@@ -25,7 +25,6 @@ export default function HomeScreen() {
     const licenseRefreshing = licenseReduxData.requestStatus === REQUEST_STATUS.pending;
     const licenseData = licenseReduxData.data;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
-    console.log(activeProfileId);
     const getLicenseOfActiveProfile = (isForce) => {
         if (activeProfileId) {
             dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
