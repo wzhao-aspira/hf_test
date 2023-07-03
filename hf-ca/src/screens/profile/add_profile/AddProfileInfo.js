@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { isEmpty } from "lodash";
 import PopupDropdown from "../../../components/PopupDropdown";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import AppTheme from "../../../assets/_default/AppTheme";
@@ -24,6 +25,7 @@ import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
 import { showSimpleDialog, updateLoginStep } from "../../../redux/AppSlice";
 import LoginStep from "../../../constants/LoginStep";
+import OnBoardingHelper from "../../../helper/OnBoardingHelper";
 import appThunkActions from "../../../redux/AppThunk";
 
 const styles = StyleSheet.create({
@@ -169,7 +171,13 @@ const AddProfileInfo = ({
                 if (routeScreen) {
                     NavigationService.navigate(routeScreen);
                 } else {
-                    dispatch(updateLoginStep(LoginStep.onBoarding));
+                    const { userID } = mobileAccount;
+                    const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
+                    if (!isEmpty(onBoardingScreens)) {
+                        dispatch(updateLoginStep(LoginStep.onBoarding));
+                    } else {
+                        dispatch(updateLoginStep(LoginStep.home));
+                    }
                 }
             }
         }

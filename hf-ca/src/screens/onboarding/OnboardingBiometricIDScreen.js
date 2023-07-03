@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import AppTheme from "../../assets/_default/AppTheme";
 import SplitLine from "../../components/SplitLine";
 
@@ -10,8 +9,7 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import OutlinedBtn from "../../components/OutlinedBtn";
 
 import { genTestId } from "../../helper/AppHelper";
-import { selectLocalAuth } from "../../redux/AppSlice";
-import { startBiometricAuth } from "../../helper/LocalAuthHelper";
+import { startBiometricAuth, setLastBiometricLoginUser, getAuthType } from "../../helper/LocalAuthHelper";
 import i18n from "../../localization/i18n";
 
 const styles = StyleSheet.create({
@@ -59,8 +57,7 @@ const biometricImage = require("../../assets/_default/images/biometric_id.png");
 
 export default function OnboardingBiometricIDScreen(props) {
     const { onFinish, userName } = props;
-
-    const { typeName: authType } = useSelector(selectLocalAuth);
+    const [authType, setTypeName] = React.useState("");
 
     const defaultSubTitle = i18n.t("auth.permissionDescription", {
         authType,
@@ -69,6 +66,10 @@ export default function OnboardingBiometricIDScreen(props) {
 
     const { t } = useTranslation();
     const safeArea = useSafeAreaInsets();
+
+    useEffect(() => {
+        getAuthType().then((type) => setTypeName(type));
+    }, []);
 
     return (
         <View style={styles.content}>
@@ -99,7 +100,7 @@ export default function OnboardingBiometricIDScreen(props) {
                     label={useAuthStr}
                     onPress={() => {
                         startBiometricAuth(userName, () => {
-                            onFinish && onFinish(true);
+                            onFinish?.(true);
                         });
                     }}
                 />
@@ -108,8 +109,9 @@ export default function OnboardingBiometricIDScreen(props) {
                     testID={genTestId("notNowBtn")}
                     label={t("onboarding.location.notNow")}
                     onPress={() => {
-                        console.log("not now");
-                        onFinish && onFinish(false);
+                        console.log("clear biometric login info");
+                        setLastBiometricLoginUser(null);
+                        onFinish?.(false);
                     }}
                 />
             </View>

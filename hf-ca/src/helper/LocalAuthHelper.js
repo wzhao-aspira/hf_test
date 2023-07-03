@@ -7,6 +7,8 @@ import i18n from "../localization/i18n";
 import store from "../redux/Store";
 import { showSimpleDialog } from "../redux/AppSlice";
 import { KEY_CONSTANT } from "../constants/Constants";
+import { getMobileAccountById } from "./DBHelper";
+import SecurityUtil from "../utils/SecurityUtil";
 
 export async function saveOnboardingPageAppear(userId) {
     console.log(`saveOnboardingPageAppear:${userId}`);
@@ -41,7 +43,14 @@ export async function checkAuthOnboarding(userId) {
     if (appear == "" || appear == null || appear.result == false) {
         return true;
     }
-
+    // already showed, if user enabled biometric login before need to restore the flag
+    const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userId, false);
+    const isBlock = await checkBlockBiometricIDLogin();
+    if (!isBlock && biometricIDSwitch) {
+        setLastBiometricLoginUser(userId);
+    } else {
+        setLastBiometricLoginUser(null);
+    }
     return false;
 }
 
@@ -64,59 +73,51 @@ export async function getAuthType() {
     return authType;
 }
 
-export async function checkBlockBiometricIDLogin(userName) {
-    const result = await retrieveItem(KEY_CONSTANT.biometricIDSwitchBlock + userName, false);
+export async function checkBlockBiometricIDLogin(userID) {
+    const result = await retrieveItem(KEY_CONSTANT.biometricIDSwitchBlock + userID, false);
 
     return result;
 }
-export async function blockBiometricIDLogin(userName) {
-    await storeItem(KEY_CONSTANT.biometricIDSwitchBlock + userName, true);
+export async function blockBiometricIDLogin(userID) {
+    await storeItem(KEY_CONSTANT.biometricIDSwitchBlock + userID, true);
 }
 
-export async function resetBiometricIDLoginBlock(userName) {
-    await AsyncStorage.multiRemove([KEY_CONSTANT.biometricIDSwitchBlock + userName]);
+export async function resetBiometricIDLoginBlock(userID) {
+    await AsyncStorage.multiRemove([KEY_CONSTANT.biometricIDSwitchBlock + userID]);
 }
 
-export async function updateAuthInfo(authEnable, userName) {
-    if (userName) {
-        await storeItem(KEY_CONSTANT.biometricIDSwitch + userName, authEnable);
+export async function updateAuthInfo(authEnable, userID) {
+    if (userID) {
+        await storeItem(KEY_CONSTANT.biometricIDSwitch + userID, authEnable);
         await resetBiometricIDLoginBlock();
     }
 }
 
-export async function setLoginCredential(userName) {
-    console.log(`setLoginCredential:${userName}`);
-    // dbGetByCusNumber(customerNum, (res) => {
-    //     if (res.success) {
-    //         const loginInfo = res.profile?.searchParams;
-    //         console.log(`save loginInfo:${JSON.stringify(loginInfo)}`);
-    //         const encrypted = SecurityUtil.encrypt(JSON.stringify(loginInfo), true);
-    //         storeItem(`${KEY_CONSTANT.loginCredential}_${userName}`, encrypted);
-    //     }
-    // });
+export async function setLoginCredential(userID) {
+    const mobileAccount = await getMobileAccountById(userID);
+    const encrypted = SecurityUtil.xorEncrypt(JSON.stringify(mobileAccount));
+    storeItem(`${KEY_CONSTANT.lastBiometricLoginUserAuthInfo}_${userID}`, encrypted);
 }
 
-export async function getLoginCredential(userName) {
-    console.log(`getLoginCredential:${userName}`);
-    // const encrypted = await retrieveItem(`${KEY_CONSTANT.loginCredential}_${userName}`);
-    // if (isEmpty(encrypted)) {
-    //     return undefined;
-    // }
-    // const parsed = SecurityUtil.safeParse(encrypted);
-    // console.log(`parsed loginInfo:${JSON.stringify(parsed)}`);
-    // return parsed;
+export async function getLoginCredential(userID) {
+    console.log(`getLoginCredential:${userID}`);
+    const encrypted = await retrieveItem(`${KEY_CONSTANT.lastBiometricLoginUserAuthInfo}_${userID}`);
+    if (isEmpty(encrypted)) {
+        return undefined;
+    }
+    const parsed = JSON.parse(SecurityUtil.xorDecrypt(encrypted));
+    return parsed;
 }
 
-export async function clearLoginCredential(userName) {
-    AsyncStorage.multiRemove([`${KEY_CONSTANT.loginCredential}_${userName}`]);
+export async function setLastBiometricLoginUser(userId) {
+    storeItem(KEY_CONSTANT.lastBiometricLoginUser, userId);
 }
 
-export async function clearLocalAuth(userName) {
-    blockBiometricIDLogin(userName);
-    clearLoginCredential(userName);
+export async function getLastBiometricLoginUser() {
+    return retrieveItem(KEY_CONSTANT.lastBiometricLoginUser);
 }
 
-export async function getAuthInfo(userName) {
+export async function getAuthInfo(userID) {
     const res = {
         available: false,
         typeName: "",
@@ -127,8 +128,8 @@ export async function getAuthInfo(userName) {
     res.available = available;
     if (available) {
         res.typeName = await getAuthType();
-        if (userName) {
-            const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userName, false);
+        if (userID) {
+            const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userID, false);
             const isBlock = await checkBlockBiometricIDLogin();
 
             res.enable = !isBlock && biometricIDSwitch;
@@ -138,7 +139,7 @@ export async function getAuthInfo(userName) {
     return res;
 }
 
-export async function startBiometricAuth(userName, onFinish = () => {}, onError = () => {}) {
+export async function startBiometricAuth(userID, onFinish = () => {}, onError = () => {}) {
     let disableDeviceFallback = true;
     if (isIos()) {
         disableDeviceFallback = false;
@@ -152,7 +153,7 @@ export async function startBiometricAuth(userName, onFinish = () => {}, onError 
         console.log(result);
         if (result.success) {
             console.log("auth successfully");
-            updateAuthInfo(true, userName);
+            updateAuthInfo(true, userID);
             if (onFinish) {
                 onFinish();
             }

@@ -10,7 +10,7 @@ const dialogObj = {
 };
 
 const initialState = {
-    user: { username: "wzhao" },
+    user: {},
     loginStep: LoginStep.login,
     indicator: false,
     simpleDialog: dialogObj,
@@ -18,11 +18,6 @@ const initialState = {
         ...dialogObj,
         cancelText: "",
         cancelAction: () => {},
-    },
-    localAuth: {
-        available: false,
-        typeName: "",
-        enable: false,
     },
 };
 
@@ -51,9 +46,6 @@ const appSlice = createSlice({
         hideSelectDialog: (state) => {
             Object.assign(state, { selectDialog: { ...state.selectDialog, visible: false } });
         },
-        setLocalAuth: (state, action) => {
-            Object.assign(state, { localAuth: action.payload });
-        },
     },
 });
 
@@ -65,7 +57,6 @@ export const {
     hideSimpleDialog,
     showSelectDialog,
     hideSelectDialog,
-    setLocalAuth,
 } = appSlice.actions;
 
 const selectAppState = (/** @type{import('./Store').RootState */ state) => state.app;
@@ -74,7 +65,7 @@ export const selectLoginStep = (state) => state.app.loginStep;
 export const selectSimpleDialog = (state) => state.app.simpleDialog;
 export const selectSelectDialog = (state) => state.app.selectDialog;
 export const selectIndicator = (state) => state.app.indicator;
-export const selectLocalAuth = (state) => state.app.localAuth;
+
 const selectUser = createSelector(selectAppState, (app) => app.user);
 
 const selectors = {

@@ -9,6 +9,8 @@ export const KEY_CONSTANT = {
     biometricIDSwitchBlock: "biometricIDSwitchBlock",
     biometricIDSwitch: "biometricIDSwitch",
     loginCredential: "loginCredential",
+    lastBiometricLoginUser: "lastBiometricLoginUser",
+    lastBiometricLoginUserAuthInfo: "lastBiometricLoginUserAuthInfo",
     currentInUseProfileIDOfAccounts: "currentInUseProfileIDOfAccounts",
 };
 export const DEBUG_MODE = false;
