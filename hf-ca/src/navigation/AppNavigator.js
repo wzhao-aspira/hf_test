@@ -28,6 +28,7 @@ import { navigationRef } from "./NavigationService";
 import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
 import ProfileDetailsScreen from "../screens/profile/profile_details/ProfileDetailsScreen";
 import SignInScreen from "../screens/sign_in/SignInScreen";
+import SettingsScreen from "../screens/setting/SettingsScreen";
 import DeleteAccountScreen from "../screens/delete-account/DeleteAccountScreen";
 import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
 import ForgotPasswordEnterValidationCodeScreen from "../screens/forgot_password/ForgotPasswordEnterValidationCodeScreen";
@@ -142,6 +143,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
             <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
+            <MainStack.Screen name={Routers.setting} component={SettingsScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
         </MainStack.Navigator>
     );

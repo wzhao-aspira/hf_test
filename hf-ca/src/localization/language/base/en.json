@@ -201,6 +201,9 @@
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service"
     },
+    "setting":{
+        "deleteAccount": "Delete Account"
+    },
     "auth": {
         "biometricID": "Biometric ID",
         "faceID": "Face ID",

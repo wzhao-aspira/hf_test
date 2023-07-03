@@ -19,6 +19,7 @@ export default {
     profileDetails: "profileDetailsScreen",
     manageProfile: "ManageProfile",
     signIn: "signIn",
+    setting: "setting",
     deleteAccount: "deleteAccountScreen",
     forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
     forgotPasswordEnterValidationCode: "forgotPasswordValidationCodeScreen",

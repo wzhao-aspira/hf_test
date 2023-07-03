@@ -8,6 +8,7 @@ import { commonStyles, profileItemCommonStyle } from "./Styles";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { shortName } from "../../../utils/GenUtil";
 import { genTestId } from "../../../helper/AppHelper";
+import { getGOIDLabel } from "../../../helper/ProfileHelper";
 
 const typeIcons = {
     [PROFILE_TYPE_IDS.business]: faBuilding,
@@ -42,16 +43,6 @@ export const ProfileShortNameOrIcon = ({
             </Text>
         </View>
     );
-};
-
-export const getGOIDLabel = (t, profile) => {
-    if (profile.profileType === PROFILE_TYPE_IDS.business) {
-        return t("profile.businessGOIDNumber");
-    }
-    if (profile.profileType === PROFILE_TYPE_IDS.vessel) {
-        return t("profile.vesselGOIDNumber");
-    }
-    return t("profile.goIDNumber");
 };
 
 const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, showNameInOneLine, profileItemStyles = {} }) => {
