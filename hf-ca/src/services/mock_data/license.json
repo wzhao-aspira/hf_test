@@ -3,24 +3,24 @@
     "id": 1141138844,
     "profileId": "11231",
     "productName": "2023 - Sport Fishing 1-Day License (Res/Nonres)",
-    "validTo": "2023-06-29",
     "validFrom": "2023-06-29",
+    "validTo": "2023-06-29",
     "legalName": "2023 - Sport Fishing 1-Day License (Res/Nonres)"
   },
   {
     "id": 1141138843,
     "profileId": "11231",
     "productName": "2-Day Sport Fishing License",
-    "validTo": "2023-12-14",
-    "validFrom": "2023-12-15",
+    "validFrom": "2023-12-14",
+    "validTo": "2023-12-15",
     "legalName": "2-Day Sport Fishing License"
   },
   {
     "id": 1141138842,
     "profileId": "11235",
     "productName": "Sport Caught Fish Exchange Permit",
-    "validTo": "2023-06-20",
-    "validFrom": "2023-12-31",
+    "validFrom": "2023-06-20",
+    "validTo": "2023-12-31",
     "legalName": "Sport Caught Fish Exchange Permit"
   },
   {
