@@ -135,7 +135,7 @@ const AddProfileInfo = ({
             errorReported = vesselProfileInfoRef.current.validate();
         }
         if (errorReported) return;
-        const existingProfile = await findProfile(profile);
+        const existingProfile = await findProfile(mobileAccount, profile);
         if (!existingProfile) {
             dispatch(
                 showSimpleDialog({

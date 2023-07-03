@@ -149,8 +149,12 @@ function isProfileIdentificationMatched(mockedIdentifications, identificationTyp
     return !!matchedIdentification;
 }
 
-export async function findProfile(profile) {
+export async function findProfile(mobileAccount, profile) {
     const profiles = getProfileList();
+    const associatedProfileIds = [mobileAccount?.primaryProfileId];
+    if (mobileAccount?.otherProfileIds) {
+        associatedProfileIds.push(...mobileAccount.otherProfileIds);
+    }
     return profiles.find((p) => {
         if (PROFILE_TYPE_IDS.adult === profile.profileType.id) {
             return (
@@ -172,13 +176,15 @@ export async function findProfile(profile) {
         if (PROFILE_TYPE_IDS.business === profile.profileType.id) {
             return (
                 p.goIDNumber?.toUpperCase()?.trim() === profile.goIDNumber.toUpperCase().trim() &&
-                p.postalCodeNumber?.toUpperCase()?.trim() === profile.postalCodeNumber.toUpperCase().trim()
+                p.postalCodeNumber?.toUpperCase()?.trim() === profile.postalCodeNumber.toUpperCase().trim() &&
+                associatedProfileIds.some((pId) => p.ownerId === pId)
             );
         }
         if (PROFILE_TYPE_IDS.vessel === profile.profileType.id) {
             return (
                 p.goIDNumber?.toUpperCase()?.trim() === profile.goIDNumber.toUpperCase().trim() &&
-                p.fgNumber?.toUpperCase()?.trim() === profile.fgNumber.toUpperCase().trim()
+                p.fgNumber?.toUpperCase()?.trim() === profile.fgNumber.toUpperCase().trim() &&
+                associatedProfileIds.some((pId) => p.ownerId === pId)
             );
         }
         return false;
