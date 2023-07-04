@@ -228,11 +228,11 @@
         "attention": "Attention",
         "description1": "Deleting your account is permanent.",
         "description2": "When you delete your account, you won’t be able to retrieve the content and information you’ve had on app.",
-        "description3": "To continue, verify you are the owner of this account by typing your password below",
+        "description3": "To continue, verify you are the owner of this account by typing your password below.",
         "accountPassword": "Account Password",
         "verifyAndContinue": "Verify and Continue",
         "deletingAccountPermanently": "Deleting Account Permanently",
-        "confirmDialogDescription": "Are you sure you want to delete {{accountID}} forever? You will erase your account and all associated data",
+        "confirmDialogDescription": "Are you sure you want to delete {{accountID}} forever? You will erase your account and all associated data.",
         "proceedDelete": "Proceed Delete",
         "passwordDoesNotMatchDialog": {
             "title": "Error",
