@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useImperativeHandle, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { Pressable, StyleSheet, Text, View, FlatList } from "react-native";
 import color from "color";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import AppTheme from "../assets/_default/AppTheme";

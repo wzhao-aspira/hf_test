@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Image, StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
