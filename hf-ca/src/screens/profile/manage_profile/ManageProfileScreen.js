@@ -25,7 +25,7 @@ export default function ManageProfileScreen() {
     };
 
     return (
-        <Page style={profileScreenStyles.container}>
+        <View style={profileScreenStyles.container}>
             <CommonHeader title={t("profile.manageProfile")} />
             <ScrollView>
                 <Page style={profileScreenStyles.contentContainer}>
@@ -60,6 +60,6 @@ export default function ManageProfileScreen() {
                     {showSwitchProfile && <SwitchProfileDialog hideDialog={hideDialog} />}
                 </Page>
             </ScrollView>
-        </Page>
+        </View>
     );
 }

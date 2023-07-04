@@ -76,7 +76,7 @@ export const dialogStyles = StyleSheet.create({
 
 export const profileScreenStyles = StyleSheet.create({
     container: {
-        paddingBottom: 0,
+        flex: 1,
         backgroundColor: AppTheme.colors.page_bg,
     },
     contentContainer: {
