@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { StyleSheet, ScrollView, View, Text } from "react-native";
 import { useTranslation, Trans } from "react-i18next";
+import { useSelector } from "react-redux";
 
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
@@ -20,7 +21,7 @@ import { genTestId } from "../../helper/AppHelper";
 
 import AccountService from "../../services/AccountService";
 
-import { updateLoginStep } from "../../redux/AppSlice";
+import { updateLoginStep, selectors as appSelectors } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 
 const styles = StyleSheet.create({
@@ -32,6 +33,9 @@ const styles = StyleSheet.create({
 function DeleteAccountScreen() {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
+
+    const accountID = useSelector(appSelectors.selectUsername);
+
     const [password, setPassword] = useState("");
     const [passwordInputError, setPasswordInputError] = useState("");
     const [shouldShowPasswordDoNotMatchDialog, setShouldShowPasswordDoNotMatchDialog] = useState(false);
@@ -58,7 +62,7 @@ function DeleteAccountScreen() {
             return "failed";
         }
 
-        return "passed";
+        return result;
     }
 
     async function verifyAccountPasswordAndHandleError() {
@@ -69,7 +73,7 @@ function DeleteAccountScreen() {
             return "failed";
         }
 
-        return "passed";
+        return result;
     }
 
     async function pressVerifyAndContinueButtonHandler() {
@@ -158,7 +162,7 @@ function DeleteAccountScreen() {
                     <SelectDialog
                         visible={shouldShowConfirmDialog}
                         title={t("deleteAccount.deletingAccountPermanently")}
-                        message={t("deleteAccount.confirmDialogDescription")}
+                        message={t("deleteAccount.confirmDialogDescription", { accountID })}
                         okText={t("deleteAccount.proceedDelete")}
                         cancelText={t("common.cancel")}
                         okAction={pressProceedDeleteHandler}

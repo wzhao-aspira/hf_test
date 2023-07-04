@@ -25,6 +25,8 @@ const WelcomeBar = () => {
     const { t } = useTranslation();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
+    if (!currentInUseProfile) return null;
+
     return (
         <View style={styles.container}>
             <Text style={styles.label} numberOfLines={1} ellipsizeMode="tail">

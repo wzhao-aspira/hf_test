@@ -207,7 +207,7 @@
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service"
     },
-    "setting":{
+    "setting": {
         "deleteAccount": "Delete Account"
     },
     "auth": {
@@ -232,7 +232,7 @@
         "accountPassword": "Account Password",
         "verifyAndContinue": "Verify and Continue",
         "deletingAccountPermanently": "Deleting Account Permanently",
-        "confirmDialogDescription": "Are you sure you want to delete xxxx@xxx.com forever? You will erase your account and all associated data",
+        "confirmDialogDescription": "Are you sure you want to delete {{accountID}} forever? You will erase your account and all associated data",
         "proceedDelete": "Proceed Delete",
         "passwordDoesNotMatchDialog": {
             "title": "Error",
