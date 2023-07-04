@@ -1,4 +1,5 @@
 #! /bin/bash
+set -e
 
 cleanFolder() {
     git reset --hard
