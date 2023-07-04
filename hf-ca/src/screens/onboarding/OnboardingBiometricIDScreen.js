@@ -68,7 +68,11 @@ export default function OnboardingBiometricIDScreen(props) {
     const safeArea = useSafeAreaInsets();
 
     useEffect(() => {
-        getAuthType().then((type) => setTypeName(type));
+        const action = async () => {
+            const type = await getAuthType();
+            setTypeName(type);
+        };
+        action();
     }, []);
 
     return (

@@ -19,6 +19,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 import BiometricLoginBtn from "../../components/BiometricLoginBtn";
+import { resetBiometricIDLoginBlock } from "../../helper/LocalAuthHelper";
 
 const SignInScreen = (route) => {
     const { t } = useTranslation();
@@ -44,7 +45,7 @@ const SignInScreen = (route) => {
         }
 
         dispatch(appThunkActions.initUserData(response.userInfo));
-
+        resetBiometricIDLoginBlock(uid);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
         if (!isEmpty(onBoardingScreens)) {
             dispatch(updateLoginStep(LoginStep.onBoarding));

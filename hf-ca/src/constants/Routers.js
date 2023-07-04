@@ -24,4 +24,5 @@ export default {
     forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
     forgotPasswordEnterValidationCode: "forgotPasswordValidationCodeScreen",
     forgotPasswordResetPassword: "forgotPasswordResetPasswordScreen",
+    quickAccessSetting: "quickAccessSetting",
 };

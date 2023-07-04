@@ -35,7 +35,8 @@
         "agentLocations": "Sales Agents",
         "contactUs": "Contact Us",
         "followUs": "Follow Us",
-        "create": "Create"
+        "create": "Create",
+        "none": "None"
     },
     "errMsg": {
         "unableEstablishService": "Unable to establish service connection.",
@@ -221,7 +222,11 @@
         "fallbackLabel": "Enter passcode",
         "tooManyAttempts": "Too many attempts. Try again later",
         "unableToUse": "Unable to use Face ID. Please sign in using Username and Password.",
-        "authFailed": "Authorization failed"
+        "authFailed": "Authorization failed",
+        "quickAccessMethods":"Quick Access Methods",
+        "usePassword": "Sign in with username and password only.",
+        "useQuickAuth": "Access the app using {{authType}}"
+        
     },
     "deleteAccount": {
         "pageTitle": "Verification",

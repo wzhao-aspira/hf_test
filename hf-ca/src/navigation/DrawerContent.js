@@ -207,7 +207,7 @@ export default function DrawerContent({ navigation }) {
                     {quickAccessEnabled && (
                         <MenuItem
                             onClick={() => {
-                                showNotImplementedFeature();
+                                navigation.navigate(Routers.quickAccessSetting);
                             }}
                             title="hamburgerMenu.quickAccess"
                             testID="QuickAccess"
@@ -327,7 +327,7 @@ export default function DrawerContent({ navigation }) {
             {renderBottomSection()}
             <QuickAccessChecker
                 ref={quickAccessChecker}
-                onHardwareInfo={(available) => {
+                onChange={({ available }) => {
                     setQuickAccessEnabled(available);
                 }}
             />
