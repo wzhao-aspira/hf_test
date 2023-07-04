@@ -2,7 +2,6 @@
 import { Image as RNImage } from "react-native";
 import { isEmpty } from "lodash";
 import * as FileSystem from "expo-file-system";
-import { Asset } from "expo-asset";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { retrieveItem } from "./StorageHelper";
 
@@ -15,12 +14,15 @@ export async function getLoginSplash() {
     if (!isEmpty(keyLoginSplash)) {
         return `${FileSystem.documentDirectory}login_splash.jpg`;
     }
-    const [{ localUri }] = await Asset.loadAsync(require("../assets/_default/images/login_splash.jpg"));
-    return localUri;
+    return getDefaultLoginSplash();
 }
 
 export function getLogo() {
     return require("../assets/_default/images/logo.png");
+}
+
+export function getDefaultLoginSplash() {
+    return require("../assets/_default/images/login_splash.jpg");
 }
 
 export function getLogoRatio() {

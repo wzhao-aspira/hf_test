@@ -17,7 +17,7 @@ export function isIos() {
 }
 
 export function isQaEnv() {
-    return CHANNEL.includes("DEV");
+    return CHANNEL.includes("DEV") || CHANNEL.includes("QA");
 }
 
 export function isUATEnv() {
