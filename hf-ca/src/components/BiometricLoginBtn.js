@@ -52,7 +52,7 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
             const { available, enable, typeName } = await getAuthInfo(userID);
             setTypeName(typeName);
             setShowBtn(available && enable);
-            if (available && startAuthenticate) {
+            if (available && enable && startAuthenticate) {
                 startAuth(onAuthSuccess, () => setShowBtn(false));
             }
         },
@@ -77,18 +77,9 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
             )}
             <QuickAccessChecker
                 ref={quickAccessChecker}
-                onHardwareInfo={(available) => {
-                    if (!available) {
-                        setShowBtn(false);
-                    }
-                }}
-                onAuthTypeChange={(authType) => {
-                    const enable = authType != "None";
-                    if (enable) {
-                        checkBiometricLogin(false);
-                    } else {
-                        setShowBtn(false);
-                    }
+                onChange={({ available, typeName, enable }) => {
+                    setShowBtn(available && enable);
+                    setTypeName(typeName);
                 }}
             />
         </>

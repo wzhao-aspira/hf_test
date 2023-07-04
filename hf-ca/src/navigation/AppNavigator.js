@@ -33,6 +33,7 @@ import DeleteAccountScreen from "../screens/delete-account/DeleteAccountScreen";
 import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
 import ForgotPasswordEnterValidationCodeScreen from "../screens/forgot_password/ForgotPasswordEnterValidationCodeScreen";
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
+import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScreen";
 
 const NavTheme = {
     colors: {
@@ -145,6 +146,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
             <MainStack.Screen name={Routers.setting} component={SettingsScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
+            <MainStack.Screen name={Routers.quickAccessSetting} component={QuickAccessMethodsScreen} />
         </MainStack.Navigator>
     );
 }

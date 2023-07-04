@@ -144,12 +144,13 @@ export async function startBiometricAuth(userID, onFinish = () => {}, onError = 
     if (isIos()) {
         disableDeviceFallback = false;
     }
-    LocalAuthentication.authenticateAsync({
-        promptMessage: i18n.t("auth.promptMessage"),
-        fallbackLabel: i18n.t("auth.fallbackLabel"),
-        cancelLabel: i18n.t("common.cancel"),
-        disableDeviceFallback,
-    }).then((result) => {
+    try {
+        const result = await LocalAuthentication.authenticateAsync({
+            promptMessage: i18n.t("auth.promptMessage"),
+            fallbackLabel: i18n.t("auth.fallbackLabel"),
+            cancelLabel: i18n.t("common.cancel"),
+            disableDeviceFallback,
+        });
         console.log(result);
         if (result.success) {
             console.log("auth successfully");
@@ -183,5 +184,7 @@ export async function startBiometricAuth(userID, onFinish = () => {}, onError = 
                 onError(result);
             }
         }
-    });
+    } catch (error) {
+        console.log(error);
+    }
 }
