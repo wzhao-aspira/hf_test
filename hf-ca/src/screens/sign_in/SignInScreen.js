@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
+import Page from "../../components/Page";
 import { updateLoginStep } from "../../redux/AppSlice";
 import appThunkActions from "../../redux/AppThunk";
 import LoginStep from "../../constants/LoginStep";
@@ -69,7 +70,7 @@ const SignInScreen = (route) => {
     };
 
     return (
-        <View>
+        <Page style={styles.signInPage}>
             <KeyboardAwareScrollView contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.container}>
                     <Text style={styles.titleStyle}>{sighInLable}</Text>
@@ -151,7 +152,7 @@ const SignInScreen = (route) => {
                     }}
                 />
             )}
-        </View>
+        </Page>
     );
 };
 

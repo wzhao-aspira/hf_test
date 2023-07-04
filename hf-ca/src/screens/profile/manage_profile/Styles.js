@@ -76,12 +76,13 @@ export const dialogStyles = StyleSheet.create({
 
 export const profileScreenStyles = StyleSheet.create({
     container: {
-        flex: 1,
+        paddingBottom: 0,
         backgroundColor: AppTheme.colors.page_bg,
     },
     contentContainer: {
         paddingHorizontal: DEFAULT_MARGIN,
         paddingTop: 28,
+        paddingBottom: DEFAULT_MARGIN,
     },
 
     switchProfile: {

@@ -144,37 +144,35 @@ const ProfileDetailsScreen = ({ route }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <Page style={styles.container}>
             <CommonHeader title={t("profile.profileDetails")} />
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <Page>
-                    <ProfileHeader profile={profileDetails} />
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.contentContainerStyle}>
+                <ProfileHeader profile={profileDetails} />
 
-                    <View style={{ padding: DEFAULT_MARGIN, paddingBottom: 0 }}>
-                        <Text style={styles.address}>{t("profile.address")}</Text>
-                        <View style={styles.infoBox}>
-                            {addressInfo.map((item, index) => (
-                                <RenderItem item={item} divider={index < addressInfo.length - 1} key={item.type} />
-                            ))}
-                        </View>
-
-                        <Text style={[styles.address, { marginTop: 36 }]}>{t("profile.basicInformation")}</Text>
-                        <View style={styles.infoBox}>
-                            {profilesInfo.map((item, index) => (
-                                <RenderItem item={item} divider={index < profilesInfo.length - 1} key={item.type} />
-                            ))}
-                        </View>
-
-                        <Pressable
-                            onPress={handleRemoveBtnClick}
-                            style={styles.bottomBtnBox}
-                            testID={genTestId("removeProfileButton")}
-                        >
-                            <FontAwesomeIcon icon={faLinkSlash} size={28} color={AppTheme.colors.error} />
-                            <Text style={styles.removeProfile}>{t("profile.removeProfile")}</Text>
-                        </Pressable>
+                <View style={{ padding: DEFAULT_MARGIN, paddingBottom: 0 }}>
+                    <Text style={styles.address}>{t("profile.address")}</Text>
+                    <View style={styles.infoBox}>
+                        {addressInfo.map((item, index) => (
+                            <RenderItem item={item} divider={index < addressInfo.length - 1} key={item.type} />
+                        ))}
                     </View>
-                </Page>
+
+                    <Text style={[styles.address, { marginTop: 36 }]}>{t("profile.basicInformation")}</Text>
+                    <View style={styles.infoBox}>
+                        {profilesInfo.map((item, index) => (
+                            <RenderItem item={item} divider={index < profilesInfo.length - 1} key={item.type} />
+                        ))}
+                    </View>
+
+                    <Pressable
+                        onPress={handleRemoveBtnClick}
+                        style={styles.bottomBtnBox}
+                        testID={genTestId("removeProfileButton")}
+                    >
+                        <FontAwesomeIcon icon={faLinkSlash} size={28} color={AppTheme.colors.error} />
+                        <Text style={styles.removeProfile}>{t("profile.removeProfile")}</Text>
+                    </Pressable>
+                </View>
             </ScrollView>
 
             <SimpleDialog
@@ -216,7 +214,7 @@ const ProfileDetailsScreen = ({ route }) => {
                     }}
                 />
             )}
-        </View>
+        </Page>
     );
 };
 

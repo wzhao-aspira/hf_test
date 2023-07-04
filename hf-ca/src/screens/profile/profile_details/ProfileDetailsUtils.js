@@ -7,9 +7,11 @@ import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 export const styles = StyleSheet.create({
     container: {
         backgroundColor: AppTheme.colors.page_bg,
-        flex: 1,
+        paddingBottom: 0,
     },
-
+    contentContainerStyle: {
+        paddingBottom: DEFAULT_MARGIN,
+    },
     infoItem: {
         marginBottom: 15,
     },
