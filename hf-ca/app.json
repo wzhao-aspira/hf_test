@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "HuntFish CA",
+    "name": "CDFW Mobile",
     "slug": "hf-ca",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/_default/images/icon.png",
     "userInterfaceStyle": "light",
+    "updates": {
+      "enabled": false
+    },
     "splash": {
       "image": "./src/assets/_default/images/splash.png",
       "resizeMode": "contain",
@@ -22,7 +25,7 @@
       "requireFullScreen": true,
       "supportsTablet": true,
       "bundleIdentifier": "com.aspiraconnect.hf.ca",
-      "buildNumber": "1.0.0.1",
+      "buildNumber": "1.0.0.12",
       "userInterfaceStyle": "light",
       "config": {
         "usesNonExemptEncryption": false
@@ -36,11 +39,7 @@
     },
     "android": {
       "package": "com.aspiraconnect.hf.ca",
-      "versionCode": 1,
-      "adaptiveIcon": {
-        "foregroundImage": "./src/assets/_default/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
+      "versionCode": 12,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
@@ -48,8 +47,10 @@
         "USE_FINGERPRINT"
       ]
     },
-    "web": {
-      "favicon": "./src/assets/_default/images/favicon.png"
+    "extra": {
+      "eas": {
+        "projectId": "30c9d2db-3fb7-495a-9a52-e2b362398193"
+      }
     }
   }
 }
