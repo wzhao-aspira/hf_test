@@ -14,6 +14,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { selectors as profileSelectors } from "../../redux/ProfileSlice";
 import getGOIDLabel from "../../helper/ProfileHelper";
+import { showNotImplementedFeature } from "../../helper/AppHelper";
 
 const styles = StyleSheet.create({
     titleArea: {
@@ -114,16 +115,16 @@ export default function SettingsScreen() {
 
                 <View style={styles.sectionContainer}>
                     {renderItem(t("huntAndFish.myLicenses"), () => {
-                        // NavigationService.navigate("myLicenses");
+                        showNotImplementedFeature();
                     })}
                     <SeparateLine />
                     {renderItem(t("huntAndFish.myDrawApplications"), () => {
-                        // navigation.navigate("myDrawApplications");
+                        showNotImplementedFeature();
                     })}
                 </View>
                 <View style={styles.sectionContainer}>
                     {renderItem(t("profile.manageProfile"), () => {
-                        // NavigationService.navigate("manageProfile");
+                        showNotImplementedFeature();
                     })}
                 </View>
                 <View style={styles.sectionContainer}>
