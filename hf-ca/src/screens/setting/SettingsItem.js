@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-regular-svg-icons";
 import AppTheme from "../../assets/_default/AppTheme";
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 export default function Item({ item, hiddenBottomLine, onPress }) {
     return (
         <View style={[styles.container]}>
-            <TouchableOpacity
+            <Pressable
                 onPress={() => {
                     onPress(item);
                 }}
@@ -43,7 +43,7 @@ export default function Item({ item, hiddenBottomLine, onPress }) {
                     <Text style={styles.title}>{item.title}</Text>
                     <FontAwesomeIcon style={styles.rightIcon} icon={faAngleRight} size={18} />
                 </View>
-            </TouchableOpacity>
+            </Pressable>
             {!hiddenBottomLine && <View style={styles.bottomLine} />}
         </View>
     );

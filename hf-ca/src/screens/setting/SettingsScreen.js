@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, StyleSheet, ScrollView, Text, Pressable } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import AppTheme from "../../assets/_default/AppTheme";
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
 const renderItem = (title, callBack, secondLine) => {
     return (
         <View>
-            <TouchableOpacity
+            <Pressable
                 onPress={() => {
                     callBack();
                 }}
@@ -90,7 +89,7 @@ const renderItem = (title, callBack, secondLine) => {
                         color={AppTheme.colors.primary_2}
                     />
                 </View>
-            </TouchableOpacity>
+            </Pressable>
         </View>
     );
 };
