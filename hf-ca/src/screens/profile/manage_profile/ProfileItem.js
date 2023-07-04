@@ -10,7 +10,6 @@ import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { shortName } from "../../../utils/GenUtil";
 import { genTestId } from "../../../helper/AppHelper";
 import getGOIDLabel from "../../../helper/ProfileHelper";
-
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 
 const typeIcons = {

@@ -68,3 +68,7 @@ export async function getActiveUserID() {
 export async function setActiveUserID(userId) {
     return storeItem(KEY_CONSTANT.keyLastUsedMobileAccountId, userId);
 }
+
+export function showNotImplementedFeature() {
+    showToast("Feature to be added");
+}

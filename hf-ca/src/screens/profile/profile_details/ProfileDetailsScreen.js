@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons";
@@ -11,7 +11,6 @@ import AppThunk from "../../../redux/AppThunk";
 import { getMobileAccountByUserId, removeProfilesByUserId } from "../../../services/ProfileService";
 
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
-import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 import AppTheme from "../../../assets/_default/AppTheme";
 import Routers from "../../../constants/Routers";
 
@@ -31,6 +30,7 @@ import {
     switchAction,
 } from "./ProfileDetailsUtils";
 import getGOIDLabel from "../../../helper/ProfileHelper";
+import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 
 const RenderItem = ({ item, divider }) => {
     if (!item.value) {
