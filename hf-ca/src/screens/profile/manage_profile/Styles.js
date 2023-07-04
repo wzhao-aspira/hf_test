@@ -82,6 +82,7 @@ export const profileScreenStyles = StyleSheet.create({
     contentContainer: {
         paddingHorizontal: DEFAULT_MARGIN,
         paddingTop: 28,
+        paddingBottom: DEFAULT_MARGIN,
     },
 
     switchProfile: {

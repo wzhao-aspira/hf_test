@@ -28,7 +28,7 @@ export default function ManageProfileScreen() {
         <Page style={profileScreenStyles.container}>
             <CommonHeader title={t("profile.manageProfile")} />
             <ScrollView>
-                <Page style={profileScreenStyles.contentContainer}>
+                <View style={profileScreenStyles.contentContainer}>
                     <View style={profileScreenStyles.horizontalContainer}>
                         <Text style={commonStyles.subTitle}> {t("profile.currentlyInUse")}</Text>
                         {otherProfiles.length > 0 && (
@@ -58,7 +58,7 @@ export default function ManageProfileScreen() {
                     <OtherProfiles otherProfiles={otherProfiles} />
 
                     {showSwitchProfile && <SwitchProfileDialog hideDialog={hideDialog} />}
-                </Page>
+                </View>
             </ScrollView>
         </Page>
     );

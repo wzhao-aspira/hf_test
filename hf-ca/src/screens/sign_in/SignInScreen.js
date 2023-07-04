@@ -70,7 +70,7 @@ const SignInScreen = (route) => {
     };
 
     return (
-        <Page>
+        <Page style={styles.signInPage}>
             <KeyboardAwareScrollView contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.container}>
                     <Text style={styles.titleStyle}>{sighInLable}</Text>

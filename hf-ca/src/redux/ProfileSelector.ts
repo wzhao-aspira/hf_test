@@ -34,7 +34,10 @@ const selectProcessedProfileList = createSelector(selectProfileList, (profileLis
         // get adult associated profiles
         if (profile.profileType === PROFILE_TYPE_IDS.adult) {
             const associatedProfiles = profileList.filter((item) => item.ownerId === profile.profileId);
-            if (associatedProfiles.length > 0)
+            if (associatedProfiles.length > 0) {
+                associatedProfiles.sort((profileA, profileB) =>
+                    profileA.displayName.localeCompare(profileB.displayName)
+                );
                 return {
                     ...profile,
                     associatedProfiles: associatedProfiles.map((item) => ({
@@ -42,6 +45,7 @@ const selectProcessedProfileList = createSelector(selectProfileList, (profileLis
                         displayName: item.displayName,
                     })),
                 };
+            }
         }
 
         return profile;

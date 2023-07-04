@@ -4,9 +4,13 @@ import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { emptyValidate } from "../profile/add_profile/ProfileValidate";
 
 export const styles = StyleSheet.create({
+    signInPage: {
+        paddingBottom: 0,
+    },
     contentContainerStyle: {
         paddingTop: 65,
         flexGrow: 1,
+        paddingBottom: DEFAULT_MARGIN,
     },
     container: {
         flexDirection: "column",
