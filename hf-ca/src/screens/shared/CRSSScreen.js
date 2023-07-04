@@ -9,7 +9,7 @@ import Page from "../../components/Page";
 import AppTheme from "../../assets/_default/AppTheme";
 import { SharedStyles } from "../../styles/CommonStyles";
 import { DEFAULT_BTN_RADIUS } from "../../constants/Dimension";
-import { genTestId } from "../../helper/AppHelper";
+import { genTestId, showNotImplementedFeature } from "../../helper/AppHelper";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
@@ -131,7 +131,7 @@ export default function CRSSScreen({ route }) {
                         password
                         note={t("common.forgotPassword")}
                         onClickNote={() => {
-                            // Do nothing
+                            showNotImplementedFeature();
                         }}
                         onBlur={() => {
                             const error = emptyValidate(password, t("errMsg.emptyPassword"));
