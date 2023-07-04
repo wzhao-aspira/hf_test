@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { isEmpty } from "lodash";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import AppTheme from "../../assets/_default/AppTheme";
@@ -92,9 +93,9 @@ export default function CRSSScreen({ route }) {
     };
 
     return (
-        <View style={{ flex: 1 }}>
+        <Page>
             <CommonHeader title={t("crss.enterYourPassword")} />
-            <Page>
+            <KeyboardAwareScrollView>
                 <View style={styles.page_container}>
                     <Text testID={genTestId("AttentionLabel")} style={styles.attention_label}>
                         <Trans i18nKey="common.attention" />
@@ -146,7 +147,7 @@ export default function CRSSScreen({ route }) {
                         }}
                     />
                 </View>
-            </Page>
-        </View>
+            </KeyboardAwareScrollView>
+        </Page>
     );
 }
