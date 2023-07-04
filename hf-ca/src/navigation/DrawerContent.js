@@ -13,7 +13,7 @@ import SplitLine from "../components/SplitLine";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { genTestId, setActiveUserID } from "../helper/AppHelper";
+import { genTestId, setActiveUserID, showNotImplementedFeature } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
 import { showSelectDialog, updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
@@ -171,14 +171,14 @@ export default function DrawerContent({ navigation }) {
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
-                            // navigation.navigate("PurchaseOnline", { category: null });
+                            showNotImplementedFeature();
                         }}
                         title="common.purchase"
                         testID="PurchasePrivilege"
                     />
                     <MenuItem
                         onClick={() => {
-                            // navigation.navigate("IssuerLocations");
+                            showNotImplementedFeature();
                         }}
                         title="common.agentLocations"
                         testID="SalesAgents"
@@ -207,7 +207,7 @@ export default function DrawerContent({ navigation }) {
                     {quickAccessEnabled && (
                         <MenuItem
                             onClick={() => {
-                                // navigation.navigate("QuickAccessScreen");
+                                showNotImplementedFeature();
                             }}
                             title="hamburgerMenu.quickAccess"
                             testID="QuickAccess"
@@ -236,14 +236,14 @@ export default function DrawerContent({ navigation }) {
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
-                            // navigation.navigate("Social");
+                            showNotImplementedFeature();
                         }}
                         title="common.followUs"
                         testID="FollowUs"
                     />
                     <MenuItem
                         onClick={() => {
-                            // navigation.navigate("Contact");
+                            showNotImplementedFeature();
                         }}
                         title="common.contactUs"
                         testID="ContactUs"
@@ -292,7 +292,7 @@ export default function DrawerContent({ navigation }) {
                         testID={genTestId(`${testIDPrefix}PrivacyLink`)}
                         style={styles.privacy}
                         onPress={() => {
-                            // onItemPressed("https://aspiraconnect.com/privacy-policy");
+                            showNotImplementedFeature();
                         }}
                     >
                         <Trans i18nKey="hamburgerMenu.privacyPolicy" />
@@ -302,7 +302,7 @@ export default function DrawerContent({ navigation }) {
                         testID={genTestId(`${testIDPrefix}TermsOfUseLink`)}
                         style={styles.privacy}
                         onPress={() => {
-                            // onItemPressed("https://aspiraconnect.com/terms-of-use");
+                            showNotImplementedFeature();
                         }}
                     >
                         <Trans i18nKey="hamburgerMenu.termsOfService" />
