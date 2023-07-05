@@ -1,8 +1,9 @@
-import React, { createRef, useState } from "react";
+import { createRef, useState } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import emailValidator from "email-validator";
 import { useDispatch } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import { SharedStyles } from "../../styles/CommonStyles";
@@ -94,11 +95,20 @@ export default function ForgotPasswordEnterEmailScreen() {
         <Page>
             <View style={{ flex: 1 }}>
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
-                <View style={ForgotPasswordStyles.page_container}>
-                    <AttentionSection testID={testIdPrefix} contentKey="forgotPassword.enterEmail.attentionContent" />
-                    {renderEmailAddressSection()}
-                    <ActionButton testID={testIdPrefix} label={t("forgotPassword.enterEmail.send")} onAction={onSend} />
-                </View>
+                <KeyboardAwareScrollView>
+                    <View style={ForgotPasswordStyles.page_container}>
+                        <AttentionSection
+                            testID={testIdPrefix}
+                            contentKey="forgotPassword.enterEmail.attentionContent"
+                        />
+                        {renderEmailAddressSection()}
+                        <ActionButton
+                            testID={testIdPrefix}
+                            label={t("forgotPassword.enterEmail.send")}
+                            onAction={onSend}
+                        />
+                    </View>
+                </KeyboardAwareScrollView>
             </View>
         </Page>
     );
