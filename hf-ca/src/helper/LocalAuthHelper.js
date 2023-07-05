@@ -82,14 +82,21 @@ export async function blockBiometricIDLogin(userID) {
     await storeItem(KEY_CONSTANT.biometricIDSwitchBlock + userID, true);
 }
 
-export async function resetBiometricIDLoginBlock(userID) {
+export async function resetBiometricIDLoginBlock(userID, updatePassword = false) {
     await AsyncStorage.multiRemove([KEY_CONSTANT.biometricIDSwitchBlock + userID]);
+    if (updatePassword) {
+        const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userID, false);
+        // update password if user enable biometric login
+        if (biometricIDSwitch) {
+            setLoginCredential(userID);
+        }
+    }
 }
 
 export async function updateAuthInfo(authEnable, userID) {
     if (userID) {
         await storeItem(KEY_CONSTANT.biometricIDSwitch + userID, authEnable);
-        await resetBiometricIDLoginBlock();
+        await resetBiometricIDLoginBlock(userID);
     }
 }
 
