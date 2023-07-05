@@ -223,10 +223,9 @@
         "tooManyAttempts": "Too many attempts. Try again later",
         "unableToUse": "Unable to use Face ID. Please sign in using Username and Password.",
         "authFailed": "Authorization failed",
-        "quickAccessMethods":"Quick Access Methods",
+        "quickAccessMethods": "Quick Access Methods",
         "usePassword": "Sign in with username and password only.",
         "useQuickAuth": "Access the app using {{authType}}"
-        
     },
     "deleteAccount": {
         "pageTitle": "Verification",
@@ -241,7 +240,7 @@
         "proceedDelete": "Proceed Delete",
         "passwordDoesNotMatchDialog": {
             "title": "Error",
-            "description": "Your entered password does not match with you account, please re-enter.",
+            "description": "Your entered password does not match with your account, please re-enter.",
             "confirmButton": "Got it"
         }
     },
