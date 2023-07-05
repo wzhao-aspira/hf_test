@@ -1,7 +1,8 @@
-import React, { createRef, useState } from "react";
+import { createRef, useState } from "react";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import { SharedStyles } from "../../styles/CommonStyles";
@@ -122,14 +123,16 @@ export default function ForgotPasswordScreen({ route }) {
         <Page>
             <View style={{ flex: 1 }}>
                 <CommonHeader title={`${t("forgotPassword.resetPassword.reset")} ${t("common.password")}`} />
-                <View style={ForgotPasswordStyles.page_container}>
-                    {renderResetPasswordSection()}
-                    <ActionButton
-                        testID={testIdPrefix}
-                        label={t("forgotPassword.resetPassword.reset")}
-                        onAction={onReset}
-                    />
-                </View>
+                <KeyboardAwareScrollView>
+                    <View style={ForgotPasswordStyles.page_container}>
+                        {renderResetPasswordSection()}
+                        <ActionButton
+                            testID={testIdPrefix}
+                            label={t("forgotPassword.resetPassword.reset")}
+                            onAction={onReset}
+                        />
+                    </View>
+                </KeyboardAwareScrollView>
             </View>
         </Page>
     );

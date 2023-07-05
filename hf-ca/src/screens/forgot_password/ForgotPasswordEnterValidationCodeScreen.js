@@ -1,7 +1,8 @@
-import React, { createRef, useState } from "react";
+import { createRef, useState } from "react";
 import { View, Text } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import { SharedStyles } from "../../styles/CommonStyles";
@@ -104,15 +105,17 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
         <Page>
             <View style={{ flex: 1 }}>
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
-                <View style={ForgotPasswordStyles.page_container}>
-                    <AttentionSection
-                        testID={testIdPrefix}
-                        contentKey="forgotPassword.enterValidationCode.attentionContent"
-                    />
-                    {renderEmailValidationCodeSection()}
-                    <ActionButton testID={testIdPrefix} label={t("common.submit")} onAction={onSubmit} />
-                    {renderTipMessageSection()}
-                </View>
+                <KeyboardAwareScrollView>
+                    <View style={ForgotPasswordStyles.page_container}>
+                        <AttentionSection
+                            testID={testIdPrefix}
+                            contentKey="forgotPassword.enterValidationCode.attentionContent"
+                        />
+                        {renderEmailValidationCodeSection()}
+                        <ActionButton testID={testIdPrefix} label={t("common.submit")} onAction={onSubmit} />
+                        {renderTipMessageSection()}
+                    </View>
+                </KeyboardAwareScrollView>
             </View>
         </Page>
     );
