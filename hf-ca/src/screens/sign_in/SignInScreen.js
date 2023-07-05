@@ -45,7 +45,7 @@ const SignInScreen = (route) => {
         }
 
         dispatch(appThunkActions.initUserData(response.userInfo));
-        resetBiometricIDLoginBlock(uid);
+        resetBiometricIDLoginBlock(uid, true);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
         if (!isEmpty(onBoardingScreens)) {
             dispatch(updateLoginStep(LoginStep.onBoarding));
