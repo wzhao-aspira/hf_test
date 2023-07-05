@@ -66,7 +66,7 @@ function DeleteAccountScreen() {
     }
 
     async function verifyAccountPasswordAndHandleError() {
-        const result = await AccountService.verifyCurrentAccountPassword(password);
+        const result = await handlePasswordInputInlineError();
 
         if (result === "failed: password do not match") {
             setShouldShowPasswordDoNotMatchDialog(true);
