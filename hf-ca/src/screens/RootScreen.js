@@ -1,3 +1,4 @@
+/* eslint-disable react/style-prop-object */
 import React from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -15,6 +16,7 @@ import {
 import LoginStep from "../constants/LoginStep";
 import { Indicator, SelectDialog, SimpleDialog } from "../components/Dialog";
 import { genTestId } from "../helper/AppHelper";
+import AppTheme from "../assets/_default/AppTheme";
 
 export default function RootScreen() {
     const dispatch = useDispatch();
@@ -22,15 +24,15 @@ export default function RootScreen() {
     const simpleDialog = useSelector(selectSimpleDialog);
     const selectDialog = useSelector(selectSelectDialog);
     const indicator = useSelector(selectIndicator);
-
+    const isLogin = loginStep == LoginStep.login;
     return (
         <SafeAreaProvider>
-            <SafeAreaView
-                style={{ flex: 1 }}
-                edges={loginStep !== LoginStep.login ? null : ["left", "right"]}
-                accessible
-            >
-                <StatusBar translucent />
+            <SafeAreaView style={{ flex: 1 }} edges={!isLogin ? null : ["left", "right"]} accessible>
+                <StatusBar
+                    translucent={isLogin}
+                    style="dark"
+                    backgroundColor={isLogin ? AppTheme.colors.transparent : AppTheme.colors.page_bg}
+                />
                 <AppNavigator />
                 <SimpleDialog
                     {...simpleDialog}
