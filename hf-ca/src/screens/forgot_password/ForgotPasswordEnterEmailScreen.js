@@ -23,18 +23,18 @@ export default function ForgotPasswordEnterEmailScreen() {
 
     const dispatch = useDispatch();
 
-    const [emailAddress, setEmailAddress] = useState();
+    const [emailAddress, setEmailAddress] = useState("");
     const emailAddressRef = createRef();
 
     const headerTitle = t("common.forgotPassword");
 
     const emailAddressValidation = async () => {
-        const error = emptyValidate(emailAddress, t("signIn.userIdEmpty"));
+        const error = emptyValidate(emailAddress.trim(), t("signIn.userIdEmpty"));
         if (error.error) {
             emailAddressRef?.current.setError(error);
             return false;
         }
-        const isValidEmailAddress = emailValidator.validate(emailAddress);
+        const isValidEmailAddress = emailValidator.validate(emailAddress.trim());
         if (!isValidEmailAddress) {
             dispatch(
                 showSimpleDialog({
@@ -45,7 +45,7 @@ export default function ForgotPasswordEnterEmailScreen() {
             );
             return false;
         }
-        const isEmailAddressExisted = await AccountService.isMobileAccountExisted(emailAddress);
+        const isEmailAddressExisted = await AccountService.isMobileAccountExisted(emailAddress.trim());
         if (!isEmailAddressExisted) {
             dispatch(
                 showSimpleDialog({
@@ -62,7 +62,9 @@ export default function ForgotPasswordEnterEmailScreen() {
     const onSend = async () => {
         const isValidEmailAddress = await emailAddressValidation();
         if (isValidEmailAddress) {
-            NavigationService.navigate(Routers.forgotPasswordEnterValidationCode, { emailAddress });
+            NavigationService.navigate(Routers.forgotPasswordEnterValidationCode, {
+                emailAddress: emailAddress.trim(),
+            });
         }
     };
 
