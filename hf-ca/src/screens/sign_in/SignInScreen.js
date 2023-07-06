@@ -55,19 +55,20 @@ const SignInScreen = (route) => {
     };
 
     const clickSignIn = async () => {
-        const validateUserId = validateRequiredInput(userId, userIdRef, userIdEmptyMsg);
+        const trimedUsedId = userId.trim();
+        const validateUserId = validateRequiredInput(trimedUsedId, userIdRef, userIdEmptyMsg);
         const validatePassword = validateRequiredInput(password, passwordRef, passwordEmptyMsg);
 
         if (!validateUserId || !validatePassword) {
             return;
         }
 
-        if (!emailValidator.validate(userId)) {
+        if (!emailValidator.validate(trimedUsedId)) {
             setShowErrorDialog(true);
             setErrorMsg("signIn.userIdInvalid");
             return;
         }
-        doSignIn();
+        doSignIn(trimedUsedId);
     };
 
     return (
@@ -90,7 +91,7 @@ const SignInScreen = (route) => {
                             userIdRef.current?.setError({});
                         }}
                         onBlur={() => {
-                            validateRequiredInput(userId, userIdRef, userIdEmptyMsg);
+                            validateRequiredInput(userId.trim(), userIdRef, userIdEmptyMsg);
                         }}
                     />
 
