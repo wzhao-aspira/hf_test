@@ -61,7 +61,7 @@
         "passwordDotNotMatch": "Passwords don't match.",
         "profileAlreadyExists": "The profile already exists, please check and re-enter.",
         "emailAddressNotFound": "The entered email does not exist, please re-enter",
-        "emptyEmailValidationCode": "Please enter email validation code",
+        "emptyEmailValidationCode": "Please enter Email Validation Code",
         "invalidEmailValidationCode": "Your entered validation code is not correct, please re-enter.",
         "emptyNewPassword": "Please enter New Password"
     },
@@ -79,7 +79,7 @@
         "noAccount": "Don't have an account?",
         "userIdEmpty": "Please enter your User ID",
         "userIdInvalid": "User ID must be email, please check your input.",
-        "passwordEmpty": "Please enter password",
+        "passwordEmpty": "Please enter Password",
         "accountNotFound": "Account not found, please check your input.",
         "userIdHint": "Please Enter Email:"
     },

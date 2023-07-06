@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     sectionContentContainer: {
-        marginTop: 10,
+        marginVertical: 10,
     },
     menuItemContainer: {
         flexDirection: "row",
