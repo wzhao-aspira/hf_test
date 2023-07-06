@@ -31,7 +31,8 @@ const SignUp = () => {
     const onSave = async () => {
         const errorReported = validate();
         if (errorReported) return;
-        if (!emailValidator.validate(mobileAccount?.userID)) {
+        const userID = mobileAccount?.userID.trim();
+        if (!emailValidator.validate(userID)) {
             dispatch(
                 showSimpleDialog({
                     title: "common.error",
@@ -51,7 +52,7 @@ const SignUp = () => {
             );
             return;
         }
-        const existing = await checkAccountEmailIsExisting(mobileAccount?.userID);
+        const existing = await checkAccountEmailIsExisting(userID);
         if (existing) {
             dispatch(
                 showSimpleDialog({

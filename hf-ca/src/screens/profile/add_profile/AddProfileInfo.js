@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 });
 
 export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, existingProfile) => {
+    const userID = mobileAccount.userID.trim();
     if (isAddPrimaryProfile) {
         const isSaveSuccess = await addPrimaryProfile(mobileAccount, existingProfile.profileId);
         if (!isSaveSuccess) {
@@ -55,7 +56,7 @@ export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, 
         }
         dispatch(
             appThunkActions.initUserData({
-                userID: mobileAccount.userID,
+                userID,
                 primaryProfileId: existingProfile.profileId,
                 otherProfileIds: [],
             })
@@ -74,7 +75,7 @@ export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, 
         }
         dispatch(
             appThunkActions.initUserData({
-                userID: mobileAccount.userID,
+                userID,
                 primaryProfileId: mobileAccount.primaryProfileId,
                 otherProfileIds: [...mobileAccount.otherProfileIds, existingProfile.profileId],
             })

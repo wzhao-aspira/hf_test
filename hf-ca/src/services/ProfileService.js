@@ -74,13 +74,13 @@ export async function removeProfilesByUserId(userID, deletedProfileIds) {
 }
 
 export async function addPrimaryProfile(mobileAccount, profileId) {
-    const result = await insertMobileAccount(mobileAccount.userID, mobileAccount.password, profileId, "");
+    const result = await insertMobileAccount(mobileAccount.userID.trim(), mobileAccount.password, profileId, "");
     return result?.success;
 }
 
 export async function addProfile(mobileAccount, profileId) {
     const result = await updateMobileAccountOtherProfileIds(
-        mobileAccount.userID,
+        mobileAccount.userID.trim(),
         [...mobileAccount.otherProfileIds, profileId].join(",")
     );
     return result?.success;
