@@ -31,7 +31,7 @@ const SignInScreen = (route) => {
 
     const userIdRef = createRef();
     const passwordRef = createRef();
-    const [userId, setUserId] = useState();
+    const [userId, setUserId] = useState("");
     const [password, setPassword] = useState();
     const [errorMsg, setErrorMsg] = useState();
     const [showErrorDialog, setShowErrorDialog] = useState(false);
