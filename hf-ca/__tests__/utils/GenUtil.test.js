@@ -1,39 +1,95 @@
 /* eslint-disable global-require */
 /* eslint-disable no-undef */
-
+import moment from "moment";
 import { isJpgFormat, sum, checkNeedAutoRefreshData, shortName } from "../../src/utils/GenUtil";
 
-describe("GenUtil", () => {
-    test("sum", () => {
+describe("Test sum", () => {
+    test("call sum normally", () => {
         const value = sum(1, 2);
         expect(value).toBe(3);
     });
+});
 
-    test("isJpgFormat", () => {
-        expect(isJpgFormat("image/jpeg")).toBe(true);
-        expect(isJpgFormat("image/jpg")).toBe(true);
-        expect(isJpgFormat("image/png")).toBe(false);
+describe("Test isJpgFormat", () => {
+    test("jpeg format", () => {
+        const value = "image/jpeg";
+        const expectResult = true;
+        expect(isJpgFormat(value)).toBe(expectResult);
     });
 
-    test("checkNeedAutoRefreshData", () => {
-        expect(checkNeedAutoRefreshData(null)).toBe(true);
-        expect(checkNeedAutoRefreshData(1000000)).toBe(true);
+    test("jpg format", () => {
+        const value = "image/jpg";
+        const expectResult = true;
+        expect(isJpgFormat(value)).toBe(expectResult);
     });
 
-    test("shortName", () => {
-        const v0 = shortName("");
-        const v1 = shortName("Ethan Li");
-        const v2 = shortName("ethan li");
-        const v3 = shortName("Li,Ethan");
-        const v4 = shortName("li,ethan");
-        const v5 = shortName("Ethan Middle Li");
-        const v6 = shortName("Li,Middle,Ethan");
-        expect(v0).toBe("");
-        expect(v1).toBe("EL");
-        expect(v2).toBe("EL");
-        expect(v3).toBe("EL");
-        expect(v4).toBe("EL");
-        expect(v5).toBe("EL");
-        expect(v6).toBe("EL");
+    test("png format", () => {
+        const value = "image/png";
+        const expectResult = false;
+        expect(isJpgFormat(value)).toBe(expectResult);
+    });
+});
+
+describe("Test checkNeedAutoRefreshData", () => {
+    test("without updateTime", () => {
+        const value = null;
+        const expectResult = true;
+        expect(checkNeedAutoRefreshData(value)).toBe(expectResult);
+    });
+
+    test("updateTime is timeout", () => {
+        const value = moment().unix() - 1900;
+        const expectResult = true;
+        expect(checkNeedAutoRefreshData(value)).toBe(expectResult);
+    });
+
+    test("updateTime is not timeout", () => {
+        const value = moment().unix();
+        const expectResult = false;
+        expect(checkNeedAutoRefreshData(value)).toBe(expectResult);
+    });
+});
+
+describe("Test shortName", () => {
+    test("without fullName", () => {
+        const value = null;
+        const expectResult = "";
+        const result = shortName(value);
+        expect(result).toBe(expectResult);
+    });
+
+    test("single fullName", () => {
+        const value = "Ethan";
+        const expectResult = "E";
+        const result = shortName(value);
+        expect(result).toBe(expectResult);
+    });
+
+    test("space separated fullName", () => {
+        const value = "Ethan Li";
+        const expectResult = "EL";
+        const result = shortName(value);
+        expect(result).toBe(expectResult);
+    });
+
+    test("comma separated fullName", () => {
+        const value = "Li,Ethan";
+        const expectResult = "EL";
+        const result = shortName(value);
+        expect(result).toBe(expectResult);
+    });
+
+    test("space separated fullName with middle name", () => {
+        const value = "Ethan Middle Li";
+        const expectResult = "EL";
+        const result = shortName(value);
+        expect(result).toBe(expectResult);
+    });
+
+    test("comma separated fullName with middle name", () => {
+        const value = "Li,Middle,Ethan";
+        const expectResult = "EL";
+        const result = shortName(value);
+        expect(result).toBe(expectResult);
     });
 });

@@ -21,6 +21,7 @@ export default {
         }
         if (!isEmpty(inputFmt) && !validInputFormat(inputFmt)) {
             console.warn("dateToFormat: the inputFmt is outside of AppContract.inputFormat");
+            return "-";
         }
 
         const momentObject = !isEmpty(inputFmt) ? moment(input, inputFmt, strict) : moment(input);
@@ -54,10 +55,6 @@ export default {
     },
 };
 
-export function isValidDate(date) {
-    return date !== "-";
-}
-
 /**
  *
  * @param {FormatConfig} fmt
@@ -68,20 +65,4 @@ function validFormat(fmt) {
 
 function validInputFormat(fmt) {
     return !!Object.values(AppContract.inputFormat).find((v) => v === fmt);
-}
-
-export function convertTimezone(date, sourceFormat, timezone, targetFormat) {
-    return moment(date, sourceFormat).tz(timezone).format(targetFormat);
-}
-
-export function isSameDateTime(date1, date2, dateFormat, compareUnit) {
-    if (isEmpty(date1) && isEmpty(date2)) {
-        return true;
-    }
-    if (!isEmpty(date1) && !isEmpty(date2)) {
-        const moment1 = moment(date1, dateFormat);
-        const moment2 = moment(date2, dateFormat);
-        return moment1.isSame(moment2, compareUnit);
-    }
-    return false;
 }
