@@ -11,12 +11,12 @@ import StatefulTextInput from "../../components/StatefulTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
 import { showSimpleDialog } from "../../redux/AppSlice";
 import AccountService from "../../services/AccountService";
-import { emptyValidate, headerTitleSubString, testIdPrefix } from "./ForgotPasswordScreenUtils";
+import { emptyValidate, headerTitleSubString } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
-import AttentionSection from "./AttentionSection";
-import ActionButton from "./ActionButton";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
+import Attention from "../../components/Attention";
+import PrimaryBtn from "../../components/PrimaryBtn";
 
 export default function ForgotPasswordEnterEmailScreen() {
     const { t } = useTranslation();
@@ -72,7 +72,7 @@ export default function ForgotPasswordEnterEmailScreen() {
         return (
             <>
                 <StatefulTextInput
-                    testID={`${testIdPrefix}EmailAddress`}
+                    testID="EmailAddress"
                     ref={emailAddressRef}
                     value={emailAddress}
                     label={t("forgotPassword.enterEmail.emailAddress")}
@@ -99,15 +99,13 @@ export default function ForgotPasswordEnterEmailScreen() {
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
                 <KeyboardAwareScrollView>
                     <View style={ForgotPasswordStyles.page_container}>
-                        <AttentionSection
-                            testID={testIdPrefix}
-                            contentKey="forgotPassword.enterEmail.attentionContent"
-                        />
+                        <Attention contentKey="forgotPassword.enterEmail.attentionContent" />
                         {renderEmailAddressSection()}
-                        <ActionButton
-                            testID={testIdPrefix}
+                        <PrimaryBtn
+                            testID="SendButton"
+                            style={ForgotPasswordStyles.action_button}
                             label={t("forgotPassword.enterEmail.send")}
-                            onAction={onSend}
+                            onPress={onSend}
                         />
                     </View>
                 </KeyboardAwareScrollView>

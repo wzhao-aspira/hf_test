@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../constants/Dimension";
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
 });
 
 export default function SunriseItem(props) {
-    const { title, leftLabel, leftValue, icon, rightLabel, rightValue, testID } = props;
+    const { title, leftLabel, leftValue, icon, rightLabel, rightValue, testID = "" } = props;
     return (
         <View style={styles.container}>
             <Text testID={genTestId(`${testID}TitleLabel`)} style={styles.title}>

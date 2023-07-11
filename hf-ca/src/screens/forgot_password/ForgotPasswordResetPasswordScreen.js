@@ -11,9 +11,9 @@ import AppTheme from "../../assets/_default/AppTheme";
 import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import AccountService from "../../services/AccountService";
-import { emptyValidate, testIdPrefix } from "./ForgotPasswordScreenUtils";
+import { emptyValidate } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
-import ActionButton from "./ActionButton";
+import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { SimpleDialog } from "../../components/Dialog";
@@ -129,7 +129,7 @@ export default function ForgotPasswordScreen({ route }) {
         return (
             <>
                 <StatefulTextInput
-                    testID={`${testIdPrefix}NewPassword`}
+                    testID="NewPassword"
                     ref={newPasswordRef}
                     style={{ marginTop: 30 }}
                     hint={t("common.pleaseEnter")}
@@ -152,7 +152,7 @@ export default function ForgotPasswordScreen({ route }) {
                     }}
                 />
                 <StatefulTextInput
-                    testID={`${testIdPrefix}ConfirmPassword`}
+                    testID="ConfirmPassword"
                     ref={confirmPasswordRef}
                     style={{ marginTop: 30 }}
                     hint={t("common.pleaseEnter")}
@@ -181,7 +181,7 @@ export default function ForgotPasswordScreen({ route }) {
     const currentPasswordSection = () => {
         return (
             <StatefulTextInput
-                testID={`${testIdPrefix}currentPassword`}
+                testID="CurrentPassword"
                 ref={currentPasswordRef}
                 style={{ marginTop: 30 }}
                 hint={t("common.pleaseEnter")}
@@ -214,14 +214,14 @@ export default function ForgotPasswordScreen({ route }) {
                     <View style={ForgotPasswordStyles.page_container}>
                         {isChangePassword && currentPasswordSection()}
                         {renderResetPasswordSection()}
-                        <ActionButton
-                            testID={testIdPrefix}
+                        <PrimaryBtn
+                            testID="ResetButton"
+                            style={ForgotPasswordStyles.action_button}
                             label={t("forgotPassword.resetPassword.reset")}
-                            onAction={onReset}
+                            onPress={onReset}
                         />
                     </View>
                 </KeyboardAwareScrollView>
-
                 <SimpleDialog
                     okText="common.gotIt"
                     message={errorDialog.message}

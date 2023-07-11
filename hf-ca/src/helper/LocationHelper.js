@@ -1,7 +1,8 @@
 import * as Location from "expo-location";
-import { getCurrentLocationByText } from "../network/API";
+import { getCurrentLocationByText, getLocationByText } from "../network/API";
+import { NETWORK_REQUEST_FAILED } from "../constants/Constants";
 
-export default async function getCurrentLocationWithoutPopup() {
+export async function getCurrentLocation() {
     const result = { success: false, value: null, coordinates: [] };
     const permission = await Location.getForegroundPermissionsAsync();
     if (permission && permission.granted) {
@@ -9,7 +10,7 @@ export default async function getCurrentLocationWithoutPopup() {
             const lastKnownPosition = await Location.getLastKnownPositionAsync();
             console.log("Location helper --- lastKnownPosition:", lastKnownPosition);
             if (lastKnownPosition) {
-                const location = getCurrentLocationByText(
+                const location = await getCurrentLocationByText(
                     `${lastKnownPosition.coords.longitude},${lastKnownPosition.coords.latitude}`
                 );
                 console.log("Location helper --- current location:", location);
@@ -25,6 +26,28 @@ export default async function getCurrentLocationWithoutPopup() {
         }
     } else {
         console.log("Location helper --- Can not get the location info, no permission allowed");
+    }
+    return result;
+}
+
+export async function searchLocationByText(text) {
+    const result = { success: false, title: "errMsg.commonErrorTitle", message: "errMsg.commonErrorMsg" };
+    try {
+        const apiRst = await getLocationByText(text);
+        if (apiRst.success) {
+            return apiRst;
+        }
+    } catch (error) {
+        if (error.message == NETWORK_REQUEST_FAILED || error.status == NETWORK_REQUEST_FAILED) {
+            result.title = "errMsg.networkErrorTitle";
+            result.message = "errMsg.networkErrorMsg";
+        } else {
+            const errorSplits = error.message.split("|");
+            if (errorSplits.length == 2) {
+                const msg = JSON.parse(errorSplits[1]);
+                result.message = msg.message;
+            }
+        }
     }
     return result;
 }

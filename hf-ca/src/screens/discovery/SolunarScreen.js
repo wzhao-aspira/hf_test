@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
 import { faMoon, faSun } from "@fortawesome/pro-light-svg-icons";
 import moment from "moment";
@@ -44,7 +44,7 @@ export default function SolunarScreen() {
 
     useEffect(() => {
         dispatch(getWeatherDataFromRedux({}));
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         const tempWeek = [];
@@ -69,7 +69,7 @@ export default function SolunarScreen() {
                 }
             }
         }
-    }, [selWeek]);
+    }, [selWeek, weatherData]);
 
     return (
         <View style={{ flex: 1 }}>

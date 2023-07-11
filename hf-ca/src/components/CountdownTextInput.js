@@ -60,7 +60,7 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
     const [errorObj, setErrorObj] = useState(initErrorObj);
     const hasError = errorObj.error;
     const {
-        testID,
+        testID = "",
         value,
         label,
         hint,

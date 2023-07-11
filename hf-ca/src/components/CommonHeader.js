@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/pro-light-svg-icons";
@@ -35,6 +34,7 @@ const styles = StyleSheet.create({
 });
 
 const CommonHeader = ({
+    testID = "",
     title,
     onBackClick = NavigationService.back,
     onRightClick = undefined,
@@ -46,7 +46,7 @@ const CommonHeader = ({
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Pressable
-                    testID={genTestId("BackToPreviousPageButton")}
+                    testID={genTestId(`${testID}BackToPreviousPageButton`)}
                     onPress={onBackClick}
                     style={{ flexDirection: "row", width: 20 }}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
@@ -54,12 +54,12 @@ const CommonHeader = ({
                     {showLeft && <FontAwesomeIcon icon={leftIcon} size={20} color={AppTheme.colors.primary_2} />}
                 </Pressable>
                 <View style={styles.headerTextContainer}>
-                    <Text testID={genTestId("HeaderTitleLabel")} style={styles.headerText} numberOfLines={2}>
+                    <Text testID={genTestId(`${testID}HeaderTitleLabel`)} style={styles.headerText} numberOfLines={2}>
                         {title}
                     </Text>
                 </View>
                 <Pressable
-                    testID={genTestId("GoToNextPageButton")}
+                    testID={genTestId(`${testID}GoToNextPageButton`)}
                     onPress={onRightClick}
                     style={{ flexDirection: "row", width: 20 }}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}

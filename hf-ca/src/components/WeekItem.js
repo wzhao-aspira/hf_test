@@ -1,5 +1,4 @@
 import { startsWith, isEmpty } from "lodash";
-import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
 });
 
 export default function WeekItem(props) {
-    const { label, selLabel = label[0], onPress = () => {} } = props;
+    const { testID = "", label, selLabel = label[0], onPress = () => {} } = props;
 
     if (!isEmpty(label) && label.length < 5) {
         for (let i = 0; i < 5 - label.length + 1; i++) {
@@ -42,7 +41,7 @@ export default function WeekItem(props) {
                 const sel = item == selLabel;
                 return (
                     <Pressable
-                        testID={genTestId(`WeekItem${index + 1}Button`)}
+                        testID={genTestId(`${testID}WeekItem${index + 1}Button`)}
                         key={item}
                         onPress={() => {
                             onPress(item);
@@ -51,7 +50,7 @@ export default function WeekItem(props) {
                         <View style={[sel ? styles.labelWrapper : null]}>
                             {!startsWith(item, "test_") && (
                                 <Text
-                                    testID={genTestId(`WeekItem${index + 1}Label`)}
+                                    testID={genTestId(`${testID}WeekItem${index + 1}Label`)}
                                     style={[sel ? styles.selLabelStyle : styles.labelStyle]}
                                 >
                                     {item}

@@ -66,7 +66,11 @@
         "emptyNewPassword": "Please enter New Password",
         "emptyCurrentPassword": "Please enter Current Password",
         "incorrectExistingPassword": "The existing password you entered is incorrect, please re-enter.",
-        "sameAsOldPassword": "Your new password must be different from the previous password."
+        "sameAsOldPassword": "Your new password must be different from the previous password.",
+        "networkErrorTitle": "No Network Connection",
+        "networkErrorMsg": "Please check your network settings.",
+        "commonErrorTitle": "Sorry",
+        "commonErrorMsg": "Something went wrong. Let's try one more time."
     },
     "login": {
         "signIn": "Sign In",
@@ -190,7 +194,9 @@
         "rain": "Rain",
         "barometricPressure": "Barometric Pressure",
         "low": "Low",
-        "high": "High"
+        "high": "High",
+        "changeLocation": "Change Location",
+        "searchByCityOrZip": "Search by City or ZIP"
     },
     "crss": {
         "enterYourPassword": "Enter your password",
@@ -267,5 +273,9 @@
             "reset": "Reset",
             "resetPassword": "Reset Password"
         }
+    },
+    "location": {
+        "locationAccessNeeded": "Location access needed",
+        "locationAccessNeededMsg": "Turn on Location Settings to set your current city"
     }
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { faLocationArrow } from "@fortawesome/pro-solid-svg-icons";
 import { faSunrise, faSunset } from "@fortawesome/pro-light-svg-icons";

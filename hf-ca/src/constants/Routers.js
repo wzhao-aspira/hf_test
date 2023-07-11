@@ -12,6 +12,7 @@ export default {
     fishing: "fishingScreen",
     weather: "weatherScreen",
     solunar: "solunarScreen",
+    changeLocation: "ChangeLocationScreen",
     crss: "crssScreen",
     signUp: "signUpScreen",
     addProfile: "addProfileScreen",

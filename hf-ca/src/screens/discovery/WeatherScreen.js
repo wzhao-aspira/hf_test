@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import { faCloudShowersHeavy, faCompass, faSun, faThermometerHalf } from "@fortawesome/pro-light-svg-icons";
@@ -45,7 +45,7 @@ export default function WeatherScreen() {
 
     useEffect(() => {
         dispatch(getWeatherDataFromRedux({}));
-    }, []);
+    }, [dispatch]);
 
     const calPressure = () => {
         if (!isEmpty(weatherData?.forecast?.forecastday)) {

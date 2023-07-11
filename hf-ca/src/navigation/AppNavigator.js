@@ -34,6 +34,7 @@ import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPas
 import ForgotPasswordEnterValidationCodeScreen from "../screens/forgot_password/ForgotPasswordEnterValidationCodeScreen";
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
 import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScreen";
+import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
 
 const NavTheme = {
     colors: {
@@ -140,7 +141,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
-            <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
+            <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
             <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />

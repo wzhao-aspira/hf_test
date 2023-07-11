@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, Modal, View, Text, ActivityIndicator, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
@@ -47,6 +46,7 @@ const styles = StyleSheet.create({
 export const SimpleDialog = (props) => {
     const { t, i18n } = useTranslation();
     const {
+        testID = "",
         title = "common.alert",
         message = "common.message",
         visible = false,
@@ -58,16 +58,16 @@ export const SimpleDialog = (props) => {
             <View style={styles.centeredView}>
                 <View style={styles.contentStyle}>
                     <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text testID={genTestId("SimpleDialogTitle")} style={styles.title}>
-                            {i18n.exists(title) && t(title)}
+                        <Text testID={genTestId(`${testID}SimpleDialogTitle`)} style={styles.title}>
+                            {i18n.exists(title) ? t(title) : title}
                         </Text>
-                        <Text testID={genTestId("SimpleDialogMessage")} style={styles.message}>
-                            {i18n.exists(message) && t(message)}
+                        <Text testID={genTestId(`${testID}SimpleDialogMessage`)} style={styles.message}>
+                            {i18n.exists(message) ? t(message) : message}
                         </Text>
                         <PrimaryBtn
-                            testID="SimpleDialogOKButton"
+                            testID={`${testID}SimpleDialogOKButton`}
                             onPress={okAction}
-                            label={i18n.exists(okText) && t(okText)}
+                            label={i18n.exists(okText) ? t(okText) : okText}
                             style={styles.okBtn}
                         />
                     </View>
@@ -81,6 +81,7 @@ export const SimpleDialog = (props) => {
 export const SelectDialog = (props) => {
     const { t, i18n } = useTranslation();
     const {
+        testID = "",
         title = "common.alert",
         message = "common.message",
         visible = false,
@@ -96,10 +97,10 @@ export const SelectDialog = (props) => {
             <View style={styles.centeredView}>
                 <View style={styles.contentStyle}>
                     <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text testID={genTestId("SelectDialogTitle")} style={styles.title}>
+                        <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.title}>
                             {i18n.exists(title) ? t(title) : title}
                         </Text>
-                        <Text testID={genTestId("SelectDialogTitle")} style={styles.message}>
+                        <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.message}>
                             {i18n.exists(message) ? t(message) : message}
                         </Text>
                         {children}
@@ -107,13 +108,13 @@ export const SelectDialog = (props) => {
                             onPress={okAction}
                             label={i18n.exists(okText) ? t(okText) : okText}
                             style={styles.okBtn}
-                            testID="SelectDialogOKButton"
+                            testID={`${testID}SelectDialogOKButton`}
                         />
                         <OutlinedBtn
                             onPress={cancelAction}
                             label={i18n.exists(cancelText) ? t(cancelText) : cancelText}
                             style={styles.cancelBtn}
-                            testID="SelectDialogCancelButton"
+                            testID={`${testID}SelectDialogCancelButton`}
                         />
                     </View>
                 </View>
@@ -123,15 +124,18 @@ export const SelectDialog = (props) => {
 };
 
 export const Dialog = (props) => {
-    const { visible = false, children = <></>, closeModal } = props;
+    const { testID = "", visible = false, children = <></>, closeModal } = props;
     const inset = useSafeAreaInsets();
 
     return (
         <Modal visible={visible} animationType="none" transparent>
             <Pressable
+                testID={genTestId(`${testID}DialogCloseButton`)}
                 style={{ flex: 1 }}
                 onPress={() => {
-                    closeModal && closeModal();
+                    if (closeModal) {
+                        closeModal();
+                    }
                 }}
             >
                 <View style={styles.centeredView}>

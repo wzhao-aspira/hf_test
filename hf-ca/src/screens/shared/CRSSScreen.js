@@ -17,17 +17,13 @@ import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import { saveProfile } from "../profile/add_profile/AddProfileInfo";
+import Attention from "../../components/Attention";
 
 const styles = StyleSheet.create({
     page_container: {
         flexDirection: "column",
         paddingHorizontal: 40,
         flex: 1,
-    },
-    attention_label: {
-        ...SharedStyles.page_content_title,
-        marginTop: 30,
-        marginBottom: 15,
     },
     account_label: {
         ...SharedStyles.page_content_title,
@@ -97,12 +93,7 @@ export default function CRSSScreen({ route }) {
             <CommonHeader title={t("crss.enterYourPassword")} />
             <KeyboardAwareScrollView>
                 <View style={styles.page_container}>
-                    <Text testID={genTestId("AttentionLabel")} style={styles.attention_label}>
-                        <Trans i18nKey="common.attention" />
-                    </Text>
-                    <Text testID={genTestId("AttentionContent")} style={SharedStyles.page_content_text}>
-                        <Trans i18nKey="crss.attentionContent" />
-                    </Text>
+                    <Attention contentKey="crss.attentionContent" />
                     <Text testID={genTestId("AccountLabel")} style={styles.account_label}>
                         <Trans i18nKey="common.account" />
                     </Text>
@@ -139,7 +130,7 @@ export default function CRSSScreen({ route }) {
                         }}
                     />
                     <PrimaryBtn
-                        testID={genTestId("SubmitButton")}
+                        testID="SubmitButton"
                         style={styles.submit_button}
                         label={t("common.submit")}
                         onPress={() => {
