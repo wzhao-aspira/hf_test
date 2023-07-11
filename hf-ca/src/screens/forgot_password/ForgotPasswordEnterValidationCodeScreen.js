@@ -10,12 +10,12 @@ import { genTestId } from "../../helper/AppHelper";
 import AppTheme from "../../assets/_default/AppTheme";
 import CountdownTextInput from "../../components/CountdownTextInput";
 import { showSimpleDialog } from "../../redux/AppSlice";
-import { emptyValidate, headerTitleSubString, testIdPrefix } from "./ForgotPasswordScreenUtils";
+import { emptyValidate, headerTitleSubString } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
-import AttentionSection from "./AttentionSection";
-import ActionButton from "./ActionButton";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
+import PrimaryBtn from "../../components/PrimaryBtn";
+import Attention from "../../components/Attention";
 
 export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
     const { t } = useTranslation();
@@ -62,7 +62,7 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
         return (
             <>
                 <CountdownTextInput
-                    testID={`${testIdPrefix}EmailValidationCode`}
+                    testID="EmailValidationCode"
                     ref={emailValidationCodeRef}
                     value={emailValidationCode}
                     label={t("forgotPassword.enterValidationCode.emailValidationCode")}
@@ -94,7 +94,7 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
     const renderTipMessageSection = () => {
         return (
             <>
-                <Text testID={genTestId(`${testIdPrefix}TipMessage`)} style={ForgotPasswordStyles.tip_message}>
+                <Text testID={genTestId("TipMessage")} style={ForgotPasswordStyles.tip_message}>
                     <Trans i18nKey="forgotPassword.enterValidationCode.tipMessage" />
                 </Text>
             </>
@@ -107,12 +107,14 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
                 <CommonHeader title={headerTitleSubString(headerTitle, 0, headerTitle.length - 1)} />
                 <KeyboardAwareScrollView>
                     <View style={ForgotPasswordStyles.page_container}>
-                        <AttentionSection
-                            testID={testIdPrefix}
-                            contentKey="forgotPassword.enterValidationCode.attentionContent"
-                        />
+                        <Attention contentKey="forgotPassword.enterValidationCode.attentionContent" />
                         {renderEmailValidationCodeSection()}
-                        <ActionButton testID={testIdPrefix} label={t("common.submit")} onAction={onSubmit} />
+                        <PrimaryBtn
+                            testID="SubmitButton"
+                            style={ForgotPasswordStyles.action_button}
+                            label={t("common.submit")}
+                            onPress={onSubmit}
+                        />
                         {renderTipMessageSection()}
                     </View>
                 </KeyboardAwareScrollView>

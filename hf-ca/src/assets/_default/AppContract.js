@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 import { merge } from "lodash";
 import BaseContract from "../BaseContract";
+import SecurityUtil from "../../utils/SecurityUtil";
 
 const AppContract = {
     divisionCountry: "US",
@@ -20,5 +21,9 @@ const AppContract = {
     link: {
         helpAndSupportLink: "https://wildlife.ca.gov/Contact",
     },
+    mapBoxAccessToken: SecurityUtil.xorDecrypt(
+        "MRheDAsreQ8rHBkwKi8/Jxk5GCUlUCAlCT4ZJTErIA8rHBkwQBUkHywLGjNAVXwLBR9FDDYrMSQ7HxonKjd4JQUlCTMLK3FoMyM+ETcxfwNwNzZaMzcBCw5HPVkCFg==",
+        true
+    ),
 };
 export default merge(BaseContract, AppContract);

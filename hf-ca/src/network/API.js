@@ -1,5 +1,6 @@
 import request from "./AxiosClient";
 import AppContract from "../assets/_default/AppContract";
+import { SUGGESTED_LOCATIONS } from "../constants/Constants";
 
 const LOCAL_RESOURCE = "owp-webclient/data/intl/locales/en-US.json";
 
@@ -23,10 +24,10 @@ export async function getWeatherDataByCityName(cityName, days) {
     return request(urlStr);
 }
 
-export function getCurrentLocationByText(text) {
+export async function getCurrentLocationByText(text) {
     const result = { success: false };
     const urlStr = `https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?access_token=${AppContract.mapBoxAccessToken}`;
-    const response = request(urlStr);
+    const response = await request(urlStr);
     if (response.success) {
         const { features } = response;
         const suggestions = [];
@@ -37,6 +38,26 @@ export function getCurrentLocationByText(text) {
         } else {
             result.success = false;
         }
+    }
+    return result;
+}
+
+export async function getLocationByText(text) {
+    const result = { success: false, value: null };
+    const urlStr = `https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?limit=5&language=en&access_token=${AppContract.mapBoxAccessToken}`;
+    const response = await request(urlStr);
+    if (response.success) {
+        const { features } = response.data;
+        const suggestions = [];
+        suggestions.push({ text: SUGGESTED_LOCATIONS, center: [] });
+        if (features && features.length > 0) {
+            for (let i = 0; i < features.length; i++) {
+                const feature = features[i];
+                suggestions.push({ text: feature.place_name, center: feature.center });
+            }
+            result.value = suggestions;
+        }
+        result.success = true;
     }
     return result;
 }

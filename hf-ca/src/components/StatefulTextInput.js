@@ -79,7 +79,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
         note,
         onClickNote,
         onBlur,
-        testID,
+        testID = "",
     } = props;
 
     const [secureTextEntry, setSecureTextEntry] = useState(password);
@@ -130,7 +130,9 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
                     onFocus={() => setFocused(true)}
                     onBlur={() => {
                         setFocused(false);
-                        onBlur && onBlur();
+                        if (onBlur) {
+                            onBlur();
+                        }
                     }}
                     editable={!disabled}
                     {...inputProps}

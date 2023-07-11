@@ -11,6 +11,12 @@ export const SharedStyles = StyleSheet.create({
         ...AppTheme.typography.sub_section,
         color: AppTheme.colors.font_color_2,
     },
+    attention_label: {
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_2,
+        marginTop: 30,
+        marginBottom: 15,
+    },
 });
 
 export const statefulStyle = (style, disabled, error, focused = false) => {

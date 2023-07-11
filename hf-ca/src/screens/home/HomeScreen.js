@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { View, FlatList, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
@@ -33,7 +33,7 @@ export default function HomeScreen() {
 
     useEffect(() => {
         dispatch(getWeatherDataFromRedux({}));
-    }, []);
+    }, [dispatch]);
 
     useFocusEffect(
         useCallback(() => {
