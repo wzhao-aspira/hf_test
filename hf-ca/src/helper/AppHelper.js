@@ -1,5 +1,5 @@
-import { Platform } from "react-native";
-import { camelCase } from "lodash";
+import { Linking, Platform } from "react-native";
+import { camelCase, isEmpty } from "lodash";
 import Toast from "react-native-root-toast";
 import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
@@ -71,4 +71,20 @@ export async function setActiveUserID(userId) {
 
 export function showNotImplementedFeature() {
     showToast("Feature to be added");
+}
+
+export function openLink(url) {
+    if (!isEmpty(url)) {
+        try {
+            Linking.canOpenURL(url).then((canOpen) => {
+                if (canOpen) {
+                    Linking.openURL(url);
+                }
+            });
+        } catch (e) {
+            console.log(`AppUtils - openLink - Catch the exception [${e}]`);
+            // TODO: error dialog.
+        }
+    }
+    // TODO: empty url dialog
 }

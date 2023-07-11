@@ -1,4 +1,4 @@
-import { createRef, useState } from "react";
+import { createRef, useReducer, useState } from "react";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,30 @@ import AccountService from "../../services/AccountService";
 import { emptyValidate, testIdPrefix } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
 import ActionButton from "./ActionButton";
+import NavigationService from "../../navigation/NavigationService";
+import Routers from "../../constants/Routers";
+import { SimpleDialog } from "../../components/Dialog";
+
+function dialogReducer(state, action) {
+    if (action.type === "incorrectPassword") {
+        return {
+            message: "errMsg.incorrectExistingPassword",
+            show: true,
+        };
+    }
+    if (action.type === "sameAsOldPassword") {
+        return {
+            message: "errMsg.sameAsOldPassword",
+            show: true,
+        };
+    }
+    if (action.type === "closeDialog") {
+        return {
+            show: false,
+        };
+    }
+    throw Error("Unknown action.");
+}
 
 export default function ForgotPasswordScreen({ route }) {
     const { t } = useTranslation();
@@ -21,16 +45,30 @@ export default function ForgotPasswordScreen({ route }) {
     const dispatch = useDispatch();
 
     const { params } = route;
-    const { emailAddress } = params;
+    const { emailAddress, isChangePassword } = params;
+    const commonHeader = isChangePassword
+        ? t("setting.changePassword")
+        : t("forgotPassword.resetPassword.resetPassword");
 
+    const [currentPassword, setCurrentPassword] = useState();
     const [newPassword, setNewPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
+    const [errorDialog, dialogDispatch] = useReducer(dialogReducer, { message: "", show: false });
 
+    const currentPasswordRef = createRef();
     const newPasswordRef = createRef();
     const confirmPasswordRef = createRef();
 
     const resetPasswordValidation = () => {
-        let error = emptyValidate(newPassword, t("errMsg.emptyNewPassword"));
+        let error;
+        if (isChangePassword) {
+            error = emptyValidate(currentPassword, t("errMsg.emptyCurrentPassword"));
+            if (error.error) {
+                currentPasswordRef?.current.setError(error);
+                return false;
+            }
+        }
+        error = emptyValidate(newPassword, t("errMsg.emptyNewPassword"));
         if (error.error) {
             newPasswordRef?.current.setError(error);
             return false;
@@ -53,15 +91,36 @@ export default function ForgotPasswordScreen({ route }) {
         return true;
     };
 
+    const handleNavigation = () => {
+        if (isChangePassword) {
+            NavigationService.navigate(Routers.setting);
+        } else {
+            dispatch(updateLoginStep(LoginStep.login));
+        }
+    };
+
     const onReset = async () => {
         const isResetPasswordPassed = resetPasswordValidation();
         if (isResetPasswordPassed) {
+            if (isChangePassword) {
+                const result = await AccountService.verifyCurrentAccountPassword(currentPassword);
+                if (result === "failed: password do not match") {
+                    dialogDispatch({ type: "incorrectPassword" });
+                    return;
+                }
+
+                if (currentPassword === newPassword) {
+                    dialogDispatch({ type: "sameAsOldPassword" });
+                    return;
+                }
+            }
+
             const isRestPasswordSucceed = await AccountService.updateMobileAccountPasswordByUserId(
                 emailAddress,
                 newPassword
             );
             if (isRestPasswordSucceed.success) {
-                dispatch(updateLoginStep(LoginStep.login));
+                handleNavigation();
             }
         }
     };
@@ -119,12 +178,41 @@ export default function ForgotPasswordScreen({ route }) {
         );
     };
 
+    const currentPasswordSection = () => {
+        return (
+            <StatefulTextInput
+                testID={`${testIdPrefix}currentPassword`}
+                ref={currentPasswordRef}
+                style={{ marginTop: 30 }}
+                hint={t("common.pleaseEnter")}
+                label={t("setting.currentPassword")}
+                labelStyle={SharedStyles.page_content_title}
+                inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                onChangeText={(text) => {
+                    setCurrentPassword(text);
+                    const error = {
+                        error: false,
+                        errorMsg: null,
+                    };
+                    currentPasswordRef?.current.setError(error);
+                }}
+                value={currentPassword}
+                password
+                onBlur={() => {
+                    const error = emptyValidate(currentPassword, t("errMsg.emptyCurrentPassword"));
+                    currentPasswordRef?.current.setError(error);
+                }}
+            />
+        );
+    };
+
     return (
         <Page>
             <View style={{ flex: 1 }}>
-                <CommonHeader title={`${t("forgotPassword.resetPassword.reset")} ${t("common.password")}`} />
+                <CommonHeader title={commonHeader} />
                 <KeyboardAwareScrollView>
                     <View style={ForgotPasswordStyles.page_container}>
+                        {isChangePassword && currentPasswordSection()}
                         {renderResetPasswordSection()}
                         <ActionButton
                             testID={testIdPrefix}
@@ -133,6 +221,13 @@ export default function ForgotPasswordScreen({ route }) {
                         />
                     </View>
                 </KeyboardAwareScrollView>
+
+                <SimpleDialog
+                    okText="common.gotIt"
+                    message={errorDialog.message}
+                    visible={errorDialog.show}
+                    okAction={() => dialogDispatch({ type: "closeDialog" })}
+                />
             </View>
         </Page>
     );

@@ -7,34 +7,25 @@ import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
-import SplitLine from "../../components/SplitLine";
 import SeparateLine from "../../components/SeparateLine";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { selectors as profileSelectors } from "../../redux/ProfileSlice";
-import getGOIDLabel from "../../helper/ProfileHelper";
-import { showNotImplementedFeature } from "../../helper/AppHelper";
+import { openLink } from "../../helper/AppHelper";
+import { selectUsername } from "../../redux/AppSlice";
+import AppContract from "../../assets/_default/AppContract";
 
 const styles = StyleSheet.create({
     titleArea: {
         backgroundColor: AppTheme.colors.primary_2,
         minHeight: 136,
         marginBottom: 32,
-        paddingBottom: 23,
+        alignItems: "center",
+        justifyContent: "center",
     },
     title: {
         ...AppTheme.typography.primary_heading,
         color: AppTheme.colors.font_color_4,
-        marginTop: 23,
-        marginHorizontal: DEFAULT_MARGIN,
-    },
-    line: {
-        marginLeft: DEFAULT_MARGIN,
-    },
-    description: {
-        ...AppTheme.typography.card_small_r,
-        color: AppTheme.colors.font_color_4,
-        marginTop: 10,
         marginHorizontal: DEFAULT_MARGIN,
     },
     sectionContainer: {
@@ -97,6 +88,7 @@ const renderItem = (title, callBack, secondLine) => {
 export default function SettingsScreen() {
     const { t } = useTranslation();
     const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
+    const userName = useSelector(selectUsername);
 
     if (!activeProfile) return null;
 
@@ -105,31 +97,29 @@ export default function SettingsScreen() {
             <CommonHeader title={t("hamburgerMenu.settings")} />
             <ScrollView contentContainerStyle={{ paddingBottom: PAGE_MARGIN_BOTTOM }}>
                 <View style={styles.titleArea}>
-                    <Text style={styles.title}>{activeProfile?.displayName}</Text>
-                    <SplitLine style={styles.line} />
-                    <Text style={styles.description}>
-                        {getGOIDLabel(t, activeProfile)} #: {activeProfile?.goIDNumber}
-                    </Text>
+                    <Text style={styles.title}>{userName}</Text>
                 </View>
 
                 <View style={styles.sectionContainer}>
-                    {renderItem(t("huntAndFish.myLicenses"), () => {
-                        showNotImplementedFeature();
+                    {renderItem(t("setting.changePassword"), () => {
+                        NavigationService.navigate(Routers.forgotPasswordResetPassword, {
+                            emailAddress: userName,
+                            isChangePassword: true,
+                        });
                     })}
                     <SeparateLine />
-                    {renderItem(t("huntAndFish.myDrawApplications"), () => {
-                        showNotImplementedFeature();
+                    {renderItem(t("setting.deleteAccount"), () => {
+                        NavigationService.navigate(Routers.deleteAccount);
                     })}
                 </View>
                 <View style={styles.sectionContainer}>
                     {renderItem(t("profile.manageProfile"), () => {
-                        showNotImplementedFeature();
+                        NavigationService.navigate(Routers.manageProfile);
                     })}
                 </View>
                 <View style={styles.sectionContainer}>
-                    {renderItem(t("setting.deleteAccount"), () => {
-                        console.log("delete account");
-                        NavigationService.navigate(Routers.deleteAccount);
+                    {renderItem(t("setting.helpAndSupport"), () => {
+                        openLink(AppContract.link.helpAndSupportLink);
                     })}
                 </View>
             </ScrollView>

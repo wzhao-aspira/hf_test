@@ -17,5 +17,8 @@ const AppContract = {
         uat: "https://uatcan-psapirest.reserveamerica.com/",
         prod: "https://can-psapi-rest.reserveamerica.com/",
     },
+    link: {
+        helpAndSupportLink: "https://wildlife.ca.gov/Contact",
+    },
 };
 export default merge(BaseContract, AppContract);
