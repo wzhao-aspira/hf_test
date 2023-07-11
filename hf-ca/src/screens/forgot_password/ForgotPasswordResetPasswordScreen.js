@@ -81,7 +81,7 @@ export default function ForgotPasswordScreen({ route }) {
         if (newPassword != confirmPassword) {
             dispatch(
                 showSimpleDialog({
-                    title: "common.alert",
+                    title: isChangePassword ? "common.error" : "common.alert",
                     message: "errMsg.passwordDotNotMatch",
                     okText: "common.gotIt",
                 })
@@ -223,6 +223,7 @@ export default function ForgotPasswordScreen({ route }) {
                     </View>
                 </KeyboardAwareScrollView>
                 <SimpleDialog
+                    title="common.error"
                     okText="common.gotIt"
                     message={errorDialog.message}
                     visible={errorDialog.show}
