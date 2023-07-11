@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         marginBottom: 32,
         alignItems: "center",
         justifyContent: "center",
+        paddingVertical: 20,
     },
     title: {
         ...AppTheme.typography.primary_heading,
