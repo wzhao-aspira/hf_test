@@ -63,7 +63,10 @@
         "emailAddressNotFound": "The entered email does not exist, please re-enter",
         "emptyEmailValidationCode": "Please enter Email Validation Code",
         "invalidEmailValidationCode": "Your entered validation code is not correct, please re-enter.",
-        "emptyNewPassword": "Please enter New Password"
+        "emptyNewPassword": "Please enter New Password",
+        "emptyCurrentPassword": "Please enter Current Password",
+        "incorrectExistingPassword": "The existing password you entered is incorrect, please re-enter.",
+        "sameAsOldPassword": "Your new password must be different from the previous password."
     },
     "login": {
         "signIn": "Sign In",
@@ -209,7 +212,10 @@
         "termsOfService": "Terms of Service"
     },
     "setting": {
-        "deleteAccount": "Delete Account"
+        "deleteAccount": "Delete Account",
+        "changePassword": "Change Password",
+        "currentPassword": "Current Password",
+        "helpAndSupport": "Help & Support"
     },
     "auth": {
         "biometricID": "Biometric ID",
@@ -258,7 +264,8 @@
         },
         "resetPassword": {
             "newPassword": "New Password",
-            "reset": "Reset"
+            "reset": "Reset",
+            "resetPassword": "Reset Password"
         }
     }
 }

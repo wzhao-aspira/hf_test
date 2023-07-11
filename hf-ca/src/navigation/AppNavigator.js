@@ -147,6 +147,10 @@ function MainNav() {
             <MainStack.Screen name={Routers.setting} component={SettingsScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
             <MainStack.Screen name={Routers.quickAccessSetting} component={QuickAccessMethodsScreen} />
+            <MainStack.Screen
+                name={Routers.forgotPasswordResetPassword}
+                component={ForgotPasswordResetPasswordScreen}
+            />
         </MainStack.Navigator>
     );
 }
