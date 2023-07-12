@@ -1,7 +1,7 @@
 import { FlatList, Keyboard, Pressable, Text, TextInput, View, Linking, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
-import { isEmpty } from "lodash";
+import { useCallback, useRef, useState } from "react";
+import { isEmpty, debounce } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocation } from "@fortawesome/pro-regular-svg-icons";
 import { faTimes } from "@fortawesome/pro-light-svg-icons";
@@ -79,8 +79,7 @@ export default function LocationSearchInput(props) {
     const [dropdownData, setDropdownData] = useState([]);
     const inputEl = useRef(null);
 
-    const onChangeText = async (text) => {
-        setValue(text);
+    const onSearch = async (text) => {
         if (isEmpty(text.trim())) {
             setDropdownData([]);
             return;
@@ -102,6 +101,14 @@ export default function LocationSearchInput(props) {
                 })
             );
         }
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const debounceSearch = useCallback(debounce(onSearch, 500), []);
+
+    const onChangeText = (text) => {
+        setValue(text);
+        debounceSearch(text);
     };
 
     const onClickCurrentLocation = async () => {

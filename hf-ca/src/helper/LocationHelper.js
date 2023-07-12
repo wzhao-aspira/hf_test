@@ -5,7 +5,7 @@ import { NETWORK_REQUEST_FAILED } from "../constants/Constants";
 export async function getCurrentLocation() {
     const result = { success: false, value: null, coordinates: [] };
     const permission = await Location.getForegroundPermissionsAsync();
-    if (permission && permission.granted) {
+    if (permission && permission.status == "granted") {
         try {
             const lastKnownPosition = await Location.getLastKnownPositionAsync();
             console.log("Location helper --- lastKnownPosition:", lastKnownPosition);

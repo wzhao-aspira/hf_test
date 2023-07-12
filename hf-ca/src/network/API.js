@@ -29,7 +29,7 @@ export async function getCurrentLocationByText(text) {
     const urlStr = `https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?access_token=${AppContract.mapBoxAccessToken}`;
     const response = await request(urlStr);
     if (response.success) {
-        const { features } = response;
+        const { features } = response.data;
         const suggestions = [];
         if (features && features.length > 0) {
             suggestions.push({ text: features[0].place_name, center: features[0].center });
