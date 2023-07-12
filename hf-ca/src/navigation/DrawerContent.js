@@ -12,10 +12,11 @@ import SplitLine from "../components/SplitLine";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { genTestId, setActiveUserID, showNotImplementedFeature } from "../helper/AppHelper";
+import { genTestId, openLink, setActiveUserID, showNotImplementedFeature } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
 import { showSelectDialog, updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
+import AppContract from "../assets/_default/AppContract";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -235,14 +236,14 @@ export default function DrawerContent({ navigation }) {
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
-                            showNotImplementedFeature();
+                            navigation.navigate(Routers.followUs);
                         }}
                         title="common.followUs"
                         testID="FollowUs"
                     />
                     <MenuItem
                         onClick={() => {
-                            showNotImplementedFeature();
+                            navigation.navigate(Routers.contactUs);
                         }}
                         title="common.contactUs"
                         testID="ContactUs"
@@ -291,7 +292,7 @@ export default function DrawerContent({ navigation }) {
                         testID={genTestId(`${testIDPrefix}PrivacyLink`)}
                         style={styles.privacy}
                         onPress={() => {
-                            showNotImplementedFeature();
+                            openLink(AppContract.link.privacyPolicy);
                         }}
                     >
                         <Trans i18nKey="hamburgerMenu.privacyPolicy" />
@@ -301,7 +302,7 @@ export default function DrawerContent({ navigation }) {
                         testID={genTestId(`${testIDPrefix}TermsOfUseLink`)}
                         style={styles.privacy}
                         onPress={() => {
-                            showNotImplementedFeature();
+                            openLink(AppContract.link.termService);
                         }}
                     >
                         <Trans i18nKey="hamburgerMenu.termsOfService" />

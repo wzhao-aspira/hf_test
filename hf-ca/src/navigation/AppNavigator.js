@@ -35,6 +35,8 @@ import ForgotPasswordEnterValidationCodeScreen from "../screens/forgot_password/
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
 import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScreen";
 import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
+import ContactUsScreen from "../screens/social_content/ContactUsScreen";
+import FollowUsScreen from "../screens/social_content/FollowUsScreen";
 
 const NavTheme = {
     colors: {
@@ -152,6 +154,8 @@ function MainNav() {
                 name={Routers.forgotPasswordResetPassword}
                 component={ForgotPasswordResetPasswordScreen}
             />
+            <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
+            <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
         </MainStack.Navigator>
     );
 }

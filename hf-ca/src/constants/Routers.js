@@ -26,4 +26,6 @@ export default {
     forgotPasswordEnterValidationCode: "forgotPasswordValidationCodeScreen",
     forgotPasswordResetPassword: "forgotPasswordResetPasswordScreen",
     quickAccessSetting: "quickAccessSetting",
+    contactUs: "contactUs",
+    followUs: "followUs",
 };

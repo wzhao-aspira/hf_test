@@ -20,7 +20,37 @@ const AppContract = {
     },
     link: {
         helpAndSupportLink: "https://wildlife.ca.gov/Contact",
+        privacyPolicy: "https://www.wildlife.ca.gov/Privacy-Policy",
+        termService: "https://www.wildlife.ca.gov/Conditions-of-Use",
     },
+    socialList: [
+        {
+            titleKey: "Facebook",
+            url: "https://www.facebook.com/CaliforniaDFW/",
+        },
+        {
+            titleKey: "Twitter",
+            url: "https://twitter.com/CaliforniaDFW",
+        },
+        {
+            titleKey: "YouTube",
+            url: "https://www.youtube.com/CaliforniaDFG",
+        },
+    ],
+    contactList: [
+        {
+            titleKey: "contactCDFW",
+            url: "https://wildlife.ca.gov/Contact",
+        },
+        {
+            titleKey: "contactAspira",
+            url: "https://www.ca.wildlifelicense.com/internetsales/Home/ContactAspira",
+        },
+        {
+            titleKey: "FAQ",
+            url: "https://www.ca.wildlifelicense.com/internetsales/Home/FAQ",
+        },
+    ],
     mapBoxAccessToken: SecurityUtil.xorDecrypt(
         "MRheDAsreQ8rHBkwKi8/Jxk5GCUlUCAlCT4ZJTErIA8rHBkwQBUkHywLGjNAVXwLBR9FDDYrMSQ7HxonKjd4JQUlCTMLK3FoMyM+ETcxfwNwNzZaMzcBCw5HPVkCFg==",
         true

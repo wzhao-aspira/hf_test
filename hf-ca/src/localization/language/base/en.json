@@ -277,5 +277,13 @@
     "location": {
         "locationAccessNeeded": "Location access needed",
         "locationAccessNeededMsg": "Turn on Location Settings to set your current city"
+    },
+    "contact": {
+        "contactCDFW": "Contact CDFW",
+        "contactAspira": "Contact Aspira",
+        "FAQ": "FAQ's",
+        "Facebook": "Facebook",
+        "Twitter": "Twitter",
+        "YouTube": "YouTube"
     }
 }
