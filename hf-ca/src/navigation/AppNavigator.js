@@ -145,6 +145,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
             <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
+            <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
             <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
             <MainStack.Screen name={Routers.setting} component={SettingsScreen} />
