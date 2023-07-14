@@ -49,6 +49,7 @@ export default function ForgotPasswordScreen({ route }) {
     const commonHeader = isChangePassword
         ? t("setting.changePassword")
         : t("forgotPassword.resetPassword.resetPassword");
+    const buttonText = isChangePassword ? t("setting.changePassword") : t("forgotPassword.resetPassword.reset");
 
     const [currentPassword, setCurrentPassword] = useState();
     const [newPassword, setNewPassword] = useState();
@@ -217,7 +218,7 @@ export default function ForgotPasswordScreen({ route }) {
                         <PrimaryBtn
                             testID="ResetButton"
                             style={ForgotPasswordStyles.action_button}
-                            label={t("forgotPassword.resetPassword.reset")}
+                            label={buttonText}
                             onPress={onReset}
                         />
                     </View>

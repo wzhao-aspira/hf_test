@@ -11,9 +11,7 @@ import SeparateLine from "../../components/SeparateLine";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { selectors as profileSelectors } from "../../redux/ProfileSlice";
-import { openLink } from "../../helper/AppHelper";
 import { selectUsername } from "../../redux/AppSlice";
-import AppContract from "../../assets/_default/AppContract";
 
 const styles = StyleSheet.create({
     titleArea: {
@@ -116,11 +114,6 @@ export default function SettingsScreen() {
                 <View style={styles.sectionContainer}>
                     {renderItem(t("profile.manageProfile"), () => {
                         NavigationService.navigate(Routers.manageProfile);
-                    })}
-                </View>
-                <View style={styles.sectionContainer}>
-                    {renderItem(t("setting.helpAndSupport"), () => {
-                        openLink(AppContract.link.helpAndSupportLink);
                     })}
                 </View>
             </ScrollView>
