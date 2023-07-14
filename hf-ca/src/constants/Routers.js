@@ -28,4 +28,5 @@ export default {
     quickAccessSetting: "quickAccessSetting",
     contactUs: "contactUs",
     followUs: "followUs",
+    preferencePoint: "preferencePoint",
 };

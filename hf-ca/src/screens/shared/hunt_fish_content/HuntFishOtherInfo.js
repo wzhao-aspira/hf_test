@@ -44,7 +44,12 @@ function HuntFishOtherInfo(props) {
                 {category == CATEGORY.Hunting && (
                     <HuntFishOtherInfoItem title={t("huntAndFish.myDrawApplications")} onPress={() => {}} />
                 )}
-                <HuntFishOtherInfoItem title={t("huntAndFish.myDrawSummary")} onPress={() => {}} />
+                <HuntFishOtherInfoItem
+                    title={t("preferencePoint.myPreferencePoint")}
+                    onPress={() => {
+                        NavigationService.navigate(Routers.preferencePoint);
+                    }}
+                />
                 <HuntFishOtherInfoItem title={t("huntAndFish.ruleRegulations")} onPress={() => {}} />
                 <HuntFishOtherInfoItem title={t("huntAndFish.usefulLink")} onPress={() => {}} />
             </View>
