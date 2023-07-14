@@ -37,6 +37,7 @@ import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScree
 import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
 import ContactUsScreen from "../screens/social_content/ContactUsScreen";
 import FollowUsScreen from "../screens/social_content/FollowUsScreen";
+import PreferencePointScreen from "../screens/preference_point/PreferencePointScreen";
 
 const NavTheme = {
     colors: {
@@ -157,6 +158,7 @@ function MainNav() {
             />
             <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
             <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
+            <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />
         </MainStack.Navigator>
     );
 }

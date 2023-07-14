@@ -171,6 +171,13 @@ export default function DrawerContent({ navigation }) {
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
+                            navigation.navigate(Routers.preferencePoint);
+                        }}
+                        title="preferencePoint.myPreferencePoint"
+                        testID="PreferencePoint"
+                    />
+                    <MenuItem
+                        onClick={() => {
                             showNotImplementedFeature();
                         }}
                         title="common.purchase"

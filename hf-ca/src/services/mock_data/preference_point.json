@@ -1,0 +1,100 @@
+[
+    {
+        "id": 1141138844,
+        "profileId": "11231",
+        "drawType": "Bighorn Sheep",
+        "currentPoint": "21",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 1141138843,
+        "profileId": "11231",
+        "drawType": "Deer",
+        "currentPoint": "5",
+        "lastYearApplied": "2022"
+    },
+    {
+        "id": 1141138842,
+        "profileId": "11235",
+        "drawType": "Elk",
+        "currentPoint": "0",
+        "lastYearApplied": "2022"
+    },
+    {
+        "id": 1141138841,
+        "profileId": "11233",
+        "drawType": "Bowhunting R",
+        "currentPoint": "21",
+        "lastYearApplied": "2022"
+    },
+    {
+        "id": 1141138840,
+        "profileId": "11231",
+        "drawType": "GHS Surcharge",
+        "currentPoint": "23",
+        "lastYearApplied": "2020"
+    },
+    {
+        "id": 1141138839,
+        "profileId": "11233",
+        "drawType": "Wildlife Certificate",
+        "currentPoint": "3",
+        "lastYearApplied": "2023"
+    },
+    {
+        "id": 1131279391,
+        "profileId": "11233",
+        "drawType": "Sportfishing Annual R",
+        "currentPoint": "13",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 1027182608,
+        "profileId": "11233",
+        "drawType": "GHS Surcharge",
+        "currentPoint": "30",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 672961665,
+        "profileId": "11233",
+        "drawType": "WIN Activation",
+        "currentPoint": "130",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 1102842451,
+        "profileId": "11233",
+        "drawType": "Antlerless Elk R U/S",
+        "currentPoint": "6",
+        "lastYearApplied": "2022"
+    },
+    {
+        "id": 1090959353,
+        "profileId": "11233",
+        "drawType": "Game Bird R",
+        "currentPoint": "12",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 1090959354,
+        "profileId": "11233",
+        "drawType": "Bird",
+        "currentPoint": "2",
+        "lastYearApplied": "2022"
+    },
+    {
+        "id": 1090959355,
+        "profileId": "11233",
+        "drawType": "09AS",
+        "currentPoint": "1",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 1090959356,
+        "profileId": "11233",
+        "drawType": "12AA",
+        "currentPoint": "0",
+        "lastYearApplied": "2021"
+    }
+]

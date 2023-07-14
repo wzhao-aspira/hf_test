@@ -155,7 +155,6 @@
 
     "huntAndFish": {
         "myLicenses": "My Licenses",
-        "myDrawSummary": "My Draw Summary",
         "myDrawApplications": "My Draw Applications",
         "ruleRegulations": "Rules and Regulations",
         "usefulLink": "Useful Links",
@@ -172,6 +171,15 @@
         "fishTitle": "Fishing",
         "fishPurchaseDescription": "Purchase or renew fishing licenses",
         "fishDescription": "View licenses, rules and regulations, and other important information here."
+    },
+
+    "preferencePoint": {
+        "myPreferencePoint": "My Preference Point",
+        "drawType": "Draw Type",
+        "currentPoint": "Current Point",
+        "lastYearApplied": "Last Year Applied",
+        "noPreferencePoint": "No preference points found",
+        "purchaseLicense": "Purchase your hunting or fishing license now"
     },
 
     "discovery": {

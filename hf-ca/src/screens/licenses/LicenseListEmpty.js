@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";
@@ -42,15 +42,19 @@ export const styles = StyleSheet.create({
     },
 });
 
-const LicenseListEmpty = () => {
+const LicenseListEmpty = ({ title, subtitle }) => {
+    const { t } = useTranslation();
+    const defaultTitle = t("license.noLicenseTitle");
+    const defaultSubTitle = t("license.noLicenseIntroduction");
+
     return (
         <View style={styles.emptyContainer}>
             <View style={styles.emptyArea}>
                 <Text testID={genTestId("noLicenses")} style={styles.emptyTitle}>
-                    <Trans i18nKey="license.noLicenseTitle" />
+                    {title || defaultTitle}
                 </Text>
                 <Text testID={genTestId("licIntroduction")} style={styles.emptyDescription}>
-                    <Trans i18nKey="license.noLicenseIntroduction" />
+                    {subtitle || defaultSubTitle}
                 </Text>
                 {
                     <Pressable
