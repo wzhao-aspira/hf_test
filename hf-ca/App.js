@@ -1,3 +1,5 @@
+import "react-native-url-polyfill/auto";
+import { decode, encode } from "base-64";
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
@@ -14,6 +16,18 @@ import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
 import { getActiveUserID } from "./src/helper/AppHelper";
+
+if (!global.btoa) {
+    global.btoa = encode;
+}
+
+if (!global.atob) {
+    global.atob = decode;
+}
+
+if (__DEV__) {
+    import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
+}
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
