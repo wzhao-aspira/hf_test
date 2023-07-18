@@ -5,14 +5,13 @@ import { isEmpty, debounce } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocation } from "@fortawesome/pro-regular-svg-icons";
 import { faTimes } from "@fortawesome/pro-light-svg-icons";
-import { useDispatch } from "react-redux";
 import * as IntentLauncherAndroid from "expo-intent-launcher";
 import { genTestId, isIos } from "../helper/AppHelper";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
 import { getCurrentLocation, searchLocationByText } from "../helper/LocationHelper";
 import { SUGGESTED_LOCATIONS } from "../constants/Constants";
-import { showSimpleDialog, showSelectDialog } from "../redux/AppSlice";
+import DialogHelper from "../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     searchBarContainer: {
@@ -73,7 +72,6 @@ export default function LocationSearchInput(props) {
     const { testID = "", placeholder, onItemPressAction } = props;
 
     const { t } = useTranslation();
-    const dispatch = useDispatch();
 
     const [value, setValue] = useState("");
     const [dropdownData, setDropdownData] = useState([]);
@@ -94,12 +92,10 @@ export default function LocationSearchInput(props) {
             }
         } else {
             const { title, message } = searchResult;
-            dispatch(
-                showSimpleDialog({
-                    title,
-                    message,
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title,
+                message,
+            });
         }
     };
 
@@ -123,25 +119,23 @@ export default function LocationSearchInput(props) {
             inputEl?.current?.focus();
             await onChangeText(searchResult.value[0].text);
         } else {
-            dispatch(
-                showSelectDialog({
-                    title: "location.locationAccessNeeded",
-                    message: "location.locationAccessNeededMsg",
-                    okText: "common.yes",
-                    cancelText: "common.no",
-                    okAction: () => {
-                        if (isIos()) {
-                            Linking.openURL("app-settings:");
-                        } else {
-                            IntentLauncherAndroid.startActivityAsync(
-                                IntentLauncherAndroid.ACTION_LOCATION_SOURCE_SETTINGS
-                            ).catch((error) => {
-                                console.log(`StartActivityAsync Error:${error}`);
-                            });
-                        }
-                    },
-                })
-            );
+            DialogHelper.showSelectDialog({
+                title: "location.locationAccessNeeded",
+                message: "location.locationAccessNeededMsg",
+                okText: "common.yes",
+                cancelText: "common.no",
+                okAction: () => {
+                    if (isIos()) {
+                        Linking.openURL("app-settings:");
+                    } else {
+                        IntentLauncherAndroid.startActivityAsync(
+                            IntentLauncherAndroid.ACTION_LOCATION_SOURCE_SETTINGS
+                        ).catch((error) => {
+                            console.log(`StartActivityAsync Error:${error}`);
+                        });
+                    }
+                },
+            });
         }
     };
 

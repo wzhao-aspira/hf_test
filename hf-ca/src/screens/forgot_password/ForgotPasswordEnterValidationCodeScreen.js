@@ -1,7 +1,6 @@
 import { createRef, useState } from "react";
 import { View, Text } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
@@ -9,18 +8,16 @@ import { SharedStyles } from "../../styles/CommonStyles";
 import { genTestId } from "../../helper/AppHelper";
 import AppTheme from "../../assets/_default/AppTheme";
 import CountdownTextInput from "../../components/CountdownTextInput";
-import { showSimpleDialog } from "../../redux/AppSlice";
 import { emptyValidate, headerTitleSubString } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import Attention from "../../components/Attention";
+import DialogHelper from "../../helper/DialogHelper";
 
 export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
     const { t } = useTranslation();
-
-    const dispatch = useDispatch();
 
     const { params } = route;
     const { emailAddress } = params;
@@ -39,13 +36,11 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
             return false;
         }
         if (emailValidationCode != "0000") {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "errMsg.invalidEmailValidationCode",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "errMsg.invalidEmailValidationCode",
+                okText: "common.gotIt",
+            });
             return false;
         }
         return true;

@@ -4,11 +4,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { isIos } from "./AppHelper";
 import { retrieveItem, storeItem } from "./StorageHelper";
 import i18n from "../localization/i18n";
-import store from "../redux/Store";
-import { showSimpleDialog } from "../redux/AppSlice";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { getMobileAccountById } from "./DBHelper";
 import SecurityUtil from "../utils/SecurityUtil";
+import DialogHelper from "./DialogHelper";
 
 export async function saveOnboardingPageAppear(userId) {
     console.log(`saveOnboardingPageAppear:${userId}`);
@@ -182,12 +181,10 @@ export async function startBiometricAuth(userID, onFinish = () => {}, onError = 
                         errorMessage = i18n.t("auth.authFailed");
                     }
                 }
-                store.dispatch(
-                    showSimpleDialog({
-                        title: i18n.t("common.error"),
-                        message: errorMessage,
-                    })
-                );
+                DialogHelper.showSimpleDialog({
+                    title: i18n.t("common.error"),
+                    message: errorMessage,
+                });
                 onError(result);
             }
         }
