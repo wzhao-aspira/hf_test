@@ -12,6 +12,7 @@ export const KEY_CONSTANT = {
     lastBiometricLoginUser: "lastBiometricLoginUser",
     lastBiometricLoginUserAuthInfo: "lastBiometricLoginUserAuthInfo",
     currentInUseProfileIDOfAccounts: "currentInUseProfileIDOfAccounts",
+    usefulLinks: "usefulLinks",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fulfilled", rejected: "rejected" };

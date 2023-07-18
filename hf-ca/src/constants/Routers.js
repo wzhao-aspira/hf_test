@@ -30,4 +30,5 @@ export default {
     contactUs: "contactUs",
     followUs: "followUs",
     preferencePoint: "preferencePoint",
+    usefulLinks: "usefulLinsScreen",
 };

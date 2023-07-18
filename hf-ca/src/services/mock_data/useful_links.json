@@ -1,0 +1,40 @@
+{
+    "usefulLinksData": [
+        {
+            "description": "Donec posuere est sed risus ultricies tincidunt. Donec risus arcu, convallis quis.",
+            "id": "r_010",
+            "isPDF": false,
+            "pdfViewOnlineEnable": true,
+            "size": 0,
+            "title": "Find License Guide",
+            "url": "https://www.ca.wildlifelicense.com/internetsales/PublicListSearch/SelectPermitType"
+        },
+        {
+            "description": "Nunc vitae tincidunt arcu. Mauris pretium, risus eget euismod rhoncus, purus sem.",
+            "id": "r_011",
+            "isPDF": false,
+            "pdfViewOnlineEnable": false,
+            "size": 13657241,
+            "title": "Licensing & Fees Information",
+            "url": "https://www.ca.wildlifelicense.com/internetsales/Home/LicensingAndFees"
+        },
+        {
+            "description": "Praesent condimentum in enim nec dignissim. Vivamus est turpis, gravida nec rhoncus.",
+            "id": "r_012",
+            "isPDF": false,
+            "pdfViewOnlineEnable": false,
+            "size": 13657241,
+            "title": "CDFW Partners",
+            "url": "https://www.ca.wildlifelicense.com/internetsales/Home/CDFWPartners"
+        },
+        {
+            "description": "Suspendisse vehicula est ut tortor posuere volutpat. Aliquam ullamcorper metus interdum orci varius, at consequat mi semper. Curabitur rhoncus placerat.",
+            "id": "r_001",
+            "isPDF": true,
+            "pdfViewOnlineEnable": true,
+            "size": 1657241,
+            "title": "Dummy PDF file",
+            "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+        }
+    ]
+}
