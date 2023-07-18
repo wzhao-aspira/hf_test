@@ -44,3 +44,31 @@ export function shortName(fullName) {
     }
     return shortNameStr.toUpperCase();
 }
+
+export function isPDFUrl(url) {
+    let result = false;
+    if (!url) {
+        return result;
+    }
+    const lowCaseUrl = url.toLowerCase();
+    if (lowCaseUrl.endsWith(".pdf")) {
+        result = true;
+    } else {
+        result = false;
+    }
+    return result;
+}
+
+export function getDownloadFileName(url) {
+    if (isEmpty(url)) {
+        return "_";
+    }
+    let fileName = url
+        .toString()
+        .toLowerCase()
+        .replace(/[^a-z0-9.]/gi, "");
+    if (fileName.length > 100) {
+        fileName = fileName.substring(fileName.length - 100);
+    }
+    return fileName;
+}

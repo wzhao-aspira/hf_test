@@ -36,7 +36,8 @@
         "contactUs": "Contact Us",
         "followUs": "Follow Us",
         "create": "Create",
-        "none": "None"
+        "none": "None",
+        "noThanks": "No Thanks"
     },
     "errMsg": {
         "unableEstablishService": "Unable to establish service connection.",
@@ -263,6 +264,27 @@
             "description": "Your entered password does not match with your account, please re-enter.",
             "confirmButton": "Got it"
         }
+    },
+    "usefulLinks": {
+        "usefulLinks": "Useful Links",
+        "download": "Download",
+        "downloading": "Downloading",
+        "downloadedNumber": "({{number}} Downloaded)",
+        "open": "Open",
+        "viewOnline": "View Online",
+        "networkErrorTitle": "No Network Connection",
+        "networkErrorMsg": "Please check your network settings.",
+        "documentUpdated": "Document(s) Updated",
+        "documentUpdatedMessage": "One or more documents/links have been updated. If you previously downloaded an older version you will need to download the updated version.",
+        "downloadFailed": "Download Failed",
+        "downloadFailedLinkIssueMsg": "Download failed because of a link issue. Please try again later.",
+        "downloadFailedMsg": "Download failed, please check your internet connection and try again.",
+        "deleteDownloaded": "Delete Downloaded",
+        "deleteFile": "Delete File?",
+        "deleteFileMessage": "Are you sure you wish to delete this file?",
+        "downloadDocumentNoWiFi": "Download Document (no WiFi)?",
+        "downloadDocumentNoWiFiMessage": "You are not currently on WiFi and the document is {{fileSize}} MB. Do you wish to continue off WiFi?",
+        "downloadNow": "Download Now"
     },
     "forgotPassword": {
         "enterEmail": {

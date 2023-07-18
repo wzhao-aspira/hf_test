@@ -51,7 +51,12 @@ function HuntFishOtherInfo(props) {
                     }}
                 />
                 <HuntFishOtherInfoItem title={t("huntAndFish.ruleRegulations")} onPress={() => {}} />
-                <HuntFishOtherInfoItem title={t("huntAndFish.usefulLink")} onPress={() => {}} />
+                <HuntFishOtherInfoItem
+                    title={t("huntAndFish.usefulLink")}
+                    onPress={() => {
+                        NavigationService.navigate(Routers.usefulLinks);
+                    }}
+                />
             </View>
         </View>
     );

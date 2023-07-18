@@ -29,7 +29,7 @@ import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfile
 import ProfileDetailsScreen from "../screens/profile/profile_details/ProfileDetailsScreen";
 import SignInScreen from "../screens/sign_in/SignInScreen";
 import SettingsScreen from "../screens/setting/SettingsScreen";
-import DeleteAccountScreen from "../screens/delete-account/DeleteAccountScreen";
+import DeleteAccountScreen from "../screens/delete_account/DeleteAccountScreen";
 import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
 import ForgotPasswordEnterValidationCodeScreen from "../screens/forgot_password/ForgotPasswordEnterValidationCodeScreen";
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
@@ -39,6 +39,7 @@ import ContactUsScreen from "../screens/social_content/ContactUsScreen";
 import FollowUsScreen from "../screens/social_content/FollowUsScreen";
 import PreferencePointScreen from "../screens/preference_point/PreferencePointScreen";
 import ModalScreen from "./ModalScreen";
+import UsefulLinksScreen from "../screens/useful_links/UsefulLinksScreen";
 
 const NavTheme = {
     colors: {
@@ -176,6 +177,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
             <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
             <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />
+            <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
         </MainStack.Navigator>
     );
 }

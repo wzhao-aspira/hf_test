@@ -1,5 +1,5 @@
-import * as React from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
+import color from "color";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_BTN_RADIUS } from "../constants/Dimension";
 import { genTestId } from "../helper/AppHelper";
@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
         borderRadius: DEFAULT_BTN_RADIUS,
         backgroundColor: AppTheme.colors.primary_2,
     },
+    disableContainer: {
+        backgroundColor: color(AppTheme.colors.primary_2).alpha(0.5).rgb().string(),
+    },
     label: {
         ...AppTheme.typography.card_title,
         color: AppTheme.colors.font_color_4,
@@ -17,13 +20,15 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
 });
-const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {} }) => {
+
+const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {}, disabled = false }) => {
     const calTestID = testID || label;
     return (
         <Pressable
             testID={genTestId(calTestID)}
             accessibilityLabel={label}
-            style={[styles.container, { ...style }]}
+            style={[styles.container, disabled && styles.disableContainer, { ...style }]}
+            disabled={disabled}
             onPress={() => {
                 onPress && onPress();
             }}
