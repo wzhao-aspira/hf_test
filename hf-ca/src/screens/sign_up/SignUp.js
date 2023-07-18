@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import emailValidator from "email-validator";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
@@ -10,11 +9,10 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { checkAccountEmailIsExisting } from "../../services/ProfileService";
-import { showSimpleDialog } from "../../redux/AppSlice";
+import DialogHelper from "../../helper/DialogHelper";
 
 const SignUp = () => {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
     const [mobileAccount, setMobileAccount] = useState();
     const userIDRef = useRef();
     const passwordRef = useRef();
@@ -33,34 +31,28 @@ const SignUp = () => {
         if (errorReported) return;
         const userID = mobileAccount?.userID.trim();
         if (!emailValidator.validate(userID)) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "signIn.userIdInvalid",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "signIn.userIdInvalid",
+                okText: "common.gotIt",
+            });
             return;
         }
         if (mobileAccount?.password !== mobileAccount?.confirmPassword) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "errMsg.passwordDotNotMatch",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "errMsg.passwordDotNotMatch",
+                okText: "common.gotIt",
+            });
             return;
         }
         const existing = await checkAccountEmailIsExisting(userID);
         if (existing) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "errMsg.foundExistingAccount",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "errMsg.foundExistingAccount",
+                okText: "common.gotIt",
+            });
             return;
         }
         NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount });

@@ -8,7 +8,7 @@ import Page from "../../components/Page";
 import { SharedStyles } from "../../styles/CommonStyles";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
-import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
+import { updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import AccountService from "../../services/AccountService";
 import { emptyValidate } from "./ForgotPasswordScreenUtils";
@@ -17,6 +17,7 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { SimpleDialog } from "../../components/Dialog";
+import DialogHelper from "../../helper/DialogHelper";
 
 function dialogReducer(state, action) {
     if (action.type === "incorrectPassword") {
@@ -80,13 +81,11 @@ export default function ForgotPasswordScreen({ route }) {
             return false;
         }
         if (newPassword != confirmPassword) {
-            dispatch(
-                showSimpleDialog({
-                    title: isChangePassword ? "common.error" : "common.alert",
-                    message: "errMsg.passwordDotNotMatch",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: isChangePassword ? "common.error" : "common.alert",
+                message: "errMsg.passwordDotNotMatch",
+                okText: "common.gotIt",
+            });
             return false;
         }
         return true;

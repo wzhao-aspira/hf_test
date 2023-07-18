@@ -42,9 +42,38 @@ const styles = StyleSheet.create({
     },
 });
 
+export const SimpleDialogView = ({
+    testID = "",
+    title = "common.alert",
+    message = "common.message",
+    okText = "common.ok",
+    okAction = () => {},
+}) => {
+    const { t, i18n } = useTranslation();
+    return (
+        <View style={styles.centeredView}>
+            <View style={styles.contentStyle}>
+                <View style={{ padding: DEFAULT_MARGIN }}>
+                    <Text testID={genTestId(`${testID}SimpleDialogTitle`)} style={styles.title}>
+                        {i18n.exists(title) ? t(title) : title}
+                    </Text>
+                    <Text testID={genTestId(`${testID}SimpleDialogMessage`)} style={styles.message}>
+                        {i18n.exists(message) ? t(message) : message}
+                    </Text>
+                    <PrimaryBtn
+                        testID={`${testID}SimpleDialogOKButton`}
+                        onPress={okAction}
+                        label={i18n.exists(okText) ? t(okText) : okText}
+                        style={styles.okBtn}
+                    />
+                </View>
+            </View>
+        </View>
+    );
+};
+
 // with one button
 export const SimpleDialog = (props) => {
-    const { t, i18n } = useTranslation();
     const {
         testID = "",
         title = "common.alert",
@@ -55,31 +84,60 @@ export const SimpleDialog = (props) => {
     } = props;
     return (
         <Modal visible={visible} animationType="none" transparent>
-            <View style={styles.centeredView}>
-                <View style={styles.contentStyle}>
-                    <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text testID={genTestId(`${testID}SimpleDialogTitle`)} style={styles.title}>
-                            {i18n.exists(title) ? t(title) : title}
-                        </Text>
-                        <Text testID={genTestId(`${testID}SimpleDialogMessage`)} style={styles.message}>
-                            {i18n.exists(message) ? t(message) : message}
-                        </Text>
-                        <PrimaryBtn
-                            testID={`${testID}SimpleDialogOKButton`}
-                            onPress={okAction}
-                            label={i18n.exists(okText) ? t(okText) : okText}
-                            style={styles.okBtn}
-                        />
-                    </View>
+            <SimpleDialogView
+                testID={testID}
+                title={title}
+                message={message}
+                okText={okText}
+                okAction={okAction}
+                {...props}
+            />
+        </Modal>
+    );
+};
+
+export const SelectDialogView = ({
+    testID = "",
+    title = "common.alert",
+    message = "common.message",
+    okText = "common.ok",
+    okAction = () => {},
+    cancelText = "common.cancel",
+    cancelAction = () => {},
+    children = <></>,
+}) => {
+    const { t, i18n } = useTranslation();
+    return (
+        <View style={styles.centeredView}>
+            <View style={styles.contentStyle}>
+                <View style={{ padding: DEFAULT_MARGIN }}>
+                    <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.title}>
+                        {i18n.exists(title) ? t(title) : title}
+                    </Text>
+                    <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.message}>
+                        {i18n.exists(message) ? t(message) : message}
+                    </Text>
+                    {children}
+                    <PrimaryBtn
+                        onPress={okAction}
+                        label={i18n.exists(okText) ? t(okText) : okText}
+                        style={styles.okBtn}
+                        testID={`${testID}SelectDialogOKButton`}
+                    />
+                    <OutlinedBtn
+                        onPress={cancelAction}
+                        label={i18n.exists(cancelText) ? t(cancelText) : cancelText}
+                        style={styles.cancelBtn}
+                        testID={`${testID}SelectDialogCancelButton`}
+                    />
                 </View>
             </View>
-        </Modal>
+        </View>
     );
 };
 
 // with two buttons
 export const SelectDialog = (props) => {
-    const { t, i18n } = useTranslation();
     const {
         testID = "",
         title = "common.alert",
@@ -94,31 +152,17 @@ export const SelectDialog = (props) => {
 
     return (
         <Modal visible={visible} animationType="none" transparent>
-            <View style={styles.centeredView}>
-                <View style={styles.contentStyle}>
-                    <View style={{ padding: DEFAULT_MARGIN }}>
-                        <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.title}>
-                            {i18n.exists(title) ? t(title) : title}
-                        </Text>
-                        <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.message}>
-                            {i18n.exists(message) ? t(message) : message}
-                        </Text>
-                        {children}
-                        <PrimaryBtn
-                            onPress={okAction}
-                            label={i18n.exists(okText) ? t(okText) : okText}
-                            style={styles.okBtn}
-                            testID={`${testID}SelectDialogOKButton`}
-                        />
-                        <OutlinedBtn
-                            onPress={cancelAction}
-                            label={i18n.exists(cancelText) ? t(cancelText) : cancelText}
-                            style={styles.cancelBtn}
-                            testID={`${testID}SelectDialogCancelButton`}
-                        />
-                    </View>
-                </View>
-            </View>
+            <SelectDialogView
+                testID={testID}
+                title={title}
+                message={message}
+                okText={okText}
+                okAction={okAction}
+                cancelText={cancelText}
+                cancelAction={cancelAction}
+            >
+                {children}
+            </SelectDialogView>
         </Modal>
     );
 };

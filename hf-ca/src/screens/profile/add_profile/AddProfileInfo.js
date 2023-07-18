@@ -23,10 +23,11 @@ import BusinessProfileInfo from "./BusinessProfileInfo";
 import VesselProfileInfo from "./VesselProfileInfo";
 import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
-import { showSimpleDialog, updateLoginStep } from "../../../redux/AppSlice";
+import { updateLoginStep } from "../../../redux/AppSlice";
 import LoginStep from "../../../constants/LoginStep";
 import OnBoardingHelper from "../../../helper/OnBoardingHelper";
 import appThunkActions from "../../../redux/AppThunk";
+import DialogHelper from "../../../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -45,13 +46,11 @@ export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, 
     if (isAddPrimaryProfile) {
         const isSaveSuccess = await addPrimaryProfile(mobileAccount, existingProfile.profileId);
         if (!isSaveSuccess) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.connectionError",
-                    message: "errMsg.unableEstablishService",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.connectionError",
+                message: "errMsg.unableEstablishService",
+                okText: "common.gotIt",
+            });
             return false;
         }
         dispatch(
@@ -64,13 +63,11 @@ export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, 
     } else {
         const isSaveSuccess = await addProfile(mobileAccount, existingProfile.profileId);
         if (!isSaveSuccess) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.connectionError",
-                    message: "errMsg.unableEstablishService",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.connectionError",
+                message: "errMsg.unableEstablishService",
+                okText: "common.gotIt",
+            });
             return false;
         }
         dispatch(
@@ -138,23 +135,19 @@ const AddProfileInfo = ({
         if (errorReported) return;
         const existingProfile = await findProfile(mobileAccount, profile);
         if (!existingProfile) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "errMsg.addedProfileIsInvalid",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "errMsg.addedProfileIsInvalid",
+                okText: "common.gotIt",
+            });
         } else {
             const alreadyAssociatedWithAccount = isProfileAlreadyAssociatedWithAccount(mobileAccount, existingProfile);
             if (alreadyAssociatedWithAccount) {
-                dispatch(
-                    showSimpleDialog({
-                        title: "common.error",
-                        message: "errMsg.profileAlreadyExists",
-                        okText: "common.gotIt",
-                    })
-                );
+                DialogHelper.showSimpleDialog({
+                    title: "common.error",
+                    message: "errMsg.profileAlreadyExists",
+                    okText: "common.gotIt",
+                });
                 return;
             }
             if (existingProfile.isNeedCRSS) {

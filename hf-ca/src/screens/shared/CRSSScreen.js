@@ -13,11 +13,12 @@ import { genTestId, showNotImplementedFeature } from "../../helper/AppHelper";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
-import { showSimpleDialog, updateLoginStep } from "../../redux/AppSlice";
+import { updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import { saveProfile } from "../profile/add_profile/AddProfileInfo";
 import Attention from "../../components/Attention";
+import DialogHelper from "../../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -79,12 +80,10 @@ export default function CRSSScreen({ route }) {
                 }
             }
         } else {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "errMsg.incorrectPassword",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "errMsg.incorrectPassword",
+            });
         }
     };
 

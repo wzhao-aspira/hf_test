@@ -14,9 +14,10 @@ import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
 import { genTestId, openLink, setActiveUserID, showNotImplementedFeature } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
-import { showSelectDialog, updateLoginStep } from "../redux/AppSlice";
+import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
 import AppContract from "../assets/_default/AppContract";
+import DialogHelper from "../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -266,15 +267,13 @@ export default function DrawerContent({ navigation }) {
                 <Pressable
                     testID={genTestId(`${testIDPrefix}SignOutItemButton`)}
                     onPress={() => {
-                        dispatch(
-                            showSelectDialog({
-                                title: "login.signOut",
-                                message: "login.signOutTipMessage",
-                                okAction: () => {
-                                    onSignOut();
-                                },
-                            })
-                        );
+                        DialogHelper.showSelectDialog({
+                            title: "login.signOut",
+                            message: "login.signOutTipMessage",
+                            okAction: () => {
+                                onSignOut();
+                            },
+                        });
                     }}
                 >
                     <Text testID={genTestId(`${testIDPrefix}SignOutItemButtonLabel`)} style={styles.menuTitle}>

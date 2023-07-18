@@ -2,14 +2,12 @@ import { createRef, useState } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import emailValidator from "email-validator";
-import { useDispatch } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import { SharedStyles } from "../../styles/CommonStyles";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
-import { showSimpleDialog } from "../../redux/AppSlice";
 import AccountService from "../../services/AccountService";
 import { emptyValidate, headerTitleSubString } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
@@ -17,11 +15,10 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import Attention from "../../components/Attention";
 import PrimaryBtn from "../../components/PrimaryBtn";
+import DialogHelper from "../../helper/DialogHelper";
 
 export default function ForgotPasswordEnterEmailScreen() {
     const { t } = useTranslation();
-
-    const dispatch = useDispatch();
 
     const [emailAddress, setEmailAddress] = useState("");
     const emailAddressRef = createRef();
@@ -36,24 +33,20 @@ export default function ForgotPasswordEnterEmailScreen() {
         }
         const isValidEmailAddress = emailValidator.validate(emailAddress.trim());
         if (!isValidEmailAddress) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "signIn.userIdInvalid",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "signIn.userIdInvalid",
+                okText: "common.gotIt",
+            });
             return false;
         }
         const isEmailAddressExisted = await AccountService.isMobileAccountExisted(emailAddress.trim());
         if (!isEmailAddressExisted) {
-            dispatch(
-                showSimpleDialog({
-                    title: "common.error",
-                    message: "errMsg.emailAddressNotFound",
-                    okText: "common.gotIt",
-                })
-            );
+            DialogHelper.showSimpleDialog({
+                title: "common.error",
+                message: "errMsg.emailAddressNotFound",
+                okText: "common.gotIt",
+            });
             return false;
         }
         return true;
