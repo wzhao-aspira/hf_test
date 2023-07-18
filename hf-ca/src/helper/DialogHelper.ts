@@ -16,6 +16,7 @@ interface DialogParamInterface {
     cancelText?: string;
     okAction?: () => void;
     cancelAction: () => void;
+    withModal?: boolean;
 }
 
 function showSimpleDialog(param: DialogParamInterface) {
