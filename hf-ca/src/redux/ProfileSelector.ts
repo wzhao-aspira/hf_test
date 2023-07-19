@@ -1,6 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
 import { PROFILE_TYPE_IDS } from "../constants/Constants";
+import { isIndividualProfile } from "../helper/ProfileHelper";
 
 const selectProfileState = (state: RootState) => state.profile;
 
@@ -31,8 +32,8 @@ const selectProcessedProfileList = createSelector(selectProfileList, (profileLis
             return { ...profile, ownerName };
         }
 
-        // get adult associated profiles
-        if (profile.profileType === PROFILE_TYPE_IDS.adult) {
+        // get associated profiles
+        if (isIndividualProfile(profile.profileType)) {
             const associatedProfiles = profileList.filter((item) => item.ownerId === profile.profileId);
             if (associatedProfiles.length > 0) {
                 associatedProfiles.sort((profileA, profileB) =>

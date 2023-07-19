@@ -32,7 +32,8 @@
         "ownershipType": null,
         "vesselName": "",
         "purchaseDate": "",
-        "currentDocumentation": ""
+        "currentDocumentation": "",
+        "valid": false
     },
     {
         "profileId": "11232",
@@ -67,7 +68,8 @@
         "ownershipType": null,
         "vesselName": null,
         "purchaseDate": null,
-        "currentDocumentation": null
+        "currentDocumentation": null,
+        "valid": true
     },
     {
         "profileId": "11233",
@@ -102,7 +104,8 @@
         "ownershipType": null,
         "vesselName": null,
         "purchaseDate": null,
-        "currentDocumentation": null
+        "currentDocumentation": null,
+        "valid": true
     },
     {
         "profileId": "11234",
@@ -136,7 +139,8 @@
         "ownershipType": null,
         "vesselName": null,
         "purchaseDate": null,
-        "currentDocumentation": null
+        "currentDocumentation": null,
+        "valid": true
     },
     {
         "profileId": "11235",
@@ -165,7 +169,8 @@
         "ownershipType": "Corporation",
         "vesselName": null,
         "purchaseDate": null,
-        "currentDocumentation": null
+        "currentDocumentation": null,
+        "valid": true
     },
     {
         "profileId": "11236",
@@ -194,7 +199,8 @@
         "ownershipType": null,
         "vesselName": "",
         "purchaseDate": "7/29/2022",
-        "currentDocumentation": "(State Registration) - CA - CF7120TX (12/31/2023)"
+        "currentDocumentation": "(State Registration) - CA - CF7120TX (12/31/2023)",
+        "valid": true
     },
     {
         "profileId": "11237",
@@ -223,7 +229,8 @@
         "ownershipType": "Corporation",
         "vesselName": null,
         "purchaseDate": null,
-        "currentDocumentation": null
+        "currentDocumentation": null,
+        "valid": true
     },
     {
         "profileId": "11238",
@@ -252,7 +259,8 @@
         "ownershipType": null,
         "vesselName": "Daniel Vessel",
         "purchaseDate": "5/29/2022",
-        "currentDocumentation": null
+        "currentDocumentation": null,
+        "valid": true
     },
     {
         "profileId": "11239",
@@ -289,6 +297,7 @@
         "ownershipType": null,
         "vesselName": null,
         "purchaseDate": null,
-        "currentDocumentation": null
+        "currentDocumentation": null,
+        "valid": true
     }
 ]

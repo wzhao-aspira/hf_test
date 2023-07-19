@@ -96,5 +96,40 @@
         "drawType": "12AA",
         "currentPoint": "0",
         "lastYearApplied": "2021"
+    },
+    {
+        "id": 1102842457,
+        "profileId": "11233",
+        "drawType": "Game Bird Resident",
+        "currentPoint": "6",
+        "lastYearApplied": "2022"
+    },
+    {
+        "id": 1090959358,
+        "profileId": "11233",
+        "drawType": "Disabled Sheep NR",
+        "currentPoint": "12",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 1090959359,
+        "profileId": "11233",
+        "drawType": "Pronghorn NR",
+        "currentPoint": "2",
+        "lastYearApplied": "2022"
+    },
+    {
+        "id": 1090959360,
+        "profileId": "11233",
+        "drawType": "Disabled Sheep Resident",
+        "currentPoint": "1",
+        "lastYearApplied": "2021"
+    },
+    {
+        "id": 1090959361,
+        "profileId": "11233",
+        "drawType": "Pronghorn R",
+        "currentPoint": "0",
+        "lastYearApplied": "2021"
     }
 ]

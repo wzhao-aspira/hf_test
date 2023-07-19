@@ -37,7 +37,8 @@
         "followUs": "Follow Us",
         "create": "Create",
         "none": "None",
-        "noThanks": "No Thanks"
+        "noThanks": "No Thanks",
+        "reminder": "Reminder"
     },
     "errMsg": {
         "unableEstablishService": "Unable to establish service connection.",
@@ -71,7 +72,8 @@
         "networkErrorTitle": "No Network Connection",
         "networkErrorMsg": "Please check your network settings.",
         "commonErrorTitle": "Sorry",
-        "commonErrorMsg": "Something went wrong. Let's try one more time."
+        "commonErrorMsg": "Something went wrong. Let's try one more time.",
+        "profileStatusChanged": "This profile has changed status, please select other profiles."
     },
     "login": {
         "signIn": "Sign In",

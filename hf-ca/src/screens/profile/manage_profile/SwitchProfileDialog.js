@@ -1,4 +1,3 @@
-import React from "react";
 import { View, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog } from "../../../components/Dialog";
@@ -6,12 +5,45 @@ import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
+import { getMobileAccountByUserId, getSwitchStatus } from "../../../services/ProfileService";
+import { selectUsername } from "../../../redux/AppSlice";
+import AppThunk from "../../../redux/AppThunk";
+import DialogHelper from "../../../helper/DialogHelper";
 
 export default function SwitchProfileDialog({ hideDialog }) {
     const dispatch = useDispatch();
-
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
+    const userID = useSelector(selectUsername);
+
+    const switchProfileCallback = async () => {
+        hideDialog();
+        const userAccount = await getMobileAccountByUserId(userID);
+        dispatch(AppThunk.initUserData(userAccount));
+    };
+
+    const handleSwitch = async (profileId) => {
+        const switchStatus = await getSwitchStatus(userID, profileId);
+        if (switchStatus.error) {
+            return;
+        }
+        if (!switchStatus.canSwitch) {
+            DialogHelper.showSimpleDialog({
+                title: "common.reminder",
+                message: "errMsg.profileStatusChanged",
+                okText: "common.gotIt",
+                withModal: true,
+                okAction: () => {
+                    switchProfileCallback();
+                },
+            });
+            return;
+        }
+
+        dispatch(profileThunkActions.switchCurrentInUseProfile(profileId)).then(() => {
+            switchProfileCallback();
+        });
+    };
 
     return (
         <Dialog visible closeModal={hideDialog}>
@@ -33,11 +65,7 @@ export default function SwitchProfileDialog({ hideDialog }) {
                                 key={profile.profileId}
                                 profile={profile}
                                 onPress={() => {
-                                    dispatch(profileThunkActions.switchCurrentInUseProfile(profile.profileId)).then(
-                                        () => {
-                                            hideDialog();
-                                        }
-                                    );
+                                    handleSwitch(profile.profileId);
                                 }}
                                 profileItemStyles={{
                                     container: dialogStyles.profileItemContainer,
