@@ -38,6 +38,7 @@ import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
 import ContactUsScreen from "../screens/social_content/ContactUsScreen";
 import FollowUsScreen from "../screens/social_content/FollowUsScreen";
 import PreferencePointScreen from "../screens/preference_point/PreferencePointScreen";
+import SalesAgentsScreen from "../screens/sales_agents/SalesAgentsScreen";
 import ModalScreen from "./ModalScreen";
 import UsefulLinksScreen from "../screens/useful_links/UsefulLinksScreen";
 
@@ -151,6 +152,13 @@ function DrawerNav() {
             drawerContent={(props) => <DrawerContent {...props} />}
         >
             <Drawer.Screen name={Routers.mainNav} component={MainNav} />
+            <Drawer.Screen
+                name={Routers.salesAgents}
+                component={SalesAgentsScreen}
+                options={{
+                    unmountOnBlur: true,
+                }}
+            />
         </Drawer.Navigator>
     );
 }

@@ -1,0 +1,101 @@
+[
+  {
+    "id": 100001,
+    "agentName": "BIG 5 SPORTING GOODS #044",
+    "address": "3420 ARDEN WY",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95825",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.38412795188168",
+    "latitude" : "38.595394251474154"
+  },
+  {
+    "id": 100002,
+    "agentName": "BIG 5 SPORTING GOODS #065",
+    "address": "6251 MACK RD",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95823",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.42900234930765",
+    "latitude" : "38.475710828489696"
+  },
+  {
+    "id": 100003,
+    "agentName": "BIG 5 SPORTING GOODS #321",
+    "address": "980 FLORIN RD STE A",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95831",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.52269208229963",
+    "latitude" : "38.493660802881436"
+  },
+  {
+    "id": 100004,
+    "agentName": "BIG 5 SPORTING GOODS #510",
+    "address": "3631 N FREEWAY BLVD",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95834",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.4968402645839",
+    "latitude" : "38.64155000287807"
+  },
+  {
+    "id": 100005,
+    "agentName": "DICKS SPORTING GOODS #1232",
+    "address": "8214 DELTA SHORES CIR S",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95832",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.49407386673987",
+    "latitude" : "38.46232825672707"
+  },
+  {
+    "id": 100006,
+    "agentName": "EMIGH HARDWARE",
+    "address": "3555 EL CAMINO AVE",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95821",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.38022380755773",
+    "latitude" : "38.61158905104674"
+  },
+  {
+    "id": 100007,
+    "agentName": "FISHERMANS WAREHOUSE #3",
+    "address": "9035 FOLSOM BLVD",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95826",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.36657086521403",
+    "latitude" : "38.55804553802141"
+  },
+  {
+    "id": 100008,
+    "agentName": "FREEPORT BAIT",
+    "address": "8250 FREEPORT BLVD",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95832",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.50114393724155",
+    "latitude" : "38.458322066227716"
+  },
+  {
+    "id": 100009,
+    "agentName": "Fruitridge Bait & Tackle",
+    "address": "4234 Fruitridge Rd",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95820",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.45797628138399",
+    "latitude" : "38.524743729389634"
+  }
+]

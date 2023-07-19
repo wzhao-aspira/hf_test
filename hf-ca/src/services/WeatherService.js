@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { getWeatherDataByCityName, getWeatherData } from "../network/API";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
-import { getCurrentLocation } from "../helper/LocationHelper";
+import { getCurrentLocation } from "./SalesAgentsService";
 import AppContract from "../assets/_default/AppContract";
 
 export default async function getWeatherDataFromService() {

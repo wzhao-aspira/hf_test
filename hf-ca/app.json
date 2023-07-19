@@ -51,6 +51,21 @@
       "eas": {
         "projectId": "30c9d2db-3fb7-495a-9a52-e2b362398193"
       }
-    }
+    },
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiYXNwaXJhbW9iaWxlZGV2IiwiYSI6ImNrazF4dGxmZDB2b2oybnA1d3BnOW40d3MifQ.ijtn2f3lCedZomHXz9KY1A"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Show current location on map."
+        }
+      ]
+    ]
   }
 }

@@ -37,6 +37,8 @@
         "followUs": "Follow Us",
         "create": "Create",
         "none": "None",
+        "noResultsFound": "No results found",
+        "tryAgain": "Try Again",
         "noThanks": "No Thanks",
         "reminder": "Reminder"
     },
@@ -73,6 +75,7 @@
         "networkErrorMsg": "Please check your network settings.",
         "commonErrorTitle": "Sorry",
         "commonErrorMsg": "Something went wrong. Let's try one more time.",
+        "noResultsFoundMsg": "No results found. Please try again with a different location.",
         "profileStatusChanged": "This profile has changed status, please select other profiles."
     },
     "login": {
@@ -317,5 +320,18 @@
         "Facebook": "Facebook",
         "Twitter": "Twitter",
         "YouTube": "YouTube"
+    },
+    "salesAgents": {
+        "salesAgents": "Sales Agents",
+        "searchForAgents": "Search For Agents",
+        "openInMaps": "Open in Maps",
+        "recentSearch": "Recent Search",
+        "getDirectionsTitle": "Get Directions",
+        "getDirectionsMsg": "You will be directed to another app…",
+        "list": "List",
+        "map": "Map",
+        "call": "Call",
+        "directions": "Directions",
+        "searchThisAres": "Search this Area"
     }
 }

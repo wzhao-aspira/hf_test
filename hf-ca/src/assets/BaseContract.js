@@ -24,6 +24,7 @@ const BaseContract = {
     weather: {
         apiKey: "1423c70493d248528de23809211305",
         defaultCityName: "Sacramento",
+        defaultCityGps: [-121.4944, 38.5816],
     },
 };
 

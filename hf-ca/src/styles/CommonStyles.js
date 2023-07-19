@@ -17,6 +17,24 @@ export const SharedStyles = StyleSheet.create({
         marginTop: 30,
         marginBottom: 15,
     },
+    floatingBtn: {
+        flexDirection: "row",
+        height: 50,
+        width: 143,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: AppTheme.colors.font_color_4,
+        borderRadius: 25,
+        shadowColor: AppTheme.colors.shadow,
+        shadowOffset: { width: 0, height: 15 },
+        shadowOpacity: 0.7,
+        shadowRadius: 20,
+        elevation: 15,
+    },
+    floatingBtnTitle: {
+        ...AppTheme.typography.card_title,
+        color: AppTheme.colors.font_color_1,
+    },
 });
 
 export const statefulStyle = (style, disabled, error, focused = false) => {
