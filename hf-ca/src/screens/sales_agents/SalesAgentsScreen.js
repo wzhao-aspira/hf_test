@@ -60,7 +60,7 @@ export default function SalesAgentsScreen() {
     const profileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
     const [display, setDisplay] = useState(displayEnum.map);
-    const [mapCenter, setMapCenter] = useState([0, 0]);
+    const [mapCenter, setMapCenter] = useState(AppContract.weather.defaultCityGps);
     const [loading, setLoading] = useState(false);
     const [salesAgents, setSalesAgents] = useState();
     const [showFloatingButton, setShowFloatingButton] = useState(false);
@@ -102,7 +102,7 @@ export default function SalesAgentsScreen() {
         if (searchResult.success) {
             setSalesAgents(searchResult.agents);
             setShowFloatingButton(searchResult.agents.length > 0);
-            if (display == displayEnum.list && searchResult.agents.length == 0) {
+            if (searchResult.agents.length == 0) {
                 DialogHelper.showSimpleDialog({
                     title: "common.noResultsFound",
                     message: "errMsg.noResultsFoundMsg",
