@@ -1,4 +1,5 @@
 export default {
+    map: 0,
     login: 1,
     onBoarding: 2,
     signIn: 3,

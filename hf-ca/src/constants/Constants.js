@@ -12,6 +12,7 @@ export const KEY_CONSTANT = {
     lastBiometricLoginUser: "lastBiometricLoginUser",
     lastBiometricLoginUserAuthInfo: "lastBiometricLoginUserAuthInfo",
     currentInUseProfileIDOfAccounts: "currentInUseProfileIDOfAccounts",
+    keySalesAgentsRecentSearch: "keySalesAgentsRecentSearch",
     usefulLinks: "usefulLinks",
 };
 export const DEBUG_MODE = false;
@@ -60,3 +61,8 @@ export const ERROR_CODE = {
 export const DEFAULT_STATE_ID = "6";
 export const SUGGESTED_LOCATIONS = "Suggested Locations";
 export const NETWORK_REQUEST_FAILED = "Network request failed";
+export const BtnSizeEnum = { Large: "Large", Small: "Small" };
+export const BtnTypeEnum = {
+    Primary: "Primary",
+    Secondary: "Secondary",
+};

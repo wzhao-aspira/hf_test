@@ -17,6 +17,7 @@ import QuickAccessChecker from "../components/QuickAccessChecker";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
 import AppContract from "../assets/_default/AppContract";
+import NavigationService from "./NavigationService";
 import DialogHelper from "../helper/DialogHelper";
 
 const styles = StyleSheet.create({
@@ -186,7 +187,7 @@ export default function DrawerContent({ navigation }) {
                     />
                     <MenuItem
                         onClick={() => {
-                            showNotImplementedFeature();
+                            NavigationService.navigate(Routers.salesAgents);
                         }}
                         title="common.agentLocations"
                         testID="SalesAgents"
