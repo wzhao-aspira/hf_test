@@ -34,4 +34,5 @@ export interface Profile {
     purchaseDate: null | string;
     currentDocumentation: null | string;
     middleName?: string;
+    valid: boolean;
 }

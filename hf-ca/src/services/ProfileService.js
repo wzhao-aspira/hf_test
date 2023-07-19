@@ -18,6 +18,7 @@ import {
     KEY_CONSTANT,
 } from "../constants/Constants";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
+import { isAssociatedProfile, isIndividualProfile } from "../helper/ProfileHelper";
 
 export function getProfileList() {
     return profileList;
@@ -255,5 +256,53 @@ export async function removeAccountCurrentInUseProfileID(accountID) {
                 JSON.stringify(parsedAccountsCurrentInUseProfileID)
             );
         }
+    }
+}
+
+export async function getProfilesByUserID(userID) {
+    const accountData = await getMobileAccountById(userID);
+    const account = accountData?.account;
+
+    const profileIds = [account.primaryProfileId, ...account.otherProfileIds];
+    const profiles = getProfileListByIDs(profileIds);
+
+    return profiles;
+}
+
+export async function getSwitchStatus(userId, profileID) {
+    try {
+        let canSwitch = true;
+        let ownerStatusChangedProfileIds = [];
+        const profiles = await getProfilesByUserID(userId);
+        const profile = profiles.find((item) => item.profileId === profileID);
+        const inactiveProfileIds = profiles.filter((item) => !item.valid).map((item) => item.profileId);
+
+        if (inactiveProfileIds.includes(profileID)) {
+            if (isIndividualProfile(profile.profileType)) {
+                const associatedProfileIds = profiles
+                    .filter((item) => item.ownerId === profileID)
+                    .map((item) => item.profileId);
+                ownerStatusChangedProfileIds = ownerStatusChangedProfileIds.concat(associatedProfileIds);
+            }
+            canSwitch = false;
+        }
+
+        if (isAssociatedProfile(profile.profileType)) {
+            const ownerProfile = profiles.find((item) => item.profileId === profile.ownerId);
+            // 1. The profile's owner is changed but not added; 2. The profile's owner is inactive
+            if (!ownerProfile || inactiveProfileIds.includes(ownerProfile.profileId)) {
+                const associatedProfileIds = profiles
+                    .filter((item) => item.ownerId === profile.ownerId)
+                    .map((item) => item.profileId);
+                ownerStatusChangedProfileIds = ownerStatusChangedProfileIds.concat(associatedProfileIds);
+                canSwitch = false;
+            }
+        }
+
+        await removeProfilesByUserId(userId, [...inactiveProfileIds, ...ownerStatusChangedProfileIds]);
+        return { canSwitch };
+    } catch (error) {
+        console.log("getSwitchStatus error", error);
+        return { error: true };
     }
 }

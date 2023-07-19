@@ -9,3 +9,10 @@ export default function getGOIDLabel(t, profile) {
     }
     return t("profile.goIDNumber");
 }
+
+export function isIndividualProfile(profileType) {
+    return profileType === PROFILE_TYPE_IDS.adult || profileType === PROFILE_TYPE_IDS.youth;
+}
+export function isAssociatedProfile(profileType) {
+    return profileType === PROFILE_TYPE_IDS.business || profileType === PROFILE_TYPE_IDS.vessel;
+}
