@@ -230,7 +230,7 @@
         "vesselName": null,
         "purchaseDate": null,
         "currentDocumentation": null,
-        "valid": true
+        "valid": false
     },
     {
         "profileId": "11238",
