@@ -78,7 +78,7 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate) {
                         city: salesAgent.city,
                         zip: salesAgent.zip,
                         phoneNumber: salesAgent.phoneNum,
-                        distance: distanceInMiles,
+                        distance: distanceInMiles.toFixed(2),
                         distanceUnit: "mile",
                         coor: [parseFloat(salesAgent.longitude), parseFloat(salesAgent.latitude)],
                     };

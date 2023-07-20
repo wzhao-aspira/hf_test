@@ -97,5 +97,16 @@
     "phoneNum": "(916) 555-1212",
     "longitude": "-121.45797628138399",
     "latitude" : "38.524743729389634"
+  },
+  {
+    "id": 100010,
+    "agentName": "Kiene's Fly Shop",
+    "address": "9550 Micron Ave Ste B",
+    "city": "SACRAMENTO",
+    "state": "California",
+    "zip": "95827",
+    "phoneNum": "(916) 555-1212",
+    "longitude": "-121.34190551142022",
+    "latitude" : "38.56250039317854"
   }
 ]

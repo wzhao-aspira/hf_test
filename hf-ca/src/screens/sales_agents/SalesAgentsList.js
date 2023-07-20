@@ -51,10 +51,6 @@ const styles = StyleSheet.create({
 });
 
 export const SalesAgentsItem = ({ item, index, onDirectionsClick }) => {
-    let handledPhoneNum = item.phoneNumber;
-    if (!isEmpty(handledPhoneNum)) {
-        handledPhoneNum = handledPhoneNum.replace("x", ",");
-    }
     return (
         <View style={styles.shadowBox}>
             <View style={{ alignItems: "center" }}>
@@ -75,7 +71,7 @@ export const SalesAgentsItem = ({ item, index, onDirectionsClick }) => {
                     (s)
                 </Text>
                 <View style={styles.bottomContainer}>
-                    {!isEmpty(handledPhoneNum) && (
+                    {!isEmpty(item.phoneNumber) && (
                         <ConfirmButton
                             testID="Call"
                             style={{ marginRight: 20 }}
@@ -83,7 +79,7 @@ export const SalesAgentsItem = ({ item, index, onDirectionsClick }) => {
                             type={BtnTypeEnum.Secondary}
                             label="salesAgents.call"
                             onPress={() => {
-                                Linking.openURL(`tel:${handledPhoneNum}`).catch((error) => {
+                                Linking.openURL(`tel:${item.phoneNumber}`).catch((error) => {
                                     console.log(`can not open:------${error}`);
                                 });
                             }}
