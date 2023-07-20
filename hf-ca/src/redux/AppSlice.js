@@ -6,12 +6,19 @@ const initialState = {
     user: {},
     loginStep: LoginStep.login,
     indicator: false,
+    error: {},
 };
 
 const appSlice = createSlice({
     name: "app",
     initialState,
     reducers: {
+        setError(state, action) {
+            state.error = action?.payload;
+        },
+        clearError(state) {
+            state.error = {};
+        },
         updateUser(state, action) {
             Object.assign(state, { user: action?.payload });
         },
@@ -33,12 +40,14 @@ const selectAppState = (/** @type{import('./Store').RootState */ state) => state
 export const selectUsername = (state) => state.app.user.username;
 export const selectLoginStep = (state) => state.app.loginStep;
 export const selectIndicator = (state) => state.app.indicator;
+export const selectError = createSelector(selectAppState, (state) => state.error);
 
 const selectUser = createSelector(selectAppState, (app) => app.user);
 
 const selectors = {
     selectUsername,
     selectUser,
+    selectError,
 };
 
 const { reducer, actions } = appSlice;

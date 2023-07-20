@@ -5,20 +5,13 @@ import { getLicenseData } from "../services/LicenseService";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
+import { handleError } from "../network/APIUtil";
 
 export const getLicense = createAsyncThunk(
     "license/getLicense",
-    async ({ searchParams }, { rejectWithValue }) => {
-        const result = { success: false };
-        try {
-            const data = await getLicenseData(searchParams);
-            result.success = true;
-            result.data = data;
-            return result;
-        } catch (error) {
-            console.log("getLicense --- get error", error);
-            return rejectWithValue(error);
-        }
+    async ({ searchParams }, { dispatch }) => {
+        const data = await handleError(getLicenseData(searchParams), { dispatch });
+        return data;
     },
     {
         condition: ({ isForce = false }, { getState }) => {
