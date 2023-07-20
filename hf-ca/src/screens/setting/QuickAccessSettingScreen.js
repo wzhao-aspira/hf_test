@@ -8,7 +8,13 @@ import CommonHeader from "../../components/CommonHeader";
 import AppTheme from "../../assets/_default/AppTheme";
 
 import SVGIcon, { pathList } from "../../components/SVGIcon";
-import { updateAuthInfo, startBiometricAuth, setLastBiometricLoginUser } from "../../helper/LocalAuthHelper";
+import {
+    updateAuthInfo,
+    startBiometricAuth,
+    setLastBiometricLoginUser,
+    setLoginCredential,
+    saveOnboardingPageAppear,
+} from "../../helper/LocalAuthHelper";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId, getActiveUserID } from "../../helper/AppHelper";
@@ -75,7 +81,8 @@ export default function QuickAccessMethodsScreen() {
                         startBiometricAuth(
                             userID,
                             () => {
-                                console.log("success");
+                                saveOnboardingPageAppear(userID);
+                                setLoginCredential(userID);
                                 setLastBiometricLoginUser(userID);
                                 setAccessType(1);
                             },
