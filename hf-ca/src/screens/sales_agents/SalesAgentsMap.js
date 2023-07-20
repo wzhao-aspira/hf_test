@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     card: {
         position: "absolute",
         bottom: 80,
+        alignSelf: "center",
     },
 });
 
@@ -106,7 +107,7 @@ export default function MapScreen({
             <Mapbox.MapView
                 style={styles.map}
                 compassEnabled={false}
-                scaleBarPosition={{ top: -5, left: 5 }}
+                scaleBarEnabled={false}
                 onCameraChanged={(event) => {
                     if (touchMap.current) {
                         touchMap.current = false;
@@ -146,7 +147,11 @@ export default function MapScreen({
 
             {selectIndex >= 0 && (
                 <View style={styles.card}>
-                    <SalesAgentsItem item={salesAgents[selectIndex]} index={0} onDirectionsClick={onDirectionsClick} />
+                    <SalesAgentsItem
+                        item={salesAgents[selectIndex]}
+                        index={selectIndex}
+                        onDirectionsClick={onDirectionsClick}
+                    />
                 </View>
             )}
         </View>
