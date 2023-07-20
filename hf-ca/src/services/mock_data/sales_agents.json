@@ -6,7 +6,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95825",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.38412795188168",
     "latitude" : "38.595394251474154"
   },
@@ -17,7 +17,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95823",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "(916)5551212",
     "longitude": "-121.42900234930765",
     "latitude" : "38.475710828489696"
   },
@@ -28,7 +28,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95831",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "916 555 1212",
     "longitude": "-121.52269208229963",
     "latitude" : "38.493660802881436"
   },
@@ -39,7 +39,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95834",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "(916) 555 1212",
     "longitude": "-121.4968402645839",
     "latitude" : "38.64155000287807"
   },
