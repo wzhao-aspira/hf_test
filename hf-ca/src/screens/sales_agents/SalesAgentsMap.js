@@ -121,7 +121,9 @@ export default function MapScreen({
         }
         const northeast = [maxLng, maxLat];
         const southwest = [minLng, minLat];
-        camera.current?.fitBounds(northeast, southwest, [120, 30]);
+        setTimeout(() => {
+            camera.current?.fitBounds(northeast, southwest, [120, 30]);
+        }, 100);
     }, [salesAgents]);
 
     const onMove = (center) => {
