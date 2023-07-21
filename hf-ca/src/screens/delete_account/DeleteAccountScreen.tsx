@@ -41,12 +41,10 @@ function DeleteAccountScreen() {
     const [shouldShowPasswordDoNotMatchDialog, setShouldShowPasswordDoNotMatchDialog] = useState(false);
     const [shouldShowConfirmDialog, setShouldShowConfirmDialog] = useState(false);
 
-    const passwordInputRef = useRef();
+    const passwordInputRef = useRef<{ setError: Function }>();
 
     useEffect(() => {
-        // @ts-expect-error
-        if (passwordInputRef && passwordInputRef.current && passwordInputRef.current.setError) {
-            // @ts-expect-error
+        if (passwordInputRef?.current && passwordInputRef.current?.setError) {
             passwordInputRef.current.setError({ error: !!passwordInputError, errorMsg: passwordInputError });
         }
     }, [passwordInputError]);

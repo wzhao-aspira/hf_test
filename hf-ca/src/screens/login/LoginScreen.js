@@ -77,7 +77,7 @@ export default function LoginScreen() {
                 style={[
                     styles.logo,
                     {
-                        transform: [{ translateY: inset?.top + DEFAULT_MARGIN / 2 }, { translateX: -logoWidth / 2 }],
+                        transform: [{ translateY: inset.top + DEFAULT_MARGIN / 2 }, { translateX: -logoWidth / 2 }],
                     },
                 ]}
                 contentFit="contain"

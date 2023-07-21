@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 export default function Page({ style, children }) {
     const safeAreaInsets = useSafeAreaInsets();
     return (
-        <View style={[styles.container, { paddingBottom: safeAreaInsets?.bottom + PAGE_MARGIN_BOTTOM }, style]}>
+        <View style={[styles.container, { paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }, style]}>
             {children}
         </View>
     );
