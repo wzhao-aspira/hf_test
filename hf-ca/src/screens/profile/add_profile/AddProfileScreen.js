@@ -8,7 +8,7 @@ import Routers from "../../../constants/Routers";
 import { getMobileAccountByUserId, getProfileTypes, getIdentificationTypes } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
 
-const AddProfileScreen = () => {
+function AddProfileScreen() {
     const { t } = useTranslation();
     const [mobileAccount, setMobileAccount] = useState();
     const [profileTypes, setProfileTypes] = useState([]);
@@ -42,6 +42,6 @@ const AddProfileScreen = () => {
             />
         </View>
     );
-};
+}
 
 export default AddProfileScreen;

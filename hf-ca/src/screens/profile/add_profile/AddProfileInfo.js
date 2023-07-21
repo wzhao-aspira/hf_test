@@ -81,7 +81,7 @@ export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, 
     return true;
 };
 
-const AddProfileInfo = ({
+function AddProfileInfo({
     mobileAccount,
     profile,
     setProfile,
@@ -89,7 +89,7 @@ const AddProfileInfo = ({
     profileTypes,
     allIdentificationTypes,
     isAddPrimaryProfile,
-}) => {
+}) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const safeAreaInsets = useSafeAreaInsets();
@@ -224,6 +224,6 @@ const AddProfileInfo = ({
             </View>
         </KeyboardAwareScrollView>
     );
-};
+}
 
 export default AddProfileInfo;

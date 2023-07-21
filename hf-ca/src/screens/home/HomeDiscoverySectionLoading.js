@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
 const width = (SCREEN_WIDTH - DEFAULT_MARGIN * 2 - 18) / 2;
 
-const HomeDiscoverySectionLoading = () => {
+function HomeDiscoverySectionLoading() {
     const { t } = useTranslation();
 
     const layout = [
@@ -89,6 +89,6 @@ const HomeDiscoverySectionLoading = () => {
             </View>
         </View>
     );
-};
+}
 
 export default HomeDiscoverySectionLoading;

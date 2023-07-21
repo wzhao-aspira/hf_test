@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const HomeLicenseSection = (props) => {
+function HomeLicenseSection(props) {
     const [activeSlide, setActiveSlide] = useState(0);
     const { licenses } = props;
     const isLicensesEmpty = isEmpty(licenses);
@@ -67,6 +67,6 @@ const HomeLicenseSection = (props) => {
             )}
         </View>
     );
-};
+}
 
 export default HomeLicenseSection;

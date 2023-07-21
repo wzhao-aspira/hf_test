@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const HomeLicenseSection = () => {
+function HomeLicenseSection() {
     const { t } = useTranslation();
     return (
         <View style={[styles.card, styles.noLicenseContainer]}>
@@ -65,6 +65,6 @@ const HomeLicenseSection = () => {
             />
         </View>
     );
-};
+}
 
 export default HomeLicenseSection;

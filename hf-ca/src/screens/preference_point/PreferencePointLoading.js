@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 });
 
 const width = "100%";
-const PreferenceLoading = () => {
+function PreferenceLoading() {
     const layout = [
         {
             width,
@@ -41,6 +41,6 @@ const PreferenceLoading = () => {
             <SkeletonLoader layout={layout} />
         </View>
     );
-};
+}
 
 export default PreferenceLoading;

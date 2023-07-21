@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const CommonHeader = ({
+function CommonHeader({
     testID = "",
     title,
     onBackClick = NavigationService.back,
@@ -41,7 +41,7 @@ const CommonHeader = ({
     leftIcon = faChevronLeft,
     showLeft = true,
     rightIcon,
-}) => {
+}) {
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -69,6 +69,6 @@ const CommonHeader = ({
             </View>
         </View>
     );
-};
+}
 
 export default CommonHeader;

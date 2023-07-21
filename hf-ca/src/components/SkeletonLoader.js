@@ -56,7 +56,7 @@ const getKey = () => {
     return (Math.random() + 1).toString(36).substring(7);
 };
 
-const SkeletonLoader = (props) => {
+function SkeletonLoader(props) {
     const { layout = defaultLayout, colors = ["#DDD", color("#eee").alpha(0.4).rgb().toString(), "#DDD"] } = props;
     const refs = createRefArray(layout);
     React.useEffect(() => {
@@ -96,6 +96,6 @@ const SkeletonLoader = (props) => {
             })}
         </View>
     );
-};
+}
 
 export default SkeletonLoader;

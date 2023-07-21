@@ -120,7 +120,7 @@ export default function DrawerContent({ navigation }) {
         dispatch(updateLoginStep(LoginStep.login));
     };
 
-    const MenuItem = (props) => {
+    function MenuItem(props) {
         const { title, onClick, showSplitLine = true, testID } = props;
         return (
             <>
@@ -142,7 +142,7 @@ export default function DrawerContent({ navigation }) {
                 {showSplitLine && <SplitLine style={styles.menuSplitLine} />}
             </>
         );
-    };
+    }
 
     const renderProfileSection = () => {
         return (

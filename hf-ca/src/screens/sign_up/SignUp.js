@@ -11,7 +11,7 @@ import Routers from "../../constants/Routers";
 import { checkAccountEmailIsExisting } from "../../services/ProfileService";
 import DialogHelper from "../../helper/DialogHelper";
 
-const SignUp = () => {
+function SignUp() {
     const { t } = useTranslation();
     const [mobileAccount, setMobileAccount] = useState();
     const userIDRef = useRef();
@@ -118,6 +118,6 @@ const SignUp = () => {
             <PrimaryBtn style={{ marginTop: 40 }} label={t("common.create")} onPress={onSave} />
         </View>
     );
-};
+}
 
 export default SignUp;

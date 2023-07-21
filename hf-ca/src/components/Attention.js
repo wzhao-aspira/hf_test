@@ -3,7 +3,7 @@ import { Trans } from "react-i18next";
 import { SharedStyles } from "../styles/CommonStyles";
 import { genTestId } from "../helper/AppHelper";
 
-const Attention = ({ testID = "", labelKey = "common.attention", contentKey }) => {
+function Attention({ testID = "", labelKey = "common.attention", contentKey }) {
     return (
         <>
             <Text testID={genTestId(`${testID}AttentionLabel`)} style={SharedStyles.attention_label}>
@@ -14,5 +14,5 @@ const Attention = ({ testID = "", labelKey = "common.attention", contentKey }) =
             </Text>
         </>
     );
-};
+}
 export default Attention;

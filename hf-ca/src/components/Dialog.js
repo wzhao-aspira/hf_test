@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
     },
 });
 
-export const SimpleDialogView = ({
+export function SimpleDialogView({
     testID = "",
     title = "common.alert",
     message = "common.message",
     okText = "common.ok",
     okAction = () => {},
-}) => {
+}) {
     const { t, i18n } = useTranslation();
     return (
         <View style={styles.centeredView}>
@@ -70,10 +70,10 @@ export const SimpleDialogView = ({
             </View>
         </View>
     );
-};
+}
 
 // with one button
-export const SimpleDialog = (props) => {
+export function SimpleDialog(props) {
     const {
         testID = "",
         title = "common.alert",
@@ -94,9 +94,9 @@ export const SimpleDialog = (props) => {
             />
         </Modal>
     );
-};
+}
 
-export const SelectDialogView = ({
+export function SelectDialogView({
     testID = "",
     title = "common.alert",
     message = "common.message",
@@ -104,8 +104,8 @@ export const SelectDialogView = ({
     okAction = () => {},
     cancelText = "common.cancel",
     cancelAction = () => {},
-    children = <></>,
-}) => {
+    children = null,
+}) {
     const { t, i18n } = useTranslation();
     return (
         <View style={styles.centeredView}>
@@ -134,10 +134,10 @@ export const SelectDialogView = ({
             </View>
         </View>
     );
-};
+}
 
 // with two buttons
-export const SelectDialog = (props) => {
+export function SelectDialog(props) {
     const {
         testID = "",
         title = "common.alert",
@@ -147,7 +147,7 @@ export const SelectDialog = (props) => {
         okAction = () => {},
         cancelText = "common.cancel",
         cancelAction = () => {},
-        children = <></>,
+        children = null,
     } = props;
 
     return (
@@ -165,10 +165,10 @@ export const SelectDialog = (props) => {
             </SelectDialogView>
         </Modal>
     );
-};
+}
 
-export const Dialog = (props) => {
-    const { testID = "", visible = false, children = <></>, closeModal } = props;
+export function Dialog(props) {
+    const { testID = "", visible = false, children = null, closeModal } = props;
     const inset = useSafeAreaInsets();
 
     return (
@@ -184,10 +184,7 @@ export const Dialog = (props) => {
             >
                 <View style={styles.centeredView}>
                     <View
-                        style={[
-                            styles.contentStyle,
-                            { maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 4 - inset?.top * 2 },
-                        ]}
+                        style={[styles.contentStyle, { maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 4 - inset.top * 2 }]}
                     >
                         {children}
                     </View>
@@ -195,9 +192,9 @@ export const Dialog = (props) => {
             </Pressable>
         </Modal>
     );
-};
+}
 
-export const Indicator = (props) => {
+export function Indicator(props) {
     const { visible } = props;
     return (
         <Modal visible={visible} animationType="none" transparent>
@@ -206,4 +203,4 @@ export const Indicator = (props) => {
             </View>
         </Modal>
     );
-};
+}

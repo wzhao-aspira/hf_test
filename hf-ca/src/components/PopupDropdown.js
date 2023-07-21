@@ -114,7 +114,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
         return null;
     }
 
-    const RenderItem = ({ item, index }) => {
+    function RenderItem({ item, index }) {
         const selected = options[index][valueName] === value;
         return (
             <Pressable
@@ -136,7 +136,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
                 </View>
             </Pressable>
         );
-    };
+    }
 
     return (
         <View style={containerStyle}>

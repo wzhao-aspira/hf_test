@@ -74,7 +74,7 @@ function getActiveRouteName(navigationState) {
     return route.name;
 }
 
-const AppNavigator = () => {
+function AppNavigator() {
     const loginStep = useSelector(selectLoginStep);
     console.log(`loginStep:${loginStep}`);
 
@@ -113,7 +113,7 @@ const AppNavigator = () => {
             </RootStack.Navigator>
         </NavigationContainer>
     );
-};
+}
 
 function SignInNav() {
     return (

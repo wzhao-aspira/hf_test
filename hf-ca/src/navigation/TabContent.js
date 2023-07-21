@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const TabContent = (props) => {
+function TabContent(props) {
     const { state, navigation } = props;
     return (
         <Shadow style={{ width: "100%" }} containerStyle={styles.container} distance={8}>
@@ -93,5 +93,5 @@ const TabContent = (props) => {
             </View>
         </Shadow>
     );
-};
+}
 export default TabContent;

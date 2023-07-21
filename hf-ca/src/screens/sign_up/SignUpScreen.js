@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const SignUpScreen = () => {
+function SignUpScreen() {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
@@ -70,6 +70,6 @@ const SignUpScreen = () => {
             </Page>
         </View>
     );
-};
+}
 
 export default SignUpScreen;

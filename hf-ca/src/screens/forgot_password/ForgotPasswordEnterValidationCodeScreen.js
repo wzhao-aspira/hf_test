@@ -55,44 +55,40 @@ export default function ForgotPasswordEnterValidationCodeScreen({ route }) {
 
     const renderEmailValidationCodeSection = () => {
         return (
-            <>
-                <CountdownTextInput
-                    testID="EmailValidationCode"
-                    ref={emailValidationCodeRef}
-                    value={emailValidationCode}
-                    label={t("forgotPassword.enterValidationCode.emailValidationCode")}
-                    hint={t("common.pleaseEnter")}
-                    style={{ marginTop: 30 }}
-                    labelStyle={SharedStyles.page_content_title}
-                    inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
-                    onChangeText={(text) => {
-                        setEmailValidationCode(text);
-                        emailValidationCodeRef.current?.setError({});
-                    }}
-                    onBlur={() => {
-                        const error = emptyValidate(emailValidationCode, t("errMsg.emptyEmailValidationCode"));
-                        emailValidationCodeRef?.current.setError(error);
-                    }}
-                    note={t("forgotPassword.enterValidationCode.resend")}
-                    onClickNote={() => {
-                        setIsShowCountdown(true);
-                    }}
-                    isShowCountdown={isShowCountdown}
-                    onCountdownFinish={() => {
-                        setIsShowCountdown(false);
-                    }}
-                />
-            </>
+            <CountdownTextInput
+                testID="EmailValidationCode"
+                ref={emailValidationCodeRef}
+                value={emailValidationCode}
+                label={t("forgotPassword.enterValidationCode.emailValidationCode")}
+                hint={t("common.pleaseEnter")}
+                style={{ marginTop: 30 }}
+                labelStyle={SharedStyles.page_content_title}
+                inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                onChangeText={(text) => {
+                    setEmailValidationCode(text);
+                    emailValidationCodeRef.current?.setError({});
+                }}
+                onBlur={() => {
+                    const error = emptyValidate(emailValidationCode, t("errMsg.emptyEmailValidationCode"));
+                    emailValidationCodeRef?.current.setError(error);
+                }}
+                note={t("forgotPassword.enterValidationCode.resend")}
+                onClickNote={() => {
+                    setIsShowCountdown(true);
+                }}
+                isShowCountdown={isShowCountdown}
+                onCountdownFinish={() => {
+                    setIsShowCountdown(false);
+                }}
+            />
         );
     };
 
     const renderTipMessageSection = () => {
         return (
-            <>
-                <Text testID={genTestId("TipMessage")} style={ForgotPasswordStyles.tip_message}>
-                    <Trans i18nKey="forgotPassword.enterValidationCode.tipMessage" />
-                </Text>
-            </>
+            <Text testID={genTestId("TipMessage")} style={ForgotPasswordStyles.tip_message}>
+                <Trans i18nKey="forgotPassword.enterValidationCode.tipMessage" />
+            </Text>
         );
     };
 

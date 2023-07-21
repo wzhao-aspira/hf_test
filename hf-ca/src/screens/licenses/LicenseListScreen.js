@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     },
 });
 
-const LicenseListScreen = () => {
+function LicenseListScreen() {
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const reduxData = useSelector(selectLicenseForList);
@@ -82,6 +82,6 @@ const LicenseListScreen = () => {
             />
         </Page>
     );
-};
+}
 
 export default LicenseListScreen;

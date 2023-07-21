@@ -7,7 +7,7 @@ export default function ModalScreen({ route = {} }) {
     const { params = {} } = route;
     const { title, message, okText, cancelText, isSelect = false, withModal = false } = params;
 
-    const Content = () => {
+    function Content() {
         if (!isSelect) {
             return (
                 <SimpleDialogView
@@ -42,7 +42,7 @@ export default function ModalScreen({ route = {} }) {
                 }}
             />
         );
-    };
+    }
     if (!withModal) {
         return <Content />;
     }

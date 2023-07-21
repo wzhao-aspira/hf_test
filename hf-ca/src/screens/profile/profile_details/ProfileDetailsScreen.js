@@ -32,7 +32,7 @@ import {
 import getGOIDLabel from "../../../helper/ProfileHelper";
 import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 
-const RenderItem = ({ item, divider }) => {
+function RenderItem({ item, divider }) {
     if (!item.value) {
         return null;
     }
@@ -48,9 +48,9 @@ const RenderItem = ({ item, divider }) => {
             {divider && <View style={styles.divider} />}
         </View>
     );
-};
+}
 
-const ProfileHeader = ({ profile }) => {
+function ProfileHeader({ profile }) {
     const { t } = useTranslation();
 
     return (
@@ -70,9 +70,9 @@ const ProfileHeader = ({ profile }) => {
             </Text>
         </View>
     );
-};
+}
 
-const ProfileDetailsScreen = ({ route }) => {
+function ProfileDetailsScreen({ route }) {
     const { params } = route;
     const profileId = params?.profileId;
 
@@ -216,6 +216,6 @@ const ProfileDetailsScreen = ({ route }) => {
             )}
         </Page>
     );
-};
+}
 
 export default ProfileDetailsScreen;

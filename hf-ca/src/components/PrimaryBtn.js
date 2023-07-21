@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {}, disabled = false }) => {
+function PrimaryBtn({ label = "Primary Btn", onPress, testID, style = {}, disabled = false }) {
     const calTestID = testID || label;
     return (
         <Pressable
@@ -38,6 +38,6 @@ const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {}, disabl
             </Text>
         </Pressable>
     );
-};
+}
 
 export default PrimaryBtn;
