@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
 
 const markerBg = require("../../assets/_default/images/marker_bg.png");
 
+const zoomLevel = 12;
+
 const IssuerLocationMarker = ({ coordinate = [0, 0], label = "", onPress }) => {
     return (
         <MarkerView coordinate={coordinate} allowOverlap>
@@ -80,6 +82,7 @@ export default function MapScreen({
         camera.current?.setCamera({
             centerCoordinate: coor,
             animationDuration: 500,
+            zoomLevel,
         });
     };
 
@@ -89,6 +92,37 @@ export default function MapScreen({
         }
         moveCamera(mapCenter);
     }, [mapCenter]);
+
+    useEffect(() => {
+        if (isEmpty(salesAgents) || salesAgents.length == 1) {
+            return;
+        }
+        const points = salesAgents.map((agent) => {
+            return { latitude: agent.coor[1], longitude: agent.coor[0] };
+        });
+        let maxLat = -Infinity;
+        let maxLng = -Infinity;
+        let minLat = Infinity;
+        let minLng = Infinity;
+
+        for (let i = 0; i < points.length; i++) {
+            if (points[i].latitude > maxLat) {
+                maxLat = points[i].latitude;
+            }
+            if (points[i].longitude > maxLng) {
+                maxLng = points[i].longitude;
+            }
+            if (points[i].latitude < minLat) {
+                minLat = points[i].latitude;
+            }
+            if (points[i].longitude < minLng) {
+                minLng = points[i].longitude;
+            }
+        }
+        const northeast = [maxLng, maxLat];
+        const southwest = [minLng, minLat];
+        camera.current?.fitBounds(northeast, southwest, [120, 30]);
+    }, [salesAgents]);
 
     const onMove = (center) => {
         console.log("onCameraChanged:", center);
@@ -100,7 +134,7 @@ export default function MapScreen({
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const debounceMove = useCallback(debounce(onMove, 1000), []);
+    const debounceMove = useCallback(debounce(onMove, 200), []);
 
     return (
         <View style={styles.container}>
@@ -124,7 +158,7 @@ export default function MapScreen({
                     ref={camera}
                     animationMode="flyTo"
                     animationDuration={500}
-                    zoomLevel={10}
+                    zoomLevel={zoomLevel}
                     centerCoordinate={mapCenter}
                 />
                 {!isEmpty(salesAgents) &&

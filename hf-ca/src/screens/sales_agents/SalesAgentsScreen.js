@@ -15,14 +15,12 @@ import profileSelectors from "../../redux/ProfileSelector";
 import { genTestId, isIos } from "../../helper/AppHelper";
 import SalesAgentsMap from "./SalesAgentsMap";
 import DialogHelper from "../../helper/DialogHelper";
-import {
-    getSuggestionSalesAgentsFromService,
-    getCurrentLocation,
-    calculateCenter,
-} from "../../services/SalesAgentsService";
+import { getSuggestionSalesAgentsFromService, getCurrentLocation } from "../../services/SalesAgentsService";
 import { SharedStyles } from "../../styles/CommonStyles";
 import AppContract from "../../assets/_default/AppContract";
 import { toggleIndicator } from "../../redux/AppSlice";
+import { storeItem } from "../../helper/StorageHelper";
+import { KEY_CONSTANT } from "../../constants/Constants";
 
 const displayEnum = {
     map: "map",
@@ -54,13 +52,15 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function SalesAgentsScreen() {
+export default function SalesAgentsScreen({ route }) {
+    const { params = {} } = route;
+    const { lastLocation = AppContract.weather.defaultCityGps } = params;
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const profileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
     const [display, setDisplay] = useState(displayEnum.map);
-    const [mapCenter, setMapCenter] = useState(AppContract.weather.defaultCityGps);
+    const [mapCenter, setMapCenter] = useState(lastLocation);
     const [loading, setLoading] = useState(false);
     const [salesAgents, setSalesAgents] = useState();
     const [showFloatingButton, setShowFloatingButton] = useState(false);
@@ -80,6 +80,7 @@ export default function SalesAgentsScreen() {
             } else {
                 searchCenter.current = AppContract.weather.defaultCityGps;
             }
+            storeItem(KEY_CONSTANT.keyLastLocation, searchCenter.current);
             setMapCenter(searchCenter.current);
         };
         getLocation();
@@ -112,11 +113,11 @@ export default function SalesAgentsScreen() {
                     },
                 });
             }
-            if (searchResult.agents.length > 0) {
-                const center = calculateCenter(searchResult.agents);
-                setMapCenter(center);
-            } else {
+            if (searchResult.agents.length == 0) {
                 setMapCenter(currentAgent.center);
+            }
+            if (searchResult.agents.length == 1) {
+                setMapCenter(searchResult.agents[0].coor);
             }
         } else {
             DialogHelper.showSimpleDialog({

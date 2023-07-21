@@ -19,6 +19,8 @@ import LoginStep from "../constants/LoginStep";
 import AppContract from "../assets/_default/AppContract";
 import NavigationService from "./NavigationService";
 import DialogHelper from "../helper/DialogHelper";
+import { retrieveItem } from "../helper/StorageHelper";
+import { KEY_CONSTANT } from "../constants/Constants";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -186,8 +188,11 @@ export default function DrawerContent({ navigation }) {
                         testID="PurchasePrivilege"
                     />
                     <MenuItem
-                        onClick={() => {
-                            NavigationService.navigate(Routers.salesAgents);
+                        onClick={async () => {
+                            const lastLocation = await retrieveItem(KEY_CONSTANT.keyLastLocation);
+                            NavigationService.navigate(Routers.salesAgents, {
+                                lastLocation,
+                            });
                         }}
                         title="common.agentLocations"
                         testID="SalesAgents"
