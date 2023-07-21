@@ -61,7 +61,7 @@ function ProfileItem({ profile, onPress, showGoToDetailsPageButton, showNameInOn
     return (
         <Pressable
             onPress={() => {
-                onPress && onPress();
+                if (onPress) onPress();
             }}
             style={profileItemStyles.pressable}
             testID={genTestId(`profile_${profile?.profileId}`)}

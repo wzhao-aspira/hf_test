@@ -28,7 +28,7 @@ function OutlinedBtn(props) {
             accessibilityLabel={label}
             style={[styles.container, { ...style }]}
             onPress={() => {
-                onPress && onPress();
+                if (onPress) onPress();
             }}
         >
             <Text numberOfLines={1} style={styles.label}>

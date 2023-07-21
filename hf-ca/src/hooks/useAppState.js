@@ -5,7 +5,7 @@ export default function useAppState(callback) {
     const [appState, setAppState] = useState("active");
     useEffect(() => {
         const handleAppStateChange = (nextAppState) => {
-            callback && callback(nextAppState, appState);
+            if (callback) callback(nextAppState, appState);
             setAppState(nextAppState);
         };
         const sub = AppState.addEventListener("change", handleAppStateChange);
