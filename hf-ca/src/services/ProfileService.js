@@ -18,7 +18,7 @@ import {
     KEY_CONSTANT,
 } from "../constants/Constants";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
-import { isAssociatedProfile, isIndividualProfile } from "../helper/ProfileHelper";
+import { isAssociatedProfile } from "../helper/ProfileHelper";
 
 export function getProfileList() {
     return profileList;
@@ -272,18 +272,13 @@ export async function getProfilesByUserID(userID) {
 export async function getSwitchStatus(userId, profileID) {
     try {
         let canSwitch = true;
-        let ownerStatusChangedProfileIds = [];
+        const ownerStatusChangedProfileIds = [];
         const profiles = await getProfilesByUserID(userId);
         const profile = profiles.find((item) => item.profileId === profileID);
         const inactiveProfileIds = profiles.filter((item) => !item.valid).map((item) => item.profileId);
+        const activeProfiles = profiles.filter((item) => item.valid);
 
         if (inactiveProfileIds.includes(profileID)) {
-            if (isIndividualProfile(profile.profileType)) {
-                const associatedProfileIds = profiles
-                    .filter((item) => item.ownerId === profileID)
-                    .map((item) => item.profileId);
-                ownerStatusChangedProfileIds = ownerStatusChangedProfileIds.concat(associatedProfileIds);
-            }
             canSwitch = false;
         }
 
@@ -291,13 +286,18 @@ export async function getSwitchStatus(userId, profileID) {
             const ownerProfile = profiles.find((item) => item.profileId === profile.ownerId);
             // 1. The profile's owner is changed but not added; 2. The profile's owner is inactive
             if (!ownerProfile || inactiveProfileIds.includes(ownerProfile.profileId)) {
-                const associatedProfileIds = profiles
-                    .filter((item) => item.ownerId === profile.ownerId)
-                    .map((item) => item.profileId);
-                ownerStatusChangedProfileIds = ownerStatusChangedProfileIds.concat(associatedProfileIds);
                 canSwitch = false;
             }
         }
+
+        activeProfiles.forEach((activeProfile) => {
+            if (isAssociatedProfile(activeProfile.profileType)) {
+                const ownerProfile = activeProfiles.find((item) => item.profileId === activeProfile.ownerId);
+                if (!ownerProfile) {
+                    ownerStatusChangedProfileIds.push(activeProfile.profileId);
+                }
+            }
+        });
 
         await removeProfilesByUserId(userId, [...inactiveProfileIds, ...ownerStatusChangedProfileIds]);
         return { canSwitch };
