@@ -19,12 +19,7 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 
 import AppTheme from "../../assets/_default/AppTheme";
 import { isAndroid /* isIos  */ /* sentryPostMsg, showSimpleMessage */ } from "../../helper/AppHelper";
-import {
-    getDownloadedCountAsync,
-    usefulLinksPDFPath,
-    checkIfNewVersionAdded,
-    getUsefulLinksData,
-} from "./UsefulLinksHelper";
+import { getDownloadedCountAsync, usefulLinksPDFPath, checkIfNewVersionAdded } from "./UsefulLinksHelper";
 
 import usefulLinksService from "../../services/UsefulLinksService";
 
@@ -60,7 +55,7 @@ function UsefulLinksScreen(props: UsefulLinksScreenProps) {
 
     const getDownloadedCount = useCallback(async () => {
         const filePath = usefulLinksPDFPath;
-        const data = await getUsefulLinksData();
+        const data = await usefulLinksService.getUsefulLinksData();
 
         getDownloadedCountAsync(filePath, data).then((count) => {
             console.log({ count });
@@ -73,8 +68,7 @@ function UsefulLinksScreen(props: UsefulLinksScreenProps) {
             (async () => {
                 getDownloadedCount();
                 try {
-                    const DATA = await usefulLinksService.getUsefulLinksData();
-                    checkIfNewVersionAdded(DATA, (result) => {
+                    checkIfNewVersionAdded((result) => {
                         if (!isEmpty(result)) {
                             console.log({ result });
 
@@ -88,7 +82,7 @@ function UsefulLinksScreen(props: UsefulLinksScreenProps) {
             })();
         });
 
-        getUsefulLinksData().then((data) => {
+        usefulLinksService.getUsefulLinksData().then((data) => {
             setDATA(data);
         });
 

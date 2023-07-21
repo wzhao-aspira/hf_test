@@ -99,6 +99,7 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
         // componentDidMount logic here
         // check exist files
         const { url, isPDF } = cellData;
+
         if (isPDF) {
             const filename = getDownloadFileName(url);
             const path = PDFFileFolderPath + filename;
@@ -117,9 +118,7 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
         });
 
         // @ts-expect-error
-        const downloadSuccessListener = DeviceEventEmitter.addListener(downloadSuccessKey, (filename, path, item) => {
-            const { cellData } = props;
-
+        const downloadSuccessListener = DeviceEventEmitter.addListener(downloadSuccessKey, (path, item) => {
             if (item.url == cellData.url) {
                 console.log("receive download success!");
                 const finalPath = path.split(ingString)[0];
@@ -152,15 +151,11 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
         });
 
         const downloadCompleteListener = DeviceEventEmitter.addListener(downloadCompleteKey, (item) => {
-            const { cellData } = props;
-
             if (item.url == cellData.url) {
                 console.log("receive download complete!");
             }
         });
         const downloadProgressListener = DeviceEventEmitter.addListener(downloadProgressKey, (item) => {
-            const { cellData } = props;
-
             if (item.url == cellData.url) {
                 setIsDownloading(true);
             }
@@ -173,7 +168,7 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
             downloadProgressListener.remove();
             hideDropdownListener.remove();
         };
-    }, [PDFFileFolderPath, cellData, onDownloadComplete, onDownloadError, props]);
+    }, [PDFFileFolderPath, cellData, onDownloadComplete, onDownloadError]);
 
     const handleDeletePDFTapped = () => {
         console.log("RegulationPage item touched!");
@@ -214,7 +209,6 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
 
     const downloadFile = () => {
         // get file name from url
-        const { cellData } = props;
         const item = { ...cellData };
         const filename = getDownloadFileName(item.url);
         const path = PDFFileFolderPath + filename + ingString; // _ing means downloading
@@ -242,7 +236,7 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
                         console.log("The response from the server: ", downloadResponse);
 
                         if (downloadResponse && downloadResponse.status === 200) {
-                            DeviceEventEmitter.emit(downloadSuccessKey, filename, path, item);
+                            DeviceEventEmitter.emit(downloadSuccessKey, path, item);
                         } else {
                             console.log(
                                 "Incorrect status from the server, delete the temporary download file if existed"
