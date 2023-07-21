@@ -26,378 +26,252 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  * 
  * @export
- * @interface AddressVM
+ * @interface AppConfigVM
  */
-export interface AddressVM {
+export interface AppConfigVM {
     /**
      * 
-     * @type {number}
-     * @memberof AddressVM
+     * @type {Array<string>}
+     * @memberof AppConfigVM
      */
-    'addressDetailId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddressVM
-     */
-    'addressId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddressVM
-     */
-    'addressDetailSourceId'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AddressVM
-     */
-    'isActive'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddressVM
-     */
-    'dpvstatusCodeId'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AddressVM
-     */
-    'mailReturned'?: boolean;
+    'loginSplash'?: Array<string> | null;
     /**
      * 
      * @type {string}
-     * @memberof AddressVM
+     * @memberof AppConfigVM
      */
-    'destinationLine'?: string | null;
+    'contactCDFW'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof AddressVM
+     * @memberof AppConfigVM
      */
-    'attentionLine'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddressVM
-     */
-    'zipCodeId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddressVM
-     */
-    'cityId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddressVM
-     */
-    'stateId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddressVM
-     */
-    'countryId'?: number | null;
+    'conditionsOfUse'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof AddressVM
+     * @memberof AppConfigVM
      */
-    'internationalProvince'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'createdDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'dpvdate'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'nonAddressInformation'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'verifiedDate'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'city'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'country'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'state'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AddressVM
-     */
-    'zipCode'?: string | null;
+    'privacyPolicy'?: string | null;
 }
 /**
  * 
  * @export
- * @interface CustomerBusinessVM
+ * @interface AppConfigVMExecutionResult
  */
-export interface CustomerBusinessVM {
+export interface AppConfigVMExecutionResult {
     /**
      * 
-     * @type {number}
-     * @memberof CustomerBusinessVM
+     * @type {AppConfigVM}
+     * @memberof AppConfigVMExecutionResult
      */
-    'customerBusinessId'?: number;
+    'result'?: AppConfigVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AppConfigVMExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof AppConfigVMExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface CountryVM
+ */
+export interface CountryVM {
     /**
      * 
      * @type {number}
-     * @memberof CustomerBusinessVM
+     * @memberof CountryVM
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CountryVM
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface CountryVMListExecutionResult
+ */
+export interface CountryVMListExecutionResult {
+    /**
+     * 
+     * @type {Array<CountryVM>}
+     * @memberof CountryVMListExecutionResult
+     */
+    'result'?: Array<CountryVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CountryVMListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CountryVMListExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface CustomerBasicVM
+ */
+export interface CustomerBasicVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomerBasicVM
      */
     'customerId'?: number;
     /**
      * 
      * @type {number}
-     * @memberof CustomerBusinessVM
+     * @memberof CustomerBasicVM
      */
-    'ownershipTypeId'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerBusinessVM
-     */
-    'dba'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerBusinessVM
-     */
-    'federalEin'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerBusinessVM
-     */
-    'residentMethodTypeId'?: number | null;
+    'customerTypeId'?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof CustomerBusinessVM
+     * @memberof CustomerBasicVM
      */
-    'isPlma'?: boolean;
+    'isPrimary'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomerBasicVM
+     */
+    'goid'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomerBasicVM
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {Array<CustomerOwnerVM>}
+     * @memberof CustomerBasicVM
+     */
+    'owners'?: Array<CustomerOwnerVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CustomerBasicVM
+     */
+    'useCRSS'?: boolean | null;
 }
 /**
  * 
  * @export
- * @interface CustomerIdentityVM
+ * @interface CustomerBasicVMListExecutionResult
  */
-export interface CustomerIdentityVM {
+export interface CustomerBasicVMListExecutionResult {
     /**
      * 
-     * @type {number}
-     * @memberof CustomerIdentityVM
+     * @type {Array<CustomerBasicVM>}
+     * @memberof CustomerBasicVMListExecutionResult
      */
-    'customerIdentityId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIdentityVM
-     */
-    'customerId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIdentityVM
-     */
-    'identityTypeId'?: number;
+    'result'?: Array<CustomerBasicVM> | null;
     /**
      * 
      * @type {boolean}
-     * @memberof CustomerIdentityVM
+     * @memberof CustomerBasicVMListExecutionResult
      */
-    'status'?: boolean;
+    'isValidResponse'?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof CustomerIdentityVM
+     * @type {Array<string>}
+     * @memberof CustomerBasicVMListExecutionResult
      */
-    'identityValue'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIdentityVM
-     */
-    'stateId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIdentityVM
-     */
-    'countyId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIdentityVM
-     */
-    'countryId'?: number | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerIdentityVM
-     */
-    'isVerified'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIdentityVM
-     */
-    'creationDate'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIdentityVM
-     */
-    'normalizedIdentityValue'?: string | null;
+    'errors'?: Array<string> | null;
 }
 /**
  * 
  * @export
- * @interface CustomerIndividualVM
+ * @interface CustomerIdVM
  */
-export interface CustomerIndividualVM {
+export interface CustomerIdVM {
     /**
      * 
      * @type {number}
-     * @memberof CustomerIndividualVM
-     */
-    'customerIndividualId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIndividualVM
+     * @memberof CustomerIdVM
      */
     'customerId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CustomerIdVMExecutionResult
+ */
+export interface CustomerIdVMExecutionResult {
     /**
      * 
-     * @type {number}
-     * @memberof CustomerIndividualVM
+     * @type {CustomerIdVM}
+     * @memberof CustomerIdVMExecutionResult
      */
-    'residentMethodTypeId'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
-     */
-    'firstName'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
-     */
-    'lastName'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
-     */
-    'middleName'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
-     */
-    'gender'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
-     */
-    'dateOfBirth'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIndividualVM
-     */
-    'weightInPounds'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIndividualVM
-     */
-    'heightInInches'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIndividualVM
-     */
-    'eyeColorId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIndividualVM
-     */
-    'hairColorId'?: number | null;
+    'result'?: CustomerIdVM;
     /**
      * 
      * @type {boolean}
-     * @memberof CustomerIndividualVM
+     * @memberof CustomerIdVMExecutionResult
      */
-    'isNativeAmerican'?: boolean;
+    'isValidResponse'?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
+     * @type {Array<string>}
+     * @memberof CustomerIdVMExecutionResult
      */
-    'tribeName'?: string | null;
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface CustomerIdVMListExecutionResult
+ */
+export interface CustomerIdVMListExecutionResult {
     /**
      * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
+     * @type {Array<CustomerIdVM>}
+     * @memberof CustomerIdVMListExecutionResult
      */
-    'tribeRollNumber'?: string | null;
+    'result'?: Array<CustomerIdVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CustomerIdVMListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CustomerIdVMListExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface CustomerOwnerVM
+ */
+export interface CustomerOwnerVM {
     /**
      * 
      * @type {number}
-     * @memberof CustomerIndividualVM
+     * @memberof CustomerOwnerVM
      */
-    'customerIndividualNameSuffixId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerIndividualVM
-     */
-    'customerIndividualNamePrefixId'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
-     */
-    'deceasedDate'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerIndividualVM
-     */
-    'normalizedLastName'?: string | null;
+    'ownerId'?: number;
 }
 /**
  * 
@@ -419,148 +293,34 @@ export interface CustomerVM {
     'customerTypeId'?: number;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CustomerVM
      */
-    'customerSourceId'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'canReleaseInformation'?: boolean | null;
+    'goidNumber'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof CustomerVM
      */
-    'emailAddress'?: string | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'canTextMobilePhone'?: boolean | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'canEmailCdfwnews'?: boolean | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'canEmailLicensingReminders'?: boolean | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'emailReturned'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'declineEmail'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'useCrss'?: boolean | null;
+    'physicalAddress'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof CustomerVM
      */
-    'emailConfirmedDate'?: string | null;
+    'mailingAddress'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomerVM
+     */
+    'email'?: string | null;
     /**
      * 
      * @type {boolean}
      * @memberof CustomerVM
      */
-    'useAutoRenewal'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerVM
-     */
-    'autoRenewalAmsaccountId'?: string | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVM
-     */
-    'isOnDenialList'?: boolean | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerVM
-     */
-    'nameOnCard'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerVM
-     */
-    'postalCode'?: string | null;
-    /**
-     * 
-     * @type {CustomerBusinessVM}
-     * @memberof CustomerVM
-     */
-    'customerBusiness'?: CustomerBusinessVM;
-    /**
-     * 
-     * @type {Array<CustomerIdentityVM>}
-     * @memberof CustomerVM
-     */
-    'customerIdentities'?: Array<CustomerIdentityVM> | null;
-    /**
-     * 
-     * @type {CustomerIndividualVM}
-     * @memberof CustomerVM
-     */
-    'customerIndividual'?: CustomerIndividualVM;
-    /**
-     * 
-     * @type {Array<CustomerVesselVM>}
-     * @memberof CustomerVM
-     */
-    'customerVessels'?: Array<CustomerVesselVM> | null;
-    /**
-     * 
-     * @type {AddressVM}
-     * @memberof CustomerVM
-     */
-    'mailingAddress'?: AddressVM;
-    /**
-     * 
-     * @type {PhoneVM}
-     * @memberof CustomerVM
-     */
-    'mobilePhone'?: PhoneVM;
-    /**
-     * 
-     * @type {AddressVM}
-     * @memberof CustomerVM
-     */
-    'physicalAddress'?: AddressVM;
-    /**
-     * 
-     * @type {PhoneVM}
-     * @memberof CustomerVM
-     */
-    'primaryPhone'?: PhoneVM;
-    /**
-     * 
-     * @type {PhoneVM}
-     * @memberof CustomerVM
-     */
-    'secondaryPhone'?: PhoneVM;
+    'useCRSS'?: boolean | null;
 }
 /**
  * 
@@ -590,115 +350,6 @@ export interface CustomerVMExecutionResult {
 /**
  * 
  * @export
- * @interface CustomerVesselVM
- */
-export interface CustomerVesselVM {
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'customerVesselId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'customerId'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVesselVM
-     */
-    'useOwnerInfo'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'yearBuilt'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerVesselVM
-     */
-    'hullNumber'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'lengthInFeet'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'breadthInFeet'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'depthInFeet'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'grossTonnage'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'netTonnage'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'horsepower'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerVesselVM
-     */
-    'passengers'?: number | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVesselVM
-     */
-    'isExemptFromDocumentation'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVesselVM
-     */
-    'isFederalBuyBackVessel'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerVesselVM
-     */
-    'isNonOperational'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerVesselVM
-     */
-    'nonOperationalDate'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomerVesselVM
-     */
-    'nonOperationalDescription'?: string | null;
-}
-/**
- * 
- * @export
  * @interface ExecutionResult
  */
 export interface ExecutionResult {
@@ -712,6 +363,304 @@ export interface ExecutionResult {
      * 
      * @type {Array<string>}
      * @memberof ExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface FindBusinessVM
+ */
+export interface FindBusinessVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof FindBusinessVM
+     */
+    'goid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindBusinessVM
+     */
+    'postalCode': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FindBusinessVM
+     */
+    'isPrimary'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface FindIndividualVM
+ */
+export interface FindIndividualVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof FindIndividualVM
+     */
+    'lastName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindIndividualVM
+     */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindIndividualVM
+     */
+    'identityTypeId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindIndividualVM
+     */
+    'idNumber': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindIndividualVM
+     */
+    'issuedStateId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindIndividualVM
+     */
+    'issuedCountryId'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FindIndividualVM
+     */
+    'isPrimary'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface FindVesselVM
+ */
+export interface FindVesselVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof FindVesselVM
+     */
+    'goid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindVesselVM
+     */
+    'dfgNumber': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FindVesselVM
+     */
+    'isPrimary'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface FindYouthVM
+ */
+export interface FindYouthVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof FindYouthVM
+     */
+    'firstName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindYouthVM
+     */
+    'lastName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindYouthVM
+     */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindYouthVM
+     */
+    'identityTypeId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindYouthVM
+     */
+    'idNumber': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindYouthVM
+     */
+    'issuedStateId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindYouthVM
+     */
+    'issuedCountryId'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FindYouthVM
+     */
+    'isPrimary'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface IdentityTypeConfig
+ */
+export interface IdentityTypeConfig {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof IdentityTypeConfig
+     */
+    'issuedCountryRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof IdentityTypeConfig
+     */
+    'issuedStateRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof IdentityTypeConfig
+     */
+    'idNumberRequired'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface IdentityTypeVM
+ */
+export interface IdentityTypeVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof IdentityTypeVM
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof IdentityTypeVM
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {IdentityTypeConfig}
+     * @memberof IdentityTypeVM
+     */
+    'config'?: IdentityTypeConfig;
+}
+/**
+ * 
+ * @export
+ * @interface IdentityTypesVM
+ */
+export interface IdentityTypesVM {
+    /**
+     * 
+     * @type {Array<IdentityTypeVM>}
+     * @memberof IdentityTypesVM
+     */
+    'adultOrYouth'?: Array<IdentityTypeVM> | null;
+    /**
+     * 
+     * @type {Array<IdentityTypeVM>}
+     * @memberof IdentityTypesVM
+     */
+    'parentOrGuardian'?: Array<IdentityTypeVM> | null;
+}
+/**
+ * 
+ * @export
+ * @interface IdentityTypesVMExecutionResult
+ */
+export interface IdentityTypesVMExecutionResult {
+    /**
+     * 
+     * @type {IdentityTypesVM}
+     * @memberof IdentityTypesVMExecutionResult
+     */
+    'result'?: IdentityTypesVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof IdentityTypesVMExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof IdentityTypesVMExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface ItemTypeTipVM
+ */
+export interface ItemTypeTipVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof ItemTypeTipVM
+     */
+    'itemTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemTypeTipVM
+     */
+    'tipText'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemTypeTipVM
+     */
+    'itemTypeName'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ItemTypeTipVMIEnumerableExecutionResult
+ */
+export interface ItemTypeTipVMIEnumerableExecutionResult {
+    /**
+     * 
+     * @type {Array<ItemTypeTipVM>}
+     * @memberof ItemTypeTipVMIEnumerableExecutionResult
+     */
+    'result'?: Array<ItemTypeTipVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ItemTypeTipVMIEnumerableExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ItemTypeTipVMIEnumerableExecutionResult
      */
     'errors'?: Array<string> | null;
 }
@@ -861,18 +810,6 @@ export interface LicenseVM {
      * @type {number}
      * @memberof LicenseVM
      */
-    'licenseId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVM
-     */
-    'statusCodeId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVM
-     */
     'quantity'?: number;
     /**
      * 
@@ -891,73 +828,55 @@ export interface LicenseVM {
      * @type {number}
      * @memberof LicenseVM
      */
-    'itemId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVM
-     */
     'customerId'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof LicenseVM
      */
-    'enablingLicenseId'?: number | null;
+    'licenseId'?: number;
     /**
      * 
      * @type {number}
      * @memberof LicenseVM
      */
-    'parentLicenseId'?: number | null;
+    'itemId'?: number;
     /**
      * 
      * @type {number}
      * @memberof LicenseVM
      */
-    'redeemedForLicenseId'?: number | null;
+    'itemTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof LicenseVM
+     */
+    'itemName'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof LicenseVM
      */
-    'sourceApplicationLicenseId'?: number | null;
+    'itemYear'?: number;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LicenseVM
      */
-    'voucherRedemptionCode'?: number | null;
+    'printedDescription'?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LicenseVM
      */
-    'huntId'?: number | null;
+    'documentTitle'?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LicenseVM
      */
-    'lepermitId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVM
-     */
-    'associatedSalmonStampId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVM
-     */
-    'specialPermitId'?: number | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LicenseVM
-     */
-    'allowDuplicateAtAnyOutlet'?: boolean;
+    'documentNumber'?: string | null;
 }
 /**
  * 
@@ -1024,6 +943,50 @@ export interface LicenseVMPagedListExecutionResult {
      * 
      * @type {Array<string>}
      * @memberof LicenseVMPagedListExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface LinkCustomerResultVM
+ */
+export interface LinkCustomerResultVM {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LinkCustomerResultVM
+     */
+    'linked'?: boolean;
+    /**
+     * 
+     * @type {CustomerBasicVM}
+     * @memberof LinkCustomerResultVM
+     */
+    'customer'?: CustomerBasicVM;
+}
+/**
+ * 
+ * @export
+ * @interface LinkCustomerResultVMExecutionResult
+ */
+export interface LinkCustomerResultVMExecutionResult {
+    /**
+     * 
+     * @type {LinkCustomerResultVM}
+     * @memberof LinkCustomerResultVMExecutionResult
+     */
+    'result'?: LinkCustomerResultVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LinkCustomerResultVMExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof LinkCustomerResultVMExecutionResult
      */
     'errors'?: Array<string> | null;
 }
@@ -1168,21 +1131,167 @@ export interface OptionVMListExecutionResult {
 /**
  * 
  * @export
- * @interface PhoneVM
+ * @interface ProblemDetails
  */
-export interface PhoneVM {
+export interface ProblemDetails {
+    [key: string]: any;
+
     /**
      * 
      * @type {string}
-     * @memberof PhoneVM
+     * @memberof ProblemDetails
      */
-    'phoneNumber'?: string | null;
+    'type'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof PhoneVM
+     * @memberof ProblemDetails
      */
-    'phoneExt'?: string | null;
+    'title'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProblemDetails
+     */
+    'status'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProblemDetails
+     */
+    'detail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProblemDetails
+     */
+    'instance'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface StateVM
+ */
+export interface StateVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof StateVM
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof StateVM
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface StateVMListExecutionResult
+ */
+export interface StateVMListExecutionResult {
+    /**
+     * 
+     * @type {Array<StateVM>}
+     * @memberof StateVMListExecutionResult
+     */
+    'result'?: Array<StateVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof StateVMListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof StateVMListExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface UserCustomerAddVM
+ */
+export interface UserCustomerAddVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserCustomerAddVM
+     */
+    'customerId'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserCustomerAddVM
+     */
+    'isPrimaryCustomer'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserCustomerAddVM
+     */
+    'password'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UserCustomerRemoveVM
+ */
+export interface UserCustomerRemoveVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserCustomerRemoveVM
+     */
+    'customerId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface YouthIdentityOwnerVM
+ */
+export interface YouthIdentityOwnerVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof YouthIdentityOwnerVM
+     */
+    'id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof YouthIdentityOwnerVM
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface YouthIdentityOwnerVMListExecutionResult
+ */
+export interface YouthIdentityOwnerVMListExecutionResult {
+    /**
+     * 
+     * @type {Array<YouthIdentityOwnerVM>}
+     * @memberof YouthIdentityOwnerVMListExecutionResult
+     */
+    'result'?: Array<YouthIdentityOwnerVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof YouthIdentityOwnerVMListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof YouthIdentityOwnerVMListExecutionResult
+     */
+    'errors'?: Array<string> | null;
 }
 
 /**
@@ -1193,7 +1302,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
     return {
         /**
          * 
-         * @summary Get a Customer
+         * @summary Get Customer Profile
          * @param {number} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1227,18 +1336,114 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary Find Customer
-         * @param {number} [customerTypeId] 
-         * @param {string} [lastName] 
-         * @param {string} [firstName] 
-         * @param {string} [dateOfBirth] 
-         * @param {number} [identityTypeId] 
-         * @param {string} [identityValue] 
+         * @summary Find And Link Adult
+         * @param {FindIndividualVM} [findIndividualVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersGet: async (customerTypeId?: number, lastName?: string, firstName?: string, dateOfBirth?: string, identityTypeId?: number, identityValue?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1/Customers`;
+        v1CustomersLinksAdultPost: async (findIndividualVM?: FindIndividualVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Links/Adult`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findIndividualVM, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Find And Link Business
+         * @param {FindBusinessVM} [findBusinessVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksBusinessPost: async (findBusinessVM?: FindBusinessVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Links/Business`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findBusinessVM, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete User Customer Link
+         * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksDelete: async (userCustomerRemoveVM?: UserCustomerRemoveVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Links`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userCustomerRemoveVM, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Linked Customers
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Links`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1250,37 +1455,113 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (customerTypeId !== undefined) {
-                localVarQueryParameter['customerTypeId'] = customerTypeId;
-            }
-
-            if (lastName !== undefined) {
-                localVarQueryParameter['lastName'] = lastName;
-            }
-
-            if (firstName !== undefined) {
-                localVarQueryParameter['firstName'] = firstName;
-            }
-
-            if (dateOfBirth !== undefined) {
-                localVarQueryParameter['dateOfBirth'] = (dateOfBirth as any instanceof Date) ?
-                    (dateOfBirth as any).toISOString() :
-                    dateOfBirth;
-            }
-
-            if (identityTypeId !== undefined) {
-                localVarQueryParameter['identityTypeId'] = identityTypeId;
-            }
-
-            if (identityValue !== undefined) {
-                localVarQueryParameter['identityValue'] = identityValue;
-            }
-
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Add User Customer Link
+         * @param {UserCustomerAddVM} [userCustomerAddVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksPost: async (userCustomerAddVM?: UserCustomerAddVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Links`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userCustomerAddVM, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Find And Link Vessel
+         * @param {FindVesselVM} [findVesselVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksVesselPost: async (findVesselVM?: FindVesselVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Links/Vessel`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findVesselVM, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Find And Link Youth
+         * @param {FindYouthVM} [findYouthVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksYouthPost: async (findYouthVM?: FindYouthVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Links/Youth`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findYouthVM, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1299,7 +1580,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get a Customer
+         * @summary Get Customer Profile
          * @param {number} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1310,18 +1591,78 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Find Customer
-         * @param {number} [customerTypeId] 
-         * @param {string} [lastName] 
-         * @param {string} [firstName] 
-         * @param {string} [dateOfBirth] 
-         * @param {number} [identityTypeId] 
-         * @param {string} [identityValue] 
+         * @summary Find And Link Adult
+         * @param {FindIndividualVM} [findIndividualVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1CustomersGet(customerTypeId?: number, lastName?: string, firstName?: string, dateOfBirth?: string, identityTypeId?: number, identityValue?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerVMExecutionResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersGet(customerTypeId, lastName, firstName, dateOfBirth, identityTypeId, identityValue, options);
+        async v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkCustomerResultVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksAdultPost(findIndividualVM, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Find And Link Business
+         * @param {FindBusinessVM} [findBusinessVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersLinksBusinessPost(findBusinessVM?: FindBusinessVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkCustomerResultVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksBusinessPost(findBusinessVM, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete User Customer Link
+         * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerIdVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksDelete(userCustomerRemoveVM, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get Linked Customers
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersLinksGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerBasicVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Add User Customer Link
+         * @param {UserCustomerAddVM} [userCustomerAddVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersLinksPost(userCustomerAddVM?: UserCustomerAddVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerIdVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksPost(userCustomerAddVM, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Find And Link Vessel
+         * @param {FindVesselVM} [findVesselVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersLinksVesselPost(findVesselVM?: FindVesselVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkCustomerResultVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksVesselPost(findVesselVM, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Find And Link Youth
+         * @param {FindYouthVM} [findYouthVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersLinksYouthPost(findYouthVM?: FindYouthVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkCustomerResultVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksYouthPost(findYouthVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1336,7 +1677,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
     return {
         /**
          * 
-         * @summary Get a Customer
+         * @summary Get Customer Profile
          * @param {number} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1346,18 +1687,72 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary Find Customer
-         * @param {number} [customerTypeId] 
-         * @param {string} [lastName] 
-         * @param {string} [firstName] 
-         * @param {string} [dateOfBirth] 
-         * @param {number} [identityTypeId] 
-         * @param {string} [identityValue] 
+         * @summary Find And Link Adult
+         * @param {FindIndividualVM} [findIndividualVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersGet(customerTypeId?: number, lastName?: string, firstName?: string, dateOfBirth?: string, identityTypeId?: number, identityValue?: string, options?: any): AxiosPromise<CustomerVMExecutionResult> {
-            return localVarFp.v1CustomersGet(customerTypeId, lastName, firstName, dateOfBirth, identityTypeId, identityValue, options).then((request) => request(axios, basePath));
+        v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: any): AxiosPromise<LinkCustomerResultVMExecutionResult> {
+            return localVarFp.v1CustomersLinksAdultPost(findIndividualVM, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Find And Link Business
+         * @param {FindBusinessVM} [findBusinessVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksBusinessPost(findBusinessVM?: FindBusinessVM, options?: any): AxiosPromise<LinkCustomerResultVMExecutionResult> {
+            return localVarFp.v1CustomersLinksBusinessPost(findBusinessVM, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete User Customer Link
+         * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: any): AxiosPromise<CustomerIdVMListExecutionResult> {
+            return localVarFp.v1CustomersLinksDelete(userCustomerRemoveVM, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Linked Customers
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksGet(options?: any): AxiosPromise<CustomerBasicVMListExecutionResult> {
+            return localVarFp.v1CustomersLinksGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Add User Customer Link
+         * @param {UserCustomerAddVM} [userCustomerAddVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksPost(userCustomerAddVM?: UserCustomerAddVM, options?: any): AxiosPromise<CustomerIdVMExecutionResult> {
+            return localVarFp.v1CustomersLinksPost(userCustomerAddVM, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Find And Link Vessel
+         * @param {FindVesselVM} [findVesselVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksVesselPost(findVesselVM?: FindVesselVM, options?: any): AxiosPromise<LinkCustomerResultVMExecutionResult> {
+            return localVarFp.v1CustomersLinksVesselPost(findVesselVM, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Find And Link Youth
+         * @param {FindYouthVM} [findYouthVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersLinksYouthPost(findYouthVM?: FindYouthVM, options?: any): AxiosPromise<LinkCustomerResultVMExecutionResult> {
+            return localVarFp.v1CustomersLinksYouthPost(findYouthVM, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1370,7 +1765,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
 export interface CustomersApiInterface {
     /**
      * 
-     * @summary Get a Customer
+     * @summary Get Customer Profile
      * @param {number} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1380,18 +1775,72 @@ export interface CustomersApiInterface {
 
     /**
      * 
-     * @summary Find Customer
-     * @param {number} [customerTypeId] 
-     * @param {string} [lastName] 
-     * @param {string} [firstName] 
-     * @param {string} [dateOfBirth] 
-     * @param {number} [identityTypeId] 
-     * @param {string} [identityValue] 
+     * @summary Find And Link Adult
+     * @param {FindIndividualVM} [findIndividualVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApiInterface
      */
-    v1CustomersGet(customerTypeId?: number, lastName?: string, firstName?: string, dateOfBirth?: string, identityTypeId?: number, identityValue?: string, options?: AxiosRequestConfig): AxiosPromise<CustomerVMExecutionResult>;
+    v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: AxiosRequestConfig): AxiosPromise<LinkCustomerResultVMExecutionResult>;
+
+    /**
+     * 
+     * @summary Find And Link Business
+     * @param {FindBusinessVM} [findBusinessVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApiInterface
+     */
+    v1CustomersLinksBusinessPost(findBusinessVM?: FindBusinessVM, options?: AxiosRequestConfig): AxiosPromise<LinkCustomerResultVMExecutionResult>;
+
+    /**
+     * 
+     * @summary Delete User Customer Link
+     * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApiInterface
+     */
+    v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: AxiosRequestConfig): AxiosPromise<CustomerIdVMListExecutionResult>;
+
+    /**
+     * 
+     * @summary Get Linked Customers
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApiInterface
+     */
+    v1CustomersLinksGet(options?: AxiosRequestConfig): AxiosPromise<CustomerBasicVMListExecutionResult>;
+
+    /**
+     * 
+     * @summary Add User Customer Link
+     * @param {UserCustomerAddVM} [userCustomerAddVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApiInterface
+     */
+    v1CustomersLinksPost(userCustomerAddVM?: UserCustomerAddVM, options?: AxiosRequestConfig): AxiosPromise<CustomerIdVMExecutionResult>;
+
+    /**
+     * 
+     * @summary Find And Link Vessel
+     * @param {FindVesselVM} [findVesselVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApiInterface
+     */
+    v1CustomersLinksVesselPost(findVesselVM?: FindVesselVM, options?: AxiosRequestConfig): AxiosPromise<LinkCustomerResultVMExecutionResult>;
+
+    /**
+     * 
+     * @summary Find And Link Youth
+     * @param {FindYouthVM} [findYouthVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApiInterface
+     */
+    v1CustomersLinksYouthPost(findYouthVM?: FindYouthVM, options?: AxiosRequestConfig): AxiosPromise<LinkCustomerResultVMExecutionResult>;
 
 }
 
@@ -1404,7 +1853,7 @@ export interface CustomersApiInterface {
 export class CustomersApi extends BaseAPI implements CustomersApiInterface {
     /**
      * 
-     * @summary Get a Customer
+     * @summary Get Customer Profile
      * @param {number} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1416,19 +1865,200 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
 
     /**
      * 
-     * @summary Find Customer
-     * @param {number} [customerTypeId] 
-     * @param {string} [lastName] 
-     * @param {string} [firstName] 
-     * @param {string} [dateOfBirth] 
-     * @param {number} [identityTypeId] 
-     * @param {string} [identityValue] 
+     * @summary Find And Link Adult
+     * @param {FindIndividualVM} [findIndividualVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApi
      */
-    public v1CustomersGet(customerTypeId?: number, lastName?: string, firstName?: string, dateOfBirth?: string, identityTypeId?: number, identityValue?: string, options?: AxiosRequestConfig) {
-        return CustomersApiFp(this.configuration).v1CustomersGet(customerTypeId, lastName, firstName, dateOfBirth, identityTypeId, identityValue, options).then((request) => request(this.axios, this.basePath));
+    public v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksAdultPost(findIndividualVM, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Find And Link Business
+     * @param {FindBusinessVM} [findBusinessVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApi
+     */
+    public v1CustomersLinksBusinessPost(findBusinessVM?: FindBusinessVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksBusinessPost(findBusinessVM, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete User Customer Link
+     * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApi
+     */
+    public v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksDelete(userCustomerRemoveVM, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Linked Customers
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApi
+     */
+    public v1CustomersLinksGet(options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Add User Customer Link
+     * @param {UserCustomerAddVM} [userCustomerAddVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApi
+     */
+    public v1CustomersLinksPost(userCustomerAddVM?: UserCustomerAddVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksPost(userCustomerAddVM, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Find And Link Vessel
+     * @param {FindVesselVM} [findVesselVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApi
+     */
+    public v1CustomersLinksVesselPost(findVesselVM?: FindVesselVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksVesselPost(findVesselVM, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Find And Link Youth
+     * @param {FindYouthVM} [findYouthVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApi
+     */
+    public v1CustomersLinksYouthPost(findYouthVM?: FindYouthVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksYouthPost(findYouthVM, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * ItemsApi - axios parameter creator
+ * @export
+ */
+export const ItemsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get item tips, for showing indicators on licenses.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1ItemsTipsGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Items/tips`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ItemsApi - functional programming interface
+ * @export
+ */
+export const ItemsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ItemsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get item tips, for showing indicators on licenses.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1ItemsTipsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ItemTypeTipVMIEnumerableExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1ItemsTipsGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ItemsApi - factory interface
+ * @export
+ */
+export const ItemsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ItemsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get item tips, for showing indicators on licenses.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1ItemsTipsGet(options?: any): AxiosPromise<ItemTypeTipVMIEnumerableExecutionResult> {
+            return localVarFp.v1ItemsTipsGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ItemsApi - interface
+ * @export
+ * @interface ItemsApi
+ */
+export interface ItemsApiInterface {
+    /**
+     * 
+     * @summary Get item tips, for showing indicators on licenses.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ItemsApiInterface
+     */
+    v1ItemsTipsGet(options?: AxiosRequestConfig): AxiosPromise<ItemTypeTipVMIEnumerableExecutionResult>;
+
+}
+
+/**
+ * ItemsApi - object-oriented interface
+ * @export
+ * @class ItemsApi
+ * @extends {BaseAPI}
+ */
+export class ItemsApi extends BaseAPI implements ItemsApiInterface {
+    /**
+     * 
+     * @summary Get item tips, for showing indicators on licenses.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ItemsApi
+     */
+    public v1ItemsTipsGet(options?: AxiosRequestConfig) {
+        return ItemsApiFp(this.configuration).v1ItemsTipsGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1775,7 +2405,7 @@ export const LicensesApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
-         * @summary Get My Licenses
+         * @summary Get license by Customer ID
          * @param {number} customerId 
          * @param {number} [page] 
          * @param {number} [pageSize] 
@@ -1829,7 +2459,7 @@ export const LicensesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get My Licenses
+         * @summary Get license by Customer ID
          * @param {number} customerId 
          * @param {number} [page] 
          * @param {number} [pageSize] 
@@ -1852,7 +2482,7 @@ export const LicensesApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
-         * @summary Get My Licenses
+         * @summary Get license by Customer ID
          * @param {number} customerId 
          * @param {number} [page] 
          * @param {number} [pageSize] 
@@ -1873,7 +2503,7 @@ export const LicensesApiFactory = function (configuration?: Configuration, baseP
 export interface LicensesApiInterface {
     /**
      * 
-     * @summary Get My Licenses
+     * @summary Get license by Customer ID
      * @param {number} customerId 
      * @param {number} [page] 
      * @param {number} [pageSize] 
@@ -1894,7 +2524,7 @@ export interface LicensesApiInterface {
 export class LicensesApi extends BaseAPI implements LicensesApiInterface {
     /**
      * 
-     * @summary Get My Licenses
+     * @summary Get license by Customer ID
      * @param {number} customerId 
      * @param {number} [page] 
      * @param {number} [pageSize] 
@@ -2104,6 +2734,397 @@ export class MobileAppUsersApi extends BaseAPI implements MobileAppUsersApiInter
      */
     public v1MobileAppUsersValidationCodePost(mobileAppUserSendValidationCommand?: MobileAppUserSendValidationCommand, options?: AxiosRequestConfig) {
         return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersValidationCodePost(mobileAppUserSendValidationCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * StaticDataApi - axios parameter creator
+ * @export
+ */
+export const StaticDataApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get App config for mobile
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataAppConfigsGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/StaticData/AppConfigs`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get coutries
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataCountriesGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/StaticData/Countries`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Identity Types
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataIdentityTypesGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/StaticData/IdentityTypes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get states
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataStatesGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/StaticData/States`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Youth Identity Owners
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataYouthIdentityOwnersGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/StaticData/YouthIdentityOwners`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * StaticDataApi - functional programming interface
+ * @export
+ */
+export const StaticDataApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = StaticDataApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get App config for mobile
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1StaticDataAppConfigsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppConfigVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataAppConfigsGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get coutries
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1StaticDataCountriesGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CountryVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataCountriesGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get Identity Types
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1StaticDataIdentityTypesGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IdentityTypesVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataIdentityTypesGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get states
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1StaticDataStatesGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StateVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataStatesGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get Youth Identity Owners
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1StaticDataYouthIdentityOwnersGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<YouthIdentityOwnerVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataYouthIdentityOwnersGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * StaticDataApi - factory interface
+ * @export
+ */
+export const StaticDataApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = StaticDataApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get App config for mobile
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataAppConfigsGet(options?: any): AxiosPromise<AppConfigVMExecutionResult> {
+            return localVarFp.v1StaticDataAppConfigsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get coutries
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataCountriesGet(options?: any): AxiosPromise<CountryVMListExecutionResult> {
+            return localVarFp.v1StaticDataCountriesGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Identity Types
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataIdentityTypesGet(options?: any): AxiosPromise<IdentityTypesVMExecutionResult> {
+            return localVarFp.v1StaticDataIdentityTypesGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get states
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataStatesGet(options?: any): AxiosPromise<StateVMListExecutionResult> {
+            return localVarFp.v1StaticDataStatesGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Youth Identity Owners
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataYouthIdentityOwnersGet(options?: any): AxiosPromise<YouthIdentityOwnerVMListExecutionResult> {
+            return localVarFp.v1StaticDataYouthIdentityOwnersGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * StaticDataApi - interface
+ * @export
+ * @interface StaticDataApi
+ */
+export interface StaticDataApiInterface {
+    /**
+     * 
+     * @summary Get App config for mobile
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApiInterface
+     */
+    v1StaticDataAppConfigsGet(options?: AxiosRequestConfig): AxiosPromise<AppConfigVMExecutionResult>;
+
+    /**
+     * 
+     * @summary Get coutries
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApiInterface
+     */
+    v1StaticDataCountriesGet(options?: AxiosRequestConfig): AxiosPromise<CountryVMListExecutionResult>;
+
+    /**
+     * 
+     * @summary Get Identity Types
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApiInterface
+     */
+    v1StaticDataIdentityTypesGet(options?: AxiosRequestConfig): AxiosPromise<IdentityTypesVMExecutionResult>;
+
+    /**
+     * 
+     * @summary Get states
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApiInterface
+     */
+    v1StaticDataStatesGet(options?: AxiosRequestConfig): AxiosPromise<StateVMListExecutionResult>;
+
+    /**
+     * 
+     * @summary Get Youth Identity Owners
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApiInterface
+     */
+    v1StaticDataYouthIdentityOwnersGet(options?: AxiosRequestConfig): AxiosPromise<YouthIdentityOwnerVMListExecutionResult>;
+
+}
+
+/**
+ * StaticDataApi - object-oriented interface
+ * @export
+ * @class StaticDataApi
+ * @extends {BaseAPI}
+ */
+export class StaticDataApi extends BaseAPI implements StaticDataApiInterface {
+    /**
+     * 
+     * @summary Get App config for mobile
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApi
+     */
+    public v1StaticDataAppConfigsGet(options?: AxiosRequestConfig) {
+        return StaticDataApiFp(this.configuration).v1StaticDataAppConfigsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get coutries
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApi
+     */
+    public v1StaticDataCountriesGet(options?: AxiosRequestConfig) {
+        return StaticDataApiFp(this.configuration).v1StaticDataCountriesGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Identity Types
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApi
+     */
+    public v1StaticDataIdentityTypesGet(options?: AxiosRequestConfig) {
+        return StaticDataApiFp(this.configuration).v1StaticDataIdentityTypesGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get states
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApi
+     */
+    public v1StaticDataStatesGet(options?: AxiosRequestConfig) {
+        return StaticDataApiFp(this.configuration).v1StaticDataStatesGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Youth Identity Owners
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApi
+     */
+    public v1StaticDataYouthIdentityOwnersGet(options?: AxiosRequestConfig) {
+        return StaticDataApiFp(this.configuration).v1StaticDataYouthIdentityOwnersGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
