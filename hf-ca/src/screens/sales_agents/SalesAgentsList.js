@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export const SalesAgentsItem = ({ item, index, onDirectionsClick }) => {
+export function SalesAgentsItem({ item, index, onDirectionsClick }) {
     return (
         <View style={styles.shadowBox}>
             <View style={{ alignItems: "center" }}>
@@ -100,7 +100,7 @@ export const SalesAgentsItem = ({ item, index, onDirectionsClick }) => {
             </View>
         </View>
     );
-};
+}
 
 export default function SalesAgentsList(props) {
     const { loading, salesAgents, onDirectionsClick } = props;

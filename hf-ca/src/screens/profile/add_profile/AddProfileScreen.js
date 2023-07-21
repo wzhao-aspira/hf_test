@@ -28,6 +28,7 @@ function AddProfileScreen() {
     };
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <View style={{ flex: 1 }}>

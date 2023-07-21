@@ -39,7 +39,7 @@ const markerBg = require("../../assets/_default/images/marker_bg.png");
 
 const zoomLevel = 12;
 
-const IssuerLocationMarker = ({ coordinate = [0, 0], label = "", onPress }) => {
+function IssuerLocationMarker({ coordinate = [0, 0], label = "", onPress }) {
     return (
         <MarkerView coordinate={coordinate} allowOverlap>
             <Pressable
@@ -60,7 +60,7 @@ const IssuerLocationMarker = ({ coordinate = [0, 0], label = "", onPress }) => {
             </Pressable>
         </MarkerView>
     );
-};
+}
 
 export default function MapScreen({
     selectIndex,

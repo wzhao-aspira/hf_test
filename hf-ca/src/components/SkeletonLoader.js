@@ -65,6 +65,7 @@ function SkeletonLoader(props) {
         });
         const facebookAnimated = Animated.stagger(50, [Animated.parallel(anims, { stopTogether: true })]);
         Animated.loop(facebookAnimated).start();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     let start = -1;
     return (

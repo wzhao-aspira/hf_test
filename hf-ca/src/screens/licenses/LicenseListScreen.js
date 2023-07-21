@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { StyleSheet, FlatList, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
@@ -38,6 +38,7 @@ function LicenseListScreen() {
 
     useEffect(() => {
         getLicenseOfActiveProfile(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
