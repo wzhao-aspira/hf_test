@@ -17,7 +17,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95823",
-    "phoneNum": "(916)5551212",
+    "phoneNum": "9165551212",
     "longitude": "-121.42900234930765",
     "latitude" : "38.475710828489696"
   },
@@ -28,7 +28,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95831",
-    "phoneNum": "916 555 1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.52269208229963",
     "latitude" : "38.493660802881436"
   },
@@ -39,7 +39,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95834",
-    "phoneNum": "(916) 555 1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.4968402645839",
     "latitude" : "38.64155000287807"
   },
@@ -50,7 +50,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95832",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.49407386673987",
     "latitude" : "38.46232825672707"
   },
@@ -61,7 +61,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95821",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.38022380755773",
     "latitude" : "38.61158905104674"
   },
@@ -72,7 +72,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95826",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.36657086521403",
     "latitude" : "38.55804553802141"
   },
@@ -83,7 +83,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95832",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.50114393724155",
     "latitude" : "38.458322066227716"
   },
@@ -94,7 +94,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95820",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.45797628138399",
     "latitude" : "38.524743729389634"
   },
@@ -105,7 +105,7 @@
     "city": "SACRAMENTO",
     "state": "California",
     "zip": "95827",
-    "phoneNum": "(916) 555-1212",
+    "phoneNum": "9165551212",
     "longitude": "-121.34190551142022",
     "latitude" : "38.56250039317854"
   }
