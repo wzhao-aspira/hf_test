@@ -1,7 +1,6 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { View, FlatList, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { useFocusEffect } from "@react-navigation/native";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
 import HomeDiscoverySection from "./HomeDiscoverySection";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
@@ -35,11 +34,11 @@ export default function HomeScreen() {
         dispatch(getWeatherDataFromRedux({}));
     }, [dispatch]);
 
-    useFocusEffect(
-        useCallback(() => {
-            getLicenseOfActiveProfile(false);
-        }, [activeProfileId])
-    );
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         getLicenseOfActiveProfile(false);
+    //     }, [activeProfileId])
+    // );
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));

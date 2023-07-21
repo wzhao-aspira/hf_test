@@ -14,6 +14,7 @@
         "ok": "OK",
         "cancel": "Cancel",
         "alert": "Alert",
+        "retry": "Try Again",
         "error": "Error",
         "connectionError": "Connection Error",
         "message": "Message",
@@ -86,7 +87,6 @@
         "splashTitle": "Live Life Outside",
         "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
     },
-
     "signIn": {
         "userId": "User ID",
         "noAccount": "Don't have an account?",
@@ -96,7 +96,6 @@
         "accountNotFound": "Account not found, please check your input.",
         "userIdHint": "Please Enter Email:"
     },
-
     "signUp": {
         "createMobileAccount": "Create Mobile Account",
         "exitSignUp": "Exit Sign Up",
@@ -158,7 +157,6 @@
         "removeAssociatedProfilesMsg": "Are you sure you want to remove current profile, the associated profile will be removed as well.",
         "associatedProfiles": "Associated profile(s):"
     },
-
     "huntAndFish": {
         "myLicenses": "My Licenses",
         "myDrawApplications": "My Draw Applications",
@@ -169,16 +167,13 @@
         "reportTitle": "Harvest Reports",
         "reportDescription": "Submit or view reports",
         "purchaseTitle": "Purchase License",
-
         "huntTitle": "Hunting",
         "huntPurchaseDescription": "Purchase or renew hunting licenses",
         "huntDescription": "View rules and regulations, submit harvest reports, and view your licenses from here.",
-
         "fishTitle": "Fishing",
         "fishPurchaseDescription": "Purchase or renew fishing licenses",
         "fishDescription": "View licenses, rules and regulations, and other important information here."
     },
-
     "preferencePoint": {
         "myPreferencePoint": "My Preference Point",
         "drawType": "Draw Type",
@@ -187,7 +182,6 @@
         "noPreferencePoint": "No preference points found",
         "purchaseLicense": "Purchase your hunting or fishing license now"
     },
-
     "discovery": {
         "discovery": "Discovery",
         "weather": "Weather",

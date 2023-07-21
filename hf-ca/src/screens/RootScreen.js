@@ -10,10 +10,13 @@ import LoginStep from "../constants/LoginStep";
 import { Indicator } from "../components/Dialog";
 import { genTestId } from "../helper/AppHelper";
 import AppTheme from "../assets/_default/AppTheme";
+import useErrorHandling from "../hooks/useErrorHandling";
 
 export default function RootScreen() {
     const loginStep = useSelector(selectLoginStep);
     const indicator = useSelector(selectIndicator);
+    useErrorHandling();
+
     const isLogin = loginStep == LoginStep.login;
     return (
         <SafeAreaProvider>
