@@ -114,6 +114,8 @@ const PopupDropdown = React.forwardRef((props, ref) => {
         return null;
     }
 
+    // TODO: Should fix the eslint error.
+    // eslint-disable-next-line react/no-unstable-nested-components
     function RenderItem({ item, index }) {
         const selected = options[index][valueName] === value;
         return (

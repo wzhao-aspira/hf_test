@@ -93,9 +93,34 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function DrawerContent({ navigation }) {
+function MenuItem(props) {
+    const { title, onClick, showSplitLine = true, testID } = props;
     const { t } = useTranslation();
+    const testIDPrefix = "HamburgerMenu";
 
+    return (
+        <>
+            <Pressable
+                testID={genTestId(`${testIDPrefix}${testID}ItemButton`)}
+                onPress={() => {
+                    if (onClick) {
+                        onClick();
+                    }
+                }}
+            >
+                <View style={styles.menuItemContainer}>
+                    <Text testID={genTestId(`${testIDPrefix}${testID}ItemButtonLabel`)} style={styles.menuTitle}>
+                        {t(title)}
+                    </Text>
+                    <FontAwesomeIcon icon={faChevronRight} size={16} color={AppTheme.colors.font_color_1} />
+                </View>
+            </Pressable>
+            {showSplitLine && <SplitLine style={styles.menuSplitLine} />}
+        </>
+    );
+}
+
+export default function DrawerContent({ navigation }) {
     const dispatch = useDispatch();
     const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
@@ -119,30 +144,6 @@ export default function DrawerContent({ navigation }) {
         // Set login step
         dispatch(updateLoginStep(LoginStep.login));
     };
-
-    function MenuItem(props) {
-        const { title, onClick, showSplitLine = true, testID } = props;
-        return (
-            <>
-                <Pressable
-                    testID={genTestId(`${testIDPrefix}${testID}ItemButton`)}
-                    onPress={() => {
-                        if (onClick) {
-                            onClick();
-                        }
-                    }}
-                >
-                    <View style={styles.menuItemContainer}>
-                        <Text testID={genTestId(`${testIDPrefix}${testID}ItemButtonLabel`)} style={styles.menuTitle}>
-                            {t(title)}
-                        </Text>
-                        <FontAwesomeIcon icon={faChevronRight} size={16} color={AppTheme.colors.font_color_1} />
-                    </View>
-                </Pressable>
-                {showSplitLine && <SplitLine style={styles.menuSplitLine} />}
-            </>
-        );
-    }
 
     const renderProfileSection = () => {
         return (
