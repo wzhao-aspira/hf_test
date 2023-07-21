@@ -93,18 +93,3 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate) {
         }, 3000);
     });
 }
-
-export function calculateCenter(markers = []) {
-    let sumLat = 0;
-    let sumLon = 0;
-
-    for (let i = 0; i < markers.length; i++) {
-        sumLat += markers[i].coor[1];
-        sumLon += markers[i].coor[0];
-    }
-
-    const centerLat = sumLat / markers.length;
-    const centerLon = sumLon / markers.length;
-
-    return [centerLon, centerLat];
-}

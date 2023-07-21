@@ -14,6 +14,7 @@ export const KEY_CONSTANT = {
     currentInUseProfileIDOfAccounts: "currentInUseProfileIDOfAccounts",
     keySalesAgentsRecentSearch: "keySalesAgentsRecentSearch",
     usefulLinks: "usefulLinks",
+    keyLastLocation: "keyLastLocation",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = { idle: "idle", pending: "pending", fulfilled: "fulfilled", rejected: "rejected" };
