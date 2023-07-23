@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { getWeatherDataByCityName, getWeatherData } from "../network/API";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
-import { getCurrentLocation } from "./SalesAgentsService";
+import { getCurrentLocationWithoutPopup } from "./SalesAgentsService";
 import AppContract from "../assets/_default/AppContract";
 
 export default async function getWeatherDataFromService() {
@@ -18,7 +18,7 @@ export default async function getWeatherDataFromService() {
         }
     } else {
         console.log("Weather service -- get current location coordinate");
-        const result = await getCurrentLocation();
+        const result = await getCurrentLocationWithoutPopup();
         if (result && result.success == true) {
             const location = result.value[0]?.center;
             if (location.length == 2) {

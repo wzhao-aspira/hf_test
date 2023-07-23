@@ -15,7 +15,7 @@ import profileSelectors from "../../redux/ProfileSelector";
 import { genTestId, isIos } from "../../helper/AppHelper";
 import SalesAgentsMap from "./SalesAgentsMap";
 import DialogHelper from "../../helper/DialogHelper";
-import { getSuggestionSalesAgentsFromService, getCurrentLocation } from "../../services/SalesAgentsService";
+import { getSuggestionSalesAgentsFromService, getCurrentLocationWithoutPopup } from "../../services/SalesAgentsService";
 import { SharedStyles } from "../../styles/CommonStyles";
 import AppContract from "../../assets/_default/AppContract";
 import { toggleIndicator } from "../../redux/AppSlice";
@@ -71,7 +71,7 @@ export default function SalesAgentsScreen({ route }) {
 
     useEffect(() => {
         const getLocation = async () => {
-            const res = await getCurrentLocation();
+            const res = await getCurrentLocationWithoutPopup();
             if (res.success) {
                 const { value } = res;
                 if (!isEmpty(value)) {

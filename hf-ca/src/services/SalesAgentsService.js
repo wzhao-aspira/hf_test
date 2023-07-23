@@ -5,9 +5,8 @@ import { getCurrentLocationByText, getLocationByText } from "../network/API";
 import { NETWORK_REQUEST_FAILED } from "../constants/Constants";
 import salesAgents from "./mock_data/sales_agents.json";
 
-export async function getCurrentLocation() {
+async function getPositionByPermission(permission) {
     const result = { success: false, value: null, coordinates: [] };
-    const permission = await Location.getForegroundPermissionsAsync();
     if (permission && permission.status == "granted") {
         try {
             const lastKnownPosition = await Location.getLastKnownPositionAsync();
@@ -31,6 +30,16 @@ export async function getCurrentLocation() {
         console.log("Sales Agent service --- Can not get the location info, no permission allowed");
     }
     return result;
+}
+
+export async function getCurrentLocation() {
+    const permission = await Location.requestForegroundPermissionsAsync();
+    return getPositionByPermission(permission);
+}
+
+export async function getCurrentLocationWithoutPopup() {
+    const permission = await Location.getForegroundPermissionsAsync();
+    return getPositionByPermission(permission);
 }
 
 export async function searchLocationByText(text) {
