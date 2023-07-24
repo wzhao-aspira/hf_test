@@ -1,17 +1,28 @@
 /* eslint-disable import/no-mutable-exports */
 import { actions as appActions } from "../redux/AppSlice";
+import { retrieveItem, storeItem } from "../helper/StorageHelper";
 
-export let lastPromise;
+export const clientSecret = "6C89A8AF-6CDE-4500-B1C9-C59D876FF3AF";
+export const clientId = "aspira.ca.api";
+
+export const globalDataForAPI = {
+    lastPromise: "",
+    jwtToken: {
+        access_token: "",
+        refresh_token: "",
+        expires_in: "",
+    },
+};
 
 export function clearLastPromise() {
-    lastPromise = null;
+    globalDataForAPI.lastPromise = null;
 }
 
 export async function handleError(requestPromise, { showError = true, retry = false, dispatch } = {}) {
     try {
-        lastPromise = null;
+        globalDataForAPI.lastPromise = null;
         if (retry) {
-            lastPromise = requestPromise;
+            globalDataForAPI.lastPromise = requestPromise;
         }
         const response = await requestPromise;
         return response;
@@ -20,4 +31,27 @@ export async function handleError(requestPromise, { showError = true, retry = fa
         console.log(JSON.stringify(error));
         return { success: false };
     }
+}
+
+function getTokenKey(tokenKey) {
+    return `jwt_token_${tokenKey}`;
+}
+
+export function updateGlobalToken(token) {
+    if (token) {
+        globalDataForAPI.jwtToken.access_token = token.access_token;
+        globalDataForAPI.jwtToken.refresh_token = token.refresh_token;
+        globalDataForAPI.jwtToken.expires_in = token.expires_in;
+    }
+}
+
+export async function writeToken(tokenKey, token) {
+    updateGlobalToken(token);
+    return storeItem(getTokenKey(tokenKey), token);
+}
+
+export async function readToken(tokenKey) {
+    const token = await retrieveItem(getTokenKey(tokenKey));
+    updateGlobalToken(token);
+    return token;
 }
