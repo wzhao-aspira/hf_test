@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+
 import { merge } from "lodash";
 import BaseContract from "../BaseContract";
 import SecurityUtil from "../../utils/SecurityUtil";
@@ -14,7 +15,7 @@ const AppContract = {
         Regular: require("./fonts/Roboto-Regular.ttf"),
     },
     URL: {
-        qa: "https://uwp.ue1qa1.nonprod.aspiraint.com/",
+        qa: "https://qa.ca.wildlifelicense.com/",
         uat: "https://uatcan-psapirest.reserveamerica.com/",
         prod: "https://can-psapi-rest.reserveamerica.com/",
     },
