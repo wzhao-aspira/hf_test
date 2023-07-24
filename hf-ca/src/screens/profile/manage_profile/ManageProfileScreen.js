@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -12,17 +11,13 @@ import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import { genTestId } from "../../../helper/AppHelper";
 import NavigationService from "../../../navigation/NavigationService";
 import Routers from "../../../constants/Routers";
+import DialogHelper from "../../../helper/DialogHelper";
 
 export default function ManageProfileScreen() {
     const { t } = useTranslation();
 
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
-    const [showSwitchProfile, setShowSwitchProfile] = useState(false);
-
-    const hideDialog = () => {
-        setShowSwitchProfile(false);
-    };
 
     return (
         <Page style={profileScreenStyles.container}>
@@ -34,7 +29,11 @@ export default function ManageProfileScreen() {
                         {otherProfiles.length > 0 && (
                             <Pressable
                                 onPress={() => {
-                                    setShowSwitchProfile(true);
+                                    DialogHelper.showCustomDialog({
+                                        renderDialogContent: () => (
+                                            <SwitchProfileDialog hideDialog={() => NavigationService.back()} />
+                                        ),
+                                    });
                                 }}
                                 testID={genTestId("switchProfile")}
                             >
@@ -56,8 +55,6 @@ export default function ManageProfileScreen() {
                         }}
                     />
                     <OtherProfiles otherProfiles={otherProfiles} />
-
-                    {showSwitchProfile && <SwitchProfileDialog hideDialog={hideDialog} />}
                 </View>
             </ScrollView>
         </Page>

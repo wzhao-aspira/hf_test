@@ -1,6 +1,6 @@
 import { View, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Dialog } from "../../../components/Dialog";
+import { DialogWrapper } from "../../../components/Dialog";
 import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
@@ -9,6 +9,7 @@ import { getMobileAccountByUserId, getSwitchStatus } from "../../../services/Pro
 import { selectUsername } from "../../../redux/AppSlice";
 import AppThunk from "../../../redux/AppThunk";
 import DialogHelper from "../../../helper/DialogHelper";
+import NavigationService from "../../../navigation/NavigationService";
 
 export default function SwitchProfileDialog({ hideDialog }) {
     const dispatch = useDispatch();
@@ -46,7 +47,11 @@ export default function SwitchProfileDialog({ hideDialog }) {
     };
 
     return (
-        <Dialog visible closeModal={hideDialog}>
+        <DialogWrapper
+            closeModal={() => {
+                NavigationService.back();
+            }}
+        >
             <View style={dialogStyles.switchProfileContainer}>
                 <ProfileItem
                     profile={currentInUseProfile}
@@ -76,6 +81,6 @@ export default function SwitchProfileDialog({ hideDialog }) {
                     })}
                 </ScrollView>
             </View>
-        </Dialog>
+        </DialogWrapper>
     );
 }

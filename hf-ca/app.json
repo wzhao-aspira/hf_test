@@ -39,7 +39,7 @@
     },
     "android": {
       "package": "com.aspiraconnect.hf.ca",
-      "versionCode": 48,
+      "versionCode": 53,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",

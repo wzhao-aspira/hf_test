@@ -3,11 +3,26 @@ import { SimpleDialogView, SelectDialogView } from "../components/Dialog";
 import { DialogActions } from "../helper/DialogHelper";
 import NavigationService from "./NavigationService";
 
-export default function ModalScreen({ route = {} }) {
-    const { params = {} } = route;
-    const { title, message, okText, cancelText, isSelect = false, withModal = false } = params;
-
-    const Content = isSelect ? (
+function Content({ title, message, okText, cancelText, isSelect = false, custom = false }) {
+    if (custom) {
+        return DialogActions.renderContent();
+    }
+    if (!isSelect) {
+        return (
+            <SimpleDialogView
+                testID="globalSimpleDialog"
+                title={title}
+                message={message}
+                okText={okText}
+                okAction={() => {
+                    NavigationService.back();
+                    const act = DialogActions.okAction;
+                    act?.();
+                }}
+            />
+        );
+    }
+    return (
         <SelectDialogView
             testID="globalSelectDialog"
             title={title}
@@ -25,27 +40,36 @@ export default function ModalScreen({ route = {} }) {
                 ok?.();
             }}
         />
-    ) : (
-        <SimpleDialogView
-            testID="globalSimpleDialog"
-            title={title}
-            message={message}
-            okText={okText}
-            okAction={() => {
-                NavigationService.back();
-                const act = DialogActions.okAction;
-                act?.();
-            }}
-        />
     );
+}
+
+export default function ModalScreen({ route = {} }) {
+    const { params = {} } = route;
+    const { title, message, okText, cancelText, isSelect = false, withModal = false, custom = false } = params;
+    console.log(params);
 
     if (!withModal) {
-        return Content;
+        return (
+            <Content
+                title={title}
+                message={message}
+                okText={okText}
+                cancelText={cancelText}
+                isSelect={isSelect}
+                custom={custom}
+            />
+        );
     }
-
     return (
         <Modal animationType="none" transparent>
-            {Content}
+            <Content
+                title={title}
+                message={message}
+                okText={okText}
+                cancelText={cancelText}
+                isSelect={isSelect}
+                custom={custom}
+            />
         </Modal>
     );
 }
