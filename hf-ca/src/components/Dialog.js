@@ -167,29 +167,36 @@ export function SelectDialog(props) {
     );
 }
 
-export function Dialog(props) {
-    const { testID = "", visible = false, children = null, closeModal } = props;
+export function DialogWrapper(props) {
+    const { testID = "", children = null, closeModal } = props;
     const inset = useSafeAreaInsets();
 
     return (
-        <Modal visible={visible} animationType="none" transparent>
-            <Pressable
-                testID={genTestId(`${testID}DialogCloseButton`)}
-                style={{ flex: 1 }}
-                onPress={() => {
-                    if (closeModal) {
-                        closeModal();
-                    }
-                }}
-            >
-                <View style={styles.centeredView}>
-                    <View
-                        style={[styles.contentStyle, { maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 4 - inset.top * 2 }]}
-                    >
-                        {children}
-                    </View>
+        <Pressable
+            testID={genTestId(`${testID}DialogCloseButton`)}
+            style={{ flex: 1 }}
+            onPress={() => {
+                if (closeModal) {
+                    closeModal();
+                }
+            }}
+        >
+            <View style={styles.centeredView}>
+                <View style={[styles.contentStyle, { maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 4 - inset.top * 2 }]}>
+                    {children}
                 </View>
-            </Pressable>
+            </View>
+        </Pressable>
+    );
+}
+
+export function Dialog(props) {
+    const { testID = "", visible = false, children = null, closeModal } = props;
+    return (
+        <Modal visible={visible} animationType="none" transparent>
+            <DialogWrapper testID={testID} closeModal={closeModal}>
+                {children}
+            </DialogWrapper>
         </Modal>
     );
 }
