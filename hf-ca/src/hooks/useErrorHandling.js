@@ -4,7 +4,7 @@ import { isEmpty } from "lodash";
 import { actions as appActions, selectors, updateLoginStep } from "../redux/AppSlice";
 import DialogHelper from "../helper/DialogHelper";
 import LoginStep from "../constants/LoginStep";
-import { lastPromise, handleError } from "../network/APIUtil";
+import { globalDataForAPI, handleError } from "../network/APIUtil";
 
 function getErrorMessage(error) {
     return error?.message;
@@ -51,12 +51,12 @@ function useErrorHandling() {
                 setTimeout(() => {
                     dispatch(updateLoginStep(LoginStep.login));
                 });
-            } else if (lastPromise) {
+            } else if (globalDataForAPI.lastPromise) {
                 retryRequest(
                     error,
                     () => {
                         dispatch(appActions.clearError());
-                        handleError(lastPromise, { showError: true, retry: true, dispatch });
+                        handleError(globalDataForAPI.lastPromise, { showError: true, retry: true, dispatch });
                     },
                     () => {
                         dispatch(appActions.clearError());

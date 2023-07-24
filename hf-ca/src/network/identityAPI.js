@@ -37,7 +37,7 @@ export async function refreshToken(refresh_token, userName) {
         baseURL: getBaseURL(),
         data,
     });
-    await saveJwtToken(result, userName);
+    saveJwtToken(result, userName);
 
     return result;
 }
