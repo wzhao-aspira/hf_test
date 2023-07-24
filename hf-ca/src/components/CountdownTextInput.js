@@ -30,27 +30,27 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         paddingHorizontal: 10,
     },
-    countdown: { position: "absolute", right: 10 },
+    countdown: {
+        flexDirection: "row",
+        position: "absolute",
+        alignContent: "center",
+        right: 10,
+    },
     errorMsg: {
         color: AppTheme.colors.error,
         marginTop: 5,
         ...AppTheme.typography.sub_section,
     },
-    note: {
-        flexDirection: "row",
-        flexGrow: 1,
-        color: AppTheme.colors.primary_2,
-        marginTop: 5,
-        ...AppTheme.typography.card_title,
-        textAlign: "right",
+    sendResendContainer: {
+        alignSelf: "center",
     },
-    noteDisable: {
-        flexDirection: "row",
-        flexGrow: 1,
-        color: AppTheme.colors.font_color_3,
-        marginTop: 5,
+    sendResend: {
+        color: AppTheme.colors.primary_2,
         ...AppTheme.typography.card_title,
-        textAlign: "right",
+    },
+    sendResendDisable: {
+        color: AppTheme.colors.font_color_3,
+        ...AppTheme.typography.card_title,
     },
 });
 
@@ -70,12 +70,20 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
         onChangeText,
         disabled,
         labelStyle,
-        note,
-        onClickNote,
+        sendResend,
+        onClickSendResend,
         onBlur,
         isShowCountdown,
+        isShowResendCode,
         onCountdownFinish,
     } = props;
+
+    let codeInputPaddingRight = 95;
+    if (isShowCountdown) {
+        codeInputPaddingRight = 155;
+    } else if (isShowResendCode) {
+        codeInputPaddingRight = 110;
+    }
 
     useImperativeHandle(ref, () => ({
         setError: (obj) => {
@@ -84,97 +92,119 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
         },
     }));
 
-    return (
-        <View style={[styles.container, { ...style }]}>
+    const renderCodeInputLabel = () => {
+        return (
             <Text
-                testID={genTestId(`${testID}TextInputLabel`)}
+                testID={genTestId(`${testID}InputLabel`)}
                 style={[{ ...statefulStyle(styles.label, disabled, hasError) }, labelStyle]}
             >
                 {label}
             </Text>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    testID={genTestId(`${testID}TextInput`)}
-                    placeholder={hint}
-                    placeholderTextColor={AppTheme.colors.font_color_3}
-                    style={statefulStyle(
-                        {
-                            ...styles.inputStyle,
-                            paddingRight: isShowCountdown ? 60 : 0,
-                            ...inputStyle,
-                        },
-                        disabled,
-                        hasError,
-                        focused
-                    )}
-                    onChangeText={(text) => {
-                        setErrorObj(validate(text));
-                        onChangeText(text);
-                    }}
-                    value={value}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => {
-                        setFocused(false);
-                        if (onBlur) {
-                            onBlur();
-                        }
-                    }}
-                />
-                {isShowCountdown && (
-                    <View style={styles.countdown}>
-                        <CountdownCircleTimer
-                            isPlaying
-                            duration={60}
-                            colors={AppTheme.colors.error}
-                            onComplete={onCountdownFinish}
-                            size={50}
-                            strokeWidth={0}
-                        >
-                            {({ remainingTime, color }) => {
-                                const minutes = Math.floor(remainingTime / 60);
-                                const seconds = remainingTime % 60;
-                                let minStr = minutes;
-                                let secStr = seconds;
-                                if (minutes < 10) {
-                                    minStr = `0${minStr}`;
-                                }
-                                if (seconds < 10) {
-                                    secStr = `0${secStr}`;
-                                } else if (seconds == 0) {
-                                    secStr = "00";
-                                }
-                                return (
-                                    <Text testID={genTestId(`${testID}Countdown`)} style={{ color, fontSize: 15 }}>
-                                        {minStr}:{secStr}
-                                    </Text>
-                                );
-                            }}
-                        </CountdownCircleTimer>
-                    </View>
+        );
+    };
+
+    const renderCodeInput = () => {
+        return (
+            <TextInput
+                testID={genTestId(`${testID}Input`)}
+                placeholder={hint}
+                placeholderTextColor={AppTheme.colors.font_color_3}
+                style={statefulStyle(
+                    {
+                        ...styles.inputStyle,
+                        paddingRight: codeInputPaddingRight,
+                        ...inputStyle,
+                    },
+                    disabled,
+                    hasError,
+                    focused
                 )}
+                onChangeText={(text) => {
+                    setErrorObj(validate(text));
+                    onChangeText(text);
+                }}
+                value={value}
+                onFocus={() => setFocused(true)}
+                onBlur={() => {
+                    setFocused(false);
+                    if (onBlur) {
+                        onBlur();
+                    }
+                }}
+            />
+        );
+    };
+
+    const renderCountdown = () => {
+        return (
+            <View style={styles.countdown}>
+                {isShowCountdown && (
+                    <CountdownCircleTimer
+                        isPlaying
+                        duration={60}
+                        colors={AppTheme.colors.error}
+                        onComplete={onCountdownFinish}
+                        size={50}
+                        strokeWidth={0}
+                    >
+                        {({ remainingTime, color }) => {
+                            const minutes = Math.floor(remainingTime / 60);
+                            const seconds = remainingTime % 60;
+                            let minStr = minutes;
+                            let secStr = seconds;
+                            if (minutes < 10) {
+                                minStr = `0${minStr}`;
+                            }
+                            if (seconds < 10) {
+                                secStr = `0${secStr}`;
+                            } else if (seconds == 0) {
+                                secStr = "00";
+                            }
+                            return (
+                                <Text testID={genTestId(`${testID}Countdown`)} style={{ color, fontSize: 15 }}>
+                                    {minStr}:{secStr}
+                                </Text>
+                            );
+                        }}
+                    </CountdownCircleTimer>
+                )}
+                <Pressable
+                    testID={genTestId(`${testID}SendResendButton`)}
+                    onPress={onClickSendResend}
+                    style={styles.sendResendContainer}
+                    disabled={isShowCountdown}
+                >
+                    <Text
+                        testID={genTestId(`${testID}SendResendLabel`)}
+                        style={isShowCountdown ? styles.sendResendDisable : styles.sendResend}
+                    >
+                        {sendResend}
+                    </Text>
+                </Pressable>
             </View>
+        );
+    };
+
+    const renderErrorMessage = () => {
+        return (
             <View style={styles.messageContainer}>
                 {hasError && (
-                    <Text testID={genTestId(`${testID}TextInputErrorMessage`)} style={styles.errorMsg}>
+                    <Text testID={genTestId(`${testID}ErrorMessage`)} style={styles.errorMsg}>
                         {errorObj.errorMsg}{" "}
                     </Text>
                 )}
-                {note && (
-                    <Pressable
-                        testID={genTestId(`${testID}TextInputNoteButton`)}
-                        onPress={onClickNote}
-                        style={styles.note}
-                        disabled={isShowCountdown}
-                    >
-                        <Text
-                            testID={genTestId(`${testID}TextInputNoteText`)}
-                            style={isShowCountdown ? styles.noteDisable : styles.note}
-                        >
-                            {note}
-                        </Text>
-                    </Pressable>
-                )}
             </View>
+        );
+    };
+
+    return (
+        <View style={[styles.container, { ...style }]}>
+            {renderCodeInputLabel()}
+            <View style={styles.inputContainer}>
+                {renderCodeInput()}
+                {renderCountdown()}
+            </View>
+            {renderErrorMessage()}
         </View>
     );
 });

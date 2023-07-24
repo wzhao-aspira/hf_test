@@ -31,7 +31,6 @@ import SignInScreen from "../screens/sign_in/SignInScreen";
 import SettingsScreen from "../screens/setting/SettingsScreen";
 import DeleteAccountScreen from "../screens/delete_account/DeleteAccountScreen";
 import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
-import ForgotPasswordEnterValidationCodeScreen from "../screens/forgot_password/ForgotPasswordEnterValidationCodeScreen";
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
 import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScreen";
 import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
@@ -120,10 +119,6 @@ function SignInNav() {
         <SignInStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.signIn}>
             <SignInStack.Screen name={Routers.signIn} component={SignInScreen} />
             <SignInStack.Screen name={Routers.forgotPasswordEnterEmail} component={ForgotPasswordEnterEmailScreen} />
-            <SignInStack.Screen
-                name={Routers.forgotPasswordEnterValidationCode}
-                component={ForgotPasswordEnterValidationCodeScreen}
-            />
             <SignInStack.Screen
                 name={Routers.forgotPasswordResetPassword}
                 component={ForgotPasswordResetPasswordScreen}
