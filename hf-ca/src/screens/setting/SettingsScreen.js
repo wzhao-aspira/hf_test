@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         ...AppTheme.typography.primary_heading,
         color: AppTheme.colors.font_color_4,
         marginHorizontal: DEFAULT_MARGIN,
+        textAlign: "center",
     },
     sectionContainer: {
         marginHorizontal: DEFAULT_MARGIN,
