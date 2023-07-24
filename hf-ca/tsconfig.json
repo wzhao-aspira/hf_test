@@ -4,5 +4,5 @@
     "compilerOptions": {
         "jsx": "react-jsx"
     },
-    "include": ["App.js",".eslintrc.js", "./src/**/*.ts", "./src/**/*.tsx", "./src/**/*.js", "./src/**/*.jsx","__tests__/**/*.js"]
+    "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", ".eslintrc.js"]
 }

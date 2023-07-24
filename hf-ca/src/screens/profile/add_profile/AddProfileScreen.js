@@ -8,7 +8,7 @@ import Routers from "../../../constants/Routers";
 import { getMobileAccountByUserId, getProfileTypes, getIdentificationTypes } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
 
-const AddProfileScreen = () => {
+function AddProfileScreen() {
     const { t } = useTranslation();
     const [mobileAccount, setMobileAccount] = useState();
     const [profileTypes, setProfileTypes] = useState([]);
@@ -28,6 +28,7 @@ const AddProfileScreen = () => {
     };
     useEffect(() => {
         getData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <View style={{ flex: 1 }}>
@@ -42,6 +43,6 @@ const AddProfileScreen = () => {
             />
         </View>
     );
-};
+}
 
 export default AddProfileScreen;

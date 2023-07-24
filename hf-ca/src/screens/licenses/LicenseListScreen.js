@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { StyleSheet, FlatList, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     },
 });
 
-const LicenseListScreen = () => {
+function LicenseListScreen() {
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const reduxData = useSelector(selectLicenseForList);
@@ -38,6 +38,7 @@ const LicenseListScreen = () => {
 
     useEffect(() => {
         getLicenseOfActiveProfile(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -82,6 +83,6 @@ const LicenseListScreen = () => {
             />
         </Page>
     );
-};
+}
 
 export default LicenseListScreen;

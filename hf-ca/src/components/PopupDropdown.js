@@ -114,7 +114,9 @@ const PopupDropdown = React.forwardRef((props, ref) => {
         return null;
     }
 
-    const RenderItem = ({ item, index }) => {
+    // TODO: Should fix the eslint error.
+    // eslint-disable-next-line react/no-unstable-nested-components
+    function RenderItem({ item, index }) {
         const selected = options[index][valueName] === value;
         return (
             <Pressable
@@ -125,7 +127,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
                         return;
                     }
                     setErrorObj({ error: false });
-                    onSelect && onSelect(index, item);
+                    if (onSelect) onSelect(index, item);
                 }}
             >
                 <View style={{ ...styles.optionContainer }}>
@@ -136,7 +138,7 @@ const PopupDropdown = React.forwardRef((props, ref) => {
                 </View>
             </Pressable>
         );
-    };
+    }
 
     return (
         <View style={containerStyle}>

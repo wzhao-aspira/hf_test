@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const WelcomeBar = () => {
+function WelcomeBar() {
     const { t } = useTranslation();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
@@ -34,6 +34,6 @@ const WelcomeBar = () => {
             </Text>
         </View>
     );
-};
+}
 
 export default WelcomeBar;

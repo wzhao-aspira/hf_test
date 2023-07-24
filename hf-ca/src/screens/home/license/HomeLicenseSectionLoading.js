@@ -72,7 +72,7 @@ const layout = [
     ],
 ];
 
-const HomeLicenseSectionLoading = (props) => {
+function HomeLicenseSectionLoading(props) {
     return (
         <View>
             <View style={HomeStyles.sectionTitleContainer}>
@@ -88,6 +88,6 @@ const HomeLicenseSectionLoading = (props) => {
             </View>
         </View>
     );
-};
+}
 
 export default HomeLicenseSectionLoading;

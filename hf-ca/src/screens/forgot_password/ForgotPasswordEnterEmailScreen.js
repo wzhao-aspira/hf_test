@@ -63,26 +63,24 @@ export default function ForgotPasswordEnterEmailScreen() {
 
     const renderEmailAddressSection = () => {
         return (
-            <>
-                <StatefulTextInput
-                    testID="EmailAddress"
-                    ref={emailAddressRef}
-                    value={emailAddress}
-                    label={t("forgotPassword.enterEmail.emailAddress")}
-                    hint={t("common.pleaseEnter")}
-                    style={{ marginTop: 30 }}
-                    labelStyle={SharedStyles.page_content_title}
-                    inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
-                    onChangeText={(text) => {
-                        setEmailAddress(text);
-                        emailAddressRef.current?.setError({});
-                    }}
-                    onBlur={() => {
-                        const error = emptyValidate(emailAddress, t("signIn.userIdEmpty"));
-                        emailAddressRef?.current.setError(error);
-                    }}
-                />
-            </>
+            <StatefulTextInput
+                testID="EmailAddress"
+                ref={emailAddressRef}
+                value={emailAddress}
+                label={t("forgotPassword.enterEmail.emailAddress")}
+                hint={t("common.pleaseEnter")}
+                style={{ marginTop: 30 }}
+                labelStyle={SharedStyles.page_content_title}
+                inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                onChangeText={(text) => {
+                    setEmailAddress(text);
+                    emailAddressRef.current?.setError({});
+                }}
+                onBlur={() => {
+                    const error = emptyValidate(emailAddress, t("signIn.userIdEmpty"));
+                    emailAddressRef?.current.setError(error);
+                }}
+            />
         );
     };
 

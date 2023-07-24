@@ -66,7 +66,7 @@ function PreferencePointDataView({ data = [] }) {
     ];
 
     return (
-        <View style={{ maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 4 - inset?.top * 2 }}>
+        <View style={{ maxHeight: SCREEN_HEIGHT - DEFAULT_MARGIN * 4 - inset.top * 2 }}>
             <View style={styles.tableContainer}>
                 <ItemRow rowData={headers} textStyles={styles.headerText} />
 

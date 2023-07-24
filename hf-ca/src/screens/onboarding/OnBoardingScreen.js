@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppContract from "../../assets/_default/AppContract";
 import OnboardingLocationScreen from "./OnboardingLocationScreen";
@@ -17,9 +17,9 @@ export default function OnBoardingScreen() {
 
     const userName = useSelector(selectUsername);
 
-    const jump = () => {
+    const jump = useCallback(() => {
         dispatch(updateLoginStep(LoginStep.home));
-    };
+    }, [dispatch]);
 
     useEffect(() => {
         const checkVisibility = async () => {
@@ -35,7 +35,7 @@ export default function OnBoardingScreen() {
         };
 
         checkVisibility();
-    }, []);
+    }, [jump, userName]);
 
     return (
         <Page style={{ paddingBottom: 0 }}>

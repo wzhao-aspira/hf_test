@@ -17,12 +17,12 @@ const typeIcons = {
     [PROFILE_TYPE_IDS.vessel]: faShip,
 };
 
-export const ProfileShortNameOrIcon = ({
+export function ProfileShortNameOrIcon({
     profile,
     shortNameContainer = {},
     profileShortNameStyles = {},
     iconStyles = {},
-}) => {
+}) {
     const { profileType, displayName, profileId } = profile;
     const typeIcon = typeIcons[profileType];
     const primaryProfileID = useSelector(profileSelectors.selectPrimaryProfileID);
@@ -46,9 +46,9 @@ export const ProfileShortNameOrIcon = ({
             </Text>
         </View>
     );
-};
+}
 
-const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, showNameInOneLine, profileItemStyles = {} }) => {
+function ProfileItem({ profile, onPress, showGoToDetailsPageButton, showNameInOneLine, profileItemStyles = {} }) {
     const { t } = useTranslation();
     let nameProps = {};
 
@@ -61,7 +61,7 @@ const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, showNameInOn
     return (
         <Pressable
             onPress={() => {
-                onPress && onPress();
+                if (onPress) onPress();
             }}
             style={profileItemStyles.pressable}
             testID={genTestId(`profile_${profile?.profileId}`)}
@@ -84,6 +84,6 @@ const ProfileItem = ({ profile, onPress, showGoToDetailsPageButton, showNameInOn
             </View>
         </Pressable>
     );
-};
+}
 
 export default ProfileItem;

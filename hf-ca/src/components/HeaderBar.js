@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const HeaderBar = () => {
+function HeaderBar() {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
@@ -44,6 +44,6 @@ const HeaderBar = () => {
             </Pressable>
         </View>
     );
-};
+}
 
 export default HeaderBar;

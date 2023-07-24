@@ -47,7 +47,7 @@ const renderValidDate = (title, date) => {
     );
 };
 
-const CarouselContent = ({ item }) => {
+function CarouselContent({ item }) {
     const { validFrom, validTo, name } = item;
     const { t } = useTranslation();
     return (
@@ -74,9 +74,9 @@ const CarouselContent = ({ item }) => {
             </Pressable>
         </View>
     );
-};
+}
 
-const CarouseItem = ({ licenses, setActiveSlide }) => {
+function CarouseItem({ licenses, setActiveSlide }) {
     return (
         <Carousel
             testID={genTestId("xarousel")}
@@ -107,6 +107,6 @@ const CarouseItem = ({ licenses, setActiveSlide }) => {
             }}
         />
     );
-};
+}
 
 export default CarouseItem;

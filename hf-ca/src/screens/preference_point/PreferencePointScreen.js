@@ -69,7 +69,7 @@ function PreferencePointScreen() {
                         onRefresh={() => getPreferencePointData()}
                     />
                 }
-                contentContainerStyle={{ flex: 1, paddingBottom: safeAreaInsets?.bottom + PAGE_MARGIN_BOTTOM }}
+                contentContainerStyle={{ flex: 1, paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
             >
                 {isLoading && <PreferenceLoading />}
                 {!isLoading && <PreferencePointContent data={data} />}

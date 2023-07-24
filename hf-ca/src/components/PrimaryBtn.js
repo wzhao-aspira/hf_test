@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {}, disabled = false }) => {
+function PrimaryBtn({ label = "Primary Btn", onPress, testID, style = {}, disabled = false }) {
     const calTestID = testID || label;
     return (
         <Pressable
@@ -30,7 +30,7 @@ const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {}, disabl
             style={[styles.container, disabled && styles.disableContainer, { ...style }]}
             disabled={disabled}
             onPress={() => {
-                onPress && onPress();
+                if (onPress) onPress();
             }}
         >
             <Text numberOfLines={1} style={styles.label}>
@@ -38,6 +38,6 @@ const PrimaryBtn = ({ label = "Primary Btn", onPress, testID, style = {}, disabl
             </Text>
         </Pressable>
     );
-};
+}
 
 export default PrimaryBtn;

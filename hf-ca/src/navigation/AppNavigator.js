@@ -74,7 +74,7 @@ function getActiveRouteName(navigationState) {
     return route.name;
 }
 
-const AppNavigator = () => {
+function AppNavigator() {
     const loginStep = useSelector(selectLoginStep);
     console.log(`loginStep:${loginStep}`);
 
@@ -113,7 +113,7 @@ const AppNavigator = () => {
             </RootStack.Navigator>
         </NavigationContainer>
     );
-};
+}
 
 function SignInNav() {
     return (
@@ -149,7 +149,7 @@ function DrawerNav() {
             }}
             detachInactiveScreens={false}
             // https://reactnavigation.org/docs/drawer-navigator#providing-a-custom-drawercontent
-            drawerContent={(props) => <DrawerContent {...props} />}
+            drawerContent={DrawerContent}
         >
             <Drawer.Screen name={Routers.mainNav} component={MainNav} />
             <Drawer.Screen
@@ -203,7 +203,7 @@ function SignUpNav() {
 function TabNav() {
     return (
         // https://reactnavigation.org/docs/bottom-tab-navigator#tabbar
-        <BottomTab.Navigator screenOptions={screenOpt} tabBar={(props) => <TabContent {...props} />}>
+        <BottomTab.Navigator screenOptions={screenOpt} tabBar={TabContent}>
             <BottomTab.Screen name={Routers.home} component={HomeScreen} />
             <BottomTab.Screen name={Routers.hunting} component={HuntingScreen} />
             <BottomTab.Screen name={Routers.fishing} component={FishingScreen} />

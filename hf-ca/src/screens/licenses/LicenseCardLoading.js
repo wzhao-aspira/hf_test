@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 
 const width = SCREEN_WIDTH - DEFAULT_MARGIN * 2 - 28;
 
-const LicenseCardLoading = () => {
+function LicenseCardLoading() {
     const layout = [
         {
             marginTop: 18,
@@ -38,6 +38,6 @@ const LicenseCardLoading = () => {
             <SkeletonLoader layout={layout} />
         </View>
     );
-};
+}
 
 export default LicenseCardLoading;

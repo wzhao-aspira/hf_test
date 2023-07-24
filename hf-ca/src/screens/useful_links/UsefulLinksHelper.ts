@@ -40,16 +40,18 @@ export async function getDownloadedCountAsync(path: string, usefulLinksData: Use
     return null;
 }
 
-export async function checkIfNewVersionAdded(data, callBack) {
+export async function checkIfNewVersionAdded(callBack) {
     const keyStr = KEY_CONSTANT.usefulLinks;
     const savedUsefulLinksData = await retrieveItem(keyStr);
+    const usefulLinksData = await usefulLinksService.getUsefulLinksData();
+
     if (isEmpty(savedUsefulLinksData)) {
         callBack();
-        storeItem(keyStr, JSON.stringify(data));
+        storeItem(keyStr, JSON.stringify(usefulLinksData));
         return;
     }
+
     const savedData = JSON.parse(savedUsefulLinksData);
-    const usefulLinksData = await getUsefulLinksData();
     const diffData = getDiffData(savedData, usefulLinksData);
 
     // usefulLinks data + saved data, and remove duplicated by id
@@ -60,7 +62,7 @@ export async function checkIfNewVersionAdded(data, callBack) {
 
     // get all id from firebase data
     const dataIds = [];
-    const allData = await getUsefulLinksData();
+    const allData = usefulLinksData;
 
     allData.forEach((ele) => {
         dataIds.push(ele.id);
@@ -93,14 +95,4 @@ export function getDiffData(savedData, usefulLinksData) {
             ).length === 1
         );
     });
-}
-
-/**
- * @deprecated
- * you can use the getUsefulLinksData function from the usefulLinksService file
- */
-export async function getUsefulLinksData() {
-    const DATA = await usefulLinksService.getUsefulLinksData();
-
-    return DATA;
 }

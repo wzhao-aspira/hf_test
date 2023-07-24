@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     },
 });
 
-const LicenseListEmpty = ({ title, subtitle }) => {
+function LicenseListEmpty({ title, subtitle }) {
     const { t } = useTranslation();
     const defaultTitle = t("license.noLicenseTitle");
     const defaultSubTitle = t("license.noLicenseIntroduction");
@@ -72,6 +72,6 @@ const LicenseListEmpty = ({ title, subtitle }) => {
             </View>
         </View>
     );
-};
+}
 
 export default LicenseListEmpty;

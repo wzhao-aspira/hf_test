@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
 });
-const OutlinedBtn = (props) => {
+function OutlinedBtn(props) {
     const { label = "Outlined Btn", onPress, testID, style = {} } = props;
     const calTestID = testID || label;
     return (
@@ -28,7 +28,7 @@ const OutlinedBtn = (props) => {
             accessibilityLabel={label}
             style={[styles.container, { ...style }]}
             onPress={() => {
-                onPress && onPress();
+                if (onPress) onPress();
             }}
         >
             <Text numberOfLines={1} style={styles.label}>
@@ -36,6 +36,6 @@ const OutlinedBtn = (props) => {
             </Text>
         </Pressable>
     );
-};
+}
 
 export default OutlinedBtn;

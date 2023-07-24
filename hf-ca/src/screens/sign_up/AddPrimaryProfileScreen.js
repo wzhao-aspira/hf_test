@@ -5,7 +5,7 @@ import CommonHeader from "../../components/CommonHeader";
 import AddProfileInfo from "../profile/add_profile/AddProfileInfo";
 import { getIdentificationTypes, getIndividualProfileTypes } from "../../services/ProfileService";
 
-const AddPrimaryProfileScreen = ({ route }) => {
+function AddPrimaryProfileScreen({ route }) {
     const { t } = useTranslation();
     const { params } = route;
     const { mobileAccount } = params;
@@ -29,6 +29,6 @@ const AddPrimaryProfileScreen = ({ route }) => {
             />
         </View>
     );
-};
+}
 
 export default AddPrimaryProfileScreen;

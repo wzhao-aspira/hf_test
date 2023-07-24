@@ -21,7 +21,7 @@ import AccountService from "../../services/AccountService";
 import BiometricLoginBtn from "../../components/BiometricLoginBtn";
 import { resetBiometricIDLoginBlock } from "../../helper/LocalAuthHelper";
 
-const SignInScreen = (route) => {
+function SignInScreen(route) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -156,6 +156,6 @@ const SignInScreen = (route) => {
             )}
         </Page>
     );
-};
+}
 
 export default SignInScreen;

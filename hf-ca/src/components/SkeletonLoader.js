@@ -56,7 +56,7 @@ const getKey = () => {
     return (Math.random() + 1).toString(36).substring(7);
 };
 
-const SkeletonLoader = (props) => {
+function SkeletonLoader(props) {
     const { layout = defaultLayout, colors = ["#DDD", color("#eee").alpha(0.4).rgb().toString(), "#DDD"] } = props;
     const refs = createRefArray(layout);
     React.useEffect(() => {
@@ -65,6 +65,7 @@ const SkeletonLoader = (props) => {
         });
         const facebookAnimated = Animated.stagger(50, [Animated.parallel(anims, { stopTogether: true })]);
         Animated.loop(facebookAnimated).start();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     let start = -1;
     return (
@@ -96,6 +97,6 @@ const SkeletonLoader = (props) => {
             })}
         </View>
     );
-};
+}
 
 export default SkeletonLoader;

@@ -58,7 +58,7 @@ export default function HomeScreen() {
             }
             return <HomeDiscoverySection />;
         }
-        return <></>;
+        return null;
     };
 
     return (

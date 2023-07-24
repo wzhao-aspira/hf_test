@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     touchable: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
 });
 
-const SettingItem = ({ title, label, enable = true, checked = false, onPress, testId }) => {
+function SettingItem({ title, label, enable = true, checked = false, onPress, testId }) {
     if (!enable) {
         return null;
     }
@@ -61,7 +61,7 @@ const SettingItem = ({ title, label, enable = true, checked = false, onPress, te
             <View style={styles.line} />
         </View>
     );
-};
+}
 
 export default function QuickAccessMethodsScreen() {
     const [accessType, setAccessType] = useState(0);
