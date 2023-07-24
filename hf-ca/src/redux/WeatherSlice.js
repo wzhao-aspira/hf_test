@@ -57,7 +57,7 @@ const weatherSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getWeatherDataFromRedux.rejected, (state, action) => {
             const error = action?.payload;
-            showToast(error);
+            if (error) showToast(error);
             Object.assign(state, { requestStatus: REQUEST_STATUS.rejected });
         });
         builder.addCase(getWeatherDataFromRedux.pending, (state) => {
