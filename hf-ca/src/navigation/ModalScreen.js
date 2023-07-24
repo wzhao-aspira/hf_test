@@ -40,11 +40,12 @@ export default function ModalScreen({ route = {} }) {
     );
 
     if (!withModal) {
-        return <Content />;
+        return Content;
     }
+
     return (
         <Modal animationType="none" transparent>
-            <Content />
+            {Content}
         </Modal>
     );
 }
