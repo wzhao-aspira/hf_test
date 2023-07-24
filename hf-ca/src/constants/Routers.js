@@ -24,7 +24,6 @@ export default {
     setting: "setting",
     deleteAccount: "deleteAccountScreen",
     forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
-    forgotPasswordEnterValidationCode: "forgotPasswordValidationCodeScreen",
     forgotPasswordResetPassword: "forgotPasswordResetPasswordScreen",
     quickAccessSetting: "quickAccessSetting",
     contactUs: "contactUs",
