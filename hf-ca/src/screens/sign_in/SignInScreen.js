@@ -20,6 +20,7 @@ import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 import BiometricLoginBtn from "../../components/BiometricLoginBtn";
 import { resetBiometricIDLoginBlock } from "../../helper/LocalAuthHelper";
+import { handleError } from "../../network/APIUtil";
 
 function SignInScreen(route) {
     const { t } = useTranslation();
@@ -37,14 +38,18 @@ function SignInScreen(route) {
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
     const doSignIn = async (uid = userId, pwd = password) => {
-        const response = await AccountService.authSignin(uid, pwd);
+        const response = await handleError(AccountService.authSignin(uid, pwd), {
+            dispatch,
+            showError: false,
+            showLoading: true,
+        });
         if (!response.success) {
             setShowErrorDialog(true);
             setErrorMsg("signIn.accountNotFound");
             return;
         }
 
-        dispatch(appThunkActions.initUserData(response.userInfo));
+        dispatch(appThunkActions.initUserData({ userID: userId }));
         resetBiometricIDLoginBlock(uid, true);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
         if (!isEmpty(onBoardingScreens)) {
