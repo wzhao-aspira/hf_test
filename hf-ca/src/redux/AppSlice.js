@@ -29,7 +29,7 @@ const appSlice = createSlice({
             Object.assign(state, { loginStep: action?.payload });
         },
         toggleIndicator: (state, action) => {
-            Object.assign(state, { indicator: action?.payload });
+            state.indicator = action?.payload;
         },
     },
 });

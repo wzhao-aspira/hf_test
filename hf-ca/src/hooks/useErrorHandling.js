@@ -7,6 +7,9 @@ import LoginStep from "../constants/LoginStep";
 import { globalDataForAPI, handleError } from "../network/APIUtil";
 
 function getErrorMessage(error) {
+    if (error.response?.data?.errors) {
+        return error.response?.data?.errors.join("\n");
+    }
     return error?.message;
 }
 
