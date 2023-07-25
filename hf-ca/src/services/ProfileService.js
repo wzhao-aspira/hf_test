@@ -19,13 +19,15 @@ import {
 } from "../constants/Constants";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
 import { isAssociatedProfile } from "../helper/ProfileHelper";
+import { getProfiles } from "../network/api_client/CustomersApi";
 
-export function getProfileList() {
-    return profileList;
+export async function getProfileList() {
+    const response = await getProfiles();
+    return response;
 }
 
 export function getProfileListByIDs(profileListIDs) {
-    const profiles = getProfileList();
+    const profiles = profileList;
     return profiles.filter((profile) => profileListIDs.includes(profile.profileId));
 }
 

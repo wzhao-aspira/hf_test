@@ -5,6 +5,7 @@ import {
     updateMobileAccountPasswordById,
 } from "../helper/DBHelper";
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
+import { signIn } from "../network/identityAPI";
 
 async function verifyPassword(accountID: string, accountPassword: string) {
     try {
@@ -69,14 +70,8 @@ async function updateMobileAccountPasswordByUserId(userID: string, password: str
 }
 
 async function authSignin(userID, password) {
-    const mobileAccount = await getMobileAccountById(userID);
-    const userInfo = mobileAccount?.account;
-
-    if (!userInfo || userInfo.password !== password) {
-        return { success: false };
-    }
-
-    return { success: true, userInfo };
+    const response = await signIn(userID, password);
+    return response;
 }
 
 export default {
