@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { isEmpty } from "lodash";
+import { isEmpty, isArray } from "lodash";
 import { actions as appActions, selectors, updateLoginStep } from "../redux/AppSlice";
 import DialogHelper from "../helper/DialogHelper";
 import LoginStep from "../constants/LoginStep";
 import { globalDataForAPI, handleError } from "../network/APIUtil";
 
 function getErrorMessage(error) {
-    if (error.response?.data?.errors) {
+    if (isArray(error.response?.data?.errors)) {
         return error.response?.data?.errors.join("\n");
     }
     return error?.message;
@@ -76,7 +76,7 @@ function useErrorHandling() {
                 });
             }
         }
-    });
+    }, [dispatch, error]);
 }
 
 export default useErrorHandling;
