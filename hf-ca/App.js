@@ -16,6 +16,7 @@ import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
 import { getActiveUserID } from "./src/helper/AppHelper";
+import { clearUnusedDownloadedFiles } from "./src/screens/useful_links/UsefulLinksHelper";
 
 if (!global.btoa) {
     global.btoa = encode;
@@ -61,6 +62,10 @@ export default function App() {
             await SplashScreen.hideAsync();
         };
         hideScreen();
+    }, []);
+
+    useEffect(() => {
+        clearUnusedDownloadedFiles();
     }, []);
 
     if (!appReady) {
