@@ -18,18 +18,28 @@ export function clearLastPromise() {
     globalDataForAPI.lastPromise = null;
 }
 
-export async function handleError(requestPromise, { showError = true, retry = false, dispatch } = {}) {
+export async function handleError(
+    requestPromise,
+    { showError = true, showLoading = false, retry = false, dispatch } = {}
+) {
     try {
         globalDataForAPI.lastPromise = null;
         if (retry) {
             globalDataForAPI.lastPromise = requestPromise;
         }
+        if (showLoading) {
+            dispatch(appActions.toggleIndicator(true));
+        }
         const response = await requestPromise;
-        return response;
+        return { success: true, data: response };
     } catch (error) {
         if (showError) dispatch(appActions.setError(error));
         console.log(JSON.stringify(error));
         return { success: false };
+    } finally {
+        if (showLoading) {
+            dispatch(appActions.toggleIndicator(false));
+        }
     }
 }
 

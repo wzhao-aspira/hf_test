@@ -46,11 +46,11 @@ const licenseSlice = createSlice({
         });
         builder.addCase(getLicense.fulfilled, (state, action) => {
             const result = action?.payload;
-            if (result) {
+            if (result.success) {
                 const dateNow = moment().unix();
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 state.updateTime = dateNow;
-                state.data = result;
+                state.data = action?.payload?.data;
             } else {
                 state.requestStatus = REQUEST_STATUS.rejected;
             }
