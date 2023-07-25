@@ -18,16 +18,17 @@ import AppTheme from "../../assets/_default/AppTheme";
 import { getDownloadFileName } from "../../utils/GenUtil";
 import { isIos, genTestId } from "../../helper/AppHelper";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../constants/Dimension";
-import { usefulLinksPDFPath } from "./UsefulLinksHelper";
+import {
+    usefulLinksPDFPath,
+    downloadFile,
+    downloadProgressKey,
+    downloadSuccessKey,
+    downloadFailKey,
+    downloadCompleteKey,
+    ingString,
+} from "./UsefulLinksHelper";
 
 import type { UsefulLinkData } from "../../types/usefulLink";
-
-const ingString = "_ing";
-
-const downloadSuccessKey = "downloadSuccess";
-const downloadFailKey = "downloadFail";
-const downloadCompleteKey = "downloadComplete";
-const downloadProgressKey = "downloadProgress";
 
 export const hideDropdownKey = "hideDropdownKey";
 
@@ -207,57 +208,6 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
         toggleDropdown(true);
     };
 
-    const downloadFile = () => {
-        // get file name from url
-        const item = { ...cellData };
-        const filename = getDownloadFileName(item.url);
-        const path = PDFFileFolderPath + filename + ingString; // _ing means downloading
-        console.log(`local path:${path}`);
-
-        const callback = (downloadProgress) => {
-            const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-            DeviceEventEmitter.emit(downloadProgressKey, item, progress);
-        };
-
-        const downloadResumable = FileSystem.createDownloadResumable(item.url, path, {}, callback);
-
-        FileSystem.makeDirectoryAsync(PDFFileFolderPath)
-            .then(() => {
-                console.log("create folder successful!");
-            })
-            .catch(() => {
-                console.log("folder is exist!");
-            })
-            .finally(() => {
-                (async () => {
-                    try {
-                        const downloadResponse = await downloadResumable.downloadAsync();
-
-                        console.log("The response from the server: ", downloadResponse);
-
-                        if (downloadResponse && downloadResponse.status === 200) {
-                            DeviceEventEmitter.emit(downloadSuccessKey, path, item);
-                        } else {
-                            console.log(
-                                "Incorrect status from the server, delete the temporary download file if existed"
-                            );
-                            const file = await FileSystem.getInfoAsync(path);
-                            if (file.exists) {
-                                await FileSystem.deleteAsync(path);
-                            }
-                            const errMsg = t("usefulLinks.downloadFailedLinkIssueMsg");
-                            DeviceEventEmitter.emit(downloadFailKey, errMsg, item);
-                        }
-                    } catch (error) {
-                        const errMsg = t("usefulLinks.downloadFailedMsg");
-                        DeviceEventEmitter.emit(downloadFailKey, errMsg, item);
-                    } finally {
-                        DeviceEventEmitter.emit(downloadCompleteKey, item);
-                    }
-                })();
-            });
-    };
-
     const rightBtnPressed = (item) => {
         console.log("_downLoadBtnPressed!");
         if (!item.url) {
@@ -283,8 +233,7 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
             }
 
             // download
-            downloadFile();
-
+            downloadFile(cellData);
             setIsDownloading(true);
         });
     };
@@ -416,7 +365,7 @@ function UsefulLinksCell(props: UsefulLinksCellProps) {
                         okAction={() => {
                             setWifiDialogVisible(false);
                             setIsDownloading(true);
-                            downloadFile();
+                            downloadFile(cellData);
                         }}
                         cancelText="common.noThanks"
                         cancelAction={() => {
