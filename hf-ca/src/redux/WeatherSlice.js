@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
-import { isEmpty } from "lodash";
 import getWeatherDataFromService from "../services/WeatherService";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
 import AppContract from "../assets/_default/AppContract";
+import { handleError } from "../network/APIUtil";
 
 const initialState = {
     weatherData: null,
@@ -16,20 +16,10 @@ const initialState = {
 
 export const getWeatherDataFromRedux = createAsyncThunk(
     "weather/getWeatherDataFromRedux",
-    async ({ rejectWithValue }) => {
-        const result = { success: false };
-        try {
-            console.log("Weather slice --- ready to get the weather data");
-            const data = await getWeatherDataFromService();
-            if (!isEmpty(data)) {
-                result.success = true;
-                result.data = data;
-            }
-            return result;
-        } catch (error) {
-            console.log("Weather slice --- get error", error);
-            throw rejectWithValue(error);
-        }
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, { dispatch }) => {
+        console.log("Weather slice --- ready to get the weather data");
+        return handleError(getWeatherDataFromService(), { showError: false, dispatch });
     },
     {
         condition: ({ isForce = false }, { getState }) => {
