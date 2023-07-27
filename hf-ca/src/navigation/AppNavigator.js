@@ -1,45 +1,45 @@
-import * as React from "react";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { selectLoginStep } from "../redux/AppSlice";
+import { DRAWER_WIDTH } from "../constants/Dimension";
 import LoginStep from "../constants/LoginStep";
 import Routers from "../constants/Routers";
-import LoginScreen from "../screens/login/LoginScreen";
-import OnBoardingScreen from "../screens/onboarding/OnBoardingScreen";
 import AppTheme from "../assets/_default/AppTheme";
-import { DRAWER_WIDTH } from "../constants/Dimension";
-import HomeScreen from "../screens/home/HomeScreen";
-import HuntingScreen from "../screens/hunting/HuntingScreen";
-import AddProfileScreen from "../screens/profile/add_profile/AddProfileScreen";
-import AddPrimaryProfileScreen from "../screens/sign_up/AddPrimaryProfileScreen";
 import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
-import LicenseListScreen from "../screens/licenses/LicenseListScreen";
-import FishingScreen from "../screens/fish/FishingScreen";
-import WeatherScreen from "../screens/discovery/WeatherScreen";
-import SolunarScreen from "../screens/discovery/SolunarScreen";
-import SignUpScreen from "../screens/sign_up/SignUpScreen";
-import CRSSScreen from "../screens/shared/CRSSScreen";
 import { navigationRef } from "./NavigationService";
-import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
-import ProfileDetailsScreen from "../screens/profile/profile_details/ProfileDetailsScreen";
-import SignInScreen from "../screens/sign_in/SignInScreen";
-import SettingsScreen from "../screens/setting/SettingsScreen";
-import DeleteAccountScreen from "../screens/delete_account/DeleteAccountScreen";
-import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
-import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
-import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScreen";
+
+import AddPrimaryProfileScreen from "../screens/sign_up/AddPrimaryProfileScreen";
+import AddProfileScreen from "../screens/profile/add_profile/AddProfileScreen";
 import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
 import ContactUsScreen from "../screens/social_content/ContactUsScreen";
+import CRSSScreen from "../screens/shared/CRSSScreen";
+import DeleteAccountScreen from "../screens/delete_account/DeleteAccountScreen";
+import FishingScreen from "../screens/fish/FishingScreen";
 import FollowUsScreen from "../screens/social_content/FollowUsScreen";
-import PreferencePointScreen from "../screens/preference_point/PreferencePointScreen";
-import SalesAgentsScreen from "../screens/sales_agents/SalesAgentsScreen";
+import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
+import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
+import HomeScreen from "../screens/home/HomeScreen";
+import HuntingScreen from "../screens/hunting/HuntingScreen";
+import LicenseListScreen from "../screens/licenses/LicenseListScreen";
+import LoginScreen from "../screens/login/LoginScreen";
+import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
 import ModalScreen from "./ModalScreen";
+import OnBoardingScreen from "../screens/onboarding/OnBoardingScreen";
+import PreferencePointScreen from "../screens/preference_point/PreferencePointScreen";
+import ProfileDetailsScreen from "../screens/profile/profile_details/ProfileDetailsScreen";
+import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScreen";
+import SalesAgentsScreen from "../screens/sales_agents/SalesAgentsScreen";
+import SettingsScreen from "../screens/setting/SettingsScreen";
+import SignInScreen from "../screens/sign_in/SignInScreen";
+import SignUpScreen from "../screens/sign_up/SignUpScreen";
+import SolunarScreen from "../screens/discovery/SolunarScreen";
 import UsefulLinksScreen from "../screens/useful_links/UsefulLinksScreen";
+import WeatherScreen from "../screens/discovery/WeatherScreen";
+import WebViewScreen from "../screens/web_view/WebViewScreen";
 
 const NavTheme = {
     colors: {
@@ -161,26 +161,27 @@ function DrawerNav() {
 function MainNav() {
     return (
         <MainStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.tabNav}>
-            <MainStack.Screen name={Routers.tabNav} component={TabNav} />
-            <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
-            <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
-            <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
-            <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
+            <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
+            <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
-            <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
-            <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
-            <MainStack.Screen name={Routers.setting} component={SettingsScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
-            <MainStack.Screen name={Routers.quickAccessSetting} component={QuickAccessMethodsScreen} />
+            <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
             <MainStack.Screen
                 name={Routers.forgotPasswordResetPassword}
                 component={ForgotPasswordResetPasswordScreen}
             />
-            <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
-            <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
+            <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
+            <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
             <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />
+            <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
+            <MainStack.Screen name={Routers.quickAccessSetting} component={QuickAccessMethodsScreen} />
+            <MainStack.Screen name={Routers.setting} component={SettingsScreen} />
+            <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
+            <MainStack.Screen name={Routers.tabNav} component={TabNav} />
             <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
+            <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
+            <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
         </MainStack.Navigator>
     );
 }

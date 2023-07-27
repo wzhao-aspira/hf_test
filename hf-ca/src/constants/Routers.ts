@@ -1,4 +1,4 @@
-export default {
+const Routers = {
     modal: "modal",
     signInNav: "signInNav",
     drawerNav: "drawerNav",
@@ -30,5 +30,13 @@ export default {
     followUs: "followUs",
     preferencePoint: "preferencePoint",
     salesAgents: "salesAgents",
+    webView: "webViewScreen",
     usefulLinks: "usefulLinsScreen",
-};
+} as const;
+
+type ValueOf<T> = T[keyof T];
+
+type RoutersUnion = ValueOf<typeof Routers>;
+
+export { RoutersUnion };
+export default Routers;
