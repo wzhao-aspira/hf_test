@@ -4,6 +4,11 @@ import { getBaseURL } from "../helper/AppHelper";
 
 let config = null;
 
+// TDOD: reset config
+export const resetConfig = () => {
+    config = null;
+};
+
 const getConfig = () => {
     if (!config) {
         let baseOptions = {};
@@ -15,5 +20,7 @@ const getConfig = () => {
 
     return config;
 };
-
+export const getNormalConfig = () => {
+    return new Configuration({ basePath: `${getBaseURL()}Prod/api` });
+};
 export default getConfig;

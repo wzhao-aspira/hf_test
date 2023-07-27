@@ -5,9 +5,8 @@ import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
-import { getMobileAccountByUserId, getSwitchStatus } from "../../../services/ProfileService";
+import { getSwitchStatus } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
-import AppThunk from "../../../redux/AppThunk";
 import DialogHelper from "../../../helper/DialogHelper";
 import NavigationService from "../../../navigation/NavigationService";
 
@@ -19,8 +18,7 @@ export default function SwitchProfileDialog({ hideDialog }) {
 
     const switchProfileCallback = async () => {
         hideDialog();
-        const userAccount = await getMobileAccountByUserId(userID);
-        dispatch(AppThunk.initUserData(userAccount));
+        // dispatch(profileThunkActions.initProfile());
     };
 
     const handleSwitch = async (profileId) => {

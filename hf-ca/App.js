@@ -11,12 +11,14 @@ import store from "./src/redux/Store";
 import AppContract from "./src/assets/_default/AppContract";
 import { initAppConfig } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
-import { dbCreate, getMobileAccountById } from "./src/helper/DBHelper";
+import { dbCreate } from "./src/helper/DBHelper";
 import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
 import { getActiveUserID } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links/UsefulLinksHelper";
+import ProfileThunk from "./src/redux/ProfileThunk";
+import { restoreToken } from "./src/network/APIUtil";
 
 if (!global.btoa) {
     global.btoa = encode;
@@ -36,17 +38,15 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
     const [appReady, setAppReady] = useState(false);
 
-    const getMobileAccountInfoFromDB = async () => {
+    const initAppData = async () => {
         const lastUsedMobileAccountId = await getActiveUserID();
         if (!isEmpty(lastUsedMobileAccountId)) {
-            const dbResult = await getMobileAccountById(lastUsedMobileAccountId);
-            if (dbResult.success) {
-                const mobileAccountInfo = dbResult.account;
-                if (!isEmpty(mobileAccountInfo)) {
-                    store.dispatch(appThunkActions.initUserData(mobileAccountInfo));
-                }
+            const hasAaccessToken = await restoreToken(lastUsedMobileAccountId);
+            if (hasAaccessToken) {
+                store.dispatch(appThunkActions.initUserData({ userID: lastUsedMobileAccountId }));
+                store.dispatch(ProfileThunk.initProfile());
+                store.dispatch(updateLoginStep(LoginStep.home));
             }
-            store.dispatch(updateLoginStep(LoginStep.home));
         }
     };
 
@@ -57,7 +57,7 @@ export default function App() {
             // await getConfig2();
             await initAppConfig();
             await dbCreate();
-            await getMobileAccountInfoFromDB();
+            await initAppData();
             setAppReady(true);
             await SplashScreen.hideAsync();
         };

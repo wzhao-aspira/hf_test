@@ -2,8 +2,33 @@ import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
 import { PROFILE_TYPE_IDS } from "../constants/Constants";
 import { isIndividualProfile } from "../helper/ProfileHelper";
+import { IdentityTypeVM } from "../network/generated";
 
 const selectProfileState = (state: RootState) => state.profile;
+
+const selectYouthIdentityOwners = createSelector(selectProfileState, (state) => state.youthIdentityOwners);
+const selectIdentityTypes = (selectOne: IdentityTypeVM) =>
+    createSelector(selectProfileState, (state) => {
+        const { identityTypes } = state;
+        if (identityTypes) {
+            return {
+                adultOrYouth: [selectOne, ...identityTypes.adultOrYouth],
+                parentOrGuardian: [selectOne, ...identityTypes.parentOrGuardian],
+            };
+        }
+        return {
+            adultOrYouth: [selectOne],
+            parentOrGuardian: [selectOne],
+        };
+    });
+const selectCountries = createSelector(selectProfileState, (state) => state.countries);
+const selectStates = createSelector(selectProfileState, (state) => state.states);
+const selectCountriesStates = createSelector(selectProfileState, (state) => {
+    return {
+        countries: state.countries || [],
+        states: state.states || [],
+    };
+});
 
 const selectProfileIDs = createSelector(selectProfileState, (state) => state.profilesIDs);
 
@@ -88,6 +113,11 @@ const selectProfileDetailsById = (profileId) =>
     );
 
 const selectors = {
+    selectYouthIdentityOwners,
+    selectIdentityTypes,
+    selectCountries,
+    selectStates,
+    selectCountriesStates,
     selectCurrentInUseProfile,
     selectCurrentInUseProfileID,
     selectPrimaryProfileID,

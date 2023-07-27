@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,25 +9,19 @@ import PopupDropdown from "../../../components/PopupDropdown";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
-import {
-    addProfile,
-    addPrimaryProfile,
-    findProfile,
-    isProfileAlreadyAssociatedWithAccount,
-    getIdentificationOwners,
-} from "../../../services/ProfileService";
+import { findAndLinkProfile, findAndLinkPrimaryProfile } from "../../../services/ProfileService";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import AdultProfileInfo from "./AdultProfileInfo";
 import YouthProfileInfo from "./YouthProfileInfo";
 import BusinessProfileInfo from "./BusinessProfileInfo";
 import VesselProfileInfo from "./VesselProfileInfo";
-import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
 import { updateLoginStep } from "../../../redux/AppSlice";
 import LoginStep from "../../../constants/LoginStep";
 import OnBoardingHelper from "../../../helper/OnBoardingHelper";
-import appThunkActions from "../../../redux/AppThunk";
-import DialogHelper from "../../../helper/DialogHelper";
+import profileSelectors from "../../../redux/ProfileSelector";
+import { handleError } from "../../../network/APIUtil";
+import ProfileThunk from "../../../redux/ProfileThunk";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -41,44 +35,21 @@ const styles = StyleSheet.create({
     },
 });
 
-export const saveProfile = async (dispatch, isAddPrimaryProfile, mobileAccount, existingProfile) => {
-    const userID = mobileAccount.userID.trim();
+export const saveProfile = async (dispatch, isAddPrimaryProfile, profile) => {
     if (isAddPrimaryProfile) {
-        const isSaveSuccess = await addPrimaryProfile(mobileAccount, existingProfile.profileId);
-        if (!isSaveSuccess) {
-            DialogHelper.showSimpleDialog({
-                title: "common.connectionError",
-                message: "errMsg.unableEstablishService",
-                okText: "common.gotIt",
-            });
-            return false;
+        const ret = await handleError(findAndLinkPrimaryProfile(profile), { dispatch, showLoading: true });
+        if (ret.success) {
+            dispatch(ProfileThunk.initProfile());
+            return true;
         }
-        dispatch(
-            appThunkActions.initUserData({
-                userID,
-                primaryProfileId: existingProfile.profileId,
-                otherProfileIds: [],
-            })
-        );
     } else {
-        const isSaveSuccess = await addProfile(mobileAccount, existingProfile.profileId);
-        if (!isSaveSuccess) {
-            DialogHelper.showSimpleDialog({
-                title: "common.connectionError",
-                message: "errMsg.unableEstablishService",
-                okText: "common.gotIt",
-            });
-            return false;
+        const ret = await handleError(findAndLinkProfile(profile), { dispatch, showLoading: true });
+        if (ret.success) {
+            dispatch(ProfileThunk.initProfile());
+            return true;
         }
-        dispatch(
-            appThunkActions.initUserData({
-                userID,
-                primaryProfileId: mobileAccount.primaryProfileId,
-                otherProfileIds: [...mobileAccount.otherProfileIds, existingProfile.profileId],
-            })
-        );
     }
-    return true;
+    return false;
 };
 
 function AddProfileInfo({
@@ -94,8 +65,9 @@ function AddProfileInfo({
     const dispatch = useDispatch();
     const safeAreaInsets = useSafeAreaInsets();
     const { profileType } = profile;
-    const identificationOwners = getIdentificationOwners();
-    const [identificationTypes, setIdentificationTypes] = useState(allIdentificationTypes.adultOrYouth);
+    const identificationOwners = useSelector(profileSelectors.selectYouthIdentityOwners);
+    const initIdentificationTypes = allIdentificationTypes.adultOrYouth;
+    const [identificationTypes, setIdentificationTypes] = useState(initIdentificationTypes);
     const changeProfileType = (index) => {
         const selectedProfileType = profileTypes[index];
         let defaultIdentificationOwner = {};
@@ -133,49 +105,26 @@ function AddProfileInfo({
             errorReported = vesselProfileInfoRef.current.validate();
         }
         if (errorReported) return;
-        const existingProfile = await findProfile(mobileAccount, profile);
-        if (!existingProfile) {
-            DialogHelper.showSimpleDialog({
-                title: "common.error",
-                message: "errMsg.addedProfileIsInvalid",
-                okText: "common.gotIt",
-            });
+
+        const isSaveSuccess = await saveProfile(dispatch, isAddPrimaryProfile, profile);
+        if (!isSaveSuccess) {
+            return;
+        }
+        if (routeScreen) {
+            NavigationService.navigate(routeScreen);
         } else {
-            const alreadyAssociatedWithAccount = isProfileAlreadyAssociatedWithAccount(mobileAccount, existingProfile);
-            if (alreadyAssociatedWithAccount) {
-                DialogHelper.showSimpleDialog({
-                    title: "common.error",
-                    message: "errMsg.profileAlreadyExists",
-                    okText: "common.gotIt",
-                });
-                return;
-            }
-            if (existingProfile.isNeedCRSS) {
-                NavigationService.navigate(Routers.crss, {
-                    mobileAccount,
-                    profile: { ...existingProfile },
-                    routeScreen,
-                    isAddPrimaryProfile,
-                });
+            const { userID } = mobileAccount;
+            const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
+            if (!isEmpty(onBoardingScreens)) {
+                dispatch(updateLoginStep(LoginStep.onBoarding));
             } else {
-                const isSaveSuccess = await saveProfile(dispatch, isAddPrimaryProfile, mobileAccount, existingProfile);
-                if (!isSaveSuccess) {
-                    return;
-                }
-                if (routeScreen) {
-                    NavigationService.navigate(routeScreen);
-                } else {
-                    const { userID } = mobileAccount;
-                    const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
-                    if (!isEmpty(onBoardingScreens)) {
-                        dispatch(updateLoginStep(LoginStep.onBoarding));
-                    } else {
-                        dispatch(updateLoginStep(LoginStep.home));
-                    }
-                }
+                dispatch(updateLoginStep(LoginStep.home));
             }
         }
     };
+    useEffect(() => {
+        setIdentificationTypes(initIdentificationTypes);
+    }, [initIdentificationTypes]);
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{

@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
+import React, { useRef, useImperativeHandle } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import PopupDropdown from "../../../components/PopupDropdown";
 import StatefulTextInput from "../../../components/StatefulTextInput";
 import AppTheme from "../../../assets/_default/AppTheme";
-import { getCountriesStates } from "../../../services/ProfileService";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 import { IDENTIFICATION_TYPE_GO_ID, DEFAULT_STATE_ID } from "../../../constants/Constants";
+import profileSelectors from "../../../redux/ProfileSelector";
 
 const IdentificationTypeSelector = React.forwardRef(
     ({ identificationTypes, identificationType, handleIdentificationType }, ref) => {
@@ -20,7 +21,7 @@ const IdentificationTypeSelector = React.forwardRef(
 
         const { identificationInfo } = identificationType || {};
 
-        const [countriesStates, setCountriesStates] = useState();
+        const countriesStates = useSelector(profileSelectors.selectCountriesStates);
 
         const { countries, states } = countriesStates || {};
 
@@ -49,11 +50,6 @@ const IdentificationTypeSelector = React.forwardRef(
                 ...identificationType,
                 identificationInfo: { ...identificationInfo, idNumber },
             });
-        };
-
-        const getCountriesStatesData = async () => {
-            const countriesStatesData = getCountriesStates();
-            setCountriesStates(countriesStatesData);
         };
         const idNumberError =
             identificationType?.id === IDENTIFICATION_TYPE_GO_ID
@@ -95,9 +91,6 @@ const IdentificationTypeSelector = React.forwardRef(
         useImperativeHandle(ref, () => ({
             validate,
         }));
-        useEffect(() => {
-            getCountriesStatesData();
-        }, []);
         return (
             <View>
                 <PopupDropdown

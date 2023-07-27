@@ -1,32 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CommonHeader from "../../../components/CommonHeader";
 import AddProfileInfo from "./AddProfileInfo";
 import Routers from "../../../constants/Routers";
-import { getMobileAccountByUserId, getProfileTypes, getIdentificationTypes } from "../../../services/ProfileService";
+import { getProfileTypes } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
+import profileSelectors from "../../../redux/ProfileSelector";
+import ProfileThunk from "../../../redux/ProfileThunk";
 
 function AddProfileScreen() {
+    const dispatch = useDispatch();
     const { t } = useTranslation();
     const [mobileAccount, setMobileAccount] = useState();
     const [profileTypes, setProfileTypes] = useState([]);
     const [profile, setProfile] = useState({});
     const userName = useSelector(selectUsername);
-    const allIdentificationTypes = getIdentificationTypes();
+    const selectOne = { id: -1, name: t("profile.selectOne") };
+    const allIdentificationTypes = useSelector(profileSelectors.selectIdentityTypes(selectOne));
     const getData = async () => {
-        const mobileAccountData = await getMobileAccountByUserId(userName);
-        setMobileAccount(mobileAccountData);
-        const profileTypesData = getProfileTypes(mobileAccountData);
+        setMobileAccount({ userID: userName });
+        const profileTypesData = await getProfileTypes();
         setProfileTypes(profileTypesData);
         setProfile({
             ...profile,
             profileType: profileTypesData[0],
-            identificationType: allIdentificationTypes.adultOrYouth[0],
+            identificationType: allIdentificationTypes?.adultOrYouth[0],
         });
     };
     useEffect(() => {
+        dispatch(ProfileThunk.initAddProfileCommonData);
         getData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

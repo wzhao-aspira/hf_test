@@ -5,7 +5,8 @@ import {
     updateMobileAccountPasswordById,
 } from "../helper/DBHelper";
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
-// import { signIn } from "../network/identityAPI";
+import { sendMobileAppUsersValidationCodeByEmail, createMobileAppUser } from "../network/api_client/MobileAppUsersApi";
+import { signIn } from "../network/identityAPI";
 
 async function verifyPassword(accountID: string, accountPassword: string) {
     try {
@@ -70,19 +71,23 @@ async function updateMobileAccountPasswordByUserId(userID: string, password: str
 }
 
 async function authSignin(userID, password) {
-    const mobileAccount = await getMobileAccountById(userID);
-    const userInfo = mobileAccount?.account;
+    const response = await signIn(userID, password);
+    return response;
+}
 
-    if (!userInfo || userInfo.password !== password) {
-        return { success: false };
-    }
+async function sendEmailValidationCode(emailAddress) {
+    const ret = await sendMobileAppUsersValidationCodeByEmail({ emailAddress });
+    return ret?.data?.isValidResponse;
+}
 
-    return { success: true, userInfo };
-    // const response = await signIn(userID, password);
-    // return response;
+async function createMobileAccount(userID: string, validationCode: string, password: string) {
+    const ret = await createMobileAppUser({ emailAddress: userID, validationCode, password });
+    return ret?.data.result;
 }
 
 export default {
+    sendEmailValidationCode,
+    createMobileAccount,
     verifyCurrentAccountPassword,
     deleteCurrentAccount,
     isMobileAccountExisted,

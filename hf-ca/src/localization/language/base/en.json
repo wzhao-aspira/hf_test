@@ -13,6 +13,7 @@
     "common": {
         "ok": "OK",
         "cancel": "Cancel",
+        "sendValidationCode": "Send Validation Code",
         "alert": "Alert",
         "retry": "Try Again",
         "error": "Error",
@@ -77,7 +78,8 @@
         "commonErrorTitle": "Sorry",
         "commonErrorMsg": "Something went wrong. Let's try one more time.",
         "noResultsFoundMsg": "No results found. Please try again with a different location.",
-        "profileStatusChanged": "This profile has changed status, please select other profiles."
+        "profileStatusChanged": "This profile has changed status, please select other profiles.",
+        "noPrimaryProfile": "Please add a valid account as your primary account has been changed."
     },
     "login": {
         "signIn": "Sign In",
