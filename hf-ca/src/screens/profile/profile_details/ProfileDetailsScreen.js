@@ -7,8 +7,7 @@ import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons";
 
 import { selectors } from "../../../redux/ProfileSlice";
 import { selectUsername } from "../../../redux/AppSlice";
-import AppThunk from "../../../redux/AppThunk";
-import { getMobileAccountByUserId, removeProfilesByUserId } from "../../../services/ProfileService";
+import { removeProfilesByUserId } from "../../../services/ProfileService";
 
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import AppTheme from "../../../assets/_default/AppTheme";
@@ -31,6 +30,7 @@ import {
 } from "./ProfileDetailsUtils";
 import getGOIDLabel from "../../../helper/ProfileHelper";
 import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
+import ProfileThunk from "../../../redux/ProfileThunk";
 
 function RenderItem({ item, divider }) {
     if (!item.value) {
@@ -99,8 +99,7 @@ function ProfileDetailsScreen({ route }) {
     const handleRemove = () => {
         removeProfilesByUserId(userID, [...associatedProfilesID, profileId]).then(async (response) => {
             if (response.success) {
-                const userAccount = await getMobileAccountByUserId(userID);
-                dispatch(AppThunk.initUserData(userAccount));
+                dispatch(ProfileThunk.initProfile());
                 NavigationService.navigate(Routers.manageProfile);
             }
         });

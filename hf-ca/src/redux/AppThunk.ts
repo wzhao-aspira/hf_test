@@ -1,14 +1,11 @@
 import { setActiveUserID } from "../helper/AppHelper";
-import profileThunkActions from "./ProfileThunk";
 import { actions as appActions } from "./AppSlice";
 
 const initUserData = (user) => async (dispatch) => {
     try {
-        const { userID, primaryProfileId, otherProfileIds } = user;
-
+        const { userID } = user;
         setActiveUserID(userID);
-        dispatch(appActions.updateUser({ username: userID, primaryProfileId, otherProfileIds }));
-        dispatch(profileThunkActions.initProfile());
+        dispatch(appActions.updateUser({ username: userID }));
     } catch (error) {
         console.log("initUserData error", error);
     }

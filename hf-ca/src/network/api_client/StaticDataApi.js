@@ -1,21 +1,23 @@
 import { instance } from "../AxiosClient";
-import getAPIConfig from "../APIConfig";
-
 import { StaticDataApi } from "../generated";
+import { getNormalConfig as getNormalAPIConfig } from "../APIConfig";
 
-const api = new StaticDataApi(getAPIConfig(), null, instance);
 export async function getIdentityTypes() {
+    const api = new StaticDataApi(getNormalAPIConfig(), null, instance);
     return api.v1StaticDataIdentityTypesGet();
 }
 
 export async function getYouthIdentityOwners() {
+    const api = new StaticDataApi(getNormalAPIConfig(), null, instance);
     return api.v1StaticDataYouthIdentityOwnersGet();
 }
 
 export async function getCountries() {
+    const api = new StaticDataApi(getNormalAPIConfig(), null, instance);
     return api.v1StaticDataCountriesGet();
 }
 
 export async function getStates() {
+    const api = new StaticDataApi(getNormalAPIConfig(), null, instance);
     return api.v1StaticDataStatesGet();
 }

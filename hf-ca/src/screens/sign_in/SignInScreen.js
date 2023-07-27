@@ -20,6 +20,10 @@ import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 import BiometricLoginBtn from "../../components/BiometricLoginBtn";
 import { resetBiometricIDLoginBlock } from "../../helper/LocalAuthHelper";
+import DialogHelper from "../../helper/DialogHelper";
+import { handleError } from "../../network/APIUtil";
+import { resetConfig } from "../../network/APIConfig";
+import ProfileThunk from "../../redux/ProfileThunk";
 
 function SignInScreen(route) {
     const { t } = useTranslation();
@@ -36,15 +40,36 @@ function SignInScreen(route) {
     const [errorMsg, setErrorMsg] = useState();
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
+    const showNoProfileDialog = (userID) => {
+        DialogHelper.showSimpleDialog({
+            title: "common.reminder",
+            message: "errMsg.noPrimaryProfile",
+            okText: "common.gotIt",
+            withModal: true,
+            okAction: () => {
+                NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount: { userID } });
+            },
+        });
+    };
+
     const doSignIn = async (uid = userId, pwd = password) => {
-        const response = await AccountService.authSignin(uid, pwd);
+        resetConfig();
+        const response = await handleError(AccountService.authSignin(uid, pwd), { dispatch, showLoading: true });
         if (!response.success) {
-            setShowErrorDialog(true);
-            setErrorMsg("signIn.accountNotFound");
             return;
         }
 
-        dispatch(appThunkActions.initUserData(response.userInfo));
+        const profileResponse = await dispatch(ProfileThunk.initProfile());
+        if (!profileResponse.success) {
+            return;
+        }
+
+        if (isEmpty(profileResponse.data)) {
+            showNoProfileDialog(uid);
+            return;
+        }
+
+        dispatch(appThunkActions.initUserData({ userID: uid }));
         resetBiometricIDLoginBlock(uid, true);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
         if (!isEmpty(onBoardingScreens)) {

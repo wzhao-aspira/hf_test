@@ -123,6 +123,7 @@ function SignInNav() {
                 name={Routers.forgotPasswordResetPassword}
                 component={ForgotPasswordResetPasswordScreen}
             />
+            <SignInStack.Screen name={Routers.addPrimaryProfile} component={AddPrimaryProfileScreen} />
             <SignInStack.Screen name={Routers.signUpNav} component={SignUpNav} />
         </SignInStack.Navigator>
     );

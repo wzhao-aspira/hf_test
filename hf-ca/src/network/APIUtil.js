@@ -1,4 +1,5 @@
 /* eslint-disable import/no-mutable-exports */
+import { isEmpty } from "lodash";
 import { actions as appActions } from "../redux/AppSlice";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 
@@ -64,4 +65,14 @@ export async function readToken(tokenKey) {
     const token = await retrieveItem(getTokenKey(tokenKey));
     updateGlobalToken(token);
     return token;
+}
+
+export async function restoreToken(identifierNum) {
+    const tokenObj = await readToken(identifierNum);
+    if (isEmpty(tokenObj)) {
+        console.log("read token FromStorage got null！");
+        return false;
+    }
+    updateGlobalToken(tokenObj);
+    return true;
 }
