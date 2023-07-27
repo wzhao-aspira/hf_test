@@ -15,11 +15,12 @@ import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
 import UsefulLinksCell, { hideDropdownKey } from "./UsefulLinksCell";
 import { SimpleDialog } from "../../components/Dialog";
-import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 
-import AppTheme from "../../assets/_default/AppTheme";
-import { isAndroid /* isIos  */ /* sentryPostMsg, showSimpleMessage */ } from "../../helper/AppHelper";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import { getDownloadedCountAsync, usefulLinksPDFPath, checkIfNewVersionAdded } from "./UsefulLinksHelper";
+import { isAndroid } from "../../helper/AppHelper";
+import AppTheme from "../../assets/_default/AppTheme";
+import Routers from "../../constants/Routers";
 
 import usefulLinksService from "../../services/UsefulLinksService";
 
@@ -104,13 +105,12 @@ function UsefulLinksScreen(props: UsefulLinksScreenProps) {
         });
     };
 
-    const onCellRightOpenBtnPress = (filePath) => {
+    const onCellRightOpenBtnPress = (filePath: string) => {
         if (!filePath) {
             return;
         }
 
         if (isAndroid()) {
-            // TODO: use WebBrowser.openBrowserAsync instead
             FileSystem.getContentUriAsync(filePath).then((cUri) => {
                 console.log(cUri);
                 IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
@@ -123,10 +123,10 @@ function UsefulLinksScreen(props: UsefulLinksScreenProps) {
                 });
             });
         } else {
-            // TODO: Needs a new story to add the WebView screen to view the PDF on iOS device
-            // navigation.navigate("WebView", {
-            //     url: filePath,
-            // });
+            // @ts-expect-error
+            navigation.navigate(Routers.webView, {
+                url: filePath,
+            });
         }
     };
 
