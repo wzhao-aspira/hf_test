@@ -124,7 +124,8 @@ function AddProfileInfo({
     };
     useEffect(() => {
         setIdentificationTypes(initIdentificationTypes);
-    }, [initIdentificationTypes]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{
