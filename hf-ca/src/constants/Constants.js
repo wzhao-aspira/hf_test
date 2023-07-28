@@ -59,7 +59,6 @@ export const ERROR_CODE = {
     NOT_FOUND: 404,
     SQLITE_CONSTRAINT_UNIQUE: 2067,
 };
-export const DEFAULT_STATE_ID = 6;
 export const SUGGESTED_LOCATIONS = "Suggested Locations";
 export const NETWORK_REQUEST_FAILED = "Network request failed";
 export const BtnSizeEnum = { Large: "Large", Small: "Small" };

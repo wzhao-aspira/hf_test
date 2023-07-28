@@ -8,6 +8,7 @@ const AppContract = {
     divisionCountry: "US",
     contractName: "CA",
     appId: "com.aspiraconnect.hf.ca",
+    defaultStateId: 6,
     fonts: {
         Lato_Bold: require("./fonts/Lato-Bold.ttf"),
         Bold: require("./fonts/Roboto-Bold.ttf"),
