@@ -6,8 +6,9 @@ import PopupDropdown from "../../../components/PopupDropdown";
 import StatefulTextInput from "../../../components/StatefulTextInput";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "./ProfileValidate";
-import { IDENTIFICATION_TYPE_GO_ID, DEFAULT_STATE_ID } from "../../../constants/Constants";
+import { IDENTIFICATION_TYPE_GO_ID } from "../../../constants/Constants";
 import profileSelectors from "../../../redux/ProfileSelector";
+import AppContract from "../../../assets/_default/AppContract";
 
 const IdentificationTypeSelector = React.forwardRef(
     ({ identificationTypes, identificationType, handleIdentificationType }, ref) => {
@@ -71,7 +72,7 @@ const IdentificationTypeSelector = React.forwardRef(
             let defaultState = {};
             let defaultCountry = {};
             if (selectedIdentificationType?.config?.issuedStateRequired) {
-                defaultState = states.find((state) => state.id === DEFAULT_STATE_ID);
+                defaultState = states.find((state) => state.id === AppContract.defaultStateId);
             }
             if (selectedIdentificationType?.config?.issuedCountryRequired) {
                 defaultCountry = { ...countries[0] };
