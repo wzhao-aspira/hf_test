@@ -85,9 +85,7 @@ function DeleteAccountScreen() {
             const result = await dispatch(accountThunkActions.deleteCurrentAccount(password));
 
             if (result === "succeeded") {
-                setTimeout(() => {
-                    dispatch(updateLoginStep(LoginStep.login));
-                }, 0.5);
+                dispatch(updateLoginStep(LoginStep.login));
             }
         } catch (error) {
             // TODO: handle error

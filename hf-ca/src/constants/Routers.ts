@@ -1,4 +1,5 @@
 const Routers = {
+    current: "current",
     modal: "modal",
     signInNav: "signInNav",
     drawerNav: "drawerNav",

@@ -16,6 +16,7 @@ import { selectLicenseForDashboard } from "../../redux/LicenseSelector";
 import HomeLicenseSection from "./license/HomeLicenseSection";
 import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
 import profileSelectors from "../../redux/ProfileSelector";
+import useFocus from "../../hooks/useFocus";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -34,11 +35,10 @@ export default function HomeScreen() {
         dispatch(getWeatherDataFromRedux({}));
     }, [dispatch]);
 
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         getLicenseOfActiveProfile(false);
-    //     }, [activeProfileId])
-    // );
+    useFocus(() => {
+        console.log("home focus");
+        getLicenseOfActiveProfile(false);
+    });
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
