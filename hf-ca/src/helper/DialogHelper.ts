@@ -17,7 +17,7 @@ interface DialogParamInterface {
     okText?: string;
     cancelText?: string;
     okAction?: () => void;
-    cancelAction: () => void;
+    cancelAction?: () => void;
     withModal?: boolean;
     custom?: boolean;
     renderDialogContent?: () => React.FunctionComponent;

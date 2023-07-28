@@ -70,6 +70,7 @@ function getActiveRouteName(navigationState) {
         return getActiveRouteName(route.state);
     }
     console.log(`route.name:${route.name}`);
+    Routers.current = route.name;
     return route.name;
 }
 
