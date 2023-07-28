@@ -123,9 +123,12 @@ function AddProfileInfo({
         }
     };
     useEffect(() => {
+        // Here logic to handle identification types initialization, we can't simple remove []'s parameters or add parameters.
+        if (identificationTypes?.length > 1) {
+            return;
+        }
         setIdentificationTypes(initIdentificationTypes);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [identificationTypes, initIdentificationTypes]);
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{
