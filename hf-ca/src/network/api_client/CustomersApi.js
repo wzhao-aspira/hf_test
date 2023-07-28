@@ -27,3 +27,8 @@ export async function findAndLinkVesselProfile(findVesselVM) {
     const api = new CustomersApi(getAPIConfig(), null, instance);
     return api.v1CustomersLinksVesselPost(findVesselVM);
 }
+
+export async function getCustomersOwnerships() {
+    const api = new CustomersApi(getAPIConfig(), null, instance);
+    return api.v1CustomersOwnershipsGet();
+}
