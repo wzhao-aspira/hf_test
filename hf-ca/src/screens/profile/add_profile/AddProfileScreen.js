@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { getProfileTypes } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
 import profileSelectors from "../../../redux/ProfileSelector";
 import ProfileThunk from "../../../redux/ProfileThunk";
+import { handleError } from "../../../network/APIUtil";
 
 function AddProfileScreen() {
     const dispatch = useDispatch();
@@ -19,21 +20,24 @@ function AddProfileScreen() {
     const userName = useSelector(selectUsername);
     const selectOne = { id: -1, name: t("profile.selectOne") };
     const allIdentificationTypes = useSelector(profileSelectors.selectIdentityTypes(selectOne));
-    const getData = async () => {
+    const initAndRefreshProfileTypes = useCallback(async () => {
         setMobileAccount({ userID: userName });
-        const profileTypesData = await getProfileTypes();
-        setProfileTypes(profileTypesData);
-        setProfile({
-            ...profile,
-            profileType: profileTypesData[0],
-            identificationType: allIdentificationTypes?.adultOrYouth[0],
-        });
-    };
-    useEffect(() => {
-        dispatch(ProfileThunk.initAddProfileCommonData);
-        getData();
+        const ret = await handleError(getProfileTypes(), { dispatch, showLoading: true });
+        if (ret.success) {
+            const profileTypesData = ret.data;
+            setProfileTypes(profileTypesData);
+            setProfile({
+                ...profile,
+                profileType: profileTypesData[0],
+                identificationType: allIdentificationTypes?.adultOrYouth[0],
+            });
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        dispatch(ProfileThunk.initAddProfileCommonData());
+        initAndRefreshProfileTypes();
+    }, [dispatch, initAndRefreshProfileTypes]);
     return (
         <View style={{ flex: 1 }}>
             <CommonHeader title={t("profile.addProfile")} />

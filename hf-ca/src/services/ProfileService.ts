@@ -10,6 +10,7 @@ import {
     findAndLinkBusinessProfile,
     findAndLinkVesselProfile,
     findAndLinkYouthProfile,
+    getCustomersOwnerships,
 } from "../network/api_client/CustomersApi";
 
 import {
@@ -84,17 +85,17 @@ export function getIndividualProfileTypes() {
     return PROFILE_TYPES.filter((p) => PROFILE_TYPE_IDS.adult === p.id || PROFILE_TYPE_IDS.youth === p.id);
 }
 
-function shouldShowBusinessVessel() {
-    const showBusiness = true;
-    const showVessel = true;
-    return { showBusiness, showVessel };
+async function shouldShowBusinessVessel() {
+    const ret = await getCustomersOwnerships();
+    const { hasBusiness, hasVessel } = ret?.data?.result || { hasBusiness: false, hasVessel: false };
+    return { showBusiness: hasBusiness, showVessel: hasVessel };
 }
 
 export async function getProfileTypes() {
     const profileTypes = [];
     const individualProfileTypes = getIndividualProfileTypes();
     profileTypes.push(...individualProfileTypes);
-    const showBusinessVessel = shouldShowBusinessVessel();
+    const showBusinessVessel = await shouldShowBusinessVessel();
     if (showBusinessVessel.showBusiness) {
         profileTypes.push(PROFILE_TYPES.find((p) => PROFILE_TYPE_IDS.business === p.id));
     }

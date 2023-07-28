@@ -161,10 +161,10 @@ export interface CustomerBasicVM {
     'name'?: string | null;
     /**
      * 
-     * @type {Array<CustomerOwnerVM>}
+     * @type {Array<CustomerIdVM>}
      * @memberof CustomerBasicVM
      */
-    'owners'?: Array<CustomerOwnerVM> | null;
+    'owners'?: Array<CustomerIdVM> | null;
     /**
      * 
      * @type {boolean}
@@ -263,19 +263,6 @@ export interface CustomerIdVMListExecutionResult {
 /**
  * 
  * @export
- * @interface CustomerOwnerVM
- */
-export interface CustomerOwnerVM {
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerOwnerVM
-     */
-    'ownerId'?: number;
-}
-/**
- * 
- * @export
  * @interface CustomerVM
  */
 export interface CustomerVM {
@@ -369,6 +356,55 @@ export interface ExecutionResult {
 /**
  * 
  * @export
+ * @interface FindAdultVM
+ */
+export interface FindAdultVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof FindAdultVM
+     */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindAdultVM
+     */
+    'lastName': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindAdultVM
+     */
+    'identityTypeId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FindAdultVM
+     */
+    'idNumber': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindAdultVM
+     */
+    'issuedStateId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindAdultVM
+     */
+    'issuedCountryId'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FindAdultVM
+     */
+    'isPrimary'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface FindBusinessVM
  */
 export interface FindBusinessVM {
@@ -388,55 +424,6 @@ export interface FindBusinessVM {
      * 
      * @type {boolean}
      * @memberof FindBusinessVM
-     */
-    'isPrimary'?: boolean;
-}
-/**
- * 
- * @export
- * @interface FindIndividualVM
- */
-export interface FindIndividualVM {
-    /**
-     * 
-     * @type {string}
-     * @memberof FindIndividualVM
-     */
-    'lastName': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FindIndividualVM
-     */
-    'dateOfBirth': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FindIndividualVM
-     */
-    'identityTypeId': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof FindIndividualVM
-     */
-    'idNumber': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FindIndividualVM
-     */
-    'issuedStateId'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof FindIndividualVM
-     */
-    'issuedCountryId'?: number | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FindIndividualVM
      */
     'isPrimary'?: boolean;
 }
@@ -482,13 +469,13 @@ export interface FindYouthVM {
      * @type {string}
      * @memberof FindYouthVM
      */
-    'lastName': string;
+    'dateOfBirth': string;
     /**
      * 
      * @type {string}
      * @memberof FindYouthVM
      */
-    'dateOfBirth': string;
+    'lastName': string;
     /**
      * 
      * @type {number}
@@ -1131,6 +1118,50 @@ export interface OptionVMListExecutionResult {
 /**
  * 
  * @export
+ * @interface OwnershipVM
+ */
+export interface OwnershipVM {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OwnershipVM
+     */
+    'hasBusiness'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OwnershipVM
+     */
+    'hasVessel'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface OwnershipVMExecutionResult
+ */
+export interface OwnershipVMExecutionResult {
+    /**
+     * 
+     * @type {OwnershipVM}
+     * @memberof OwnershipVMExecutionResult
+     */
+    'result'?: OwnershipVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OwnershipVMExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof OwnershipVMExecutionResult
+     */
+    'errors'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
  * @interface ProblemDetails
  */
 export interface ProblemDetails {
@@ -1337,11 +1368,11 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary Find And Link Adult
-         * @param {FindIndividualVM} [findIndividualVM] 
+         * @param {FindAdultVM} [findAdultVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersLinksAdultPost: async (findIndividualVM?: FindIndividualVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        v1CustomersLinksAdultPost: async (findAdultVM?: FindAdultVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1/Customers/Links/Adult`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1361,7 +1392,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(findIndividualVM, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(findAdultVM, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1568,6 +1599,36 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Check Business And Vesel
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersOwnershipsGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Customers/Ownerships`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1592,12 +1653,12 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Find And Link Adult
-         * @param {FindIndividualVM} [findIndividualVM] 
+         * @param {FindAdultVM} [findAdultVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkCustomerResultVMExecutionResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksAdultPost(findIndividualVM, options);
+        async v1CustomersLinksAdultPost(findAdultVM?: FindAdultVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkCustomerResultVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksAdultPost(findAdultVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1665,6 +1726,16 @@ export const CustomersApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksYouthPost(findYouthVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @summary Check Business And Vesel
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersOwnershipsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OwnershipVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersOwnershipsGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -1688,12 +1759,12 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary Find And Link Adult
-         * @param {FindIndividualVM} [findIndividualVM] 
+         * @param {FindAdultVM} [findAdultVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: any): AxiosPromise<LinkCustomerResultVMExecutionResult> {
-            return localVarFp.v1CustomersLinksAdultPost(findIndividualVM, options).then((request) => request(axios, basePath));
+        v1CustomersLinksAdultPost(findAdultVM?: FindAdultVM, options?: any): AxiosPromise<LinkCustomerResultVMExecutionResult> {
+            return localVarFp.v1CustomersLinksAdultPost(findAdultVM, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1754,6 +1825,15 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         v1CustomersLinksYouthPost(findYouthVM?: FindYouthVM, options?: any): AxiosPromise<LinkCustomerResultVMExecutionResult> {
             return localVarFp.v1CustomersLinksYouthPost(findYouthVM, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @summary Check Business And Vesel
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersOwnershipsGet(options?: any): AxiosPromise<OwnershipVMExecutionResult> {
+            return localVarFp.v1CustomersOwnershipsGet(options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -1776,12 +1856,12 @@ export interface CustomersApiInterface {
     /**
      * 
      * @summary Find And Link Adult
-     * @param {FindIndividualVM} [findIndividualVM] 
+     * @param {FindAdultVM} [findAdultVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApiInterface
      */
-    v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: AxiosRequestConfig): AxiosPromise<LinkCustomerResultVMExecutionResult>;
+    v1CustomersLinksAdultPost(findAdultVM?: FindAdultVM, options?: AxiosRequestConfig): AxiosPromise<LinkCustomerResultVMExecutionResult>;
 
     /**
      * 
@@ -1842,6 +1922,15 @@ export interface CustomersApiInterface {
      */
     v1CustomersLinksYouthPost(findYouthVM?: FindYouthVM, options?: AxiosRequestConfig): AxiosPromise<LinkCustomerResultVMExecutionResult>;
 
+    /**
+     * 
+     * @summary Check Business And Vesel
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApiInterface
+     */
+    v1CustomersOwnershipsGet(options?: AxiosRequestConfig): AxiosPromise<OwnershipVMExecutionResult>;
+
 }
 
 /**
@@ -1866,13 +1955,13 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
     /**
      * 
      * @summary Find And Link Adult
-     * @param {FindIndividualVM} [findIndividualVM] 
+     * @param {FindAdultVM} [findAdultVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApi
      */
-    public v1CustomersLinksAdultPost(findIndividualVM?: FindIndividualVM, options?: AxiosRequestConfig) {
-        return CustomersApiFp(this.configuration).v1CustomersLinksAdultPost(findIndividualVM, options).then((request) => request(this.axios, this.basePath));
+    public v1CustomersLinksAdultPost(findAdultVM?: FindAdultVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksAdultPost(findAdultVM, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1944,6 +2033,17 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
      */
     public v1CustomersLinksYouthPost(findYouthVM?: FindYouthVM, options?: AxiosRequestConfig) {
         return CustomersApiFp(this.configuration).v1CustomersLinksYouthPost(findYouthVM, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Check Business And Vesel
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomersApi
+     */
+    public v1CustomersOwnershipsGet(options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersOwnershipsGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
