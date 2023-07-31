@@ -41,8 +41,8 @@ export default function App() {
     const initAppData = async () => {
         const lastUsedMobileAccountId = await getActiveUserID();
         if (!isEmpty(lastUsedMobileAccountId)) {
-            const hasAaccessToken = await restoreToken(lastUsedMobileAccountId);
-            if (hasAaccessToken) {
+            const hasAccessToken = await restoreToken(lastUsedMobileAccountId);
+            if (hasAccessToken) {
                 store.dispatch(appThunkActions.initUserData({ userID: lastUsedMobileAccountId }));
                 store.dispatch(ProfileThunk.initProfile(false));
                 store.dispatch(updateLoginStep(LoginStep.home));

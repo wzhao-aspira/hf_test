@@ -25,10 +25,10 @@ export const IDENTIFICATION_TYPE_GO_ID = "1";
 export const DEFAULT_DATE_FORMAT = "MM DD YYYY";
 export const DATE_OF_BIRTH_DISPLAY_FORMAT = "MM/DD/YYYY";
 export const PROFILE_TYPE_IDS = {
-    adult: "1",
-    youth: "2",
-    business: "3",
-    vessel: "4",
+    adult: 1,
+    youth: 2,
+    business: 3,
+    vessel: 4,
 };
 export const PROFILE_TYPES = [
     {

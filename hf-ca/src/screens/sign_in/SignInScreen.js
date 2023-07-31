@@ -83,21 +83,21 @@ function SignInScreen(route) {
     };
 
     const clickSignIn = async () => {
-        const trimedUsedId = userId.trim();
-        const validateUserId = validateRequiredInput(trimedUsedId, userIdRef, userIdEmptyMsg);
+        const trimmedUsedId = userId.trim();
+        const validateUserId = validateRequiredInput(trimmedUsedId, userIdRef, userIdEmptyMsg);
         const validatePassword = validateRequiredInput(password, passwordRef, passwordEmptyMsg);
 
         if (!validateUserId || !validatePassword) {
             return;
         }
 
-        if (!emailValidator.validate(trimedUsedId)) {
+        if (!emailValidator.validate(trimmedUsedId)) {
             setShowErrorDialog(true);
             setErrorMsg("signIn.userIdInvalid");
             return;
         }
 
-        doSignIn(trimedUsedId);
+        doSignIn(trimmedUsedId);
     };
 
     return (

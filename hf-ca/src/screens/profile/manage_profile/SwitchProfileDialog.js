@@ -5,16 +5,16 @@ import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
-import { getSwitchStatus } from "../../../services/ProfileService";
-import { selectUsername } from "../../../redux/AppSlice";
-import DialogHelper from "../../../helper/DialogHelper";
+// import { getSwitchStatus } from "../../../services/ProfileService";
+// import { selectUsername } from "../../../redux/AppSlice";
+// import DialogHelper from "../../../helper/DialogHelper";
 import NavigationService from "../../../navigation/NavigationService";
 
 export default function SwitchProfileDialog({ hideDialog }) {
     const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
-    const userID = useSelector(selectUsername);
+    // const userID = useSelector(selectUsername);
 
     const switchProfileCallback = async () => {
         hideDialog();
@@ -22,22 +22,23 @@ export default function SwitchProfileDialog({ hideDialog }) {
     };
 
     const handleSwitch = async (profileId) => {
-        const switchStatus = await getSwitchStatus(userID, profileId);
-        if (switchStatus.error) {
-            return;
-        }
-        if (!switchStatus.canSwitch) {
-            DialogHelper.showSimpleDialog({
-                title: "common.reminder",
-                message: "errMsg.profileStatusChanged",
-                okText: "common.gotIt",
-                withModal: true,
-                okAction: () => {
-                    switchProfileCallback();
-                },
-            });
-            return;
-        }
+        // TODO: get profile list from api
+        // const switchStatus = await getSwitchStatus(userID, profileId);
+        // if (switchStatus.error) {
+        //     return;
+        // }
+        // if (!switchStatus.canSwitch) {
+        //     DialogHelper.showSimpleDialog({
+        //         title: "common.reminder",
+        //         message: "errMsg.profileStatusChanged",
+        //         okText: "common.gotIt",
+        //         withModal: true,
+        //         okAction: () => {
+        //             switchProfileCallback();
+        //         },
+        //     });
+        //     return;
+        // }
 
         dispatch(profileThunkActions.switchCurrentInUseProfile(profileId)).then(() => {
             switchProfileCallback();
