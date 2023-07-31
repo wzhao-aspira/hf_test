@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { isEmpty, xor, includes } from "lodash";
 import type { AppThunk } from "./Store";
 import {
     getCountries,
@@ -9,10 +9,18 @@ import {
     getCurrentInUseProfileID,
     getProfileList,
 } from "../services/ProfileService";
-import { actions as profileActions } from "./ProfileSlice";
+import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { selectors as appSelectors } from "./AppSlice";
 import { getLicense } from "./LicenseSlice";
 import { handleError } from "../network/APIUtil";
+import { getProfileListFromDB, updateProfileListToDB } from "../helper/DBHelper";
+import { getProfileListUpdateTime, setProfileListUpdateTime } from "../helper/AutoRefreshHelper";
+import { REQUEST_STATUS } from "../constants/Constants";
+import { checkNeedAutoRefreshData } from "../utils/GenUtil";
+import DialogHelper from "../helper/DialogHelper";
+import i18n from "../localization/i18n";
+import NavigationService from "../navigation/NavigationService";
+import Routers from "../constants/Routers";
 
 const initAddProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
@@ -41,50 +49,66 @@ const initAddProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     }
 };
 
-const initProfile = (): AppThunk => async (dispatch, getState) => {
-    const rootState = getState();
-    const userState = appSelectors.selectUser(rootState);
+const initProfile =
+    (isRemote = true): AppThunk =>
+    async (dispatch, getState) => {
+        const rootState = getState();
+        const userState = appSelectors.selectUser(rootState);
 
-    const { username } = userState;
+        const { username } = userState;
 
-    const profileListIDs: string[] = [];
-    let primaryProfileId: string;
+        const profileListIDs: string[] = [];
+        let primaryProfileId: string;
 
-    const response = await handleError(getProfileList(), { dispatch, showLoading: true });
-    if (!response.success) {
-        return response;
-    }
+        let result = null;
+        if (isRemote) {
+            const response = await handleError(getProfileList(), { dispatch, showLoading: true });
+            if (!response.success) {
+                return response;
+            }
 
-    const { result } = response.data.data;
-    const profileList = result.map((item) => {
-        if (item.isPrimary) {
-            primaryProfileId = item.customerId;
+            result = response?.data?.data?.result;
+            console.log(`fetch profile list:${JSON.stringify(result)}`);
+            updateProfileListToDB(result);
+            setProfileListUpdateTime();
+        } else {
+            const dbResult = await getProfileListFromDB();
+            if (dbResult.success) {
+                result = dbResult.profileList;
+            }
+
+            console.log(`db profile list:${JSON.stringify(result)}`);
         }
 
-        profileListIDs.push(item.customerId);
-        return {
-            profileId: item.customerId,
-            displayName: item.name,
-            profileType: item.customerTypeId,
-            goIDNumber: item.goid,
-        };
-    });
+        const profileList = result.map((item) => {
+            if (item.isPrimary) {
+                primaryProfileId = item.customerId;
+            }
 
-    const currentInUseProfileID = await getCurrentInUseProfileID(username);
+            profileListIDs.push(item.customerId);
+            return {
+                profileId: item.customerId,
+                displayName: item.name,
+                profileType: item.customerTypeId,
+                goIDNumber: item.goid,
+            };
+        });
 
-    if (currentInUseProfileID) {
-        dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
-    } else {
-        updateCurrentInUseProfileID(username, primaryProfileId);
-        dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
-    }
+        const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
-    dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
-    dispatch(profileActions.updateProfileIDs(profileListIDs));
-    dispatch(profileActions.setProfileList(profileList));
+        if (currentInUseProfileID) {
+            dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
+        } else {
+            updateCurrentInUseProfileID(username, primaryProfileId);
+            dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
+        }
 
-    return { success: true, data: profileList };
-};
+        dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
+        dispatch(profileActions.updateProfileIDs(profileListIDs));
+        dispatch(profileActions.setProfileList(profileList));
+
+        return { success: true, data: profileList };
+    };
 
 const switchCurrentInUseProfile =
     (profileID): AppThunk =>
@@ -105,8 +129,90 @@ const switchCurrentInUseProfile =
         }
     };
 
+const refreshProfiles = async (dispatch, result, primaryProfileId, profileListIDs, profileList) => {
+    // update database
+    const dbResult = await updateProfileListToDB(result);
+    if (dbResult.success) {
+        setProfileListUpdateTime();
+    } else {
+        console.log("update profile list db error");
+        return;
+    }
+    dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
+    dispatch(profileActions.updateProfileIDs(profileListIDs));
+    dispatch(profileActions.setProfileList(profileList));
+    dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
+};
+
+const refreshProfileList =
+    (isForce = false): AppThunk =>
+    async (dispatch, getState) => {
+        console.log(`refresh profile list isForce:${isForce}`);
+        const rootState = getState();
+        const { profileListRequestStatus } = rootState.profile;
+        const currentProfileIds = profileSelector.selectProfileIDs(rootState);
+        const userState = appSelectors.selectUser(rootState);
+        const { username } = userState;
+        const currentInUseProfileID = await getCurrentInUseProfileID(username);
+
+        if (profileListRequestStatus == REQUEST_STATUS.pending) {
+            return;
+        }
+
+        if (!isForce && checkNeedAutoRefreshData(getProfileListUpdateTime()) == false) {
+            return;
+        }
+
+        // dispatch loading start
+        dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.pending));
+        const response = await handleError(getProfileList(), { dispatch });
+        // dispatch loading end
+        if (!response.success) {
+            dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.rejected));
+            return;
+        }
+        const result = response?.data?.data?.result;
+        const profileListIDs = [];
+        let primaryProfileId: string;
+        const profileList = result.map((item) => {
+            if (item.isPrimary) {
+                primaryProfileId = item.customerId;
+            }
+
+            profileListIDs.push(item.customerId);
+            return {
+                profileId: item.customerId,
+                displayName: item.name,
+                profileType: item.customerTypeId,
+                goIDNumber: item.goid,
+            };
+        });
+        const differenceProfiles = xor(currentProfileIds, profileListIDs);
+        console.log(`The difference profile ids are:[${differenceProfiles}]`);
+        if (!isEmpty(differenceProfiles)) {
+            if (!includes(profileListIDs, currentInUseProfileID)) {
+                DialogHelper.showSimpleDialog({
+                    title: i18n.t("common.reminder"),
+                    message: i18n.t("profile.currentInUseInactiveMsg"),
+                    okText: i18n.t("common.gotIt"),
+                    okAction: () => {
+                        dispatch(switchCurrentInUseProfile(primaryProfileId));
+                        refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
+                        NavigationService.navigate(Routers.manageProfile);
+                    },
+                });
+            } else {
+                refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
+                NavigationService.navigate(Routers.manageProfile);
+            }
+        } else {
+            dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
+        }
+    };
+
 export default {
     initAddProfileCommonData,
     initProfile,
     switchCurrentInUseProfile,
+    refreshProfileList,
 };

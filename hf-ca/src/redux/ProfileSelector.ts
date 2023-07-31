@@ -6,6 +6,8 @@ import { IdentityTypeVM } from "../network/generated";
 
 const selectProfileState = (state: RootState) => state.profile;
 
+const selectProfileListRequestStatus = createSelector(selectProfileState, (state) => state.profileListRequestStatus);
+
 const selectYouthIdentityOwners = createSelector(selectProfileState, (state) => state.youthIdentityOwners);
 const selectIdentityTypes = (selectOne: IdentityTypeVM) =>
     createSelector(selectProfileState, (state) => {
@@ -113,6 +115,7 @@ const selectProfileDetailsById = (profileId) =>
     );
 
 const selectors = {
+    selectProfileListRequestStatus,
     selectYouthIdentityOwners,
     selectIdentityTypes,
     selectCountries,
@@ -121,6 +124,7 @@ const selectors = {
     selectCurrentInUseProfile,
     selectCurrentInUseProfileID,
     selectPrimaryProfileID,
+    selectProfileIDs,
     selectProfileDetailsById,
     selectSortedByDisplayNameOtherProfileList,
 };

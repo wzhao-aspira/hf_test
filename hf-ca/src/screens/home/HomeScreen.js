@@ -17,9 +17,14 @@ import HomeLicenseSection from "./license/HomeLicenseSection";
 import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
 import profileSelectors from "../../redux/ProfileSelector";
 import useFocus from "../../hooks/useFocus";
+import ProfileThunk from "../../redux/ProfileThunk";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
+
+    const profileListRequestStatus = useSelector(profileSelectors.selectProfileListRequestStatus);
+    const profileListRefreshing = profileListRequestStatus == REQUEST_STATUS.pending;
+
     const weatherRequestStatus = useSelector((state) => state.weather.requestStatus);
     const licenseReduxData = useSelector(selectLicenseForDashboard);
     const licenseRefreshing = licenseReduxData.requestStatus === REQUEST_STATUS.pending;
@@ -37,11 +42,13 @@ export default function HomeScreen() {
 
     useFocus(() => {
         console.log("home focus");
+        dispatch(ProfileThunk.refreshProfileList());
         getLicenseOfActiveProfile(false);
     });
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
+        dispatch(ProfileThunk.refreshProfileList(true));
         getLicenseOfActiveProfile(true);
     };
 
@@ -72,7 +79,11 @@ export default function HomeScreen() {
                         <RefreshControl
                             colors={[AppTheme.colors.primary]}
                             tintColor={AppTheme.colors.primary}
-                            refreshing={weatherRequestStatus == REQUEST_STATUS.pending || licenseRefreshing}
+                            refreshing={
+                                weatherRequestStatus == REQUEST_STATUS.pending ||
+                                licenseRefreshing ||
+                                profileListRefreshing
+                            }
                             onRefresh={(index) => {
                                 refreshData(index);
                             }}

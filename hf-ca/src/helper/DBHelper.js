@@ -3,6 +3,7 @@ import * as SQLite from "expo-sqlite";
 import { isEmpty } from "lodash";
 import AppContract from "../assets/_default/AppContract";
 import { ERROR_CODE } from "../constants/Constants";
+import SecurityUtil from "../utils/SecurityUtil";
 
 const db = SQLite.openDatabase(`${AppContract.contractName}_.db`);
 
@@ -13,6 +14,9 @@ export async function dbCreate() {
             (tx) => {
                 tx.executeSql(
                     "CREATE TABLE IF NOT EXISTS MOBILE_ACCOUNT (ID TEXT PRIMARY KEY NOT NULL, PASSWORD TEXT, PRIMARY_PROFILE_ID TEXT, OTHER_PROFILE_IDS TEXT);"
+                );
+                tx.executeSql(
+                    "CREATE TABLE IF NOT EXISTS PROFILE_LIST (PROFILE_ID TEXT PRIMARY KEY NOT NULL, SUMMARY TEXT, DETAIL TEXT);"
                 );
             },
             (error) => {
@@ -34,6 +38,7 @@ export async function dbDrop() {
         db.transaction(
             (tx) => {
                 tx.executeSql("DROP TABLE IF EXISTS MOBILE_ACCOUNT;");
+                tx.executeSql("DROP TABLE IF EXISTS PROFILE_LIST;");
             },
             (error) => {
                 console.log(`DROP TABLE ERROR! - ${JSON.stringify(error)}`);
@@ -54,6 +59,103 @@ export async function dbClear() {
         db.transaction(
             (tx) => {
                 tx.executeSql("DELETE FROM MOBILE_ACCOUNT;");
+                tx.executeSql("DELETE FROM PROFILE_LIST;");
+            },
+            (error) => {
+                console.log(`DELETE TABLE ERROR! - ${JSON.stringify(error)}`);
+                resolve(result);
+            },
+            () => {
+                console.log("DELETE TABLE SUCCESS!");
+                result.success = true;
+                resolve(result);
+            }
+        );
+    });
+}
+
+export async function getProfileListFromDB() {
+    return new Promise((resolve) => {
+        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM PROFILE_LIST;",
+                null,
+                (_, { rows }) => {
+                    result.success = true;
+                    console.log(`profile list rows:${JSON.stringify(rows)}`);
+                    if (rows.length > 0) {
+                        result.profileList = rows._array.map((item) => {
+                            const summary = item.SUMMARY;
+                            const profile = SecurityUtil.safeParse(summary);
+                            return profile;
+                        });
+                        resolve(result);
+                    } else {
+                        console.log("NO RESULT FOUND!");
+                        result.profileList = null;
+                        resolve(result);
+                    }
+                },
+                (error) => {
+                    console.log(`DB QUERY ERROR! - ${JSON.stringify(error)}`);
+                    resolve(result);
+                }
+            );
+        });
+    });
+}
+
+export async function updateProfileListToDB(profileList) {
+    console.log(`profile list:${JSON.stringify(profileList)}`);
+    return new Promise((resolve) => {
+        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+
+        let sqlSentence = "REPLACE INTO PROFILE_LIST (PROFILE_ID, SUMMARY) VALUES";
+        const values = [];
+        for (let index = 0; index < profileList.length; index++) {
+            const profile = profileList[index];
+            if (index == profileList.length - 1) {
+                sqlSentence += " (?, ?);";
+            } else {
+                sqlSentence += " (?, ?),";
+            }
+
+            values.push(`${profile.customerId}`);
+            values.push(`${SecurityUtil.encrypt(JSON.stringify(profile))}`);
+        }
+
+        console.log(`sql:${sqlSentence}`);
+        console.log(`values:${values}`);
+
+        db.transaction(
+            (tx) => {
+                tx.executeSql(sqlSentence, values);
+            },
+            (error) => {
+                console.log(`DB INSERT ERROR! - ${JSON.stringify(error)}`);
+                resolve(result);
+            },
+            () => {
+                console.log("DB INSERT SUCCEED!");
+                result.success = true;
+                resolve(result);
+            }
+        );
+    });
+}
+
+export async function updateProfileDetailToDB(profileDetail) {
+    console.log(`profile detail:${JSON.stringify(profileDetail)}`);
+}
+
+export async function clearProfileListFromDB() {
+    return new Promise((resolve) => {
+        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+        db.transaction(
+            (tx) => {
+                tx.executeSql("DELETE FROM PROFILE_LIST;");
             },
             (error) => {
                 console.log(`DELETE TABLE ERROR! - ${JSON.stringify(error)}`);

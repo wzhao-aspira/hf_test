@@ -4,6 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Profile } from "../types/profile";
 import profileSelectors from "./ProfileSelector";
 import { CountryVM, IdentityTypesVM, StateVM, YouthIdentityOwnerVM } from "../network/generated";
+import { REQUEST_STATUS } from "../constants/Constants";
 
 interface InitialState {
     youthIdentityOwners: YouthIdentityOwnerVM[];
@@ -14,6 +15,7 @@ interface InitialState {
     primaryProfileID: string | null;
     profilesIDs: string[] | null;
     profileList: Profile[];
+    profileListRequestStatus: string;
 }
 
 const initialState: InitialState = {
@@ -25,12 +27,17 @@ const initialState: InitialState = {
     primaryProfileID: null,
     profilesIDs: null,
     profileList: [],
+    profileListRequestStatus: REQUEST_STATUS.idle,
 };
 
 const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
+        setProfileListRequestStatus(state, action: PayloadAction<string>) {
+            const { payload } = action;
+            state.profileListRequestStatus = payload;
+        },
         setYouthIdentifyOwners(state, action: PayloadAction<YouthIdentityOwnerVM[]>) {
             const { payload } = action;
             state.youthIdentityOwners = payload;

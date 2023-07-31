@@ -24,6 +24,7 @@ import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
 import { resetConfig } from "../../network/APIConfig";
 import ProfileThunk from "../../redux/ProfileThunk";
+import { clearProfileListFromDB } from "../../helper/DBHelper";
 
 function SignInScreen(route) {
     const { t } = useTranslation();
@@ -54,6 +55,8 @@ function SignInScreen(route) {
 
     const doSignIn = async (uid = userId, pwd = password) => {
         resetConfig();
+        await clearProfileListFromDB();
+
         const response = await handleError(AccountService.authSignin(uid, pwd), { dispatch, showLoading: true });
         if (!response.success) {
             return;
@@ -93,6 +96,7 @@ function SignInScreen(route) {
             setErrorMsg("signIn.userIdInvalid");
             return;
         }
+
         doSignIn(trimedUsedId);
     };
 
