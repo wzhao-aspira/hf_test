@@ -206,7 +206,7 @@ const refreshProfileList =
                 NavigationService.navigate(Routers.manageProfile);
             }
         } else {
-            dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
+            refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
         }
     };
 
