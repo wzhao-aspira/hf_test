@@ -44,7 +44,7 @@ export default function App() {
             const hasAaccessToken = await restoreToken(lastUsedMobileAccountId);
             if (hasAaccessToken) {
                 store.dispatch(appThunkActions.initUserData({ userID: lastUsedMobileAccountId }));
-                store.dispatch(ProfileThunk.initProfile());
+                store.dispatch(ProfileThunk.initProfile(false));
                 store.dispatch(updateLoginStep(LoginStep.home));
             }
         }

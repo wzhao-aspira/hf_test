@@ -157,7 +157,8 @@
         "removeCurrentInUseProfileMsg": "The profile is current in use, please switch profile first.",
         "removeAssociatedProfileIsInUserMsg": "The associated profile is current in use, please switch profile first.",
         "removeAssociatedProfilesMsg": "Are you sure you want to remove current profile, the associated profile will be removed as well.",
-        "associatedProfiles": "Associated profile(s):"
+        "associatedProfiles": "Associated profile(s):",
+        "currentInUseInactiveMsg": "Unable to proceed with the current account. We will display information based on your primary account."
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",
