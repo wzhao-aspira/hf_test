@@ -15,7 +15,6 @@ import AccountService from "../../services/AccountService";
 import DialogHelper from "../../helper/DialogHelper";
 import { SharedStyles } from "../../styles/CommonStyles";
 import { handleError } from "../../network/APIUtil";
-import { resetConfig } from "../../network/APIConfig";
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -115,7 +114,6 @@ function SignUp() {
             return;
         }
         if (!storedMobileAccount) return;
-        resetConfig();
         const signInResult = await handleError(AccountService.authSignin(userID, mobileAccount?.password), {
             dispatch,
             showLoading: true,

@@ -7,6 +7,7 @@ import {
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 import { sendMobileAppUsersValidationCodeByEmail, createMobileAppUser } from "../network/api_client/MobileAppUsersApi";
 import { signIn } from "../network/identityAPI";
+import { instance } from "../network/AxiosClient";
 
 async function verifyPassword(accountID: string, accountPassword: string) {
     try {
@@ -71,7 +72,7 @@ async function updateMobileAccountPasswordByUserId(userID: string, password: str
 }
 
 async function authSignin(userID, password) {
-    const response = await signIn(userID, password);
+    const response = await signIn(instance, userID, password);
     return response;
 }
 

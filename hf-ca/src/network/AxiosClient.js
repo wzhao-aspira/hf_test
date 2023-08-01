@@ -1,6 +1,8 @@
 import axios from "axios";
 import { startsWith } from "lodash";
-import { getBaseURL } from "../helper/AppHelper";
+import { getBaseURL, getActiveUserID } from "../helper/AppHelper";
+import { needRefreshToken, globalDataForAPI } from "./APIUtil";
+import { refreshToken, url } from "./identityAPI";
 
 export const instance = axios.create({
     timeout: 60000,
@@ -21,19 +23,21 @@ async function request(endpoint, options = { method: "get" }) {
     return instance.request(requestBody);
 }
 
-// instance.interceptors.request.use(async (cfg) => {
-//     /**
-//      * change config in here
-//      * eg：cfg.defaults.header.token = "xxx"
-//      */
-//     const config = cfg;
-//     const { url } = cfg;
-//     if (url.includes("authentication") || url.includes("kiosk") || url.includes("owp-webclient")) {
-//         return config;
-//     }
-//     config.headers["X-Brand-Name"] = Global.Config.brandName;
-//     return config;
-// });
+instance.interceptors.request.use(async (cfg) => {
+    if (needRefreshToken() && !cfg.url?.startsWith(url)) {
+        const userId = await getActiveUserID();
+        await refreshToken(instance, userId);
+        const config = {
+            ...cfg,
+            headers: {
+                ...cfg.headers,
+                Authorization: `Bearer ${globalDataForAPI.jwtToken.access_token}`,
+            },
+        };
+        return config;
+    }
+    return cfg;
+});
 
 instance.interceptors.response.use(
     (response) => {
