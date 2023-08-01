@@ -10,6 +10,7 @@ import {
     findAndLinkBusinessProfile,
     findAndLinkVesselProfile,
     findAndLinkYouthProfile,
+    removeProfileById,
     getCustomersOwnerships,
 } from "../network/api_client/CustomersApi";
 
@@ -64,6 +65,10 @@ export async function getMobileAccountByUserId(userID) {
     const mobileAccount = await getMobileAccountById(userID);
     return mobileAccount?.account;
 }
+
+/**
+ * @deprecated use removeProfile
+ */
 export async function removeProfilesByUserId(userID, deletedProfileIds) {
     const mobileAccount = await getMobileAccountById(userID);
     if (!mobileAccount?.account) {
@@ -79,6 +84,10 @@ export async function removeProfilesByUserId(userID, deletedProfileIds) {
     }
 
     return { success: false };
+}
+
+export async function removeProfile(profileId) {
+    return removeProfileById(profileId);
 }
 
 export function getIndividualProfileTypes() {

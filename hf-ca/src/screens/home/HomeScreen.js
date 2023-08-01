@@ -48,7 +48,7 @@ export default function HomeScreen() {
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
-        dispatch(ProfileThunk.refreshProfileList(true));
+        dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
         getLicenseOfActiveProfile(true);
     };
 
