@@ -13,6 +13,8 @@ import CarouselItem from "./CarouselItem";
 import Routers from "../../../constants/Routers";
 import { genTestId } from "../../../helper/AppHelper";
 
+import type { License } from "../../../types/license";
+
 const styles = StyleSheet.create({
     viewAllContainer: {
         flexDirection: "row",
@@ -20,7 +22,11 @@ const styles = StyleSheet.create({
     },
 });
 
-function HomeLicenseSection(props) {
+interface HomeLicenseSectionProps {
+    licenses: License[];
+}
+
+function HomeLicenseSection(props: HomeLicenseSectionProps) {
     const [activeSlide, setActiveSlide] = useState(0);
     const { licenses } = props;
     const isLicensesEmpty = isEmpty(licenses);
@@ -54,6 +60,7 @@ function HomeLicenseSection(props) {
                     {licenses?.length > 1 && (
                         <View style={{ alignItems: "center" }}>
                             <PaginationDot
+                                // @ts-expect-error
                                 testID={genTestId("paginationDot")}
                                 inactiveDotColor={AppTheme.colors.primary_2}
                                 activeDotColor={AppTheme.colors.primary}

@@ -6,17 +6,29 @@ import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
+import ValueOf from "../types/valueOf";
+
+import { License } from "../types/license";
+
+interface LicenseState {
+    data: License[];
+    requestStatus: ValueOf<typeof REQUEST_STATUS>;
+    updateTime: null | number;
+}
 
 export const getLicense = createAsyncThunk(
     "license/getLicense",
-    async ({ searchParams }, { dispatch }) => {
-        const data = await handleError(getLicenseData(searchParams), { dispatch });
+    async ({ searchParams }: { searchParams: { activeProfileId: number }; isForce?: boolean }, { dispatch }) => {
+        const data = await handleError(getLicenseData(searchParams), {
+            dispatch,
+        });
         return data;
     },
     {
         condition: ({ isForce = false }, { getState }) => {
+            // @ts-expect-error
             const { license } = getState();
-            const { requestStatus, updateTime } = license;
+            const { requestStatus, updateTime } = license as LicenseState;
             if (requestStatus == REQUEST_STATUS.pending) {
                 return false;
             }
@@ -30,11 +42,12 @@ export const getLicense = createAsyncThunk(
     }
 );
 
-const initialState = { data: null, requestStatus: REQUEST_STATUS.idle, updateTime: null };
+const initialState: LicenseState = { data: null, requestStatus: REQUEST_STATUS.idle, updateTime: null };
 
 const licenseSlice = createSlice({
     name: "license",
     initialState,
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getLicense.rejected, (state, action) => {
             const { error } = action;
@@ -45,12 +58,16 @@ const licenseSlice = createSlice({
             state.requestStatus = REQUEST_STATUS.pending;
         });
         builder.addCase(getLicense.fulfilled, (state, action) => {
-            const result = action?.payload;
-            if (result.success) {
+            const payload = action?.payload;
+            const { success, data } = payload;
+
+            if (success) {
                 const dateNow = moment().unix();
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 state.updateTime = dateNow;
-                state.data = action?.payload?.data;
+
+                const { formattedResult } = data;
+                state.data = formattedResult;
             } else {
                 state.requestStatus = REQUEST_STATUS.rejected;
             }
