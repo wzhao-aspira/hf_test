@@ -1,7 +1,8 @@
 import { isEmpty } from "lodash";
-import licenseData from "./mock_data/license.json";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
+
+import licensesAPIs from "../network/api_client/LicensesAPIs";
 
 const getName = (item) => {
     const { legalName, productName = "" } = item;
@@ -24,18 +25,27 @@ export const formateDateForDashboard = (item) => {
     return formateDate(item, AppContract.outputFormat.fmt_2);
 };
 
-export async function getLicenseData(searchParams) {
+// Get license data function
+export async function getLicenseData(searchParams: { activeProfileId: number }) {
     const { activeProfileId } = searchParams;
-    const mockData = licenseData
-        .filter((item) => item.profileId === activeProfileId)
-        .map((item) => {
-            const name = getName(item);
-            return { id: item.id, validFrom: item.validFrom, validTo: item.validTo, name };
-        });
 
-    return new Promise((res) => {
-        setTimeout(() => res(mockData), 3000);
+    const getLicensesByCustomerIDRequestResult = await licensesAPIs.getLicensesByCustomerID(activeProfileId);
+
+    console.log(JSON.stringify(getLicensesByCustomerIDRequestResult));
+
+    const { result, errors } = getLicensesByCustomerIDRequestResult.data;
+    const licenseList = result.items;
+
+    const formattedResult = licenseList.map((item) => {
+        return {
+            id: item.licenseId,
+            validFrom: item.validFrom,
+            validTo: item.validTo,
+            name: item.documentTitle,
+        };
     });
+
+    return { formattedResult, errors };
 }
 
 export function getLoadingData() {

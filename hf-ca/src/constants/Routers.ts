@@ -1,3 +1,5 @@
+import ValueOf from "../types/valueOf";
+
 const Routers = {
     current: "current",
     modal: "modal",
@@ -34,8 +36,6 @@ const Routers = {
     webView: "webViewScreen",
     usefulLinks: "usefulLinsScreen",
 } as const;
-
-type ValueOf<T> = T[keyof T];
 
 type RoutersUnion = ValueOf<typeof Routers>;
 
