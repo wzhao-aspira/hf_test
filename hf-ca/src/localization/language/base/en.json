@@ -152,13 +152,11 @@
         "currentDocumentation": "Current Documentation",
         "physicalAddress": "Physical Address",
         "mailingAddress": "Mailing Address",
-        "removeProfileMsg": "Are you sure you want to remove this profile?",
+        "removeProfileMsg": "Are you sure you want to remove current profile, the associated profile will be removed as well.",
         "removePrimaryProfileMsg": "The primary profile can not be removed.",
         "removeCurrentInUseProfileMsg": "The profile is current in use, please switch profile first.",
-        "removeAssociatedProfileIsInUserMsg": "The associated profile is current in use, please switch profile first.",
-        "removeAssociatedProfilesMsg": "Are you sure you want to remove current profile, the associated profile will be removed as well.",
-        "associatedProfiles": "Associated profile(s):",
-        "currentInUseInactiveMsg": "Unable to proceed with the current account. We will display information based on your primary account."
+        "currentInUseInactiveMsg": "Unable to proceed with the current account. We will display information based on your primary account.",
+        "profileListChanged": "The current profile list has been updated. Please check the updated list before removing the profile."
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",

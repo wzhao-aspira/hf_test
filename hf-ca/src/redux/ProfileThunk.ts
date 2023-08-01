@@ -21,6 +21,36 @@ import DialogHelper from "../helper/DialogHelper";
 import i18n from "../localization/i18n";
 import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
+import { Profile } from "../types/profile";
+
+const getProfileData = (result = []) => {
+    const profileListIDs: string[] = [];
+    let primaryProfileId: string;
+
+    const profileList: Profile[] = result.map((item) => {
+        if (item.isPrimary) {
+            primaryProfileId = item.customerId;
+        }
+
+        profileListIDs.push(item.customerId);
+        return {
+            profileId: item.customerId,
+            displayName: item.name,
+            profileType: item.customerTypeId,
+            goIDNumber: item.goid,
+            isNeedCRSS: item.useCRSS,
+        };
+    });
+    return { profileListIDs, primaryProfileId, profileList };
+};
+
+const showListChangedDialog = (message, okAction) =>
+    DialogHelper.showSimpleDialog({
+        title: i18n.t("common.reminder"),
+        message,
+        okText: i18n.t("common.gotIt"),
+        okAction: () => okAction(),
+    });
 
 const initAddProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
@@ -57,9 +87,6 @@ const initProfile =
 
         const { username } = userState;
 
-        const profileListIDs: string[] = [];
-        let primaryProfileId: string;
-
         let result = null;
         if (isRemote) {
             const response = await handleError(getProfileList(), { dispatch, showLoading: true });
@@ -80,20 +107,7 @@ const initProfile =
             console.log(`db profile list:${JSON.stringify(result)}`);
         }
 
-        const profileList = result.map((item) => {
-            if (item.isPrimary) {
-                primaryProfileId = item.customerId;
-            }
-
-            profileListIDs.push(item.customerId);
-            return {
-                profileId: item.customerId,
-                displayName: item.name,
-                profileType: item.customerTypeId,
-                goIDNumber: item.goid,
-            };
-        });
-
+        const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
         if (currentInUseProfileID) {
@@ -145,7 +159,7 @@ const refreshProfiles = async (dispatch, result, primaryProfileId, profileListID
 };
 
 const refreshProfileList =
-    (isForce = false): AppThunk =>
+    ({ isForce = false, showListChangedMsg = false, showGlobalLoading = false } = {}): AppThunk =>
     async (dispatch, getState) => {
         console.log(`refresh profile list isForce:${isForce}`);
         const rootState = getState();
@@ -156,58 +170,46 @@ const refreshProfileList =
         const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
         if (profileListRequestStatus == REQUEST_STATUS.pending) {
-            return;
+            return { listChanged: false };
         }
 
         if (!isForce && checkNeedAutoRefreshData(getProfileListUpdateTime()) == false) {
-            return;
+            return { listChanged: false };
         }
 
         // dispatch loading start
         dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.pending));
-        const response = await handleError(getProfileList(), { dispatch });
+        const response = await handleError(getProfileList(), { dispatch, showLoading: showGlobalLoading });
         // dispatch loading end
         if (!response.success) {
             dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.rejected));
-            return;
+            return response;
         }
         const result = response?.data?.data?.result;
-        const profileListIDs = [];
-        let primaryProfileId: string;
-        const profileList = result.map((item) => {
-            if (item.isPrimary) {
-                primaryProfileId = item.customerId;
-            }
-
-            profileListIDs.push(item.customerId);
-            return {
-                profileId: item.customerId,
-                displayName: item.name,
-                profileType: item.customerTypeId,
-                goIDNumber: item.goid,
-            };
-        });
+        const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const differenceProfiles = xor(currentProfileIds, profileListIDs);
         console.log(`The difference profile ids are:[${differenceProfiles}]`);
+
         if (!isEmpty(differenceProfiles)) {
-            if (!includes(profileListIDs, currentInUseProfileID)) {
-                DialogHelper.showSimpleDialog({
-                    title: i18n.t("common.reminder"),
-                    message: i18n.t("profile.currentInUseInactiveMsg"),
-                    okText: i18n.t("common.gotIt"),
-                    okAction: () => {
-                        dispatch(switchCurrentInUseProfile(primaryProfileId));
-                        refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
-                        NavigationService.navigate(Routers.manageProfile);
-                    },
-                });
-            } else {
+            const refreshCallback = (resetCurrentInUseProfile = false) => {
+                if (resetCurrentInUseProfile) {
+                    dispatch(switchCurrentInUseProfile(primaryProfileId));
+                }
                 refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
                 NavigationService.navigate(Routers.manageProfile);
+            };
+
+            if (!includes(profileListIDs, currentInUseProfileID)) {
+                showListChangedDialog(i18n.t("profile.currentInUseInactiveMsg"), () => refreshCallback(true));
+            } else if (showListChangedMsg) {
+                showListChangedDialog(i18n.t("profile.profileListChanged"), refreshCallback);
+            } else {
+                refreshCallback();
             }
-        } else {
-            refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
+            return { listChanged: true };
         }
+        refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
+        return { listChanged: false };
     };
 
 export default {

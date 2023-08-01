@@ -106,30 +106,6 @@ export const styles = StyleSheet.create({
 export const switchAction = "switch";
 export const removeAction = "remove";
 
-export const removeProfileTypes = {
-    currentInUse: {
-        okText: "profile.switchProfile",
-        message: "profile.removeCurrentInUseProfileMsg",
-        okAction: switchAction,
-    },
-    associatedProfileIsCurrentInUse: {
-        okText: "profile.switchProfile",
-        message: "profile.removeAssociatedProfileIsInUserMsg",
-        okAction: switchAction,
-    },
-    hasAssociatedProfile: {
-        okText: "profile.removeProfile",
-        message: "profile.removeAssociatedProfilesMsg",
-        okAction: removeAction,
-        showAssociatedProfileNames: true,
-    },
-    normal: {
-        okText: "profile.removeProfile",
-        message: "profile.removeProfileMsg",
-        okAction: removeAction,
-    },
-};
-
 export const getHeight = (height) => {
     if (height) {
         return `${height}cm`;

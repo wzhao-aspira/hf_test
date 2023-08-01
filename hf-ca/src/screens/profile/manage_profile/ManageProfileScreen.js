@@ -18,7 +18,10 @@ import AppTheme from "../../../assets/_default/AppTheme";
 import ProfileItemLoading from "./ProfileItemLoading";
 import { REQUEST_STATUS } from "../../../constants/Constants";
 
-export default function ManageProfileScreen() {
+export default function ManageProfileScreen({ route }) {
+    const { params } = route;
+    const isForceRefresh = params?.isForceRefresh || false;
+
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const profileListRequestStatus = useSelector(profileSelectors.selectProfileListRequestStatus);
@@ -29,11 +32,11 @@ export default function ManageProfileScreen() {
 
     useFocus(() => {
         console.log("start auto refresh profile list");
-        dispatch(ProfileThunk.refreshProfileList());
+        dispatch(ProfileThunk.refreshProfileList({ isForce: isForceRefresh }));
     });
 
     const onRefresh = () => {
-        dispatch(ProfileThunk.refreshProfileList(true));
+        dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
     };
 
     return (

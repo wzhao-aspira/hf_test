@@ -8,6 +8,11 @@ export async function getProfiles() {
     return api.v1CustomersLinksGet();
 }
 
+export async function removeProfileById(profileId) {
+    const api = new CustomersApi(getAPIConfig(), null, instance);
+    return api.v1CustomersLinksDelete(profileId);
+}
+
 export async function findAndLinkAuditProfile(findIndividualVM) {
     const api = new CustomersApi(getAPIConfig(), null, instance);
     return api.v1CustomersLinksAdultPost(findIndividualVM);
