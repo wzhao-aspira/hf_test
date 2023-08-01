@@ -4,21 +4,39 @@ import { isEmpty, isArray } from "lodash";
 import { actions as appActions, selectors, updateLoginStep } from "../redux/AppSlice";
 import DialogHelper from "../helper/DialogHelper";
 import LoginStep from "../constants/LoginStep";
-import { globalDataForAPI, handleError } from "../network/APIUtil";
+import { globalDataForAPI, handleError, clearToken } from "../network/APIUtil";
+import { url } from "../network/identityAPI";
+
+const isErrorCode = (error, errorCode) => {
+    if (error.status) {
+        return error.status === errorCode;
+    }
+    if (error.response) {
+        return error.response?.status === errorCode;
+    }
+    return false;
+};
+
+export const isNoAuthorization = (error) => {
+    if (
+        isErrorCode(error, 400) &&
+        error.config?.url?.startsWith(url) &&
+        error.config?.data?.includes("grant_type=refresh_token")
+    ) {
+        console.log("refresh token timeout");
+        return true;
+    }
+    return isErrorCode(error, 401) && globalDataForAPI.jwtToken.access_token;
+};
 
 function getErrorMessage(error) {
     if (isArray(error.response?.data?.errors)) {
         return error.response?.data?.errors.join("\n");
     }
-    return error?.message;
-}
-
-function isNoPermission(error) {
-    let noPermission = false;
-    if (error?.status === 401) {
-        noPermission = true;
+    if (error.response?.data?.error_description) {
+        return error.response?.data?.error_description;
     }
-    return noPermission;
+    return error?.message;
 }
 
 function retryRequest(error, okAction, cancelAction) {
@@ -49,8 +67,8 @@ function useErrorHandling() {
     // use useEffect to avoid an error from react
     useEffect(() => {
         if (!isEmpty(error)) {
-            const noPermission = isNoPermission(error);
-            if (noPermission) {
+            if (isNoAuthorization(error)) {
+                clearToken();
                 setTimeout(() => {
                     dispatch(updateLoginStep(LoginStep.login));
                 });

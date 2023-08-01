@@ -22,7 +22,6 @@ import BiometricLoginBtn from "../../components/BiometricLoginBtn";
 import { resetBiometricIDLoginBlock } from "../../helper/LocalAuthHelper";
 import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
-import { resetConfig } from "../../network/APIConfig";
 import ProfileThunk from "../../redux/ProfileThunk";
 import { clearProfileListFromDB } from "../../helper/DBHelper";
 
@@ -54,7 +53,6 @@ function SignInScreen(route) {
     };
 
     const doSignIn = async (uid = userId, pwd = password) => {
-        resetConfig();
         await clearProfileListFromDB();
 
         const response = await handleError(AccountService.authSignin(uid, pwd), { dispatch, showLoading: true });
