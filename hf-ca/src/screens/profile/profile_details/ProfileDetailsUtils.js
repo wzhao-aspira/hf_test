@@ -3,6 +3,7 @@ import { isEmpty } from "lodash";
 import AppTheme from "../../../assets/BaseTheme";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
+import { isIndividualProfile } from "../../../helper/ProfileHelper";
 
 export const styles = StyleSheet.create({
     container: {
@@ -125,7 +126,7 @@ export const getInfoList = (profile, t) => {
     }
 
     let profilesInfo = [];
-    if (profile.profileType === PROFILE_TYPE_IDS.adult || profile.profileType === PROFILE_TYPE_IDS.youth) {
+    if (isIndividualProfile(profile.profileType)) {
         profilesInfo = [
             {
                 type: t("profile.dateOfBirth"),

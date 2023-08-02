@@ -11,7 +11,7 @@ export default function getGOIDLabel(t, profile) {
 }
 
 export function isIndividualProfile(profileType) {
-    return profileType === PROFILE_TYPE_IDS.adult || profileType === PROFILE_TYPE_IDS.youth;
+    return profileType === PROFILE_TYPE_IDS.adult;
 }
 export function isAssociatedProfile(profileType) {
     return profileType === PROFILE_TYPE_IDS.business || profileType === PROFILE_TYPE_IDS.vessel;
