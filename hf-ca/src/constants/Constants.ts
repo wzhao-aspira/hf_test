@@ -31,8 +31,8 @@ export const DEFAULT_DATE_FORMAT = "MM DD YYYY";
 export const DATE_OF_BIRTH_DISPLAY_FORMAT = "MM/DD/YYYY";
 export const PROFILE_TYPE_IDS = {
     adult: 1,
-    youth: 2,
-    business: 3,
+    youth: 3,
+    business: 2,
     vessel: 4,
 };
 export const PROFILE_TYPES = [

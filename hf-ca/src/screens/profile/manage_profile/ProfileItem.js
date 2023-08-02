@@ -9,7 +9,7 @@ import { commonStyles, profileItemCommonStyle } from "./Styles";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { shortName } from "../../../utils/GenUtil";
 import { genTestId } from "../../../helper/AppHelper";
-import getGOIDLabel from "../../../helper/ProfileHelper";
+import getGOIDLabel, { isAssociatedProfile } from "../../../helper/ProfileHelper";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 
 const typeIcons = {
@@ -28,7 +28,7 @@ export function ProfileShortNameOrIcon({
     const primaryProfileID = useSelector(profileSelectors.selectPrimaryProfileID);
     const borderColor = primaryProfileID === profileId ? AppTheme.colors.error : AppTheme.colors.primary_2;
 
-    if (profileType === PROFILE_TYPE_IDS.business || profileType === PROFILE_TYPE_IDS.vessel) {
+    if (isAssociatedProfile(profileType)) {
         return (
             <View style={[profileItemCommonStyle.profileTypeContainer, iconStyles.container]}>
                 <FontAwesomeIcon icon={typeIcon} size={iconStyles.iconSize || 26} color={AppTheme.colors.primary_2} />
