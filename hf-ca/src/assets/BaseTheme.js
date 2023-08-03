@@ -53,14 +53,17 @@ export default {
         primary_heading: {
             fontFamily: "Lato_Bold",
             fontSize: 30,
+            lineHeight: 30,
         },
         secondary_heading: {
             fontFamily: "Lato_Bold",
             fontSize: 20,
+            lineHeight: 20,
         },
         section_header: {
             fontFamily: "Lato_Bold",
             fontSize: 18,
+            lineHeight: 18,
         },
 
         // roboto font
