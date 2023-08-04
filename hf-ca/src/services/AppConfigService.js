@@ -5,7 +5,6 @@ import { Image } from "expo-image";
 import appConfig from "./mock_data/app_config.json";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
-import { getConfig } from "../network/API";
 import { isJpgFormat } from "../utils/GenUtil";
 
 export async function initAppConfig() {
@@ -37,11 +36,13 @@ export async function initAppConfig() {
 }
 
 export async function getAppJsonConfig() {
-    const config = await getConfig();
-    if (config?.success) {
-        await storeItem(KEY_CONSTANT.keyAppConfig, appConfig);
-        return appConfig;
-    }
-    const storeConfig = await retrieveItem(KEY_CONSTANT.keyAppConfig);
-    return storeConfig;
+    const config = { success: true };
+    setTimeout(async () => {
+        if (config?.success) {
+            await storeItem(KEY_CONSTANT.keyAppConfig, appConfig);
+            return appConfig;
+        }
+        const storeConfig = await retrieveItem(KEY_CONSTANT.keyAppConfig);
+        return storeConfig;
+    }, 1000);
 }
