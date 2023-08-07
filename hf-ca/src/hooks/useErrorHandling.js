@@ -30,11 +30,10 @@ export const isNoAuthorization = (error) => {
 };
 
 function getErrorMessage(error) {
-    if (isArray(error.response?.data?.errors)) {
-        return error.response?.data?.errors.join("\n");
-    }
-    if (error.response?.data?.error_description) {
-        return error.response?.data?.error_description;
+    const errors = error.response?.data?.errors;
+    if (isArray(errors) && errors.length > 0) {
+        const errorMessages = errors.map((err) => Object.values(err).join()).join("\n");
+        return errorMessages;
     }
     return error?.message;
 }
