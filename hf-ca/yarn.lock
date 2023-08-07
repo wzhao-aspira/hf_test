@@ -5246,6 +5246,11 @@ expo-modules-core@1.5.7:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
+expo-screen-orientation@~6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/expo-screen-orientation/-/expo-screen-orientation-6.0.5.tgz#4fcac69c641522c7e658d4fb20b22de82d732aee"
+  integrity sha512-aOOuuQkxNHNxSzfEO037jnD0zYiwBVTvuXeFy/0KntFmuqWmZGaFmFks1uTA2+0wKlbA049kVjkBnA1peybmHQ==
+
 expo-splash-screen@~0.20.4:
   version "0.20.4"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.20.4.tgz#abe77d7a9612627f7048d885cfc5a696e3d3ee3d"
