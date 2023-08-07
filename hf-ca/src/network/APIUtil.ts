@@ -1,6 +1,5 @@
-/* eslint-disable import/no-mutable-exports */
-import { isEmpty } from "lodash";
 import moment from "moment";
+import { isEmpty } from "lodash";
 import { actions as appActions } from "../redux/AppSlice";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 
@@ -8,7 +7,17 @@ export const clientSecret = "6C89A8AF-6CDE-4500-B1C9-C59D876FF3AF";
 export const clientId = "aspira.ca.api";
 export const timeLead = 60;
 
-export const globalDataForAPI = {
+interface GlobalDataForAPI {
+    lastPromise: string | Promise<unknown>;
+    jwtToken: {
+        access_token: null | string;
+        refresh_token: null | string;
+        expires_in: null | number;
+        updateTime: null | number;
+    };
+}
+
+export const globalDataForAPI: GlobalDataForAPI = {
     lastPromise: "",
     jwtToken: {
         access_token: null,
@@ -22,23 +31,34 @@ export function clearLastPromise() {
     globalDataForAPI.lastPromise = null;
 }
 
-export async function handleError(
-    requestPromise,
-    { showError = true, showLoading = false, retry = false, dispatch } = {}
+interface HandleErrorOptions {
+    showError?: boolean;
+    showLoading?: boolean;
+    retry?: boolean;
+    dispatch: any;
+}
+
+export async function handleError<T>(
+    requestPromise: T,
+    { showError = true, showLoading = false, retry = false, dispatch }: HandleErrorOptions
 ) {
     try {
         globalDataForAPI.lastPromise = null;
         if (retry) {
+            // @ts-expect-error
             globalDataForAPI.lastPromise = requestPromise;
         }
         if (showLoading) {
             dispatch(appActions.toggleIndicator(true));
         }
+
         const response = await requestPromise;
+
         return { success: true, data: response };
     } catch (error) {
         if (showError) dispatch(appActions.setError(error));
         console.log(error);
+
         return { success: false };
     } finally {
         if (showLoading) {

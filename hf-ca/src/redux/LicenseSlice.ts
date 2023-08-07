@@ -19,9 +19,7 @@ interface LicenseState {
 export const getLicense = createAsyncThunk(
     "license/getLicense",
     async ({ searchParams }: { searchParams: { activeProfileId: number }; isForce?: boolean }, { dispatch }) => {
-        const data = await handleError(getLicenseData(searchParams), {
-            dispatch,
-        });
+        const data = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), { dispatch });
         return data;
     },
     {
