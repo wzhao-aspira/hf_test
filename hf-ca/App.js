@@ -3,6 +3,7 @@ import { decode, encode } from "base-64";
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
+import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Font from "expo-font";
 import { I18nextProvider } from "react-i18next";
 import { isEmpty } from "lodash";
@@ -58,6 +59,7 @@ export default function App() {
             await initAppConfig();
             await dbCreate();
             await initAppData();
+            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
             setAppReady(true);
             await SplashScreen.hideAsync();
         };

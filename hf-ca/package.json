@@ -44,6 +44,7 @@
         "expo-local-authentication": "~13.4.1",
         "expo-location": "~16.1.0",
         "expo-mail-composer": "~12.3.0",
+        "expo-screen-orientation": "~6.0.5",
         "expo-splash-screen": "~0.20.4",
         "expo-sqlite": "~11.3.1",
         "expo-status-bar": "~1.6.0",
