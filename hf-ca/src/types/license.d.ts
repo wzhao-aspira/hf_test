@@ -1,8 +1,6 @@
 export interface License {
     id: number;
-    profileId: string;
-    productName: string;
-    validFrom?: Date;
-    validTo?: Date;
-    legalName: string;
+    name: string;
+    validFrom?: string;
+    validTo?: string;
 }

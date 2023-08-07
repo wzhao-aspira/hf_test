@@ -1,14 +1,6 @@
-import { isEmpty } from "lodash";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
-
 import licensesAPIs from "../network/api_client/LicensesAPIs";
-
-const getName = (item) => {
-    const { legalName, productName = "" } = item;
-    const name = legalName === "-" || isEmpty(legalName) ? productName : legalName;
-    return name;
-};
 
 const formateDate = (item, formatter) => {
     const validFrom =
@@ -25,13 +17,10 @@ export const formateDateForDashboard = (item) => {
     return formateDate(item, AppContract.outputFormat.fmt_2);
 };
 
-// Get license data function
 export async function getLicenseData(searchParams: { activeProfileId: number }) {
     const { activeProfileId } = searchParams;
 
     const getLicensesByCustomerIDRequestResult = await licensesAPIs.getLicensesByCustomerID(activeProfileId);
-
-    console.log(JSON.stringify(getLicensesByCustomerIDRequestResult));
 
     const { result, errors } = getLicensesByCustomerIDRequestResult.data;
     const licenseList = result.items;
