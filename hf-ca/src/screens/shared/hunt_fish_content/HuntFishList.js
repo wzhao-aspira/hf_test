@@ -1,7 +1,7 @@
-import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useTranslation } from "react-i18next";
-import { faClipboardList, faShoppingCart } from "@fortawesome/pro-light-svg-icons";
+import { faClipboardList } from "@fortawesome/pro-light-svg-icons/faClipboardList";
+import { faShoppingCart } from "@fortawesome/pro-light-svg-icons/faShoppingCart";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import HuntFishCardItem from "./HuntFishCardItem";

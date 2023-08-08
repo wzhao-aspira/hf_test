@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faAngleRight } from "@fortawesome/pro-light-svg-icons";
+import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";

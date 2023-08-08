@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronLeft } from "@fortawesome/pro-light-svg-icons";
+import { faChevronLeft } from "@fortawesome/pro-light-svg-icons/faChevronLeft";
 import AppTheme from "../assets/_default/AppTheme";
 import NavigationService from "../navigation/NavigationService";
 import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";

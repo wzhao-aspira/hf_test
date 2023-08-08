@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { isEmpty } from "lodash";
 import { Trans } from "react-i18next";
-import { faChevronRight } from "@fortawesome/pro-regular-svg-icons";
+import { faChevronRight } from "@fortawesome/pro-regular-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import PaginationDot from "react-native-animated-pagination-dot";
 import AppTheme from "../../../assets/_default/AppTheme";

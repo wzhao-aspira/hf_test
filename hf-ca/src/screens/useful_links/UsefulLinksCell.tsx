@@ -5,7 +5,7 @@ import NetInfo from "@react-native-community/netinfo";
 import * as FileSystem from "expo-file-system";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEllipsisH } from "@fortawesome/pro-regular-svg-icons";
+import { faEllipsisH } from "@fortawesome/pro-regular-svg-icons/faEllipsisH";
 
 import { Trans, useTranslation } from "react-i18next";
 

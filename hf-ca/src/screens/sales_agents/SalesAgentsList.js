@@ -1,4 +1,4 @@
-import { faMapMarker } from "@fortawesome/pro-light-svg-icons";
+import { faMapMarker } from "@fortawesome/pro-light-svg-icons/faMapMarker";
 import { FlatList } from "react-native-gesture-handler";
 import { View, StyleSheet, Text, Linking } from "react-native";
 import { isEmpty } from "lodash";

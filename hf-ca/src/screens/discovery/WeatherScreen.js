@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
-import { faCloudShowersHeavy, faCompass, faSun, faThermometerHalf } from "@fortawesome/pro-light-svg-icons";
+import { faCloudShowersHeavy } from "@fortawesome/pro-light-svg-icons/faCloudShowersHeavy";
+import { faCompass } from "@fortawesome/pro-light-svg-icons/faCompass";
+import { faSun } from "@fortawesome/pro-light-svg-icons/faSun";
+import { faThermometerHalf } from "@fortawesome/pro-light-svg-icons/faThermometerHalf";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
 import { useTranslation } from "react-i18next";

@@ -1,7 +1,6 @@
-import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faAngleRight } from "@fortawesome/pro-regular-svg-icons";
+import { faAngleRight } from "@fortawesome/pro-regular-svg-icons/faAngleRight";
 import AppTheme from "../../assets/_default/AppTheme";
 
 const styles = StyleSheet.create({

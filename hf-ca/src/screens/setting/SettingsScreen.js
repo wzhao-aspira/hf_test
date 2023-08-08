@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
+import { faChevronRight } from "@fortawesome/pro-light-svg-icons/faChevronRight";
 import { View, StyleSheet, ScrollView, Text, Pressable } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";

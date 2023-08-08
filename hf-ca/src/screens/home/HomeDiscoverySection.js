@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { faLocationArrow } from "@fortawesome/pro-solid-svg-icons";
-import { faSunrise, faSunset } from "@fortawesome/pro-light-svg-icons";
+import { faLocationArrow } from "@fortawesome/pro-solid-svg-icons/faLocationArrow";
+import { faSunrise } from "@fortawesome/pro-light-svg-icons/faSunrise";
+import { faSunset } from "@fortawesome/pro-light-svg-icons/faSunset";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import moment from "moment";
 import { useSelector } from "react-redux";
