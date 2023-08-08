@@ -52,7 +52,7 @@ export const saveProfile = async (dispatch, mobileAccount, isAddPrimaryProfile, 
             });
             return false;
         }
-        dispatch(ProfileThunk.initProfile());
+        await dispatch(ProfileThunk.initProfile());
         return true;
     }
     return false;
