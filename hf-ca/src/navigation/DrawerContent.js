@@ -139,7 +139,6 @@ export default function DrawerContent({ navigation }) {
     }, [drawerStatus]);
 
     const onSignOut = async () => {
-        // Clear the mobile account that saved in local storage
         await setActiveUserID(null);
         // Set login step
         dispatch(updateLoginStep(LoginStep.login));

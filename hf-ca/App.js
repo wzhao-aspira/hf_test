@@ -3,7 +3,7 @@ import { decode, encode } from "base-64";
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
-import * as ScreenOrientation from 'expo-screen-orientation';
+import * as ScreenOrientation from "expo-screen-orientation";
 import * as Font from "expo-font";
 import { I18nextProvider } from "react-i18next";
 import { isEmpty } from "lodash";

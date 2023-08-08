@@ -17,8 +17,7 @@ const startAuth = async (onAuthSuccess, onError) => {
     startBiometricAuth(
         userID,
         async () => {
-            const mobileAccount = await getLoginCredential(userID);
-            const userInfo = mobileAccount?.account;
+            const userInfo = await getLoginCredential(userID);
             if (isEmpty(userInfo)) {
                 return;
             }

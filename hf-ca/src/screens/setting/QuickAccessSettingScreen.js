@@ -12,7 +12,6 @@ import {
     updateAuthInfo,
     startBiometricAuth,
     setLastBiometricLoginUser,
-    setLoginCredential,
     saveOnboardingPageAppear,
 } from "../../helper/LocalAuthHelper";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
@@ -82,7 +81,6 @@ export default function QuickAccessMethodsScreen() {
                             userID,
                             () => {
                                 saveOnboardingPageAppear(userID);
-                                setLoginCredential(userID);
                                 setLastBiometricLoginUser(userID);
                                 setAccessType(1);
                             },
