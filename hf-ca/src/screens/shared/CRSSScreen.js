@@ -73,7 +73,7 @@ export default function CRSSScreen({ route }) {
                 showLoading: true,
             });
             if (ret.success) {
-                dispatch(ProfileThunk.initProfile());
+                await dispatch(ProfileThunk.initProfile());
                 if (!isEmpty(routeScreen)) {
                     NavigationService.navigate(routeScreen);
                 } else {
