@@ -5,44 +5,42 @@ import { commonStyles, dialogStyles } from "./Styles";
 import ProfileItem from "./ProfileItem";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
-// import { getSwitchStatus } from "../../../services/ProfileService";
-// import { selectUsername } from "../../../redux/AppSlice";
-// import DialogHelper from "../../../helper/DialogHelper";
 import NavigationService from "../../../navigation/NavigationService";
+import DialogHelper from "../../../helper/DialogHelper";
+import { actions as appActions } from "../../../redux/AppSlice";
+import { handleError } from "../../../network/APIUtil";
+import { getProfileList } from "../../../services/ProfileService";
 
 export default function SwitchProfileDialog({ hideDialog }) {
     const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
-    // const userID = useSelector(selectUsername);
 
-    const switchProfileCallback = async () => {
+    const switchProfileCallback = (result) => {
+        dispatch(profileThunkActions.refreshProfiles(result));
         hideDialog();
-        // dispatch(profileThunkActions.initProfile());
     };
 
     const handleSwitch = async (profileId) => {
-        // TODO: get profile list from api
-        // const switchStatus = await getSwitchStatus(userID, profileId);
-        // if (switchStatus.error) {
-        //     return;
-        // }
-        // if (!switchStatus.canSwitch) {
-        //     DialogHelper.showSimpleDialog({
-        //         title: "common.reminder",
-        //         message: "errMsg.profileStatusChanged",
-        //         okText: "common.gotIt",
-        //         withModal: true,
-        //         okAction: () => {
-        //             switchProfileCallback();
-        //         },
-        //     });
-        //     return;
-        // }
+        dispatch(appActions.toggleIndicator(true));
+        const response = await handleError(getProfileList(), { dispatch });
 
-        dispatch(profileThunkActions.switchCurrentInUseProfile(profileId)).then(() => {
-            switchProfileCallback();
-        });
+        if (response.success) {
+            const { result } = response?.data?.data || [];
+            const profile = result.find((item) => item.customerId === profileId);
+            if (profile) {
+                await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
+                switchProfileCallback(result);
+            } else {
+                DialogHelper.showSimpleDialog({
+                    title: "common.reminder",
+                    message: "profile.targetProfileIsInactive",
+                    okText: "common.gotIt",
+                    okAction: () => switchProfileCallback(result),
+                });
+            }
+        }
+        dispatch(appActions.toggleIndicator(false));
     };
 
     return (
