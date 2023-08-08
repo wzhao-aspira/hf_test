@@ -5,7 +5,6 @@ import { isIos } from "./AppHelper";
 import { retrieveItem, storeItem } from "./StorageHelper";
 import i18n from "../localization/i18n";
 import { KEY_CONSTANT } from "../constants/Constants";
-import { getMobileAccountById } from "./DBHelper";
 import SecurityUtil from "../utils/SecurityUtil";
 import DialogHelper from "./DialogHelper";
 
@@ -81,15 +80,8 @@ export async function blockBiometricIDLogin(userID) {
     await storeItem(KEY_CONSTANT.biometricIDSwitchBlock + userID, true);
 }
 
-export async function resetBiometricIDLoginBlock(userID, updatePassword = false) {
+export async function resetBiometricIDLoginBlock(userID) {
     await AsyncStorage.multiRemove([KEY_CONSTANT.biometricIDSwitchBlock + userID]);
-    if (updatePassword) {
-        const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userID, false);
-        // update password if user enable biometric login
-        if (biometricIDSwitch) {
-            setLoginCredential(userID);
-        }
-    }
 }
 
 export async function updateAuthInfo(authEnable, userID) {
@@ -99,9 +91,13 @@ export async function updateAuthInfo(authEnable, userID) {
     }
 }
 
-export async function setLoginCredential(userID) {
-    const mobileAccount = await getMobileAccountById(userID);
-    const encrypted = SecurityUtil.xorEncrypt(JSON.stringify(mobileAccount));
+export async function setLoginCredential(userID, password) {
+    const encrypted = SecurityUtil.xorEncrypt(
+        JSON.stringify({
+            userID,
+            password,
+        })
+    );
     storeItem(`${KEY_CONSTANT.lastBiometricLoginUserAuthInfo}_${userID}`, encrypted);
 }
 
