@@ -20,6 +20,12 @@ const AppContract = {
         uat: "https://uatcan-psapirest.reserveamerica.com/",
         prod: "https://can-psapi-rest.reserveamerica.com/",
     },
+    internetSalesURL: {
+        // TODO: Waiting BA provide links for UAT & PROD
+        qa: "https://qa.ca.wildlifelicense.com/prod/internetsales/",
+        uat: "https://qa.ca.wildlifelicense.com/prod/internetsales/",
+        prod: "https://qa.ca.wildlifelicense.com/prod/internetsales/",
+    },
     link: {
         helpAndSupportLink: "https://wildlife.ca.gov/Contact",
         privacyPolicy: "https://www.wildlife.ca.gov/Privacy-Policy",

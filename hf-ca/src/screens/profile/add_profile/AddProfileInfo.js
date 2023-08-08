@@ -22,6 +22,7 @@ import OnBoardingHelper from "../../../helper/OnBoardingHelper";
 import profileSelectors from "../../../redux/ProfileSelector";
 import { handleError } from "../../../network/APIUtil";
 import ProfileThunk from "../../../redux/ProfileThunk";
+import Routers from "../../../constants/Routers";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -35,19 +36,24 @@ const styles = StyleSheet.create({
     },
 });
 
-export const saveProfile = async (dispatch, isAddPrimaryProfile, profile) => {
-    if (isAddPrimaryProfile) {
-        const ret = await handleError(findAndLinkPrimaryProfile(profile), { dispatch, showLoading: true });
-        if (ret.success) {
-            dispatch(ProfileThunk.initProfile());
-            return true;
+export const saveProfile = async (dispatch, mobileAccount, isAddPrimaryProfile, profile, routeScreen) => {
+    const ret = await handleError(
+        isAddPrimaryProfile ? findAndLinkPrimaryProfile(profile) : findAndLinkProfile(profile),
+        { dispatch, showLoading: true }
+    );
+    if (ret.success) {
+        if (ret.data?.customer?.useCRSS) {
+            NavigationService.navigate(Routers.crss, {
+                mobileAccount,
+                customer: ret.data.customer,
+                profile,
+                routeScreen,
+                isAddPrimaryProfile,
+            });
+            return false;
         }
-    } else {
-        const ret = await handleError(findAndLinkProfile(profile), { dispatch, showLoading: true });
-        if (ret.success) {
-            dispatch(ProfileThunk.initProfile());
-            return true;
-        }
+        dispatch(ProfileThunk.initProfile());
+        return true;
     }
     return false;
 };
@@ -106,7 +112,7 @@ function AddProfileInfo({
         }
         if (errorReported) return;
 
-        const isSaveSuccess = await saveProfile(dispatch, isAddPrimaryProfile, profile);
+        const isSaveSuccess = await saveProfile(dispatch, mobileAccount, isAddPrimaryProfile, profile, routeScreen);
         if (!isSaveSuccess) {
             return;
         }

@@ -12,6 +12,7 @@ import {
     findAndLinkYouthProfile,
     removeProfileById,
     getCustomersOwnerships,
+    linkProfileBasedOnCustomerId,
 } from "../network/api_client/CustomersApi";
 
 import {
@@ -173,6 +174,10 @@ export async function findAndLinkPrimaryProfile(profile) {
 
 export async function findAndLinkProfile(profile) {
     return linkProfile(profile, false);
+}
+
+export async function linkCRSSProfile(customerId, password, isPrimaryCustomer) {
+    return linkProfileBasedOnCustomerId({ customerId, password, isPrimaryCustomer });
 }
 
 export async function updateCurrentInUseProfileID(accountID, currentInUseProfileID) {
