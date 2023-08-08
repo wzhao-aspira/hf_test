@@ -140,10 +140,11 @@ const switchCurrentInUseProfile =
             dispatch(getLicense({ isForce: true, searchParams: { activeProfileId: profileID } }));
         } catch (error) {
             // TODO: handle error
+            console.log("switch profile error:", error);
         }
     };
 
-const refreshProfiles = async (dispatch, result, primaryProfileId, profileListIDs, profileList) => {
+const refreshProfiles = (result) => async (dispatch) => {
     // update database
     const dbResult = await updateProfileListToDB(result);
     if (dbResult.success) {
@@ -152,6 +153,7 @@ const refreshProfiles = async (dispatch, result, primaryProfileId, profileListID
         console.log("update profile list db error");
         return;
     }
+    const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
     dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
     dispatch(profileActions.updateProfileIDs(profileListIDs));
     dispatch(profileActions.setProfileList(profileList));
@@ -186,7 +188,7 @@ const refreshProfileList =
             return response;
         }
         const result = response?.data?.data?.result;
-        const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
+        const { primaryProfileId, profileListIDs } = getProfileData(result);
         const differenceProfiles = xor(currentProfileIds, profileListIDs);
         console.log(`The difference profile ids are:[${differenceProfiles}]`);
 
@@ -195,7 +197,7 @@ const refreshProfileList =
                 if (resetCurrentInUseProfile) {
                     dispatch(switchCurrentInUseProfile(primaryProfileId));
                 }
-                refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
+                dispatch(refreshProfiles(result));
                 NavigationService.navigate(Routers.manageProfile);
             };
 
@@ -208,7 +210,8 @@ const refreshProfileList =
             }
             return { listChanged: true };
         }
-        refreshProfiles(dispatch, result, primaryProfileId, profileListIDs, profileList);
+
+        dispatch(refreshProfiles(result));
         return { listChanged: false };
     };
 
@@ -217,4 +220,5 @@ export default {
     initProfile,
     switchCurrentInUseProfile,
     refreshProfileList,
+    refreshProfiles,
 };

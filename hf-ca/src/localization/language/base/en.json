@@ -156,7 +156,8 @@
         "removePrimaryProfileMsg": "The primary profile can not be removed.",
         "removeCurrentInUseProfileMsg": "The profile is current in use, please switch profile first.",
         "currentInUseInactiveMsg": "Unable to proceed with the current account. We will display information based on your primary account.",
-        "profileListChanged": "The current profile list has been updated. Please check the updated list before removing the profile."
+        "profileListChanged": "The current profile list has been updated. Please check the updated list before removing the profile.",
+        "targetProfileIsInactive": "This switched to profile has been updated."
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",

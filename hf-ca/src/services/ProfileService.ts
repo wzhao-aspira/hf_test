@@ -1,9 +1,6 @@
-import { difference } from "lodash";
-import profileList from "./mock_data/profiles.json";
-import { checkMobileAccount, getMobileAccountById, updateMobileAccountOtherProfileIds } from "../helper/DBHelper";
+import { checkMobileAccount } from "../helper/DBHelper";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
-import { isAssociatedProfile } from "../helper/ProfileHelper";
 import {
     getProfiles,
     findAndLinkAuditProfile,
@@ -45,46 +42,9 @@ export async function getProfileList() {
     return response;
 }
 
-export function getProfileListByIDs(profileListIDs) {
-    const profiles = profileList;
-    return profiles.filter((profile) => profileListIDs.includes(profile.profileId));
-}
-
-export function isProfileAlreadyAssociatedWithAccount(mobileAccount, profile) {
-    return (
-        mobileAccount?.otherProfileIds?.find((pId) => pId === profile.profileId) ||
-        mobileAccount?.primaryProfileId === profile.profileId
-    );
-}
-
 export async function checkAccountEmailIsExisting(userID) {
     const checkResult = await checkMobileAccount(userID);
     return checkResult.success && checkResult.count > 0;
-}
-
-export async function getMobileAccountByUserId(userID) {
-    const mobileAccount = await getMobileAccountById(userID);
-    return mobileAccount?.account;
-}
-
-/**
- * @deprecated use removeProfile
- */
-export async function removeProfilesByUserId(userID, deletedProfileIds) {
-    const mobileAccount = await getMobileAccountById(userID);
-    if (!mobileAccount?.account) {
-        return { success: false };
-    }
-    const { otherProfileIds } = mobileAccount.account;
-
-    const newOtherProfileIds = difference(otherProfileIds, deletedProfileIds);
-    const updateResponse = await updateMobileAccountOtherProfileIds(userID, newOtherProfileIds.join(","));
-
-    if (updateResponse.success) {
-        return { success: true };
-    }
-
-    return { success: false };
 }
 
 export async function removeProfile(profileId) {
@@ -228,53 +188,5 @@ export async function removeAccountCurrentInUseProfileID(accountID) {
                 JSON.stringify(parsedAccountsCurrentInUseProfileID)
             );
         }
-    }
-}
-
-export async function getProfilesByUserID(userID) {
-    const accountData = await getMobileAccountById(userID);
-    const account = accountData?.account;
-
-    const profileIds = [account.primaryProfileId, ...account.otherProfileIds];
-    const profiles = getProfileListByIDs(profileIds);
-
-    return profiles;
-}
-
-export async function getSwitchStatus(userId, profileID) {
-    try {
-        let canSwitch = true;
-        const ownerStatusChangedProfileIds = [];
-        const profiles = await getProfilesByUserID(userId);
-        const profile = profiles.find((item) => item.profileId === profileID);
-        const inactiveProfileIds = profiles.filter((item) => !item.valid).map((item) => item.profileId);
-        const activeProfiles = profiles.filter((item) => item.valid);
-
-        if (inactiveProfileIds.includes(profileID)) {
-            canSwitch = false;
-        }
-
-        if (isAssociatedProfile(profile.profileType)) {
-            const ownerProfile = profiles.find((item) => item.profileId === profile.ownerId);
-            // 1. The profile's owner is changed but not added; 2. The profile's owner is inactive
-            if (!ownerProfile || inactiveProfileIds.includes(ownerProfile.profileId)) {
-                canSwitch = false;
-            }
-        }
-
-        activeProfiles.forEach((activeProfile) => {
-            if (isAssociatedProfile(activeProfile.profileType)) {
-                const ownerProfile = activeProfiles.find((item) => item.profileId === activeProfile.ownerId);
-                if (!ownerProfile) {
-                    ownerStatusChangedProfileIds.push(activeProfile.profileId);
-                }
-            }
-        });
-
-        await removeProfilesByUserId(userId, [...inactiveProfileIds, ...ownerStatusChangedProfileIds]);
-        return { canSwitch };
-    } catch (error) {
-        console.log("getSwitchStatus error", error);
-        return { error: true };
     }
 }
