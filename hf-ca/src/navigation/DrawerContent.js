@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
+import { faChevronRight } from "@fortawesome/pro-light-svg-icons/faChevronRight";
 import { useDrawerStatus } from "@react-navigation/drawer";
 import { Trans, useTranslation } from "react-i18next";
 import { DRAWER_WIDTH } from "../constants/Dimension";

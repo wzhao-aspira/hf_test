@@ -1,7 +1,6 @@
-import React from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBars } from "@fortawesome/pro-light-svg-icons";
+import { faBars } from "@fortawesome/pro-light-svg-icons/faBars";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import AppTheme from "../assets/_default/AppTheme";

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faMapMarker } from "@fortawesome/pro-solid-svg-icons";
-import { faChevronDown } from "@fortawesome/pro-light-svg-icons";
+import { faMapMarker } from "@fortawesome/pro-solid-svg-icons/faMapMarker";
+import { faChevronDown } from "@fortawesome/pro-light-svg-icons/faChevronDown";
 import AppTheme from "../assets/_default/AppTheme";
 import AppContract from "../assets/_default/AppContract";
 import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";

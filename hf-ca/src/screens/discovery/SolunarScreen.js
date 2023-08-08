@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
-import { faMoon, faSun } from "@fortawesome/pro-light-svg-icons";
+import { faMoon } from "@fortawesome/pro-light-svg-icons/faMoon";
+import { faSun } from "@fortawesome/pro-light-svg-icons/faSun";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";

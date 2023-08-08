@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useImperativeHandle, useState } from "react";
 import { Pressable, StyleSheet, Text, View, FlatList } from "react-native";
 import color from "color";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons/faCaretDown";
 import AppTheme from "../assets/_default/AppTheme";
 import SVGIcon, { pathList } from "./SVGIcon";
 import { Dialog } from "./Dialog";

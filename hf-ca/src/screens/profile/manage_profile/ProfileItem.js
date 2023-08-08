@@ -1,7 +1,8 @@
 import { Pressable, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import { faChevronRight } from "@fortawesome/pro-light-svg-icons";
-import { faBuilding, faShip } from "@fortawesome/pro-regular-svg-icons";
+import { faChevronRight } from "@fortawesome/pro-light-svg-icons/faChevronRight";
+import { faBuilding } from "@fortawesome/pro-regular-svg-icons/faBuilding";
+import { faShip } from "@fortawesome/pro-regular-svg-icons/faShip";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useTranslation } from "react-i18next";
 import AppTheme from "../../../assets/_default/AppTheme";

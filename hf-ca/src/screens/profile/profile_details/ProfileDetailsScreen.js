@@ -2,7 +2,7 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons";
+import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons/faLinkSlash";
 
 import { selectors } from "../../../redux/ProfileSlice";
 import { removeProfile } from "../../../services/ProfileService";
