@@ -4,21 +4,25 @@ import { isEmpty } from "lodash";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as WebBrowser from "expo-web-browser";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import AppTheme from "../../assets/_default/AppTheme";
 import { SharedStyles } from "../../styles/CommonStyles";
 import { DEFAULT_BTN_RADIUS } from "../../constants/Dimension";
-import { genTestId, showNotImplementedFeature } from "../../helper/AppHelper";
+import { genTestId, getInternetSalesURL } from "../../helper/AppHelper";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import { updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
-import { saveProfile } from "../profile/add_profile/AddProfileInfo";
+import { linkCRSSProfile } from "../../services/ProfileService";
 import Attention from "../../components/Attention";
-import DialogHelper from "../../helper/DialogHelper";
+import { handleError } from "../../network/APIUtil";
+import ProfileThunk from "../../redux/ProfileThunk";
+import DateUtils from "../../utils/DateUtils";
+import AppContract from "../../assets/_default/AppContract";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -26,17 +30,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40,
         flex: 1,
     },
-    account_label: {
+    field_label: {
         ...SharedStyles.page_content_title,
         marginTop: 30,
         marginBottom: 10,
     },
-    account_container: {
+    field_container: {
         alignSelf: "flex-start",
         borderRadius: DEFAULT_BTN_RADIUS,
         backgroundColor: AppTheme.colors.body_100,
     },
-    account_content: {
+    field_content: {
         padding: 10,
     },
     submit_button: {
@@ -47,7 +51,7 @@ const styles = StyleSheet.create({
 export default function CRSSScreen({ route }) {
     const { t } = useTranslation();
     const { params } = route || {};
-    const { mobileAccount, profile, routeScreen, isAddPrimaryProfile } = params || {};
+    const { mobileAccount, customer, profile, routeScreen, isAddPrimaryProfile } = params || {};
     const dispatch = useDispatch();
 
     const passwordRef = React.createRef();
@@ -63,27 +67,25 @@ export default function CRSSScreen({ route }) {
         const error = emptyValidate(password, t("errMsg.emptyPassword"));
         if (error.error) {
             passwordRef?.current.setError(error);
-        } else if (password == profile?.crssPassword) {
-            const isSaveSuccess = await saveProfile(dispatch, isAddPrimaryProfile, mobileAccount, profile);
-            if (!isSaveSuccess) {
-                return;
-            }
-            if (!isEmpty(routeScreen)) {
-                NavigationService.navigate(routeScreen);
-            } else {
-                const { userID } = mobileAccount;
-                const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
-                if (!isEmpty(onBoardingScreens)) {
-                    dispatch(updateLoginStep(LoginStep.onBoarding));
+        } else {
+            const ret = await handleError(linkCRSSProfile(customer.customerId, password, isAddPrimaryProfile), {
+                dispatch,
+                showLoading: true,
+            });
+            if (ret.success) {
+                dispatch(ProfileThunk.initProfile());
+                if (!isEmpty(routeScreen)) {
+                    NavigationService.navigate(routeScreen);
                 } else {
-                    dispatch(updateLoginStep(LoginStep.home));
+                    const { userID } = mobileAccount;
+                    const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
+                    if (!isEmpty(onBoardingScreens)) {
+                        dispatch(updateLoginStep(LoginStep.onBoarding));
+                    } else {
+                        dispatch(updateLoginStep(LoginStep.home));
+                    }
                 }
             }
-        } else {
-            DialogHelper.showSimpleDialog({
-                title: "common.error",
-                message: "errMsg.incorrectPassword",
-            });
         }
     };
 
@@ -93,12 +95,32 @@ export default function CRSSScreen({ route }) {
             <KeyboardAwareScrollView>
                 <View style={styles.page_container}>
                     <Attention contentKey="crss.attentionContent" />
-                    <Text testID={genTestId("AccountLabel")} style={styles.account_label}>
-                        <Trans i18nKey="common.account" />
+                    <Text testID={genTestId("LastNameLabel")} style={styles.field_label}>
+                        <Trans i18nKey="profile.lastName" />
                     </Text>
-                    <View style={styles.account_container}>
-                        <Text testID={genTestId("AccountContent")} style={styles.account_content}>
-                            {profile?.crssEmail}
+                    <View style={styles.field_container}>
+                        <Text testID={genTestId("LastNameContent")} style={styles.field_content}>
+                            {profile.lastName}
+                        </Text>
+                    </View>
+                    <Text testID={genTestId("DateOfBirthLabel")} style={styles.field_label}>
+                        <Trans i18nKey="profile.dateOfBirth" />
+                    </Text>
+                    <View style={styles.field_container}>
+                        <Text testID={genTestId("DateOfBirthContent")} style={styles.field_content}>
+                            {DateUtils.dateToFormat(
+                                profile.dateOfBirth,
+                                AppContract.outputFormat.fmt_2,
+                                AppContract.inputFormat.fmt_5
+                            )}
+                        </Text>
+                    </View>
+                    <Text testID={genTestId("GOIDLabel")} style={styles.field_label}>
+                        <Trans i18nKey="profile.identificationTypeGOID" />
+                    </Text>
+                    <View style={styles.field_container}>
+                        <Text testID={genTestId("GOIDContent")} style={styles.field_content}>
+                            {customer.goid}
                         </Text>
                     </View>
                     <StatefulTextInput
@@ -121,7 +143,12 @@ export default function CRSSScreen({ route }) {
                         password
                         note={t("common.forgotPassword")}
                         onClickNote={() => {
-                            showNotImplementedFeature();
+                            WebBrowser.openBrowserAsync(`${getInternetSalesURL()}CustomerSearch/Begin`).catch(
+                                (error) => {
+                                    // handle error
+                                    console.log(error);
+                                }
+                            );
                         }}
                         onBlur={() => {
                             const error = emptyValidate(password, t("errMsg.emptyPassword"));

@@ -10,8 +10,4 @@ const getConfig = () => {
     return new Configuration({ baseOptions, basePath: `${getBaseURL()}Prod/api` });
 };
 
-export const getNormalConfig = () => {
-    return new Configuration({ basePath: `${getBaseURL()}Prod/api` });
-};
-
 export default getConfig;

@@ -38,6 +38,16 @@ export function getBaseURL() {
     return AppContract.URL.qa;
 }
 
+export function getInternetSalesURL() {
+    if (isUATEnv()) {
+        return AppContract.internetSalesURL.uat;
+    }
+    if (isProdEnv()) {
+        return AppContract.internetSalesURL.prod;
+    }
+    return AppContract.internetSalesURL.qa;
+}
+
 export function showToast(message, option = {}) {
     Toast.show(message, {
         duration: Toast.durations.SHORT,

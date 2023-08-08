@@ -37,3 +37,8 @@ export async function getCustomersOwnerships() {
     const api = new CustomersApi(getAPIConfig(), null, instance);
     return api.v1CustomersOwnershipsGet();
 }
+
+export async function linkProfileBasedOnCustomerId(userCustomerAddVM) {
+    const api = new CustomersApi(getAPIConfig(), null, instance);
+    return api.v1CustomersLinksPost(userCustomerAddVM);
+}
