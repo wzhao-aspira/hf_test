@@ -115,7 +115,7 @@ function SignUp() {
             return;
         }
         if (!storedMobileAccount) return;
-        const signInResult = await handleError(AccountService.authSignin(userID, mobileAccount?.password), {
+        const signInResult = await handleError(AccountService.authSignIn(userID, mobileAccount?.password), {
             dispatch,
             showLoading: true,
         });

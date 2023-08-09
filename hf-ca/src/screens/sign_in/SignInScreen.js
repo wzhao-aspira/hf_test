@@ -55,7 +55,7 @@ function SignInScreen(route) {
     const doSignIn = async (uid = userId, pwd = password) => {
         await clearProfileListFromDB();
 
-        const response = await handleError(AccountService.authSignin(uid, pwd), { dispatch, showLoading: true });
+        const response = await handleError(AccountService.authSignIn(uid, pwd), { dispatch, showLoading: true });
         if (!response.success) {
             return;
         }

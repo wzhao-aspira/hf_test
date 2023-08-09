@@ -2,6 +2,7 @@ import { clientSecret, clientId, saveJwtToken, globalDataForAPI } from "./APIUti
 import { getBaseURL } from "../helper/AppHelper";
 
 export const url = "/Prod/identity/v1/connect/token";
+export const signOutURL = "/prod/identity/v1/connect/revocation";
 
 export async function signIn(instance, username, password) {
     const data = { client_secret: clientSecret, grant_type: "password", client_id: clientId, username, password };
@@ -38,5 +39,19 @@ export async function refreshToken(instance, username) {
     });
     saveJwtToken(result, username);
 
+    return result;
+}
+
+export async function tokenRevocation(instance, token) {
+    const data = { client_secret: clientSecret, client_id: clientId, token };
+    const result = await instance.request({
+        method: "post",
+        url: signOutURL,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        baseURL: getBaseURL(),
+        data,
+    });
     return result;
 }

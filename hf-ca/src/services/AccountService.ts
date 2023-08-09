@@ -6,8 +6,9 @@ import {
 } from "../helper/DBHelper";
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 import { sendMobileAppUsersValidationCodeByEmail, createMobileAppUser } from "../network/api_client/MobileAppUsersApi";
-import { signIn } from "../network/identityAPI";
+import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance } from "../network/AxiosClient";
+import { clearToken, globalDataForAPI } from "../network/APIUtil";
 
 async function verifyPassword(accountID: string, accountPassword: string) {
     try {
@@ -71,7 +72,7 @@ async function updateMobileAccountPasswordByUserId(userID: string, password: str
     return updateMobileAccountPasswordById(userID, password);
 }
 
-async function authSignin(userID, password) {
+async function authSignIn(userID, password) {
     const response = await signIn(instance, userID, password);
     return response;
 }
@@ -86,6 +87,21 @@ async function createMobileAccount(userID: string, validationCode: string, passw
     return ret?.data.result;
 }
 
+async function signOut() {
+    const response = await Promise.all([
+        tokenRevocation(instance, globalDataForAPI.jwtToken.refresh_token),
+        tokenRevocation(instance, globalDataForAPI.jwtToken.access_token),
+    ]);
+    return response;
+}
+
+async function clearSignInInfo() {
+    const userID = await getActiveUserID();
+
+    await setActiveUserID(null);
+    clearToken(userID);
+}
+
 export default {
     sendEmailValidationCode,
     createMobileAccount,
@@ -93,5 +109,7 @@ export default {
     deleteCurrentAccount,
     isMobileAccountExisted,
     updateMobileAccountPasswordByUserId,
-    authSignin,
+    authSignIn,
+    signOut,
+    clearSignInInfo,
 };
