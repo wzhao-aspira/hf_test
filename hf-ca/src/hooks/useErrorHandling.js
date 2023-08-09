@@ -4,8 +4,9 @@ import { isEmpty, isArray } from "lodash";
 import { actions as appActions, selectors, updateLoginStep } from "../redux/AppSlice";
 import DialogHelper from "../helper/DialogHelper";
 import LoginStep from "../constants/LoginStep";
-import { globalDataForAPI, handleError, clearToken } from "../network/APIUtil";
+import { globalDataForAPI, handleError } from "../network/APIUtil";
 import { url } from "../network/identityAPI";
+import { clearSignInInfo } from "../helper/AppHelper";
 
 const isErrorCode = (error, errorCode) => {
     if (error.status) {
@@ -67,10 +68,7 @@ function useErrorHandling() {
     useEffect(() => {
         if (!isEmpty(error)) {
             if (isNoAuthorization(error)) {
-                clearToken();
-                setTimeout(() => {
-                    dispatch(updateLoginStep(LoginStep.login));
-                });
+                clearSignInInfo().then(() => dispatch(updateLoginStep(LoginStep.login)));
             } else if (globalDataForAPI.lastPromise) {
                 retryRequest(
                     error,

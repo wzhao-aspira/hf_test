@@ -12,7 +12,7 @@ import SplitLine from "../components/SplitLine";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { genTestId, openLink, setActiveUserID, showNotImplementedFeature } from "../helper/AppHelper";
+import { clearSignInInfo, genTestId, openLink, showNotImplementedFeature } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
@@ -21,6 +21,8 @@ import NavigationService from "./NavigationService";
 import DialogHelper from "../helper/DialogHelper";
 import { retrieveItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
+import { handleError } from "../network/APIUtil";
+import AccountService from "../services/AccountService";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -139,9 +141,11 @@ export default function DrawerContent({ navigation }) {
     }, [drawerStatus]);
 
     const onSignOut = async () => {
-        await setActiveUserID(null);
-        // Set login step
-        dispatch(updateLoginStep(LoginStep.login));
+        const response = await handleError(AccountService.signOut(), { dispatch, showLoading: true });
+        if (response.success) {
+            await clearSignInInfo();
+            dispatch(updateLoginStep(LoginStep.login));
+        }
     };
 
     const renderProfileSection = () => {
