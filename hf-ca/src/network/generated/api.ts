@@ -74,10 +74,10 @@ export interface AppConfigVMExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof AppConfigVMExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -118,10 +118,10 @@ export interface CountryVMListExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof CountryVMListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -131,10 +131,10 @@ export interface CountryVMListExecutionResult {
 export interface CustomerBasicVM {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CustomerBasicVM
      */
-    'customerId'?: number;
+    'customerId'?: string;
     /**
      * 
      * @type {number}
@@ -192,10 +192,10 @@ export interface CustomerBasicVMListExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof CustomerBasicVMListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -205,10 +205,10 @@ export interface CustomerBasicVMListExecutionResult {
 export interface CustomerIdVM {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CustomerIdVM
      */
-    'customerId'?: number;
+    'customerId'?: string;
 }
 /**
  * 
@@ -230,10 +230,10 @@ export interface CustomerIdVMExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof CustomerIdVMExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -255,10 +255,10 @@ export interface CustomerIdVMListExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof CustomerIdVMListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -268,10 +268,10 @@ export interface CustomerIdVMListExecutionResult {
 export interface CustomerVM {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CustomerVM
      */
-    'customerId'?: number;
+    'customerId'?: string;
     /**
      * 
      * @type {number}
@@ -329,10 +329,47 @@ export interface CustomerVMExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof CustomerVMExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface DocumentVM
+ */
+export interface DocumentVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof DocumentVM
+     */
+    'documentTitle'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DocumentVM
+     */
+    'documentNumber'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DocumentVM
+     */
+    'dateCreated'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof DocumentVM
+     */
+    'licenseActionType'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DocumentVM
+     */
+    'licenseId'?: string;
 }
 /**
  * 
@@ -348,10 +385,10 @@ export interface ExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof ExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -596,10 +633,10 @@ export interface IdentityTypesVMExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof IdentityTypesVMExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -646,10 +683,10 @@ export interface ItemTypeTipVMIEnumerableExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof ItemTypeTipVMIEnumerableExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -781,10 +818,10 @@ export interface LicenseAgentVMPagedListExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof LicenseAgentVMPagedListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -812,22 +849,22 @@ export interface LicenseVM {
     'validTo'?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LicenseVM
      */
-    'customerId'?: number | null;
+    'customerId'?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LicenseVM
      */
-    'licenseId'?: number;
+    'licenseId'?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof LicenseVM
      */
-    'itemId'?: number;
+    'itemId'?: string;
     /**
      * 
      * @type {number}
@@ -864,74 +901,61 @@ export interface LicenseVM {
      * @memberof LicenseVM
      */
     'documentNumber'?: string | null;
+    /**
+     * 
+     * @type {DocumentVM}
+     * @memberof LicenseVM
+     */
+    'document'?: DocumentVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LicenseVM
+     */
+    'isLicenseReportRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LicenseVM
+     */
+    'isLicenseReportAccepted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LicenseVM
+     */
+    'wasLicenseReportLate'?: boolean | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof LicenseVM
+     */
+    'licenseReportId'?: number | null;
 }
 /**
  * 
  * @export
- * @interface LicenseVMPagedList
+ * @interface LicenseVMListExecutionResult
  */
-export interface LicenseVMPagedList {
+export interface LicenseVMListExecutionResult {
     /**
      * 
      * @type {Array<LicenseVM>}
-     * @memberof LicenseVMPagedList
+     * @memberof LicenseVMListExecutionResult
      */
-    'items'?: Array<LicenseVM> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVMPagedList
-     */
-    'page'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVMPagedList
-     */
-    'pageSize'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseVMPagedList
-     */
-    'totalCount'?: number;
+    'result'?: Array<LicenseVM> | null;
     /**
      * 
      * @type {boolean}
-     * @memberof LicenseVMPagedList
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LicenseVMPagedList
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface LicenseVMPagedListExecutionResult
- */
-export interface LicenseVMPagedListExecutionResult {
-    /**
-     * 
-     * @type {LicenseVMPagedList}
-     * @memberof LicenseVMPagedListExecutionResult
-     */
-    'result'?: LicenseVMPagedList;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LicenseVMPagedListExecutionResult
+     * @memberof LicenseVMListExecutionResult
      */
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof LicenseVMPagedListExecutionResult
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof LicenseVMListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -972,10 +996,10 @@ export interface LinkCustomerResultVMExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof LinkCustomerResultVMExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -1023,10 +1047,10 @@ export interface MobileAppUserSendValidationCommand {
 export interface MobileAppUserVM {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof MobileAppUserVM
      */
-    'mobileAppUserId'?: number;
+    'mobileAppUserId'?: string;
     /**
      * 
      * @type {string}
@@ -1066,10 +1090,10 @@ export interface MobileAppUserVMExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof MobileAppUserVMExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -1110,10 +1134,10 @@ export interface OptionVMListExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof OptionVMListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -1154,10 +1178,60 @@ export interface OwnershipVMExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof OwnershipVMExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface PreferencePointsVM
+ */
+export interface PreferencePointsVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof PreferencePointsVM
+     */
+    'currentPreferencePoints'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PreferencePointsVM
+     */
+    'huntTypeName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PreferencePointsVM
+     */
+    'lastParticipationLicenseYear'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface PreferencePointsVMListExecutionResult
+ */
+export interface PreferencePointsVMListExecutionResult {
+    /**
+     * 
+     * @type {Array<PreferencePointsVM>}
+     * @memberof PreferencePointsVMListExecutionResult
+     */
+    'result'?: Array<PreferencePointsVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PreferencePointsVMListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof PreferencePointsVMListExecutionResult
+     */
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -1237,10 +1311,29 @@ export interface StateVMListExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof StateVMListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface StringStringKeyValuePair
+ */
+export interface StringStringKeyValuePair {
+    /**
+     * 
+     * @type {string}
+     * @memberof StringStringKeyValuePair
+     */
+    'key'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringStringKeyValuePair
+     */
+    'value'?: string | null;
 }
 /**
  * 
@@ -1250,10 +1343,10 @@ export interface StateVMListExecutionResult {
 export interface UserCustomerAddVM {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof UserCustomerAddVM
      */
-    'customerId'?: number;
+    'customerId'?: string;
     /**
      * 
      * @type {boolean}
@@ -1275,10 +1368,10 @@ export interface UserCustomerAddVM {
 export interface UserCustomerRemoveVM {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof UserCustomerRemoveVM
      */
-    'customerId'?: number;
+    'customerId'?: string;
 }
 /**
  * 
@@ -1319,10 +1412,10 @@ export interface YouthIdentityOwnerVMListExecutionResult {
     'isValidResponse'?: boolean;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<StringStringKeyValuePair>}
      * @memberof YouthIdentityOwnerVMListExecutionResult
      */
-    'errors'?: Array<string> | null;
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 
 /**
@@ -1334,11 +1427,11 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary Get Customer Profile
-         * @param {number} customerId 
+         * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersCustomerIdGet: async (customerId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        v1CustomersCustomerIdGet: async (customerId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'customerId' is not null or undefined
             assertParamExists('v1CustomersCustomerIdGet', 'customerId', customerId)
             const localVarPath = `/v1/Customers/{customerId}`
@@ -1642,11 +1735,11 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Customer Profile
-         * @param {number} customerId 
+         * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1CustomersCustomerIdGet(customerId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerVMExecutionResult>> {
+        async v1CustomersCustomerIdGet(customerId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerVMExecutionResult>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersCustomerIdGet(customerId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1749,11 +1842,11 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary Get Customer Profile
-         * @param {number} customerId 
+         * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersCustomerIdGet(customerId: number, options?: any): AxiosPromise<CustomerVMExecutionResult> {
+        v1CustomersCustomerIdGet(customerId: string, options?: any): AxiosPromise<CustomerVMExecutionResult> {
             return localVarFp.v1CustomersCustomerIdGet(customerId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1846,12 +1939,12 @@ export interface CustomersApiInterface {
     /**
      * 
      * @summary Get Customer Profile
-     * @param {number} customerId 
+     * @param {string} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApiInterface
      */
-    v1CustomersCustomerIdGet(customerId: number, options?: AxiosRequestConfig): AxiosPromise<CustomerVMExecutionResult>;
+    v1CustomersCustomerIdGet(customerId: string, options?: AxiosRequestConfig): AxiosPromise<CustomerVMExecutionResult>;
 
     /**
      * 
@@ -1943,12 +2036,12 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
     /**
      * 
      * @summary Get Customer Profile
-     * @param {number} customerId 
+     * @param {string} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApi
      */
-    public v1CustomersCustomerIdGet(customerId: number, options?: AxiosRequestConfig) {
+    public v1CustomersCustomerIdGet(customerId: string, options?: AxiosRequestConfig) {
         return CustomersApiFp(this.configuration).v1CustomersCustomerIdGet(customerId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2506,13 +2599,11 @@ export const LicensesApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Get license by Customer ID
-         * @param {number} customerId 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
+         * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersCustomerIdLicensesGet: async (customerId: number, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        v1CustomersCustomerIdLicensesGet: async (customerId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'customerId' is not null or undefined
             assertParamExists('v1CustomersCustomerIdLicensesGet', 'customerId', customerId)
             const localVarPath = `/v1/Customers/{customerId}/Licenses`
@@ -2527,14 +2618,6 @@ export const LicensesApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['pageSize'] = pageSize;
-            }
 
 
     
@@ -2560,14 +2643,12 @@ export const LicensesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get license by Customer ID
-         * @param {number} customerId 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
+         * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1CustomersCustomerIdLicensesGet(customerId: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LicenseVMPagedListExecutionResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersCustomerIdLicensesGet(customerId, page, pageSize, options);
+        async v1CustomersCustomerIdLicensesGet(customerId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LicenseVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersCustomerIdLicensesGet(customerId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2583,14 +2664,12 @@ export const LicensesApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Get license by Customer ID
-         * @param {number} customerId 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
+         * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersCustomerIdLicensesGet(customerId: number, page?: number, pageSize?: number, options?: any): AxiosPromise<LicenseVMPagedListExecutionResult> {
-            return localVarFp.v1CustomersCustomerIdLicensesGet(customerId, page, pageSize, options).then((request) => request(axios, basePath));
+        v1CustomersCustomerIdLicensesGet(customerId: string, options?: any): AxiosPromise<LicenseVMListExecutionResult> {
+            return localVarFp.v1CustomersCustomerIdLicensesGet(customerId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2604,14 +2683,12 @@ export interface LicensesApiInterface {
     /**
      * 
      * @summary Get license by Customer ID
-     * @param {number} customerId 
-     * @param {number} [page] 
-     * @param {number} [pageSize] 
+     * @param {string} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LicensesApiInterface
      */
-    v1CustomersCustomerIdLicensesGet(customerId: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): AxiosPromise<LicenseVMPagedListExecutionResult>;
+    v1CustomersCustomerIdLicensesGet(customerId: string, options?: AxiosRequestConfig): AxiosPromise<LicenseVMListExecutionResult>;
 
 }
 
@@ -2625,15 +2702,13 @@ export class LicensesApi extends BaseAPI implements LicensesApiInterface {
     /**
      * 
      * @summary Get license by Customer ID
-     * @param {number} customerId 
-     * @param {number} [page] 
-     * @param {number} [pageSize] 
+     * @param {string} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LicensesApi
      */
-    public v1CustomersCustomerIdLicensesGet(customerId: number, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
-        return LicensesApiFp(this.configuration).v1CustomersCustomerIdLicensesGet(customerId, page, pageSize, options).then((request) => request(this.axios, this.basePath));
+    public v1CustomersCustomerIdLicensesGet(customerId: string, options?: AxiosRequestConfig) {
+        return LicensesApiFp(this.configuration).v1CustomersCustomerIdLicensesGet(customerId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2834,6 +2909,129 @@ export class MobileAppUsersApi extends BaseAPI implements MobileAppUsersApiInter
      */
     public v1MobileAppUsersValidationCodePost(mobileAppUserSendValidationCommand?: MobileAppUserSendValidationCommand, options?: AxiosRequestConfig) {
         return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersValidationCodePost(mobileAppUserSendValidationCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * PreferencePointsApi - axios parameter creator
+ * @export
+ */
+export const PreferencePointsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Query Customer Preference Points
+         * @param {string} customerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersCustomerIdPreferencePointsGet: async (customerId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'customerId' is not null or undefined
+            assertParamExists('v1CustomersCustomerIdPreferencePointsGet', 'customerId', customerId)
+            const localVarPath = `/v1/Customers/{customerId}/PreferencePoints`
+                .replace(`{${"customerId"}}`, encodeURIComponent(String(customerId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PreferencePointsApi - functional programming interface
+ * @export
+ */
+export const PreferencePointsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PreferencePointsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Query Customer Preference Points
+         * @param {string} customerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersCustomerIdPreferencePointsGet(customerId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PreferencePointsVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersCustomerIdPreferencePointsGet(customerId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * PreferencePointsApi - factory interface
+ * @export
+ */
+export const PreferencePointsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PreferencePointsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Query Customer Preference Points
+         * @param {string} customerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersCustomerIdPreferencePointsGet(customerId: string, options?: any): AxiosPromise<PreferencePointsVMListExecutionResult> {
+            return localVarFp.v1CustomersCustomerIdPreferencePointsGet(customerId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PreferencePointsApi - interface
+ * @export
+ * @interface PreferencePointsApi
+ */
+export interface PreferencePointsApiInterface {
+    /**
+     * 
+     * @summary Query Customer Preference Points
+     * @param {string} customerId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PreferencePointsApiInterface
+     */
+    v1CustomersCustomerIdPreferencePointsGet(customerId: string, options?: AxiosRequestConfig): AxiosPromise<PreferencePointsVMListExecutionResult>;
+
+}
+
+/**
+ * PreferencePointsApi - object-oriented interface
+ * @export
+ * @class PreferencePointsApi
+ * @extends {BaseAPI}
+ */
+export class PreferencePointsApi extends BaseAPI implements PreferencePointsApiInterface {
+    /**
+     * 
+     * @summary Query Customer Preference Points
+     * @param {string} customerId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PreferencePointsApi
+     */
+    public v1CustomersCustomerIdPreferencePointsGet(customerId: string, options?: AxiosRequestConfig) {
+        return PreferencePointsApiFp(this.configuration).v1CustomersCustomerIdPreferencePointsGet(customerId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

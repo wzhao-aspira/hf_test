@@ -23,14 +23,17 @@ export async function getLicenseData(searchParams: { activeProfileId: number }) 
     const getLicensesByCustomerIDRequestResult = await licensesAPIs.getLicensesByCustomerID(activeProfileId);
 
     const { result, errors } = getLicensesByCustomerIDRequestResult.data;
-    const licenseList = result.items;
+    const licenseList = result;
 
     const formattedResult = licenseList.map((item) => {
+        const { document } = item;
+        const { documentTitle } = document;
+
         return {
             id: item.licenseId,
+            name: documentTitle,
             validFrom: item.validFrom,
             validTo: item.validTo,
-            name: item.documentTitle,
         };
     });
 
