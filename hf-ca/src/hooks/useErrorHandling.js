@@ -6,7 +6,7 @@ import DialogHelper from "../helper/DialogHelper";
 import LoginStep from "../constants/LoginStep";
 import { globalDataForAPI, handleError } from "../network/APIUtil";
 import { url } from "../network/identityAPI";
-import { clearSignInInfo } from "../helper/AppHelper";
+import AccountService from "../services/AccountService";
 
 const isErrorCode = (error, errorCode) => {
     if (error.status) {
@@ -68,7 +68,7 @@ function useErrorHandling() {
     useEffect(() => {
         if (!isEmpty(error)) {
             if (isNoAuthorization(error)) {
-                clearSignInInfo().then(() => dispatch(updateLoginStep(LoginStep.login)));
+                AccountService.clearSignInInfo().then(() => dispatch(updateLoginStep(LoginStep.login)));
             } else if (globalDataForAPI.lastPromise) {
                 retryRequest(
                     error,

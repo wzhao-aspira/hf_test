@@ -8,7 +8,7 @@ import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 import { sendMobileAppUsersValidationCodeByEmail, createMobileAppUser } from "../network/api_client/MobileAppUsersApi";
 import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance } from "../network/AxiosClient";
-import { globalDataForAPI } from "../network/APIUtil";
+import { clearToken, globalDataForAPI } from "../network/APIUtil";
 
 async function verifyPassword(accountID: string, accountPassword: string) {
     try {
@@ -95,6 +95,13 @@ async function signOut() {
     return response;
 }
 
+async function clearSignInInfo() {
+    const userID = await getActiveUserID();
+
+    await setActiveUserID(null);
+    clearToken(userID);
+}
+
 export default {
     sendEmailValidationCode,
     createMobileAccount,
@@ -104,4 +111,5 @@ export default {
     updateMobileAccountPasswordByUserId,
     authSignIn,
     signOut,
+    clearSignInInfo,
 };

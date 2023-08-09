@@ -5,7 +5,6 @@ import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
 import { retrieveItem, storeItem } from "./StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
-import { clearToken } from "../network/APIUtil";
 
 export const CHANNEL = BuildType.toUpperCase();
 
@@ -98,9 +97,4 @@ export function openLink(url) {
         }
     }
     // TODO: empty url dialog
-}
-
-export async function clearSignInInfo() {
-    await setActiveUserID(null);
-    clearToken();
 }

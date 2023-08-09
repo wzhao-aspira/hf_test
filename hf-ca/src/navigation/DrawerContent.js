@@ -12,7 +12,7 @@ import SplitLine from "../components/SplitLine";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { clearSignInInfo, genTestId, openLink, showNotImplementedFeature } from "../helper/AppHelper";
+import { genTestId, openLink, showNotImplementedFeature } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
@@ -143,7 +143,7 @@ export default function DrawerContent({ navigation }) {
     const onSignOut = async () => {
         const response = await handleError(AccountService.signOut(), { dispatch, showLoading: true });
         if (response.success) {
-            await clearSignInInfo();
+            await AccountService.clearSignInInfo();
             dispatch(updateLoginStep(LoginStep.login));
         }
     };
