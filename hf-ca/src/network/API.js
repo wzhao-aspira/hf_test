@@ -44,7 +44,7 @@ export async function getCurrentLocationByText(text) {
 
 export async function getLocationByText(text) {
     const result = { success: false, value: null };
-    const urlStr = `https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?limit=5&language=en&access_token=${AppContract.mapBoxAccessToken}`;
+    const urlStr = `https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?country=us&limit=5&language=en&access_token=${AppContract.mapBoxAccessToken}`;
     const response = await request(urlStr);
     if (response.success) {
         const { features } = response.data;

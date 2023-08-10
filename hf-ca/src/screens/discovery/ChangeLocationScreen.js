@@ -19,11 +19,18 @@ export default function ChangeLocationScreen() {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
         NavigationService.back();
     };
-
+    const onClickCurrentLocationAction = async (currentLocation) => {
+        onItemPressAction(currentLocation);
+    };
     return (
         <View style={{ flex: 1 }}>
             <CommonHeader title={t("discovery.changeLocation")} />
-            <LocationSearchInput placeholder="discovery.searchByCityOrZip" onItemPressAction={onItemPressAction} />
+            <LocationSearchInput
+                placeholder="discovery.searchByCityOrZip"
+                onItemPressAction={onItemPressAction}
+                showDropdownAfterClickCurrentLocation={false}
+                onClickCurrentLocationAction={onClickCurrentLocationAction}
+            />
         </View>
     );
 }
