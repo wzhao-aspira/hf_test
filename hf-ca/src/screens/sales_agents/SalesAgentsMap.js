@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, ImageBackground, Pressable } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { View, Text, StyleSheet, ImageBackground, Pressable, ActivityIndicator } from "react-native";
 import Mapbox, { MarkerView } from "@rnmapbox/maps";
 import { isEmpty, debounce } from "lodash";
 import AppTheme from "../../assets/_default/AppTheme";
@@ -18,6 +18,14 @@ const styles = StyleSheet.create({
     map: {
         flex: 1,
         overflow: "hidden",
+    },
+    loading: {
+        zIndex: 100,
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
     },
     marker: {
         width: 26,
@@ -75,6 +83,7 @@ export default function MapScreen({
     const camera = useRef(null);
     const clickMarker = useRef(false);
     const touchMap = useRef(false);
+    const [showMap, setShowMap] = useState(false);
     // const [selectIndex, setSelectIndex] = useState(-1);
 
     const moveCamera = (coor) => {
@@ -140,10 +149,18 @@ export default function MapScreen({
 
     return (
         <View style={styles.container}>
+            {!showMap && (
+                <View style={[styles.loading, { backgroundColor: AppTheme.colors.body_50 }]}>
+                    <ActivityIndicator size="small" color={AppTheme.colors.primary} />
+                </View>
+            )}
             <Mapbox.MapView
                 style={styles.map}
                 compassEnabled={false}
                 scaleBarEnabled={false}
+                onDidFinishLoadingMap={() => {
+                    setShowMap(true);
+                }}
                 onCameraChanged={(event) => {
                     if (touchMap.current) {
                         touchMap.current = false;
