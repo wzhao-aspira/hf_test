@@ -146,8 +146,56 @@ export async function updateProfileListToDB(profileList) {
     });
 }
 
-export async function updateProfileDetailToDB(profileDetail) {
-    console.log(`profile detail:${JSON.stringify(profileDetail)}`);
+export async function updateProfileDetailToDB(profile) {
+    return new Promise((resolve) => {
+        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+        db.transaction(
+            (tx) => {
+                tx.executeSql(`UPDATE PROFILE_LIST SET DETAIL=? WHERE PROFILE_ID=?;`, [
+                    `${SecurityUtil.encrypt(JSON.stringify(profile))}`,
+                    `${profile.customerId}`,
+                ]);
+            },
+            (error) => {
+                console.log(`updateProfileDetailToDB ERROR! - ${JSON.stringify(error)}`);
+                resolve(result);
+            },
+            () => {
+                console.log("updateProfileDetailToDB SUCCESS!");
+                result.success = true;
+                resolve(result);
+            }
+        );
+    });
+}
+
+export async function getProfileDetailFromDB(profileId) {
+    return new Promise((resolve) => {
+        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM PROFILE_LIST WHERE PROFILE_ID=?;",
+                [`${profileId}`],
+
+                (_, { rows }) => {
+                    console.log(`getProfileDetailFromDB SUCCESS - :${JSON.stringify(rows)}`);
+                    result.success = true;
+                    if (rows._array?.length > 0) {
+                        const detail = rows._array[0].DETAIL;
+                        result.profile = SecurityUtil.safeParse(detail);
+                        resolve(result);
+                    } else {
+                        result.profile = null;
+                        resolve(result);
+                    }
+                },
+                (error) => {
+                    console.log(`getProfileDetailFromDB QUERY ERROR! - ${JSON.stringify(error)}`);
+                    resolve(result);
+                }
+            );
+        });
+    });
 }
 
 export async function clearProfileListFromDB() {
@@ -170,6 +218,7 @@ export async function clearProfileListFromDB() {
     });
 }
 
+// TODO: delete unused function
 export async function insertMobileAccount(id, password, primaryProfileId, otherProfileIds) {
     const checkResult = await checkMobileAccount(id);
     return new Promise((resolve) => {
@@ -227,6 +276,7 @@ export async function deleteMobileAccount(id) {
     });
 }
 
+// TODO: delete unused function
 export async function updateMobileAccountOtherProfileIds(id, otherProfileIds) {
     return new Promise((resolve) => {
         const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
