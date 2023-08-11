@@ -218,39 +218,6 @@ export async function clearProfileListFromDB() {
     });
 }
 
-// TODO: delete unused function
-export async function insertMobileAccount(id, password, primaryProfileId, otherProfileIds) {
-    const checkResult = await checkMobileAccount(id);
-    return new Promise((resolve) => {
-        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
-        if (checkResult.success) {
-            if (checkResult.count > 0) {
-                result.success = false;
-                result.code = ERROR_CODE.SQLITE_CONSTRAINT_UNIQUE;
-                resolve(result);
-            } else {
-                db.transaction(
-                    (tx) => {
-                        tx.executeSql(
-                            "REPLACE INTO MOBILE_ACCOUNT(ID, PASSWORD, PRIMARY_PROFILE_ID, OTHER_PROFILE_IDS) VALUES(?, ?, ?, ?);",
-                            [`${id}`, password, `${primaryProfileId}`, otherProfileIds]
-                        );
-                    },
-                    (error) => {
-                        console.log(`DB INSERT ERROR! - ${JSON.stringify(error)}`);
-                        resolve(result);
-                    },
-                    () => {
-                        console.log("DB INSERT SUCCEED!");
-                        result.success = true;
-                        resolve(result);
-                    }
-                );
-            }
-        }
-    });
-}
-
 export async function deleteMobileAccount(id) {
     const checkResult = await checkMobileAccount(id);
     return new Promise((resolve) => {
@@ -273,27 +240,6 @@ export async function deleteMobileAccount(id) {
                 );
             }
         }
-    });
-}
-
-// TODO: delete unused function
-export async function updateMobileAccountOtherProfileIds(id, otherProfileIds) {
-    return new Promise((resolve) => {
-        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
-        db.transaction(
-            (tx) => {
-                tx.executeSql(`UPDATE MOBILE_ACCOUNT SET OTHER_PROFILE_IDS=? WHERE ID=?;`, [otherProfileIds, `${id}`]);
-            },
-            (error) => {
-                console.log(`DB UPDATE ERROR! - ${JSON.stringify(error)}`);
-                resolve(result);
-            },
-            () => {
-                console.log("DB UPDATE SUCCESS!");
-                result.success = true;
-                resolve(result);
-            }
-        );
     });
 }
 
