@@ -60,17 +60,15 @@ function SignInScreen(route) {
             return;
         }
         await dispatch(appThunkActions.initUserData({ userID: uid }));
+        await setLoginCredential(uid, pwd);
         const profileResponse = await dispatch(ProfileThunk.initProfile());
         if (!profileResponse.success) {
             return;
         }
-
         if (isEmpty(profileResponse.data)) {
             showNoProfileDialog(uid);
             return;
         }
-
-        await setLoginCredential(uid, pwd);
         resetBiometricIDLoginBlock(uid);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
         if (!isEmpty(onBoardingScreens)) {
