@@ -59,7 +59,7 @@ function SignInScreen(route) {
         if (!response.success) {
             return;
         }
-
+        await dispatch(appThunkActions.initUserData({ userID: uid }));
         const profileResponse = await dispatch(ProfileThunk.initProfile());
         if (!profileResponse.success) {
             return;
@@ -69,8 +69,8 @@ function SignInScreen(route) {
             showNoProfileDialog(uid);
             return;
         }
+
         await setLoginCredential(uid, pwd);
-        dispatch(appThunkActions.initUserData({ userID: uid }));
         resetBiometricIDLoginBlock(uid);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
         if (!isEmpty(onBoardingScreens)) {
