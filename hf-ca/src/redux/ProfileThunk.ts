@@ -147,7 +147,6 @@ const switchCurrentInUseProfile =
             await updateCurrentInUseProfileID(username, profileID);
             dispatch(profileActions.updateCurrentInUseProfileID(profileID));
             // force update license by profileID when switch profile
-            /* @ts-ignore */
             dispatch(getLicense({ isForce: true, searchParams: { activeProfileId: profileID } }));
         } catch (error) {
             // TODO: handle error
