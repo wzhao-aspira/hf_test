@@ -17,6 +17,9 @@ import { genTestId } from "../../helper/AppHelper";
 import { REQUEST_STATUS } from "../../constants/Constants";
 import profileSelectors from "../../redux/ProfileSelector";
 
+import NavigationService from "../../navigation/NavigationService";
+import Routers from "../../constants/Routers";
+
 export const styles = StyleSheet.create({
     container: {
         paddingBottom: 0,
@@ -72,6 +75,7 @@ function LicenseListScreen() {
                         <LicenseItem
                             onPress={() => {
                                 console.log("go to license detail");
+                                NavigationService.navigate(Routers.licenseDetail, { licenseData: item });
                             }}
                             itemData={item}
                             itemKey={item.id}

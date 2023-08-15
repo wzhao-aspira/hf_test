@@ -1,0 +1,19 @@
+{
+    "document": {
+        "licenseOwner": "Mock Owner Name",
+        "GOID": 11122233300,
+        "stateID": "Mock State ID"
+    },
+    "notification": {
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    "basicInformation": {
+        "DOB": "1691976982",
+        "gender": "M",
+        "hair": "RED",
+        "eyes": "BROWN",
+        "height": "6-06",
+        "weight": "66",
+        "resident": "Mock Resident"
+    }
+}

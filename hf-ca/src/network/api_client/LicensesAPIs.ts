@@ -3,7 +3,7 @@ import getAPIConfig from "../APIConfig";
 
 import { LicensesApi } from "../generated";
 
-function getLicensesByCustomerID(customerId: number) {
+function getLicensesByCustomerID(customerId: string) {
     const api = new LicensesApi(getAPIConfig(), null, instance);
 
     return api.v1CustomersCustomerIdLicensesGet(customerId);

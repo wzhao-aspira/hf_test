@@ -24,6 +24,7 @@ import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPas
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
 import HomeScreen from "../screens/home/HomeScreen";
 import HuntingScreen from "../screens/hunting/HuntingScreen";
+import LicenseDetailScreen from "../screens/licenses/LicenseDetailScreen";
 import LicenseListScreen from "../screens/licenses/LicenseListScreen";
 import LoginScreen from "../screens/login/LoginScreen";
 import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
@@ -173,6 +174,7 @@ function MainNav() {
                 name={Routers.forgotPasswordResetPassword}
                 component={ForgotPasswordResetPasswordScreen}
             />
+            <MainStack.Screen name={Routers.licenseDetail} component={LicenseDetailScreen} />
             <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
             <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />

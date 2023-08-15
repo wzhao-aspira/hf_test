@@ -10,6 +10,24 @@
         "noLicenseIntroduction": "Purchase your hunting or fishing license now",
         "purchaseLicense": "Purchase License"
     },
+    "licenseDetails": {
+        "licenseDetails": "License Details",
+        "licenseOwner": "License Owner",
+        "GOID": "GO ID #",
+        "validFrom": "Valid From",
+        "validTo": "Valid To",
+        "stateID": "State ID #",
+        "Notification": "Notification:",
+        "BasicInformation": "Basic Information:",
+        "DOB": "DOB",
+        "Gender": "Gender",
+        "Hair": "Hair",
+        "Eyes": "Eyes",
+        "Height": "Height",
+        "Weight": "Weight",
+        "Resident": "Resident",
+        "SubmitHarvestReport": "Submit Harvest Report"
+    },
     "common": {
         "ok": "OK",
         "cancel": "Cancel",

@@ -1,43 +1,63 @@
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { License } from "../types/license";
 import ValueOf from "../types/valueOf";
 
 const Routers = {
-    current: "current",
-    modal: "modal",
-    signInNav: "signInNav",
-    drawerNav: "drawerNav",
-    mainNav: "mainNav",
-    signUpNav: "signUpNav",
-    tabNav: "tabNav",
-    login: "loginScreen",
-    onBoarding: "onBoardingScreen",
-    licenseList: "licenseList",
-    home: "homeScreen",
-    hunting: "huntingScreen",
-    fishing: "fishingScreen",
-    weather: "weatherScreen",
-    solunar: "solunarScreen",
-    changeLocation: "ChangeLocationScreen",
-    crss: "crssScreen",
-    signUp: "signUpScreen",
-    addProfile: "addProfileScreen",
     addPrimaryProfile: "addPrimaryProfileScreen",
-    profileDetails: "profileDetailsScreen",
-    manageProfile: "ManageProfile",
-    signIn: "signIn",
-    setting: "setting",
+    addProfile: "addProfileScreen",
+    changeLocation: "ChangeLocationScreen",
+    contactUs: "contactUs",
+    crss: "crssScreen",
+    current: "current",
     deleteAccount: "deleteAccountScreen",
+    drawerNav: "drawerNav",
+    fishing: "fishingScreen",
+    followUs: "followUs",
     forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
     forgotPasswordResetPassword: "forgotPasswordResetPasswordScreen",
-    quickAccessSetting: "quickAccessSetting",
-    contactUs: "contactUs",
-    followUs: "followUs",
+    home: "homeScreen",
+    hunting: "huntingScreen",
+    licenseDetail: "licenseDetailScreen",
+    licenseList: "licenseList",
+    login: "loginScreen",
+    mainNav: "mainNav",
+    manageProfile: "ManageProfile",
+    modal: "modal",
+    onBoarding: "onBoardingScreen",
     preferencePoint: "preferencePoint",
+    profileDetails: "profileDetailsScreen",
+    quickAccessSetting: "quickAccessSetting",
     salesAgents: "salesAgents",
-    webView: "webViewScreen",
+    setting: "setting",
+    signIn: "signIn",
+    signInNav: "signInNav",
+    signUp: "signUpScreen",
+    signUpNav: "signUpNav",
+    solunar: "solunarScreen",
+    tabNav: "tabNav",
     usefulLinks: "usefulLinsScreen",
+    weather: "weatherScreen",
+    webView: "webViewScreen",
 } as const;
 
 type RoutersUnion = ValueOf<typeof Routers>;
 
-export { RoutersUnion };
+type RouteParams = {
+    webView: {
+        url: string;
+        fromScreen: RoutersUnion;
+        viewRegulation: boolean;
+        onLoadStartCallBack: Function;
+        onLoadProgressCallBack: Function;
+        onLoadEndCallBack: Function;
+        onErrorCallBack: Function;
+    };
+    licenseDetail: {
+        licenseData: License;
+    };
+};
+
+type AppNativeStackScreenProps<RouteName extends keyof RouteParams> = NativeStackScreenProps<RouteParams, RouteName>;
+
+export type { RoutersUnion, AppNativeStackScreenProps };
 export default Routers;

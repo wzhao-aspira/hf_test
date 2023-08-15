@@ -1,6 +1,7 @@
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import licensesAPIs from "../network/api_client/LicensesAPIs";
+import licenseDetailMockData from "./mock_data/licenseDetail.json";
 
 const formateDate = (item, formatter) => {
     const validFrom =
@@ -17,7 +18,7 @@ export const formateDateForDashboard = (item) => {
     return formateDate(item, AppContract.outputFormat.fmt_2);
 };
 
-export async function getLicenseData(searchParams: { activeProfileId: number }) {
+export async function getLicenseData(searchParams: { activeProfileId: string }) {
     const { activeProfileId } = searchParams;
 
     const getLicensesByCustomerIDRequestResult = await licensesAPIs.getLicensesByCustomerID(activeProfileId);
@@ -26,14 +27,23 @@ export async function getLicenseData(searchParams: { activeProfileId: number }) 
     const licenseList = result;
 
     const formattedResult = licenseList.map((item) => {
-        const { document } = item;
-        const { documentTitle } = document;
+        const { licenseId, validFrom, validTo } = item;
+        const { documentTitle, licenseOwner, GOID, stateID, documentNumber } = {
+            ...licenseDetailMockData.document,
+            ...item.document,
+        };
 
         return {
-            id: item.licenseId,
+            id: licenseId,
             name: documentTitle,
-            validFrom: item.validFrom,
-            validTo: item.validTo,
+            validFrom,
+            validTo,
+            licenseOwner,
+            GOID,
+            stateID,
+            documentNumber, // for barcode
+            basicInformation: licenseDetailMockData.basicInformation,
+            notification: licenseDetailMockData.notification,
         };
     });
 
