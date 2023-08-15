@@ -1,6 +1,5 @@
 import { useState, useRef, useCallback } from "react";
 import { View } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { WebView } from "react-native-webview";
 import { StatusBar, setStatusBarStyle, setStatusBarBackgroundColor } from "expo-status-bar";
 import { useTranslation } from "react-i18next";
@@ -10,7 +9,7 @@ import { SimpleDialog } from "../../components/Dialog";
 
 import AppTheme from "../../assets/_default/AppTheme";
 import { isAndroid } from "../../helper/AppHelper";
-import Routers, { RoutersUnion } from "../../constants/Routers";
+import type { AppNativeStackScreenProps } from "../../constants/Routers";
 
 const originWhitelist = ["http://*", "https://*", "file://*", "data:*", "content:*"];
 
@@ -24,21 +23,7 @@ const styles = {
     },
 };
 
-const webViewRouter = Routers.webView;
-
-type RouteParams = {
-    [webViewRouter]: {
-        url: string;
-        fromScreen: RoutersUnion;
-        viewRegulation: boolean;
-        onLoadStartCallBack: Function;
-        onLoadProgressCallBack: Function;
-        onLoadEndCallBack: Function;
-        onErrorCallBack: Function;
-    };
-};
-
-interface WebViewScreenProps extends NativeStackScreenProps<RouteParams, typeof webViewRouter> {}
+interface WebViewScreenProps extends AppNativeStackScreenProps<"webView"> {}
 
 function WebViewScreen(props: WebViewScreenProps) {
     const { navigation, route } = props;
