@@ -95,9 +95,10 @@ async function signOut() {
     return response;
 }
 
-async function clearSignInInfo() {
+async function clearAppData(dispatch) {
+    // clear up redux
+    dispatch({ type: "USER_LOGOUT" });
     const userID = await getActiveUserID();
-
     await setActiveUserID(null);
     clearToken(userID);
 }
@@ -111,5 +112,5 @@ export default {
     updateMobileAccountPasswordByUserId,
     authSignIn,
     signOut,
-    clearSignInInfo,
+    clearAppData,
 };

@@ -68,7 +68,7 @@ function useErrorHandling() {
     useEffect(() => {
         if (!isEmpty(error)) {
             if (isNoAuthorization(error)) {
-                AccountService.clearSignInInfo().then(() => dispatch(updateLoginStep(LoginStep.login)));
+                AccountService.clearAppData(dispatch).then(() => dispatch(updateLoginStep(LoginStep.login)));
             } else if (globalDataForAPI.lastPromise) {
                 retryRequest(
                     error,
