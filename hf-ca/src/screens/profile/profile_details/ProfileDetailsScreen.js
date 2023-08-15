@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons/faLinkSlash";
 
+import { RefreshControl } from "react-native-gesture-handler";
+import { useState } from "react";
 import { selectors } from "../../../redux/ProfileSlice";
 import { removeProfile } from "../../../services/ProfileService";
 
@@ -23,6 +25,8 @@ import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 import { handleError } from "../../../network/APIUtil";
 import DialogHelper from "../../../helper/DialogHelper";
 import ProfileThunk from "../../../redux/ProfileThunk";
+import useFocus from "../../../hooks/useFocus";
+import ProfileDetailsLoading from "./ProfileDetailsLoading";
 
 function RenderItem({ item, divider }) {
     if (!item.value) {
@@ -71,9 +75,11 @@ function ProfileDetailsScreen({ route }) {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    const [loading, setLoading] = useState(false);
+    const profileDetails = useSelector(selectors.selectProfileDetailsById(profileId));
+
     const primaryProfileId = useSelector(selectors.selectPrimaryProfileID);
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
-    const profileDetails = useSelector(selectors.selectProfileDetailsById(profileId));
 
     const profilesInfo = getInfoList(profileDetails, t);
     const addressInfo = getAddressList(profileDetails, t);
@@ -119,39 +125,74 @@ function ProfileDetailsScreen({ route }) {
             title: "profile.removeProfile",
             okText: "profile.removeProfile",
             message: "profile.removeProfileMsg",
-            okAction: () => handleRemove(),
+            okAction: () => {
+                handleRemove();
+            },
         });
     };
+
+    const getProfileDetails = async () => {
+        setLoading(true);
+        await dispatch(ProfileThunk.initProfileDetails(profileId));
+        setLoading(false);
+    };
+
+    useFocus(() => {
+        getProfileDetails();
+    });
 
     return (
         <Page style={styles.container}>
             <CommonHeader title={t("profile.profileDetails")} />
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.contentContainerStyle}>
-                <ProfileHeader profile={profileDetails} />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.contentContainerStyle}
+                refreshControl={
+                    <RefreshControl
+                        colors={[AppTheme.colors.primary]}
+                        tintColor={AppTheme.colors.primary}
+                        refreshing={loading}
+                        onRefresh={getProfileDetails}
+                    />
+                }
+            >
+                {loading ? <ProfileDetailsLoading isHeader /> : <ProfileHeader profile={profileDetails} />}
 
                 <View style={{ padding: DEFAULT_MARGIN, paddingBottom: 0 }}>
                     <Text style={styles.address}>{t("profile.address")}</Text>
-                    <View style={styles.infoBox}>
-                        {addressInfo.map((item, index) => (
-                            <RenderItem item={item} divider={index < addressInfo.length - 1} key={item.type} />
-                        ))}
-                    </View>
+
+                    {loading ? (
+                        <ProfileDetailsLoading />
+                    ) : (
+                        <View style={styles.infoBox}>
+                            {addressInfo.map((item, index) => (
+                                <RenderItem item={item} divider={index < addressInfo.length - 1} key={item.type} />
+                            ))}
+                        </View>
+                    )}
 
                     <Text style={[styles.address, { marginTop: 36 }]}>{t("profile.basicInformation")}</Text>
-                    <View style={styles.infoBox}>
-                        {profilesInfo.map((item, index) => (
-                            <RenderItem item={item} divider={index < profilesInfo.length - 1} key={item.type} />
-                        ))}
-                    </View>
 
-                    <Pressable
-                        onPress={handleRemoveBtnClick}
-                        style={styles.bottomBtnBox}
-                        testID={genTestId("removeProfileButton")}
-                    >
-                        <FontAwesomeIcon icon={faLinkSlash} size={28} color={AppTheme.colors.error} />
-                        <Text style={styles.removeProfile}>{t("profile.removeProfile")}</Text>
-                    </Pressable>
+                    {loading ? (
+                        <ProfileDetailsLoading />
+                    ) : (
+                        <View style={styles.infoBox}>
+                            {profilesInfo.map((item, index) => (
+                                <RenderItem item={item} divider={index < profilesInfo.length - 1} key={item.type} />
+                            ))}
+                        </View>
+                    )}
+
+                    {!loading && (
+                        <Pressable
+                            onPress={handleRemoveBtnClick}
+                            style={styles.bottomBtnBox}
+                            testID={genTestId("removeProfileButton")}
+                        >
+                            <FontAwesomeIcon icon={faLinkSlash} size={28} color={AppTheme.colors.error} />
+                            <Text style={styles.removeProfile}>{t("profile.removeProfile")}</Text>
+                        </Pressable>
+                    )}
                 </View>
             </ScrollView>
         </Page>

@@ -42,3 +42,8 @@ export async function linkProfileBasedOnCustomerId(userCustomerAddVM) {
     const api = new CustomersApi(getAPIConfig(), null, instance);
     return api.v1CustomersLinksPost(userCustomerAddVM);
 }
+
+export async function getProfileDetails(customerId) {
+    const api = new CustomersApi(getAPIConfig(), null, instance);
+    return api.v1CustomersCustomerIdGet(customerId);
+}

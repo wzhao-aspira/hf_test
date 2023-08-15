@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { isEmpty } from "lodash";
+import moment from "moment";
 import AppTheme from "../../../assets/BaseTheme";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
@@ -67,6 +68,7 @@ export const styles = StyleSheet.create({
         marginBottom: 16,
     },
     infoBox: {
+        minHeight: 60,
         paddingTop: 18,
         paddingHorizontal: 16,
         backgroundColor: AppTheme.colors.font_color_4,
@@ -130,7 +132,7 @@ export const getInfoList = (profile, t) => {
         profilesInfo = [
             {
                 type: t("profile.dateOfBirth"),
-                value: profile.dateOfBirth,
+                value: moment(profile.dateOfBirth).format("MM/DD/YYYY"),
             },
             {
                 type: t("profile.sex"),
@@ -183,7 +185,7 @@ export const getInfoList = (profile, t) => {
             },
             {
                 type: t("profile.purchaseDate"),
-                value: profile.purchaseDate,
+                value: moment(profile.purchaseDate).format("MM/DD/YYYY"),
             },
             {
                 type: t("profile.currentDocumentation"),
@@ -206,10 +208,10 @@ export const getAddressList = (profile, t) => {
     }
 
     const profilesInfo = [];
-    if (profile.residenceAddress) {
+    if (profile.physicalAddress) {
         profilesInfo.push({
             type: t("profile.physicalAddress"),
-            value: profile.residenceAddress,
+            value: profile.physicalAddress,
         });
     }
     if (profile.mailingAddress) {

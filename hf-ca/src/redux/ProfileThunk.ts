@@ -8,20 +8,37 @@ import {
     updateCurrentInUseProfileID,
     getCurrentInUseProfileID,
     getProfileList,
+    getProfileDetailsById,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { selectors as appSelectors } from "./AppSlice";
 import { getLicense } from "./LicenseSlice";
 import { handleError } from "../network/APIUtil";
-import { getProfileListFromDB, updateProfileListToDB } from "../helper/DBHelper";
+import {
+    getProfileDetailFromDB,
+    getProfileListFromDB,
+    updateProfileDetailToDB,
+    updateProfileListToDB,
+} from "../helper/DBHelper";
 import { getProfileListUpdateTime, setProfileListUpdateTime } from "../helper/AutoRefreshHelper";
-import { REQUEST_STATUS } from "../constants/Constants";
+import { PROFILE_TYPE_IDS, REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import DialogHelper from "../helper/DialogHelper";
 import i18n from "../localization/i18n";
 import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
 import { Profile } from "../types/profile";
+
+const formateProfile = (profile) => {
+    const { customerId, name, customerTypeId, goidNumber, goid, ...otherProps } = profile;
+    return {
+        profileId: customerId,
+        displayName: name,
+        profileType: customerTypeId,
+        goIDNumber: goidNumber || goid,
+        ...otherProps,
+    };
+};
 
 const getProfileData = (result = []) => {
     const profileListIDs: string[] = [];
@@ -31,15 +48,9 @@ const getProfileData = (result = []) => {
         if (item.isPrimary) {
             primaryProfileId = item.customerId;
         }
-
         profileListIDs.push(item.customerId);
-        return {
-            profileId: item.customerId,
-            displayName: item.name,
-            profileType: item.customerTypeId,
-            goIDNumber: item.goid,
-            isNeedCRSS: item.useCRSS,
-        };
+        const profile = formateProfile(item);
+        return profile;
     });
     return { profileListIDs, primaryProfileId, profileList };
 };
@@ -215,10 +226,41 @@ const refreshProfileList =
         return { listChanged: false };
     };
 
+const initProfileDetails = (profileId) => async (dispatch, getState) => {
+    let result;
+    const rootState = getState();
+    const { profileList } = rootState.profile;
+
+    const response = await handleError(getProfileDetailsById(profileId), { dispatch });
+    if (response.success) {
+        result = response.data.data.result;
+        if (!isEmpty(result)) {
+            updateProfileDetailToDB(result);
+        }
+    } else {
+        const dbResult = await getProfileDetailFromDB(profileId);
+        if (dbResult.success) {
+            result = dbResult.profile;
+        }
+    }
+
+    if (isEmpty(result)) {
+        return;
+    }
+
+    const formattedProfile = formateProfile(result);
+    if (formattedProfile.profileType === PROFILE_TYPE_IDS.vessel) {
+        const owner = profileList.find((item) => item.profileId === formattedProfile.ownerId);
+        formattedProfile.ownerName = owner.displayName;
+    }
+    dispatch(profileActions.updateProfileDetailsById(formattedProfile));
+};
+
 export default {
     initAddProfileCommonData,
     initProfile,
     switchCurrentInUseProfile,
     refreshProfileList,
     refreshProfiles,
+    initProfileDetails,
 };

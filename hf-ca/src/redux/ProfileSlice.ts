@@ -80,6 +80,11 @@ const profileSlice = createSlice({
             state.profilesIDs = payload || null;
         },
         restProfileToInitialState: () => initialState,
+        updateProfileDetailsById: (state, action: PayloadAction<Profile>) => {
+            const profile = action.payload;
+            const profileIndex = state.profileList.findIndex((item) => item.profileId === profile.profileId);
+            state.profileList[profileIndex] = profile;
+        },
     },
 });
 

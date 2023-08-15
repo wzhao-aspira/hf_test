@@ -10,6 +10,7 @@ import {
     removeProfileById,
     getCustomersOwnerships,
     linkProfileBasedOnCustomerId,
+    getProfileDetails,
 } from "../network/api_client/CustomersApi";
 
 import {
@@ -189,4 +190,8 @@ export async function removeAccountCurrentInUseProfileID(accountID) {
             );
         }
     }
+}
+
+export async function getProfileDetailsById(profileId) {
+    return getProfileDetails(profileId);
 }
