@@ -1,8 +1,19 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import LoginStep from "../constants/LoginStep";
 
-const initialState = {
+interface User {
+    username?: string;
+}
+interface InitialState {
+    user: User;
+    loginStep: number;
+    indicator: boolean;
+    error: any;
+}
+
+const initialState: InitialState = {
     user: {},
     loginStep: LoginStep.login,
     indicator: false,
@@ -19,16 +30,16 @@ const appSlice = createSlice({
         clearError(state) {
             state.error = {};
         },
-        updateUser(state, action) {
+        updateUser(state, action: PayloadAction<User>) {
             Object.assign(state, { user: action?.payload });
         },
         resetUser(state) {
             state.user = initialState.user;
         },
-        updateLoginStep(state, action) {
+        updateLoginStep(state, action: PayloadAction<number>) {
             Object.assign(state, { loginStep: action?.payload });
         },
-        toggleIndicator: (state, action) => {
+        toggleIndicator: (state, action: PayloadAction<boolean>) => {
             state.indicator = action?.payload;
         },
     },
