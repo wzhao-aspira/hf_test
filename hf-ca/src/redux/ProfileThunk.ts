@@ -124,7 +124,7 @@ const initProfile =
         if (currentInUseProfileID) {
             dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
         } else {
-            updateCurrentInUseProfileID(username, primaryProfileId);
+            await updateCurrentInUseProfileID(username, primaryProfileId);
             dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
         }
 
