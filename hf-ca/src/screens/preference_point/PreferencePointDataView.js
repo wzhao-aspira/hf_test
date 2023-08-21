@@ -72,7 +72,14 @@ function PreferencePointDataView({ data = [] }) {
 
                 <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled>
                     {data.map((item = {}) => (
-                        <ItemRow key={item.id} rowData={[item.drawType, item.currentPoint, item.lastYearApplied]} />
+                        <ItemRow
+                            key={`${item.huntTypeName}_${item.lastParticipationLicenseYear}`}
+                            rowData={[
+                                item.huntTypeName,
+                                item.currentPreferencePoints,
+                                item.lastParticipationLicenseYear,
+                            ]}
+                        />
                     ))}
                 </ScrollView>
             </View>

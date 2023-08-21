@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { RefreshControl, ScrollView, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { isEmpty } from "lodash";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
@@ -13,6 +13,7 @@ import selectors from "../../redux/ProfileSelector";
 import LicenseListEmpty from "../licenses/LicenseListEmpty";
 import AppTheme from "../../assets/_default/AppTheme";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
+import { handleError } from "../../network/APIUtil";
 
 const styles = StyleSheet.create({
     container: {
@@ -35,6 +36,7 @@ function PreferencePointContent({ data }) {
 }
 
 function PreferencePointScreen() {
+    const dispatch = useDispatch();
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const currentInUseProfileID = useSelector(selectors.selectCurrentInUseProfileID);
@@ -43,14 +45,16 @@ function PreferencePointScreen() {
 
     const getPreferencePointData = useCallback(() => {
         setIsLoading(true);
-        getPreferencePointsByProfileId(currentInUseProfileID)
-            .then((restlt) => {
-                setData(restlt);
+        handleError(getPreferencePointsByProfileId(currentInUseProfileID), { dispatch })
+            .then((response) => {
+                if (response.success && !isEmpty(response.data?.data?.result)) {
+                    setData(response.data.data.result);
+                }
             })
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [currentInUseProfileID]);
+    }, [currentInUseProfileID, dispatch]);
 
     useEffect(() => {
         getPreferencePointData();
