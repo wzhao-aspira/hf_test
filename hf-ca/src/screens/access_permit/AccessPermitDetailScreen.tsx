@@ -10,6 +10,7 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH } from "../../constant
 
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
+import PrimaryBtn from "../../components/PrimaryBtn";
 
 const styles = StyleSheet.create({
     container: {
@@ -52,6 +53,22 @@ const styles = StyleSheet.create({
         color: AppTheme.colors.font_color_1,
         textAlignVertical: "center",
     },
+    sectionContainer: {
+        marginTop: 26,
+        marginHorizontal: DEFAULT_MARGIN,
+        ...AppTheme.shadow,
+        backgroundColor: AppTheme.colors.font_color_4,
+        paddingBottom: 10,
+        borderRadius: 14,
+    },
+    sectionTitle: {
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_1,
+        textAlignVertical: "center",
+        marginHorizontal: DEFAULT_MARGIN,
+        marginTop: 26,
+        marginBottom: 10,
+    },
 });
 
 interface AccessPermitDetailScreenProps extends AppNativeStackScreenProps<"accessPermitDetail"> {
@@ -73,6 +90,15 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
         { label: t("accessPermit.Reservation#"), content: reservationNumber },
         { label: t("accessPermit.Name"), content: name },
         { label: t("accessPermit.Address"), content: address },
+    ];
+
+    // TODO: remove it if the real data is ready
+    const filesMockData = [
+        {
+            name: "File 1",
+            description: "Your reservation drawing entries are lisred, Please check your reservation details.",
+        },
+        { name: "File 2", description: "Find releated hunt information." },
     ];
 
     return (
@@ -123,7 +149,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                                             {label}
                                         </Text>
                                         <Text
-                                            testID={genTestId(`permitInfoLabelContent${content}`)}
+                                            testID={genTestId(`permitInfoLabel${label}Content`)}
                                             style={styles.valueText}
                                         >
                                             {content}
@@ -134,6 +160,32 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                         })}
                     </View>
                 </View>
+
+                {filesMockData.map((fileMockData) => {
+                    const { description, name: fileName } = fileMockData;
+
+                    return (
+                        <View key={fileName} style={[styles.sectionContainer]}>
+                            <Text style={[styles.sectionTitle]} testID={genTestId(`permitDetailsFileName${fileName}`)}>
+                                {fileName}
+                            </Text>
+                            <View style={styles.licenseInfo}>
+                                <Text
+                                    testID={genTestId(`permitDetailsFileName${fileName}Description`)}
+                                    style={{ marginTop: -10, marginBottom: 13 }}
+                                >
+                                    {description}
+                                </Text>
+                            </View>
+                            <PrimaryBtn
+                                testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
+                                style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, width: "40%" }}
+                                onPress={() => console.log(`download the ${fileName}`)}
+                                label={t("accessPermit.Download")}
+                            />
+                        </View>
+                    );
+                })}
             </ScrollView>
         </Page>
     );
