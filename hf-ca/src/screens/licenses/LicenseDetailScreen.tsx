@@ -144,7 +144,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                                 format="CODE39"
                                 value={documentNumber}
                                 text={documentNumber}
-                                textStyle={{ fontWeight: "bold" }}
+                                textStyle={{ fontFamily: "Lato_Bold" }}
                                 width={240}
                                 height={63}
                                 maxWidth={SCREEN_WIDTH - 4 * DEFAULT_MARGIN}

@@ -3,6 +3,7 @@ import type { License } from "../types/license";
 import ValueOf from "../types/valueOf";
 
 const Routers = {
+    accessPermitDetail: "accessPermitDetail",
     addPrimaryProfile: "addPrimaryProfileScreen",
     addProfile: "addProfileScreen",
     changeLocation: "ChangeLocationScreen",
@@ -43,6 +44,17 @@ const Routers = {
 type RoutersUnion = ValueOf<typeof Routers>;
 
 type RouteParams = {
+    accessPermitDetail: {
+        document: {
+            title: string;
+            barcode: string;
+            huntDate: string;
+            huntName: string;
+            reservationNumber: string;
+            name: string;
+            address: string;
+        };
+    };
     webView: {
         url: string;
         fromScreen: RoutersUnion;

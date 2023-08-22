@@ -1,4 +1,12 @@
 {
+    "accessPermit": {
+        "PermitDetails": "Permit Details",
+        "HuntDate": "Hunt Date",
+        "HuntName": "Hunt Name",
+        "Reservation#": "Reservation #",
+        "Name": "Name",
+        "Address": "Address"
+    },
     "noLicTitle": "No licenses found",
     "license": {
         "myLicense": "My Licenses",

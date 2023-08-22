@@ -1,0 +1,142 @@
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import Barcode from "@kichiyaki/react-native-barcode-generator";
+import { useTranslation } from "react-i18next";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { AppNativeStackScreenProps } from "../../constants/Routers";
+import { genTestId } from "../../helper/AppHelper";
+
+import AppTheme from "../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH } from "../../constants/Dimension";
+
+import Page from "../../components/Page";
+import CommonHeader from "../../components/CommonHeader";
+
+const styles = StyleSheet.create({
+    container: {
+        paddingBottom: 0,
+    },
+    scrollView: {
+        width: "100%",
+        height: "100%",
+    },
+    content: {
+        marginTop: 26,
+        marginHorizontal: DEFAULT_MARGIN,
+        ...AppTheme.shadow,
+        backgroundColor: AppTheme.colors.font_color_4,
+        paddingTop: 20,
+        paddingBottom: 10,
+        borderRadius: 14,
+    },
+    title: {
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_1,
+        textAlign: "center",
+        textAlignVertical: "center",
+    },
+    titleContainer: {
+        paddingVertical: 10,
+    },
+    licenseInfo: {
+        flexDirection: "row",
+        marginHorizontal: DEFAULT_MARGIN,
+        alignItems: "flex-start",
+        marginTop: 10,
+    },
+    labelText: {
+        ...AppTheme.typography.card_small_r,
+        color: AppTheme.colors.font_color_2,
+    },
+    valueText: {
+        ...AppTheme.typography.card_title,
+        color: AppTheme.colors.font_color_1,
+        textAlignVertical: "center",
+    },
+});
+
+interface AccessPermitDetailScreenProps extends AppNativeStackScreenProps<"accessPermitDetail"> {
+    //
+}
+
+function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
+    const { route } = props;
+    const { document } = route.params;
+
+    const { t } = useTranslation();
+    const safeAreaInsets = useSafeAreaInsets();
+
+    const { title, barcode, huntDate, huntName, reservationNumber, name, address } = document;
+
+    const accessPermitDocumentBasicInformation = [
+        { label: t("accessPermit.HuntDate"), content: huntDate },
+        { label: t("accessPermit.HuntName"), content: huntName },
+        { label: t("accessPermit.Reservation#"), content: reservationNumber },
+        { label: t("accessPermit.Name"), content: name },
+        { label: t("accessPermit.Address"), content: address },
+    ];
+
+    return (
+        <Page style={styles.container}>
+            <CommonHeader rightIcon={false} title={t("accessPermit.PermitDetails")} />
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
+                showsVerticalScrollIndicator={false}
+            >
+                <View style={styles.content}>
+                    <View style={{ alignItems: "center" }}>
+                        <View style={styles.titleContainer}>
+                            <Text
+                                testID={genTestId(`permitInfoTitle`)}
+                                numberOfLines={0}
+                                style={[
+                                    styles.title,
+                                    {
+                                        width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
+                                        paddingHorizontal: DEFAULT_MARGIN,
+                                    },
+                                ]}
+                            >
+                                {title}
+                            </Text>
+                        </View>
+                        <View style={{ marginTop: 13, marginBottom: 10 }}>
+                            <Barcode
+                                format="CODE39"
+                                value={barcode}
+                                text={barcode}
+                                textStyle={{ fontFamily: "Lato_Bold" }}
+                                width={240}
+                                height={63}
+                                maxWidth={SCREEN_WIDTH - 4 * DEFAULT_MARGIN}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ width: "100%", marginBottom: 10 }}>
+                        {accessPermitDocumentBasicInformation.map((item) => {
+                            const { label, content } = item;
+
+                            return (
+                                <View key={label} style={[styles.licenseInfo, { marginTop: 10 }]}>
+                                    <View style={[{ flex: 1 }]}>
+                                        <Text testID={genTestId(`permitInfoLabel${label}`)} style={styles.labelText}>
+                                            {label}
+                                        </Text>
+                                        <Text
+                                            testID={genTestId(`permitInfoLabelContent${content}`)}
+                                            style={styles.valueText}
+                                        >
+                                            {content}
+                                        </Text>
+                                    </View>
+                                </View>
+                            );
+                        })}
+                    </View>
+                </View>
+            </ScrollView>
+        </Page>
+    );
+}
+
+export default AccessPermitDetailScreen;

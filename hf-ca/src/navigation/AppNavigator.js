@@ -12,6 +12,7 @@ import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
 import { navigationRef } from "./NavigationService";
 
+import AccessPermitDetailScreen from "../screens/access_permit/AccessPermitDetailScreen";
 import AddPrimaryProfileScreen from "../screens/sign_up/AddPrimaryProfileScreen";
 import AddProfileScreen from "../screens/profile/add_profile/AddProfileScreen";
 import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
@@ -164,6 +165,7 @@ function DrawerNav() {
 function MainNav() {
     return (
         <MainStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.tabNav}>
+            <MainStack.Screen name={Routers.accessPermitDetail} component={AccessPermitDetailScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
             <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
             <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
