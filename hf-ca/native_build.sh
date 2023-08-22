@@ -36,9 +36,6 @@ updateIOSNativeInfo() {
 }
 
 updateAndroidNativeInfo(){
-    cd ${WORKSPACE}/hf-ca/android/app/src/main/res/
-    rm -rf mipmap-*
-
     system=$(uname)
     echo $system
 
@@ -78,6 +75,8 @@ buildAndroid() {
     else
         ANDROID_BUILD_TYPE="apk"
     fi
+    
+    echo "android build type"
     echo $ANDROID_BUILD_TYPE
 
     appJSON="${WORKSPACE}/hf-ca/app.json"
@@ -91,11 +90,13 @@ buildAndroid() {
     
     cd  ${WORKSPACE}/hf-ca/android
     if [ $ANDROID_BUILD_TYPE = apk ]; then
+        echo "build apk start"
         ./gradlew "assembleRelease" 
         mv ${WORKSPACE}/hf-ca/android/app/build/outputs/apk/release/*.apk $WORKSPACE/hf-ca/build/artifacts/$BUILD_FILE_NAME.$ANDROID_BUILD_TYPE
     else
+        echo "build aab start"
         ./gradlew ":app:bundleRelease" 
-        mv ${WORKSPACE}/hf-ca/android/app/build/outputs/bundle/Release/*.aab $WORKSPACE/hf-ca/build/artifacts/$BUILD_FILE_NAME.$ANDROID_BUILD_TYPE
+        mv ${WORKSPACE}/hf-ca/android/app/build/outputs/bundle/release/*.aab $WORKSPACE/hf-ca/build/artifacts/$BUILD_FILE_NAME.$ANDROID_BUILD_TYPE
     fi
 }
 
