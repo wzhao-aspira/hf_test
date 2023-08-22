@@ -1,6 +1,5 @@
 import * as Location from "expo-location";
 import { getDistance, convertDistance } from "geolib";
-import { isEmpty } from "lodash";
 import { getCurrentLocationByText, getLocationByText } from "../network/API";
 import { NETWORK_REQUEST_FAILED } from "../constants/Constants";
 import salesAgents from "./mock_data/sales_agents.json";
@@ -75,7 +74,7 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate) {
         salesAgents.forEach((salesAgent) => {
             const { longitude } = salesAgent;
             const { latitude } = salesAgent;
-            if (!isEmpty(longitude) && !isEmpty(latitude)) {
+            if (longitude != undefined && latitude != undefined && longitude != 0 && latitude != 0) {
                 const endCoordinate = { latitude, longitude };
                 const distance = getDistance(startCoordinate, endCoordinate);
                 const distanceInMiles = convertDistance(distance, "mi");
