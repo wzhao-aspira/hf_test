@@ -53,13 +53,13 @@ export default function App() {
 
     useEffect(() => {
         const hideScreen = async () => {
+            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
             await Font.loadAsync(AppContract.fonts);
             // await getConfig1();
             // await getConfig2();
             await initAppConfig();
             await dbCreate();
             await initAppData();
-            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
             setAppReady(true);
             await SplashScreen.hideAsync();
         };
