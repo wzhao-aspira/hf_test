@@ -201,6 +201,27 @@ export default function DrawerContent({ navigation }) {
                         title="common.agentLocations"
                         testID="SalesAgents"
                     />
+                    {/* TODO: remove the testing code below */}
+                    <MenuItem
+                        onClick={() => {
+                            navigation.navigate(
+                                Routers.accessPermitDetail,
+
+                                {
+                                    document: {
+                                        title: "2023 Waterfowl Application",
+                                        barcode: "1004298476",
+                                        huntDate: "10/01/2023",
+                                        huntName: "Anderson Ranch Apprentice Antlerless Deer",
+                                        reservationNumber: "1",
+                                        name: "Frist Name, Last Name",
+                                        address: "Address",
+                                    },
+                                }
+                            );
+                        }}
+                        title="access permit detail"
+                    />
                 </View>
             </>
         );
