@@ -360,7 +360,6 @@
 				CURRENT_PROJECT_VERSION = 2.0.0.0;
 				DEVELOPMENT_TEAM = DYP2VJ46N5;
 				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
@@ -398,7 +397,6 @@
 				CODE_SIGN_ENTITLEMENTS = CDFWMobile/CDFWMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 2.0.0.0;
 				DEVELOPMENT_TEAM = DYP2VJ46N5;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CDFWMobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "CDFW Mobile";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
