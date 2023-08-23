@@ -1,6 +1,6 @@
 import axios from "axios";
 import { startsWith } from "lodash";
-import { getBaseURL, getActiveUserID } from "../helper/AppHelper";
+import { getBaseURL, getActiveUserID, getAppStaticInfo } from "../helper/AppHelper";
 import { needRefreshToken, globalDataForAPI } from "./APIUtil";
 import { refreshToken, url } from "./identityAPI";
 
@@ -10,6 +10,7 @@ export const instance = axios.create({
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
         Expires: "0",
+        AppStaticInfo: getAppStaticInfo(),
     },
 });
 

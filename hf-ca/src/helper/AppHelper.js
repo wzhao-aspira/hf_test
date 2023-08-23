@@ -1,6 +1,7 @@
 import { Linking, Platform } from "react-native";
 import { camelCase, isEmpty } from "lodash";
 import Toast from "react-native-root-toast";
+import Constants from "expo-constants";
 import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
 import { retrieveItem, storeItem } from "./StorageHelper";
@@ -97,4 +98,15 @@ export function openLink(url) {
         }
     }
     // TODO: empty url dialog
+}
+
+export function getAppStaticInfo() {
+    const { appStaticName, contractName } = AppContract;
+    if (isEmpty(appStaticName)) {
+        throw new Error("App Name can not be empty!");
+    }
+    const platform = isAndroid() ? "Android" : "iOS";
+    const buildNumber = Constants.expoConfig?.ios?.buildNumber;
+    const appStaticInfo = `${appStaticName}_${buildNumber}_${platform}_${contractName}`;
+    return appStaticInfo;
 }
