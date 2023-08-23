@@ -29,6 +29,7 @@ const Routers = {
     profileDetails: "profileDetailsScreen",
     quickAccessSetting: "quickAccessSetting",
     salesAgents: "salesAgents",
+    accessPermits: "accessPermits",
     setting: "setting",
     signIn: "signIn",
     signInNav: "signInNav",

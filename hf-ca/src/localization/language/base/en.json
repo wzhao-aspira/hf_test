@@ -61,6 +61,7 @@
         "attention": "Attention",
         "purchase": "Purchase Privilege",
         "agentLocations": "Sales Agents",
+        "accessPermits": "My Access Permits",
         "contactUs": "Contact Us",
         "followUs": "Follow Us",
         "create": "Create",
@@ -342,6 +343,11 @@
         "Facebook": "Facebook",
         "Twitter": "Twitter",
         "YouTube": "YouTube"
+    },
+    "accessPermits": {
+        "myAccessPermits": "My Access Permits",
+        "noAccessPermits": "No Permits/Reservations found",
+        "purchaseAccessPermit": "Purchase Daily Draw"
     },
     "salesAgents": {
         "salesAgents": "Sales Agents",
