@@ -1,0 +1,280 @@
+{
+    "result": {
+        "instructions": "<P>\r\nYour reservation drawing entries are listed below by area and hunt date.\r\n\r\n<BR>Before the draw has been run, the draw choice will show as ’pending’.  </BR>\r\nAfter the draw has been run, the draw choice will show as ‘Successful’ or 'Unsuccessful'.  For successful entries, your reservation number will also be displayed.",
+        "customerInfo": {
+            "firstName": "ALICIA",
+            "lastName": "IH",
+            "goId": "1087493800",
+            "mailingAddress": "MAIL ADDRESS TESTING, SAN DIEGO, CA 92101 USA"
+        },
+        "activePermitList": [
+            {
+                "applicationYear": 2023,
+                "masterHuntTypeId": "urSVuKq2ZU4siGbSN6BKhw",
+                "masterHuntTypeName": "SHARE Big Game Permits SHARE Big Game Permits",
+                "huntDays": [
+                    {
+                        "huntCode": "AN-D",
+                        "huntName": "Anderson Ranch Apprentice Antlerless Deer (1-Day)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2024-01-20T00:00:00",
+                        "formatHuntDay": "Sat 1-20"
+                    }
+                ]
+            },
+            {
+                "applicationYear": 2023,
+                "masterHuntTypeId": "4nq3BmgPY_AyzZT7LGFJKQ",
+                "masterHuntTypeName": "SHARE Bird Hunt Permits",
+                "huntDays": [
+                    {
+                        "huntCode": "BC-D",
+                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-12-05T00:00:00",
+                        "formatHuntDay": "Tue 12-05"
+                    },
+                    {
+                        "huntCode": "M-WDP",
+                        "huntName": "Merced WWTP- Waterfowl Dove Pheasant (1 day)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-11-25T00:00:00",
+                        "formatHuntDay": "Sat 11-25"
+                    },
+                    {
+                        "huntCode": "BC-D",
+                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-11-20T00:00:00",
+                        "formatHuntDay": "Mon 11-20"
+                    },
+                    {
+                        "huntCode": "M-WDP",
+                        "huntName": "Merced WWTP- Waterfowl Dove Pheasant (1 day)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-28T00:00:00",
+                        "formatHuntDay": "Sat 10-28"
+                    },
+                    {
+                        "huntCode": "BC-D",
+                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-25T00:00:00",
+                        "formatHuntDay": "Wed 10-25"
+                    },
+                    {
+                        "huntCode": "HR-Q",
+                        "huntName": "Hart Ranch - Quail (2 Day Hunts)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-25T00:00:00",
+                        "formatHuntDay": "Wed 10-25"
+                    }
+                ]
+            },
+            {
+                "applicationYear": 2023,
+                "masterHuntTypeId": "jftA4THes8NBsa8YORtiMw",
+                "masterHuntTypeName": "SHARE Fishing Permits",
+                "huntDays": [
+                    {
+                        "huntCode": "BR-B",
+                        "huntName": "Lake Barrett  - Bass Survey",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-08-30T00:00:00",
+                        "formatHuntDay": "Wed 8-30"
+                    }
+                ]
+            },
+            {
+                "applicationYear": 2023,
+                "masterHuntTypeId": "P1xKDGGKagm1gYsKF92nKA",
+                "masterHuntTypeName": "Waterfowl",
+                "huntDays": [
+                    {
+                        "huntCode": "00205",
+                        "huntName": "Kesterson Unit - San Luis NWR",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-08T00:00:00",
+                        "formatHuntDay": "Sun 10-08"
+                    },
+                    {
+                        "huntCode": "00101",
+                        "huntName": "Baldwin Lake",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-09-30T00:00:00",
+                        "formatHuntDay": "Sat 9-30"
+                    }
+                ]
+            },
+            {
+                "applicationYear": 2022,
+                "masterHuntTypeId": "urSVuKq2ZU4siGbSN6BKhw",
+                "masterHuntTypeName": "SHARE Big Game Permits SHARE Big Game Permits",
+                "huntDays": [
+                    {
+                        "huntCode": "AN-D",
+                        "huntName": "Anderson Ranch Apprentice Antlerless Deer (1-Day)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2024-01-20T00:00:00",
+                        "formatHuntDay": "Sat 1-20"
+                    }
+                ]
+            },
+            {
+                "applicationYear": 2022,
+                "masterHuntTypeId": "4nq3BmgPY_AyzZT7LGFJKQ",
+                "masterHuntTypeName": "SHARE Bird Hunt Permits",
+                "huntDays": [
+                    {
+                        "huntCode": "BC-D",
+                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-12-05T00:00:00",
+                        "formatHuntDay": "Tue 12-05"
+                    },
+                    {
+                        "huntCode": "M-WDP",
+                        "huntName": "Merced WWTP- Waterfowl Dove Pheasant (1 day)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-11-25T00:00:00",
+                        "formatHuntDay": "Sat 11-25"
+                    },
+                    {
+                        "huntCode": "BC-D",
+                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-11-20T00:00:00",
+                        "formatHuntDay": "Mon 11-20"
+                    },
+                    {
+                        "huntCode": "M-WDP",
+                        "huntName": "Merced WWTP- Waterfowl Dove Pheasant (1 day)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-28T00:00:00",
+                        "formatHuntDay": "Sat 10-28"
+                    },
+                    {
+                        "huntCode": "BC-D",
+                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-25T00:00:00",
+                        "formatHuntDay": "Wed 10-25"
+                    },
+                    {
+                        "huntCode": "HR-Q",
+                        "huntName": "Hart Ranch - Quail (2 Day Hunts)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-25T00:00:00",
+                        "formatHuntDay": "Wed 10-25"
+                    }
+                ]
+            },
+            {
+                "applicationYear": 2022,
+                "masterHuntTypeId": "jftA4THes8NBsa8YORtiMw",
+                "masterHuntTypeName": "SHARE Fishing Permits",
+                "huntDays": [
+                    {
+                        "huntCode": "BR-B",
+                        "huntName": "Lake Barrett  - Bass Survey",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-08-30T00:00:00",
+                        "formatHuntDay": "Wed 8-30"
+                    }
+                ]
+            },
+            {
+                "applicationYear": 2022,
+                "masterHuntTypeId": "P1xKDGGKagm1gYsKF92nKA",
+                "masterHuntTypeName": "Waterfowl",
+                "huntDays": [
+                    {
+                        "huntCode": "00102",
+                        "huntName": "San Jacinto WLA",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-09-30T00:00:00",
+                        "formatHuntDay": "Sat 9-30"
+                    }
+                ]
+            }
+        ]
+    },
+    "isValidResponse": true,
+    "errors": []
+}

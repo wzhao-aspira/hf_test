@@ -5,9 +5,11 @@ import weatherReducer from "./WeatherSlice";
 import profileReducer from "./ProfileSlice";
 import licenseReducer from "./LicenseSlice";
 import accountReducer from "./AccountSlice";
+import accessPermitReducer from "./AccessPermitSlice";
 
 const myAppReducer = combineReducers({
     app: appReducer,
+    accessPermit: accessPermitReducer,
     weather: weatherReducer,
     profile: profileReducer,
     license: licenseReducer,
