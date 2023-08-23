@@ -7,6 +7,7 @@ import SecurityUtil from "../../utils/SecurityUtil";
 const AppContract = {
     divisionCountry: "US",
     contractName: "CA",
+    appStaticName: "HFCA",
     appId: "com.aspiraconnect.hf.ca",
     defaultStateId: 6,
     fonts: {
