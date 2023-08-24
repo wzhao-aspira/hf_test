@@ -14,7 +14,7 @@ import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
 import { genTestId, openLink, showNotImplementedFeature } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
-import { updateLoginStep } from "../redux/AppSlice";
+import { selectUsername, updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
 import AppContract from "../assets/_default/AppContract";
 import NavigationService from "./NavigationService";
@@ -23,6 +23,7 @@ import { retrieveItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import AccountService from "../services/AccountService";
+import { cleanPasswordChangeInd } from "../helper/LocalAuthHelper";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -125,6 +126,7 @@ function MenuItem(props) {
 export default function DrawerContent({ navigation }) {
     const dispatch = useDispatch();
     const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
+    const userName = useSelector(selectUsername);
 
     const drawerStatus = useDrawerStatus();
     const drawerContentScrollView = useRef();
@@ -143,6 +145,9 @@ export default function DrawerContent({ navigation }) {
     const onSignOut = async () => {
         const response = await handleError(AccountService.signOut(), { dispatch, showLoading: true });
         if (response.success) {
+            // When sign out and the user password changed and the current biometric method isn't none
+            // then we need to clean the password change indicator
+            await cleanPasswordChangeInd(userName);
             await AccountService.clearAppData(dispatch);
             dispatch(updateLoginStep(LoginStep.login));
         }

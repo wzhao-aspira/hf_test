@@ -6,17 +6,18 @@ import Page from "../../components/Page";
 
 import CommonHeader from "../../components/CommonHeader";
 import AppTheme from "../../assets/_default/AppTheme";
-
 import SVGIcon, { pathList } from "../../components/SVGIcon";
 import {
     updateAuthInfo,
     startBiometricAuth,
     setLastBiometricLoginUser,
     saveOnboardingPageAppear,
+    getPasswordChangeInd,
 } from "../../helper/LocalAuthHelper";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId, getActiveUserID } from "../../helper/AppHelper";
+import DialogHelper from "../../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     page: {
@@ -76,18 +77,28 @@ export default function QuickAccessMethodsScreen() {
                     title={authType}
                     label={t("auth.useQuickAuth", { authType })}
                     onPress={async () => {
+                        if (accessType === 1) return;
                         const userID = await getActiveUserID();
-                        startBiometricAuth(
-                            userID,
-                            () => {
-                                saveOnboardingPageAppear(userID);
-                                setLastBiometricLoginUser(userID);
-                                setAccessType(1);
-                            },
-                            () => {
-                                console.log("error");
-                            }
-                        );
+                        const isPasswordChanged = await getPasswordChangeInd(userID);
+                        if (isPasswordChanged != null && isPasswordChanged && accessType === 0) {
+                            DialogHelper.showSimpleDialog({
+                                title: "common.reminder",
+                                message: "auth.passwordChangeCanNotChangeBiometric",
+                                okText: "common.gotIt",
+                            });
+                        } else {
+                            startBiometricAuth(
+                                userID,
+                                () => {
+                                    saveOnboardingPageAppear(userID);
+                                    setLastBiometricLoginUser(userID);
+                                    setAccessType(1);
+                                },
+                                () => {
+                                    console.log("error");
+                                }
+                            );
+                        }
                     }}
                     checked={accessType === 1}
                     enable={biometricSupported}

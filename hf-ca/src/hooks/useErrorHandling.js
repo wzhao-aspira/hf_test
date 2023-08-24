@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { isEmpty, isArray } from "lodash";
-import { actions as appActions, selectors, updateLoginStep } from "../redux/AppSlice";
+import { actions as appActions, selectUsername, selectors, updateLoginStep } from "../redux/AppSlice";
 import DialogHelper from "../helper/DialogHelper";
 import LoginStep from "../constants/LoginStep";
 import { globalDataForAPI, handleError } from "../network/APIUtil";
 import { url } from "../network/identityAPI";
 import AccountService from "../services/AccountService";
+import { cleanPasswordChangeInd } from "../helper/LocalAuthHelper";
 
 const isErrorCode = (error, errorCode) => {
     if (error.status) {
@@ -63,12 +64,18 @@ function retryRequest(error, okAction, cancelAction) {
 function useErrorHandling() {
     const dispatch = useDispatch();
     const error = useSelector(selectors.selectError);
+    const userName = useSelector(selectUsername);
 
     // use useEffect to avoid an error from react
     useEffect(() => {
         if (!isEmpty(error)) {
             if (isNoAuthorization(error)) {
-                AccountService.clearAppData(dispatch).then(() => dispatch(updateLoginStep(LoginStep.login)));
+                AccountService.clearAppData(dispatch).then(async () => {
+                    // When session out, before go to the login page, if the current biometric method is none
+                    // and the user password changed then we need to clean the password change indicator
+                    await cleanPasswordChangeInd(userName);
+                    dispatch(updateLoginStep(LoginStep.login));
+                });
             } else if (globalDataForAPI.lastPromise) {
                 retryRequest(
                     error,
@@ -91,7 +98,7 @@ function useErrorHandling() {
                 });
             }
         }
-    }, [dispatch, error]);
+    }, [dispatch, error, userName]);
 }
 
 export default useErrorHandling;

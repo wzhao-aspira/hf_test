@@ -18,6 +18,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { SimpleDialog } from "../../components/Dialog";
 import DialogHelper from "../../helper/DialogHelper";
+import { setPasswordChangeInd } from "../../helper/LocalAuthHelper";
 
 function dialogReducer(state, action) {
     if (action.type === "incorrectPassword") {
@@ -91,8 +92,10 @@ export default function ForgotPasswordScreen({ route }) {
         return true;
     };
 
-    const handleNavigation = () => {
+    const handleNavigation = async () => {
         if (isChangePassword) {
+            // Set password change indicator
+            await setPasswordChangeInd(emailAddress, true);
             NavigationService.navigate(Routers.setting);
         } else {
             dispatch(updateLoginStep(LoginStep.login));
@@ -103,7 +106,8 @@ export default function ForgotPasswordScreen({ route }) {
         const isResetPasswordPassed = resetPasswordValidation();
         if (isResetPasswordPassed) {
             if (isChangePassword) {
-                const result = await AccountService.verifyCurrentAccountPassword(currentPassword);
+                // FIXME Currently don't verify the current password, since the API not integrate
+                const result = "passed"; // await AccountService.verifyCurrentAccountPassword(currentPassword);
                 if (result === "failed: password do not match") {
                     dialogDispatch({ type: "incorrectPassword" });
                     return;
