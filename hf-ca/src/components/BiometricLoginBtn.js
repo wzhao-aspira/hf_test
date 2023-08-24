@@ -46,7 +46,7 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
                             setPasswordChangeInd(userID, false);
                             resetOnboardingPage(userID);
                             updateAuthInfo(false, userID);
-                            setLastBiometricLoginUser(null);
+                            setLastBiometricLoginUser("");
                         },
                     });
                 } else {

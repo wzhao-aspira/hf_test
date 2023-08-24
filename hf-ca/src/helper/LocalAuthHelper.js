@@ -11,7 +11,7 @@ import DialogHelper from "./DialogHelper";
 export async function saveOnboardingPageAppear(userId) {
     console.log(`saveOnboardingPageAppear:${userId}`);
     const appear = { result: true };
-    storeItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`, appear);
+    storeItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId.toLowerCase()}`, appear);
 }
 
 export async function checkAuthAvailable() {
@@ -36,18 +36,18 @@ export async function checkAuthOnboarding(userId) {
         return false;
     }
 
-    const appear = await retrieveItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`);
+    const appear = await retrieveItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId.toLowerCase()}`);
     console.log(`auth appear:${JSON.stringify(appear)}`);
     if (appear == "" || appear == null || appear.result == false) {
         return true;
     }
     // already showed, if user enabled biometric login before need to restore the flag
-    const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userId, false);
-    const isBlock = await checkBlockBiometricIDLogin();
+    const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userId.toLowerCase(), false);
+    const isBlock = await checkBlockBiometricIDLogin(userId);
     if (!isBlock && biometricIDSwitch) {
         setLastBiometricLoginUser(userId);
     } else {
-        setLastBiometricLoginUser(null);
+        setLastBiometricLoginUser("");
     }
     return false;
 }
@@ -72,21 +72,21 @@ export async function getAuthType() {
 }
 
 export async function checkBlockBiometricIDLogin(userID) {
-    const result = await retrieveItem(KEY_CONSTANT.biometricIDSwitchBlock + userID, false);
+    const result = await retrieveItem(KEY_CONSTANT.biometricIDSwitchBlock + userID.toLowerCase(), false);
 
     return result;
 }
 export async function blockBiometricIDLogin(userID) {
-    await storeItem(KEY_CONSTANT.biometricIDSwitchBlock + userID, true);
+    await storeItem(KEY_CONSTANT.biometricIDSwitchBlock + userID.toLowerCase(), true);
 }
 
 export async function resetBiometricIDLoginBlock(userID) {
-    await AsyncStorage.multiRemove([KEY_CONSTANT.biometricIDSwitchBlock + userID]);
+    await AsyncStorage.multiRemove([KEY_CONSTANT.biometricIDSwitchBlock + userID.toLowerCase()]);
 }
 
 export async function updateAuthInfo(authEnable, userID) {
     if (userID) {
-        await storeItem(KEY_CONSTANT.biometricIDSwitch + userID, authEnable);
+        await storeItem(KEY_CONSTANT.biometricIDSwitch + userID.toLowerCase(), authEnable);
         await resetBiometricIDLoginBlock(userID);
     }
 }
@@ -98,12 +98,12 @@ export async function setLoginCredential(userID, password) {
             password,
         })
     );
-    storeItem(`${KEY_CONSTANT.lastBiometricLoginUserAuthInfo}_${userID}`, encrypted);
+    storeItem(`${KEY_CONSTANT.lastBiometricLoginUserAuthInfo}_${userID.toLowerCase()}`, encrypted);
 }
 
 export async function getLoginCredential(userID) {
     console.log(`getLoginCredential:${userID}`);
-    const encrypted = await retrieveItem(`${KEY_CONSTANT.lastBiometricLoginUserAuthInfo}_${userID}`);
+    const encrypted = await retrieveItem(`${KEY_CONSTANT.lastBiometricLoginUserAuthInfo}_${userID.toLowerCase()}`);
     if (isEmpty(encrypted)) {
         return undefined;
     }
@@ -112,7 +112,7 @@ export async function getLoginCredential(userID) {
 }
 
 export async function setLastBiometricLoginUser(userId) {
-    storeItem(KEY_CONSTANT.lastBiometricLoginUser, userId);
+    storeItem(KEY_CONSTANT.lastBiometricLoginUser, userId.toLowerCase());
 }
 
 export async function getLastBiometricLoginUser() {
@@ -131,8 +131,8 @@ export async function getAuthInfo(userID) {
     if (available) {
         res.typeName = await getAuthType();
         if (userID) {
-            const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userID, false);
-            const isBlock = await checkBlockBiometricIDLogin();
+            const biometricIDSwitch = await retrieveItem(KEY_CONSTANT.biometricIDSwitch + userID.toLowerCase(), false);
+            const isBlock = await checkBlockBiometricIDLogin(userID);
 
             res.enable = !isBlock && biometricIDSwitch;
         }
@@ -191,7 +191,7 @@ export async function startBiometricAuth(userID, onFinish = () => {}, onError = 
 
 export async function resetOnboardingPage(userId) {
     const appear = { result: false };
-    storeItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`, appear);
+    storeItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId.toLowerCase()}`, appear);
 }
 
 export async function setPasswordChangeInd(userId, isPasswordChanged) {
