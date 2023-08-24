@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef } from "react";
-
 import { useTranslation } from "react-i18next";
 import { isEmpty } from "lodash";
 import {
@@ -7,30 +6,16 @@ import {
     getLoginCredential,
     getAuthInfo,
     getLastBiometricLoginUser,
+    resetOnboardingPage,
+    getPasswordChangeInd,
+    updateAuthInfo,
+    setLastBiometricLoginUser,
+    setPasswordChangeInd,
 } from "../helper/LocalAuthHelper";
 import AppContract from "../assets/BaseContract";
 import QuickAccessChecker from "./QuickAccessChecker";
 import OutlinedBtn from "./OutlinedBtn";
-
-const startAuth = async (onAuthSuccess, onError) => {
-    const userID = await getLastBiometricLoginUser();
-    startBiometricAuth(
-        userID,
-        async () => {
-            const userInfo = await getLoginCredential(userID);
-            if (isEmpty(userInfo)) {
-                return;
-            }
-            console.log(userInfo);
-            onAuthSuccess(userInfo);
-        },
-        (res) => {
-            if (res.error != "user_cancel") {
-                onError();
-            }
-        }
-    );
-};
+import DialogHelper from "../helper/DialogHelper";
 
 export default function BiometricLoginBtn({ onAuthSuccess }) {
     const { t } = useTranslation();
@@ -38,6 +23,44 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
     const [type, setTypeName] = React.useState("");
     const quickAccessChecker = useRef();
     const useAuthStr = `${t("auth.use")} ${type}`;
+
+    const startAuth = async (onSuccess, onError) => {
+        const userID = await getLastBiometricLoginUser();
+        startBiometricAuth(
+            userID,
+            async () => {
+                const userInfo = await getLoginCredential(userID);
+                if (isEmpty(userInfo)) {
+                    return;
+                }
+                console.log(userInfo);
+                // Check if the user password changed
+                const isPasswordChanged = await getPasswordChangeInd(userID);
+                if (isPasswordChanged != null && isPasswordChanged) {
+                    DialogHelper.showSimpleDialog({
+                        title: "common.reminder",
+                        message: "auth.passwordChangeNeedLoginManually",
+                        okText: "common.gotIt",
+                        okAction: () => {
+                            setShowBtn(false);
+                            setPasswordChangeInd(userID, false);
+                            resetOnboardingPage(userID);
+                            updateAuthInfo(false, userID);
+                            setLastBiometricLoginUser(null);
+                        },
+                    });
+                } else {
+                    onSuccess(userInfo);
+                }
+            },
+            (res) => {
+                if (res.error != "user_cancel") {
+                    onError();
+                }
+            }
+        );
+    };
+
     const checkBiometricLogin = useCallback(
         async (startAuthenticate) => {
             const { biometric_enabled: biometricEnabled } = AppContract.function;

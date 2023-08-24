@@ -15,6 +15,7 @@ export const KEY_CONSTANT = {
     keySalesAgentsRecentSearch: "keySalesAgentsRecentSearch",
     usefulLinks: "usefulLinks",
     keyLastLocation: "keyLastLocation",
+    keyPasswordChanged: "keyPasswordChanged",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = {

@@ -188,3 +188,25 @@ export async function startBiometricAuth(userID, onFinish = () => {}, onError = 
         console.log(error);
     }
 }
+
+export async function resetOnboardingPage(userId) {
+    const appear = { result: false };
+    storeItem(`${KEY_CONSTANT.localAuthOnboardingHasAppear}_${userId}`, appear);
+}
+
+export async function setPasswordChangeInd(userId, isPasswordChanged) {
+    storeItem(`${KEY_CONSTANT.keyPasswordChanged}_${userId.toLowerCase()}`, isPasswordChanged);
+}
+
+export async function getPasswordChangeInd(userId) {
+    return retrieveItem(`${KEY_CONSTANT.keyPasswordChanged}_${userId.toLowerCase()}`);
+}
+
+export async function cleanPasswordChangeInd(userId) {
+    const authInfo = await getAuthInfo(userId);
+    const { enable } = authInfo;
+    const isPasswordChanged = await getPasswordChangeInd(userId);
+    if (!enable && isPasswordChanged != null && isPasswordChanged) {
+        setPasswordChangeInd(userId, false);
+    }
+}
