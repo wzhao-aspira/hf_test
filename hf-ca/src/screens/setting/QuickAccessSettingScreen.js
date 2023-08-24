@@ -111,7 +111,7 @@ export default function QuickAccessMethodsScreen() {
                     onPress={async () => {
                         const userID = await getActiveUserID();
                         updateAuthInfo(false, userID);
-                        setLastBiometricLoginUser(null);
+                        setLastBiometricLoginUser("");
                         setAccessType(0);
                     }}
                     testId="usePwdBtn"

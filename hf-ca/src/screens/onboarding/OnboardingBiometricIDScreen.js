@@ -114,7 +114,7 @@ export default function OnboardingBiometricIDScreen(props) {
                     label={t("onboarding.location.notNow")}
                     onPress={() => {
                         console.log("clear biometric login info");
-                        setLastBiometricLoginUser(null);
+                        setLastBiometricLoginUser("");
                         onFinish?.(false);
                     }}
                 />
