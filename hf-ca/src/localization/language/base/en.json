@@ -5,7 +5,8 @@
         "HuntName": "Hunt Name",
         "Reservation#": "Reservation #",
         "Name": "Name",
-        "Address": "Address"
+        "Address": "Address",
+        "Download": "Download"
     },
     "noLicTitle": "No licenses found",
     "license": {
