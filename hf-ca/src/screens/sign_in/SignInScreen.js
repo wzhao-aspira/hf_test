@@ -29,7 +29,7 @@ function SignInScreen(route) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const sighInLable = t("login.signIn");
+    const sighInLabel = t("login.signIn");
     const userIdEmptyMsg = t("signIn.userIdEmpty");
     const passwordEmptyMsg = t("signIn.passwordEmpty");
 
@@ -40,7 +40,7 @@ function SignInScreen(route) {
     const [errorMsg, setErrorMsg] = useState();
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
-    const showNoProfileDialog = (userID) => {
+    const showNoPrimaryProfileDialog = (userID) => {
         DialogHelper.showSimpleDialog({
             title: "common.reminder",
             message: "errMsg.noPrimaryProfile",
@@ -61,12 +61,13 @@ function SignInScreen(route) {
         }
         await dispatch(appThunkActions.initUserData({ userID: uid }));
         await setLoginCredential(uid, pwd);
+
         const profileResponse = await dispatch(ProfileThunk.initProfile());
         if (!profileResponse.success) {
             return;
         }
-        if (isEmpty(profileResponse.data)) {
-            showNoProfileDialog(uid);
+        if (!profileResponse.primaryProfileId) {
+            showNoPrimaryProfileDialog(uid);
             return;
         }
         // Clean the password change indicator
@@ -102,7 +103,7 @@ function SignInScreen(route) {
         <Page style={styles.signInPage}>
             <KeyboardAwareScrollView contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.container}>
-                    <Text style={styles.titleStyle}>{sighInLable}</Text>
+                    <Text style={styles.titleStyle}>{sighInLabel}</Text>
 
                     <StatefulTextInput
                         ref={userIdRef}
@@ -145,7 +146,7 @@ function SignInScreen(route) {
                         }}
                     />
 
-                    <PrimaryBtn style={styles.marginTopStyle(30)} label={sighInLable} onPress={clickSignIn} />
+                    <PrimaryBtn style={styles.marginTopStyle(30)} label={sighInLabel} onPress={clickSignIn} />
 
                     <BiometricLoginBtn
                         onAuthSuccess={(authInfo) => {

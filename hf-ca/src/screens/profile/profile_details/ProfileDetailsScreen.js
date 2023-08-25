@@ -25,6 +25,7 @@ import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 import { handleError } from "../../../network/APIUtil";
 import DialogHelper from "../../../helper/DialogHelper";
 import ProfileThunk from "../../../redux/ProfileThunk";
+
 import useFocus from "../../../hooks/useFocus";
 import ProfileDetailsLoading from "./ProfileDetailsLoading";
 
@@ -87,15 +88,17 @@ function ProfileDetailsScreen({ route }) {
     const handleRemove = async () => {
         const response = await handleError(removeProfile({ customerId: profileId }), { dispatch, showLoading: true });
         if (response.success) {
-            NavigationService.navigate(Routers.manageProfile, { isForceRefresh: true });
+            NavigationService.navigate(Routers.manageProfile, {
+                isForceRefresh: true,
+                showListUpdatedMsg: true,
+            });
         }
     };
 
     const handleRemoveBtnClick = async () => {
-        const response = await dispatch(
-            ProfileThunk.refreshProfileList({ isForce: true, showGlobalLoading: true, showListChangedMsg: true })
-        );
-        if (response.listChanged) {
+        const response = await dispatch(ProfileThunk.getProfileListChangeStatus({ showGlobalLoading: true }));
+
+        if (!response.success || response.primaryIsInactivated) {
             return;
         }
 
@@ -104,6 +107,10 @@ function ProfileDetailsScreen({ route }) {
                 title: "profile.removeProfile",
                 message: "profile.removePrimaryProfileMsg",
                 okText: "common.gotIt",
+                okAction: async () => {
+                    await dispatch(ProfileThunk.updateProfileData(response.profiles));
+                    NavigationService.navigate(Routers.manageProfile, { showListUpdatedMsg: response.listChanged });
+                },
             });
             return;
         }
@@ -125,9 +132,7 @@ function ProfileDetailsScreen({ route }) {
             title: "profile.removeProfile",
             okText: "profile.removeProfile",
             message: "profile.removeProfileMsg",
-            okAction: () => {
-                handleRemove();
-            },
+            okAction: () => handleRemove(),
         });
     };
 

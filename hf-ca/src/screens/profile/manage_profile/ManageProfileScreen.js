@@ -20,7 +20,7 @@ import { REQUEST_STATUS } from "../../../constants/Constants";
 
 export default function ManageProfileScreen({ route }) {
     const { params } = route;
-    const isForceRefresh = params?.isForceRefresh || false;
+    const { isForceRefresh = false, showListUpdatedMsg = false } = params || {};
 
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -30,9 +30,21 @@ export default function ManageProfileScreen({ route }) {
 
     console.log(`current profileListRequestStatus::${profileListRequestStatus}`);
 
-    useFocus(() => {
-        console.log("start auto refresh profile list");
-        dispatch(ProfileThunk.refreshProfileList({ isForce: isForceRefresh }));
+    useFocus(async () => {
+        console.log("start auto refresh profile list, isForceRefresh:", isForceRefresh);
+        const response = await dispatch(ProfileThunk.refreshProfileList({ isForce: isForceRefresh }));
+
+        // show ListUpdatedMsg after refreshProfileList, when primaryIsInactivated or ciuIsInactivated don't need to show ListUpdatedMsg
+        if (isForceRefresh && (response?.primaryIsInactivated || response?.ciuIsInactivated)) {
+            return;
+        }
+        if (showListUpdatedMsg) {
+            DialogHelper.showSimpleDialog({
+                title: "common.reminder",
+                message: "profile.profileListUpdated",
+                okText: "common.gotIt",
+            });
+        }
     });
 
     const onRefresh = () => {

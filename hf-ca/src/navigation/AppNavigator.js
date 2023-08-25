@@ -190,6 +190,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
             <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
+            <MainStack.Screen name={Routers.addPrimaryProfile} component={AddPrimaryProfileScreen} />
         </MainStack.Navigator>
     );
 }
