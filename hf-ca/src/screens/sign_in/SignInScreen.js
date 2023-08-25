@@ -19,7 +19,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 import BiometricLoginBtn from "../../components/BiometricLoginBtn";
-import { resetBiometricIDLoginBlock, setLoginCredential } from "../../helper/LocalAuthHelper";
+import { resetBiometricIDLoginBlock, setLoginCredential, setPasswordChangeInd } from "../../helper/LocalAuthHelper";
 import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
 import ProfileThunk from "../../redux/ProfileThunk";
@@ -69,6 +69,8 @@ function SignInScreen(route) {
             showNoProfileDialog(uid);
             return;
         }
+        // Clean the password change indicator
+        await setPasswordChangeInd(uid, false);
         resetBiometricIDLoginBlock(uid);
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(uid);
         if (!isEmpty(onBoardingScreens)) {
