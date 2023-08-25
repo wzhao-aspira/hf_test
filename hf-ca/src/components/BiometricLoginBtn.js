@@ -10,7 +10,6 @@ import {
     getPasswordChangeInd,
     updateAuthInfo,
     setLastBiometricLoginUser,
-    setPasswordChangeInd,
 } from "../helper/LocalAuthHelper";
 import AppContract from "../assets/BaseContract";
 import QuickAccessChecker from "./QuickAccessChecker";
@@ -43,7 +42,6 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
                         okText: "common.gotIt",
                         okAction: () => {
                             setShowBtn(false);
-                            setPasswordChangeInd(userID, false);
                             resetOnboardingPage(userID);
                             updateAuthInfo(false, userID);
                             setLastBiometricLoginUser("");

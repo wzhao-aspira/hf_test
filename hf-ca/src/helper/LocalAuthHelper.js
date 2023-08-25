@@ -201,12 +201,3 @@ export async function setPasswordChangeInd(userId, isPasswordChanged) {
 export async function getPasswordChangeInd(userId) {
     return retrieveItem(`${KEY_CONSTANT.keyPasswordChanged}_${userId.toLowerCase()}`);
 }
-
-export async function cleanPasswordChangeInd(userId) {
-    const authInfo = await getAuthInfo(userId);
-    const { enable } = authInfo;
-    const isPasswordChanged = await getPasswordChangeInd(userId);
-    if (!enable && isPasswordChanged != null && isPasswordChanged) {
-        setPasswordChangeInd(userId, false);
-    }
-}
