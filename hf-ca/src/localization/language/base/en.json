@@ -183,9 +183,11 @@
         "removeProfileMsg": "Are you sure you want to remove current profile, the associated profile will be removed as well.",
         "removePrimaryProfileMsg": "The primary profile can not be removed.",
         "removeCurrentInUseProfileMsg": "The profile is current in use, please switch profile first.",
-        "currentInUseInactiveMsg": "Unable to proceed with the current account. We will display information based on your primary account.",
-        "profileListChanged": "The current profile list has been updated. Please check the updated list before removing the profile.",
-        "targetProfileIsInactive": "This switched to profile has been updated."
+        "currentInUseInactiveMsg": "Your current in use account has been changed. We will display information based on your primary account.",
+        "profileListUpdatedAndRefresh": "Profile list has been updated, please refresh first to proceed next action.",
+        "profileListUpdated": "Your profile list has been updated.",
+        "primaryAndCIUChanged": "Please note that both your current in-use and primary accounts have been changed. Please add new primary account first.",
+        "primaryChanged": "Your primary account has been changed, please add new primary account first."
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",

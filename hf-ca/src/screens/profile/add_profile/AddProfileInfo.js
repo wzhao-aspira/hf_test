@@ -52,7 +52,9 @@ export const saveProfile = async (dispatch, mobileAccount, isAddPrimaryProfile, 
             });
             return false;
         }
-        await dispatch(ProfileThunk.initProfile());
+        if (isAddPrimaryProfile) {
+            await dispatch(ProfileThunk.initProfile());
+        }
         return true;
     }
     return false;
@@ -117,7 +119,7 @@ function AddProfileInfo({
             return;
         }
         if (routeScreen) {
-            NavigationService.navigate(routeScreen);
+            NavigationService.navigate(routeScreen, { isForceRefresh: true });
         } else {
             const { userID } = mobileAccount;
             const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);

@@ -79,6 +79,8 @@ const selectSortedByDisplayNameOtherProfileList = createSelector(selectOtherProf
 const selectProfileDetailsById = (profileId) =>
     createSelector(selectProfileList, (profileList) => profileList.find((item) => item.profileId === profileId) || {});
 
+const selectCiuIsInactive = createSelector(selectProfileState, (profile) => profile.ciuProfileIsInactive);
+
 const selectors = {
     selectProfileListRequestStatus,
     selectYouthIdentityOwners,
@@ -92,6 +94,7 @@ const selectors = {
     selectProfileIDs,
     selectProfileDetailsById,
     selectSortedByDisplayNameOtherProfileList,
+    selectCiuIsInactive,
 };
 
 export default selectors;

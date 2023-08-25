@@ -8,38 +8,48 @@ import profileThunkActions from "../../../redux/ProfileThunk";
 import NavigationService from "../../../navigation/NavigationService";
 import DialogHelper from "../../../helper/DialogHelper";
 import { actions as appActions } from "../../../redux/AppSlice";
-import { handleError } from "../../../network/APIUtil";
-import { getProfileList } from "../../../services/ProfileService";
+import Routers from "../../../constants/Routers";
 
 export default function SwitchProfileDialog({ hideDialog }) {
     const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
 
-    const switchProfileCallback = (result) => {
-        dispatch(profileThunkActions.refreshProfiles(result));
-        hideDialog();
+    const switchProfileCallback = (response, showUpdatedDialog) => {
+        dispatch(profileThunkActions.updateProfileData(response.profiles));
+        NavigationService.navigate(Routers.manageProfile);
+
+        if (response.listChanged && showUpdatedDialog) {
+            DialogHelper.showSimpleDialog({
+                title: "common.reminder",
+                message: "profile.profileListUpdated",
+                okText: "common.gotIt",
+            });
+        }
     };
 
     const handleSwitch = async (profileId) => {
         dispatch(appActions.toggleIndicator(true));
-        const response = await handleError(getProfileList(), { dispatch });
-
-        if (response.success) {
-            const { result } = response?.data?.data || [];
-            const profile = result.find((item) => item.customerId === profileId);
-            if (profile) {
-                await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
-                switchProfileCallback(result);
-            } else {
-                DialogHelper.showSimpleDialog({
-                    title: "common.reminder",
-                    message: "profile.targetProfileIsInactive",
-                    okText: "common.gotIt",
-                    okAction: () => switchProfileCallback(result),
-                });
-            }
+        const response = await dispatch(profileThunkActions.getProfileListChangeStatus());
+        if (!response.success || response.primaryIsInactivated) {
+            return;
         }
+
+        const profile = response.profiles.find((item) => item.customerId === profileId);
+        if (profile) {
+            await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
+            hideDialog();
+            switchProfileCallback(response, true);
+        } else {
+            hideDialog();
+            DialogHelper.showSimpleDialog({
+                title: "common.reminder",
+                message: "profile.profileListUpdatedAndRefresh",
+                okText: "common.gotIt",
+                okAction: () => switchProfileCallback(response),
+            });
+        }
+
         dispatch(appActions.toggleIndicator(false));
     };
 

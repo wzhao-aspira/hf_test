@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons/faChevronRight";
 import { faPlus } from "@fortawesome/pro-regular-svg-icons/faPlus";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import AppTheme from "../../../assets/_default/AppTheme";
 import ProfileItem from "./ProfileItem";
 import { commonStyles } from "./Styles";
@@ -10,9 +11,28 @@ import NavigationService from "../../../navigation/NavigationService";
 import Routers from "../../../constants/Routers";
 import { genTestId } from "../../../helper/AppHelper";
 import ProfileItemLoading from "./ProfileItemLoading";
+import ProfileThunk from "../../../redux/ProfileThunk";
 
 export default function OtherProfiles({ otherProfiles = [], isLoading }) {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+
+    const handleAddProfile = async () => {
+        const response = await dispatch(
+            ProfileThunk.getProfileListChangeStatus({
+                showGlobalLoading: true,
+                showCIUChangedMsg: true,
+                showListChangedMsg: true,
+            })
+        );
+
+        if (!response.success || response.primaryIsInactivated || response.ciuIsInactivated || response.listChanged) {
+            return;
+        }
+
+        dispatch(ProfileThunk.updateProfileData(response.profiles));
+        NavigationService.navigate(Routers.addProfile);
+    };
 
     return (
         <View style={{ marginTop: 36 }}>
@@ -24,9 +44,7 @@ export default function OtherProfiles({ otherProfiles = [], isLoading }) {
             ) : (
                 <Pressable
                     style={{ marginTop: 16 }}
-                    onPress={() => {
-                        NavigationService.navigate(Routers.addProfile);
-                    }}
+                    onPress={() => handleAddProfile()}
                     testID={genTestId("addProfile")}
                 >
                     <View style={commonStyles.profileContainer}>
