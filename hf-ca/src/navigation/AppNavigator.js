@@ -35,7 +35,8 @@ import PreferencePointScreen from "../screens/preference_point/PreferencePointSc
 import ProfileDetailsScreen from "../screens/profile/profile_details/ProfileDetailsScreen";
 import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScreen";
 import SalesAgentsScreen from "../screens/sales_agents/SalesAgentsScreen";
-import AccessPermitsScreen from "../screens/access_permits/AccessPermitsScreen";
+import AccessPermitListScreen from "../screens/access_permits/AccessPermitListScreen";
+import AccessPermitScreen from "../screens/access_permits/AccessPermitScreen";
 import SettingsScreen from "../screens/setting/SettingsScreen";
 import SignInScreen from "../screens/sign_in/SignInScreen";
 import SignUpScreen from "../screens/sign_up/SignUpScreen";
@@ -159,7 +160,6 @@ function DrawerNav() {
                     unmountOnBlur: true,
                 }}
             />
-            <Drawer.Screen name={Routers.accessPermits} component={AccessPermitsScreen} />
         </Drawer.Navigator>
     );
 }
@@ -180,6 +180,8 @@ function MainNav() {
             />
             <MainStack.Screen name={Routers.licenseDetail} component={LicenseDetailScreen} />
             <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
+            <MainStack.Screen name={Routers.accessPermitList} component={AccessPermitListScreen} />
+            <MainStack.Screen name={Routers.accessPermit} component={AccessPermitScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
             <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />
             <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />

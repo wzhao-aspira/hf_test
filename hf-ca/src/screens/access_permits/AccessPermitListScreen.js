@@ -1,4 +1,5 @@
 import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -6,15 +7,16 @@ import { genTestId } from "../../helper/AppHelper";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import { getAccessPermit } from "../../redux/AccessPermitSlice";
 import { selectAccessPermitState } from "../../redux/AccessPermitSelector";
-import AccessPermitItem from "./AccessPermitItem";
-import AccessPermitListEmpty from "./AccessPermitListEmpty";
-import AccessPermitCardLoading from "./AccessPermitCardLoading";
+import AccessPermitListItem from "./access_permit_list/AccessPermitListItem";
+import AccessPermitListEmpty from "./access_permit_list/AccessPermitListEmpty";
+import AccessPermitCardLoading from "./access_permit_list/AccessPermitCardLoading";
 import AppTheme from "../../assets/_default/AppTheme";
 import CommonHeader from "../../components/CommonHeader";
 import profileSelectors from "../../redux/ProfileSelector";
 import { getLoadingData } from "../../services/AccessPermitServices";
 import { REQUEST_STATUS } from "../../constants/Constants";
-import useFocus from "../../hooks/useFocus";
+import NavigationService from "../../navigation/NavigationService";
+import Routers from "../../constants/Routers";
 
 const styles = StyleSheet.create({
     container: {
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function AccessPermitsScreen() {
+export default function AccessPermitListScreen() {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
@@ -31,21 +33,24 @@ export default function AccessPermitsScreen() {
     const AccessPermitReduxData = useSelector(selectAccessPermitState);
     const refreshing = AccessPermitReduxData.requestStatus === REQUEST_STATUS.pending;
     const data = refreshing ? getLoadingData() : AccessPermitReduxData.data?.accessPermits;
+    const attention = AccessPermitReduxData.data?.attention;
 
     const getAccessPermitOfActiveProfile = () => {
         if (activeProfileId) {
             dispatch(getAccessPermit({ searchParams: { activeProfileId } }));
         }
     };
-    useFocus(() => {
+
+    useEffect(() => {
         getAccessPermitOfActiveProfile();
-    });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <View style={styles.container}>
             <CommonHeader title={t("accessPermits.myAccessPermits")} />
             <FlatList
-                testID={genTestId("permitList")}
+                testID={genTestId("accessPermitList")}
                 contentContainerStyle={{
                     flexGrow: 1,
                     marginTop: 20,
@@ -68,9 +73,9 @@ export default function AccessPermitsScreen() {
                     }
 
                     return (
-                        <AccessPermitItem
+                        <AccessPermitListItem
                             onPress={() => {
-                                console.log("go to detail");
+                                NavigationService.navigate(Routers.accessPermit, { accessPermitData: item, attention });
                             }}
                             itemData={item}
                             itemKey={item.id}

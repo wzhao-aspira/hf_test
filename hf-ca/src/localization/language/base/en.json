@@ -352,7 +352,11 @@
     "accessPermits": {
         "myAccessPermits": "My Access Permits",
         "noAccessPermits": "No Permits/Reservations found",
-        "purchaseAccessPermit": "Purchase Daily Draw"
+        "purchaseAccessPermit": "Purchase Daily Draw",
+        "huntCode": "Hunt Code",
+        "huntName": "Hunt Name",
+        "latestDate": "By Latest Hunt Date",
+        "earliestDate": "By Earliest Hunt Date"
     },
     "salesAgents": {
         "salesAgents": "Sales Agents",

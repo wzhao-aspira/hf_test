@@ -1,9 +1,9 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
-import AppTheme from "../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN } from "../../constants/Dimension";
-import { genTestId } from "../../helper/AppHelper";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN } from "../../../constants/Dimension";
+import { genTestId } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     mainContainerStyle: {
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     },
 });
 
-function AccessPermitItem(props) {
+function AccessPermitListItem(props) {
     const { itemData, itemKey, onPress } = props;
     const { name } = itemData;
     return (
@@ -46,7 +46,7 @@ function AccessPermitItem(props) {
                 style={styles.touchableStyle}
                 key={itemKey}
                 onPress={onPress}
-                testID={genTestId("accessPermitItem")}
+                testID={genTestId(`accessPermitListItem_${itemKey}`)}
             >
                 <View style={styles.itemContent}>
                     <View style={styles.itemText}>
@@ -63,4 +63,4 @@ function AccessPermitItem(props) {
     );
 }
 
-export default AccessPermitItem;
+export default AccessPermitListItem;

@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
-import AppTheme from "../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../../constants/Dimension";
-import SkeletonLoader from "../../components/SkeletonLoader";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../../../constants/Dimension";
+import SkeletonLoader from "../../../components/SkeletonLoader";
 
 const styles = StyleSheet.create({
     mainContainerStyle: {
