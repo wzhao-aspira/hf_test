@@ -23,6 +23,10 @@ import profileSelectors from "../../../redux/ProfileSelector";
 import { handleError } from "../../../network/APIUtil";
 import ProfileThunk from "../../../redux/ProfileThunk";
 import Routers from "../../../constants/Routers";
+import appThunkActions from "../../../redux/AppThunk";
+import OutlinedBtn from "../../../components/OutlinedBtn";
+import AccountService from "../../../services/AccountService";
+import DialogHelper from "../../../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -53,6 +57,7 @@ export const saveProfile = async (dispatch, mobileAccount, isAddPrimaryProfile, 
             return false;
         }
         if (isAddPrimaryProfile) {
+            await dispatch(appThunkActions.initUserData(mobileAccount));
             await dispatch(ProfileThunk.initProfile());
         }
         return true;
@@ -68,6 +73,7 @@ function AddProfileInfo({
     profileTypes,
     allIdentificationTypes,
     isAddPrimaryProfile,
+    noBackBtn = false,
 }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -130,6 +136,13 @@ function AddProfileInfo({
             }
         }
     };
+    const onSignOut = async () => {
+        const response = await handleError(AccountService.signOut(), { dispatch, showLoading: true });
+        if (response.success) {
+            await AccountService.clearAppData(dispatch);
+            dispatch(updateLoginStep(LoginStep.login));
+        }
+    };
     useEffect(() => {
         // Here logic to handle identification types initialization, we can't simple remove []'s parameters or add parameters.
         if (identificationTypes?.length > 1) {
@@ -182,6 +195,22 @@ function AddProfileInfo({
                 )}
 
                 <PrimaryBtn style={{ marginTop: 40 }} label={t("profile.addProfileProceed")} onPress={onSave} />
+                {noBackBtn && (
+                    <OutlinedBtn
+                        testID="signOutBtn"
+                        style={{ marginTop: 20 }}
+                        label={t("login.signOut")}
+                        onPress={() => {
+                            DialogHelper.showSelectDialog({
+                                title: "login.signOut",
+                                message: "login.signOutTipMessage",
+                                okAction: () => {
+                                    onSignOut();
+                                },
+                            });
+                        }}
+                    />
+                )}
             </View>
         </KeyboardAwareScrollView>
     );

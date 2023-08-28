@@ -15,7 +15,6 @@ import AccountService from "../../services/AccountService";
 import DialogHelper from "../../helper/DialogHelper";
 import { SharedStyles } from "../../styles/CommonStyles";
 import { handleError } from "../../network/APIUtil";
-import appThunkActions from "../../redux/AppThunk";
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -120,7 +119,6 @@ function SignUp() {
             showLoading: true,
         });
         if (signInResult?.success) {
-            dispatch(appThunkActions.initUserData({ userID }));
             NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount });
         }
     };
