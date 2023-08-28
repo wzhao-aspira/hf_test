@@ -12,7 +12,7 @@ function AddPrimaryProfileScreen({ route }) {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const { params } = route;
-    const { mobileAccount } = params;
+    const { mobileAccount, noBackBtn = true } = params;
     const individualProfileTypes = getIndividualProfileTypes();
     const selectOne = { id: -1, name: t("profile.selectOne") };
     const allIdentificationTypes = useSelector(profileSelectors.selectIdentityTypes(selectOne));
@@ -26,7 +26,7 @@ function AddPrimaryProfileScreen({ route }) {
     }, [dispatch]);
     return (
         <View style={{ flex: 1 }}>
-            <CommonHeader title={t("signUp.addPrimaryProfile")} />
+            <CommonHeader title={t("signUp.addPrimaryProfile")} showLeft={!noBackBtn} />
             <AddProfileInfo
                 profile={profile}
                 setProfile={setProfile}
@@ -34,6 +34,7 @@ function AddPrimaryProfileScreen({ route }) {
                 profileTypes={individualProfileTypes}
                 allIdentificationTypes={allIdentificationTypes}
                 isAddPrimaryProfile
+                noBackBtn={noBackBtn}
             />
         </View>
     );
