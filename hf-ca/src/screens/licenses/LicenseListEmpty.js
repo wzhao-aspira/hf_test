@@ -1,10 +1,10 @@
-import React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
+import useNavigateToISPurchaseLicense from "./hooks/useNavigateToISPurchaseLicense";
+
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";
-// import NavigationService from "../../navigation/NavigationService";
 
 export const styles = StyleSheet.create({
     emptyContainer: {
@@ -44,6 +44,8 @@ export const styles = StyleSheet.create({
 
 function LicenseListEmpty({ title, subtitle }) {
     const { t } = useTranslation();
+    const { navigateToIS } = useNavigateToISPurchaseLicense();
+
     const defaultTitle = t("license.noLicenseTitle");
     const defaultSubTitle = t("license.noLicenseIntroduction");
 
@@ -56,19 +58,17 @@ function LicenseListEmpty({ title, subtitle }) {
                 <Text testID={genTestId("licIntroduction")} style={styles.emptyDescription}>
                     {subtitle || defaultSubTitle}
                 </Text>
-                {
-                    <Pressable
-                        style={styles.emptyButton}
-                        testID={genTestId("purchaseLicenseButton")}
-                        onPress={() => {
-                            // NavigationService.navigate("PurchaseOnline", { category: null });
-                        }}
-                    >
-                        <Text testID={genTestId("purchaseLicense")} style={styles.emptyButtonTitle}>
-                            <Trans i18nKey="license.purchaseLicense" />
-                        </Text>
-                    </Pressable>
-                }
+                <Pressable
+                    style={styles.emptyButton}
+                    testID={genTestId("purchaseLicenseButton")}
+                    onPress={() => {
+                        navigateToIS();
+                    }}
+                >
+                    <Text testID={genTestId("purchaseLicense")} style={styles.emptyButtonTitle}>
+                        <Trans i18nKey="license.purchaseLicense" />
+                    </Text>
+                </Pressable>
             </View>
         </View>
     );

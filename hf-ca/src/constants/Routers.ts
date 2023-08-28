@@ -1,3 +1,4 @@
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { License } from "../types/license";
 import ValueOf from "../types/valueOf";
@@ -44,7 +45,7 @@ const Routers = {
 
 type RoutersUnion = ValueOf<typeof Routers>;
 
-type RouteParams = {
+export type RouteParams = {
     accessPermitDetail: {
         document: {
             title: string;
@@ -56,21 +57,19 @@ type RouteParams = {
             address: string;
         };
     };
-    webView: {
+    webViewScreen: {
         url: string;
-        fromScreen: RoutersUnion;
-        viewRegulation: boolean;
-        onLoadStartCallBack: Function;
-        onLoadProgressCallBack: Function;
-        onLoadEndCallBack: Function;
-        onErrorCallBack: Function;
+        title?: RoutersUnion;
     };
-    licenseDetail: {
+    licenseDetailScreen: {
         licenseData: License;
     };
 };
 
 type AppNativeStackScreenProps<RouteName extends keyof RouteParams> = NativeStackScreenProps<RouteParams, RouteName>;
 
+const useAppNavigation = useNavigation<NavigationProp<RouteParams>>;
+
 export type { RoutersUnion, AppNativeStackScreenProps };
+export { useAppNavigation };
 export default Routers;

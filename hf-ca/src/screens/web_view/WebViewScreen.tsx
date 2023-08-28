@@ -2,7 +2,6 @@ import { useState, useRef, useCallback } from "react";
 import { View } from "react-native";
 import { WebView } from "react-native-webview";
 import { StatusBar, setStatusBarStyle, setStatusBarBackgroundColor } from "expo-status-bar";
-import { useTranslation } from "react-i18next";
 
 import CommonHeader from "../../components/CommonHeader";
 import { SimpleDialog } from "../../components/Dialog";
@@ -23,54 +22,30 @@ const styles = {
     },
 };
 
-interface WebViewScreenProps extends AppNativeStackScreenProps<"webView"> {}
+interface WebViewScreenProps extends AppNativeStackScreenProps<"webViewScreen"> {}
 
 function WebViewScreen(props: WebViewScreenProps) {
     const { navigation, route } = props;
-
-    const { t } = useTranslation();
 
     const webview = useRef(null);
     const [noConnectDialogVisible, setNoConnectDialogVisible] = useState(false);
 
     const url = route.params?.url ?? "";
-    const fromScreen = route.params?.fromScreen ?? "";
-    const onLoadStartCallBack = route.params?.onLoadStartCallBack ?? "";
-    const onLoadProgressCallBack = route.params?.onLoadProgressCallBack ?? "";
-    const onLoadEndCallBack = route.params?.onLoadEndCallBack ?? "";
-    const onErrorCallBack = route.params?.onErrorCallBack ?? "";
-
-    const title = fromScreen || t("usefulLinks.usefulLinks");
+    const title = route.params?.title ?? "";
 
     const onBackButtonPress = useCallback(() => {
         navigation.goBack();
     }, [navigation]);
 
-    const handleLoadProgress = useCallback(() => {
-        if (onLoadProgressCallBack) {
-            onLoadProgressCallBack();
-        }
-    }, [onLoadProgressCallBack]);
-
     const handleError = useCallback(() => {
         setNoConnectDialogVisible(true);
-        if (onErrorCallBack) {
-            onErrorCallBack();
-        }
-    }, [onErrorCallBack]);
+    }, []);
 
     const handleLoadStart = useCallback(() => {
         setStatusBarStyle("dark");
-        if (onLoadStartCallBack) {
-            onLoadStartCallBack();
-        }
-    }, [onLoadStartCallBack]);
+    }, []);
 
     const handleLoadEnd = useCallback(() => {
-        if (onLoadEndCallBack) {
-            onLoadEndCallBack();
-        }
-
         [10, 50, 100, 500, 1000].forEach((timeout) => {
             setTimeout(() => {
                 setStatusBarStyle("dark");
@@ -79,7 +54,7 @@ function WebViewScreen(props: WebViewScreenProps) {
                 }
             }, timeout);
         });
-    }, [onLoadEndCallBack]);
+    }, []);
 
     return (
         <View style={styles.content}>
@@ -100,7 +75,6 @@ function WebViewScreen(props: WebViewScreenProps) {
                 source={{ uri: url }}
                 onLoadStart={handleLoadStart}
                 onLoadEnd={handleLoadEnd}
-                onLoadProgress={handleLoadProgress}
                 onError={handleError}
                 onMessage={(event) => {
                     const message = event.nativeEvent.data;

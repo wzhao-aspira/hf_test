@@ -45,7 +45,11 @@ const initialState: LicenseState = { data: null, requestStatus: REQUEST_STATUS.i
 const licenseSlice = createSlice({
     name: "license",
     initialState,
-    reducers: {},
+    reducers: {
+        clearUpdateTime(state) {
+            state.updateTime = initialState.updateTime;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(getLicense.rejected, (state, action) => {
             const { error } = action;
@@ -73,6 +77,9 @@ const licenseSlice = createSlice({
     },
 });
 
-const licenseReducer = licenseSlice.reducer;
+const { reducer, actions } = licenseSlice;
 
+const licenseReducer = reducer;
+
+export { actions };
 export default licenseReducer;

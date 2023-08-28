@@ -123,3 +123,7 @@ export const saveJwtToken = (apiResult, username) => {
         writeToken(username, { ...apiResult.data, updateTime: moment().unix() });
     }
 };
+
+export function retrieveAccessToken() {
+    return globalDataForAPI?.jwtToken?.access_token;
+}
