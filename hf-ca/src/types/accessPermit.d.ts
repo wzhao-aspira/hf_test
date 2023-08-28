@@ -1,4 +1,5 @@
 export interface HuntDay {
+    id: String;
     huntCode: string;
     huntName: string;
     huntDay: string;

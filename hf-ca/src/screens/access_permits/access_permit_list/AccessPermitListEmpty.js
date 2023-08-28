@@ -1,8 +1,8 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
-import AppTheme from "../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN } from "../../constants/Dimension";
-import { genTestId, showNotImplementedFeature } from "../../helper/AppHelper";
+import AppTheme from "../../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN } from "../../../constants/Dimension";
+import { genTestId, showNotImplementedFeature } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     emptyContainer: {

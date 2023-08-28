@@ -224,7 +224,7 @@ export default function DrawerContent({ navigation }) {
                     />
                     <MenuItem
                         onClick={async () => {
-                            NavigationService.navigate(Routers.accessPermits);
+                            NavigationService.navigate(Routers.accessPermitList);
                         }}
                         title="common.accessPermits"
                         testID="accessPermits"
