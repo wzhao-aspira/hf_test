@@ -12,7 +12,7 @@ function AddPrimaryProfileScreen({ route }) {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const { params } = route;
-    const { mobileAccount, noBackBtn = true } = params;
+    const { mobileAccount, noBackBtn = false } = params;
     const individualProfileTypes = getIndividualProfileTypes();
     const selectOne = { id: -1, name: t("profile.selectOne") };
     const allIdentificationTypes = useSelector(profileSelectors.selectIdentityTypes(selectOne));
