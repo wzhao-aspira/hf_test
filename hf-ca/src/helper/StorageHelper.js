@@ -18,3 +18,14 @@ export async function retrieveItem(key) {
         return "";
     }
 }
+
+export async function retrieveAllKeys() {
+    let keys = [];
+    try {
+        keys = await AsyncStorage.getAllKeys();
+    } catch (error) {
+        console.log(error.message);
+    }
+
+    return keys;
+}

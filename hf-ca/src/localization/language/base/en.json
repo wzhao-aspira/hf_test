@@ -279,7 +279,8 @@
         "usePassword": "Sign in with username and password only.",
         "useQuickAuth": "Access the app using {{authType}}",
         "passwordChangeCanNotChangeBiometric": "The password has been changed. For account security concern, update/set biometric is not allowed.",
-        "passwordChangeNeedLoginManually": "We have detected that the system has changed the password. Please log in manually."
+        "passwordChangeNeedLoginManually": "We have detected that the system has changed the password. Please log in manually.",
+        "biometricsChanged": "We have detected that the system has changed the biometric information. Please log in manually."
     },
     "deleteAccount": {
         "pageTitle": "Verification",

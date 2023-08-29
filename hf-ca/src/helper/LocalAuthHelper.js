@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { isIos } from "./AppHelper";
-import { retrieveItem, storeItem } from "./StorageHelper";
+import { retrieveAllKeys, retrieveItem, storeItem } from "./StorageHelper";
 import i18n from "../localization/i18n";
 import { KEY_CONSTANT } from "../constants/Constants";
 import SecurityUtil from "../utils/SecurityUtil";
@@ -200,4 +200,49 @@ export async function setPasswordChangeInd(userId, isPasswordChanged) {
 
 export async function getPasswordChangeInd(userId) {
     return retrieveItem(`${KEY_CONSTANT.keyPasswordChanged}_${userId.toLowerCase()}`);
+}
+
+export async function setAppBiometricChanged() {
+    const allStorageKey = await retrieveAllKeys();
+    if (isEmpty(allStorageKey)) {
+        return;
+    }
+
+    console.log(`keys:${JSON.stringify(allStorageKey)}`);
+
+    const supportBiometricUserList = [];
+    await Promise.all(
+        allStorageKey.map(async (key) => {
+            if (key.indexOf(KEY_CONSTANT.biometricIDSwitch) != -1) {
+                console.log("add promises");
+                const biometricIDSwitch = await retrieveItem(key, false);
+                console.log(`biometricIDSwitch key:${key}, ${biometricIDSwitch}`);
+                if (biometricIDSwitch) {
+                    const userId = key.replace(KEY_CONSTANT.biometricIDSwitch, "");
+                    supportBiometricUserList.push(userId);
+                }
+            }
+        })
+    );
+
+    console.log(`supportBiometricUserList:${JSON.stringify(supportBiometricUserList)}`);
+
+    await Promise.all(
+        supportBiometricUserList.map(async (userId) => {
+            console.log(`set user faceid changed:${userId}`);
+            await setUserBiometricChanged(userId, true);
+        })
+    );
+}
+
+export async function setUserBiometricChanged(userId, changed) {
+    console.log(`setUserBiometricChanged ${userId}, changed:${changed}`);
+    await storeItem(KEY_CONSTANT.biometricIDChanged + userId, changed);
+}
+
+export async function getUserBiometricChanged(userId) {
+    const changed = await retrieveItem(KEY_CONSTANT.biometricIDChanged + userId, false);
+    console.log(`getUserBiometricChanged ${userId}, changed:${changed}`);
+
+    return changed;
 }
