@@ -12,7 +12,7 @@ import DrawerContent from "./DrawerContent";
 import TabContent from "./TabContent";
 import { navigationRef } from "./NavigationService";
 
-import AccessPermitDetailScreen from "../screens/access_permit/AccessPermitDetailScreen";
+import AccessPermitDetailScreen from "../screens/access_permits/AccessPermitDetailScreen";
 import AddPrimaryProfileScreen from "../screens/sign_up/AddPrimaryProfileScreen";
 import AddProfileScreen from "../screens/profile/add_profile/AddProfileScreen";
 import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";

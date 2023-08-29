@@ -3,6 +3,9 @@ export interface HuntDay {
     huntCode: string;
     huntName: string;
     huntDay: string;
+    huntDayForDetail: string;
+    huntDayForSort: string;
+    drawnSequence: number;
 }
 
 export interface AccessPermitItem {
@@ -11,7 +14,14 @@ export interface AccessPermitItem {
     huntDays: HuntDay[];
 }
 
+export interface CustomerInfo {
+    name: string;
+    address: string;
+    goId: string;
+}
+
 export interface AccessPermit {
     accessPermits: AccessPermitItem[];
     attention: string;
+    customer: CustomerInfo;
 }

@@ -34,6 +34,7 @@ export default function AccessPermitListScreen() {
     const refreshing = AccessPermitReduxData.requestStatus === REQUEST_STATUS.pending;
     const data = refreshing ? getLoadingData() : AccessPermitReduxData.data?.accessPermits;
     const attention = AccessPermitReduxData.data?.attention;
+    const customer = AccessPermitReduxData.data?.customer;
 
     const getAccessPermitOfActiveProfile = () => {
         if (activeProfileId) {
@@ -75,7 +76,11 @@ export default function AccessPermitListScreen() {
                     return (
                         <AccessPermitListItem
                             onPress={() => {
-                                NavigationService.navigate(Routers.accessPermit, { accessPermitData: item, attention });
+                                NavigationService.navigate(Routers.accessPermit, {
+                                    accessPermitData: item,
+                                    attention,
+                                    customer,
+                                });
                             }}
                             itemData={item}
                             itemKey={item.id}

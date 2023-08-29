@@ -14,6 +14,8 @@ import AccessPermitItem from "./access_permit/AccessPermitItem";
 import CommonHeader from "../../components/CommonHeader";
 import { genTestId } from "../../helper/AppHelper";
 import { sortHuntDays } from "../../services/AccessPermitServices";
+import NavigationService from "../../navigation/NavigationService";
+import Routers from "../../constants/Routers";
 
 const styles = StyleSheet.create({
     container: {
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
     sortItem: {
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: 10,
+        marginBottom: 15,
     },
     sortItemText: {
         ...AppTheme.typography.button_text,
@@ -41,18 +43,18 @@ const styles = StyleSheet.create({
     modal: {
         zIndex: 100,
         position: "absolute",
-        top: 1,
-        right: 2,
+        top: -2,
+        right: 5,
         backgroundColor: AppTheme.colors.font_color_4,
         borderRadius: 4,
-        shadowOffset: { width: 0, height: 15 },
-        shadowRadius: 3,
         shadowColor: AppTheme.colors.shadow,
-        shadowOpacity: 0.8,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.7,
+        shadowRadius: 20,
         elevation: 15,
         paddingLeft: 10,
         paddingRight: 20,
-        paddingTop: 10,
+        paddingTop: 15,
     },
 });
 
@@ -61,7 +63,7 @@ export default function AccessPermitScreen(props) {
     const { width } = useWindowDimensions();
     const insets = useSafeAreaInsets();
     const { route } = props;
-    const { accessPermitData, attention } = route.params;
+    const { accessPermitData, attention, customer } = route.params;
     const [modalVisible, setModalVisible] = useImmer(false);
     const [ascendingOrder, setAscendingOrder] = useImmer(false);
     const [huntDays, setHuntDays] = useImmer(accessPermitData.huntDays);
@@ -81,8 +83,8 @@ export default function AccessPermitScreen(props) {
         <Pressable
             style={styles.sortItem}
             onPress={() => {
-                setModalVisible(false);
                 setAscendingOrder(isAscending);
+                setModalVisible(false);
             }}
         >
             <FontAwesomeIcon
@@ -106,28 +108,28 @@ export default function AccessPermitScreen(props) {
             </Text>
         </Pressable>
     );
-    const html = `<div style="line-height: 150%; font-size: 16px;">${attention}</div>`;
+    const html = attention;
     return (
         <View style={styles.container}>
             <CommonHeader
-                title={accessPermitData.name}
+                title={accessPermitData?.name}
                 rightIcon={ascendingOrder ? faArrowDownWideShort : faArrowUpWideShort}
                 onRightClick={onRightClick}
             />
+            <View>
+                {modalVisible && (
+                    <View style={styles.modal}>
+                        {renderSortItem(t("accessPermits.latestDate"), false)}
+                        {renderSortItem(t("accessPermits.earliestDate"), true)}
+                    </View>
+                )}
+            </View>
             <Pressable
                 onPress={() => {
                     setModalVisible(false);
                 }}
             >
                 <ScrollView>
-                    <View>
-                        {modalVisible && (
-                            <View style={styles.modal}>
-                                {renderSortItem(t("accessPermits.latestDate"), false)}
-                                {renderSortItem(t("accessPermits.earliestDate"), true)}
-                            </View>
-                        )}
-                    </View>
                     <View style={styles.attention}>
                         <Text testID={genTestId("AttentionLabel")} style={styles.attention_label}>
                             <Trans i18nKey="common.attention" />
@@ -140,13 +142,23 @@ export default function AccessPermitScreen(props) {
                             contentWidth={width}
                         />
                     </View>
-                    <View style={{ flexGrow: 1, marginTop: 10, paddingBottom: insets.bottom + 50 }}>
+                    <View style={{ flexGrow: 1, marginTop: 15, paddingBottom: insets.bottom + 50 }}>
                         {huntDays.map((item) => {
                             return (
                                 <AccessPermitItem
                                     key={item.id}
                                     onPress={() => {
-                                        console.log("go to detail");
+                                        NavigationService.navigate(Routers.accessPermitDetail, {
+                                            document: {
+                                                title: accessPermitData?.name,
+                                                huntDate: item.huntDayForDetail,
+                                                huntName: item.huntName,
+                                                reservationNumber: item.drawnSequence,
+                                                barcode: customer.goId,
+                                                name: customer.name,
+                                                address: customer.address,
+                                            },
+                                        });
                                     }}
                                     itemData={item}
                                     itemKey={item.id}

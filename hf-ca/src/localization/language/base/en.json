@@ -1,13 +1,4 @@
 {
-    "accessPermit": {
-        "PermitDetails": "Permit Details",
-        "HuntDate": "Hunt Date",
-        "HuntName": "Hunt Name",
-        "Reservation#": "Reservation #",
-        "Name": "Name",
-        "Address": "Address",
-        "Download": "Download"
-    },
     "noLicTitle": "No licenses found",
     "license": {
         "myLicense": "My Licenses",
@@ -356,7 +347,14 @@
         "huntCode": "Hunt Code",
         "huntName": "Hunt Name",
         "latestDate": "By Latest Hunt Date",
-        "earliestDate": "By Earliest Hunt Date"
+        "earliestDate": "By Earliest Hunt Date",
+        "PermitDetails": "Permit Details",
+        "HuntDate": "Hunt Date",
+        "HuntName": "Hunt Name",
+        "Reservation#": "Reservation #",
+        "Name": "Name",
+        "Address": "Address",
+        "Download": "Download"
     },
     "salesAgents": {
         "salesAgents": "Sales Agents",
