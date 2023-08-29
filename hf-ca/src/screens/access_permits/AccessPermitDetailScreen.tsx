@@ -85,11 +85,11 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
     const { title, barcode, huntDate, huntName, reservationNumber, name, address } = document;
 
     const accessPermitDocumentBasicInformation = [
-        { label: t("accessPermit.HuntDate"), content: huntDate },
-        { label: t("accessPermit.HuntName"), content: huntName },
-        { label: t("accessPermit.Reservation#"), content: reservationNumber },
-        { label: t("accessPermit.Name"), content: name },
-        { label: t("accessPermit.Address"), content: address },
+        { label: t("accessPermits.HuntDate"), content: huntDate },
+        { label: t("accessPermits.HuntName"), content: huntName },
+        { label: t("accessPermits.Reservation#"), content: reservationNumber },
+        { label: t("accessPermits.Name"), content: name },
+        { label: t("accessPermits.Address"), content: address },
     ];
 
     // TODO: remove it if the real data is ready
@@ -103,7 +103,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader rightIcon={false} title={t("accessPermit.PermitDetails")} />
+            <CommonHeader rightIcon={false} title={t("accessPermits.PermitDetails")} />
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
@@ -181,7 +181,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                                 testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
                                 style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, width: "40%" }}
                                 onPress={() => console.log(`download the ${fileName}`)}
-                                label={t("accessPermit.Download")}
+                                label={t("accessPermits.Download")}
                             />
                         </View>
                     );

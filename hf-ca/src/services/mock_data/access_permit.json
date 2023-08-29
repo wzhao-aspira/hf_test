@@ -1,6 +1,6 @@
 {
     "result": {
-        "instructions": "<P>\r\nYour reservation drawing entries are listed below by area and hunt date.\r\n\r\n<BR>Before the draw has been run, the draw choice will show as ’pending’.  </BR>\r\nAfter the draw has been run, the draw choice will show as ‘Successful’ or 'Unsuccessful'.  For successful entries, your reservation number will also be displayed.",
+        "instructions": "<div style='line-height: 20px; font-size: 14px;'><P>\r\nYour reservation drawing entries are listed below by area and hunt date.\r\n\r\n<BR>Before the draw has been run, the draw choice will show as ’pending’.  </BR>\r\nAfter the draw has been run, the draw choice will show as ‘Successful’ or 'Unsuccessful'.  For successful entries, your reservation number will also be displayed.</div>",
         "customerInfo": {
             "firstName": "ALICIA",
             "lastName": "IH",
@@ -32,17 +32,6 @@
                 "masterHuntTypeName": "SHARE Bird Hunt Permits",
                 "huntDays": [
                     {
-                        "huntCode": "BC-D",
-                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
-                        "fileId": null,
-                        "fileTitle": null,
-                        "drawTicketLicenseId": null,
-                        "notificationAvailable": false,
-                        "drawnSequence": 1,
-                        "huntDay": "2023-12-05T00:00:00",
-                        "formatHuntDay": "Tue 12-05"
-                    },
-                    {
                         "huntCode": "M-WDP",
                         "huntName": "Merced WWTP- Waterfowl Dove Pheasant (1 day)",
                         "fileId": null,
@@ -61,19 +50,19 @@
                         "drawTicketLicenseId": null,
                         "notificationAvailable": false,
                         "drawnSequence": 1,
-                        "huntDay": "2023-11-20T00:00:00",
-                        "formatHuntDay": "Mon 11-20"
+                        "huntDay": "2023-12-05T00:00:00",
+                        "formatHuntDay": "Tue 12-05"
                     },
                     {
-                        "huntCode": "M-WDP",
-                        "huntName": "Merced WWTP- Waterfowl Dove Pheasant (1 day)",
+                        "huntCode": "BC-D",
+                        "huntName": "Boden Canyon Ranch - Dove (2 days)",
                         "fileId": null,
                         "fileTitle": null,
                         "drawTicketLicenseId": null,
                         "notificationAvailable": false,
                         "drawnSequence": 1,
-                        "huntDay": "2023-10-28T00:00:00",
-                        "formatHuntDay": "Sat 10-28"
+                        "huntDay": "2023-11-20T00:00:00",
+                        "formatHuntDay": "Mon 11-20"
                     },
                     {
                         "huntCode": "BC-D",
@@ -96,6 +85,17 @@
                         "drawnSequence": 1,
                         "huntDay": "2023-10-25T00:00:00",
                         "formatHuntDay": "Wed 10-25"
+                    },
+                    {
+                        "huntCode": "M-WDP",
+                        "huntName": "Merced WWTP- Waterfowl Dove Pheasant (1 day)",
+                        "fileId": null,
+                        "fileTitle": null,
+                        "drawTicketLicenseId": null,
+                        "notificationAvailable": false,
+                        "drawnSequence": 1,
+                        "huntDay": "2023-10-25T00:00:00",
+                        "formatHuntDay": "Sat 10-28"
                     }
                 ]
             },
