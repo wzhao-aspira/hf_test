@@ -8,6 +8,7 @@ export const KEY_CONSTANT = {
     localAuthOnboardingHasAppear: "localAuthOnboardingHasAppear",
     biometricIDSwitchBlock: "biometricIDSwitchBlock",
     biometricIDSwitch: "biometricIDSwitch",
+    biometricIDChanged: "biometricIDChanged",
     loginCredential: "loginCredential",
     lastBiometricLoginUser: "lastBiometricLoginUser",
     lastBiometricLoginUserAuthInfo: "lastBiometricLoginUserAuthInfo",
