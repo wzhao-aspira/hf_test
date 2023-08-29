@@ -21,6 +21,7 @@ import { getDownloadedCountAsync, usefulLinksPDFPath, checkIfNewVersionAdded } f
 import { isAndroid } from "../../helper/AppHelper";
 import AppTheme from "../../assets/_default/AppTheme";
 import Routers from "../../constants/Routers";
+import type { AppNativeStackScreenProps } from "../../constants/Routers";
 
 import usefulLinksService from "../../services/UsefulLinksService";
 
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     },
 });
 
-interface UsefulLinksScreenProps extends NativeStackScreenProps<{}> {}
+interface UsefulLinksScreenProps extends AppNativeStackScreenProps<"webViewScreen"> {}
 
 function UsefulLinksScreen(props: UsefulLinksScreenProps) {
     const { navigation } = props;
@@ -123,9 +124,9 @@ function UsefulLinksScreen(props: UsefulLinksScreenProps) {
                 });
             });
         } else {
-            // @ts-expect-error
             navigation.navigate(Routers.webView, {
                 url: filePath,
+                title: t("usefulLinks.usefulLinks"),
             });
         }
     };

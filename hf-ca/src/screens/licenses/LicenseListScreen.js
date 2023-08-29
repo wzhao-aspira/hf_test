@@ -20,6 +20,8 @@ import profileSelectors from "../../redux/ProfileSelector";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 
+import useFocus from "../../hooks/useFocus";
+
 export const styles = StyleSheet.create({
     container: {
         paddingBottom: 0,
@@ -38,6 +40,10 @@ function LicenseListScreen() {
     const getLicenseOfActiveProfile = (isForce) => {
         dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
     };
+
+    useFocus(() => {
+        getLicenseOfActiveProfile(false);
+    });
 
     useEffect(() => {
         getLicenseOfActiveProfile(false);

@@ -1,10 +1,10 @@
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../../constants/Dimension";
 import { genTestId } from "../../../helper/AppHelper";
+import useNavigateToISPurchaseLicense from "../../licenses/hooks/useNavigateToISPurchaseLicense";
 
 const styles = StyleSheet.create({
     card: {
@@ -47,6 +47,8 @@ const styles = StyleSheet.create({
 
 function HomeLicenseSection() {
     const { t } = useTranslation();
+    const { navigateToIS } = useNavigateToISPurchaseLicense();
+
     return (
         <View style={[styles.card, styles.noLicenseContainer]}>
             <View>
@@ -60,7 +62,9 @@ function HomeLicenseSection() {
             <PrimaryBtn
                 testID={genTestId("purchaseOnline")}
                 style={{ margin: 20 }}
-                onPress={() => console.log("PurchaseOnline")}
+                onPress={() => {
+                    navigateToIS();
+                }}
                 label={t("license.purchaseLicense")}
             />
         </View>

@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     },
 });
 
-interface LicenseDetailScreenProps extends AppNativeStackScreenProps<"licenseDetail"> {
+interface LicenseDetailScreenProps extends AppNativeStackScreenProps<"licenseDetailScreen"> {
     //
 }
 
