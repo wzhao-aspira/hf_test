@@ -85,19 +85,23 @@ function ProfileDetailsScreen({ route }) {
     const profilesInfo = getInfoList(profileDetails, t);
     const addressInfo = getAddressList(profileDetails, t);
 
+    const removeCallback = async () => {
+        NavigationService.navigate(Routers.manageProfile);
+        const listResponse = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+        if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated) {
+            return;
+        }
+        DialogHelper.showSimpleDialog({
+            title: "common.reminder",
+            message: "profile.profileListUpdated",
+            okText: "common.gotIt",
+        });
+    };
+
     const handleRemove = async () => {
         const response = await handleError(removeProfile({ customerId: profileId }), { dispatch, showLoading: true });
         if (response.success) {
-            NavigationService.navigate(Routers.manageProfile);
-            const listResponse = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
-            if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated) {
-                return;
-            }
-            DialogHelper.showSimpleDialog({
-                title: "common.reminder",
-                message: "profile.profileListUpdated",
-                okText: "common.gotIt",
-            });
+            removeCallback();
         }
     };
 
@@ -114,15 +118,7 @@ function ProfileDetailsScreen({ route }) {
                 message: "profile.removePrimaryProfileMsg",
                 okText: "common.gotIt",
                 okAction: () => {
-                    NavigationService.navigate(Routers.manageProfile);
-                    dispatch(ProfileThunk.updateProfileData(response.profiles));
-                    if (response.listChanged) {
-                        DialogHelper.showSimpleDialog({
-                            title: "common.reminder",
-                            message: "profile.profileListUpdated",
-                            okText: "common.gotIt",
-                        });
-                    }
+                    removeCallback();
                 },
             });
             return;
