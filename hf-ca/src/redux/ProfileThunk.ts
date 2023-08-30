@@ -121,12 +121,13 @@ const initProfile =
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
-        if (currentInUseProfileID) {
+        if (currentInUseProfileID && !includes(profileListIDs, currentInUseProfileID)) {
+            dispatch(profileActions.updateCiuProfileIsInactive(true));
+        }
+        if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
             dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
-            if (!includes(profileListIDs, currentInUseProfileID)) {
-                dispatch(profileActions.updateCiuProfileIsInactive(true));
-            }
-        } else {
+        }
+        if (!currentInUseProfileID && primaryProfileId) {
             await updateCurrentInUseProfileID(username, primaryProfileId);
             dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
         }
@@ -205,42 +206,40 @@ const getProfileListChangeStatus =
             profiles: result,
         };
 
+        const ciuIsInactivated = !includes(profileListIDs, currentInUseProfileID);
+        const primaryIsInactivated = !includes(profileListIDs, previousPrimaryProfileID);
+        const noPrimaryProfile = primaryIsInactivated && !primaryProfileId;
+
+        response.listChanged = !isEmpty(differenceProfiles);
+        response.ciuIsInactivated = ciuIsInactivated;
+        response.primaryIsInactivated = primaryIsInactivated;
+
+        if (noPrimaryProfile) {
+            showProfileDialog(i18n.t("profile.primaryChanged"), () => {
+                NavigationService.navigate(Routers.addPrimaryProfile, {
+                    mobileAccount: { userID: username },
+                    noBackBtn: true,
+                });
+                dispatch(updateProfileData(result));
+            });
+            return response;
+        }
+
+        const primaryChanged = primaryIsInactivated && primaryProfileId;
+        if ((showCIUChangedMsg && ciuIsInactivated) || primaryChanged) {
+            const message = primaryChanged
+                ? i18n.t("profile.profileListUpdatedAndRefresh")
+                : i18n.t("profile.currentInUseInactiveMsg");
+
+            showProfileDialog(message, () => {
+                dispatch(switchCurrentInUseProfile(primaryProfileId));
+                dispatch(updateProfileData(result));
+                NavigationService.navigate(Routers.manageProfile);
+            });
+            return response;
+        }
+
         if (!isEmpty(differenceProfiles)) {
-            const ciuIsInactivated = !includes(profileListIDs, currentInUseProfileID);
-            const primaryIsInactivated = !includes(profileListIDs, previousPrimaryProfileID);
-            const noPrimaryProfile = primaryIsInactivated && !primaryProfileId;
-
-            response.listChanged = true;
-            response.ciuIsInactivated = ciuIsInactivated;
-            response.primaryIsInactivated = primaryIsInactivated;
-
-            if (noPrimaryProfile) {
-                const reminderMsg =
-                    ciuIsInactivated && currentInUseProfileID !== previousPrimaryProfileID
-                        ? i18n.t("profile.primaryAndCIUChanged")
-                        : i18n.t("profile.primaryChanged");
-
-                showProfileDialog(reminderMsg, () => {
-                    NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount: { userID: username } });
-                    dispatch(updateProfileData(result));
-                });
-                return response;
-            }
-
-            const primaryChanged = primaryIsInactivated && primaryProfileId;
-            if ((showCIUChangedMsg && ciuIsInactivated) || primaryChanged) {
-                const message = primaryChanged
-                    ? i18n.t("profile.profileListUpdatedAndRefresh")
-                    : i18n.t("profile.currentInUseInactiveMsg");
-
-                showProfileDialog(message, () => {
-                    dispatch(switchCurrentInUseProfile(primaryProfileId));
-                    dispatch(updateProfileData(result));
-                    NavigationService.navigate(Routers.manageProfile);
-                });
-                return response;
-            }
-
             if (showListChangedMsg) {
                 showProfileDialog(i18n.t("profile.profileListUpdatedAndRefresh"), () => {
                     dispatch(updateProfileData(result));
@@ -264,11 +263,11 @@ const refreshProfileList =
         if (profileListRequestStatus == REQUEST_STATUS.pending) {
             return {};
         }
-
+        // kill app and reopen, the getProfileListUpdateTime is null and checkNeedAutoRefreshData(getProfileListUpdateTime()) is true
+        console.log("checkNeedAutoRefreshData", checkNeedAutoRefreshData(getProfileListUpdateTime()));
         if (!isForce && checkNeedAutoRefreshData(getProfileListUpdateTime()) == false) {
             return {};
         }
-
         dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.pending));
         const response = await dispatch(
             getProfileListChangeStatus({ showGlobalLoading, showCIUChangedMsg, updateProfileWithNewData: true })

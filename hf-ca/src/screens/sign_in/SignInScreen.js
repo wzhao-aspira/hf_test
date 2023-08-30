@@ -13,7 +13,7 @@ import appThunkActions from "../../redux/AppThunk";
 import LoginStep from "../../constants/LoginStep";
 import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
-import { genTestId } from "../../helper/AppHelper";
+import { genTestId, setActiveUserID } from "../../helper/AppHelper";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
@@ -43,11 +43,11 @@ function SignInScreen(route) {
     const showNoPrimaryProfileDialog = (userID) => {
         DialogHelper.showSimpleDialog({
             title: "common.reminder",
-            message: "errMsg.noPrimaryProfile",
+            message: "profile.primaryChanged",
             okText: "common.gotIt",
             withModal: true,
             okAction: () => {
-                NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount: { userID } });
+                NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount: { userID }, noBackBtn: true });
             },
         });
     };
@@ -59,7 +59,8 @@ function SignInScreen(route) {
         if (!response.success) {
             return;
         }
-        await dispatch(appThunkActions.initUserData({ userID: uid }));
+        // set user in redux and don't set user in local storage.
+        await dispatch(appThunkActions.initUserData({ userID: uid }, false));
         await setLoginCredential(uid, pwd);
 
         const profileResponse = await dispatch(ProfileThunk.initProfile());
@@ -70,6 +71,10 @@ function SignInScreen(route) {
             showNoPrimaryProfileDialog(uid);
             return;
         }
+
+        // sign in successfully, set userId to local storage
+        setActiveUserID(uid);
+
         // Clean the password change indicator
         await setPasswordChangeInd(uid, false);
         resetBiometricIDLoginBlock(uid);

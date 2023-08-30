@@ -125,7 +125,8 @@ function AddProfileInfo({
             return;
         }
         if (routeScreen) {
-            NavigationService.navigate(routeScreen, { isForceRefresh: true });
+            NavigationService.navigate(routeScreen);
+            dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
         } else {
             const { userID } = mobileAccount;
             const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);

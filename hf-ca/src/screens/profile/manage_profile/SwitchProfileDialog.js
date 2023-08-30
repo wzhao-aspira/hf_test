@@ -16,8 +16,8 @@ export default function SwitchProfileDialog({ hideDialog }) {
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
 
     const switchProfileCallback = (response, showUpdatedDialog) => {
-        dispatch(profileThunkActions.updateProfileData(response.profiles));
         NavigationService.navigate(Routers.manageProfile);
+        dispatch(profileThunkActions.updateProfileData(response.profiles));
 
         if (response.listChanged && showUpdatedDialog) {
             DialogHelper.showSimpleDialog({
@@ -29,19 +29,19 @@ export default function SwitchProfileDialog({ hideDialog }) {
     };
 
     const handleSwitch = async (profileId) => {
+        hideDialog();
         dispatch(appActions.toggleIndicator(true));
         const response = await dispatch(profileThunkActions.getProfileListChangeStatus());
         if (!response.success || response.primaryIsInactivated) {
+            dispatch(appActions.toggleIndicator(false));
             return;
         }
 
         const profile = response.profiles.find((item) => item.customerId === profileId);
         if (profile) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
-            hideDialog();
             switchProfileCallback(response, true);
         } else {
-            hideDialog();
             DialogHelper.showSimpleDialog({
                 title: "common.reminder",
                 message: "profile.profileListUpdatedAndRefresh",
