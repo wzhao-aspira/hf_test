@@ -85,23 +85,25 @@ function ProfileDetailsScreen({ route }) {
     const profilesInfo = getInfoList(profileDetails, t);
     const addressInfo = getAddressList(profileDetails, t);
 
-    const removeCallback = async () => {
+    const removeCallback = async (showListUpdated) => {
         NavigationService.navigate(Routers.manageProfile);
         const listResponse = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
         if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated) {
             return;
         }
-        DialogHelper.showSimpleDialog({
-            title: "common.reminder",
-            message: "profile.profileListUpdated",
-            okText: "common.gotIt",
-        });
+        if (showListUpdated) {
+            DialogHelper.showSimpleDialog({
+                title: "common.reminder",
+                message: "profile.profileListUpdated",
+                okText: "common.gotIt",
+            });
+        }
     };
 
     const handleRemove = async () => {
         const response = await handleError(removeProfile({ customerId: profileId }), { dispatch, showLoading: true });
         if (response.success) {
-            removeCallback();
+            removeCallback(true);
         }
     };
 
@@ -118,7 +120,7 @@ function ProfileDetailsScreen({ route }) {
                 message: "profile.removePrimaryProfileMsg",
                 okText: "common.gotIt",
                 okAction: () => {
-                    removeCallback();
+                    removeCallback(response.listChanged);
                 },
             });
             return;
