@@ -19,7 +19,6 @@ import QuickAccessChecker from "./QuickAccessChecker";
 import OutlinedBtn from "./OutlinedBtn";
 import DialogHelper from "../helper/DialogHelper";
 import HFAppModule from "../native_modules/HFAppModule";
-import { isIos } from "../helper/AppHelper";
 
 export default function BiometricLoginBtn({ onAuthSuccess }) {
     const { t } = useTranslation();
@@ -30,38 +29,34 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
 
     const startAuth = async (onSuccess, onError) => {
         const userID = await getLastBiometricLoginUser();
-
-        if (isIos()) {
-            try {
-                const biometricsChanged = await HFAppModule.checkBiometricsChanged();
-                console.log(`biometricsChanged:${JSON.stringify(biometricsChanged)}`);
-                if (biometricsChanged) {
-                    console.log("app faceid changed");
-                    await setAppBiometricChanged();
-                }
-            } catch (err) {
-                console.error(`checkBiometricsChanged error: ${err}`);
+        try {
+            const biometricsChanged = await HFAppModule.checkBiometricsChanged();
+            console.log(`biometricsChanged:${JSON.stringify(biometricsChanged)}`);
+            if (biometricsChanged) {
+                console.log("app faceid changed");
+                await setAppBiometricChanged();
             }
-
-            const currentUserBiometricsChanged = await getUserBiometricChanged(userID);
-            if (currentUserBiometricsChanged) {
-                DialogHelper.showSimpleDialog({
-                    title: "common.reminder",
-                    message: "auth.biometricsChanged",
-                    okText: "common.gotIt",
-                    okAction: () => {
-                        setShowBtn(false);
-                        setUserBiometricChanged(userID, false);
-                        resetOnboardingPage(userID);
-                        updateAuthInfo(false, userID);
-                        setLastBiometricLoginUser("");
-                    },
-                });
-
-                return;
-            }
+        } catch (err) {
+            console.error(`checkBiometricsChanged error: ${err}`);
         }
 
+        const currentUserBiometricsChanged = await getUserBiometricChanged(userID);
+        if (currentUserBiometricsChanged) {
+            DialogHelper.showSimpleDialog({
+                title: "common.reminder",
+                message: "auth.biometricsChanged",
+                okText: "common.gotIt",
+                okAction: () => {
+                    setShowBtn(false);
+                    setUserBiometricChanged(userID, false);
+                    resetOnboardingPage(userID);
+                    updateAuthInfo(false, userID);
+                    setLastBiometricLoginUser("");
+                },
+            });
+
+            return;
+        }
         startBiometricAuth(
             userID,
             async () => {

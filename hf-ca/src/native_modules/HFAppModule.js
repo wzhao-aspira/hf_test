@@ -8,8 +8,15 @@ const checkBiometricsChanged = async () => {
     return changed;
 };
 
+// android only
+const showBiometricPrompt = async (obj) => {
+    const result = await HFApp.showBiometricPrompt(obj);
+    return result;
+};
+
 const HFAppModule = {
     checkBiometricsChanged,
+    showBiometricPrompt,
 };
 
 export default HFAppModule;
