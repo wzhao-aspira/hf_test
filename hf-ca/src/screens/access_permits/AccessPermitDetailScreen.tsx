@@ -177,12 +177,13 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                                     {description}
                                 </Text>
                             </View>
-                            <PrimaryBtn
-                                testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
-                                style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, width: "40%" }}
-                                onPress={() => console.log(`download the ${fileName}`)}
-                                label={t("accessPermits.Download")}
-                            />
+                            <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
+                                <PrimaryBtn
+                                    testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
+                                    onPress={() => console.log(`download the ${fileName}`)}
+                                    label={t("accessPermits.Download")}
+                                />
+                            </View>
                         </View>
                     );
                 })}
