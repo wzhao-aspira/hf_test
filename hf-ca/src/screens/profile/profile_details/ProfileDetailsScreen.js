@@ -89,7 +89,10 @@ function ProfileDetailsScreen({ route }) {
         const response = await handleError(removeProfile({ customerId: profileId }), { dispatch, showLoading: true });
         if (response.success) {
             NavigationService.navigate(Routers.manageProfile);
-            await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+            const listResponse = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+            if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated) {
+                return;
+            }
             DialogHelper.showSimpleDialog({
                 title: "common.reminder",
                 message: "profile.profileListUpdated",
