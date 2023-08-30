@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     modal: {
-        zIndex: 100,
         position: "absolute",
         top: -2,
         right: 5,
@@ -116,7 +115,7 @@ export default function AccessPermitScreen(props) {
                 rightIcon={ascendingOrder ? faArrowDownWideShort : faArrowUpWideShort}
                 onRightClick={onRightClick}
             />
-            <View>
+            <View style={{ zIndex: 1 }}>
                 {modalVisible && (
                     <View style={styles.modal}>
                         {renderSortItem(t("accessPermits.latestDate"), false)}
