@@ -1,12 +1,13 @@
 import { isEmpty } from "lodash";
 import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { isIos } from "./AppHelper";
+import { isAndroid, isIos } from "./AppHelper";
 import { retrieveAllKeys, retrieveItem, storeItem } from "./StorageHelper";
 import i18n from "../localization/i18n";
 import { KEY_CONSTANT } from "../constants/Constants";
 import SecurityUtil from "../utils/SecurityUtil";
 import DialogHelper from "./DialogHelper";
+import HFAppModule from "../native_modules/HFAppModule";
 
 export async function saveOnboardingPageAppear(userId) {
     console.log(`saveOnboardingPageAppear:${userId}`);
@@ -147,12 +148,18 @@ export async function startBiometricAuth(userID, onFinish = () => {}, onError = 
         disableDeviceFallback = false;
     }
     try {
-        const result = await LocalAuthentication.authenticateAsync({
+        const authObj = {
             promptMessage: i18n.t("auth.promptMessage"),
             fallbackLabel: i18n.t("auth.fallbackLabel"),
             cancelLabel: i18n.t("common.cancel"),
             disableDeviceFallback,
-        });
+        };
+        let result;
+        if (isAndroid()) {
+            result = await HFAppModule.showBiometricPrompt(authObj);
+        } else {
+            result = await LocalAuthentication.authenticateAsync(authObj);
+        }
         console.log(result);
         if (result.success) {
             console.log("auth successfully");
