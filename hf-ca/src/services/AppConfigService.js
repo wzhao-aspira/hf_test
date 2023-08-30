@@ -37,12 +37,15 @@ export async function initAppConfig() {
 
 export async function getAppJsonConfig() {
     const config = { success: true };
-    setTimeout(async () => {
-        if (config?.success) {
-            await storeItem(KEY_CONSTANT.keyAppConfig, appConfig);
-            return appConfig;
-        }
-        const storeConfig = await retrieveItem(KEY_CONSTANT.keyAppConfig);
-        return storeConfig;
-    }, 1000);
+    return new Promise((resolve) => {
+        setTimeout(async () => {
+            if (config?.success) {
+                await storeItem(KEY_CONSTANT.keyAppConfig, appConfig);
+                resolve(appConfig);
+            } else {
+                const storeConfig = await retrieveItem(KEY_CONSTANT.keyAppConfig);
+                resolve(storeConfig);
+            }
+        }, 200);
+    });
 }
