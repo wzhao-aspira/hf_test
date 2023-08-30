@@ -43,9 +43,11 @@ export default function HomeScreen() {
             dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
         }
     };
+
+    // sign in: need to check ciuIsInactive
     useEffect(() => {
         console.log("home screen ciuIsInactive-:", ciuIsInactive);
-        if (ciuIsInactive) {
+        if (ciuIsInactive && primaryProfileId) {
             DialogHelper.showSimpleDialog({
                 title: i18n.t("common.reminder"),
                 message: i18n.t("profile.currentInUseInactiveMsg"),

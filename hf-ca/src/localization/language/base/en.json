@@ -97,8 +97,7 @@
         "commonErrorTitle": "Sorry",
         "commonErrorMsg": "Something went wrong. Let's try one more time.",
         "noResultsFoundMsg": "No results found. Please try again with a different location.",
-        "profileStatusChanged": "This profile has changed status, please select other profiles.",
-        "noPrimaryProfile": "Please add a valid account as your primary account has been changed."
+        "profileStatusChanged": "This profile has changed status, please select other profiles."
     },
     "login": {
         "signIn": "Sign In",
@@ -177,8 +176,7 @@
         "currentInUseInactiveMsg": "Your current in use account has been changed. We will display information based on your primary account.",
         "profileListUpdatedAndRefresh": "Profile list has been updated, please refresh first to proceed next action.",
         "profileListUpdated": "Your profile list has been updated.",
-        "primaryAndCIUChanged": "Please note that both your current in-use and primary accounts have been changed. Please add new primary account first.",
-        "primaryChanged": "Your primary account has been changed, please add new primary account first."
+        "primaryChanged": "No active primary account available, please add new primary account first."
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",

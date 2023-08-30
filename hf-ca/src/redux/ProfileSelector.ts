@@ -52,7 +52,7 @@ const selectCurrentInUseProfile = createSelector(
     selectCurrentInUseProfileID,
     selectProfileList,
     (currentInUseProfileID, profileList) => {
-        return profileList.find((profile) => {
+        return profileList?.find((profile) => {
             return profile.profileId === currentInUseProfileID;
         });
     }

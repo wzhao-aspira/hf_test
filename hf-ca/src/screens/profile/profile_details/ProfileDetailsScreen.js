@@ -88,9 +88,12 @@ function ProfileDetailsScreen({ route }) {
     const handleRemove = async () => {
         const response = await handleError(removeProfile({ customerId: profileId }), { dispatch, showLoading: true });
         if (response.success) {
-            NavigationService.navigate(Routers.manageProfile, {
-                isForceRefresh: true,
-                showListUpdatedMsg: true,
+            NavigationService.navigate(Routers.manageProfile);
+            await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+            DialogHelper.showSimpleDialog({
+                title: "common.reminder",
+                message: "profile.profileListUpdated",
+                okText: "common.gotIt",
             });
         }
     };
@@ -107,9 +110,16 @@ function ProfileDetailsScreen({ route }) {
                 title: "profile.removeProfile",
                 message: "profile.removePrimaryProfileMsg",
                 okText: "common.gotIt",
-                okAction: async () => {
-                    await dispatch(ProfileThunk.updateProfileData(response.profiles));
-                    NavigationService.navigate(Routers.manageProfile, { showListUpdatedMsg: response.listChanged });
+                okAction: () => {
+                    NavigationService.navigate(Routers.manageProfile);
+                    dispatch(ProfileThunk.updateProfileData(response.profiles));
+                    if (response.listChanged) {
+                        DialogHelper.showSimpleDialog({
+                            title: "common.reminder",
+                            message: "profile.profileListUpdated",
+                            okText: "common.gotIt",
+                        });
+                    }
                 },
             });
             return;
