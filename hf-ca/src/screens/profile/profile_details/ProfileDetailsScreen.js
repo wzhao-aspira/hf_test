@@ -59,7 +59,7 @@ function ProfileHeader({ profile }) {
                 iconStyles={{ container: styles.profileTypeIconContainer, iconSize: 45 }}
             />
 
-            <Text style={styles.profileDisplayName} testID={genTestId("profileDiaplyName")}>
+            <Text style={styles.profileDisplayName} testID={genTestId("profileDisplayName")}>
                 {profile.displayName}
             </Text>
             <Text style={styles.profileItemNumber} testID={genTestId("profileGoID")}>
@@ -100,8 +100,17 @@ function ProfileDetailsScreen({ route }) {
         }
     };
 
-    const handleRemove = async () => {
-        const response = await handleError(removeProfile({ customerId: profileId }), { dispatch, showLoading: true });
+    const handleRemove = async (profiles) => {
+        const profile = profiles.find((item) => item.customerId === profileId);
+        let response = { success: true };
+
+        if (profile) {
+            response = await handleError(removeProfile({ customerId: profileId }), {
+                dispatch,
+                showLoading: true,
+            });
+        }
+
         if (response.success) {
             removeCallback(true);
         }
@@ -143,7 +152,7 @@ function ProfileDetailsScreen({ route }) {
             title: "profile.removeProfile",
             okText: "profile.removeProfile",
             message: "profile.removeProfileMsg",
-            okAction: () => handleRemove(),
+            okAction: () => handleRemove(response.profiles),
         });
     };
 
