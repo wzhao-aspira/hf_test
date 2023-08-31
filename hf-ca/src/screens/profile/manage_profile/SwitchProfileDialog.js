@@ -15,11 +15,13 @@ export default function SwitchProfileDialog({ hideDialog }) {
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
 
-    const switchProfileCallback = (response, showUpdatedDialog) => {
+    const switchProfileCallback = async (showUpdatedDialog) => {
         NavigationService.navigate(Routers.manageProfile);
-        dispatch(profileThunkActions.updateProfileData(response.profiles));
-
-        if (response.listChanged && showUpdatedDialog) {
+        const listResponse = await dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
+        if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated) {
+            return;
+        }
+        if (listResponse.listChanged && showUpdatedDialog) {
             DialogHelper.showSimpleDialog({
                 title: "common.reminder",
                 message: "profile.profileListUpdated",
@@ -40,13 +42,13 @@ export default function SwitchProfileDialog({ hideDialog }) {
         const profile = response.profiles.find((item) => item.customerId === profileId);
         if (profile) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
-            switchProfileCallback(response, true);
+            switchProfileCallback(true);
         } else {
             DialogHelper.showSimpleDialog({
                 title: "common.reminder",
                 message: "profile.profileListUpdatedAndRefresh",
                 okText: "common.gotIt",
-                okAction: () => switchProfileCallback(response),
+                okAction: () => switchProfileCallback(),
             });
         }
 
