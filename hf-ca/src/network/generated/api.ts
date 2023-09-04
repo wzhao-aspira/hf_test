@@ -26,58 +26,120 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  * 
  * @export
- * @interface AppConfigVM
+ * @interface ActivePermitListVM
  */
-export interface AppConfigVM {
+export interface ActivePermitListVM {
     /**
      * 
-     * @type {Array<string>}
-     * @memberof AppConfigVM
+     * @type {number}
+     * @memberof ActivePermitListVM
      */
-    'loginSplash'?: Array<string> | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AppConfigVM
-     */
-    'contactCDFW'?: string | null;
+    'applicationYear'?: number;
     /**
      * 
      * @type {string}
-     * @memberof AppConfigVM
+     * @memberof ActivePermitListVM
      */
-    'conditionsOfUse'?: string | null;
+    'masterHuntTypeId'?: string;
     /**
      * 
      * @type {string}
-     * @memberof AppConfigVM
+     * @memberof ActivePermitListVM
      */
-    'privacyPolicy'?: string | null;
+    'masterHuntTypeName'?: string | null;
+    /**
+     * 
+     * @type {Array<HuntDayVM>}
+     * @memberof ActivePermitListVM
+     */
+    'huntDays'?: Array<HuntDayVM> | null;
 }
 /**
  * 
  * @export
- * @interface AppConfigVMExecutionResult
+ * @interface ActivePermitVM
  */
-export interface AppConfigVMExecutionResult {
+export interface ActivePermitVM {
     /**
      * 
-     * @type {AppConfigVM}
-     * @memberof AppConfigVMExecutionResult
+     * @type {string}
+     * @memberof ActivePermitVM
      */
-    'result'?: AppConfigVM;
+    'instructions'?: string | null;
+    /**
+     * 
+     * @type {DrawResultsCustomerInfoVM}
+     * @memberof ActivePermitVM
+     */
+    'customerInfo'?: DrawResultsCustomerInfoVM;
+    /**
+     * 
+     * @type {Array<ActivePermitListVM>}
+     * @memberof ActivePermitVM
+     */
+    'activePermitList'?: Array<ActivePermitListVM> | null;
+}
+/**
+ * 
+ * @export
+ * @interface ActivePermitVMExecutionResult
+ */
+export interface ActivePermitVMExecutionResult {
+    /**
+     * 
+     * @type {ActivePermitVM}
+     * @memberof ActivePermitVMExecutionResult
+     */
+    'result'?: ActivePermitVM;
     /**
      * 
      * @type {boolean}
-     * @memberof AppConfigVMExecutionResult
+     * @memberof ActivePermitVMExecutionResult
      */
     'isValidResponse'?: boolean;
     /**
      * 
      * @type {Array<StringStringKeyValuePair>}
-     * @memberof AppConfigVMExecutionResult
+     * @memberof ActivePermitVMExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface BadRequestObjectResult
+ */
+export interface BadRequestObjectResult {
+    /**
+     * 
+     * @type {any}
+     * @memberof BadRequestObjectResult
+     */
+    'value'?: any | null;
+    /**
+     * 
+     * @type {Array<object>}
+     * @memberof BadRequestObjectResult
+     */
+    'formatters'?: Array<object> | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof BadRequestObjectResult
+     */
+    'contentTypes'?: Array<string> | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof BadRequestObjectResult
+     */
+    'declaredType'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof BadRequestObjectResult
+     */
+    'statusCode'?: number | null;
 }
 /**
  * 
@@ -374,6 +436,37 @@ export interface DocumentVM {
 /**
  * 
  * @export
+ * @interface DrawResultsCustomerInfoVM
+ */
+export interface DrawResultsCustomerInfoVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsCustomerInfoVM
+     */
+    'firstName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsCustomerInfoVM
+     */
+    'lastName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsCustomerInfoVM
+     */
+    'goId'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsCustomerInfoVM
+     */
+    'mailingAddress'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface ExecutionResult
  */
 export interface ExecutionResult {
@@ -547,6 +640,92 @@ export interface FindYouthVM {
 /**
  * 
  * @export
+ * @interface ForgotPasswordSendValidationCommand
+ */
+export interface ForgotPasswordSendValidationCommand {
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgotPasswordSendValidationCommand
+     */
+    'emailAddress'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface HuntDayVM
+ */
+export interface HuntDayVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'huntCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'huntName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'fileId'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'fileTitle'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'drawTicketLicenseId'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof HuntDayVM
+     */
+    'notificationAvailable'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'notificationTitile'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'notificationDescription'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof HuntDayVM
+     */
+    'drawnSequence'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'huntDay'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'formatHuntDay'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface IdentityTypeConfig
  */
 export interface IdentityTypeConfig {
@@ -662,6 +841,12 @@ export interface ItemTypeTipVM {
      * @memberof ItemTypeTipVM
      */
     'itemTypeName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemTypeTipVM
+     */
+    'tipTag'?: string | null;
 }
 /**
  * 
@@ -696,6 +881,12 @@ export interface ItemTypeTipVMIEnumerableExecutionResult {
 export interface LicenseAgentVM {
     /**
      * 
+     * @type {number}
+     * @memberof LicenseAgentVM
+     */
+    'id'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof LicenseAgentVM
      */
@@ -720,12 +911,6 @@ export interface LicenseAgentVM {
     'state'?: string | null;
     /**
      * 
-     * @type {number}
-     * @memberof LicenseAgentVM
-     */
-    'stateId'?: number;
-    /**
-     * 
      * @type {string}
      * @memberof LicenseAgentVM
      */
@@ -738,12 +923,6 @@ export interface LicenseAgentVM {
     'county'?: string | null;
     /**
      * 
-     * @type {number}
-     * @memberof LicenseAgentVM
-     */
-    'countyId'?: number;
-    /**
-     * 
      * @type {string}
      * @memberof LicenseAgentVM
      */
@@ -753,73 +932,54 @@ export interface LicenseAgentVM {
      * @type {string}
      * @memberof LicenseAgentVM
      */
-    'webAddress'?: string | null;
+    'displayBusinesPhone'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof LicenseAgentVM
+     */
+    'latitude'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LicenseAgentVM
+     */
+    'longitude'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LicenseAgentVM
+     */
+    'distance'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof LicenseAgentVM
+     */
+    'displayAddress'?: string | null;
 }
 /**
  * 
  * @export
- * @interface LicenseAgentVMPagedList
+ * @interface LicenseAgentVMListExecutionResult
  */
-export interface LicenseAgentVMPagedList {
+export interface LicenseAgentVMListExecutionResult {
     /**
      * 
      * @type {Array<LicenseAgentVM>}
-     * @memberof LicenseAgentVMPagedList
+     * @memberof LicenseAgentVMListExecutionResult
      */
-    'items'?: Array<LicenseAgentVM> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseAgentVMPagedList
-     */
-    'page'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseAgentVMPagedList
-     */
-    'pageSize'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LicenseAgentVMPagedList
-     */
-    'totalCount'?: number;
+    'result'?: Array<LicenseAgentVM> | null;
     /**
      * 
      * @type {boolean}
-     * @memberof LicenseAgentVMPagedList
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LicenseAgentVMPagedList
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface LicenseAgentVMPagedListExecutionResult
- */
-export interface LicenseAgentVMPagedListExecutionResult {
-    /**
-     * 
-     * @type {LicenseAgentVMPagedList}
-     * @memberof LicenseAgentVMPagedListExecutionResult
-     */
-    'result'?: LicenseAgentVMPagedList;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LicenseAgentVMPagedListExecutionResult
+     * @memberof LicenseAgentVMListExecutionResult
      */
     'isValidResponse'?: boolean;
     /**
      * 
      * @type {Array<StringStringKeyValuePair>}
-     * @memberof LicenseAgentVMPagedListExecutionResult
+     * @memberof LicenseAgentVMListExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
 }
@@ -885,24 +1045,6 @@ export interface LicenseVM {
     'itemYear'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof LicenseVM
-     */
-    'printedDescription'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof LicenseVM
-     */
-    'documentTitle'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof LicenseVM
-     */
-    'documentNumber'?: string | null;
-    /**
-     * 
      * @type {DocumentVM}
      * @memberof LicenseVM
      */
@@ -931,6 +1073,18 @@ export interface LicenseVM {
      * @memberof LicenseVM
      */
     'licenseReportId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof LicenseVM
+     */
+    'uiTabId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof LicenseVM
+     */
+    'uiTabName'?: string | null;
 }
 /**
  * 
@@ -1004,6 +1158,74 @@ export interface LinkCustomerResultVMExecutionResult {
 /**
  * 
  * @export
+ * @interface MobileAppConfigurationVM
+ */
+export interface MobileAppConfigurationVM {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MobileAppConfigurationVM
+     */
+    'mobileAppSplashPicture'?: Array<string> | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'mobileAppLandingPagePicture'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactCDFWLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'conditionOfUseLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'privacyPolicyLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'internetSalesBaseURL'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface MobileAppConfigurationVMExecutionResult
+ */
+export interface MobileAppConfigurationVMExecutionResult {
+    /**
+     * 
+     * @type {MobileAppConfigurationVM}
+     * @memberof MobileAppConfigurationVMExecutionResult
+     */
+    'result'?: MobileAppConfigurationVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileAppConfigurationVMExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof MobileAppConfigurationVMExecutionResult
+     */
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
  * @interface MobileAppUserCreationCommand
  */
 export interface MobileAppUserCreationCommand {
@@ -1023,6 +1245,50 @@ export interface MobileAppUserCreationCommand {
      * 
      * @type {string}
      * @memberof MobileAppUserCreationCommand
+     */
+    'password'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface MobileAppUserDeletionCommand
+ */
+export interface MobileAppUserDeletionCommand {
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppUserDeletionCommand
+     */
+    'password'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileAppUserDeletionCommand
+     */
+    'mobileUserId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MobileAppUserResetPasswordCommand
+ */
+export interface MobileAppUserResetPasswordCommand {
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppUserResetPasswordCommand
+     */
+    'emailAddress'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppUserResetPasswordCommand
+     */
+    'validationCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppUserResetPasswordCommand
      */
     'password'?: string | null;
 }
@@ -1094,6 +1360,43 @@ export interface MobileAppUserVMExecutionResult {
      * @memberof MobileAppUserVMExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface NotFoundObjectResult
+ */
+export interface NotFoundObjectResult {
+    /**
+     * 
+     * @type {any}
+     * @memberof NotFoundObjectResult
+     */
+    'value'?: any | null;
+    /**
+     * 
+     * @type {Array<object>}
+     * @memberof NotFoundObjectResult
+     */
+    'formatters'?: Array<object> | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof NotFoundObjectResult
+     */
+    'contentTypes'?: Array<string> | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotFoundObjectResult
+     */
+    'declaredType'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof NotFoundObjectResult
+     */
+    'statusCode'?: number | null;
 }
 /**
  * 
@@ -1313,6 +1616,31 @@ export interface StateVMListExecutionResult {
      * 
      * @type {Array<StringStringKeyValuePair>}
      * @memberof StateVMListExecutionResult
+     */
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface StringListExecutionResult
+ */
+export interface StringListExecutionResult {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof StringListExecutionResult
+     */
+    'result'?: Array<string> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof StringListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof StringListExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
 }
@@ -2142,6 +2470,283 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
 
 
 /**
+ * DrawResultsApi - axios parameter creator
+ * @export
+ */
+export const DrawResultsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Build Attachment For draw item
+         * @param {string} fileId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        buildAttachmentAsync: async (fileId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fileId' is not null or undefined
+            assertParamExists('buildAttachmentAsync', 'fileId', fileId)
+            const localVarPath = `/v1/Customers/DrawResults/Attachments/{fileId}`
+                .replace(`{${"fileId"}}`, encodeURIComponent(String(fileId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Build notification letter for draw item
+         * @param {string} drawTicketLicenseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        buildNotificationAsync: async (drawTicketLicenseId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'drawTicketLicenseId' is not null or undefined
+            assertParamExists('buildNotificationAsync', 'drawTicketLicenseId', drawTicketLicenseId)
+            const localVarPath = `/v1/Customers/DrawResults/Notifications/{drawTicketLicenseId}`
+                .replace(`{${"drawTicketLicenseId"}}`, encodeURIComponent(String(drawTicketLicenseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get My Active Permits List
+         * @param {string} customerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersCustomerIdActivePermitsGet: async (customerId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'customerId' is not null or undefined
+            assertParamExists('v1CustomersCustomerIdActivePermitsGet', 'customerId', customerId)
+            const localVarPath = `/v1/Customers/{customerId}/ActivePermits`
+                .replace(`{${"customerId"}}`, encodeURIComponent(String(customerId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DrawResultsApi - functional programming interface
+ * @export
+ */
+export const DrawResultsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DrawResultsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Build Attachment For draw item
+         * @param {string} fileId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async buildAttachmentAsync(fileId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.buildAttachmentAsync(fileId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Build notification letter for draw item
+         * @param {string} drawTicketLicenseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async buildNotificationAsync(drawTicketLicenseId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.buildNotificationAsync(drawTicketLicenseId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get My Active Permits List
+         * @param {string} customerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CustomersCustomerIdActivePermitsGet(customerId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivePermitVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersCustomerIdActivePermitsGet(customerId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DrawResultsApi - factory interface
+ * @export
+ */
+export const DrawResultsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DrawResultsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Build Attachment For draw item
+         * @param {string} fileId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        buildAttachmentAsync(fileId: string, options?: any): AxiosPromise<File> {
+            return localVarFp.buildAttachmentAsync(fileId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Build notification letter for draw item
+         * @param {string} drawTicketLicenseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        buildNotificationAsync(drawTicketLicenseId: string, options?: any): AxiosPromise<File> {
+            return localVarFp.buildNotificationAsync(drawTicketLicenseId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get My Active Permits List
+         * @param {string} customerId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CustomersCustomerIdActivePermitsGet(customerId: string, options?: any): AxiosPromise<ActivePermitVMExecutionResult> {
+            return localVarFp.v1CustomersCustomerIdActivePermitsGet(customerId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DrawResultsApi - interface
+ * @export
+ * @interface DrawResultsApi
+ */
+export interface DrawResultsApiInterface {
+    /**
+     * 
+     * @summary Build Attachment For draw item
+     * @param {string} fileId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DrawResultsApiInterface
+     */
+    buildAttachmentAsync(fileId: string, options?: AxiosRequestConfig): AxiosPromise<File>;
+
+    /**
+     * 
+     * @summary Build notification letter for draw item
+     * @param {string} drawTicketLicenseId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DrawResultsApiInterface
+     */
+    buildNotificationAsync(drawTicketLicenseId: string, options?: AxiosRequestConfig): AxiosPromise<File>;
+
+    /**
+     * 
+     * @summary Get My Active Permits List
+     * @param {string} customerId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DrawResultsApiInterface
+     */
+    v1CustomersCustomerIdActivePermitsGet(customerId: string, options?: AxiosRequestConfig): AxiosPromise<ActivePermitVMExecutionResult>;
+
+}
+
+/**
+ * DrawResultsApi - object-oriented interface
+ * @export
+ * @class DrawResultsApi
+ * @extends {BaseAPI}
+ */
+export class DrawResultsApi extends BaseAPI implements DrawResultsApiInterface {
+    /**
+     * 
+     * @summary Build Attachment For draw item
+     * @param {string} fileId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DrawResultsApi
+     */
+    public buildAttachmentAsync(fileId: string, options?: AxiosRequestConfig) {
+        return DrawResultsApiFp(this.configuration).buildAttachmentAsync(fileId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Build notification letter for draw item
+     * @param {string} drawTicketLicenseId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DrawResultsApi
+     */
+    public buildNotificationAsync(drawTicketLicenseId: string, options?: AxiosRequestConfig) {
+        return DrawResultsApiFp(this.configuration).buildNotificationAsync(drawTicketLicenseId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get My Active Permits List
+     * @param {string} customerId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DrawResultsApi
+     */
+    public v1CustomersCustomerIdActivePermitsGet(customerId: string, options?: AxiosRequestConfig) {
+        return DrawResultsApiFp(this.configuration).v1CustomersCustomerIdActivePermitsGet(customerId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * ItemsApi - axios parameter creator
  * @export
  */
@@ -2300,18 +2905,16 @@ export const LicenseAgentsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @summary Query License Agent List
-         * @param {string} [name] 
-         * @param {string} [city] 
-         * @param {number} [countyId] 
-         * @param {number} [stateId] 
-         * @param {string} [zipCode] 
-         * @param {boolean} [sellsCommercialItems] 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
+         * @param {number} latitude 
+         * @param {number} longitude 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1LicenseAgentsGet: async (name?: string, city?: string, countyId?: number, stateId?: number, zipCode?: string, sellsCommercialItems?: boolean, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        v1LicenseAgentsGet: async (latitude: number, longitude: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'latitude' is not null or undefined
+            assertParamExists('v1LicenseAgentsGet', 'latitude', latitude)
+            // verify required parameter 'longitude' is not null or undefined
+            assertParamExists('v1LicenseAgentsGet', 'longitude', longitude)
             const localVarPath = `/v1/LicenseAgents`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2324,36 +2927,12 @@ export const LicenseAgentsApiAxiosParamCreator = function (configuration?: Confi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (name !== undefined) {
-                localVarQueryParameter['name'] = name;
+            if (latitude !== undefined) {
+                localVarQueryParameter['latitude'] = latitude;
             }
 
-            if (city !== undefined) {
-                localVarQueryParameter['city'] = city;
-            }
-
-            if (countyId !== undefined) {
-                localVarQueryParameter['countyId'] = countyId;
-            }
-
-            if (stateId !== undefined) {
-                localVarQueryParameter['stateId'] = stateId;
-            }
-
-            if (zipCode !== undefined) {
-                localVarQueryParameter['zipCode'] = zipCode;
-            }
-
-            if (sellsCommercialItems !== undefined) {
-                localVarQueryParameter['sellsCommercialItems'] = sellsCommercialItems;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['pageSize'] = pageSize;
+            if (longitude !== undefined) {
+                localVarQueryParameter['longitude'] = longitude;
             }
 
 
@@ -2421,19 +3000,13 @@ export const LicenseAgentsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Query License Agent List
-         * @param {string} [name] 
-         * @param {string} [city] 
-         * @param {number} [countyId] 
-         * @param {number} [stateId] 
-         * @param {string} [zipCode] 
-         * @param {boolean} [sellsCommercialItems] 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
+         * @param {number} latitude 
+         * @param {number} longitude 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1LicenseAgentsGet(name?: string, city?: string, countyId?: number, stateId?: number, zipCode?: string, sellsCommercialItems?: boolean, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LicenseAgentVMPagedListExecutionResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1LicenseAgentsGet(name, city, countyId, stateId, zipCode, sellsCommercialItems, page, pageSize, options);
+        async v1LicenseAgentsGet(latitude: number, longitude: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LicenseAgentVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1LicenseAgentsGet(latitude, longitude, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2469,19 +3042,13 @@ export const LicenseAgentsApiFactory = function (configuration?: Configuration, 
         /**
          * 
          * @summary Query License Agent List
-         * @param {string} [name] 
-         * @param {string} [city] 
-         * @param {number} [countyId] 
-         * @param {number} [stateId] 
-         * @param {string} [zipCode] 
-         * @param {boolean} [sellsCommercialItems] 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
+         * @param {number} latitude 
+         * @param {number} longitude 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1LicenseAgentsGet(name?: string, city?: string, countyId?: number, stateId?: number, zipCode?: string, sellsCommercialItems?: boolean, page?: number, pageSize?: number, options?: any): AxiosPromise<LicenseAgentVMPagedListExecutionResult> {
-            return localVarFp.v1LicenseAgentsGet(name, city, countyId, stateId, zipCode, sellsCommercialItems, page, pageSize, options).then((request) => request(axios, basePath));
+        v1LicenseAgentsGet(latitude: number, longitude: number, options?: any): AxiosPromise<LicenseAgentVMListExecutionResult> {
+            return localVarFp.v1LicenseAgentsGet(latitude, longitude, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2514,19 +3081,13 @@ export interface LicenseAgentsApiInterface {
     /**
      * 
      * @summary Query License Agent List
-     * @param {string} [name] 
-     * @param {string} [city] 
-     * @param {number} [countyId] 
-     * @param {number} [stateId] 
-     * @param {string} [zipCode] 
-     * @param {boolean} [sellsCommercialItems] 
-     * @param {number} [page] 
-     * @param {number} [pageSize] 
+     * @param {number} latitude 
+     * @param {number} longitude 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LicenseAgentsApiInterface
      */
-    v1LicenseAgentsGet(name?: string, city?: string, countyId?: number, stateId?: number, zipCode?: string, sellsCommercialItems?: boolean, page?: number, pageSize?: number, options?: AxiosRequestConfig): AxiosPromise<LicenseAgentVMPagedListExecutionResult>;
+    v1LicenseAgentsGet(latitude: number, longitude: number, options?: AxiosRequestConfig): AxiosPromise<LicenseAgentVMListExecutionResult>;
 
     /**
      * 
@@ -2561,20 +3122,14 @@ export class LicenseAgentsApi extends BaseAPI implements LicenseAgentsApiInterfa
     /**
      * 
      * @summary Query License Agent List
-     * @param {string} [name] 
-     * @param {string} [city] 
-     * @param {number} [countyId] 
-     * @param {number} [stateId] 
-     * @param {string} [zipCode] 
-     * @param {boolean} [sellsCommercialItems] 
-     * @param {number} [page] 
-     * @param {number} [pageSize] 
+     * @param {number} latitude 
+     * @param {number} longitude 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LicenseAgentsApi
      */
-    public v1LicenseAgentsGet(name?: string, city?: string, countyId?: number, stateId?: number, zipCode?: string, sellsCommercialItems?: boolean, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
-        return LicenseAgentsApiFp(this.configuration).v1LicenseAgentsGet(name, city, countyId, stateId, zipCode, sellsCommercialItems, page, pageSize, options).then((request) => request(this.axios, this.basePath));
+    public v1LicenseAgentsGet(latitude: number, longitude: number, options?: AxiosRequestConfig) {
+        return LicenseAgentsApiFp(this.configuration).v1LicenseAgentsGet(latitude, longitude, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2721,6 +3276,148 @@ export const MobileAppUsersApiAxiosParamCreator = function (configuration?: Conf
     return {
         /**
          * 
+         * @summary Delete Account
+         * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersDelete: async (mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppUsers`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(mobileAppUserDeletionCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Send Mobile App User Forgot Password Validation Code Email
+         * @param {ForgotPasswordSendValidationCommand} [forgotPasswordSendValidationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersForgotPasswordValidationCodePost: async (forgotPasswordSendValidationCommand?: ForgotPasswordSendValidationCommand, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppUsers/ForgotPasswordValidationCode`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(forgotPasswordSendValidationCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Reset Password Validation Code Validation
+         * @param {string} [emailAddress] 
+         * @param {string} [validationCode] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersForgotPasswordValidationCodeValidationGet: async (emailAddress?: string, validationCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppUsers/ForgotPasswordValidationCode/Validation`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (emailAddress !== undefined) {
+                localVarQueryParameter['emailAddress'] = emailAddress;
+            }
+
+            if (validationCode !== undefined) {
+                localVarQueryParameter['validationCode'] = validationCode;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Reset Password
+         * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersPasswordPut: async (mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppUsers/Password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(mobileAppUserResetPasswordCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Create a Mobile App User
          * @param {MobileAppUserCreationCommand} [mobileAppUserCreationCommand] 
          * @param {*} [options] Override http request option.
@@ -2799,6 +3496,51 @@ export const MobileAppUsersApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Delete Account
+         * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersDelete(mobileAppUserDeletionCommand, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Send Mobile App User Forgot Password Validation Code Email
+         * @param {ForgotPasswordSendValidationCommand} [forgotPasswordSendValidationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppUsersForgotPasswordValidationCodePost(forgotPasswordSendValidationCommand?: ForgotPasswordSendValidationCommand, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersForgotPasswordValidationCodePost(forgotPasswordSendValidationCommand, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Reset Password Validation Code Validation
+         * @param {string} [emailAddress] 
+         * @param {string} [validationCode] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress?: string, validationCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress, validationCode, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Reset Password
+         * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Create a Mobile App User
          * @param {MobileAppUserCreationCommand} [mobileAppUserCreationCommand] 
          * @param {*} [options] Override http request option.
@@ -2831,6 +3573,47 @@ export const MobileAppUsersApiFactory = function (configuration?: Configuration,
     return {
         /**
          * 
+         * @summary Delete Account
+         * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersDelete(mobileAppUserDeletionCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Send Mobile App User Forgot Password Validation Code Email
+         * @param {ForgotPasswordSendValidationCommand} [forgotPasswordSendValidationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersForgotPasswordValidationCodePost(forgotPasswordSendValidationCommand?: ForgotPasswordSendValidationCommand, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersForgotPasswordValidationCodePost(forgotPasswordSendValidationCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Reset Password Validation Code Validation
+         * @param {string} [emailAddress] 
+         * @param {string} [validationCode] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress?: string, validationCode?: string, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress, validationCode, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Reset Password
+         * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create a Mobile App User
          * @param {MobileAppUserCreationCommand} [mobileAppUserCreationCommand] 
          * @param {*} [options] Override http request option.
@@ -2860,6 +3643,47 @@ export const MobileAppUsersApiFactory = function (configuration?: Configuration,
 export interface MobileAppUsersApiInterface {
     /**
      * 
+     * @summary Delete Account
+     * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApiInterface
+     */
+    v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+    /**
+     * 
+     * @summary Send Mobile App User Forgot Password Validation Code Email
+     * @param {ForgotPasswordSendValidationCommand} [forgotPasswordSendValidationCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApiInterface
+     */
+    v1MobileAppUsersForgotPasswordValidationCodePost(forgotPasswordSendValidationCommand?: ForgotPasswordSendValidationCommand, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+    /**
+     * 
+     * @summary Reset Password Validation Code Validation
+     * @param {string} [emailAddress] 
+     * @param {string} [validationCode] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApiInterface
+     */
+    v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress?: string, validationCode?: string, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+    /**
+     * 
+     * @summary Reset Password
+     * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApiInterface
+     */
+    v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+    /**
+     * 
      * @summary Create a Mobile App User
      * @param {MobileAppUserCreationCommand} [mobileAppUserCreationCommand] 
      * @param {*} [options] Override http request option.
@@ -2887,6 +3711,55 @@ export interface MobileAppUsersApiInterface {
  * @extends {BaseAPI}
  */
 export class MobileAppUsersApi extends BaseAPI implements MobileAppUsersApiInterface {
+    /**
+     * 
+     * @summary Delete Account
+     * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApi
+     */
+    public v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersDelete(mobileAppUserDeletionCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Send Mobile App User Forgot Password Validation Code Email
+     * @param {ForgotPasswordSendValidationCommand} [forgotPasswordSendValidationCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApi
+     */
+    public v1MobileAppUsersForgotPasswordValidationCodePost(forgotPasswordSendValidationCommand?: ForgotPasswordSendValidationCommand, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersForgotPasswordValidationCodePost(forgotPasswordSendValidationCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Reset Password Validation Code Validation
+     * @param {string} [emailAddress] 
+     * @param {string} [validationCode] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApi
+     */
+    public v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress?: string, validationCode?: string, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress, validationCode, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Reset Password
+     * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApi
+     */
+    public v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Create a Mobile App User
@@ -3208,7 +4081,7 @@ export const StaticDataApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1StaticDataAppConfigsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppConfigVMExecutionResult>> {
+        async v1StaticDataAppConfigsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MobileAppConfigurationVMExecutionResult>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataAppConfigsGet(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3268,7 +4141,7 @@ export const StaticDataApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1StaticDataAppConfigsGet(options?: any): AxiosPromise<AppConfigVMExecutionResult> {
+        v1StaticDataAppConfigsGet(options?: any): AxiosPromise<MobileAppConfigurationVMExecutionResult> {
             return localVarFp.v1StaticDataAppConfigsGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -3323,7 +4196,7 @@ export interface StaticDataApiInterface {
      * @throws {RequiredError}
      * @memberof StaticDataApiInterface
      */
-    v1StaticDataAppConfigsGet(options?: AxiosRequestConfig): AxiosPromise<AppConfigVMExecutionResult>;
+    v1StaticDataAppConfigsGet(options?: AxiosRequestConfig): AxiosPromise<MobileAppConfigurationVMExecutionResult>;
 
     /**
      * 
