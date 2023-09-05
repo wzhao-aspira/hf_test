@@ -1,24 +1,21 @@
 import type { AppThunk } from "./Store";
 import AccountService from "../services/AccountService";
 import * as ProfileService from "../services/ProfileService";
-import { actions as appActions, selectors as appSelectors } from "./AppSlice";
-import { actions as profileActions } from "./ProfileSlice";
+import { selectors as appSelectors } from "./AppSlice";
+
+type DeleteCurrentAccountResult = ReturnType<typeof AccountService.deleteCurrentAccount>;
 
 const deleteCurrentAccount =
-    (password: string): AppThunk<Promise<"succeeded" | "failed">> =>
+    (password: string): AppThunk<DeleteCurrentAccountResult> =>
     async (dispatch, getState) => {
         const rootState = getState();
         const accountID = appSelectors.selectUsername(rootState);
 
         try {
-            const result = await AccountService.deleteCurrentAccount(password);
+            const result = await AccountService.deleteCurrentAccount(password, { dispatch });
 
             if (result === "succeeded") {
-                dispatch(appActions.resetUser());
-                dispatch(profileActions.restProfileToInitialState());
-
                 try {
-                    // TODO: reset local auth data from the storage
                     await ProfileService.removeAccountCurrentInUseProfileID(accountID);
                 } catch (error) {
                     // TODO: handle error

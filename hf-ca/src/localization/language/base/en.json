@@ -281,12 +281,7 @@
         "verifyAndContinue": "Verify and Continue",
         "deletingAccountPermanently": "Deleting Account Permanently",
         "confirmDialogDescription": "Are you sure you want to delete {{accountID}} forever? You will erase your account and all associated data.",
-        "proceedDelete": "Proceed Delete",
-        "passwordDoesNotMatchDialog": {
-            "title": "Error",
-            "description": "Your entered password does not match with your account, please re-enter.",
-            "confirmButton": "Got it"
-        }
+        "proceedDelete": "Proceed Delete"
     },
     "usefulLinks": {
         "usefulLinks": "Useful Links",

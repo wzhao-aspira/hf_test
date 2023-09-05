@@ -8,7 +8,7 @@ import CommonHeader from "../../components/CommonHeader";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import OutlinedBtn from "../../components/OutlinedBtn";
-import { SelectDialog, SimpleDialog } from "../../components/Dialog";
+import { SelectDialog } from "../../components/Dialog";
 
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
@@ -37,45 +37,36 @@ function DeleteAccountScreen() {
     const accountID = useSelector(appSelectors.selectUsername);
 
     const [password, setPassword] = useState("");
-    const [passwordInputError, setPasswordInputError] = useState("");
-    const [shouldShowPasswordDoNotMatchDialog, setShouldShowPasswordDoNotMatchDialog] = useState(false);
+    const [passwordInputInlineErrorMessage, setPasswordInputInlineErrorMessage] = useState("");
     const [shouldShowConfirmDialog, setShouldShowConfirmDialog] = useState(false);
 
     const passwordInputRef = useRef<{ setError: Function }>();
 
     useEffect(() => {
         if (passwordInputRef?.current && passwordInputRef.current?.setError) {
-            passwordInputRef.current.setError({ error: !!passwordInputError, errorMsg: passwordInputError });
+            passwordInputRef.current.setError({
+                error: !!passwordInputInlineErrorMessage,
+                errorMsg: passwordInputInlineErrorMessage,
+            });
         }
-    }, [passwordInputError]);
+    }, [passwordInputInlineErrorMessage]);
 
     async function handlePasswordInputInlineError() {
-        const result = await AccountService.verifyCurrentAccountPassword(password);
-
-        setPasswordInputError("");
+        const result = await AccountService.verifyPassword(password);
 
         if (result === "failed: password is empty") {
             const emptyPasswordErrorMessage = t("errMsg.emptyPassword");
-            setPasswordInputError(emptyPasswordErrorMessage);
+            setPasswordInputInlineErrorMessage(emptyPasswordErrorMessage);
             return "failed";
         }
 
-        return result;
-    }
-
-    async function verifyAccountPasswordAndHandleError() {
-        const result = await handlePasswordInputInlineError();
-
-        if (result === "failed: password do not match") {
-            setShouldShowPasswordDoNotMatchDialog(true);
-            return "failed";
-        }
+        setPasswordInputInlineErrorMessage("");
 
         return result;
     }
 
     async function pressVerifyAndContinueButtonHandler() {
-        const result = await verifyAccountPasswordAndHandleError();
+        const result = await handlePasswordInputInlineError();
 
         if (result === "passed") setShouldShowConfirmDialog(true);
     }
@@ -86,6 +77,10 @@ function DeleteAccountScreen() {
 
             if (result === "succeeded") {
                 dispatch(updateLoginStep(LoginStep.login));
+            }
+
+            if (result === "failed") {
+                // TODO: handle failed
             }
         } catch (error) {
             // TODO: handle error
@@ -148,15 +143,6 @@ function DeleteAccountScreen() {
                             }}
                         />
                     </View>
-                    <SimpleDialog
-                        visible={shouldShowPasswordDoNotMatchDialog}
-                        title="deleteAccount.passwordDoesNotMatchDialog.title"
-                        message="deleteAccount.passwordDoesNotMatchDialog.description"
-                        okText="deleteAccount.passwordDoesNotMatchDialog.confirmButton"
-                        okAction={() => {
-                            setShouldShowPasswordDoNotMatchDialog(false);
-                        }}
-                    />
                     <SelectDialog
                         visible={shouldShowConfirmDialog}
                         title={t("deleteAccount.deletingAccountPermanently")}
