@@ -218,31 +218,6 @@ export async function clearProfileListFromDB() {
     });
 }
 
-export async function deleteMobileAccount(id) {
-    const checkResult = await checkMobileAccount(id);
-    return new Promise((resolve) => {
-        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
-        if (checkResult.success) {
-            if (checkResult.count > 0) {
-                db.transaction(
-                    (tx) => {
-                        tx.executeSql(`DELETE FROM MOBILE_ACCOUNT WHERE ID=?;`, [`${id}`]);
-                    },
-                    (error) => {
-                        console.log(`DB DELETE ERROR! - ${JSON.stringify(error)}`);
-                        resolve(result);
-                    },
-                    () => {
-                        console.log("DB DELETE SUCCESS!");
-                        result.success = true;
-                        resolve(result);
-                    }
-                );
-            }
-        }
-    });
-}
-
 /**
  * @param {string} id
  * @param {string} password
@@ -264,51 +239,6 @@ export function updateMobileAccountPasswordById(id, password) {
                 resolve(result);
             }
         );
-    });
-}
-
-export async function getMobileAccountById(id) {
-    return new Promise((resolve) => {
-        const result = { success: false, code: ERROR_CODE.COMMON_ERROR };
-        if (isEmpty(id)) {
-            console.log("ID IS REQUIRED!");
-            result.account = null;
-            resolve(result);
-            return;
-        }
-        const upperCaseID = id.toUpperCase();
-        db.transaction((tx) => {
-            tx.executeSql(
-                "SELECT * FROM MOBILE_ACCOUNT WHERE UPPER(ID) = (?);",
-                [`${upperCaseID}`],
-                (_, { rows }) => {
-                    result.success = true;
-                    console.log(`rows:${JSON.stringify(rows)}`);
-                    if (rows.length > 0) {
-                        rows._array.forEach((element) => {
-                            const account = {
-                                userID: element.ID,
-                                password: element.PASSWORD,
-                                primaryProfileId: element.PRIMARY_PROFILE_ID,
-                                otherProfileIds: isEmpty(element.OTHER_PROFILE_IDS)
-                                    ? []
-                                    : element.OTHER_PROFILE_IDS?.split(","),
-                            };
-                            result.account = account;
-                        });
-                        resolve(result);
-                    } else {
-                        console.log("NO RESULT FOUND!");
-                        result.account = null;
-                        resolve(result);
-                    }
-                },
-                (error) => {
-                    console.log(`DB QUERY ERROR! - ${JSON.stringify(error)}`);
-                    resolve(result);
-                }
-            );
-        });
     });
 }
 

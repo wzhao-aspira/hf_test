@@ -1,50 +1,42 @@
-import {
-    getMobileAccountById,
-    deleteMobileAccount,
-    checkMobileAccount,
-    updateMobileAccountPasswordById,
-} from "../helper/DBHelper";
+import { checkMobileAccount, updateMobileAccountPasswordById } from "../helper/DBHelper";
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
-import { sendMobileAppUsersValidationCodeByEmail, createMobileAppUser } from "../network/api_client/MobileAppUsersApi";
+import MobileAppUsersAPIs, {
+    sendMobileAppUsersValidationCodeByEmail,
+    createMobileAppUser,
+} from "../network/api_client/MobileAppUsersAPIs";
 import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance } from "../network/AxiosClient";
-import { clearToken, globalDataForAPI } from "../network/APIUtil";
+import { clearToken, globalDataForAPI, handleError } from "../network/APIUtil";
 
-async function verifyPassword(accountID: string, accountPassword: string) {
-    try {
-        if (accountID) {
-            if (!accountPassword) return "failed: password is empty";
+async function verifyPassword(accountPassword: string) {
+    if (!accountPassword) return "failed: password is empty";
 
-            const accountData = await getMobileAccountById(accountID);
-            const password = accountData?.account?.password;
-
-            if (accountPassword !== password) return "failed: password do not match";
-
-            return "passed";
-        }
-    } catch (error) {
-        return "failed";
-    }
-
-    return "failed";
+    return "passed";
 }
 
-async function verifyCurrentAccountPassword(currentAccountPassword) {
-    const userID = await getActiveUserID();
-
-    return verifyPassword(userID, currentAccountPassword);
-}
-
-async function deleteAccount(accountID: string, accountPassword: string) {
+async function deleteCurrentAccount(accountPassword: string, { dispatch }) {
     try {
-        const verifyPasswordResult = await verifyPassword(accountID, accountPassword);
+        const verifyPasswordResult = await verifyPassword(accountPassword);
 
         if (verifyPasswordResult === "passed") {
-            const result = await deleteMobileAccount(accountID);
+            const result = await handleError<ReturnType<typeof MobileAppUsersAPIs.deleteMobileAppUser>>(
+                MobileAppUsersAPIs.deleteMobileAppUser({
+                    password: accountPassword,
+                }),
+                { dispatch }
+            );
 
-            if (result?.success) {
-                await setActiveUserID(null);
-                return "succeeded";
+            console.log({ deleteMobileAppUserResult: result });
+
+            const { success, data } = result;
+
+            if (success) {
+                const { isValidResponse } = data.data;
+
+                if (isValidResponse) {
+                    await clearAppData(dispatch);
+                    return "succeeded";
+                }
             }
         }
     } catch (error) {
@@ -52,12 +44,6 @@ async function deleteAccount(accountID: string, accountPassword: string) {
     }
 
     return "failed";
-}
-
-async function deleteCurrentAccount(currentAccountPassword) {
-    const userID = await getActiveUserID();
-
-    return deleteAccount(userID, currentAccountPassword);
 }
 
 async function isMobileAccountExisted(userID: string) {
@@ -106,7 +92,7 @@ async function clearAppData(dispatch) {
 export default {
     sendEmailValidationCode,
     createMobileAccount,
-    verifyCurrentAccountPassword,
+    verifyPassword,
     deleteCurrentAccount,
     isMobileAccountExisted,
     updateMobileAccountPasswordByUserId,
