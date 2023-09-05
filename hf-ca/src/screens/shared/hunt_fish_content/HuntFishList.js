@@ -5,6 +5,7 @@ import { faShoppingCart } from "@fortawesome/pro-light-svg-icons/faShoppingCart"
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import HuntFishCardItem from "./HuntFishCardItem";
+import useNavigateToISPurchaseLicense from "../../licenses/hooks/useNavigateToISPurchaseLicense";
 
 export const styles = StyleSheet.create({
     section: {
@@ -22,6 +23,7 @@ export const styles = StyleSheet.create({
 function HuntFishList(props) {
     const { primaryColor, purchaseDescription } = props;
     const { t } = useTranslation();
+    const { navigateToIS } = useNavigateToISPurchaseLicense();
 
     return (
         <View style={styles.section}>
@@ -43,7 +45,7 @@ function HuntFishList(props) {
                 icon={faShoppingCart}
                 primaryColor={primaryColor}
                 onPress={() => {
-                    console.log("purchase license");
+                    navigateToIS();
                 }}
             />
         </View>
