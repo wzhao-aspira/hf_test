@@ -43,7 +43,7 @@
         "no": "No",
         "show": "Show",
         "hide": "Hide",
-        "userID": "User ID",
+        "userID": "User Email Address",
         "pleaseEnter": "Please Enter",
         "pleaseEnterEmail": "Please Enter Email: xx@xx.com",
         "password": "Password",
@@ -66,7 +66,7 @@
     },
     "errMsg": {
         "unableEstablishService": "Unable to establish service connection.",
-        "emptyUserID": "Please enter User ID",
+        "emptyUserID": "Please enter User Email Address",
         "emptyPassword": "Please enter Password",
         "emptyConfirmPassword": "Please enter Confirm Password",
         "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button.",
@@ -109,10 +109,10 @@
         "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
     },
     "signIn": {
-        "userId": "User ID",
+        "userId": "User Email Address",
         "noAccount": "Don't have an account?",
-        "userIdEmpty": "Please enter your User ID",
-        "userIdInvalid": "User ID must be email, please check your input.",
+        "userIdEmpty": "Please enter your User Email Address",
+        "userIdInvalid": "User Email Address must be in email format, please check your input.",
         "passwordEmpty": "Please enter Password",
         "accountNotFound": "Account not found, please check your input.",
         "userIdHint": "Please Enter Email:"
@@ -171,7 +171,7 @@
         "currentDocumentation": "Current Documentation",
         "physicalAddress": "Physical Address",
         "mailingAddress": "Mailing Address",
-        "removeProfileMsg": "Are you sure you want to remove current profile, the associated profile will be removed as well.",
+        "removeProfileMsg": "Are you sure you want to remove current profile?",
         "removePrimaryProfileMsg": "The primary profile can not be removed.",
         "removeCurrentInUseProfileMsg": "The profile is current in use, please switch profile first.",
         "currentInUseInactiveMsg": "Your current in use account has been changed. We will display information based on your primary account.",
