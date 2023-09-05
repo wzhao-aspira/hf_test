@@ -3,6 +3,9 @@ import AppContract from "../assets/_default/AppContract";
 import licensesAPIs from "../network/api_client/LicensesAPIs";
 import licenseDetailMockData from "./mock_data/licenseDetail.json";
 
+// API not ready, use mock data
+const NeedPhysicalDocumentItemIds = [16, 18, 19];
+
 const formateDate = (item, formatter) => {
     const validFrom =
         item.validFrom && DateUtils.dateToFormat(item.validFrom, formatter, AppContract.inputFormat.fmt_2);
@@ -27,11 +30,12 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
     const licenseList = result;
 
     const formattedResult = licenseList.map((item) => {
-        const { licenseId, validFrom, validTo } = item;
+        const { licenseId, validFrom, validTo, uiTabId, uiTabName, itemTypeId } = item;
         const { documentTitle, licenseOwner, GOID, stateID, documentNumber } = {
             ...licenseDetailMockData.document,
             ...item.document,
         };
+        const mobileAppNeedPhysicalDocument = NeedPhysicalDocumentItemIds.includes(itemTypeId);
 
         return {
             id: licenseId,
@@ -44,6 +48,9 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             documentNumber, // for barcode
             basicInformation: licenseDetailMockData.basicInformation,
             notification: licenseDetailMockData.notification,
+            uiTabId,
+            uiTabName,
+            mobileAppNeedPhysicalDocument,
         };
     });
 

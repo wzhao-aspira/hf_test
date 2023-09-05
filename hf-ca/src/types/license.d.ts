@@ -23,4 +23,7 @@ export interface License {
     documentNumber: string;
     basicInformation: BasicInformation;
     notification: Notification;
+    uiTabId: number;
+    uiTabName: string;
+    mobileAppNeedPhysicalDocument: boolean;
 }

@@ -8,7 +8,8 @@
         "viewAllLicenses": "View All Licenses",
         "noLicenseTitle": "No licenses found",
         "noLicenseIntroduction": "Purchase your hunting or fishing license now",
-        "purchaseLicense": "Purchase License"
+        "purchaseLicense": "Purchase License",
+        "physicalDocumentNeeded": "PHYSICAL DOCUMENT NEEDED"
     },
     "licenseDetails": {
         "licenseDetails": "License Details",
