@@ -30,16 +30,17 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
     const licenseList = result;
 
     const formattedResult = licenseList.map((item) => {
-        const { licenseId, validFrom, validTo, uiTabId, uiTabName, itemTypeId } = item;
-        const { documentTitle, licenseOwner, GOID, stateID, documentNumber } = {
+        const { licenseId, validFrom, validTo, uiTabId, uiTabName, itemTypeId, itemName, itemYear } = item;
+        const { licenseOwner, GOID, stateID, documentNumber } = {
             ...licenseDetailMockData.document,
             ...item.document,
         };
+        const name = `${itemYear} - ${itemName}`;
         const mobileAppNeedPhysicalDocument = NeedPhysicalDocumentItemIds.includes(itemTypeId);
 
         return {
             id: licenseId,
-            name: documentTitle,
+            name,
             validFrom,
             validTo,
             licenseOwner,
