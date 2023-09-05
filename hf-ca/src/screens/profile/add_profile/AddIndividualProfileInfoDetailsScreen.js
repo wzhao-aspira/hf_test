@@ -73,7 +73,7 @@ function AddIndividualProfileInfoDetailsScreen({ route }) {
                 : allIdentificationTypes.parentOrGuardian;
         setIdentificationTypes(selectedIdentificationTypes);
         setProfile((draft) => {
-            draft.identificationType = selectedIdentificationOwner;
+            draft.identificationOwner = selectedIdentificationOwner;
             draft.identificationType = !isEmpty(selectedIdentificationTypes) ? selectedIdentificationTypes[0] : {};
         });
     };
@@ -130,6 +130,7 @@ function AddIndividualProfileInfoDetailsScreen({ route }) {
                             ref={dateOfBirthRef}
                             hint={DEFAULT_DATE_FORMAT}
                             style={{ marginTop: 20 }}
+                            labelStyle={{ color: AppTheme.colors.font_color_1 }}
                             onConfirm={(date) => {
                                 const dateOfBirth = moment(date).format(DEFAULT_DATE_FORMAT);
                                 setProfile({ ...profile, dateOfBirth });

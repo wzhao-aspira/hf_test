@@ -134,7 +134,7 @@
     },
     "profile": {
         "addProfile": "Add Profile",
-        "youAre": "You Are",
+        "customerType": "Customer Type",
         "dateOfBirth": "Date of Birth",
         "firstName": "First Name",
         "lastName": "Last Name",

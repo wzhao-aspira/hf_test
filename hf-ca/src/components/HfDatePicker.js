@@ -93,6 +93,8 @@ const HfDatePicker = React.forwardRef((props, ref) => {
         labelStyle,
         valueContainerStyle,
         testID,
+        minimumDate,
+        maximumDate,
     } = props;
     const hasError = errorObj.error;
     useImperativeHandle(ref, () => ({
@@ -154,6 +156,8 @@ const HfDatePicker = React.forwardRef((props, ref) => {
                 display="spinner"
                 date={value ? moment(value, valueFormat).toDate() : new Date()}
                 isVisible={visible}
+                minimumDate={minimumDate}
+                maximumDate={maximumDate}
                 mode={mode}
                 onConfirm={(date) => {
                     const dateStr = JSON.stringify(date);

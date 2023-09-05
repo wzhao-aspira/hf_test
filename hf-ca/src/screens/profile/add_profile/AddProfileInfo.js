@@ -86,8 +86,8 @@ function AddProfileInfo({ mobileAccount, profile: initProfile, routeScreen, prof
         >
             <View style={styles.page_container}>
                 <PopupDropdown
-                    testID="YouAreDropdown"
-                    label={t("profile.youAre")}
+                    testID="CustomerTypeDropdown"
+                    label={t("profile.customerType")}
                     containerStyle={{ marginTop: 20 }}
                     valueContainerStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
                     labelStyle={{ color: AppTheme.colors.font_color_1 }}
