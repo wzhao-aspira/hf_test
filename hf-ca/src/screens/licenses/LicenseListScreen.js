@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { StyleSheet, FlatList, RefreshControl } from "react-native";
+import { StyleSheet, RefreshControl, View, Text, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
+import { isEmpty } from "lodash";
 import { getLicense } from "../../redux/LicenseSlice";
 import { selectLicenseForList } from "../../redux/LicenseSelector";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
 import LicenseCardLoading from "./LicenseCardLoading";
-import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import AppTheme from "../../assets/_default/AppTheme";
 import LicenseItem from "./LicenseItem";
 import LicenseListEmpty from "./LicenseListEmpty";
@@ -25,6 +26,15 @@ import useFocus from "../../hooks/useFocus";
 export const styles = StyleSheet.create({
     container: {
         paddingBottom: 0,
+    },
+    groupTitleContainer: {
+        marginHorizontal: DEFAULT_MARGIN,
+        marginTop: 16,
+        marginBottom: 4,
+    },
+    groupTitle: {
+        ...AppTheme.typography.card_title,
+        color: AppTheme.colors.font_color_1,
     },
 });
 
@@ -53,11 +63,11 @@ function LicenseListScreen() {
     return (
         <Page style={styles.container}>
             <CommonHeader title={t("license.myLicense")} />
-            <FlatList
+            <ScrollView
                 testID={genTestId("licenseList")}
                 contentContainerStyle={{
                     flexGrow: 1,
-                    marginTop: 20,
+                    marginTop: 14,
                     paddingBottom: insets.bottom + PAGE_MARGIN_BOTTOM,
                 }}
                 refreshControl={
@@ -70,27 +80,35 @@ function LicenseListScreen() {
                         }}
                     />
                 }
-                scrollIndicatorInsets={{ right: 1 }}
-                data={data}
-                renderItem={({ item }) => {
-                    if (refreshing) {
-                        return <LicenseCardLoading />;
-                    }
+            >
+                <View style={{ flex: 1 }}>
+                    {!refreshing && isEmpty(data) && <LicenseListEmpty />}
 
-                    return (
-                        <LicenseItem
-                            onPress={() => {
-                                console.log("go to license detail");
-                                NavigationService.navigate(Routers.licenseDetail, { licenseData: item });
-                            }}
-                            itemData={item}
-                            itemKey={item.id}
-                        />
-                    );
-                }}
-                keyExtractor={(item) => `${item.id}`}
-                ListEmptyComponent={<LicenseListEmpty />}
-            />
+                    {data?.map((item) => {
+                        if (refreshing) {
+                            return <LicenseCardLoading key={item.id} />;
+                        }
+                        return (
+                            <View key={item.title}>
+                                <View style={styles.groupTitleContainer}>
+                                    <Text style={styles.groupTitle}>{item.title}</Text>
+                                </View>
+                                {item.data?.map((license) => (
+                                    <LicenseItem
+                                        key={license.id}
+                                        onPress={() => {
+                                            console.log("go to license detail");
+                                            NavigationService.navigate(Routers.licenseDetail, { licenseData: license });
+                                        }}
+                                        itemData={license}
+                                        itemKey={license.id}
+                                    />
+                                ))}
+                            </View>
+                        );
+                    })}
+                </View>
+            </ScrollView>
         </Page>
     );
 }

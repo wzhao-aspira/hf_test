@@ -1,6 +1,7 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
+import { Trans } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";
@@ -41,6 +42,11 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignSelf: "center",
     },
+    licenseTag: {
+        ...AppTheme.typography.sub_section,
+        color: AppTheme.colors.error,
+        marginTop: 5,
+    },
 });
 
 function getProductName(itemData) {
@@ -79,6 +85,18 @@ function getValidDates(itemData) {
     return null;
 }
 
+function getLicenseTag(itemData) {
+    const { mobileAppNeedPhysicalDocument } = itemData;
+    if (mobileAppNeedPhysicalDocument) {
+        return (
+            <Text testID={genTestId("licenseTag")} style={styles.licenseTag}>
+                <Trans i18nKey="license.physicalDocumentNeeded" />
+            </Text>
+        );
+    }
+    return null;
+}
+
 function LicenseItem(props) {
     const { itemData, itemKey, onPress } = props;
     return (
@@ -88,6 +106,7 @@ function LicenseItem(props) {
                     <View style={styles.itemText}>
                         {getProductName(itemData)}
                         {getValidDates(itemData)}
+                        {getLicenseTag(itemData)}
                     </View>
                     <View style={styles.productNameArrowContainer}>
                         <FontAwesomeIcon icon={faAngleRight} size={25} color={AppTheme.colors.primary_2} />
