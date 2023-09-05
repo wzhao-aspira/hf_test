@@ -137,10 +137,12 @@ function AddIndividualProfileInfoScreen({ route }) {
                             ref={dateOfBirthRef}
                             hint={DEFAULT_DATE_FORMAT}
                             style={{ marginTop: 20 }}
+                            labelStyle={{ color: AppTheme.colors.font_color_1 }}
                             onConfirm={(date) => {
                                 const dateOfBirth = moment(date).format(DEFAULT_DATE_FORMAT);
                                 setProfile({ ...profile, dateOfBirth });
                             }}
+                            maximumDate={new Date()}
                             value={profile.dateOfBirth}
                             validate={(date) => {
                                 return emptyValidate(date, t("errMsg.emptyDateOfBirth"));
