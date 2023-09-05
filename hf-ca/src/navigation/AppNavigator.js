@@ -13,7 +13,6 @@ import TabContent from "./TabContent";
 import { navigationRef } from "./NavigationService";
 
 import AccessPermitDetailScreen from "../screens/access_permits/AccessPermitDetailScreen";
-import AddPrimaryProfileScreen from "../screens/sign_up/AddPrimaryProfileScreen";
 import AddProfileScreen from "../screens/profile/add_profile/AddProfileScreen";
 import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
 import ContactUsScreen from "../screens/social_content/ContactUsScreen";
@@ -44,6 +43,9 @@ import SolunarScreen from "../screens/discovery/SolunarScreen";
 import UsefulLinksScreen from "../screens/useful_links/UsefulLinksScreen";
 import WeatherScreen from "../screens/discovery/WeatherScreen";
 import WebViewScreen from "../screens/web_view/WebViewScreen";
+import AddIndividualProfileInfoScreen from "../screens/profile/add_profile/AddIndividualProfileInfoScreen";
+import AddIndividualProfileInfoDetailsScreen from "../screens/profile/add_profile/AddIndividualProfileInfoDetailsScreen";
+import AddBusinessVesselProfileInfoScreen from "../screens/profile/add_profile/AddBusinessVesselProfileInfoScreen";
 
 const NavTheme = {
     colors: {
@@ -128,7 +130,16 @@ function SignInNav() {
                 name={Routers.forgotPasswordResetPassword}
                 component={ForgotPasswordResetPasswordScreen}
             />
-            <SignInStack.Screen name={Routers.addPrimaryProfile} component={AddPrimaryProfileScreen} />
+            <SignInStack.Screen name={Routers.addIndividualProfile} component={AddIndividualProfileInfoScreen} />
+            <SignInStack.Screen
+                name={Routers.addIndividualProfileDetails}
+                component={AddIndividualProfileInfoDetailsScreen}
+            />
+            <SignInStack.Screen
+                name={Routers.addBusinessVesselProfile}
+                component={AddBusinessVesselProfileInfoScreen}
+            />
+            <SignInStack.Screen name={Routers.crss} component={CRSSScreen} />
             <SignInStack.Screen name={Routers.signUpNav} component={SignUpNav} />
         </SignInStack.Navigator>
     );
@@ -169,6 +180,12 @@ function MainNav() {
         <MainStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.tabNav}>
             <MainStack.Screen name={Routers.accessPermitDetail} component={AccessPermitDetailScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
+            <MainStack.Screen name={Routers.addIndividualProfile} component={AddIndividualProfileInfoScreen} />
+            <MainStack.Screen
+                name={Routers.addIndividualProfileDetails}
+                component={AddIndividualProfileInfoDetailsScreen}
+            />
+            <MainStack.Screen name={Routers.addBusinessVesselProfile} component={AddBusinessVesselProfileInfoScreen} />
             <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
             <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
@@ -192,7 +209,6 @@ function MainNav() {
             <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
             <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
-            <MainStack.Screen name={Routers.addPrimaryProfile} component={AddPrimaryProfileScreen} />
         </MainStack.Navigator>
     );
 }
@@ -201,7 +217,11 @@ function SignUpNav() {
     return (
         <SignUpStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.signUp}>
             <SignUpStack.Screen name={Routers.signUp} component={SignUpScreen} />
-            <SignUpStack.Screen name={Routers.addPrimaryProfile} component={AddPrimaryProfileScreen} />
+            <SignUpStack.Screen name={Routers.addIndividualProfile} component={AddIndividualProfileInfoScreen} />
+            <SignUpStack.Screen
+                name={Routers.addIndividualProfileDetails}
+                component={AddIndividualProfileInfoDetailsScreen}
+            />
             <SignUpStack.Screen name={Routers.crss} component={CRSSScreen} />
         </SignUpStack.Navigator>
     );

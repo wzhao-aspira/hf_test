@@ -119,7 +119,7 @@ function SignUp() {
             showLoading: true,
         });
         if (signInResult?.success) {
-            NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount });
+            NavigationService.navigate(Routers.addIndividualProfile, { mobileAccount, isAddPrimaryProfile: true });
         }
     };
     return (

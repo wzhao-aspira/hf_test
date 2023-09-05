@@ -53,7 +53,7 @@ export async function removeProfile(profileId) {
 }
 
 export function getIndividualProfileTypes() {
-    return PROFILE_TYPES.filter((p) => PROFILE_TYPE_IDS.adult === p.id || PROFILE_TYPE_IDS.youth === p.id);
+    return PROFILE_TYPES.filter((p) => PROFILE_TYPE_IDS.individual === p.id);
 }
 
 async function shouldShowBusinessVessel() {
@@ -86,7 +86,7 @@ function buildIdentityInfo(config, identificationInfo) {
 
 async function linkProfile(profile, isPrimary) {
     const { identificationType } = profile;
-    const { config, identificationInfo } = identificationType;
+    const { config, identificationInfo } = identificationType || {};
     if (PROFILE_TYPE_IDS.adult === profile.profileType.id) {
         const identityInfo = buildIdentityInfo(config, identificationInfo);
         const ret = await findAndLinkAuditProfile({

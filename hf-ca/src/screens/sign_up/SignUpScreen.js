@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CommonHeader from "../../components/CommonHeader";
 import SignUp from "./SignUp";
 import Page from "../../components/Page";
-import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import { updateLoginStep, selectLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import DialogHelper from "../../helper/DialogHelper";
@@ -16,7 +16,7 @@ import NavigationService from "../../navigation/NavigationService";
 const styles = StyleSheet.create({
     page_container: {
         flexDirection: "column",
-        paddingHorizontal: 40,
+        paddingHorizontal: DEFAULT_MARGIN,
         flex: 1,
     },
     contentContainerStyle: {
