@@ -5,8 +5,10 @@ import ValueOf from "../types/valueOf";
 
 const Routers = {
     accessPermitDetail: "accessPermitDetail",
-    addPrimaryProfile: "addPrimaryProfileScreen",
     addProfile: "addProfileScreen",
+    addBusinessVesselProfile: "addBusinessVesselProfileScreen",
+    addIndividualProfile: "addIndividualProfileScreen",
+    addIndividualProfileDetails: "addIndividualProfileDetailsScreen",
     changeLocation: "ChangeLocationScreen",
     contactUs: "contactUs",
     crss: "crssScreen",

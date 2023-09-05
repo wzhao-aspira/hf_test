@@ -36,8 +36,13 @@ export const PROFILE_TYPE_IDS = {
     youth: 3,
     business: 2,
     vessel: 4,
+    individual: 5,
 };
 export const PROFILE_TYPES = [
+    {
+        id: PROFILE_TYPE_IDS.individual,
+        name: "Individual",
+    },
     {
         id: PROFILE_TYPE_IDS.adult,
         name: "Adult",

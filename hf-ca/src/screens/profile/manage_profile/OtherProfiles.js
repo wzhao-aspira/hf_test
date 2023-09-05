@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons/faChevronRight";
 import { faPlus } from "@fortawesome/pro-regular-svg-icons/faPlus";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppTheme from "../../../assets/_default/AppTheme";
 import ProfileItem from "./ProfileItem";
 import { commonStyles } from "./Styles";
@@ -12,11 +12,14 @@ import Routers from "../../../constants/Routers";
 import { genTestId } from "../../../helper/AppHelper";
 import ProfileItemLoading from "./ProfileItemLoading";
 import ProfileThunk from "../../../redux/ProfileThunk";
+import { handleError } from "../../../network/APIUtil";
+import { getProfileTypes } from "../../../services/ProfileService";
+import { selectUsername } from "../../../redux/AppSlice";
 
 export default function OtherProfiles({ otherProfiles = [], isLoading }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-
+    const userName = useSelector(selectUsername);
     const handleAddProfile = async () => {
         const response = await dispatch(
             ProfileThunk.getProfileListChangeStatus({
@@ -31,7 +34,18 @@ export default function OtherProfiles({ otherProfiles = [], isLoading }) {
         }
 
         dispatch(ProfileThunk.updateProfileData(response.profiles));
-        NavigationService.navigate(Routers.addProfile);
+        const ret = await handleError(getProfileTypes(), { dispatch, showLoading: true });
+        if (ret.success) {
+            const profileTypes = ret.data;
+            if (profileTypes?.length > 1) {
+                NavigationService.navigate(Routers.addProfile, { profileTypes });
+            } else {
+                NavigationService.navigate(Routers.addIndividualProfile, {
+                    mobileAccount: { userID: userName },
+                    isAddPrimaryProfile: !!response.primaryIsInactivated,
+                });
+            }
+        }
     };
 
     return (

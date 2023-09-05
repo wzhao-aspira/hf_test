@@ -47,7 +47,11 @@ function SignInScreen(route) {
             okText: "common.gotIt",
             withModal: true,
             okAction: () => {
-                NavigationService.navigate(Routers.addPrimaryProfile, { mobileAccount: { userID }, noBackBtn: true });
+                NavigationService.navigate(Routers.addIndividualProfile, {
+                    mobileAccount: { userID },
+                    isAddPrimaryProfile: true,
+                    noBackBtn: true,
+                });
             },
         });
     };

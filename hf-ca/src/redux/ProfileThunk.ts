@@ -216,8 +216,9 @@ const getProfileListChangeStatus =
 
         if (noPrimaryProfile) {
             showProfileDialog(i18n.t("profile.primaryChanged"), () => {
-                NavigationService.navigate(Routers.addPrimaryProfile, {
+                NavigationService.navigate(Routers.addIndividualProfile, {
                     mobileAccount: { userID: username },
+                    isAddPrimaryProfile: true,
                     noBackBtn: true,
                 });
                 dispatch(updateProfileData(result));

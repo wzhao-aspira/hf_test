@@ -38,6 +38,7 @@
         "error": "Error",
         "connectionError": "Connection Error",
         "message": "Message",
+        "continue": "Continue",
         "submit": "Submit",
         "yes": "Yes",
         "no": "No",
