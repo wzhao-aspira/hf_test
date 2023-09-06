@@ -15,11 +15,14 @@ import ProfileThunk from "../../../redux/ProfileThunk";
 import { handleError } from "../../../network/APIUtil";
 import { getProfileTypes } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
+import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 
-export default function OtherProfiles({ otherProfiles = [], isLoading }) {
+export default function OtherProfiles({ isLoading }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const userName = useSelector(selectUsername);
+    const otherProfilesWithoutPrimary = useSelector(profileSelectors.selectOtherProfileListWithoutPrimary);
+
     const handleAddProfile = async () => {
         const response = await dispatch(
             ProfileThunk.getProfileListChangeStatus({
@@ -50,7 +53,7 @@ export default function OtherProfiles({ otherProfiles = [], isLoading }) {
     };
 
     return (
-        <View style={{ marginTop: 36 }}>
+        <View>
             <Text style={commonStyles.subTitle}>{t("profile.otherProfiles")}</Text>
             {isLoading ? (
                 <View style={{ marginTop: 16 }}>
@@ -75,7 +78,7 @@ export default function OtherProfiles({ otherProfiles = [], isLoading }) {
                 </Pressable>
             )}
             {!isLoading &&
-                otherProfiles.map((profile) => (
+                otherProfilesWithoutPrimary.map((profile) => (
                     <ProfileItem
                         profileItemStyles={{
                             container: commonStyles.profileContainer,

@@ -177,7 +177,8 @@
         "currentInUseInactiveMsg": "Your current in use account has been changed. We will display information based on your primary account.",
         "profileListUpdatedAndRefresh": "Profile list has been updated, please refresh first to proceed next action.",
         "profileListUpdated": "Your profile list has been updated.",
-        "primaryChanged": "No active primary account available, please add new primary account first."
+        "primaryChanged": "No active primary account available, please add new primary account first.",
+        "primaryProfile": "Primary Profile"
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",
