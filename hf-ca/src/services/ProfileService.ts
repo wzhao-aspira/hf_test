@@ -1,4 +1,3 @@
-import { checkMobileAccount } from "../helper/DBHelper";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
 import {
@@ -41,11 +40,6 @@ export async function getStates(): Promise<StateVM[]> {
 export async function getProfileList() {
     const response = await getProfiles();
     return response;
-}
-
-export async function checkAccountEmailIsExisting(userID) {
-    const checkResult = await checkMobileAccount(userID);
-    return checkResult.success && checkResult.count > 0;
 }
 
 export async function removeProfile(profileId) {
