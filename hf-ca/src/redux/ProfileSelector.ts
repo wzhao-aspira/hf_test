@@ -58,6 +58,16 @@ const selectCurrentInUseProfile = createSelector(
     }
 );
 
+const selectPrimaryProfile = createSelector(
+    selectPrimaryProfileID,
+    selectProfileList,
+    (primaryProfileID, profileList) => {
+        return profileList?.find((profile) => {
+            return profile.profileId === primaryProfileID;
+        });
+    }
+);
+
 const selectOtherProfileList = createSelector(
     selectProfileList,
     selectOtherProfileIDs,
@@ -76,6 +86,14 @@ const selectSortedByDisplayNameOtherProfileList = createSelector(selectOtherProf
     });
 });
 
+const selectOtherProfileListWithoutPrimary = createSelector(
+    selectSortedByDisplayNameOtherProfileList,
+    selectPrimaryProfileID,
+    (otherProfileList, primaryProfileID) => {
+        return otherProfileList.filter((profile) => profile.profileId !== primaryProfileID);
+    }
+);
+
 const selectProfileDetailsById = (profileId) =>
     createSelector(selectProfileList, (profileList) => profileList.find((item) => item.profileId === profileId) || {});
 
@@ -91,10 +109,12 @@ const selectors = {
     selectCurrentInUseProfile,
     selectCurrentInUseProfileID,
     selectPrimaryProfileID,
+    selectPrimaryProfile,
     selectProfileIDs,
     selectProfileDetailsById,
     selectSortedByDisplayNameOtherProfileList,
     selectCiuIsInactive,
+    selectOtherProfileListWithoutPrimary,
 };
 
 export default selectors;

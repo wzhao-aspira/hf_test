@@ -21,7 +21,7 @@ import {
     updateProfileListToDB,
 } from "../helper/DBHelper";
 import { getProfileListUpdateTime, setProfileListUpdateTime } from "../helper/AutoRefreshHelper";
-import { PROFILE_TYPE_IDS, REQUEST_STATUS } from "../constants/Constants";
+import { REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import DialogHelper from "../helper/DialogHelper";
 import i18n from "../localization/i18n";
@@ -282,11 +282,8 @@ const refreshProfileList =
         return response;
     };
 
-const initProfileDetails = (profileId) => async (dispatch, getState) => {
+const initProfileDetails = (profileId) => async (dispatch) => {
     let result;
-    const rootState = getState();
-    const { profileList } = rootState.profile;
-
     const response = await handleError(getProfileDetailsById(profileId), { dispatch });
     if (response.success) {
         result = response.data.data.result;
@@ -305,10 +302,6 @@ const initProfileDetails = (profileId) => async (dispatch, getState) => {
     }
 
     const formattedProfile = formateProfile(result);
-    if (formattedProfile.profileType === PROFILE_TYPE_IDS.vessel) {
-        const owner = profileList.find((item) => item.profileId === formattedProfile.ownerId);
-        formattedProfile.ownerName = owner.displayName;
-    }
     dispatch(profileActions.updateProfileDetailsById(formattedProfile));
 };
 

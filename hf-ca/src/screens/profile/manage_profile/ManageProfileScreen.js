@@ -18,12 +18,51 @@ import AppTheme from "../../../assets/_default/AppTheme";
 import ProfileItemLoading from "./ProfileItemLoading";
 import { REQUEST_STATUS } from "../../../constants/Constants";
 
+function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey }) {
+    const { t } = useTranslation();
+
+    function handleSwitchClick() {
+        DialogHelper.showCustomDialog({
+            renderDialogContent: () => <SwitchProfileDialog hideDialog={() => NavigationService.back()} />,
+        });
+    }
+
+    return (
+        <View style={{ marginBottom: 36 }}>
+            <View style={profileScreenStyles.horizontalContainer}>
+                <Text style={commonStyles.subTitle}>{t(titleKey)}</Text>
+                {showSwitchProfile && (
+                    <Pressable onPress={handleSwitchClick} testID={genTestId("switchProfile")}>
+                        <Text style={profileScreenStyles.switchProfile}>{t("profile.switchProfile")}</Text>
+                    </Pressable>
+                )}
+            </View>
+
+            {isLoading ? (
+                <ProfileItemLoading />
+            ) : (
+                <ProfileItem
+                    showGoToDetailsPageButton
+                    profile={profile}
+                    onPress={() => {
+                        NavigationService.navigate(Routers.profileDetails, {
+                            profileId: profile.profileId,
+                        });
+                    }}
+                    profileItemStyles={{ container: commonStyles.profileContainer }}
+                />
+            )}
+        </View>
+    );
+}
+
 export default function ManageProfileScreen() {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const profileListRequestStatus = useSelector(profileSelectors.selectProfileListRequestStatus);
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
+    const primaryProfile = useSelector(profileSelectors.selectPrimaryProfile);
 
     console.log(`current profileListRequestStatus::${profileListRequestStatus}`);
 
@@ -50,43 +89,22 @@ export default function ManageProfileScreen() {
                 }
             >
                 <View style={profileScreenStyles.contentContainer}>
-                    <View style={profileScreenStyles.horizontalContainer}>
-                        <Text style={commonStyles.subTitle}> {t("profile.currentlyInUse")}</Text>
-                        {otherProfiles.length > 0 && profileListRequestStatus != REQUEST_STATUS.pending && (
-                            <Pressable
-                                onPress={() => {
-                                    DialogHelper.showCustomDialog({
-                                        renderDialogContent: () => (
-                                            <SwitchProfileDialog hideDialog={() => NavigationService.back()} />
-                                        ),
-                                    });
-                                }}
-                                testID={genTestId("switchProfile")}
-                            >
-                                <Text style={profileScreenStyles.switchProfile}>{t("profile.switchProfile")}</Text>
-                            </Pressable>
-                        )}
-                    </View>
-                    {profileListRequestStatus == REQUEST_STATUS.pending ? (
-                        <ProfileItemLoading />
-                    ) : (
-                        <ProfileItem
-                            showGoToDetailsPageButton
-                            profile={currentInUseProfile}
-                            onPress={() => {
-                                NavigationService.navigate(Routers.profileDetails, {
-                                    profileId: currentInUseProfile.profileId,
-                                });
-                            }}
-                            profileItemStyles={{
-                                container: commonStyles.profileContainer,
-                            }}
-                        />
-                    )}
-                    <OtherProfiles
-                        otherProfiles={otherProfiles}
+                    <ProfileWithTitle
                         isLoading={profileListRequestStatus == REQUEST_STATUS.pending}
+                        profile={currentInUseProfile}
+                        titleKey="profile.currentlyInUse"
+                        showSwitchProfile={
+                            otherProfiles.length > 0 && profileListRequestStatus != REQUEST_STATUS.pending
+                        }
                     />
+
+                    <ProfileWithTitle
+                        isLoading={profileListRequestStatus == REQUEST_STATUS.pending}
+                        profile={primaryProfile}
+                        titleKey="profile.primaryProfile"
+                    />
+
+                    <OtherProfiles isLoading={profileListRequestStatus == REQUEST_STATUS.pending} />
                 </View>
             </ScrollView>
         </Page>
