@@ -13,16 +13,14 @@ import { DEFAULT_BTN_RADIUS } from "../../constants/Dimension";
 import { genTestId, getInternetSalesURL } from "../../helper/AppHelper";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
-import NavigationService from "../../navigation/NavigationService";
-import { updateLoginStep } from "../../redux/AppSlice";
-import LoginStep from "../../constants/LoginStep";
-import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import { linkCRSSProfile } from "../../services/ProfileService";
 import Attention from "../../components/Attention";
 import { handleError } from "../../network/APIUtil";
-import ProfileThunk from "../../redux/ProfileThunk";
 import DateUtils from "../../utils/DateUtils";
 import AppContract from "../../assets/_default/AppContract";
+import ProfileThunk from "../../redux/ProfileThunk";
+import appThunkActions from "../../redux/AppThunk";
+import { refreshDataAndNavigateWhenSaveProfileCompleted } from "../profile/add_profile/AddProfileInfo";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -73,18 +71,11 @@ export default function CRSSScreen({ route }) {
                 showLoading: true,
             });
             if (ret.success) {
-                await dispatch(ProfileThunk.initProfile());
-                if (!isEmpty(routeScreen)) {
-                    NavigationService.navigate(routeScreen);
-                } else {
-                    const { userID } = mobileAccount;
-                    const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
-                    if (!isEmpty(onBoardingScreens)) {
-                        dispatch(updateLoginStep(LoginStep.onBoarding));
-                    } else {
-                        dispatch(updateLoginStep(LoginStep.home));
-                    }
+                if (isAddPrimaryProfile) {
+                    await dispatch(appThunkActions.initUserData(mobileAccount));
+                    await dispatch(ProfileThunk.initProfile());
                 }
+                await refreshDataAndNavigateWhenSaveProfileCompleted(dispatch, mobileAccount, routeScreen);
             }
         }
     };

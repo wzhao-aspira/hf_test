@@ -13,7 +13,6 @@ import Routers from "../../constants/Routers";
 import { checkAccountEmailIsExisting } from "../../services/ProfileService";
 import AccountService from "../../services/AccountService";
 import DialogHelper from "../../helper/DialogHelper";
-import { SharedStyles } from "../../styles/CommonStyles";
 import { handleError } from "../../network/APIUtil";
 
 function SignUp() {
@@ -157,8 +156,8 @@ function SignUp() {
                         value={mobileAccount?.emailValidationCode}
                         label={t("forgotPassword.enterValidationCode.emailValidationCode")}
                         hint={t("common.pleaseEnter")}
-                        style={{ marginTop: 30 }}
-                        labelStyle={SharedStyles.page_content_title}
+                        style={{ marginTop: 20 }}
+                        labelStyle={{ color: AppTheme.colors.font_color_1 }}
                         inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
                         onChangeText={(emailValidationCode) => {
                             setMobileAccount({ ...mobileAccount, emailValidationCode });

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useImmer } from "use-immer";
+import { isEmpty } from "lodash";
 import PopupDropdown from "../../../components/PopupDropdown";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import AppTheme from "../../../assets/_default/AppTheme";
@@ -16,6 +17,9 @@ import { handleError } from "../../../network/APIUtil";
 import { findAndLinkPrimaryProfile, findAndLinkProfile } from "../../../services/ProfileService";
 import ProfileThunk from "../../../redux/ProfileThunk";
 import appThunkActions from "../../../redux/AppThunk";
+import OnBoardingHelper from "../../../helper/OnBoardingHelper";
+import LoginStep from "../../../constants/LoginStep";
+import { updateLoginStep } from "../../../redux/AppSlice";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -52,6 +56,21 @@ export const saveProfile = async (dispatch, mobileAccount, isAddPrimaryProfile, 
         return true;
     }
     return false;
+};
+
+export const refreshDataAndNavigateWhenSaveProfileCompleted = async (dispatch, mobileAccount, routeScreen) => {
+    if (!isEmpty(routeScreen)) {
+        NavigationService.navigate(routeScreen);
+        dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+    } else {
+        const { userID } = mobileAccount;
+        const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
+        if (!isEmpty(onBoardingScreens)) {
+            dispatch(updateLoginStep(LoginStep.onBoarding));
+        } else {
+            dispatch(updateLoginStep(LoginStep.home));
+        }
+    }
 };
 
 function AddProfileInfo({ mobileAccount, profile: initProfile, routeScreen, profileTypes }) {
