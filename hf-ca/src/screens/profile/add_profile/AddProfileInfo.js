@@ -49,19 +49,27 @@ export const saveProfile = async (dispatch, mobileAccount, isAddPrimaryProfile, 
             });
             return false;
         }
-        if (isAddPrimaryProfile) {
-            await dispatch(appThunkActions.initUserData(mobileAccount));
-            await dispatch(ProfileThunk.initProfile());
-        }
         return true;
     }
     return false;
 };
 
-export const refreshDataAndNavigateWhenSaveProfileCompleted = async (dispatch, mobileAccount, routeScreen) => {
+export const refreshDataAndNavigateWhenSaveProfileCompleted = async (
+    dispatch,
+    mobileAccount,
+    isAddPrimaryProfile,
+    routeScreen
+) => {
+    // Refresh/initial Profiles
+    if (isAddPrimaryProfile) {
+        await dispatch(appThunkActions.initUserData(mobileAccount));
+        await dispatch(ProfileThunk.initProfile());
+    } else {
+        dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+    }
+    // Navigate to page
     if (!isEmpty(routeScreen)) {
         NavigationService.navigate(routeScreen);
-        dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
     } else {
         const { userID } = mobileAccount;
         const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
