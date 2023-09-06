@@ -10,7 +10,6 @@ import { emptyError, emptyValidate } from "../profile/add_profile/ProfileValidat
 import PrimaryBtn from "../../components/PrimaryBtn";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
-import { checkAccountEmailIsExisting } from "../../services/ProfileService";
 import AccountService from "../../services/AccountService";
 import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
@@ -89,15 +88,6 @@ function SignUp() {
             DialogHelper.showSimpleDialog({
                 title: "common.error",
                 message: "errMsg.passwordDotNotMatch",
-                okText: "common.gotIt",
-            });
-            return;
-        }
-        const existing = await checkAccountEmailIsExisting(userID);
-        if (existing) {
-            DialogHelper.showSimpleDialog({
-                title: "common.error",
-                message: "errMsg.foundExistingAccount",
                 okText: "common.gotIt",
             });
             return;
