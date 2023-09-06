@@ -48,7 +48,7 @@ function AddBusinessVesselProfileInfoScreen({ route }) {
         if (!isSaveSuccess) {
             return;
         }
-        await refreshDataAndNavigateWhenSaveProfileCompleted(dispatch, mobileAccount, routeScreen);
+        await refreshDataAndNavigateWhenSaveProfileCompleted(dispatch, mobileAccount, false, routeScreen);
     };
     return (
         <View style={{ flex: 1 }}>
