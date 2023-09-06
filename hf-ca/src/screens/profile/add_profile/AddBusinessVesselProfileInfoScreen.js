@@ -4,18 +4,12 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { isEmpty } from "lodash";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import BusinessProfileInfo from "./BusinessProfileInfo";
 import VesselProfileInfo from "./VesselProfileInfo";
-import NavigationService from "../../../navigation/NavigationService";
-import { updateLoginStep } from "../../../redux/AppSlice";
-import LoginStep from "../../../constants/LoginStep";
-import OnBoardingHelper from "../../../helper/OnBoardingHelper";
-import ProfileThunk from "../../../redux/ProfileThunk";
-import { saveProfile } from "./AddProfileInfo";
+import { refreshDataAndNavigateWhenSaveProfileCompleted, saveProfile } from "./AddProfileInfo";
 import CommonHeader from "../../../components/CommonHeader";
 import Page from "../../../components/Page";
 
@@ -54,18 +48,7 @@ function AddBusinessVesselProfileInfoScreen({ route }) {
         if (!isSaveSuccess) {
             return;
         }
-        if (routeScreen) {
-            NavigationService.navigate(routeScreen);
-            dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
-        } else {
-            const { userID } = mobileAccount;
-            const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(userID);
-            if (!isEmpty(onBoardingScreens)) {
-                dispatch(updateLoginStep(LoginStep.onBoarding));
-            } else {
-                dispatch(updateLoginStep(LoginStep.home));
-            }
-        }
+        await refreshDataAndNavigateWhenSaveProfileCompleted(dispatch, mobileAccount, routeScreen);
     };
     return (
         <View style={{ flex: 1 }}>
