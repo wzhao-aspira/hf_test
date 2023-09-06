@@ -72,6 +72,8 @@ function DeleteAccountScreen() {
     }
 
     async function pressProceedDeleteHandler() {
+        setShouldShowConfirmDialog(false);
+
         try {
             const result = await dispatch(accountThunkActions.deleteCurrentAccount(password));
 
@@ -85,8 +87,6 @@ function DeleteAccountScreen() {
         } catch (error) {
             // TODO: handle error
         }
-
-        setShouldShowConfirmDialog(false);
     }
 
     function backToThePreviousScreen() {

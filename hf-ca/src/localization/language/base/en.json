@@ -71,7 +71,6 @@
         "emptyPassword": "Please enter Password",
         "emptyConfirmPassword": "Please enter Confirm Password",
         "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button.",
-        "incorrectPasswordPleaseReEnter": "Your entered password does not match with you account, please re-enter.",
         "emptyDateOfBirth": "Please enter Date of Birth",
         "emptyFirstName": "Please enter First Name",
         "emptyLastName": "Please enter Last Name",

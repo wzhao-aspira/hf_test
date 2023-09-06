@@ -23,7 +23,7 @@ async function deleteCurrentAccount(accountPassword: string, { dispatch }) {
                 MobileAppUsersAPIs.deleteMobileAppUser({
                     password: accountPassword,
                 }),
-                { dispatch }
+                { dispatch, showLoading: true }
             );
 
             console.log({ deleteMobileAppUserResult: result });
