@@ -43,6 +43,7 @@ export default function OtherProfiles({ otherProfiles = [], isLoading }) {
                 NavigationService.navigate(Routers.addIndividualProfile, {
                     mobileAccount: { userID: userName },
                     isAddPrimaryProfile: !!response.primaryIsInactivated,
+                    routeScreen: Routers.manageProfile,
                 });
             }
         }
