@@ -253,3 +253,9 @@ export async function getUserBiometricChanged(userId) {
 
     return changed;
 }
+
+export async function restBiometricLoginDataByUserId(userID) {
+    resetBiometricIDLoginBlock(userID);
+    updateAuthInfo(false, userID);
+    setLastBiometricLoginUser("");
+}

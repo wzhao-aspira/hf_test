@@ -7,6 +7,7 @@ import MobileAppUsersAPIs, {
 import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance } from "../network/AxiosClient";
 import { clearToken, globalDataForAPI, handleError } from "../network/APIUtil";
+import { restBiometricLoginDataByUserId } from "../helper/LocalAuthHelper";
 
 async function verifyPassword(accountPassword: string) {
     if (!accountPassword) return "failed: password is empty";
@@ -34,6 +35,8 @@ async function deleteCurrentAccount(accountPassword: string, { dispatch }) {
                 const { isValidResponse } = data.data;
 
                 if (isValidResponse) {
+                    const userID = await getActiveUserID();
+                    restBiometricLoginDataByUserId(userID);
                     await clearAppData(dispatch);
                     return "succeeded";
                 }
