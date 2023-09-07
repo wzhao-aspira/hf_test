@@ -66,6 +66,9 @@
         "reminder": "Reminder"
     },
     "errMsg": {
+        "noNetworkToast": "No Network connection\n Use cache Data",
+        "noNetworkDialog": "Please check your network setting.",
+        "noNetworkDialogTitle": "No Network Connection",
         "unableEstablishService": "Unable to establish service connection.",
         "emptyUserID": "Please enter User Email Address",
         "emptyPassword": "Please enter Password",

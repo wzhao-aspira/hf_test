@@ -1,8 +1,6 @@
-import { clientSecret, clientId, saveJwtToken, globalDataForAPI } from "./APIUtil";
+import { saveJwtToken } from "./tokenUtil";
 import { getBaseURL } from "../helper/AppHelper";
-
-export const url = "/Prod/identity/v1/connect/token";
-export const signOutURL = "/prod/identity/v1/connect/revocation";
+import { url, signOutURL, globalDataForAPI, clientSecret, clientId } from "./commonUtil";
 
 export async function signIn(instance, username, password) {
     const data = { client_secret: clientSecret, grant_type: "password", client_id: clientId, username, password };

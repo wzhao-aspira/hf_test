@@ -1,8 +1,9 @@
 import axios from "axios";
 import { startsWith } from "lodash";
 import { getBaseURL, getActiveUserID, getAppStaticInfo } from "../helper/AppHelper";
-import { needRefreshToken, globalDataForAPI } from "./APIUtil";
-import { refreshToken, url } from "./identityAPI";
+import { needRefreshToken } from "./tokenUtil";
+import { globalDataForAPI, url } from "./commonUtil";
+import { refreshToken } from "./identityAPI";
 
 export const instance = axios.create({
     timeout: 60000,

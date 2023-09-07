@@ -5,7 +5,7 @@ import Routers, { useAppNavigation } from "../constants/Routers";
 import { useAppSelector } from "./redux";
 
 import { getInternetSalesURL } from "../helper/AppHelper";
-import { retrieveAccessToken } from "../network/APIUtil";
+import { retrieveAccessToken } from "../network/tokenUtil";
 
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 

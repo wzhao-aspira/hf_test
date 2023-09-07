@@ -1,34 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { isEmpty, isArray } from "lodash";
+import Toast from "react-native-root-toast";
+import { useTranslation } from "react-i18next";
 import { actions as appActions, selectors, updateLoginStep } from "../redux/AppSlice";
 import DialogHelper from "../helper/DialogHelper";
+import { showToast } from "../helper/AppHelper";
 import LoginStep from "../constants/LoginStep";
-import { globalDataForAPI, handleError } from "../network/APIUtil";
-import { url } from "../network/identityAPI";
+import AppTheme from "../assets/_default/AppTheme";
+import { handleError } from "../network/APIUtil";
+import { globalDataForAPI, isNoAuthorization, isConnectError } from "../network/commonUtil";
 import AccountService from "../services/AccountService";
-
-const isErrorCode = (error, errorCode) => {
-    if (error.status) {
-        return error.status === errorCode;
-    }
-    if (error.response) {
-        return error.response?.status === errorCode;
-    }
-    return false;
-};
-
-export const isNoAuthorization = (error) => {
-    if (
-        isErrorCode(error, 400) &&
-        error.config?.url?.startsWith(url) &&
-        error.config?.data?.includes("grant_type=refresh_token")
-    ) {
-        console.log("refresh token timeout");
-        return true;
-    }
-    return isErrorCode(error, 401) && globalDataForAPI.jwtToken.access_token;
-};
 
 function getErrorMessage(error) {
     const errors = error.response?.data?.errors;
@@ -62,6 +44,7 @@ function retryRequest(error, okAction, cancelAction) {
 
 function useErrorHandling() {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const error = useSelector(selectors.selectError);
 
     // use useEffect to avoid an error from react
@@ -71,6 +54,27 @@ function useErrorHandling() {
                 AccountService.clearAppData(dispatch).then(() => {
                     dispatch(updateLoginStep(LoginStep.login));
                 });
+            } else if (isConnectError(error)) {
+                if (globalDataForAPI.networkErrorByDialog) {
+                    DialogHelper.showSimpleDialog({
+                        title: t("errMsg.noNetworkDialogTitle"),
+                        message: t("errMsg.noNetworkDialog"),
+                        okAction: () => {
+                            dispatch(appActions.clearError());
+                        },
+                    });
+                } else {
+                    const message = t("errMsg.noNetworkToast");
+                    showToast(message, {
+                        position: Toast.positions.CENTER,
+                        opacity: 0.9,
+                        duration: 3000,
+                        backgroundColor: AppTheme.colors.font_color_3,
+                        onShown: () => {
+                            dispatch(appActions.clearError());
+                        },
+                    });
+                }
             } else if (globalDataForAPI.lastPromise) {
                 retryRequest(
                     error,
@@ -93,7 +97,7 @@ function useErrorHandling() {
                 });
             }
         }
-    }, [dispatch, error]);
+    }, [dispatch, error, t]);
 }
 
 export default useErrorHandling;
