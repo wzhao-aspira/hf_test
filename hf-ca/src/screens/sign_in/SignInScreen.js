@@ -23,7 +23,7 @@ import { resetBiometricIDLoginBlock, setLoginCredential, setPasswordChangeInd } 
 import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
 import ProfileThunk from "../../redux/ProfileThunk";
-import { clearProfileListFromDB } from "../../helper/DBHelper";
+import { clearProfileListFromDB } from "../../helper/SQLitDBHelper";
 
 function SignInScreen(route) {
     const { t } = useTranslation();

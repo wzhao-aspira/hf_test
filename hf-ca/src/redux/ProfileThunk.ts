@@ -19,7 +19,7 @@ import {
     getProfileListFromDB,
     updateProfileDetailToDB,
     updateProfileListToDB,
-} from "../helper/DBHelper";
+} from "../helper/SQLitDBHelper";
 import { getProfileListUpdateTime, setProfileListUpdateTime } from "../helper/AutoRefreshHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";

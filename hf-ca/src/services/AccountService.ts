@@ -1,4 +1,4 @@
-import { checkMobileAccount, updateMobileAccountPasswordById } from "../helper/DBHelper";
+import { checkMobileAccount, updateMobileAccountPasswordById } from "../helper/SQLitDBHelper";
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 import MobileAppUsersAPIs, {
     sendMobileAppUsersValidationCodeByEmail,
