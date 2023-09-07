@@ -19,7 +19,7 @@ import LoginStep from "./src/constants/LoginStep";
 import { getActiveUserID } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links/UsefulLinksHelper";
 import ProfileThunk from "./src/redux/ProfileThunk";
-import { restoreToken } from "./src/network/APIUtil";
+import { restoreToken } from "./src/network/tokenUtil";
 import { openRealm } from "./src/helper/DBHelper";
 
 if (!global.btoa) {

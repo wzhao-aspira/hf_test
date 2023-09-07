@@ -1,4 +1,4 @@
-import { globalDataForAPI } from "./APIUtil";
+import { globalDataForAPI } from "./commonUtil";
 import { Configuration } from "./generated";
 import { getBaseURL } from "../helper/AppHelper";
 

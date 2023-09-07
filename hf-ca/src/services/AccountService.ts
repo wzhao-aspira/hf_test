@@ -6,7 +6,9 @@ import MobileAppUsersAPIs, {
 } from "../network/api_client/MobileAppUsersAPIs";
 import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance } from "../network/AxiosClient";
-import { clearToken, globalDataForAPI, handleError } from "../network/APIUtil";
+import { handleError } from "../network/APIUtil";
+import { clearToken } from "../network/tokenUtil";
+import { globalDataForAPI } from "../network/commonUtil";
 import { restBiometricLoginDataByUserId } from "../helper/LocalAuthHelper";
 
 async function verifyPassword(accountPassword: string) {

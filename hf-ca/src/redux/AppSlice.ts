@@ -2,6 +2,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import LoginStep from "../constants/LoginStep";
+import { isConnectError } from "../network/commonUtil";
 
 interface User {
     username?: string;
@@ -25,7 +26,9 @@ const appSlice = createSlice({
     initialState,
     reducers: {
         setError(state, action) {
-            state.error = action?.payload;
+            if (!isConnectError(state.error) || !isConnectError(action?.payload)) {
+                state.error = action?.payload;
+            }
         },
         clearError(state) {
             state.error = {};
