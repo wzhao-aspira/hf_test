@@ -20,6 +20,7 @@ import { getActiveUserID } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links/UsefulLinksHelper";
 import ProfileThunk from "./src/redux/ProfileThunk";
 import { restoreToken } from "./src/network/APIUtil";
+import { openRealm } from "./src/helper/DBHelper2";
 
 if (!global.btoa) {
     global.btoa = encode;
@@ -58,6 +59,7 @@ export default function App() {
             // await getConfig1();
             // await getConfig2();
             await initAppConfig();
+            await openRealm();
             await dbCreate();
             await initAppData();
             setAppReady(true);
