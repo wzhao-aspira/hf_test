@@ -77,6 +77,7 @@ function ProfileDetailsScreen({ route }) {
     const { t } = useTranslation();
 
     const [loading, setLoading] = useState(false);
+    const [noCacheData, setNoCacheData] = useState(false);
     const profileDetails = useSelector(selectors.selectProfileDetailsById(profileId));
 
     const primaryProfileId = useSelector(selectors.selectPrimaryProfileID);
@@ -160,6 +161,7 @@ function ProfileDetailsScreen({ route }) {
         setLoading(true);
         await dispatch(ProfileThunk.initProfileDetails(profileId));
         setLoading(false);
+        setNoCacheData(!!profileDetails?.noCacheData);
     };
 
     useFocus(() => {
@@ -181,12 +183,16 @@ function ProfileDetailsScreen({ route }) {
                     />
                 }
             >
-                {loading ? <ProfileDetailsLoading isHeader /> : <ProfileHeader profile={profileDetails} />}
+                {loading || noCacheData ? (
+                    <ProfileDetailsLoading isHeader />
+                ) : (
+                    <ProfileHeader profile={profileDetails} />
+                )}
 
                 <View style={{ padding: DEFAULT_MARGIN, paddingBottom: 0 }}>
                     <Text style={styles.address}>{t("profile.address")}</Text>
 
-                    {loading ? (
+                    {loading || noCacheData ? (
                         <ProfileDetailsLoading />
                     ) : (
                         <View style={styles.infoBox}>
@@ -198,7 +204,7 @@ function ProfileDetailsScreen({ route }) {
 
                     <Text style={[styles.address, { marginTop: 36 }]}>{t("profile.basicInformation")}</Text>
 
-                    {loading ? (
+                    {loading || noCacheData ? (
                         <ProfileDetailsLoading />
                     ) : (
                         <View style={styles.infoBox}>
@@ -208,7 +214,7 @@ function ProfileDetailsScreen({ route }) {
                         </View>
                     )}
 
-                    {!loading && (
+                    {!loading && !noCacheData && (
                         <Pressable
                             onPress={handleRemoveBtnClick}
                             style={styles.bottomBtnBox}

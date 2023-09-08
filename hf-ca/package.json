@@ -47,7 +47,6 @@
     "expo-mail-composer": "~12.3.0",
     "expo-screen-orientation": "~6.0.5",
     "expo-splash-screen": "~0.20.4",
-    "expo-sqlite": "~11.3.1",
     "expo-status-bar": "~1.6.0",
     "expo-web-browser": "~12.3.2",
     "geolib": "^3.3.4",
