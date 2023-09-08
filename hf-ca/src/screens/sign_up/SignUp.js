@@ -13,6 +13,7 @@ import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
+import { setLoginCredential } from "../../helper/LocalAuthHelper";
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -107,7 +108,9 @@ function SignUp() {
             dispatch,
             showLoading: true,
         });
+
         if (signInResult?.success) {
+            setLoginCredential(userID, mobileAccount?.password);
             NavigationService.navigate(Routers.addIndividualProfile, { mobileAccount, isAddPrimaryProfile: true });
         }
     };
