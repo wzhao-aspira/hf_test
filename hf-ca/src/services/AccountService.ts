@@ -1,4 +1,3 @@
-import { checkMobileAccount, updateMobileAccountPasswordById } from "../helper/SQLitDBHelper";
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 import MobileAppUsersAPIs, {
     sendMobileAppUsersValidationCodeByEmail,
@@ -51,18 +50,6 @@ async function deleteCurrentAccount(accountPassword: string, { dispatch }) {
     return "failed";
 }
 
-async function isMobileAccountExisted(userID: string) {
-    const result = await checkMobileAccount(userID);
-    if (result.success && result.count > 0) {
-        return true;
-    }
-    return false;
-}
-
-async function updateMobileAccountPasswordByUserId(userID: string, password: string) {
-    return updateMobileAccountPasswordById(userID, password);
-}
-
 async function authSignIn(userID, password) {
     const response = await signIn(instance, userID, password);
     return response;
@@ -99,8 +86,6 @@ export default {
     createMobileAccount,
     verifyPassword,
     deleteCurrentAccount,
-    isMobileAccountExisted,
-    updateMobileAccountPasswordByUserId,
     authSignIn,
     signOut,
     clearAppData,

@@ -95,8 +95,6 @@ PODS:
     - ExpoModulesCore
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - ExpoSQLite (11.3.1):
-    - ExpoModulesCore
   - ExpoWebBrowser (12.3.2):
     - ExpoModulesCore
   - EXSplashScreen (0.20.4):
@@ -657,7 +655,6 @@ DEPENDENCIES:
   - ExpoMailComposer (from `../node_modules/expo-mail-composer/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
-  - ExpoSQLite (from `../node_modules/expo-sqlite/ios`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
@@ -775,8 +772,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core"
   ExpoScreenOrientation:
     :path: "../node_modules/expo-screen-orientation/ios"
-  ExpoSQLite:
-    :path: "../node_modules/expo-sqlite/ios"
   ExpoWebBrowser:
     :path: "../node_modules/expo-web-browser/ios"
   EXSplashScreen:
@@ -905,7 +900,6 @@ SPEC CHECKSUMS:
   ExpoMailComposer: feaebd62095efad901ede864b95406f02bf61681
   ExpoModulesCore: f8f3cac222bb0f574c77664d7e05817eaa97434b
   ExpoScreenOrientation: 5d109570b17835fe0cfb822268a8ff087c2112ad
-  ExpoSQLite: fdbc8d08a0efa64fd4ebbc5c261d55fc0ae3b21d
   ExpoWebBrowser: 2c788f9c07718a780fe6d8bf2f6195c47609faaa
   EXSplashScreen: 89586b0961acd173b04713b7457949b063a659da
   EXUpdatesInterface: 82ed48d417cdcd376c12ca1c2ce390d35500bed6

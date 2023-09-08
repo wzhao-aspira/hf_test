@@ -1,4 +1,6 @@
+import { isEmpty } from "lodash";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
+import { updateProfileDetailToDB } from "../db";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
 import {
     getProfiles,
@@ -39,6 +41,7 @@ export async function getStates(): Promise<StateVM[]> {
 
 export async function getProfileList() {
     const response = await getProfiles();
+    batchUpdateProfileDetails(response);
     return response;
 }
 
@@ -188,4 +191,21 @@ export async function removeAccountCurrentInUseProfileID(accountID) {
 
 export async function getProfileDetailsById(profileId) {
     return getProfileDetails(profileId);
+}
+
+export function batchUpdateProfileDetails(profiles) {
+    if (profiles?.success && !isEmpty(profiles?.data?.result)) {
+        profiles?.data?.result?.forEach((ele) => {
+            console.log("backend profile id:", ele?.customerId);
+            getProfileDetails(ele?.customerId)
+                .then((v) => {
+                    if (!isEmpty(v?.data?.result)) {
+                        updateProfileDetailToDB(v?.data?.result);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        });
+    }
 }

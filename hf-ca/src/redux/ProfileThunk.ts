@@ -16,10 +16,10 @@ import { getLicense } from "./LicenseSlice";
 import { handleError } from "../network/APIUtil";
 import {
     getProfileDetailFromDB,
-    getProfileListFromDB,
+    getProfileSummaryFromDB,
     updateProfileDetailToDB,
-    updateProfileListToDB,
-} from "../helper/SQLitDBHelper";
+    updateProfileSummaryToDB,
+} from "../db";
 import { getProfileListUpdateTime, setProfileListUpdateTime } from "../helper/AutoRefreshHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
@@ -107,10 +107,10 @@ const initProfile =
 
             result = response?.data?.data?.result;
             console.log(`fetch profile list:${JSON.stringify(result)}`);
-            updateProfileListToDB(result);
+            updateProfileSummaryToDB(result);
             setProfileListUpdateTime();
         } else {
-            const dbResult = await getProfileListFromDB();
+            const dbResult = await getProfileSummaryFromDB();
             if (dbResult.success) {
                 result = dbResult.profileList;
             }
@@ -158,7 +158,7 @@ const switchCurrentInUseProfile =
     };
 
 const updateProfileData = (result) => async (dispatch) => {
-    const dbResult = await updateProfileListToDB(result);
+    const dbResult = await updateProfileSummaryToDB(result);
     if (dbResult.success) {
         setProfileListUpdateTime();
     } else {
@@ -284,7 +284,8 @@ const refreshProfileList =
 
 const initProfileDetails = (profileId) => async (dispatch) => {
     let result;
-    const response = await handleError(getProfileDetailsById(profileId), { dispatch });
+    const networkErrorByDialog = false;
+    const response = await handleError(getProfileDetailsById(profileId), { dispatch, networkErrorByDialog });
     if (response.success) {
         result = response.data.data.result;
         if (!isEmpty(result)) {
@@ -294,6 +295,9 @@ const initProfileDetails = (profileId) => async (dispatch) => {
         const dbResult = await getProfileDetailFromDB(profileId);
         if (dbResult.success) {
             result = dbResult.profile;
+        }
+        if (!result) {
+            result.noCacheData = true;
         }
     }
 

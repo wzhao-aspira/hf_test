@@ -12,7 +12,6 @@ import store from "./src/redux/Store";
 import AppContract from "./src/assets/_default/AppContract";
 import { initAppConfig } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
-import { dbCreate } from "./src/helper/SQLitDBHelper";
 import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
@@ -20,7 +19,7 @@ import { getActiveUserID } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links/UsefulLinksHelper";
 import ProfileThunk from "./src/redux/ProfileThunk";
 import { restoreToken } from "./src/network/tokenUtil";
-import { openRealm } from "./src/helper/DBHelper";
+import { openRealm } from "./src/db";
 
 if (!global.btoa) {
     global.btoa = encode;
@@ -60,7 +59,6 @@ export default function App() {
             // await getConfig2();
             await initAppConfig();
             await openRealm();
-            await dbCreate();
             await initAppData();
             setAppReady(true);
             await SplashScreen.hideAsync();
