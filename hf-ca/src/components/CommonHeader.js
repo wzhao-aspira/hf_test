@@ -47,7 +47,7 @@ function CommonHeader({
             <View style={styles.headerContainer}>
                 <Pressable
                     testID={genTestId(`${testID}BackToPreviousPageButton`)}
-                    onPress={onBackClick}
+                    onPress={showLeft ? onBackClick : null}
                     style={{ flexDirection: "row", width: 20 }}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 >

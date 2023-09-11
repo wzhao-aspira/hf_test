@@ -4,7 +4,6 @@ import { isEmpty } from "lodash";
 import { Trans } from "react-i18next";
 import { faChevronRight } from "@fortawesome/pro-regular-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import PaginationDot from "react-native-animated-pagination-dot";
 import AppTheme from "../../../assets/_default/AppTheme";
 import HomeStyles from "../HomeStyles";
 import NavigationService from "../../../navigation/NavigationService";
@@ -59,15 +58,9 @@ function HomeLicenseSection(props: HomeLicenseSectionProps) {
                     <CarouselItem licenses={licenses} setActiveSlide={setActiveSlide} />
                     {licenses?.length > 1 && (
                         <View style={{ alignItems: "center" }}>
-                            <PaginationDot
-                                // @ts-expect-error
-                                testID={genTestId("paginationDot")}
-                                inactiveDotColor={AppTheme.colors.primary_2}
-                                activeDotColor={AppTheme.colors.primary}
-                                curPage={activeSlide}
-                                maxPage={licenses.length}
-                                sizeRatio={1.2}
-                            />
+                            <Text>
+                                {activeSlide + 1} of {licenses.length}
+                            </Text>
                         </View>
                     )}
                 </View>

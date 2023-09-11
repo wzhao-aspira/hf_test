@@ -17,6 +17,7 @@ export const KEY_CONSTANT = {
     usefulLinks: "usefulLinks",
     keyLastLocation: "keyLastLocation",
     keyPasswordChanged: "keyPasswordChanged",
+    keyWeatherData: "keyWeatherData",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = {

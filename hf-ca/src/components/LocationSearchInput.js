@@ -177,7 +177,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
                         Linking.openURL("app-settings:");
                     } else {
                         IntentLauncherAndroid.startActivityAsync(
-                            IntentLauncherAndroid.ACTION_LOCATION_SOURCE_SETTINGS
+                            IntentLauncherAndroid.ActivityAction.LOCATION_SOURCE_SETTINGS
                         ).catch((error) => {
                             console.log(`StartActivityAsync Error:${error}`);
                         });

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
-import getWeatherDataFromService from "../services/WeatherService";
+import { getWeatherDataFromService, getWeatherDataFromLocalStorage } from "../services/WeatherService";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
@@ -19,7 +19,8 @@ export const getWeatherDataFromRedux = createAsyncThunk(
     // eslint-disable-next-line no-empty-pattern
     async ({}, { dispatch }) => {
         console.log("Weather slice --- ready to get the weather data");
-        return handleError(getWeatherDataFromService(), { showError: false, dispatch });
+        await handleError(getWeatherDataFromService(), { showError: false, dispatch });
+        return handleError(getWeatherDataFromLocalStorage(), { showError: false, dispatch });
     },
     {
         condition: ({ isForce = false }, { getState }) => {

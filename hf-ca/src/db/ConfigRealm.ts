@@ -3,6 +3,7 @@ import Realm from "realm";
 import AppContract from "../assets/_default/AppContract";
 import ProfileSummary from "./models/ProfileSummary";
 import ProfileDetail from "./models/ProfileDetail";
+import LicenseList from "./models/LicenseList";
 
 const schemaVersion = 1;
 
@@ -10,7 +11,7 @@ export let realm: Realm;
 
 export async function openRealm() {
     realm = await Realm.open({
-        schema: [ProfileSummary, ProfileDetail],
+        schema: [ProfileSummary, ProfileDetail, LicenseList],
         path: `${AppContract.contractName}.realm`,
         schemaVersion,
         deleteRealmIfMigrationNeeded: !!__DEV__,
