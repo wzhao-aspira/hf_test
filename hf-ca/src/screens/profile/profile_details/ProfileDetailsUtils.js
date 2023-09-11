@@ -111,13 +111,15 @@ export const removeAction = "remove";
 
 export const getHeight = (height) => {
     if (height) {
-        return `${height}cm`;
+        const heightFoot = Math.trunc(height / 12);
+        const heightInch = height % 12;
+        return heightInch == 0 ? `${heightFoot}ft.` : `${heightFoot}ft. ${heightInch}in.`;
     }
     return undefined;
 };
 export const getWeight = (weight) => {
     if (weight) {
-        return `${weight}kg`;
+        return `${weight}lbs`;
     }
     return undefined;
 };
