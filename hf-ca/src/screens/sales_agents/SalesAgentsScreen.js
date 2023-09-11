@@ -101,6 +101,7 @@ export default function SalesAgentsScreen({ route }) {
         toggleLoading(true);
         setShowFloatingButton(false);
         const searchResult = await getSuggestionSalesAgentsFromService(currentAgent.center);
+        setSelectIndex(-1);
         if (searchResult.success) {
             setSalesAgents(searchResult.agents);
             setShowFloatingButton(searchResult.agents.length > 0);

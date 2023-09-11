@@ -198,7 +198,7 @@ export default function MapScreen({
                     })}
             </Mapbox.MapView>
 
-            {selectIndex >= 0 && (
+            {selectIndex >= 0 && selectIndex < salesAgents?.length && (
                 <View style={styles.card}>
                     <SalesAgentsItem
                         item={salesAgents[selectIndex]}
