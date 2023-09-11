@@ -2,7 +2,7 @@
   "expo": {
     "name": "CDFW Mobile",
     "slug": "hf-ca",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./src/assets/_default/images/icon.png",
     "userInterfaceStyle": "light",
@@ -25,7 +25,7 @@
       "requireFullScreen": true,
       "supportsTablet": true,
       "bundleIdentifier": "com.aspiraconnect.hf.ca",
-      "buildNumber": "1.1.0.15",
+      "buildNumber": "1.2.0.1",
       "userInterfaceStyle": "light",
       "config": {
         "usesNonExemptEncryption": false
