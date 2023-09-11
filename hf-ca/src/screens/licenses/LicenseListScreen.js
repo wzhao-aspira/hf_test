@@ -14,13 +14,9 @@ import AppTheme from "../../assets/_default/AppTheme";
 import LicenseItem from "./LicenseItem";
 import LicenseListEmpty from "./LicenseListEmpty";
 import { getLoadingData } from "../../services/LicenseService";
-import { genTestId } from "../../helper/AppHelper";
+import { genTestId, showNotImplementedFeature } from "../../helper/AppHelper";
 import { REQUEST_STATUS } from "../../constants/Constants";
 import profileSelectors from "../../redux/ProfileSelector";
-
-import NavigationService from "../../navigation/NavigationService";
-import Routers from "../../constants/Routers";
-
 import useFocus from "../../hooks/useFocus";
 
 export const styles = StyleSheet.create({
@@ -43,7 +39,8 @@ function LicenseListScreen() {
     const insets = useSafeAreaInsets();
     const reduxData = useSelector(selectLicenseForList);
     const refreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
-    const data = refreshing ? getLoadingData() : reduxData.data;
+    const isEmptyLicenseCacheData = isEmpty(reduxData.data) && !reduxData.isAPISucceed;
+    const data = refreshing || isEmptyLicenseCacheData ? getLoadingData() : reduxData.data;
     const { t } = useTranslation();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
@@ -82,10 +79,9 @@ function LicenseListScreen() {
                 }
             >
                 <View style={{ flex: 1 }}>
-                    {!refreshing && isEmpty(data) && <LicenseListEmpty />}
-
+                    {!refreshing && !isEmptyLicenseCacheData && isEmpty(data) && <LicenseListEmpty />}
                     {data?.map((item) => {
-                        if (refreshing) {
+                        if (refreshing || isEmptyLicenseCacheData) {
                             return <LicenseCardLoading key={item.id} />;
                         }
                         return (
@@ -98,7 +94,8 @@ function LicenseListScreen() {
                                         key={license.id}
                                         onPress={() => {
                                             console.log("go to license detail");
-                                            NavigationService.navigate(Routers.licenseDetail, { licenseData: license });
+                                            showNotImplementedFeature();
+                                            // NavigationService.navigate(Routers.licenseDetail, { licenseData: license });
                                         }}
                                         itemData={license}
                                         itemKey={license.id}

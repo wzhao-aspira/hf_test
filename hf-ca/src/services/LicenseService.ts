@@ -1,7 +1,9 @@
+import { values } from "lodash";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import licensesAPIs from "../network/api_client/LicensesAPIs";
 import licenseDetailMockData from "./mock_data/licenseDetail.json";
+import { getLicenseList, saveLicenseList } from "../db";
 
 // API not ready, use mock data
 const NeedPhysicalDocumentItemIds = [16, 18, 19];
@@ -39,6 +41,8 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
         const mobileAppNeedPhysicalDocument = NeedPhysicalDocumentItemIds.includes(itemTypeId);
 
         return {
+            pk: `${activeProfileId}_${licenseId}`,
+            profileId: activeProfileId,
             id: licenseId,
             name,
             validFrom,
@@ -54,8 +58,15 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             mobileAppNeedPhysicalDocument,
         };
     });
-
+    // Save the license list data per profile
+    await saveLicenseList(formattedResult);
     return { formattedResult, errors };
+}
+
+export async function getLicenseListDataFromDB(searchParams: { activeProfileId: string }) {
+    const { activeProfileId } = searchParams;
+    const dbResult = await getLicenseList(activeProfileId);
+    return values(dbResult);
 }
 
 export function getLoadingData() {

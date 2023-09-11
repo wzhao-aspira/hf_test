@@ -12,7 +12,6 @@ import {
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { selectors as appSelectors } from "./AppSlice";
-import { getLicense } from "./LicenseSlice";
 import { handleError } from "../network/APIUtil";
 import {
     getProfileDetailFromDB,
@@ -28,6 +27,7 @@ import i18n from "../localization/i18n";
 import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
 import { Profile } from "../types/profile";
+import { actions as licenseActions } from "./LicenseSlice";
 
 const formateProfile = (profile) => {
     const { customerId, name, customerTypeId, goidNumber, goid, ...otherProps } = profile;
@@ -150,8 +150,8 @@ const switchCurrentInUseProfile =
         try {
             await updateCurrentInUseProfileID(username, profileID);
             dispatch(profileActions.updateCurrentInUseProfileID(profileID));
-            // force update license by profileID when switch profile
-            dispatch(getLicense({ isForce: true, searchParams: { activeProfileId: profileID } }));
+            // clear license refresh time, after this when the home page and license list shown, it will trigger auto refresh
+            dispatch(licenseActions.clearUpdateTime());
         } catch (error) {
             console.log("switch profile error:", error);
         }

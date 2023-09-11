@@ -1,26 +1,36 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
-import { getLicenseData } from "../services/LicenseService";
+import { getLicenseData, getLicenseListDataFromDB } from "../services/LicenseService";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
-
 import { License } from "../types/license";
 
 interface LicenseState {
     data: License[];
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
     updateTime: null | number;
+    isAPISucceed: boolean;
 }
 
 export const getLicense = createAsyncThunk(
     "license/getLicense",
     async ({ searchParams }: { searchParams: { activeProfileId: string }; isForce?: boolean }, { dispatch }) => {
-        const data = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), { dispatch });
-        return data;
+        const results = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), {
+            networkErrorByDialog: false,
+            dispatch,
+        });
+        // If the API returns an empty license data then we need to set an indicator here
+        const isAPISucceed = results.success;
+        const licenseData = await handleError(getLicenseListDataFromDB(searchParams), {
+            showError: false,
+            networkErrorByDialog: false,
+            dispatch,
+        });
+        return { ...licenseData, isAPISucceed };
     },
     {
         condition: ({ isForce = false }, { getState }) => {
@@ -40,7 +50,12 @@ export const getLicense = createAsyncThunk(
     }
 );
 
-const initialState: LicenseState = { data: null, requestStatus: REQUEST_STATUS.idle, updateTime: null };
+const initialState: LicenseState = {
+    data: null,
+    requestStatus: REQUEST_STATUS.idle,
+    updateTime: null,
+    isAPISucceed: true,
+};
 
 const licenseSlice = createSlice({
     name: "license",
@@ -61,15 +76,16 @@ const licenseSlice = createSlice({
         });
         builder.addCase(getLicense.fulfilled, (state, action) => {
             const payload = action?.payload;
-            const { success, data } = payload;
-
+            const { success, data, isAPISucceed } = payload;
             if (success) {
-                const dateNow = moment().unix();
+                // Check if is empty data from the API, if not then need to show the skeleton
+                if (isAPISucceed) {
+                    const dateNow = moment().unix();
+                    state.updateTime = dateNow;
+                }
+                state.isAPISucceed = isAPISucceed;
                 state.requestStatus = REQUEST_STATUS.fulfilled;
-                state.updateTime = dateNow;
-
-                const { formattedResult } = data;
-                state.data = formattedResult;
+                state.data = data;
             } else {
                 state.requestStatus = REQUEST_STATUS.rejected;
             }

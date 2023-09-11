@@ -87,7 +87,7 @@ function CarouseItem({ licenses, setActiveSlide }) {
             modeConfig={{
                 parallaxScrollingScale: 1,
                 parallaxAdjacentItemScale: 0.9,
-                parallaxScrollingOffset: 10,
+                parallaxScrollingOffset: 60,
             }}
             loop={false}
             width={SCREEN_WIDTH}

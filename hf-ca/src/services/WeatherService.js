@@ -5,7 +5,7 @@ import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { getCurrentLocationWithoutPopup } from "./SalesAgentsService";
 import AppContract from "../assets/_default/AppContract";
 
-export default async function getWeatherDataFromService() {
+export async function getWeatherDataFromService() {
     let weatherData = {};
     let apiRst = null;
 
@@ -39,5 +39,9 @@ export default async function getWeatherDataFromService() {
             }
         }
     }
-    return weatherData;
+    await storeItem(KEY_CONSTANT.keyWeatherData, weatherData);
+}
+
+export async function getWeatherDataFromLocalStorage() {
+    return retrieveItem(KEY_CONSTANT.keyWeatherData);
 }

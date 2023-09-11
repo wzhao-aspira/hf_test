@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { View, FlatList, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { isEmpty } from "lodash";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
 import HomeDiscoverySection from "./HomeDiscoverySection";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
@@ -34,6 +35,7 @@ export default function HomeScreen() {
     const licenseReduxData = useSelector(selectLicenseForDashboard);
     const licenseRefreshing = licenseReduxData.requestStatus === REQUEST_STATUS.pending;
     const licenseData = licenseReduxData.data;
+    const isEmptyLicenseCacheData = isEmpty(licenseData) && !licenseReduxData.isAPISucceed;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const ciuIsInactive = useSelector(profileSelectors.selectCiuIsInactive);
     const primaryProfileId = useSelector(profileSelectors.selectPrimaryProfileID);
@@ -61,12 +63,9 @@ export default function HomeScreen() {
         }
     }, [ciuIsInactive, dispatch, primaryProfileId]);
 
-    useEffect(() => {
-        dispatch(getWeatherDataFromRedux({}));
-    }, [dispatch]);
-
     useFocus(() => {
         console.log("home focus");
+        dispatch(getWeatherDataFromRedux({}));
         dispatch(ProfileThunk.refreshProfileList());
         getLicenseOfActiveProfile(false);
     });
@@ -79,7 +78,7 @@ export default function HomeScreen() {
 
     const renderItem = (index) => {
         if (index == 0) {
-            if (licenseRefreshing) {
+            if (licenseRefreshing || isEmptyLicenseCacheData) {
                 return <HomeLicenseSectionLoading />;
             }
             return <HomeLicenseSection licenses={licenseData} />;
