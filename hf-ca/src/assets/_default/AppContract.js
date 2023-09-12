@@ -24,7 +24,7 @@ const AppContract = {
     internetSalesURL: {
         // TODO: Waiting BA provide links for UAT & PROD
         qa: "https://qa.ca.wildlifelicense.com/prod/internetsales/",
-        uat: "https://uat.ca.wildlifelicense.com/wp_test/internetsales/",
+        uat: "https://uat.ca.wildlifelicense.com/uat_test/internetsales/",
         prod: "https://qa.ca.wildlifelicense.com/prod/internetsales/",
     },
     link: {
