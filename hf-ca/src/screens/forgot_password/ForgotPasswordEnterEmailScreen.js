@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 import emailValidator from "email-validator";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch } from "react-redux";
 import CommonHeader from "../../components/CommonHeader";
 import Page from "../../components/Page";
 import { SharedStyles } from "../../styles/CommonStyles";
@@ -18,9 +19,11 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import DialogHelper from "../../helper/DialogHelper";
 import CountdownTextInput from "../../components/CountdownTextInput";
 import { genTestId } from "../../helper/AppHelper";
+import { handleError } from "../../network/APIUtil";
 
 export default function ForgotPasswordEnterEmailScreen() {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     const [emailAddress, setEmailAddress] = useState("");
     const [emailValidationCode, setEmailValidationCode] = useState();
@@ -43,33 +46,12 @@ export default function ForgotPasswordEnterEmailScreen() {
         return emptyValidationCode.error;
     };
 
-    const emailAddressValidation = async () => {
+    const emailAddressValidation = () => {
         const isValidEmailAddress = emailValidator.validate(emailAddress.trim());
         if (!isValidEmailAddress) {
             DialogHelper.showSimpleDialog({
                 title: "common.error",
                 message: "signIn.userIdInvalid",
-                okText: "common.gotIt",
-            });
-            return false;
-        }
-        const isEmailAddressExisted = await AccountService.isMobileAccountExisted(emailAddress.trim());
-        if (!isEmailAddressExisted) {
-            DialogHelper.showSimpleDialog({
-                title: "common.error",
-                message: "errMsg.emailAddressNotFound",
-                okText: "common.gotIt",
-            });
-            return false;
-        }
-        return true;
-    };
-
-    const emailValidationCodeValidation = () => {
-        if (emailValidationCode != "0000") {
-            DialogHelper.showSimpleDialog({
-                title: "common.error",
-                message: "errMsg.invalidEmailValidationCode",
                 okText: "common.gotIt",
             });
             return false;
@@ -83,15 +65,22 @@ export default function ForgotPasswordEnterEmailScreen() {
         if (isEmptyEmail || isEmptyCode) {
             return;
         }
-        const isValidEmail = await emailAddressValidation();
+        const isValidEmail = emailAddressValidation();
         if (!isValidEmail) {
             return;
         }
-        const isValidCode = emailValidationCodeValidation();
-        if (!isValidCode) {
-            return;
+
+        const validationResponse = await handleError(
+            AccountService.forgotPasswordValidation(emailAddress, emailValidationCode),
+            { dispatch, showLoading: true }
+        );
+
+        if (validationResponse.success) {
+            NavigationService.navigate(Routers.forgotPasswordResetPassword, {
+                emailAddress,
+                validationCode: emailValidationCode,
+            });
         }
-        NavigationService.navigate(Routers.forgotPasswordResetPassword, { emailAddress });
     };
 
     const renderEmailAddressSection = () => {
@@ -144,12 +133,18 @@ export default function ForgotPasswordEnterEmailScreen() {
                     if (isEmptyEmail) {
                         return;
                     }
-                    const isValidEmail = await emailAddressValidation();
+                    const isValidEmail = emailAddressValidation();
                     if (!isValidEmail) {
                         return;
                     }
-                    setIsShowCountdown(true);
-                    setIsShowResendCode(true);
+                    const sendCodeResponse = await handleError(AccountService.forgotPasswordSendCode(emailAddress), {
+                        dispatch,
+                        showLoading: true,
+                    });
+                    if (sendCodeResponse.success) {
+                        setIsShowCountdown(true);
+                        setIsShowResendCode(true);
+                    }
                 }}
                 isShowCountdown={isShowCountdown}
                 isShowResendCode={isShowResendCode}
