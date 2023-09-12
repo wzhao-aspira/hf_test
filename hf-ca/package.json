@@ -49,7 +49,6 @@
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
     "expo-web-browser": "~12.3.2",
-    "geolib": "^3.3.4",
     "i18next": "^22.5.1",
     "immer": "^9.0.21",
     "lodash": "^4.17.21",

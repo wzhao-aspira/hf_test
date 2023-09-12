@@ -1,8 +1,8 @@
 import * as Location from "expo-location";
-import { getDistance, convertDistance } from "geolib";
 import { getCurrentLocationByText, getLocationByText } from "../network/API";
 import { NETWORK_REQUEST_FAILED } from "../constants/Constants";
-import salesAgents from "./mock_data/sales_agents.json";
+import LicenseAgentsAPIs from "../network/api_client/LicenseAgentsAPIs";
+import { handleError } from "../network/APIUtil";
 
 async function getPositionByPermission(permission) {
     const result = { success: false, value: null, coordinates: [] };
@@ -63,41 +63,44 @@ export async function searchLocationByText(text) {
     return result;
 }
 
-export async function getSuggestionSalesAgentsFromService(currentCoordinate) {
+export async function getSuggestionSalesAgentsFromService(currentCoordinate, { dispatch }) {
     const currentLongitude = currentCoordinate[0];
     const currentLatitude = currentCoordinate[1];
-    const startCoordinate = { latitude: currentLatitude, longitude: currentLongitude };
 
-    const result = { success: false, agents: [] };
-    if (salesAgents) {
-        result.success = true;
-        salesAgents.forEach((salesAgent) => {
-            const { longitude } = salesAgent;
-            const { latitude } = salesAgent;
-            if (longitude != undefined && latitude != undefined && longitude != 0 && latitude != 0) {
-                const endCoordinate = { latitude, longitude };
-                const distance = getDistance(startCoordinate, endCoordinate);
-                const distanceInMiles = convertDistance(distance, "mi");
-                if (distanceInMiles <= 40) {
-                    const agent = {
-                        id: salesAgent.id,
-                        name: salesAgent.agentName,
-                        address: salesAgent.address,
-                        city: salesAgent.city,
-                        zip: salesAgent.zip,
-                        phoneNumber: salesAgent.phoneNum,
-                        distance: distanceInMiles.toFixed(2),
-                        distanceUnit: "mile",
-                        coor: [parseFloat(salesAgent.longitude), parseFloat(salesAgent.latitude)],
-                    };
-                    result.agents.push(agent);
-                }
-            }
-        });
+    const result = await handleError<ReturnType<typeof LicenseAgentsAPIs.getLicenseAgents>>(
+        LicenseAgentsAPIs.getLicenseAgents({
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+        }),
+        { dispatch }
+    );
+
+    const { success, data } = result;
+
+    if (success) {
+        const dataResult = data.data.result;
+
+        if (dataResult.length >= 0) {
+            return dataResult.map((item) => {
+                const { id, name, displayAddress, city, zipCode, displayBusinesPhone, distance, latitude, longitude } =
+                    item;
+
+                return {
+                    id,
+                    name,
+                    address: displayAddress,
+                    city,
+                    zip: zipCode,
+                    phoneNumber: displayBusinesPhone,
+                    distance: distance?.toFixed(2),
+                    distanceUnit: "mile",
+                    coor: [parseFloat(longitude.toString()), parseFloat(latitude.toString())] as [number, number],
+                };
+            });
+        }
     }
-    return new Promise((res) => {
-        setTimeout(() => {
-            res(result);
-        }, 3000);
-    });
+
+    return [];
 }
+
+export type { LicenseAgentVM } from "../network/api_client/LicenseAgentsAPIs";

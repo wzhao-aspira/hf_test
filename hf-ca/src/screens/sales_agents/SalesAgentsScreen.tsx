@@ -23,6 +23,8 @@ import { toggleIndicator } from "../../redux/AppSlice";
 import { storeItem } from "../../helper/StorageHelper";
 import { KEY_CONSTANT } from "../../constants/Constants";
 
+import type { Agent } from "../../types/salesAgents";
+
 const displayEnum = {
     map: "map",
     list: "list",
@@ -63,12 +65,12 @@ export default function SalesAgentsScreen({ route }) {
     const [display, setDisplay] = useState(displayEnum.map);
     const [mapCenter, setMapCenter] = useState(lastLocation);
     const [loading, setLoading] = useState(false);
-    const [salesAgents, setSalesAgents] = useState();
+    const [salesAgents, setSalesAgents] = useState<Agent[]>();
     const [showFloatingButton, setShowFloatingButton] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [selectIndex, setSelectIndex] = useState(-1);
     const searchCenter = useRef(null);
-    const agentSearchInputRef = useRef();
+    const agentSearchInputRef = useRef<{ text: string }>();
 
     useEffect(() => {
         const getLocation = async () => {
@@ -100,33 +102,28 @@ export default function SalesAgentsScreen({ route }) {
         setShowSearch(false);
         toggleLoading(true);
         setShowFloatingButton(false);
-        const searchResult = await getSuggestionSalesAgentsFromService(currentAgent.center);
+
+        const searchResult = await getSuggestionSalesAgentsFromService(currentAgent.center, { dispatch });
         setSelectIndex(-1);
-        if (searchResult.success) {
-            setSalesAgents(searchResult.agents);
-            setShowFloatingButton(searchResult.agents.length > 0);
-            if (searchResult.agents.length == 0) {
-                DialogHelper.showSimpleDialog({
-                    title: "common.noResultsFound",
-                    message: "errMsg.noResultsFoundMsg",
-                    okText: "common.tryAgain",
-                    okAction: () => {
-                        setDisplay(displayEnum.map);
-                    },
-                });
-            }
-            if (searchResult.agents.length == 0) {
-                setMapCenter(currentAgent.center);
-            }
-            if (searchResult.agents.length == 1) {
-                setMapCenter(searchResult.agents[0].coor);
-            }
-        } else {
+        setSalesAgents(searchResult);
+        setShowFloatingButton(searchResult.length > 0);
+        if (searchResult.length == 0) {
             DialogHelper.showSimpleDialog({
-                title: "errMsg.commonErrorTitle",
-                message: "errMsg.commonErrorMsg",
+                title: "common.noResultsFound",
+                message: "errMsg.noResultsFoundMsg",
+                okText: "common.tryAgain",
+                okAction: () => {
+                    setDisplay(displayEnum.map);
+                },
             });
         }
+        if (searchResult.length == 0) {
+            setMapCenter(currentAgent.center);
+        }
+        if (searchResult.length == 1) {
+            setMapCenter(searchResult[0].coor);
+        }
+
         toggleLoading(false);
     };
 
@@ -176,6 +173,7 @@ export default function SalesAgentsScreen({ route }) {
                     />
                 )}
                 {display == displayEnum.map && (
+                    // @ts-expect-error
                     <SalesAgentsMap
                         mapCenter={mapCenter}
                         salesAgents={salesAgents}
@@ -256,10 +254,11 @@ export default function SalesAgentsScreen({ route }) {
 
     return (
         <View style={styles.container}>
-            <CommonHeader title={t("salesAgents.salesAgents")} />
+            <CommonHeader title={t("salesAgents.salesAgents")} rightIcon={false} />
             {renderContentView()}
             <LocationSearchInput
                 ref={agentSearchInputRef}
+                // @ts-expect-error
                 profileId={profileId}
                 placeholder="salesAgents.searchForAgents"
                 showRecent
