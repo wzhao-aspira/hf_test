@@ -19,6 +19,7 @@ import Routers from "../../constants/Routers";
 import { SimpleDialog } from "../../components/Dialog";
 import DialogHelper from "../../helper/DialogHelper";
 import { setPasswordChangeInd } from "../../helper/LocalAuthHelper";
+import { handleError } from "../../network/APIUtil";
 
 function dialogReducer(state, action) {
     if (action.type === "incorrectPassword") {
@@ -47,7 +48,7 @@ export default function ForgotPasswordScreen({ route }) {
     const dispatch = useDispatch();
 
     const { params } = route;
-    const { emailAddress, isChangePassword } = params;
+    const { emailAddress, isChangePassword, validationCode } = params;
     const commonHeader = isChangePassword
         ? t("setting.changePassword")
         : t("forgotPassword.resetPassword.resetPassword");
@@ -118,11 +119,16 @@ export default function ForgotPasswordScreen({ route }) {
                     return;
                 }
             }
-
-            const isRestPasswordSucceed = await AccountService.updateMobileAccountPasswordByUserId(
+            const resetPasswordParams = {
                 emailAddress,
-                newPassword
+                validationCode,
+                password: newPassword,
+            };
+            const isRestPasswordSucceed = await handleError(
+                AccountService.forgotAndResetPassword(resetPasswordParams),
+                { dispatch, showLoading: true }
             );
+
             if (isRestPasswordSucceed.success) {
                 handleNavigation();
             }

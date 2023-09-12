@@ -1197,6 +1197,18 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'internetSalesBaseURL'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'timeZone'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileAppConfigurationVM
+     */
+    'adultAge'?: number;
 }
 /**
  * 
@@ -1251,21 +1263,15 @@ export interface MobileAppUserCreationCommand {
 /**
  * 
  * @export
- * @interface MobileAppUserDeletionCommand
+ * @interface MobileAppUserDeletionVM
  */
-export interface MobileAppUserDeletionCommand {
+export interface MobileAppUserDeletionVM {
     /**
      * 
      * @type {string}
-     * @memberof MobileAppUserDeletionCommand
+     * @memberof MobileAppUserDeletionVM
      */
     'password'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof MobileAppUserDeletionCommand
-     */
-    'mobileUserId'?: number;
 }
 /**
  * 
@@ -1485,6 +1491,25 @@ export interface OwnershipVMExecutionResult {
      * @memberof OwnershipVMExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface PasswordChangeVM
+ */
+export interface PasswordChangeVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof PasswordChangeVM
+     */
+    'currentPassword': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PasswordChangeVM
+     */
+    'newPassword': string;
 }
 /**
  * 
@@ -3277,11 +3302,11 @@ export const MobileAppUsersApiAxiosParamCreator = function (configuration?: Conf
         /**
          * 
          * @summary Delete Account
-         * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+         * @param {MobileAppUserDeletionVM} [mobileAppUserDeletionVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1MobileAppUsersDelete: async (mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        v1MobileAppUsersDelete: async (mobileAppUserDeletionVM?: MobileAppUserDeletionVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1/MobileAppUsers`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3301,7 +3326,7 @@ export const MobileAppUsersApiAxiosParamCreator = function (configuration?: Conf
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(mobileAppUserDeletionCommand, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(mobileAppUserDeletionVM, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3384,12 +3409,46 @@ export const MobileAppUsersApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @summary Reset Password
+         * @summary Reset Password (use email validation code to reset)
          * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1MobileAppUsersPasswordPut: async (mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        v1MobileAppUsersPasswordPost: async (mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppUsers/Password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(mobileAppUserResetPasswordCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Change Password (logged user who knows current password)
+         * @param {PasswordChangeVM} [passwordChangeVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersPasswordPut: async (passwordChangeVM?: PasswordChangeVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1/MobileAppUsers/Password`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3409,7 +3468,7 @@ export const MobileAppUsersApiAxiosParamCreator = function (configuration?: Conf
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(mobileAppUserResetPasswordCommand, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(passwordChangeVM, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3497,12 +3556,12 @@ export const MobileAppUsersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Delete Account
-         * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+         * @param {MobileAppUserDeletionVM} [mobileAppUserDeletionVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersDelete(mobileAppUserDeletionCommand, options);
+        async v1MobileAppUsersDelete(mobileAppUserDeletionVM?: MobileAppUserDeletionVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersDelete(mobileAppUserDeletionVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3530,13 +3589,24 @@ export const MobileAppUsersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Reset Password
+         * @summary Reset Password (use email validation code to reset)
          * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand, options);
+        async v1MobileAppUsersPasswordPost(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersPasswordPost(mobileAppUserResetPasswordCommand, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Change Password (logged user who knows current password)
+         * @param {PasswordChangeVM} [passwordChangeVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppUsersPasswordPut(passwordChangeVM?: PasswordChangeVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersPasswordPut(passwordChangeVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3574,12 +3644,12 @@ export const MobileAppUsersApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @summary Delete Account
-         * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+         * @param {MobileAppUserDeletionVM} [mobileAppUserDeletionVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: any): AxiosPromise<ExecutionResult> {
-            return localVarFp.v1MobileAppUsersDelete(mobileAppUserDeletionCommand, options).then((request) => request(axios, basePath));
+        v1MobileAppUsersDelete(mobileAppUserDeletionVM?: MobileAppUserDeletionVM, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersDelete(mobileAppUserDeletionVM, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3604,13 +3674,23 @@ export const MobileAppUsersApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
-         * @summary Reset Password
+         * @summary Reset Password (use email validation code to reset)
          * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: any): AxiosPromise<ExecutionResult> {
-            return localVarFp.v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand, options).then((request) => request(axios, basePath));
+        v1MobileAppUsersPasswordPost(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersPasswordPost(mobileAppUserResetPasswordCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Change Password (logged user who knows current password)
+         * @param {PasswordChangeVM} [passwordChangeVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersPasswordPut(passwordChangeVM?: PasswordChangeVM, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersPasswordPut(passwordChangeVM, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3644,12 +3724,12 @@ export interface MobileAppUsersApiInterface {
     /**
      * 
      * @summary Delete Account
-     * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+     * @param {MobileAppUserDeletionVM} [mobileAppUserDeletionVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MobileAppUsersApiInterface
      */
-    v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+    v1MobileAppUsersDelete(mobileAppUserDeletionVM?: MobileAppUserDeletionVM, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
 
     /**
      * 
@@ -3674,13 +3754,23 @@ export interface MobileAppUsersApiInterface {
 
     /**
      * 
-     * @summary Reset Password
+     * @summary Reset Password (use email validation code to reset)
      * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MobileAppUsersApiInterface
      */
-    v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+    v1MobileAppUsersPasswordPost(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+    /**
+     * 
+     * @summary Change Password (logged user who knows current password)
+     * @param {PasswordChangeVM} [passwordChangeVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApiInterface
+     */
+    v1MobileAppUsersPasswordPut(passwordChangeVM?: PasswordChangeVM, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
 
     /**
      * 
@@ -3714,13 +3804,13 @@ export class MobileAppUsersApi extends BaseAPI implements MobileAppUsersApiInter
     /**
      * 
      * @summary Delete Account
-     * @param {MobileAppUserDeletionCommand} [mobileAppUserDeletionCommand] 
+     * @param {MobileAppUserDeletionVM} [mobileAppUserDeletionVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MobileAppUsersApi
      */
-    public v1MobileAppUsersDelete(mobileAppUserDeletionCommand?: MobileAppUserDeletionCommand, options?: AxiosRequestConfig) {
-        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersDelete(mobileAppUserDeletionCommand, options).then((request) => request(this.axios, this.basePath));
+    public v1MobileAppUsersDelete(mobileAppUserDeletionVM?: MobileAppUserDeletionVM, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersDelete(mobileAppUserDeletionVM, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3750,14 +3840,26 @@ export class MobileAppUsersApi extends BaseAPI implements MobileAppUsersApiInter
 
     /**
      * 
-     * @summary Reset Password
+     * @summary Reset Password (use email validation code to reset)
      * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MobileAppUsersApi
      */
-    public v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig) {
-        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersPasswordPut(mobileAppUserResetPasswordCommand, options).then((request) => request(this.axios, this.basePath));
+    public v1MobileAppUsersPasswordPost(mobileAppUserResetPasswordCommand?: MobileAppUserResetPasswordCommand, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersPasswordPost(mobileAppUserResetPasswordCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Change Password (logged user who knows current password)
+     * @param {PasswordChangeVM} [passwordChangeVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApi
+     */
+    public v1MobileAppUsersPasswordPut(passwordChangeVM?: PasswordChangeVM, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersPasswordPut(passwordChangeVM, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

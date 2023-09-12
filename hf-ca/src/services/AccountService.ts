@@ -2,6 +2,9 @@ import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
 import MobileAppUsersAPIs, {
     sendMobileAppUsersValidationCodeByEmail,
     createMobileAppUser,
+    sendValidationCodeForForgotPassword,
+    forgotPasswordValidationCodeValidation,
+    resetPasswordWhenForgot,
 } from "../network/api_client/MobileAppUsersAPIs";
 import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance } from "../network/AxiosClient";
@@ -9,6 +12,7 @@ import { handleError } from "../network/APIUtil";
 import { clearToken } from "../network/tokenUtil";
 import { globalDataForAPI } from "../network/commonUtil";
 import { restBiometricLoginDataByUserId } from "../helper/LocalAuthHelper";
+import { MobileAppUserResetPasswordCommand } from "../network/generated";
 
 async function verifyPassword(accountPassword: string) {
     if (!accountPassword) return "failed: password is empty";
@@ -60,6 +64,21 @@ async function sendEmailValidationCode(emailAddress) {
     return ret?.data?.isValidResponse;
 }
 
+async function forgotPasswordSendCode(emailAddress: string) {
+    const response = await sendValidationCodeForForgotPassword({ emailAddress });
+    return response;
+}
+
+async function forgotPasswordValidation(emailAddress: string, validationCode: string) {
+    const response = await forgotPasswordValidationCodeValidation(emailAddress, validationCode);
+    return response;
+}
+
+async function forgotAndResetPassword(params: MobileAppUserResetPasswordCommand) {
+    const response = await resetPasswordWhenForgot(params);
+    return response;
+}
+
 async function createMobileAccount(userID: string, validationCode: string, password: string) {
     const ret = await createMobileAppUser({ emailAddress: userID, validationCode, password });
     return ret?.data.result;
@@ -89,4 +108,7 @@ export default {
     authSignIn,
     signOut,
     clearAppData,
+    forgotPasswordSendCode,
+    forgotPasswordValidation,
+    forgotAndResetPassword,
 };
