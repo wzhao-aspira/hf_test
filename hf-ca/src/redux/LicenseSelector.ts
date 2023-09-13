@@ -1,21 +1,23 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
 import { formateDateForList, formateDateForDashboard } from "../services/LicenseService";
-import { License } from "../types/license";
 
 const selectLicenseState = (state: RootState) => state.license;
 
 export const selectLicenseForList = createSelector(selectLicenseState, (licenseState) => {
-    let groupedData = licenseState.data?.reduce((accumulator, item) => {
-        const type = item.uiTabId;
+    const licenseData = licenseState.data || [];
+    let groupedData = licenseData.reduce((accumulator, item) => {
+        const groupKey = item.uiTabId;
+        if (!accumulator.has(groupKey)) {
+            accumulator.set(groupKey, { title: item.uiTabName, data: [] });
+        }
         const { validFrom, validTo } = formateDateForList(item);
-        return new Map([...accumulator, [type, [...(accumulator.get(type) || []), { ...item, validFrom, validTo }]]]);
+        accumulator.get(groupKey).data.push({ ...item, validFrom, validTo });
+
+        return accumulator;
     }, new Map());
 
-    groupedData = Array.from(groupedData, ([, value]: [number, License[]]) => ({
-        title: value[0].uiTabName,
-        data: value,
-    }));
+    groupedData = Array.from(groupedData.values());
 
     return { ...licenseState, data: groupedData };
 });
