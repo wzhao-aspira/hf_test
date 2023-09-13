@@ -1,7 +1,7 @@
 import { realm, openRealm } from "./ConfigRealm";
 import { updateProfileSummaryToDB, getProfileSummaryFromDB, clearProfileSummaryFromDB } from "./ProfileSummary";
 import { getProfileDetailFromDB, updateProfileDetailToDB } from "./ProfileDetail";
-import { getLicenseList, saveLicenseList, removeLicenseList } from "./LicenseList";
+import { getLicenseListData, saveLicenseListData, removeLicenseListData } from "./License";
 import {
     getPreferencePointListFromDB,
     savePreferencePointListToDB,
@@ -16,9 +16,9 @@ export {
     clearProfileSummaryFromDB,
     getProfileDetailFromDB,
     updateProfileDetailToDB,
-    getLicenseList,
-    saveLicenseList,
-    removeLicenseList,
+    getLicenseListData,
+    saveLicenseListData,
+    removeLicenseListData,
     getPreferencePointListFromDB,
     savePreferencePointListToDB,
     removePreferencePointListFromDB,

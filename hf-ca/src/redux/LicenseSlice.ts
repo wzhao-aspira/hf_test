@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
-import { getLicenseData, getLicenseListDataFromDB } from "../services/LicenseService";
+import { isEmpty } from "lodash";
+import { getIsEmptyOnlineDataCachedInd, getLicenseData, getLicenseListDataFromDB } from "../services/LicenseService";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
@@ -14,6 +15,7 @@ interface LicenseState {
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
     updateTime: null | number;
     isAPISucceed: boolean;
+    isShowSkeletonWhenOffline: boolean;
 }
 
 export const getLicense = createAsyncThunk(
@@ -25,12 +27,14 @@ export const getLicense = createAsyncThunk(
         });
         // If the API returns an empty license data then we need to set an indicator here
         const isAPISucceed = results.success;
+        const isEmptyOnlineDataCached = await getIsEmptyOnlineDataCachedInd(searchParams);
         const licenseData = await handleError(getLicenseListDataFromDB(searchParams), {
             showError: false,
             networkErrorByDialog: false,
             dispatch,
         });
-        return { ...licenseData, isAPISucceed };
+        const isShowSkeletonWhenOffline = isEmpty(licenseData.data) && !isAPISucceed && !isEmptyOnlineDataCached;
+        return { ...licenseData, isAPISucceed, isShowSkeletonWhenOffline };
     },
     {
         condition: ({ isForce = false }, { getState }) => {
@@ -55,6 +59,7 @@ const initialState: LicenseState = {
     requestStatus: REQUEST_STATUS.idle,
     updateTime: null,
     isAPISucceed: true,
+    isShowSkeletonWhenOffline: false,
 };
 
 const licenseSlice = createSlice({
@@ -76,7 +81,7 @@ const licenseSlice = createSlice({
         });
         builder.addCase(getLicense.fulfilled, (state, action) => {
             const payload = action?.payload;
-            const { success, data, isAPISucceed } = payload;
+            const { success, data, isAPISucceed, isShowSkeletonWhenOffline } = payload;
             if (success) {
                 // Check if is empty data from the API, if not then need to show the skeleton
                 if (isAPISucceed) {
@@ -84,6 +89,7 @@ const licenseSlice = createSlice({
                     state.updateTime = dateNow;
                 }
                 state.isAPISucceed = isAPISucceed;
+                state.isShowSkeletonWhenOffline = isShowSkeletonWhenOffline;
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 state.data = data;
             } else {
