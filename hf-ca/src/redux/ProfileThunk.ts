@@ -282,10 +282,9 @@ const refreshProfileList =
         return response;
     };
 
-const initProfileDetails = (profileId) => async (dispatch) => {
+const initProfileDetails = (profileId) => async (dispatch, getState) => {
     let result;
-    const networkErrorByDialog = false;
-    const response = await handleError(getProfileDetailsById(profileId), { dispatch, networkErrorByDialog });
+    const response = await handleError(getProfileDetailsById(profileId), { dispatch, networkErrorByDialog: false });
     if (response.success) {
         result = response.data.data.result;
         if (!isEmpty(result)) {
@@ -296,13 +295,10 @@ const initProfileDetails = (profileId) => async (dispatch) => {
         if (dbResult.success) {
             result = dbResult.profile;
         }
-        if (!result) {
-            result.noCacheData = true;
+        if (isEmpty(result)) {
+            const filteredVal = getState()?.profile?.profileList?.find((ele) => ele?.profileId == profileId);
+            result = { ...filteredVal, noCacheData: true };
         }
-    }
-
-    if (isEmpty(result)) {
-        return;
     }
 
     const formattedProfile = formateProfile(result);
