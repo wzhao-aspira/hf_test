@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons/faLinkSlash";
 
 import { RefreshControl } from "react-native-gesture-handler";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { selectors } from "../../../redux/ProfileSlice";
 import { removeProfile } from "../../../services/ProfileService";
 
@@ -161,12 +161,15 @@ function ProfileDetailsScreen({ route }) {
         setLoading(true);
         await dispatch(ProfileThunk.initProfileDetails(profileId));
         setLoading(false);
-        setNoCacheData(!!profileDetails?.noCacheData);
     };
 
     useFocus(() => {
         getProfileDetails();
     });
+
+    useEffect(() => {
+        setNoCacheData(!!profileDetails?.noCacheData);
+    }, [profileDetails]);
 
     return (
         <Page style={styles.container}>
