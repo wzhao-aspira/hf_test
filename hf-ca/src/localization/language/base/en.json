@@ -312,7 +312,7 @@
     "forgotPassword": {
         "enterEmail": {
             "attentionContent": "Please type in your mobile account email address and we will send the verification code to you to proceed reset password.",
-            "emailAddress": "Email Address",
+            "emailAddress": "User Email Address",
             "send": "Send"
         },
         "enterValidationCode": {
