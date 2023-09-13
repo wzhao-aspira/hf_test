@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import Realm from "realm";
 
-export default class LicenseList extends Realm.Object<LicenseList> {
+export default class License extends Realm.Object<License> {
     pk: string;
 
     profileId!: string;
@@ -21,7 +21,7 @@ export default class LicenseList extends Realm.Object<LicenseList> {
     mobileAppNeedPhysicalDocument: boolean;
 
     static schema = {
-        name: "LicenseList",
+        name: "License",
         primaryKey: "pk",
         properties: {
             pk: "string",

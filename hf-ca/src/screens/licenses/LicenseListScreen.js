@@ -39,8 +39,8 @@ function LicenseListScreen() {
     const insets = useSafeAreaInsets();
     const reduxData = useSelector(selectLicenseForList);
     const refreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
-    const isEmptyLicenseCacheData = isEmpty(reduxData.data) && !reduxData.isAPISucceed;
-    const data = refreshing || isEmptyLicenseCacheData ? getLoadingData() : reduxData.data;
+    const { isShowSkeletonWhenOffline } = reduxData;
+    const data = refreshing || isShowSkeletonWhenOffline ? getLoadingData() : reduxData.data;
     const { t } = useTranslation();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
@@ -79,9 +79,9 @@ function LicenseListScreen() {
                 }
             >
                 <View style={{ flex: 1 }}>
-                    {!refreshing && !isEmptyLicenseCacheData && isEmpty(data) && <LicenseListEmpty />}
+                    {!refreshing && !isShowSkeletonWhenOffline && isEmpty(data) && <LicenseListEmpty />}
                     {data?.map((item) => {
-                        if (refreshing || isEmptyLicenseCacheData) {
+                        if (refreshing || isShowSkeletonWhenOffline) {
                             return <LicenseCardLoading key={item.id} />;
                         }
                         return (
