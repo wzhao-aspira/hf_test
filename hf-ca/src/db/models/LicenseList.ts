@@ -14,9 +14,11 @@ export default class LicenseList extends Realm.Object<LicenseList> {
 
     validTo?: string;
 
-    mobileAppNeedPhysicalDocument: boolean;
+    uiTabId: number;
 
     uiTabName: string;
+
+    mobileAppNeedPhysicalDocument: boolean;
 
     static schema = {
         name: "LicenseList",
@@ -28,8 +30,9 @@ export default class LicenseList extends Realm.Object<LicenseList> {
             name: "string",
             validFrom: "string?",
             validTo: "string?",
-            mobileAppNeedPhysicalDocument: "bool",
+            uiTabId: "int",
             uiTabName: "string",
+            mobileAppNeedPhysicalDocument: "bool",
         },
     };
 }
