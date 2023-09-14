@@ -4,16 +4,17 @@ import { getBaseURL, getActiveUserID, getAppStaticInfo } from "../helper/AppHelp
 import { needRefreshToken } from "./tokenUtil";
 import { globalDataForAPI, url } from "./commonUtil";
 import { refreshToken } from "./identityAPI";
+import { whiteList, StorageCache, axiosCache } from "./cache";
 
-export const instance = axios.create({
-    timeout: 60000,
-    headers: {
-        "Cache-Control": "no-cache",
-        Pragma: "no-cache",
-        Expires: "0",
-        AppStaticInfo: getAppStaticInfo(),
-    },
-});
+export const instance = axiosCache(
+    axios.create({
+        timeout: 60 * 1000, // 60 seconds
+        headers: {
+            AppStaticInfo: getAppStaticInfo(),
+        },
+    }),
+    { cacheClass: StorageCache, urlWhiteList: whiteList }
+);
 
 async function request(endpoint, options = { method: "get" }) {
     instance.defaults.baseURL = getBaseURL();

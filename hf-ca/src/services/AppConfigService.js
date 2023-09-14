@@ -2,10 +2,10 @@
 import { isEqual } from "lodash";
 import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
-import appConfig from "./mock_data/app_config.json";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { isJpgFormat } from "../utils/GenUtil";
+import { getAppConfigs } from "../network/api_client/StaticDataApi";
 
 export async function initAppConfig() {
     const jsonData = await getAppJsonConfig();
@@ -13,7 +13,7 @@ export async function initAppConfig() {
     // merge(AppContract.strings, jsonData?.strings);
 
     const keyLoginSplash = await retrieveItem(KEY_CONSTANT.keyLoginSplash);
-    const remoteLoginSplash = jsonData?.login_splash;
+    const remoteLoginSplash = jsonData?.mobileAppLandingPagePicture;
     if (remoteLoginSplash && !isEqual(keyLoginSplash, remoteLoginSplash)) {
         const { status, mimeType, headers } = await FileSystem.downloadAsync(
             remoteLoginSplash,
@@ -36,16 +36,13 @@ export async function initAppConfig() {
 }
 
 export async function getAppJsonConfig() {
-    const config = { success: true };
-    return new Promise((resolve) => {
-        setTimeout(async () => {
-            if (config?.success) {
-                await storeItem(KEY_CONSTANT.keyAppConfig, appConfig);
-                resolve(appConfig);
-            } else {
-                const storeConfig = await retrieveItem(KEY_CONSTANT.keyAppConfig);
-                resolve(storeConfig);
-            }
-        }, 200);
-    });
+    try {
+        const result = await getAppConfigs();
+        const data = result?.data;
+        await storeItem(KEY_CONSTANT.keyAppConfig, data);
+        return data;
+    } catch (error) {
+        const storeConfig = await retrieveItem(KEY_CONSTANT.keyAppConfig);
+        return storeConfig;
+    }
 }
