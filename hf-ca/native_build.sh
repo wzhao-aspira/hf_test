@@ -91,11 +91,11 @@ buildAndroid() {
     cd  ${WORKSPACE}/hf-ca/android
     if [ $ANDROID_BUILD_TYPE = apk ]; then
         echo "build apk start"
-        ./gradlew "assembleRelease" 
+        ./gradlew clean assembleRelease 
         mv ${WORKSPACE}/hf-ca/android/app/build/outputs/apk/release/*.apk $WORKSPACE/hf-ca/build/artifacts/$BUILD_FILE_NAME.$ANDROID_BUILD_TYPE
     else
         echo "build aab start"
-        ./gradlew ":app:bundleRelease" 
+        ./gradlew clean :app:bundleRelease 
         mv ${WORKSPACE}/hf-ca/android/app/build/outputs/bundle/release/*.aab $WORKSPACE/hf-ca/build/artifacts/$BUILD_FILE_NAME.$ANDROID_BUILD_TYPE
     fi
 }
