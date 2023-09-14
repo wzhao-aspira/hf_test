@@ -54,7 +54,7 @@
         "account": "Account",
         "attention": "Attention",
         "purchase": "Purchase Privilege",
-        "agentLocations": "Sales Agents",
+        "agentLocations": "Find License Agent",
         "accessPermits": "My Access Permits",
         "contactUs": "Contact Us",
         "followUs": "Follow Us",
@@ -356,7 +356,7 @@
         "Download": "Download"
     },
     "salesAgents": {
-        "salesAgents": "Sales Agents",
+        "salesAgents": "Find License Agent",
         "searchForAgents": "Search For Agents",
         "openInMaps": "Open in Maps",
         "recentSearch": "Recent Search",
