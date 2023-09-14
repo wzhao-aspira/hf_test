@@ -188,7 +188,11 @@ const getProfileListChangeStatus =
         const previousPrimaryProfileID = profileSelector.selectPrimaryProfileID(rootState);
         const currentInUseProfileID = profileSelector.selectCurrentInUseProfileID(rootState);
 
-        const profileResponse = await handleError(getProfileList(), { dispatch, showLoading: showGlobalLoading });
+        const profileResponse = await handleError(getProfileList(), {
+            dispatch,
+            showLoading: showGlobalLoading,
+            networkErrorByDialog: false,
+        });
         if (!profileResponse.success) {
             return profileResponse;
         }
