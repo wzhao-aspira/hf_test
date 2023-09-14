@@ -9,7 +9,7 @@ import type {
 } from "../generated";
 
 export async function sendMobileAppUsersValidationCodeByEmail(mobileAppUserSendValidationCommand) {
-    const api = new MobileAppUsersApi(getAPIConfig(), null, instance);
+    const api = new MobileAppUsersApi(getAPIConfig(false), null, instance);
     return api.v1MobileAppUsersValidationCodePost(mobileAppUserSendValidationCommand);
 }
 
@@ -29,7 +29,7 @@ export async function resetPasswordWhenForgot(params: MobileAppUserResetPassword
 }
 
 export async function createMobileAppUser(mobileAppUserSendValidationCommand) {
-    const api = new MobileAppUsersApi(getAPIConfig(), null, instance);
+    const api = new MobileAppUsersApi(getAPIConfig(false), null, instance);
     return api.v1MobileAppUsersPost(mobileAppUserSendValidationCommand);
 }
 
