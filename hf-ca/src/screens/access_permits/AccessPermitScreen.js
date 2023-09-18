@@ -156,6 +156,7 @@ export default function AccessPermitScreen(props) {
                                                 barcode: customer.goId,
                                                 name: customer.name,
                                                 address: customer.address,
+                                                fileInfoList: item.fileInfoList,
                                             },
                                         });
                                     }}

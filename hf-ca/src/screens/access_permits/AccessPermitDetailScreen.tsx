@@ -82,7 +82,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
 
-    const { title, barcode, huntDate, huntName, reservationNumber, name, address } = document;
+    const { title, barcode, huntDate, huntName, reservationNumber, name, address, fileInfoList } = document;
 
     const accessPermitDocumentBasicInformation = [
         { label: t("accessPermits.HuntDate"), content: huntDate },
@@ -90,15 +90,6 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
         { label: t("accessPermits.Reservation#"), content: reservationNumber },
         { label: t("accessPermits.Name"), content: name },
         { label: t("accessPermits.Address"), content: address },
-    ];
-
-    // TODO: remove it if the real data is ready
-    const filesMockData = [
-        {
-            name: "File 1",
-            description: "Your reservation drawing entries are lisred, Please check your reservation details.",
-        },
-        { name: "File 2", description: "Find releated hunt information." },
     ];
 
     return (
@@ -161,8 +152,13 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                     </View>
                 </View>
 
-                {filesMockData.map((fileMockData) => {
-                    const { description, name: fileName } = fileMockData;
+                {fileInfoList?.map((fileInfo) => {
+                    const { description, title: fileName, isShow, downloadId } = fileInfo;
+                    // TODO: downloadId use for download api
+                    console.log(downloadId);
+                    if (!isShow) {
+                        return null;
+                    }
 
                     return (
                         <View key={fileName} style={[styles.sectionContainer]}>
