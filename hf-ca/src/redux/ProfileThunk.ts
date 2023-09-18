@@ -268,13 +268,14 @@ const refreshProfileList =
         const { profileListRequestStatus } = rootState.profile;
 
         if (profileListRequestStatus == REQUEST_STATUS.pending) {
-            return {};
+            return { isReloadData: false };
         }
         // kill app and reopen, the getProfileListUpdateTime is null and checkNeedAutoRefreshData(getProfileListUpdateTime()) is true
         console.log("checkNeedAutoRefreshData", checkNeedAutoRefreshData(getProfileListUpdateTime()));
         if (!isForce && checkNeedAutoRefreshData(getProfileListUpdateTime()) == false) {
-            return {};
+            return { isReloadData: false };
         }
+
         dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.pending));
         const response = await dispatch(
             getProfileListChangeStatus({ showGlobalLoading, showCIUChangedMsg, updateProfileWithNewData: true })
@@ -285,7 +286,7 @@ const refreshProfileList =
             dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
         }
 
-        return response;
+        return { ...response, isReloadData: true };
     };
 
 const initProfileDetails = (profileId) => async (dispatch, getState) => {
