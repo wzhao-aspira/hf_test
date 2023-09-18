@@ -6,7 +6,7 @@ export async function getPreferencePointListFromDB(activeProfileId: string) {
     return realm.objects(PreferencePoint).filtered("profileId = $0", activeProfileId);
 }
 
-export async function savePreferencePointListToDB(preferencePointList: Array<PreferencePoint>) {
+export async function savePreferencePointListToDB(preferencePointList: Array<Partial<PreferencePoint>>) {
     console.log("Save preference point list item");
     preferencePointList.forEach((ele) => {
         realm.write(() => {
