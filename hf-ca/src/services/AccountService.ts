@@ -5,6 +5,7 @@ import MobileAppUsersAPIs, {
     sendValidationCodeForForgotPassword,
     forgotPasswordValidationCodeValidation,
     resetPasswordWhenForgot,
+    changeUserPassword,
 } from "../network/api_client/MobileAppUsersAPIs";
 import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance } from "../network/AxiosClient";
@@ -12,7 +13,7 @@ import { handleError } from "../network/APIUtil";
 import { clearToken } from "../network/tokenUtil";
 import { globalDataForAPI } from "../network/commonUtil";
 import { restBiometricLoginDataByUserId } from "../helper/LocalAuthHelper";
-import { MobileAppUserResetPasswordCommand } from "../network/generated";
+import { MobileAppUserResetPasswordCommand, PasswordChangeVM } from "../network/generated";
 
 async function verifyPassword(accountPassword: string) {
     if (!accountPassword) return "failed: password is empty";
@@ -79,16 +80,18 @@ async function forgotAndResetPassword(params: MobileAppUserResetPasswordCommand)
     return response;
 }
 
+async function changePassword(params: PasswordChangeVM) {
+    const response = await changeUserPassword(params);
+    return response;
+}
+
 async function createMobileAccount(userID: string, validationCode: string, password: string) {
     const ret = await createMobileAppUser({ emailAddress: userID, validationCode, password });
     return ret?.data.result;
 }
 
 async function signOut() {
-    const response = await Promise.all([
-        tokenRevocation(instance, globalDataForAPI.jwtToken.refresh_token),
-        tokenRevocation(instance, globalDataForAPI.jwtToken.access_token),
-    ]);
+    const response = await tokenRevocation(instance, globalDataForAPI.jwtToken.refresh_token);
     return response;
 }
 
@@ -111,4 +114,5 @@ export default {
     forgotPasswordSendCode,
     forgotPasswordValidation,
     forgotAndResetPassword,
+    changePassword,
 };

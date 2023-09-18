@@ -142,6 +142,7 @@ export default function DrawerContent({ navigation }) {
 
     const onSignOut = async () => {
         const response = await handleError(AccountService.signOut(), { dispatch, showLoading: true });
+        console.log("onSignOut response:", response);
         if (response.success) {
             await AccountService.clearAppData(dispatch);
             dispatch(updateLoginStep(LoginStep.login));

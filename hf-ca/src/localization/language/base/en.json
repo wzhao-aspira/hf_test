@@ -255,7 +255,8 @@
         "deleteAccount": "Delete Account",
         "changePassword": "Change Password",
         "currentPassword": "Current Password",
-        "helpAndSupport": "Help & Support"
+        "helpAndSupport": "Help & Support",
+        "passwordSetSuccessfully": "Password set successfully"
     },
     "auth": {
         "biometricID": "Biometric ID",
