@@ -2,6 +2,7 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { License } from "../types/license";
 import ValueOf from "../types/valueOf";
+import { FileInfo } from "../types/accessPermit";
 
 const Routers = {
     accessPermitDetail: "accessPermitDetail",
@@ -58,6 +59,7 @@ export type RouteParams = {
             reservationNumber: string;
             name: string;
             address: string;
+            fileInfoList: FileInfo[];
         };
     };
     webViewScreen: {

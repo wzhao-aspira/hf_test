@@ -1,8 +1,7 @@
-import accessPermitData from "./mock_data/access_permit.json";
-import { AccessPermitItem, AccessPermit } from "../types/accessPermit";
+import { AccessPermitItem, AccessPermit, HuntDay, FileInfo } from "../types/accessPermit";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
-import { HuntDay } from "../types/accessPermit";
+import { getActivePermitsByCustomerId } from "../network/api_client/DrawResultsApi";
 
 const formateHuntDay = (huntDay, outputFormat) => {
     return huntDay && DateUtils.dateToFormat(huntDay, outputFormat, AppContract.inputFormat.fmt_2);
@@ -14,8 +13,35 @@ const convertAccessPermitItem = (activePermit): AccessPermitItem => {
     const name = `${applicationYear} ${masterHuntTypeName}`;
     const activePermitHuntDays = huntDays
         .map((item) => {
-            const { huntCode, huntName, huntDay, drawnSequence } = item;
+            const {
+                huntCode,
+                huntName,
+                huntDay,
+                drawnSequence,
+                notificationTitle,
+                notificationDescription,
+                drawTicketLicenseId,
+                notificationAvailable,
+                fileTitle,
+                fileId,
+            } = item;
             const huntId = huntDay + huntCode;
+
+            const f1Info: FileInfo = {
+                type: "File1",
+                title: notificationTitle,
+                description: notificationDescription,
+                downloadId: drawTicketLicenseId,
+                isShow: notificationAvailable,
+            };
+            const f2Info: FileInfo = {
+                type: "File2",
+                title: fileTitle,
+                downloadId: fileId,
+                isShow: !!fileId,
+            };
+
+            const fileInfoList = [f1Info, f2Info];
 
             return {
                 id: huntId,
@@ -25,6 +51,7 @@ const convertAccessPermitItem = (activePermit): AccessPermitItem => {
                 huntDay: formateHuntDay(huntDay, AppContract.outputFormat.fmt_1),
                 huntDayForDetail: formateHuntDay(huntDay, AppContract.outputFormat.fmt_2),
                 drawnSequence,
+                fileInfoList,
             };
         })
         .sort((a, b) => b.huntDayForSort.localeCompare(a.huntDayForSort) && a.huntName.localeCompare(b.huntName));
@@ -57,18 +84,18 @@ export const sortHuntDays = (huntDays: HuntDay[], ascendingOrder: boolean) => {
 };
 
 export async function getAccessPermitData(searchParams: { activeProfileId: string }): Promise<AccessPermit> {
-    // const { activeProfileId } = searchParams;
-    return new Promise((res) => {
-        const { instructions, activePermitList, customerInfo } = accessPermitData.result;
-        const accessPermits = activePermitList
-            .map((item) => {
-                return convertAccessPermitItem(item);
-            })
-            .sort((a, b) => b.name.localeCompare(a.name));
-        const customer = convertCustomerInfo(customerInfo);
-        const data = { attention: instructions, accessPermits, customer };
-        setTimeout(() => res(data), 3000);
-    });
+    const { activeProfileId } = searchParams;
+    const getActivePermitsResult = await getActivePermitsByCustomerId(activeProfileId);
+    const { result } = getActivePermitsResult.data;
+    const { instructions, activePermitList, customerInfo } = result;
+    const accessPermits = activePermitList
+        .map((item) => {
+            return convertAccessPermitItem(item);
+        })
+        .sort((a, b) => b.name.localeCompare(a.name));
+    const customer = convertCustomerInfo(customerInfo);
+    const data = { attention: instructions, accessPermits, customer };
+    return data;
 }
 
 export function getLoadingData() {

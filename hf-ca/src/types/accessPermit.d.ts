@@ -1,11 +1,22 @@
+// export type FileType = "File1" | "File2";
+
+export interface FileInfo {
+    type: "File1" | "File2";
+    title: string;
+    description?: string;
+    downloadId: string;
+    isShow: boolean;
+}
+
 export interface HuntDay {
-    id: String;
+    id: string;
     huntCode: string;
     huntName: string;
     huntDay: string;
     huntDayForDetail: string;
     huntDayForSort: string;
     drawnSequence: number;
+    fileInfoList: FileInfo[];
 }
 
 export interface AccessPermitItem {
