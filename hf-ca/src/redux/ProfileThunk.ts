@@ -28,6 +28,7 @@ import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
 import { Profile } from "../types/profile";
 import { actions as licenseActions } from "./LicenseSlice";
+import { actions as preferencePointActions } from "./PreferencePointSlice";
 
 const formateProfile = (profile) => {
     const { customerId, name, customerTypeId, goidNumber, goid, ...otherProps } = profile;
@@ -152,6 +153,7 @@ const switchCurrentInUseProfile =
             dispatch(profileActions.updateCurrentInUseProfileID(profileID));
             // clear license refresh time, after this when the home page and license list shown, it will trigger auto refresh
             dispatch(licenseActions.clearUpdateTime());
+            dispatch(preferencePointActions.clearUpdateTime());
         } catch (error) {
             console.log("switch profile error:", error);
         }

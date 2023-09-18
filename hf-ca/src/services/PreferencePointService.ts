@@ -1,6 +1,45 @@
+import { isEmpty } from "lodash";
+import { KEY_CONSTANT } from "../constants/Constants";
+import { savePreferencePointListToDB } from "../db";
+import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { getPreferencePoints } from "../network/api_client/PreferencePointsApi";
 
 // eslint-disable-next-line import/prefer-default-export
 export async function getPreferencePointsByProfileId(profileId: string) {
-    return getPreferencePoints(profileId);
+    const response = await getPreferencePoints(profileId);
+
+    const { result, errors } = response.data;
+    const preferencePointList = result;
+    const formattedResult = preferencePointList.map((item) => {
+        const { huntTypeName, currentPreferencePoints, lastParticipationLicenseYear } = item;
+
+        return {
+            pk: `${profileId}_${huntTypeName}_${currentPreferencePoints}_${lastParticipationLicenseYear}`,
+            profileId,
+            huntTypeName,
+            currentPreferencePoints,
+            lastParticipationLicenseYear,
+        };
+    });
+
+    if (!isEmpty(formattedResult)) {
+        await savePreferencePointListToDB(formattedResult);
+        await storeItem(`${KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached}_${profileId}`, false);
+    } else {
+        await storeItem(`${KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached}_${profileId}`, true);
+    }
+
+    return { formattedResult, errors };
+}
+
+export async function getIsEmptyOnlineDataCachedInd(profileId: string) {
+    const isEmptyOnlineDataCachedInd = await retrieveItem(
+        `${KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached}_${profileId}`
+    );
+
+    if (isEmptyOnlineDataCachedInd == null) {
+        return false;
+    }
+
+    return isEmptyOnlineDataCachedInd;
 }

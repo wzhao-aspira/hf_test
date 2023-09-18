@@ -19,6 +19,7 @@ export const KEY_CONSTANT = {
     keyPasswordChanged: "keyPasswordChanged",
     keyWeatherData: "keyWeatherData",
     keyIsEmptyOnlineDataCached: "keyIsEmptyOnlineDataCached",
+    keyIsEmptyPreferencePointOnlineDataCached: "keyIsEmptyPreferencePointOnlineDataCached",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = {
