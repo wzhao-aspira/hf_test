@@ -1,5 +1,20 @@
-export const url = "/Prod/identity/v1/connect/token";
-export const signOutURL = "/prod/identity/v1/connect/revocation";
+import { isUATEnv, isProdEnv } from "../helper/AppHelper";
+
+let path = "/prod";
+
+if (isUATEnv()) {
+    console.log("isUATEnv");
+
+    path = "/uat_test";
+} else if (isProdEnv()) {
+    // todo change prod path
+    console.warn("please check whether the deployPath is changed for prod.");
+}
+
+export const deployPath = path;
+
+export const url = `${deployPath}/identity/v1/connect/token`;
+export const signOutURL = `${deployPath}/identity/v1/connect/revocation`;
 export const clientId = "aspira.ca.api";
 export const clientSecret = "6C89A8AF-6CDE-4500-B1C9-C59D876FF3AF";
 
