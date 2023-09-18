@@ -6,6 +6,7 @@ import type {
     ForgotPasswordSendValidationCommand,
     MobileAppUserDeletionVM,
     MobileAppUserResetPasswordCommand,
+    PasswordChangeVM,
 } from "../generated";
 
 export async function sendMobileAppUsersValidationCodeByEmail(mobileAppUserSendValidationCommand) {
@@ -26,6 +27,11 @@ export async function forgotPasswordValidationCodeValidation(emailAddress?: stri
 export async function resetPasswordWhenForgot(params: MobileAppUserResetPasswordCommand) {
     const api = new MobileAppUsersApi(getAPIConfig(), null, instance);
     return api.v1MobileAppUsersPasswordPost(params);
+}
+
+export async function changeUserPassword(params: PasswordChangeVM) {
+    const api = new MobileAppUsersApi(getAPIConfig(), null, instance);
+    return api.v1MobileAppUsersPasswordPut(params);
 }
 
 export async function createMobileAppUser(mobileAppUserSendValidationCommand) {

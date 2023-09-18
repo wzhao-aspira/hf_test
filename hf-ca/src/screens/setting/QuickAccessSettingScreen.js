@@ -12,12 +12,10 @@ import {
     startBiometricAuth,
     setLastBiometricLoginUser,
     saveOnboardingPageAppear,
-    getPasswordChangeInd,
 } from "../../helper/LocalAuthHelper";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId, getActiveUserID } from "../../helper/AppHelper";
-import DialogHelper from "../../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     page: {
@@ -79,26 +77,17 @@ export default function QuickAccessMethodsScreen() {
                     onPress={async () => {
                         if (accessType === 1) return;
                         const userID = await getActiveUserID();
-                        const isPasswordChanged = await getPasswordChangeInd(userID);
-                        if (isPasswordChanged != null && isPasswordChanged && accessType === 0) {
-                            DialogHelper.showSimpleDialog({
-                                title: "common.reminder",
-                                message: "auth.passwordChangeCanNotChangeBiometric",
-                                okText: "common.gotIt",
-                            });
-                        } else {
-                            startBiometricAuth(
-                                userID,
-                                () => {
-                                    saveOnboardingPageAppear(userID);
-                                    setLastBiometricLoginUser(userID);
-                                    setAccessType(1);
-                                },
-                                () => {
-                                    console.log("error");
-                                }
-                            );
-                        }
+                        startBiometricAuth(
+                            userID,
+                            () => {
+                                saveOnboardingPageAppear(userID);
+                                setLastBiometricLoginUser(userID);
+                                setAccessType(1);
+                            },
+                            () => {
+                                console.log("error");
+                            }
+                        );
                     }}
                     checked={accessType === 1}
                     enable={biometricSupported}
