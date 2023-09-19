@@ -165,14 +165,17 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                             <Text style={[styles.sectionTitle]} testID={genTestId(`permitDetailsFileName${fileName}`)}>
                                 {fileName}
                             </Text>
-                            <View style={styles.licenseInfo}>
-                                <Text
-                                    testID={genTestId(`permitDetailsFileName${fileName}Description`)}
-                                    style={{ marginTop: -10, marginBottom: 13 }}
-                                >
-                                    {description}
-                                </Text>
-                            </View>
+                            {description && (
+                                <View style={styles.licenseInfo}>
+                                    <Text
+                                        testID={genTestId(`permitDetailsFileName${fileName}Description`)}
+                                        style={{ marginTop: -10, marginBottom: 13 }}
+                                    >
+                                        {description}
+                                    </Text>
+                                </View>
+                            )}
+
                             <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
                                 <PrimaryBtn
                                     testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
