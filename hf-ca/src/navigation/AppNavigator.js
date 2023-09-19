@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View } from "react-native";
 import { selectLoginStep } from "../redux/AppSlice";
 import { DRAWER_WIDTH } from "../constants/Dimension";
 import LoginStep from "../constants/LoginStep";
@@ -46,6 +47,7 @@ import WebViewScreen from "../screens/web_view/WebViewScreen";
 import AddIndividualProfileInfoScreen from "../screens/profile/add_profile/AddIndividualProfileInfoScreen";
 import AddIndividualProfileInfoDetailsScreen from "../screens/profile/add_profile/AddIndividualProfileInfoDetailsScreen";
 import AddBusinessVesselProfileInfoScreen from "../screens/profile/add_profile/AddBusinessVesselProfileInfoScreen";
+import NetInfoBar from "../components/NetInfoBar";
 
 const NavTheme = {
     colors: {
@@ -85,39 +87,44 @@ function AppNavigator() {
     console.log(`loginStep:${loginStep}`);
 
     return (
-        <NavigationContainer
-            ref={navigationRef}
-            theme={NavTheme}
-            onStateChange={(state) => {
-                getActiveRouteName(state);
-            }}
-        >
-            <RootStack.Navigator mode="modal" headerMode="none" screenOptions={screenOpt}>
-                <RootStack.Group>
-                    {loginStep === LoginStep.login && <RootStack.Screen name={Routers.login} component={LoginScreen} />}
-                    {loginStep === LoginStep.onBoarding && (
-                        <RootStack.Screen name={Routers.onBoarding} component={OnBoardingScreen} />
-                    )}
-                    {loginStep === LoginStep.signUp && (
-                        <RootStack.Screen name={Routers.signUpNav} component={SignUpNav} />
-                    )}
-                    {loginStep === LoginStep.signIn && (
-                        <RootStack.Screen name={Routers.signInNav} component={SignInNav} />
-                    )}
-                    {loginStep === LoginStep.home && (
-                        <RootStack.Screen name={Routers.drawerNav} component={DrawerNav} />
-                    )}
-                </RootStack.Group>
-                <RootStack.Group
-                    screenOptions={{
-                        presentation: "transparentModal",
-                        animation: "none",
-                    }}
-                >
-                    <RootStack.Screen name={Routers.modal} component={ModalScreen} />
-                </RootStack.Group>
-            </RootStack.Navigator>
-        </NavigationContainer>
+        <View style={{ flex: 1 }}>
+            <NavigationContainer
+                ref={navigationRef}
+                theme={NavTheme}
+                onStateChange={(state) => {
+                    getActiveRouteName(state);
+                }}
+            >
+                <RootStack.Navigator mode="modal" headerMode="none" screenOptions={screenOpt}>
+                    <RootStack.Group>
+                        {loginStep === LoginStep.login && (
+                            <RootStack.Screen name={Routers.login} component={LoginScreen} />
+                        )}
+                        {loginStep === LoginStep.onBoarding && (
+                            <RootStack.Screen name={Routers.onBoarding} component={OnBoardingScreen} />
+                        )}
+                        {loginStep === LoginStep.signUp && (
+                            <RootStack.Screen name={Routers.signUpNav} component={SignUpNav} />
+                        )}
+                        {loginStep === LoginStep.signIn && (
+                            <RootStack.Screen name={Routers.signInNav} component={SignInNav} />
+                        )}
+                        {loginStep === LoginStep.home && (
+                            <RootStack.Screen name={Routers.drawerNav} component={DrawerNav} />
+                        )}
+                    </RootStack.Group>
+                    <RootStack.Group
+                        screenOptions={{
+                            presentation: "transparentModal",
+                            animation: "none",
+                        }}
+                    >
+                        <RootStack.Screen name={Routers.modal} component={ModalScreen} />
+                    </RootStack.Group>
+                </RootStack.Navigator>
+            </NavigationContainer>
+            <NetInfoBar />
+        </View>
     );
 }
 
