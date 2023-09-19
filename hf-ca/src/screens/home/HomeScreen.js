@@ -65,14 +65,25 @@ export default function HomeScreen() {
     useFocus(() => {
         console.log("home focus");
         dispatch(getWeatherDataFromRedux({}));
-        dispatch(ProfileThunk.refreshProfileList());
-        getLicenseOfActiveProfile(false);
+        dispatch(ProfileThunk.refreshProfileList()).then((response) => {
+            if (
+                response.isReloadData &&
+                (!response.success || response.primaryIsInactivated || response.ciuIsInactivated)
+            ) {
+                return;
+            }
+            getLicenseOfActiveProfile(false);
+        });
     });
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
-        dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
-        getLicenseOfActiveProfile(true);
+        dispatch(ProfileThunk.refreshProfileList({ isForce: true })).then((response) => {
+            if (!response.success || response.primaryIsInactivated || response.ciuIsInactivated) {
+                return;
+            }
+            getLicenseOfActiveProfile(true);
+        });
     };
 
     const renderItem = (index) => {
