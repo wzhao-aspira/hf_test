@@ -256,7 +256,8 @@
         "changePassword": "Change Password",
         "currentPassword": "Current Password",
         "helpAndSupport": "Help & Support",
-        "passwordSetSuccessfully": "Password set successfully"
+        "passwordSetSuccessfully": "Password set successfully",
+        "changePasswordAttention": "Once you have changed your password, we kindly ask you to log in to the app again for security purposes."
     },
     "auth": {
         "biometricID": "Biometric ID",
