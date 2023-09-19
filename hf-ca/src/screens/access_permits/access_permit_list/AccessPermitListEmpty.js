@@ -1,8 +1,8 @@
-import { StyleSheet, View, Text, Pressable } from "react-native";
-import { Trans, useTranslation } from "react-i18next";
+import { StyleSheet, View, Text } from "react-native";
+import { useTranslation } from "react-i18next";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
-import { genTestId, showNotImplementedFeature } from "../../../helper/AppHelper";
+import { genTestId } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     emptyContainer: {
@@ -19,19 +19,6 @@ export const styles = StyleSheet.create({
         color: AppTheme.colors.font_color_1,
         textAlign: "center",
     },
-    emptyButton: {
-        marginTop: 22,
-        backgroundColor: AppTheme.colors.primary_2,
-        width: "100%",
-        height: 52,
-        borderRadius: 5,
-        justifyContent: "center",
-    },
-    emptyButtonTitle: {
-        ...AppTheme.typography.card_title,
-        color: AppTheme.colors.font_color_4,
-        textAlign: "center",
-    },
 });
 
 function AccessPermitListEmpty() {
@@ -44,17 +31,6 @@ function AccessPermitListEmpty() {
                 <Text testID={genTestId("noAccessPermits")} style={styles.emptyTitle}>
                     {defaultTitle}
                 </Text>
-                <Pressable
-                    style={styles.emptyButton}
-                    testID={genTestId("purchaseAccessPermitButton")}
-                    onPress={() => {
-                        showNotImplementedFeature();
-                    }}
-                >
-                    <Text testID={genTestId("purchaseAccessPermit")} style={styles.emptyButtonTitle}>
-                        <Trans i18nKey="accessPermits.purchaseAccessPermit" />
-                    </Text>
-                </Pressable>
             </View>
         </View>
     );

@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
 
 function AccessPermitItem(props) {
     const { itemData, itemKey, onPress } = props;
-    const { huntCode, huntName, huntDay } = itemData;
+    const { huntCode, huntName, huntDay, drawnSequence } = itemData;
     const { t } = useTranslation();
     return (
         <View style={styles.mainContainer}>
@@ -70,13 +70,21 @@ function AccessPermitItem(props) {
                         </Text>
                     </View>
                     <View style={styles.itemText}>
-                        <Text testID={genTestId(huntDay)} numberOfLines={0} style={styles.title}>
+                        <Text testID={genTestId(`huntDay_${huntDay}`)} numberOfLines={0} style={styles.title}>
                             {huntDay}
                         </Text>
-                        <Text style={styles.subTitle} testID={genTestId(huntCode)}>
-                            {t("accessPermits.huntCode")}: {huntCode}
-                        </Text>
-                        <Text style={styles.subTitle} testID={genTestId(huntName)}>
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={styles.subTitle} testID={genTestId(`huntCode_${huntCode}`)}>
+                                {t("accessPermits.huntCode")}: {huntCode}
+                            </Text>
+                            <Text
+                                style={{ ...styles.subTitle, marginLeft: 8 }}
+                                testID={genTestId(`reservation_${drawnSequence}`)}
+                            >
+                                {t("accessPermits.Reservation#")}: {drawnSequence}
+                            </Text>
+                        </View>
+                        <Text style={styles.subTitle} testID={genTestId(`huntName_${huntName}`)}>
                             {t("accessPermits.huntName")}: {huntName}
                         </Text>
                     </View>
