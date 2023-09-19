@@ -19,6 +19,7 @@ import DialogHelper from "../../helper/DialogHelper";
 import { setPasswordChangeInd } from "../../helper/LocalAuthHelper";
 import { handleError } from "../../network/APIUtil";
 import { showToast } from "../../helper/AppHelper";
+import Attention from "../../components/Attention";
 
 function dialogReducer(state, action) {
     if (action.type === "incorrectPassword") {
@@ -218,7 +219,12 @@ export default function ForgotPasswordScreen({ route }) {
                 <CommonHeader title={commonHeader} />
                 <KeyboardAwareScrollView>
                     <View style={ForgotPasswordStyles.page_container}>
-                        {isChangePassword && currentPasswordSection()}
+                        {isChangePassword && (
+                            <>
+                                <Attention contentKey="setting.changePasswordAttention" />
+                                {currentPasswordSection()}
+                            </>
+                        )}
                         {renderResetPasswordSection()}
                         <PrimaryBtn
                             testID="ResetButton"

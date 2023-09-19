@@ -41,6 +41,7 @@ export async function refreshToken(instance, username) {
 }
 
 export async function tokenRevocation(instance, token) {
+    console.log("Revocation token:", token);
     const data = { client_secret: clientSecret, client_id: clientId, token };
     const result = await instance.request({
         method: "post",
