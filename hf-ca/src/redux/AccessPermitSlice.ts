@@ -11,9 +11,10 @@ import { saveAccessPermitDataToDB, getAccessPermitDataFromDB } from "../db";
 interface AccessPermitState {
     data: AccessPermit;
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
+    offline: boolean;
 }
 
-const initialState: AccessPermitState = { data: null, requestStatus: REQUEST_STATUS.idle };
+const initialState: AccessPermitState = { data: null, requestStatus: REQUEST_STATUS.idle, offline: false };
 
 export const getAccessPermit = createAsyncThunk(
     "accessPermit/getAccessPermit",
@@ -25,7 +26,7 @@ export const getAccessPermit = createAsyncThunk(
         });
         const { activeProfileId } = searchParams;
         if (dataFromAPI.success) {
-            result = dataFromAPI;
+            result = { ...dataFromAPI, offline: false };
             const apiData = dataFromAPI.data;
             if (!isEmpty(apiData)) {
                 const dataForOffline = { ...apiData, profileId: activeProfileId };
@@ -34,7 +35,7 @@ export const getAccessPermit = createAsyncThunk(
             console.log("get access permit data from api");
         } else {
             const data = await getAccessPermitDataFromDB(activeProfileId);
-            result = { success: true, data };
+            result = { success: true, data, offline: true };
             console.log("get access permit data from db");
         }
 
@@ -61,6 +62,7 @@ const accessPermitSlice = createSlice({
             } else {
                 state.requestStatus = REQUEST_STATUS.rejected;
             }
+            state.offline = result.offline;
         });
     },
 });
