@@ -1,5 +1,6 @@
-import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
+import { View, StyleSheet, RefreshControl, ScrollView } from "react-native";
 import { useEffect } from "react";
+import { isEmpty } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -25,6 +26,32 @@ const styles = StyleSheet.create({
     },
 });
 
+const showData = (data, refreshing, isOffline, loadingData, attention, customer) => {
+    if (refreshing || (isEmpty(data) && isOffline)) {
+        return loadingData.map((item) => <AccessPermitCardLoading key={item.id} />);
+    }
+
+    if (isEmpty(data)) {
+        return <AccessPermitListEmpty />;
+    }
+    return data?.map((item) => {
+        return (
+            <AccessPermitListItem
+                key={item.id}
+                onPress={() => {
+                    NavigationService.navigate(Routers.accessPermit, {
+                        accessPermitData: item,
+                        attention,
+                        customer,
+                    });
+                }}
+                itemData={item}
+                itemKey={item.id}
+            />
+        );
+    });
+};
+
 export default function AccessPermitListScreen() {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -32,7 +59,9 @@ export default function AccessPermitListScreen() {
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const AccessPermitReduxData = useSelector(selectAccessPermitState);
     const refreshing = AccessPermitReduxData.requestStatus === REQUEST_STATUS.pending;
-    const data = refreshing ? getLoadingData() : AccessPermitReduxData.data?.accessPermits;
+    const data = AccessPermitReduxData.data?.accessPermits;
+    const loadingData = getLoadingData();
+    const isOffline = AccessPermitReduxData.data?.profileId;
     const attention = AccessPermitReduxData.data?.attention;
     const customer = AccessPermitReduxData.data?.customer;
 
@@ -50,7 +79,7 @@ export default function AccessPermitListScreen() {
     return (
         <View style={styles.container}>
             <CommonHeader title={t("accessPermits.myAccessPermits")} />
-            <FlatList
+            <ScrollView
                 testID={genTestId("accessPermitList")}
                 contentContainerStyle={{
                     flexGrow: 1,
@@ -67,29 +96,11 @@ export default function AccessPermitListScreen() {
                         }}
                     />
                 }
-                data={data}
-                renderItem={({ item }) => {
-                    if (refreshing) {
-                        return <AccessPermitCardLoading />;
-                    }
-
-                    return (
-                        <AccessPermitListItem
-                            onPress={() => {
-                                NavigationService.navigate(Routers.accessPermit, {
-                                    accessPermitData: item,
-                                    attention,
-                                    customer,
-                                });
-                            }}
-                            itemData={item}
-                            itemKey={item.id}
-                        />
-                    );
-                }}
-                keyExtractor={(item) => `${item.id}`}
-                ListEmptyComponent={<AccessPermitListEmpty />}
-            />
+            >
+                <View style={{ flex: 1 }}>
+                    {showData(data, refreshing, isOffline, loadingData, attention, customer)}
+                </View>
+            </ScrollView>
         </View>
     );
 }

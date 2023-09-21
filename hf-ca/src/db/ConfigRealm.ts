@@ -5,6 +5,11 @@ import ProfileSummary from "./models/ProfileSummary";
 import ProfileDetail from "./models/ProfileDetail";
 import License from "./models/License";
 import PreferencePoint from "./models/PreferencePoint";
+import AccessPermit from "./models/AccessPermit";
+import AccessPermitItem from "./models/AccessPermitItem";
+import CustomerInfo from "./models/CustomerInfo";
+import HuntDay from "./models/HuntDay";
+import FileInfo from "./models/FileInfo";
 
 const schemaVersion = 1;
 
@@ -12,7 +17,17 @@ export let realm: Realm;
 
 export async function openRealm() {
     realm = await Realm.open({
-        schema: [ProfileSummary, ProfileDetail, License, PreferencePoint],
+        schema: [
+            ProfileSummary,
+            ProfileDetail,
+            License,
+            PreferencePoint,
+            FileInfo,
+            HuntDay,
+            CustomerInfo,
+            AccessPermitItem,
+            AccessPermit,
+        ],
         path: `${AppContract.contractName}.realm`,
         schemaVersion,
         deleteRealmIfMigrationNeeded: !!__DEV__,

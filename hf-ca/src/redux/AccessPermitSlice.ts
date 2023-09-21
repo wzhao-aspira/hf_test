@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { isEmpty } from "lodash";
 import { getAccessPermitData } from "../services/AccessPermitServices";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
 import { AccessPermit } from "../types/accessPermit";
+import { saveAccessPermitDataToDB, getAccessPermitDataFromDB } from "../db";
 
 interface AccessPermitState {
     data: AccessPermit;
@@ -16,8 +18,27 @@ const initialState: AccessPermitState = { data: null, requestStatus: REQUEST_STA
 export const getAccessPermit = createAsyncThunk(
     "accessPermit/getAccessPermit",
     async ({ searchParams }: { searchParams: { activeProfileId: string } }, { dispatch }) => {
-        const data = await handleError(getAccessPermitData(searchParams), { dispatch });
-        return data;
+        let result;
+        const dataFromAPI = await handleError(getAccessPermitData(searchParams), {
+            dispatch,
+            networkErrorByDialog: false,
+        });
+        const { activeProfileId } = searchParams;
+        if (dataFromAPI.success) {
+            result = dataFromAPI;
+            const apiData = dataFromAPI.data;
+            if (!isEmpty(apiData)) {
+                const dataForOffline = { ...apiData, profileId: activeProfileId };
+                await saveAccessPermitDataToDB(dataForOffline);
+            }
+            console.log("get access permit data from api");
+        } else {
+            const data = await getAccessPermitDataFromDB(activeProfileId);
+            result = { success: true, data };
+            console.log("get access permit data from db");
+        }
+
+        return result;
     }
 );
 

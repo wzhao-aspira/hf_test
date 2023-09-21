@@ -7,6 +7,7 @@ import {
     savePreferencePointListToDB,
     removePreferencePointListFromDB,
 } from "./PreferencePointList";
+import { saveAccessPermitDataToDB, getAccessPermitDataFromDB, removeAccessPermitFromDB } from "./AccessPermit";
 
 export {
     realm,
@@ -22,4 +23,7 @@ export {
     getPreferencePointListFromDB,
     savePreferencePointListToDB,
     removePreferencePointListFromDB,
+    getAccessPermitDataFromDB,
+    saveAccessPermitDataToDB,
+    removeAccessPermitFromDB,
 };
