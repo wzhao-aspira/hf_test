@@ -61,7 +61,7 @@ export default function AccessPermitListScreen() {
     const refreshing = AccessPermitReduxData.requestStatus === REQUEST_STATUS.pending;
     const data = AccessPermitReduxData.data?.accessPermits;
     const loadingData = getLoadingData();
-    const isOffline = AccessPermitReduxData.data?.profileId;
+    const isOffline = AccessPermitReduxData.offline;
     const attention = AccessPermitReduxData.data?.attention;
     const customer = AccessPermitReduxData.data?.customer;
 
