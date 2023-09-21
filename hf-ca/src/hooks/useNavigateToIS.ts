@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 
+import { useDispatch } from "react-redux";
 import Routers, { useAppNavigation } from "../constants/Routers";
 
 import { useAppSelector } from "./redux";
@@ -8,13 +9,24 @@ import { getInternetSalesURL } from "../helper/AppHelper";
 import { retrieveAccessToken } from "../network/tokenUtil";
 
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
+import { handleError } from "../network/APIUtil";
+import Miscellaneous from "../network/api_client/Miscellaneous";
 
 function useNavigateToIS() {
+    const dispatch = useDispatch();
     const currentInUseProfileID = useAppSelector(profileSelectors.selectCurrentInUseProfileID);
     const navigation = useAppNavigation();
 
     const navigateToIS = useCallback(
-        ({ targetPath }: { targetPath: string }) => {
+        async ({ targetPath }: { targetPath: string }) => {
+            const checkTokenResponse = await handleError(Miscellaneous.checkTokenAPI(), {
+                dispatch,
+                showLoading: true,
+            });
+            if (!checkTokenResponse.success) {
+                return;
+            }
+
             const internetSalesBaseURL = getInternetSalesURL();
             const accessToken = retrieveAccessToken();
             const focusCustomerID = currentInUseProfileID;
@@ -29,7 +41,7 @@ function useNavigateToIS() {
                 url: ISPurchaseLicenseURL,
             });
         },
-        [currentInUseProfileID, navigation]
+        [currentInUseProfileID, dispatch, navigation]
     );
 
     return { navigateToIS };

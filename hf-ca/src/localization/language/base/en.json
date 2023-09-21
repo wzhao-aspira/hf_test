@@ -63,10 +63,11 @@
         "noResultsFound": "No results found",
         "tryAgain": "Try Again",
         "noThanks": "No Thanks",
-        "reminder": "Reminder"
+        "reminder": "Reminder",
+        "authenticationFailed": "Authentication Failed"
     },
     "errMsg": {
-        "noNetworkToast": "No Network connection\n Use cache Data",
+        "noNetworkToast": "No network connection\n Use cache data",
         "noNetworkDialog": "Please check your network setting.",
         "noNetworkDialogTitle": "No Network Connection",
         "unableEstablishService": "Unable to establish service connection.",

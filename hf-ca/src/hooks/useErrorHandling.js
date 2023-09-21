@@ -51,6 +51,7 @@ function useErrorHandling() {
     useEffect(() => {
         if (!isEmpty(error)) {
             if (isNoAuthorization(error)) {
+                showToast(t("common.authenticationFailed"));
                 AccountService.clearAppData(dispatch).then(() => {
                     dispatch(updateLoginStep(LoginStep.login));
                 });
