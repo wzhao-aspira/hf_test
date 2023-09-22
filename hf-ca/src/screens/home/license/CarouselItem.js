@@ -6,6 +6,8 @@ import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../../constants/Dimension";
 import SeparateLine from "../../../components/SeparateLine";
 import { genTestId } from "../../../helper/AppHelper";
+import NavigationService from "../../../navigation/NavigationService";
+import Routers from "../../../constants/Routers";
 
 const ItemHeight = 160;
 
@@ -56,7 +58,7 @@ function CarouselContent({ item }) {
                 testID={genTestId("carouselItem")}
                 style={{ height: "100%" }}
                 onPress={() => {
-                    console.log("navigate to license detail");
+                    NavigationService.navigate(Routers.licenseDetail, { licenseData: item });
                 }}
             >
                 <Text testID={genTestId(`carouselItem-${name}`)} style={styles.cardTitle} numberOfLines={2}>

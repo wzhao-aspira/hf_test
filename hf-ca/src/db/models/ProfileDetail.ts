@@ -14,6 +14,8 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
 
     gender?: string;
 
+    genderShortForm?: string;
+
     hair?: string;
 
     eye?: string;
@@ -38,6 +40,12 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
 
     mailingAddress?: string;
 
+    ownerGOIDNumber?: string;
+
+    ownerPhysicalAddress?: string;
+
+    ownerResidentMethodTypeId?: string;
+
     static schema = {
         name: "ProfileDetail",
         properties: {
@@ -47,6 +55,7 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
             displayName: "string?",
             dateOfBirth: "string?",
             gender: "string?",
+            genderShortForm: "string?",
             hair: "string?",
             eye: "string?",
             height: "int?",
@@ -59,6 +68,9 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
             currentDocumentation: "string?",
             physicalAddress: "string?",
             mailingAddress: "string?",
+            ownerGOIDNumber: "string?",
+            ownerPhysicalAddress: "string?",
+            ownerResidentMethodTypeId: "string?",
         },
         primaryKey: "customerId",
     };
