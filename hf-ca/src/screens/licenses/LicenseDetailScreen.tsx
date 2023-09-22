@@ -85,12 +85,15 @@ interface LicenseDetailScreenProps extends AppNativeStackScreenProps<"licenseDet
     //
 }
 
-function renderInfoSection(sectionInformation) {
+function renderInfoSection(sectionName, sectionInformation) {
     return sectionInformation.map((rowItem) => {
         return (
-            <View key={rowItem[0].label} style={[styles.licenseInfo, { marginTop: 10 }]}>
+            <View key={`${sectionName}_${rowItem[0].label}_Wrapper`} style={[styles.licenseInfo, { marginTop: 10 }]}>
                 {rowItem.map((item, index) => (
-                    <View key={item.label} style={[{ flex: 1 }, index === 1 && { marginLeft: DEFAULT_MARGIN }]}>
+                    <View
+                        key={`${sectionName}_${item.label}_kv`}
+                        style={[{ flex: 1 }, index === 1 && { marginLeft: DEFAULT_MARGIN }]}
+                    >
                         <Text style={styles.labelText}>{item.label}</Text>
                         {item.content ? (
                             <Text style={item.label ? styles.valueText : styles.labelText}>{item.content}</Text>
@@ -158,6 +161,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         residentMethodTypeId,
         ownerName,
         ownerGOIDNumber,
+        ownerPhysicalAddress,
         ownerResidentMethodTypeId,
     } = profileDetails;
 
@@ -239,16 +243,16 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
             { label: t("licenseDetails.owner"), content: ownerName },
             { label: t("licenseDetails.goID"), content: ownerGOIDNumber },
         ],
-        [{ label: t("licenseDetails.address"), content: physicalAddress }],
+        [{ label: t("licenseDetails.address"), content: ownerPhysicalAddress }],
         [{ label: "", content: ownerResidentMethodType }],
     ];
 
     const renderIndividualCustomerSection = () => {
         return (
             <View style={{ alignItems: "center" }} testID={genTestId("individualCustomerSection")}>
-                {renderInfoSection(individualCustomerBasicInfo)}
+                {renderInfoSection("individualCustomerBasicInfo", individualCustomerBasicInfo)}
                 <View style={styles.line} />
-                {renderInfoSection(individualCustomerAttributeInfo)}
+                {renderInfoSection("individualCustomerAttributeInfo", individualCustomerAttributeInfo)}
             </View>
         );
     };
@@ -256,7 +260,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
     const renderBusinessCustomerSection = () => {
         return (
             <View style={{ alignItems: "center" }} testID={genTestId("businessCustomerSection")}>
-                {renderInfoSection(businessCustomerBaseInfo)}
+                {renderInfoSection("businessCustomerBaseInfo", businessCustomerBaseInfo)}
             </View>
         );
     };
@@ -264,16 +268,16 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
     const renderVesselCustomerSection = () => {
         return (
             <View style={{ alignItems: "center" }} testID={genTestId("vesselCustomerSection")}>
-                {renderInfoSection(vesselCustomerBasicInfo)}
+                {renderInfoSection("vesselCustomerBasicInfo", vesselCustomerBasicInfo)}
                 <View style={styles.line} />
-                {renderInfoSection(vesselCustomerAttributeInfo)}
+                {renderInfoSection("vesselCustomerAttributeInfo", vesselCustomerAttributeInfo)}
                 <View style={styles.line} />
                 <View style={{ width: "100%", paddingHorizontal: DEFAULT_MARGIN, marginTop: 10 }}>
                     <Text style={[styles.valueText, { textDecorationLine: "underline" }]}>
                         <Trans i18nKey="licenseDetails.vesselOwnerInformation" />
                     </Text>
                 </View>
-                {renderInfoSection(vesselCustomerOwnerBaseInfo)}
+                {renderInfoSection("vesselCustomerOwnerBaseInfo", vesselCustomerOwnerBaseInfo)}
             </View>
         );
     };
@@ -313,7 +317,9 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
     };
 
     const getProfileDetails = async () => {
+        // @ts-ignore
         await dispatch(ProfileThunk.initProfileDetails(currentInUseProfileId));
+        // @ts-ignore
         await dispatch(ProfileThunk.initProfileCommonData());
     };
 
@@ -340,28 +346,38 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                         }}
                     >
                         <Text
-                            style={[styles.title, { fontSize: 32, height: 48 }]}
+                            style={[styles.title, { fontSize: 40, height: 60 }]}
                             testID={genTestId("validityCornerTitle")}
                         >
                             {validityCornerTitle}
                         </Text>
-                        <Text testID={genTestId("duplicateWatermark")}>{duplicateWatermark}</Text>
-                        <Text testID={genTestId("documentCode")} style={[styles.title, { fontSize: 32, height: 48 }]}>
+                        <Text style={{ height: 50 }} testID={genTestId("duplicateWatermark")}>
+                            {duplicateWatermark}
+                        </Text>
+                        <Text testID={genTestId("documentCode")} style={[styles.title, { fontSize: 40, height: 60 }]}>
                             {documentCode}
                         </Text>
                     </View>
                     <View style={{ alignItems: "center" }}>
-                        <View style={styles.titleContainer}>
-                            <Text numberOfLines={0} style={[styles.title]} testID={genTestId("stateOfCalifornia")}>
+                        <View style={[styles.titleContainer]}>
+                            <Text
+                                numberOfLines={0}
+                                style={[styles.title, { ...AppTheme.typography.sub_section }]}
+                                testID={genTestId("stateOfCalifornia")}
+                            >
                                 <Trans i18nKey="licenseDetails.stateOfCalifornia" />
                             </Text>
                         </View>
-                        <View style={styles.titleContainer}>
-                            <Text numberOfLines={0} style={[styles.title]} testID={genTestId("departmentOfFW")}>
+                        <View style={[styles.titleContainer, { paddingTop: 0 }]}>
+                            <Text
+                                numberOfLines={0}
+                                style={[styles.title, { ...AppTheme.typography.sub_section }]}
+                                testID={genTestId("departmentOfFW")}
+                            >
                                 <Trans i18nKey="licenseDetails.departmentOfFW" />
                             </Text>
                         </View>
-                        <View style={styles.line} />
+                        <View style={[styles.line, { marginTop: 10 }]} />
                         <View style={styles.titleContainer}>
                             <Text
                                 numberOfLines={0}
