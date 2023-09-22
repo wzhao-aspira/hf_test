@@ -26,3 +26,8 @@ export async function getAppConfigs() {
     const api = new StaticDataApi(getAPIConfig(false), null, instance);
     return api.v1StaticDataAppConfigsGet();
 }
+
+export async function getResidentMethodTypes() {
+    const api = new StaticDataApi(getAPIConfig(false), null, instance);
+    return api.v1StaticDataResidentMethodTypesGet();
+}

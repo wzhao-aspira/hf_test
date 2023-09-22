@@ -19,8 +19,15 @@ import {
     getYouthIdentityOwners as getYouthIdentityOwnersData,
     getCountries as getCountriesData,
     getStates as getStatesData,
+    getResidentMethodTypes as getResidentMethodTypesData,
 } from "../network/api_client/StaticDataApi";
-import { CountryVM, IdentityTypesVM, StateVM, YouthIdentityOwnerVM } from "../network/generated/api";
+import {
+    CountryVM,
+    IdentityTypesVM,
+    ResidentMethodTypeVM,
+    StateVM,
+    YouthIdentityOwnerVM,
+} from "../network/generated/api";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
@@ -36,6 +43,11 @@ export async function getCountries(): Promise<CountryVM[]> {
 }
 export async function getStates(): Promise<StateVM[]> {
     const ret = await getStatesData();
+    return ret?.data?.result;
+}
+
+export async function getResidentMethodTypes(): Promise<ResidentMethodTypeVM[]> {
+    const ret = await getResidentMethodTypesData();
     return ret?.data?.result;
 }
 

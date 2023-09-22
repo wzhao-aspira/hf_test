@@ -14,10 +14,12 @@ import AppTheme from "../../assets/_default/AppTheme";
 import LicenseItem from "./LicenseItem";
 import LicenseListEmpty from "./LicenseListEmpty";
 import { getLoadingData } from "../../services/LicenseService";
-import { genTestId, showNotImplementedFeature } from "../../helper/AppHelper";
+import { genTestId } from "../../helper/AppHelper";
 import { REQUEST_STATUS } from "../../constants/Constants";
 import profileSelectors from "../../redux/ProfileSelector";
 import useFocus from "../../hooks/useFocus";
+import NavigationService from "../../navigation/NavigationService";
+import Routers from "../../constants/Routers";
 
 export const styles = StyleSheet.create({
     container: {
@@ -93,9 +95,7 @@ function LicenseListScreen() {
                                     <LicenseItem
                                         key={license.id}
                                         onPress={() => {
-                                            console.log("go to license detail");
-                                            showNotImplementedFeature();
-                                            // NavigationService.navigate(Routers.licenseDetail, { licenseData: license });
+                                            NavigationService.navigate(Routers.licenseDetail, { licenseData: license });
                                         }}
                                         itemData={license}
                                         itemKey={license.id}

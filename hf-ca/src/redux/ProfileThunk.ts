@@ -5,6 +5,7 @@ import {
     getIdentityTypes,
     getStates,
     getYouthIdentityOwners,
+    getResidentMethodTypes,
     updateCurrentInUseProfileID,
     getCurrentInUseProfileID,
     getProfileList,
@@ -64,7 +65,7 @@ const showProfileDialog = (message, okAction) =>
         okAction: () => okAction(),
     });
 
-const initAddProfileCommonData = (): AppThunk => async (dispatch, getState) => {
+const initProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
     const shouldCountriesInitialize = isEmpty(state.profile.countries);
     if (shouldCountriesInitialize) {
@@ -88,6 +89,12 @@ const initAddProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     if (shouldYouthIdentityOwnersInitialize) {
         const youthIdentityOwners = await handleError(getYouthIdentityOwners(), { dispatch });
         dispatch(profileActions.setYouthIdentifyOwners(youthIdentityOwners?.data));
+    }
+
+    const shouldResidentMethodTypesInitialize = isEmpty(state.profile.residentMethodTypes);
+    if (shouldResidentMethodTypesInitialize) {
+        const residentMethodTypes = await handleError(getResidentMethodTypes(), { dispatch });
+        dispatch(profileActions.setResidentMethodTypes(residentMethodTypes?.data));
     }
 };
 
@@ -313,7 +320,7 @@ const initProfileDetails = (profileId) => async (dispatch, getState) => {
 };
 
 export default {
-    initAddProfileCommonData,
+    initProfileCommonData,
     initProfile,
     switchCurrentInUseProfile,
     refreshProfileList,

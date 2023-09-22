@@ -18,12 +18,22 @@ export interface License {
     validFrom: string;
     validTo: string;
     licenseOwner: string;
-    GOID: number;
-    stateID: string;
     documentNumber: string;
-    basicInformation: BasicInformation;
-    notification: Notification;
     uiTabId: number;
     uiTabName: string;
+    validFrom: string;
+    validTo: string;
+    documentCode: string;
+    validityCornerTitle: string;
+    altTextValidFromTo: string;
+    lePermitTypeName: string;
+    lePermitId: string;
+    printedDescriptiveText: string;
+    duplicateWatermark: string;
+    itemName: string;
+    itemYear: string;
+    altTextValidFromTo: string;
+    additionalValidityText: string;
+    amount: number;
     mobileAppNeedPhysicalDocument: boolean;
 }

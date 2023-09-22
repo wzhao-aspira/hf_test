@@ -17,7 +17,7 @@ function AddProfileScreen({ route }) {
     const mobileAccount = { userID: userName };
     const profile = { profileType: profileTypes[0] };
     const initProfileCommonData = useCallback(async () => {
-        await dispatch(ProfileThunk.initAddProfileCommonData());
+        await dispatch(ProfileThunk.initProfileCommonData());
     }, [dispatch]);
     useEffect(() => {
         initProfileCommonData();

@@ -20,6 +20,30 @@ export default class License extends Realm.Object<License> {
 
     mobileAppNeedPhysicalDocument: boolean;
 
+    documentCode: string;
+
+    validityCornerTitle: string;
+
+    altTextValidFromTo: string;
+
+    additionalValidityText: string;
+
+    itemTypeId: number;
+
+    itemName: string;
+
+    lePermitTypeName: string;
+
+    lePermitId: string;
+
+    printedDescriptiveText: string;
+
+    duplicateWatermark: string;
+
+    amount: number;
+
+    documentNumber: string;
+
     static schema = {
         name: "License",
         primaryKey: "pk",
@@ -33,6 +57,18 @@ export default class License extends Realm.Object<License> {
             uiTabId: "int",
             uiTabName: "string",
             mobileAppNeedPhysicalDocument: "bool",
+            documentCode: "string",
+            validityCornerTitle: "string?",
+            altTextValidFromTo: "string",
+            additionalValidityText: "string?",
+            itemTypeId: "int",
+            itemName: "string",
+            lePermitTypeName: "string?",
+            lePermitId: "string?",
+            printedDescriptiveText: "string?",
+            duplicateWatermark: "string?",
+            amount: "double",
+            documentNumber: "string",
         },
     };
 }

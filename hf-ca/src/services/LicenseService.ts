@@ -2,13 +2,12 @@ import { values, isEmpty } from "lodash";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import licensesAPIs from "../network/api_client/LicensesAPIs";
-import licenseDetailMockData from "./mock_data/licenseDetail.json";
 import { getLicenseListData, saveLicenseListData } from "../db";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 
 // API not ready, use mock data
-const NeedPhysicalDocumentItemIds = [16, 18, 19];
+const NeedPhysicalDocumentItemIds = [11, 16, 18, 19, 23];
 
 const formateDate = (item, formatter) => {
     const validFrom =
@@ -34,9 +33,24 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
     const licenseList = result;
 
     const formattedResult = licenseList.map((item) => {
-        const { licenseId, validFrom, validTo, uiTabId, uiTabName, itemTypeId, itemName, itemYear } = item;
-        const { licenseOwner, GOID, stateID, documentNumber } = {
-            ...licenseDetailMockData.document,
+        const {
+            documentCode,
+            validityCornerTitle,
+            licenseId,
+            validFrom,
+            validTo,
+            uiTabId,
+            uiTabName,
+            itemTypeId,
+            itemName,
+            itemYear,
+            altTextValidFromTo,
+            additionalValidityText,
+            lePermitTypeName,
+            lePermitId,
+            printedDescriptiveText,
+        } = item;
+        const { duplicateWatermark, documentNumber, amount } = {
             ...item.document,
         };
         const name = `${itemYear} - ${itemName}`;
@@ -49,12 +63,18 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             name,
             validFrom,
             validTo,
-            licenseOwner,
-            GOID,
-            stateID,
+            documentCode,
+            validityCornerTitle,
+            altTextValidFromTo,
+            additionalValidityText,
+            itemTypeId,
+            itemName,
+            lePermitTypeName,
+            lePermitId,
+            printedDescriptiveText,
+            duplicateWatermark,
+            amount,
             documentNumber, // for barcode
-            basicInformation: licenseDetailMockData.basicInformation,
-            notification: licenseDetailMockData.notification,
             uiTabId,
             uiTabName,
             mobileAppNeedPhysicalDocument,
