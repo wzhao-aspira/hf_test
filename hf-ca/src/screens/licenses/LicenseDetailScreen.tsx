@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RenderHtml from "react-native-render-html";
 import moment from "moment";
 import { AppNativeStackScreenProps } from "../../constants/Routers";
-
+import useNavigateToIS from "../../hooks/useNavigateToIS";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { genTestId } from "../../helper/AppHelper";
 
@@ -108,6 +108,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
+    const { navigateToIS } = useNavigateToIS();
 
     const { route } = props;
     const { licenseData } = route.params;
@@ -125,6 +126,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         mobileAppNeedPhysicalDocument,
         itemName,
         additionalValidityText,
+        id,
     } = licenseData;
 
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
@@ -448,7 +450,10 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                 <PrimaryBtn
                     testID={genTestId("SubmitHarvestReportButton ")}
                     style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
-                    onPress={() => console.log("Submit Harvest Report Button Pressed")}
+                    onPress={() => {
+                        const targetPath = `/LicenseNeedsHarvestReporting/EnterHarvestMobile?id=${id}`;
+                        navigateToIS({ targetPath });
+                    }}
                     label={t("licenseDetails.SubmitHarvestReport")}
                 />
             </ScrollView>
