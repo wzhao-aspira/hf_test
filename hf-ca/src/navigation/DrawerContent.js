@@ -12,7 +12,7 @@ import SplitLine from "../components/SplitLine";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { genTestId, openLink, showNotImplementedFeature } from "../helper/AppHelper";
+import { genTestId, openLink } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
@@ -23,6 +23,7 @@ import { retrieveItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import AccountService from "../services/AccountService";
+import useNavigateToISPurchaseLicense from "../screens/licenses/hooks/useNavigateToISPurchaseLicense";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -132,6 +133,8 @@ export default function DrawerContent({ navigation }) {
 
     const [quickAccessEnabled, setQuickAccessEnabled] = useState(false);
 
+    const { navigateToIS } = useNavigateToISPurchaseLicense();
+
     const testIDPrefix = "HamburgerMenu";
 
     useEffect(() => {
@@ -187,10 +190,10 @@ export default function DrawerContent({ navigation }) {
                     />
                     <MenuItem
                         onClick={() => {
-                            showNotImplementedFeature();
+                            navigateToIS();
                         }}
-                        title="common.purchase"
-                        testID="PurchasePrivilege"
+                        title="license.purchaseLicense"
+                        testID="PurchaseLicense"
                     />
                     <MenuItem
                         onClick={async () => {
