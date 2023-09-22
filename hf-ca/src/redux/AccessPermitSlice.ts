@@ -27,11 +27,8 @@ export const getAccessPermit = createAsyncThunk(
         const { activeProfileId } = searchParams;
         if (dataFromAPI.success) {
             result = { ...dataFromAPI, offline: false };
-            const apiData = dataFromAPI.data;
-            if (!isEmpty(apiData)) {
-                const dataForOffline = { ...apiData, profileId: activeProfileId };
-                await saveAccessPermitDataToDB(dataForOffline);
-            }
+            const dataForOffline = { ...dataFromAPI.data, profileId: activeProfileId };
+            await saveAccessPermitDataToDB(dataForOffline);
             console.log("get access permit data from api");
         } else {
             const data = await getAccessPermitDataFromDB(activeProfileId);
