@@ -115,7 +115,7 @@ function AddIndividualProfileInfoScreen({ route }) {
         }
     };
     useEffect(() => {
-        dispatch(ProfileThunk.initAddProfileCommonData());
+        dispatch(ProfileThunk.initProfileCommonData());
     }, [dispatch]);
     return (
         <View style={{ flex: 1 }}>

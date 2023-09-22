@@ -97,6 +97,12 @@ const selectOtherProfileListWithoutPrimary = createSelector(
 const selectProfileDetailsById = (profileId) =>
     createSelector(selectProfileList, (profileList) => profileList.find((item) => item.profileId === profileId) || {});
 
+const residentMethodTypes = createSelector(selectProfileState, (state) => state.residentMethodTypes);
+const selectResidentMethodTypeById = (residentMethodTypeId) =>
+    createSelector(residentMethodTypes, (residentMethodTypeList) => {
+        return residentMethodTypeList?.find((item) => item.residentMethodTypeId === residentMethodTypeId) || {};
+    });
+
 const selectCiuIsInactive = createSelector(selectProfileState, (profile) => profile.ciuProfileIsInactive);
 
 const selectors = {
@@ -112,6 +118,7 @@ const selectors = {
     selectPrimaryProfile,
     selectProfileIDs,
     selectProfileDetailsById,
+    selectResidentMethodTypeById,
     selectSortedByDisplayNameOtherProfileList,
     selectCiuIsInactive,
     selectOtherProfileListWithoutPrimary,
