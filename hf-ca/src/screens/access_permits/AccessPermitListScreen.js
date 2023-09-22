@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     },
 });
 
-const showData = (data, refreshing, isOffline, loadingData, attention, customer) => {
-    if (refreshing || (isEmpty(data) && isOffline)) {
+const showData = (data, refreshing, loadingData, attention, customer, isShowSkeletonInOffline) => {
+    if (refreshing || isShowSkeletonInOffline) {
         return loadingData.map((item) => <AccessPermitCardLoading key={item.id} />);
     }
 
@@ -62,6 +62,8 @@ export default function AccessPermitListScreen() {
     const data = AccessPermitReduxData.data?.accessPermits;
     const loadingData = getLoadingData();
     const isOffline = AccessPermitReduxData.offline;
+    // offline without data in db, show Skeleton. Even offline with empty accessPermits in db, doesn't show Skeleton.
+    const isShowSkeletonInOffline = isOffline && isEmpty(AccessPermitReduxData.data);
     const attention = AccessPermitReduxData.data?.attention;
     const customer = AccessPermitReduxData.data?.customer;
 
@@ -98,7 +100,7 @@ export default function AccessPermitListScreen() {
                 }
             >
                 <View style={{ flex: 1 }}>
-                    {showData(data, refreshing, isOffline, loadingData, attention, customer)}
+                    {showData(data, refreshing, loadingData, attention, customer, isShowSkeletonInOffline)}
                 </View>
             </ScrollView>
         </View>
