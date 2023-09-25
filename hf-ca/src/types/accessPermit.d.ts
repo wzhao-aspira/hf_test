@@ -1,11 +1,11 @@
 // export type FileType = "File1" | "File2";
 
 export interface FileInfo {
-    type: "File1" | "File2";
+    type: "notificationPDF" | "attachment";
     title: string;
     description?: string;
     downloadId: string;
-    isShow: boolean;
+    available: boolean;
 }
 
 export interface HuntDay {

@@ -21,7 +21,7 @@ export default class FileInfo extends Realm.Object<FileInfo> {
             title: "string?",
             description: "string?",
             downloadId: "string?",
-            isShow: "bool",
+            available: "bool",
         },
     };
 }

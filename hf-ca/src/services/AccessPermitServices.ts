@@ -2,12 +2,13 @@ import { AccessPermitItem, AccessPermit, HuntDay, FileInfo } from "../types/acce
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import { getActivePermitsByCustomerId } from "../network/api_client/DrawResultsApi";
+import type { ActivePermitListVM } from "../network/api_client/DrawResultsApi";
 
 const formateHuntDay = (huntDay, outputFormat) => {
     return huntDay && DateUtils.dateToFormat(huntDay, outputFormat, AppContract.inputFormat.fmt_2);
 };
 
-const convertAccessPermitItem = (activePermit): AccessPermitItem => {
+const convertAccessPermitItem = (activePermit: ActivePermitListVM): AccessPermitItem => {
     const { applicationYear, masterHuntTypeName, masterHuntTypeId, huntDays } = activePermit;
     const id = applicationYear + masterHuntTypeId;
     const name = `${applicationYear} ${masterHuntTypeName}`;
@@ -27,21 +28,22 @@ const convertAccessPermitItem = (activePermit): AccessPermitItem => {
             } = item;
             const huntId = huntDay + huntCode;
 
-            const f1Info: FileInfo = {
-                type: "File1",
+            const notification: FileInfo = {
+                type: "notificationPDF",
                 title: notificationTitle,
                 description: notificationDescription,
                 downloadId: drawTicketLicenseId,
-                isShow: notificationAvailable,
-            };
-            const f2Info: FileInfo = {
-                type: "File2",
-                title: fileTitle,
-                downloadId: fileId,
-                isShow: !!fileId,
+                available: notificationAvailable,
             };
 
-            const fileInfoList = [f1Info, f2Info];
+            const attachment: FileInfo = {
+                type: "attachment",
+                title: fileTitle,
+                downloadId: fileId, // TODO: this field will be changed to huntId @Zhang, Louis
+                available: !!fileId,
+            };
+
+            const fileInfoList = [notification, attachment];
 
             return {
                 id: huntId,

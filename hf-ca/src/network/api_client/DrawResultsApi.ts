@@ -8,3 +8,10 @@ export async function getActivePermitsByCustomerId(customerId: string) {
     const api = new DrawResultsApi(getAPIConfig(), null, instance);
     return api.v1CustomersCustomerIdActivePermitsGet(customerId);
 }
+
+export async function downloadAccessPermitFile(drawTicketLicenseId: string) {
+    const api = new DrawResultsApi(getAPIConfig(), null, instance);
+    return api.buildNotificationAsync(drawTicketLicenseId, { responseType: "blob" });
+}
+
+export type { ActivePermitListVM } from "../generated";
