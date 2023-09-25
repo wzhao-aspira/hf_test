@@ -346,17 +346,17 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                         }}
                     >
                         <Text
-                            style={[styles.title, { fontSize: 40, lineHeight: 60 }]}
+                            style={[styles.title, { fontSize: 40, lineHeight: 40 }]}
                             testID={genTestId("validityCornerTitle")}
                         >
                             {validityCornerTitle}
                         </Text>
-                        <Text style={{ lineHeight: 50 }} testID={genTestId("duplicateWatermark")}>
+                        <Text style={{ lineHeight: 30 }} testID={genTestId("duplicateWatermark")}>
                             {duplicateWatermark}
                         </Text>
                         <Text
                             testID={genTestId("documentCode")}
-                            style={[styles.title, { fontSize: 40, lineHeight: 60 }]}
+                            style={[styles.title, { fontSize: 40, lineHeight: 40 }]}
                         >
                             {documentCode}
                         </Text>
@@ -380,7 +380,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                                 <Trans i18nKey="licenseDetails.departmentOfFW" />
                             </Text>
                         </View>
-                        <View style={[styles.line, { marginTop: 10 }]} />
+                        <View style={[styles.line, { marginTop: 0 }]} />
                         <View style={styles.titleContainer}>
                             <Text
                                 numberOfLines={0}
