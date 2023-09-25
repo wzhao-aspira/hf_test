@@ -45,6 +45,7 @@ function LicenseListScreen() {
     const data = refreshing || isShowSkeletonWhenOffline ? getLoadingData() : reduxData.data;
     const { t } = useTranslation();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
+    const firstName = useSelector(profileSelectors.selectCurrentProfileFirstName);
 
     const getLicenseOfActiveProfile = (isForce) => {
         dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
@@ -61,7 +62,7 @@ function LicenseListScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("license.myLicense")} />
+            <CommonHeader title={firstName ? t("license.firstNameLicense", { firstName }) : t("license.myLicense")} />
             <ScrollView
                 testID={genTestId("licenseList")}
                 contentContainerStyle={{

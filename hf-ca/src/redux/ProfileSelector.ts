@@ -1,6 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
 import { IdentityTypeVM } from "../network/generated";
+import { isAssociatedProfile } from "../helper/ProfileHelper";
 
 const selectProfileState = (state: RootState) => state.profile;
 
@@ -57,6 +58,13 @@ const selectCurrentInUseProfile = createSelector(
         });
     }
 );
+
+const selectCurrentProfileFirstName = createSelector(selectCurrentInUseProfile, (profile) => {
+    if (isAssociatedProfile(profile)) {
+        return "";
+    }
+    return profile.displayName?.split(" ")[0];
+});
 
 const selectPrimaryProfile = createSelector(
     selectPrimaryProfileID,
@@ -122,6 +130,7 @@ const selectors = {
     selectSortedByDisplayNameOtherProfileList,
     selectCiuIsInactive,
     selectOtherProfileListWithoutPrimary,
+    selectCurrentProfileFirstName,
 };
 
 export default selectors;
