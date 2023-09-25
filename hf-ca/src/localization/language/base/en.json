@@ -2,6 +2,7 @@
     "noLicTitle": "No licenses found",
     "license": {
         "myLicense": "My Licenses",
+        "firstNameLicense": "{{firstName}}'s Licenses",
         "license": "License",
         "validFrom": "Valid From",
         "validTo": "Valid To",
@@ -103,13 +104,8 @@
         "emptyVesselGOIDNumber": "Please enter Vessel GO ID",
         "emptyVesselFGNumber": "Please enter Vessel FG #",
         "saveProfileFailure": "Unable to establish service connection.",
-        "addedProfileIsInvalid": "The added profile is invalid, please check and re-enter.",
-        "foundExistingAccount": "We found existing account, please re-enter or retrieve password.",
-        "passwordDotNotMatch": "Passwords don't match.",
-        "profileAlreadyExists": "The profile already exists, please check and re-enter.",
-        "emailAddressNotFound": "The entered email does not exist, please re-enter",
+        "passwordDotNotMatch": "The passwords entered do not match. Please enter and confirm your password again.",
         "emptyEmailValidationCode": "Please enter Email Validation Code",
-        "invalidEmailValidationCode": "Your entered validation code is not correct, please re-enter.",
         "emptyNewPassword": "Please enter New Password",
         "emptyCurrentPassword": "Please enter Current Password",
         "incorrectExistingPassword": "The existing password you entered is incorrect, please re-enter.",
@@ -118,8 +114,7 @@
         "networkErrorMsg": "Please check your network settings.",
         "commonErrorTitle": "Sorry",
         "commonErrorMsg": "Something went wrong. Let's try one more time.",
-        "noResultsFoundMsg": "No results found. Please try again with a different location.",
-        "profileStatusChanged": "This profile has changed status, please select other profiles."
+        "noResultsFoundMsg": "No results found. Please try again with a different location."
     },
     "login": {
         "signIn": "Sign In",
@@ -133,7 +128,7 @@
         "userId": "User Email Address",
         "noAccount": "Don't have an account?",
         "userIdEmpty": "Please enter your User Email Address",
-        "userIdInvalid": "User Email Address must be in email format, please check your input.",
+        "userIdInvalid": "You have entered an incorrectly formatted email address. Please retry.",
         "passwordEmpty": "Please enter Password",
         "accountNotFound": "Account not found, please check your input.",
         "userIdHint": "Please Enter Email:"
@@ -142,7 +137,7 @@
         "createMobileAccount": "Create Mobile Account",
         "exitSignUp": "Exit Sign Up",
         "areYouSureExitSignUp": "Are you sure you want to exit sign up?",
-        "addPrimaryProfile": "Add Existing Primary Profile"
+        "addPrimaryProfile": "Associate Existing Primary Customer Record"
     },
     "tabBar": {
         "tabHome": "Home",
@@ -153,7 +148,7 @@
         "greeting": "Welcome, {{name}}!"
     },
     "profile": {
-        "addProfile": "Add Profile",
+        "addProfile": "Associate Customer Record",
         "customerType": "Customer Type",
         "dateOfBirth": "Date of Birth",
         "firstName": "First Name",
@@ -164,21 +159,21 @@
         "countryIssued": "Country Issued",
         "stateIssued": "State Issued",
         "identificationNumber": "Number",
-        "addProfileProceed": "Add Profile & Proceed",
+        "addProfileProceed": "Associate Customer Record",
         "businessGOIDNumber": "Business GO ID",
         "postalCodeNumber": "Postal Code",
         "vesselGOIDNumber": "Vessel GO ID",
         "goIDNumber": "GO ID",
-        "manageProfile": "Manage Profiles",
+        "manageProfile": "Manage Customer Records",
         "currentlyInUse": "Currently In Use",
-        "switchProfile": "Switch Profile",
-        "otherProfiles": "Other Profiles",
+        "switchProfile": "Switch Customer Record",
+        "otherProfiles": "Other Customer Records",
         "selectOne": "[Select One]",
         "fgNumber": "FG #",
         "address": "Address",
         "basicInformation": "Basic Information",
-        "profileDetails": "Profile Details",
-        "removeProfile": "Remove Profile",
+        "profileDetails": "Customer Record Details",
+        "removeProfile": "Remove Customer Record",
         "sex": "Sex",
         "hair": "Hair",
         "eyes": "Eyes",
@@ -192,14 +187,14 @@
         "currentDocumentation": "Current Documentation",
         "physicalAddress": "Physical Address",
         "mailingAddress": "Mailing Address",
-        "removeProfileMsg": "Are you sure you want to remove current profile?",
-        "removePrimaryProfileMsg": "The primary profile can not be removed.",
-        "removeCurrentInUseProfileMsg": "The profile is current in use, please switch profile first.",
-        "currentInUseInactiveMsg": "Your current in use account has been changed. We will display information based on your primary account.",
-        "profileListUpdatedAndRefresh": "Profile list has been updated, please refresh first to proceed next action.",
-        "profileListUpdated": "Your profile list has been updated.",
-        "primaryChanged": "No active primary account available, please add new primary account first.",
-        "primaryProfile": "Primary Profile"
+        "removeProfileMsg": "Are you sure you want to remove current customer record?",
+        "removePrimaryProfileMsg": "The primary customer record can not be removed.",
+        "removeCurrentInUseProfileMsg": "The customer record is current in use, please switch customer record first.",
+        "currentInUseInactiveMsg": "Your current in use customer record has been changed. We will display information based on your primary customer record.",
+        "profileListUpdatedAndRefresh": "Customer Record list has been updated, please refresh first to proceed next action.",
+        "profileListUpdated": "Your customer record list has been updated.",
+        "primaryChanged": "No active primary customer record available, please add new primary customer record first.",
+        "primaryProfile": "Primary Customer Record"
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",
@@ -251,8 +246,8 @@
         "searchByCityOrZip": "Search by City or ZIP"
     },
     "crss": {
-        "enterYourPassword": "Enter your password",
-        "attentionContent": "You've added a password to increase security on your record. As it's enabled, please enter the password to access your record online."
+        "enterYourPassword": "Enter Customer's Internet Sales Online Password",
+        "attentionContent": "The customer record you are trying to add to mobile application has security enabled and requires a password to access. Please enter the password used to access the online CDFW customer record."
     },
     "onboarding": {
         "location": {
