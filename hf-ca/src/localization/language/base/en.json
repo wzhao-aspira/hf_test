@@ -108,8 +108,6 @@
         "emptyEmailValidationCode": "Please enter Email Validation Code",
         "emptyNewPassword": "Please enter New Password",
         "emptyCurrentPassword": "Please enter Current Password",
-        "incorrectExistingPassword": "The existing password you entered is incorrect, please re-enter.",
-        "sameAsOldPassword": "Your new password must be different from the previous password.",
         "networkErrorTitle": "No Network Connection",
         "networkErrorMsg": "Please check your network settings.",
         "commonErrorTitle": "Sorry",
