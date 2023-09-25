@@ -346,15 +346,18 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                         }}
                     >
                         <Text
-                            style={[styles.title, { fontSize: 40, height: 60 }]}
+                            style={[styles.title, { fontSize: 40, lineHeight: 60 }]}
                             testID={genTestId("validityCornerTitle")}
                         >
                             {validityCornerTitle}
                         </Text>
-                        <Text style={{ height: 50 }} testID={genTestId("duplicateWatermark")}>
+                        <Text style={{ lineHeight: 50 }} testID={genTestId("duplicateWatermark")}>
                             {duplicateWatermark}
                         </Text>
-                        <Text testID={genTestId("documentCode")} style={[styles.title, { fontSize: 40, height: 60 }]}>
+                        <Text
+                            testID={genTestId("documentCode")}
+                            style={[styles.title, { fontSize: 40, lineHeight: 60 }]}
+                        >
                             {documentCode}
                         </Text>
                     </View>
