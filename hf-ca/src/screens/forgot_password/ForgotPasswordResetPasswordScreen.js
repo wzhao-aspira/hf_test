@@ -22,18 +22,6 @@ import { showToast } from "../../helper/AppHelper";
 import Attention from "../../components/Attention";
 
 function dialogReducer(state, action) {
-    if (action.type === "incorrectPassword") {
-        return {
-            message: "errMsg.incorrectExistingPassword",
-            show: true,
-        };
-    }
-    if (action.type === "sameAsOldPassword") {
-        return {
-            message: "errMsg.sameAsOldPassword",
-            show: true,
-        };
-    }
     if (action.type === "closeDialog") {
         return {
             show: false,
