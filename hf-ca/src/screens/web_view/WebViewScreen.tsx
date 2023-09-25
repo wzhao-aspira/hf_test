@@ -1,8 +1,7 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { View } from "react-native";
 import { WebView } from "react-native-webview";
 import { StatusBar, setStatusBarStyle, setStatusBarBackgroundColor } from "expo-status-bar";
-import CookieManager from "@react-native-cookies/cookies";
 
 import CommonHeader from "../../components/CommonHeader";
 import { SimpleDialog } from "../../components/Dialog";
@@ -30,17 +29,9 @@ function WebViewScreen(props: WebViewScreenProps) {
 
     const webview = useRef(null);
     const [noConnectDialogVisible, setNoConnectDialogVisible] = useState(false);
-    const [cookieCleared, setCookieCleared] = useState(false);
 
     const url = route.params?.url ?? "";
     const title = route.params?.title ?? "";
-
-    useEffect(() => {
-        CookieManager.clearAll().then(() => {
-            console.log("webView cookies cleared");
-            setCookieCleared(true);
-        });
-    }, []);
 
     const onBackButtonPress = useCallback(() => {
         navigation.goBack();
@@ -75,24 +66,22 @@ function WebViewScreen(props: WebViewScreenProps) {
                     onBackButtonPress();
                 }}
             />
-            {cookieCleared && (
-                <WebView
-                    ref={webview}
-                    startInLoadingState
-                    originWhitelist={originWhitelist}
-                    bounces={false}
-                    style={styles.webview}
-                    source={{ uri: url }}
-                    sharedCookiesEnabled
-                    onLoadStart={handleLoadStart}
-                    onLoadEnd={handleLoadEnd}
-                    onError={handleError}
-                    onMessage={(event) => {
-                        const message = event.nativeEvent.data;
-                        console.log(message);
-                    }}
-                />
-            )}
+            <WebView
+                ref={webview}
+                startInLoadingState
+                originWhitelist={originWhitelist}
+                bounces={false}
+                style={styles.webview}
+                source={{ uri: url }}
+                sharedCookiesEnabled
+                onLoadStart={handleLoadStart}
+                onLoadEnd={handleLoadEnd}
+                onError={handleError}
+                onMessage={(event) => {
+                    const message = event.nativeEvent.data;
+                    console.log(message);
+                }}
+            />
             <SimpleDialog
                 title="errMsg.networkErrorTitle"
                 message="errMsg.networkErrorMsg"
