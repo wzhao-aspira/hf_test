@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { FlatList, StyleSheet, DeviceEventEmitter, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import * as IntentLauncher from "expo-intent-launcher";
 import * as FileSystem from "expo-file-system";

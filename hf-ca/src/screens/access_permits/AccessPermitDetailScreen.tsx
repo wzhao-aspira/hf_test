@@ -10,7 +10,7 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH } from "../../constant
 
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
-import PrimaryBtn from "../../components/PrimaryBtn";
+import FileList from "./file_list/FileList";
 
 const styles = StyleSheet.create({
     container: {
@@ -52,22 +52,6 @@ const styles = StyleSheet.create({
         ...AppTheme.typography.card_title,
         color: AppTheme.colors.font_color_1,
         textAlignVertical: "center",
-    },
-    sectionContainer: {
-        marginTop: 26,
-        marginHorizontal: DEFAULT_MARGIN,
-        ...AppTheme.shadow,
-        backgroundColor: AppTheme.colors.font_color_4,
-        paddingBottom: 10,
-        borderRadius: 14,
-    },
-    sectionTitle: {
-        ...AppTheme.typography.section_header,
-        color: AppTheme.colors.font_color_1,
-        textAlignVertical: "center",
-        marginHorizontal: DEFAULT_MARGIN,
-        marginTop: 26,
-        marginBottom: 10,
     },
 });
 
@@ -151,41 +135,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                         })}
                     </View>
                 </View>
-
-                {fileInfoList?.map((fileInfo) => {
-                    const { description, title: fileName, isShow, downloadId } = fileInfo;
-                    // TODO: downloadId use for download api
-                    console.log(downloadId);
-                    if (!isShow) {
-                        return null;
-                    }
-
-                    return (
-                        <View key={fileName} style={[styles.sectionContainer]}>
-                            <Text style={[styles.sectionTitle]} testID={genTestId(`permitDetailsFileName${fileName}`)}>
-                                {fileName}
-                            </Text>
-                            {description && (
-                                <View style={styles.licenseInfo}>
-                                    <Text
-                                        testID={genTestId(`permitDetailsFileName${fileName}Description`)}
-                                        style={{ marginTop: -10, marginBottom: 13 }}
-                                    >
-                                        {description}
-                                    </Text>
-                                </View>
-                            )}
-
-                            <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
-                                <PrimaryBtn
-                                    testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
-                                    onPress={() => console.log(`download the ${fileName}`)}
-                                    label={t("accessPermits.Download")}
-                                />
-                            </View>
-                        </View>
-                    );
-                })}
+                <FileList fileInfoList={fileInfoList} />
             </ScrollView>
         </Page>
     );

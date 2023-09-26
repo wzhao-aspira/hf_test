@@ -366,7 +366,12 @@
         "Reservation#": "Reservation #",
         "Name": "Name",
         "Address": "Address",
-        "Download": "Download"
+        "Download": "Download",
+        "Downloading": "Downloading",
+        "Open": "Open",
+        "deleteDownloaded": "Delete Downloaded",
+        "deleteFile": "Delete File?",
+        "deleteFileMessage": "Are you sure you wish to delete this file?"
     },
     "salesAgents": {
         "salesAgents": "Find License Agent",
