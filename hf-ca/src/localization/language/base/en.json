@@ -135,7 +135,7 @@
         "createMobileAccount": "Create Mobile Account",
         "exitSignUp": "Exit Sign Up",
         "areYouSureExitSignUp": "Are you sure you want to exit sign up?",
-        "addPrimaryProfile": "Associate Existing Primary Customer Record"
+        "addPrimaryProfile": "Associate Primary Customer Record"
     },
     "tabBar": {
         "tabHome": "Home",
