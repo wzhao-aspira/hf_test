@@ -24,26 +24,8 @@
             "isPDF": false,
             "pdfViewOnlineEnable": false,
             "size": 13657241,
-            "title": "CDPW Partner",
+            "title": "CDFW Partner",
             "url": "https://www.ca.wildlifelicense.com/internetsales/Home/CDFWPartners"
-        },
-        {
-            "description": "Suspendisse vehicula est ut tortor posuere volutpat. Aliquam ullamcorper metus interdum orci varius, at consequat mi semper. Curabitur rhoncus placerat.",
-            "id": "r_001",
-            "isPDF": true,
-            "pdfViewOnlineEnable": true,
-            "size": 1657241,
-            "title": "Dummy PDF file",
-            "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-        },
-        {
-            "description": "Praesent leo ipsum, lacinia sit amet pharetra a, blandit vel magna. Phasellus porta tempus pulvinar. Nulla scelerisque luctus metus gravida.",
-            "id": "r_002",
-            "isPDF": true,
-            "pdfViewOnlineEnable": false,
-            "size": 1650043,
-            "title": "This is a test PDF Document",
-            "url": "https://www.ucd.ie/t4cms/Test%20PDF-8mb.pdf"
         }
     ]
 }
