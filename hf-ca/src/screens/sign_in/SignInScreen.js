@@ -169,15 +169,15 @@ function SignInScreen(route) {
 
                     <Text testID={genTestId("signUpText")} style={styles.signUpStr}>
                         {t("signIn.noAccount")}
-                        <Text
-                            testID={genTestId("signUpLink")}
-                            style={styles.signUpBtn}
-                            onPress={() => {
-                                route?.navigation?.push(Routers.signUpNav);
-                            }}
-                        >
-                            {` ${t("login.createAccount")}`}
-                        </Text>
+                    </Text>
+                    <Text
+                        testID={genTestId("signUpLink")}
+                        style={styles.clickHereCreateOneBtn}
+                        onPress={() => {
+                            route?.navigation?.push(Routers.signUpNav);
+                        }}
+                    >
+                        {` ${t("signIn.clickHereCreateOne")}`}
                     </Text>
                 </View>
             </KeyboardAwareScrollView>

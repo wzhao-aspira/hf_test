@@ -119,7 +119,7 @@ export const getHeight = (height) => {
 };
 export const getWeight = (weight) => {
     if (weight) {
-        return `${weight}lbs`;
+        return weight;
     }
     return undefined;
 };
@@ -137,7 +137,7 @@ export const getInfoList = (profile, t) => {
                 value: moment(profile.dateOfBirth).format("MM/DD/YYYY"),
             },
             {
-                type: t("profile.sex"),
+                type: t("profile.gender"),
                 value: profile.gender,
             },
 
@@ -156,7 +156,7 @@ export const getInfoList = (profile, t) => {
                 value: getHeight(profile.height),
             },
             {
-                type: t("profile.weight"),
+                type: `${t("profile.weight")} (lbs)`,
                 value: getWeight(profile.weight),
             },
         ];
