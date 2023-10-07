@@ -200,7 +200,7 @@ const getProfileListChangeStatus =
         const profileResponse = await handleError(getProfileList(), {
             dispatch,
             showLoading: showGlobalLoading,
-            networkErrorByDialog: false,
+            // networkErrorByDialog: false,
         });
         if (!profileResponse.success) {
             return profileResponse;
