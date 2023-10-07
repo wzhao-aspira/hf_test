@@ -42,7 +42,7 @@
         "fee": "FEE*:",
         "lePermitType": "LE Permit Type:",
         "lePermitId": "LE Permit ID:",
-        "feeNotice": "* include any application fee, agent handing fees and license buyer surcharge",
+        "feeNotice": "* Include any application fee, agent handing fees and license buyer surcharge",
         "vesselOwnerInformation": "Vessel Owner Information",
         "SubmitHarvestReport": "Submit Harvest Report"
     },
@@ -130,7 +130,7 @@
         "passwordEmpty": "Please enter Password",
         "accountNotFound": "Account not found, please check your input.",
         "userIdHint": "Please Enter Email:",
-        "clickHereCreateOne":"Click here to create one"
+        "clickHereCreateOne": "Click here to create one"
     },
     "signUp": {
         "createMobileAccount": "Create Mobile Account",
