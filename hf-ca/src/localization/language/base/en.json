@@ -129,7 +129,8 @@
         "userIdInvalid": "You have entered an incorrectly formatted email address. Please retry.",
         "passwordEmpty": "Please enter Password",
         "accountNotFound": "Account not found, please check your input.",
-        "userIdHint": "Please Enter Email:"
+        "userIdHint": "Please Enter Email:",
+        "clickHereCreateOne":"Click here to create one"
     },
     "signUp": {
         "createMobileAccount": "Create Mobile Account",
@@ -172,7 +173,7 @@
         "basicInformation": "Basic Information",
         "profileDetails": "Customer Record Details",
         "removeProfile": "Remove Customer Record",
-        "sex": "Sex",
+        "gender": "Gender",
         "hair": "Hair",
         "eyes": "Eyes",
         "height": "Height",

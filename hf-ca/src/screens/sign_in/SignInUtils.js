@@ -33,13 +33,20 @@ export const styles = StyleSheet.create({
     },
     signUpStr: {
         marginTop: 20,
-        alignSelf: "center",
+        alignSelf: "flex-end",
         ...AppTheme.typography.sub_section,
         color: AppTheme.colors.font_color_1,
     },
     signUpBtn: {
         ...AppTheme.typography.card_title,
         color: AppTheme.colors.primary_2,
+    },
+    clickHereCreateOneBtn: {
+        marginTop: 5,
+        alignSelf: "flex-end",
+        ...AppTheme.typography.card_title,
+        color: AppTheme.colors.primary_2,
+        textDecorationLine: "underline",
     },
     marginTopStyle: (value) => ({
         marginTop: value,
