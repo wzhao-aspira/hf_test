@@ -249,7 +249,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
 
     const renderIndividualCustomerSection = () => {
         return (
-            <View style={{ alignItems: "center" }} testID={genTestId("individualCustomerSection")}>
+            <View style={{ alignItems: "center", paddingVertical: 10 }} testID={genTestId("individualCustomerSection")}>
                 {renderInfoSection("individualCustomerBasicInfo", individualCustomerBasicInfo)}
                 <View style={styles.line} />
                 {renderInfoSection("individualCustomerAttributeInfo", individualCustomerAttributeInfo)}
