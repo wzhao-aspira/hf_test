@@ -267,7 +267,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
 
     const renderVesselCustomerSection = () => {
         return (
-            <View style={{ alignItems: "center" }} testID={genTestId("vesselCustomerSection")}>
+            <View style={{ alignItems: "center", paddingVertical: 10 }} testID={genTestId("vesselCustomerSection")}>
                 {renderInfoSection("vesselCustomerBasicInfo", vesselCustomerBasicInfo)}
                 <View style={styles.line} />
                 {renderInfoSection("vesselCustomerAttributeInfo", vesselCustomerAttributeInfo)}
