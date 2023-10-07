@@ -23,8 +23,9 @@ function useNavigateToIS() {
                 dispatch,
                 showLoading: true,
             });
+
             if (!checkTokenResponse.success) {
-                return;
+                return false;
             }
 
             const internetSalesBaseURL = getInternetSalesURL();
@@ -40,6 +41,8 @@ function useNavigateToIS() {
             navigation.navigate(Routers.webView, {
                 url: ISPurchaseLicenseURL,
             });
+
+            return true;
         },
         [currentInUseProfileID, dispatch, navigation]
     );
