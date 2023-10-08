@@ -187,6 +187,7 @@ const getProfileListChangeStatus =
         showCIUChangedMsg = false,
         showListChangedMsg = false,
         updateProfileWithNewData = false,
+        networkErrorByDialog = false,
     } = {}) =>
     async (dispatch, getState) => {
         const rootState = getState();
@@ -200,7 +201,7 @@ const getProfileListChangeStatus =
         const profileResponse = await handleError(getProfileList(), {
             dispatch,
             showLoading: showGlobalLoading,
-            // networkErrorByDialog: false,
+            networkErrorByDialog,
         });
         if (!profileResponse.success) {
             return profileResponse;
