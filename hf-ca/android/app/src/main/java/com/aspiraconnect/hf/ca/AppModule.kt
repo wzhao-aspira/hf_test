@@ -43,5 +43,9 @@ class AppModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaMod
         }
     }
 
+    @ReactMethod
+    fun supportClass3Auth(promise: Promise) {
+        promise.resolve(BiometricUtil.supportClass3Auth())
+    }
 
 }

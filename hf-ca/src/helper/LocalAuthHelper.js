@@ -17,6 +17,10 @@ export async function saveOnboardingPageAppear(userId) {
 
 export async function checkAuthAvailable() {
     let available = false;
+    if (isAndroid()) {
+        available = await HFAppModule.supportClass3Auth();
+        return available;
+    }
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
     if (hasHardware) {
         const supportedAuthentication = await LocalAuthentication.supportedAuthenticationTypesAsync();
