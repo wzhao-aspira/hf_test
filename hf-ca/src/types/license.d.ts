@@ -36,4 +36,7 @@ export interface License {
     additionalValidityText: string;
     amount: number;
     mobileAppNeedPhysicalDocument: boolean;
+    isHarvestReportSubmissionAllowed: boolean;
+    isHarvestReportSubmissionEnabled: boolean;
+    isHarvestReportSubmitted: boolean;
 }

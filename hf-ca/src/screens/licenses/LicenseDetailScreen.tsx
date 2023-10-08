@@ -130,6 +130,9 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         itemName,
         additionalValidityText,
         id,
+        isHarvestReportSubmissionAllowed,
+        isHarvestReportSubmissionEnabled,
+        isHarvestReportSubmitted,
     } = licenseData;
 
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
@@ -323,6 +326,33 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         await dispatch(ProfileThunk.initProfileCommonData());
     };
 
+    const submitHarvestReportButtonEnable = () => {
+        console.log(`isHarvestReportSubmissionAllowed:${isHarvestReportSubmissionAllowed}`);
+        console.log(`isHarvestReportSubmissionEnabled:${isHarvestReportSubmissionEnabled}`);
+        console.log(`isHarvestReportSubmitted:${isHarvestReportSubmitted}`);
+
+        let result = false;
+
+        if (isHarvestReportSubmissionAllowed && (isHarvestReportSubmissionEnabled || isHarvestReportSubmitted)) {
+            result = true;
+        }
+
+        return result;
+    };
+
+    const submitHarvestReportButtonDisplay = () => {
+        return isHarvestReportSubmissionAllowed;
+    };
+
+    const getSubmitHarvestReportButtonText = () => {
+        let text = t("licenseDetails.submitHarvestReport");
+        if (isHarvestReportSubmissionAllowed && isHarvestReportSubmitted) {
+            text = t("licenseDetails.viewHarvestReport");
+        }
+
+        return text;
+    };
+
     useFocus(() => {
         getProfileDetails();
     });
@@ -466,15 +496,18 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                         </View>
                     </View>
                 )}
-                <PrimaryBtn
-                    testID={genTestId("SubmitHarvestReportButton ")}
-                    style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
-                    onPress={() => {
-                        const targetPath = `/LicenseNeedsHarvestReporting/EnterHarvestMobile?id=${id}`;
-                        navigateToIS({ targetPath });
-                    }}
-                    label={t("licenseDetails.SubmitHarvestReport")}
-                />
+                {submitHarvestReportButtonDisplay() && (
+                    <PrimaryBtn
+                        disabled={!submitHarvestReportButtonEnable()}
+                        testID={genTestId("SubmitHarvestReportButton ")}
+                        style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
+                        onPress={() => {
+                            const targetPath = `/LicenseNeedsHarvestReporting/EnterHarvestMobile?id=${id}`;
+                            navigateToIS({ targetPath });
+                        }}
+                        label={getSubmitHarvestReportButtonText()}
+                    />
+                )}
             </ScrollView>
         </Page>
     );
