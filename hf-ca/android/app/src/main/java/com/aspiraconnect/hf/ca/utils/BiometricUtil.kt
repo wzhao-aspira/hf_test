@@ -44,6 +44,13 @@ object BiometricUtil {
         return changed
     }
 
+    fun supportClass3Auth() : Boolean {
+        BiometricManager.from(MainApplication.instance).run {
+            val canAuthenticate = this.canAuthenticate(BIOMETRIC_STRONG)
+            return canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+        }
+    }
+
     fun authenticateAsync(activity: Activity, promptMessage: String, cancelLabel: String, promise: Promise) {
         activity.runOnUiThread {
             BiometricManager.from(MainApplication.instance).run {

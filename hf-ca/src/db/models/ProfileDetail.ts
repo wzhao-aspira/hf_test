@@ -44,7 +44,7 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
 
     ownerPhysicalAddress?: string;
 
-    ownerResidentMethodTypeId?: string;
+    ownerResidentMethodTypeId?: number;
 
     static schema = {
         name: "ProfileDetail",
@@ -70,7 +70,7 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
             mailingAddress: "string?",
             ownerGOIDNumber: "string?",
             ownerPhysicalAddress: "string?",
-            ownerResidentMethodTypeId: "string?",
+            ownerResidentMethodTypeId: "int?",
         },
         primaryKey: "customerId",
     };
