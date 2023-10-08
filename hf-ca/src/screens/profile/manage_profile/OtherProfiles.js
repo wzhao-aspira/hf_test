@@ -29,6 +29,7 @@ export default function OtherProfiles({ isLoading }) {
                 showGlobalLoading: true,
                 showCIUChangedMsg: true,
                 showListChangedMsg: true,
+                networkErrorByDialog: true,
             })
         );
 

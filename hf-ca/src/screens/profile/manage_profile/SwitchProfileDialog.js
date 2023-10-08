@@ -33,7 +33,7 @@ export default function SwitchProfileDialog({ hideDialog }) {
     const handleSwitch = async (profileId) => {
         hideDialog();
         dispatch(appActions.toggleIndicator(true));
-        const response = await dispatch(profileThunkActions.getProfileListChangeStatus());
+        const response = await dispatch(profileThunkActions.getProfileListChangeStatus({ networkErrorByDialog: true }));
         if (!response.success || response.primaryIsInactivated) {
             dispatch(appActions.toggleIndicator(false));
             return;

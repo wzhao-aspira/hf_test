@@ -118,7 +118,9 @@ function ProfileDetailsScreen({ route }) {
     };
 
     const handleRemoveBtnClick = async () => {
-        const response = await dispatch(ProfileThunk.getProfileListChangeStatus({ showGlobalLoading: true }));
+        const response = await dispatch(
+            ProfileThunk.getProfileListChangeStatus({ showGlobalLoading: true, networkErrorByDialog: true })
+        );
 
         if (!response.success || response.primaryIsInactivated) {
             return;
