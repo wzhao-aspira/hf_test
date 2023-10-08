@@ -82,8 +82,7 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate, { d
 
         if (dataResult.length >= 0) {
             return dataResult.map((item) => {
-                const { id, name, displayAddress, city, zipCode, displayBusinesPhone, distance, latitude, longitude } =
-                    item;
+                const { id, name, displayAddress, city, zipCode, businesPhone, distance, latitude, longitude } = item;
 
                 return {
                     id,
@@ -91,7 +90,7 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate, { d
                     address: displayAddress,
                     city,
                     zip: zipCode,
-                    phoneNumber: displayBusinesPhone,
+                    phoneNumber: businesPhone,
                     distance: distance?.toFixed(2),
                     distanceUnit: "mile",
                     coor: [parseFloat(longitude.toString()), parseFloat(latitude.toString())] as [number, number],
