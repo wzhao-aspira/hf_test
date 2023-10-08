@@ -101,12 +101,16 @@ function File(props: FileProps) {
                     <View>
                         <Pressable
                             onPress={() => {
-                                DialogHelper.showSimpleDialog({
+                                DialogHelper.showSelectDialog({
                                     title: "accessPermits.deleteFile",
                                     message: "accessPermits.deleteFileMessage",
                                     okText: "common.yes",
                                     okAction: () => {
                                         deleteFile();
+                                        setShouldShowDropdown(false);
+                                    },
+                                    cancelText: "common.no",
+                                    cancelAction: () => {
                                         setShouldShowDropdown(false);
                                     },
                                 });
