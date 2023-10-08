@@ -44,7 +44,8 @@
         "lePermitId": "LE Permit ID:",
         "feeNotice": "* Include any application fee, agent handing fees and license buyer surcharge",
         "vesselOwnerInformation": "Vessel Owner Information",
-        "SubmitHarvestReport": "Submit Harvest Report"
+        "submitHarvestReport": "Submit Harvest Report",
+        "viewHarvestReport": "View Harvest Report History"
     },
     "common": {
         "ok": "OK",

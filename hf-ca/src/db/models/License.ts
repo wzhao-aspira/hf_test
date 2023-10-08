@@ -44,6 +44,12 @@ export default class License extends Realm.Object<License> {
 
     documentNumber: string;
 
+    isHarvestReportSubmissionAllowed: boolean;
+
+    isHarvestReportSubmissionEnabled: boolean;
+
+    isHarvestReportSubmitted: boolean;
+
     static schema = {
         name: "License",
         primaryKey: "pk",
@@ -69,6 +75,9 @@ export default class License extends Realm.Object<License> {
             duplicateWatermark: "string?",
             amount: "double",
             documentNumber: "string",
+            isHarvestReportSubmissionAllowed: "bool",
+            isHarvestReportSubmissionEnabled: "bool",
+            isHarvestReportSubmitted: "bool",
         },
     };
 }
