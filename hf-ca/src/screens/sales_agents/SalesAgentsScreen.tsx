@@ -100,10 +100,12 @@ export default function SalesAgentsScreen({ route }) {
     const getSalesAgents = async (currentAgent) => {
         console.log(currentAgent);
         setShowSearch(false);
-        toggleLoading(true);
         setShowFloatingButton(false);
 
         const searchResult = await getSuggestionSalesAgentsFromService(currentAgent.center, { dispatch });
+        if (searchResult == null) {
+            return;
+        }
         setSelectIndex(-1);
         setSalesAgents(searchResult);
         setShowFloatingButton(searchResult.length > 0);
@@ -123,8 +125,6 @@ export default function SalesAgentsScreen({ route }) {
         if (searchResult.length == 1) {
             setMapCenter(searchResult[0].coor);
         }
-
-        toggleLoading(false);
     };
 
     const onClickCurrentLocationAction = async (currentAgent) => {

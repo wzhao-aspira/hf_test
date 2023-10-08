@@ -72,9 +72,8 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate, { d
             latitude: currentLatitude,
             longitude: currentLongitude,
         }),
-        { dispatch }
+        { showLoading: true, dispatch }
     );
-
     const { success, data } = result;
 
     if (success) {
@@ -97,9 +96,9 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate, { d
                 };
             });
         }
+        return [];
     }
-
-    return [];
+    return null;
 }
 
 export type { LicenseAgentVM } from "../network/api_client/LicenseAgentsAPIs";
