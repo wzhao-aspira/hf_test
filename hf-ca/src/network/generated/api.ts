@@ -1521,13 +1521,13 @@ export interface MobileAppConfigurationVM {
      * @type {Array<string>}
      * @memberof MobileAppConfigurationVM
      */
-    'mobileAppSplashPicture'?: Array<string> | null;
+    'mobileAppLandingPagePicture'?: Array<string> | null;
     /**
      * 
      * @type {string}
      * @memberof MobileAppConfigurationVM
      */
-    'mobileAppLandingPagePicture'?: string | null;
+    'mobileAppSplashPicture'?: string | null;
     /**
      * 
      * @type {string}

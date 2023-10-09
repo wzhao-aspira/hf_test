@@ -6,14 +6,20 @@ import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { isJpgFormat } from "../utils/GenUtil";
 import { getAppConfigs } from "../network/api_client/StaticDataApi";
+import defaultConfig from "./appConfig.json";
+import { MobileAppConfigurationVM } from "../network/generated";
+
+export const appConfig: { data: MobileAppConfigurationVM } = {
+    data: null,
+};
 
 export async function initAppConfig() {
-    const jsonData = await getAppJsonConfig();
+    const jsonData = await getAppConfig();
+    appConfig.data = jsonData;
     console.log("jsonData", jsonData);
     // merge(AppContract.strings, jsonData?.strings);
-
     const keyLoginSplash = await retrieveItem(KEY_CONSTANT.keyLoginSplash);
-    const remoteLoginSplash = jsonData?.mobileAppLandingPagePicture;
+    const remoteLoginSplash = jsonData.mobileAppLandingPagePicture[0];
     if (remoteLoginSplash && !isEqual(keyLoginSplash, remoteLoginSplash)) {
         const { status, mimeType, headers } = await FileSystem.downloadAsync(
             remoteLoginSplash,
@@ -35,14 +41,22 @@ export async function initAppConfig() {
     }
 }
 
-export async function getAppJsonConfig() {
+async function getAppConfig() {
     try {
         const result = await getAppConfigs();
-        const data = result?.data;
+        const data = result?.data.result;
         await storeItem(KEY_CONSTANT.keyAppConfig, data);
         return data;
     } catch (error) {
-        const storeConfig = await retrieveItem(KEY_CONSTANT.keyAppConfig);
-        return storeConfig;
+        console.log(error);
+        return getAppConfigFromCache();
     }
+}
+
+async function getAppConfigFromCache(): Promise<MobileAppConfigurationVM> {
+    let config = await retrieveItem(KEY_CONSTANT.keyAppConfig);
+    if (!config) {
+        config = defaultConfig;
+    }
+    return config;
 }
