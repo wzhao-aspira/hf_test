@@ -72,8 +72,9 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate, { d
             latitude: currentLatitude,
             longitude: currentLongitude,
         }),
-        { showLoading: true, dispatch }
+        { dispatch }
     );
+
     const { success, data } = result;
 
     if (success) {
@@ -96,8 +97,10 @@ export async function getSuggestionSalesAgentsFromService(currentCoordinate, { d
                 };
             });
         }
+
         return [];
     }
+
     return null;
 }
 

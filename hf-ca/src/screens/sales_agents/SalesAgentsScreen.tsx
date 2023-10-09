@@ -100,15 +100,21 @@ export default function SalesAgentsScreen({ route }) {
     const getSalesAgents = async (currentAgent) => {
         console.log(currentAgent);
         setShowSearch(false);
+        toggleLoading(true);
         setShowFloatingButton(false);
 
         const searchResult = await getSuggestionSalesAgentsFromService(currentAgent.center, { dispatch });
         if (searchResult == null) {
+            setSelectIndex(-1);
+            setShowFloatingButton(salesAgents?.length > 0);
+            toggleLoading(false);
             return;
         }
+
         setSelectIndex(-1);
         setSalesAgents(searchResult);
         setShowFloatingButton(searchResult.length > 0);
+
         if (searchResult.length == 0) {
             DialogHelper.showSimpleDialog({
                 title: "common.noResultsFound",
@@ -122,9 +128,12 @@ export default function SalesAgentsScreen({ route }) {
         if (searchResult.length == 0) {
             setMapCenter(currentAgent.center);
         }
+
         if (searchResult.length == 1) {
             setMapCenter(searchResult[0].coor);
         }
+
+        toggleLoading(false);
     };
 
     const onClickCurrentLocationAction = async (currentAgent) => {
