@@ -10,7 +10,8 @@ import Page from "../../components/Page";
 import AppTheme from "../../assets/_default/AppTheme";
 import { SharedStyles } from "../../styles/CommonStyles";
 import { DEFAULT_BTN_RADIUS } from "../../constants/Dimension";
-import { genTestId, getInternetSalesURL } from "../../helper/AppHelper";
+import { genTestId } from "../../helper/AppHelper";
+import { appConfig } from "../../services/AppConfigService";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { linkCRSSProfile } from "../../services/ProfileService";
@@ -133,12 +134,12 @@ export default function CRSSScreen({ route }) {
                         password
                         note={t("common.forgotPassword")}
                         onClickNote={() => {
-                            WebBrowser.openBrowserAsync(`${getInternetSalesURL()}CustomerSearch/Begin`).catch(
-                                (error) => {
-                                    // handle error
-                                    console.log(error);
-                                }
-                            );
+                            WebBrowser.openBrowserAsync(
+                                `${appConfig.data.internetSalesBaseURL}CustomerSearch/Begin`
+                            ).catch((error) => {
+                                // handle error
+                                console.log(error);
+                            });
                         }}
                         onBlur={() => {
                             const error = emptyValidate(password, t("errMsg.emptyPassword"));

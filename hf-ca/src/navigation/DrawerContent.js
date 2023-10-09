@@ -16,7 +16,6 @@ import { genTestId, openLink } from "../helper/AppHelper";
 import QuickAccessChecker from "../components/QuickAccessChecker";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
-import AppContract from "../assets/_default/AppContract";
 import NavigationService from "./NavigationService";
 import DialogHelper from "../helper/DialogHelper";
 import { retrieveItem } from "../helper/StorageHelper";
@@ -24,6 +23,7 @@ import { KEY_CONSTANT } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import AccountService from "../services/AccountService";
 import useNavigateToISPurchaseLicense from "../screens/licenses/hooks/useNavigateToISPurchaseLicense";
+import { appConfig } from "../services/AppConfigService";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -319,7 +319,7 @@ export default function DrawerContent({ navigation }) {
                         testID={genTestId(`${testIDPrefix}PrivacyLink`)}
                         style={styles.privacy}
                         onPress={() => {
-                            openLink(AppContract.link.privacyPolicy);
+                            openLink(appConfig.data.privacyPolicyLink);
                         }}
                     >
                         <Trans i18nKey="hamburgerMenu.privacyPolicy" />
@@ -329,7 +329,7 @@ export default function DrawerContent({ navigation }) {
                         testID={genTestId(`${testIDPrefix}TermsOfUseLink`)}
                         style={styles.privacy}
                         onPress={() => {
-                            openLink(AppContract.link.termService);
+                            openLink(appConfig.data.conditionOfUseLink);
                         }}
                     >
                         <Trans i18nKey="hamburgerMenu.termsOfService" />

@@ -25,6 +25,7 @@ import { getIndividualProfileTypes } from "../../../services/ProfileService";
 import Page from "../../../components/Page";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
 import profileSelectors from "../../../redux/ProfileSelector";
+import { appConfig } from "../../../services/AppConfigService";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -88,7 +89,7 @@ function AddIndividualProfileInfoScreen({ route }) {
             return;
         }
         // const moment = require('moment-timezone');
-        const youthThreshold = 18;
+        const youthThreshold = appConfig.data.adultAge;
         // const timeZone = 'America/Los_Angeles';
         // const currentDate = moment.tz(timeZone);
         const currentDate = moment();

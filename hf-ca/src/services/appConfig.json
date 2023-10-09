@@ -1,0 +1,17 @@
+{
+  "mobileAppLandingPagePicture": [
+    "https://theblackbird.com/wp-content/uploads/2020/09/fishing3.jpg"
+  ],
+  "mobileAppSplashPicture": "",
+  "contactCDFWLink": "https://wildlife.ca.gov/Contact",
+  "conditionOfUseLink": "https://www.wildlife.ca.gov/Conditions-of-Use",
+  "privacyPolicyLink": "https://www.wildlife.ca.gov/Privacy-Policy",
+  "internetSalesBaseURL": "https://www.ca.wildlifelicense.com/internetsales/",
+  "timeZone": "Pacific Standard Time",
+  "adultAge": 18,
+  "documentRequiredIndicator": "PHYSICAL DOCUMENT MUST BE IN IMMEDIATE POSSESSION",
+  "documentRequiredReminder": "Customers must carry the physical document while using this license.",
+  "welcomeWords": "Welcome to CDFW's Mobile License Application",
+  "userPagesFooter": "If you're having issues with accessing your customer record, contact CDFW at (916) 928-2537 or LRB@wildlife.ca.gov.",
+  "userAcknowledgement": "I certify under penalty of perjury under the laws of the State of California that all information provided to the CDFW Mobile license Application is true and correct and that I meet the requirements for the licenses displayed in this application. I understand it is unlawful to make any false statement in this application or to use or possess a license obtained by fraud or deceit (Fish and Game Code §§1052(b) and 1054)."
+}

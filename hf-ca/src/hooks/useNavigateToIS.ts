@@ -5,7 +5,7 @@ import Routers, { useAppNavigation } from "../constants/Routers";
 
 import { useAppSelector } from "./redux";
 
-import { getInternetSalesURL } from "../helper/AppHelper";
+import { appConfig } from "../services/AppConfigService";
 import { retrieveAccessToken } from "../network/tokenUtil";
 
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
@@ -28,7 +28,7 @@ function useNavigateToIS() {
                 return false;
             }
 
-            const internetSalesBaseURL = getInternetSalesURL();
+            const internetSalesBaseURL = appConfig.data?.internetSalesBaseURL;
             const accessToken = retrieveAccessToken();
             const focusCustomerID = currentInUseProfileID;
 

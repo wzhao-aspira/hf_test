@@ -12,6 +12,7 @@ import AppTheme from "../../assets/_default/AppTheme";
 import { getLoginSplash, getLogo, getLogoRatio } from "../../helper/ImgHelper";
 import SplitLine from "../../components/SplitLine";
 import OutlinedBtn from "../../components/OutlinedBtn";
+import { appConfig } from "../../services/AppConfigService";
 
 const logoWidth = 90;
 const logoHeight = logoWidth / getLogoRatio();
@@ -93,7 +94,7 @@ export default function LoginScreen() {
                 <>
                     <Text style={styles.title}>{t("login.splashTitle")}</Text>
                     <SplitLine style={{ backgroundColor: AppTheme.colors.font_color_1 }} />
-                    <Text style={styles.subTitle}>{t("login.splashSubTitle")}</Text>
+                    <Text style={styles.subTitle}>{appConfig.data?.welcomeWords}</Text>
                     <PrimaryBtn
                         testID="signInBtn"
                         label={t("login.signIn")}

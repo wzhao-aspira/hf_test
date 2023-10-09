@@ -1,6 +1,6 @@
 import { createRef, useState } from "react";
 import { Text, View } from "react-native";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import emailValidator from "email-validator";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch } from "react-redux";
@@ -20,6 +20,7 @@ import DialogHelper from "../../helper/DialogHelper";
 import CountdownTextInput from "../../components/CountdownTextInput";
 import { genTestId } from "../../helper/AppHelper";
 import { handleError } from "../../network/APIUtil";
+import { appConfig } from "../../services/AppConfigService";
 
 export default function ForgotPasswordEnterEmailScreen() {
     const { t } = useTranslation();
@@ -158,7 +159,7 @@ export default function ForgotPasswordEnterEmailScreen() {
     const renderTipMessageSection = () => {
         return (
             <Text testID={genTestId("TipMessage")} style={ForgotPasswordStyles.tip_message}>
-                <Trans i18nKey="forgotPassword.enterValidationCode.tipMessage" />
+                {appConfig.data.userPagesFooter}
             </Text>
         );
     };

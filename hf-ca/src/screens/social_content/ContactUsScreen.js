@@ -6,10 +6,13 @@ import ListItem from "../shared/ListItem";
 import AppContract from "../../assets/_default/AppContract";
 import { openLink } from "../../helper/AppHelper";
 import { getListData, styles } from "./SocialContentUtils";
+import { appConfig } from "../../services/AppConfigService";
 
 function ContactUsScreen() {
     const { t, i18n } = useTranslation();
-    const contactList = getListData(i18n, t, AppContract.contactList);
+    const newContactList = AppContract.contactList;
+    newContactList[0].url = appConfig.data.contactCDFWLink;
+    const contactList = getListData(i18n, t, newContactList);
 
     return (
         <Page style={styles.container}>
