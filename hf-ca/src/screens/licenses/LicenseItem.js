@@ -5,6 +5,7 @@ import { Trans } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";
+import { appConfig } from "../../services/AppConfigService";
 
 export const styles = StyleSheet.create({
     mainContainerStyle: {
@@ -59,26 +60,11 @@ function getProductName(itemData) {
 }
 
 function getValidDates(itemData) {
-    const validFrom = itemData?.validFrom;
-    const validTo = itemData?.validTo;
-    if (validFrom && validTo) {
+    const altTextValidFromTo = itemData?.altTextValidFromTo;
+    if (altTextValidFromTo) {
         return (
-            <Text testID={genTestId(`${validFrom}-${validTo}`)} style={styles.validDateLabel}>
-                Valid From: {validFrom} to {validTo}
-            </Text>
-        );
-    }
-    if (validFrom) {
-        return (
-            <Text testID={genTestId(`${validFrom}`)} style={styles.validDateLabel}>
-                Valid From: {validFrom}
-            </Text>
-        );
-    }
-    if (validTo) {
-        return (
-            <Text testID={genTestId(`${validTo}`)} style={styles.validDateLabel}>
-                Valid To: {validTo}
+            <Text testID={genTestId(`${altTextValidFromTo}`)} style={styles.validDateLabel}>
+                <Trans i18nKey="license.validFromTo" /> {altTextValidFromTo}
             </Text>
         );
     }
@@ -90,7 +76,7 @@ function getLicenseTag(itemData) {
     if (mobileAppNeedPhysicalDocument) {
         return (
             <Text testID={genTestId("licenseTag")} style={styles.licenseTag}>
-                <Trans i18nKey="license.physicalDocumentNeeded" />
+                {appConfig.data.documentRequiredIndicator}
             </Text>
         );
     }

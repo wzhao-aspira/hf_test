@@ -38,6 +38,8 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
 
     physicalAddress?: string;
 
+    simplePhysicalAddress?: string;
+
     mailingAddress?: string;
 
     ownerGOIDNumber?: string;
@@ -45,6 +47,20 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
     ownerPhysicalAddress?: string;
 
     ownerResidentMethodTypeId?: number;
+
+    ownerSimplePhysicalAddress?: string;
+
+    individualCustomerOfficialDocumentFieldName?: string;
+
+    individualCustomerOfficialDocumentDisplayValue?: string;
+
+    vesselCustomerDocumentIdentityFieldName?: string;
+
+    vesselCustomerDocumentIdentityDisplayValue?: string;
+
+    ownerOfficialDocumentFieldName?: string;
+
+    ownerOfficialDocumentDisplayValue?: string;
 
     static schema = {
         name: "ProfileDetail",
@@ -67,10 +83,18 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
             purchaseDate: "string?",
             currentDocumentation: "string?",
             physicalAddress: "string?",
+            simplePhysicalAddress: "string?",
             mailingAddress: "string?",
             ownerGOIDNumber: "string?",
             ownerPhysicalAddress: "string?",
             ownerResidentMethodTypeId: "int?",
+            ownerSimplePhysicalAddress: "string?",
+            individualCustomerOfficialDocumentFieldName: "string?",
+            individualCustomerOfficialDocumentDisplayValue: "string?",
+            vesselCustomerDocumentIdentityFieldName: "string?",
+            vesselCustomerDocumentIdentityDisplayValue: "string?",
+            ownerOfficialDocumentFieldName: "string?",
+            ownerOfficialDocumentDisplayValue: "string?",
         },
         primaryKey: "customerId",
     };

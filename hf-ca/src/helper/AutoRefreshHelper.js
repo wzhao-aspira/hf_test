@@ -13,6 +13,10 @@ export function setProfileListUpdateTime() {
     refreshTime.profileList = moment().unix();
 }
 
+export function clearProfileListUpdateTime() {
+    refreshTime.profileList = null;
+}
+
 export function getPreferencePointListUpdateTime(profileId) {
     let result = null;
     if (refreshTime.preferencePointList[profileId]) {

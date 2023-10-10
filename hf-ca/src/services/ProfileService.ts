@@ -23,11 +23,13 @@ import {
 } from "../network/api_client/StaticDataApi";
 import {
     CountryVM,
+    CustomerVM,
     IdentityTypesVM,
     ResidentMethodTypeVM,
     StateVM,
     YouthIdentityOwnerVM,
 } from "../network/generated/api";
+import { ProfileDetail } from "../types/profile";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
@@ -201,15 +203,83 @@ export async function removeAccountCurrentInUseProfileID(accountID) {
     }
 }
 
+const convertProfileDetail = (customer: CustomerVM): ProfileDetail => {
+    // API provide base class type's props, API have story try to back all props use sub class props.
+    const {
+        customerId,
+        customerTypeId,
+        goidNumber,
+        displayName,
+        dateOfBirth,
+        gender,
+        genderShortForm,
+        hair,
+        eye,
+        height,
+        weight,
+        fishBusinessId,
+        ownershipType,
+        vesselName,
+        ownerName,
+        purchaseDate,
+        currentDocumentation,
+        physicalAddress,
+        simplePhysicalAddress,
+        mailingAddress,
+        ownerGOIDNumber,
+        ownerPhysicalAddress,
+        ownerResidentMethodTypeId,
+        ownerSimplePhysicalAddress,
+        individualCustomerOfficialDocument,
+        vesselCustomerDocumentIdentity,
+        ownerOfficialDocument,
+    } = customer;
+    const profileDetail = {
+        customerId,
+        customerTypeId,
+        goidNumber,
+        displayName,
+        dateOfBirth,
+        gender,
+        genderShortForm,
+        hair,
+        eye,
+        height,
+        weight,
+        fishBusinessId,
+        ownershipType,
+        vesselName,
+        ownerName,
+        purchaseDate,
+        currentDocumentation,
+        physicalAddress,
+        simplePhysicalAddress,
+        mailingAddress,
+        ownerGOIDNumber,
+        ownerPhysicalAddress,
+        ownerResidentMethodTypeId,
+        ownerSimplePhysicalAddress,
+        individualCustomerOfficialDocumentFieldName: individualCustomerOfficialDocument?.identityFieldName,
+        individualCustomerOfficialDocumentDisplayValue: individualCustomerOfficialDocument?.identityDisplayValue,
+        vesselCustomerDocumentIdentityFieldName: vesselCustomerDocumentIdentity?.identityFieldName,
+        vesselCustomerDocumentIdentityDisplayValue: vesselCustomerDocumentIdentity?.identityDisplayValue,
+        ownerOfficialDocumentFieldName: ownerOfficialDocument?.identityFieldName,
+        ownerOfficialDocumentDisplayValue: ownerOfficialDocument?.identityDisplayValue,
+    };
+    return profileDetail;
+};
 export async function getProfileDetailsById(profileId) {
-    return getProfileDetails(profileId);
+    const profileDetails = await getProfileDetails(profileId);
+    const { result, errors, isValidResponse } = profileDetails.data;
+    const formattedResult = convertProfileDetail(result);
+    return { data: { errors, result: formattedResult, isValidResponse } };
 }
 
 export function batchUpdateProfileDetails(profiles) {
     if (profiles?.success && !isEmpty(profiles?.data?.result)) {
         profiles?.data?.result?.forEach((ele) => {
             console.log("backend profile id:", ele?.customerId);
-            getProfileDetails(ele?.customerId)
+            getProfileDetailsById(ele?.customerId)
                 .then((v) => {
                     if (!isEmpty(v?.data?.result)) {
                         updateProfileDetailToDB(v?.data?.result);
