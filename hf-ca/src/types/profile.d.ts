@@ -32,3 +32,36 @@ export interface Profile {
     middleName?: string;
     ownerName?: string;
 }
+
+export interface ProfileDetail {
+    customerId: string;
+    customerTypeId?: null | number;
+    goidNumber?: null | string;
+    displayName?: null | string;
+    dateOfBirth?: null | string;
+    gender?: null | string;
+    genderShortForm?: null | string;
+    hair?: null | string;
+    eye?: null | string;
+    height?: null | number;
+    weight?: null | number;
+    fishBusinessId?: null | string;
+    ownershipType?: null | string;
+    vesselName?: null | string;
+    ownerName?: null | string;
+    purchaseDate?: null | string;
+    currentDocumentation?: null | string;
+    physicalAddress?: null | string;
+    simplePhysicalAddress?: null | string;
+    mailingAddress?: null | string;
+    ownerGOIDNumber?: null | string;
+    ownerPhysicalAddress?: null | string;
+    ownerResidentMethodTypeId?: null | number;
+    ownerSimplePhysicalAddress?: null | string;
+    individualCustomerOfficialDocumentFieldName?: null | string;
+    individualCustomerOfficialDocumentDisplayValue?: null | string;
+    vesselCustomerDocumentIdentityFieldName?: null | string;
+    vesselCustomerDocumentIdentityDisplayValue?: null | string;
+    ownerOfficialDocumentFieldName?: null | string;
+    ownerOfficialDocumentDisplayValue?: null | string;
+}

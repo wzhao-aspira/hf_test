@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
 const renderValidDate = (title, date) => {
     return date ? (
-        <View style={{ width: 100 }}>
+        <View>
             <Text testID={genTestId(`date-${title}`)} style={{ ...AppTheme.typography.card_small_m }}>
                 {title}
             </Text>
@@ -45,12 +45,12 @@ const renderValidDate = (title, date) => {
             </Text>
         </View>
     ) : (
-        <View style={{ width: 100 }} />
+        <View />
     );
 };
 
 function CarouselContent({ item }) {
-    const { validFrom, validTo, name } = item;
+    const { altTextValidFromTo, name } = item;
     const { t } = useTranslation();
     return (
         <View style={styles.card}>
@@ -70,8 +70,7 @@ function CarouselContent({ item }) {
                 <View style={{ flex: 1 }} />
                 <SeparateLine style={{ marginHorizontal: -20 }} />
                 <View style={styles.cardBottomContainer}>
-                    {renderValidDate(t("license.validFrom"), validFrom)}
-                    {renderValidDate(t("license.validTo"), validTo)}
+                    {renderValidDate(t("license.validFromTo"), altTextValidFromTo)}
                 </View>
             </Pressable>
         </View>

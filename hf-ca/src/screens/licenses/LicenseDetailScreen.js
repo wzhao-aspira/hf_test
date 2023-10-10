@@ -1,12 +1,10 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from "react-native";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import { useTranslation, Trans } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import RenderHtml from "react-native-render-html";
 import moment from "moment";
-import { AppNativeStackScreenProps } from "../../constants/Routers";
-import useNavigateToIS from "../../hooks/useNavigateToIS";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { genTestId } from "../../helper/AppHelper";
 
@@ -17,9 +15,15 @@ import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
 import { selectors } from "../../redux/ProfileSlice";
 import ProfileThunk from "../../redux/ProfileThunk";
-import useFocus from "../../hooks/useFocus";
-import { PROFILE_TYPE_IDS } from "../../constants/Constants";
+import { PROFILE_TYPE_IDS, REQUEST_STATUS } from "../../constants/Constants";
 import { getHeight, getWeight } from "../profile/profile_details/ProfileDetailsUtils";
+import profileSelectors from "../../redux/ProfileSelector";
+import { selectLicenseForList } from "../../redux/LicenseSelector";
+import { getLicense } from "../../redux/LicenseSlice";
+import useFocus from "../../hooks/useFocus";
+import useNavigateToISSubmitHarvestReport from "./hooks/useNavigateToISSubmitHarvestReport";
+import LicenseDetailLoading from "./LicenseDetailLoading";
+import { appConfig } from "../../services/AppConfigService";
 
 const styles = StyleSheet.create({
     container: {
@@ -81,10 +85,6 @@ const styles = StyleSheet.create({
     },
 });
 
-interface LicenseDetailScreenProps extends AppNativeStackScreenProps<"licenseDetailScreen"> {
-    //
-}
-
 function renderInfoSection(sectionName, sectionInformation) {
     return sectionInformation.map((rowItem) => {
         return (
@@ -107,11 +107,16 @@ function renderInfoSection(sectionName, sectionInformation) {
     });
 }
 
-function LicenseDetailScreen(props: LicenseDetailScreenProps) {
+function LicenseDetailScreen(props) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
-    const { navigateToIS } = useNavigateToIS();
+
+    const profileListRequestStatus = useSelector(profileSelectors.selectProfileListRequestStatus);
+    const profileListRefreshing = profileListRequestStatus == REQUEST_STATUS.pending;
+
+    const reduxData = useSelector(selectLicenseForList);
+    const licenseRefreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
 
     const { route } = props;
     const { licenseData } = route.params;
@@ -134,7 +139,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         isHarvestReportSubmissionEnabled,
         isHarvestReportSubmitted,
     } = licenseData;
-
+    const { navigateToIS } = useNavigateToISSubmitHarvestReport(id);
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
     const profileDetails = useSelector(selectors.selectProfileDetailsById(currentInUseProfileId));
     const {
@@ -148,7 +153,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         weight,
         dateOfBirth,
         businessName,
-        physicalAddress,
+        simplePhysicalAddress,
         vesselName,
         fgNumber,
         homePort,
@@ -159,19 +164,19 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         length,
         breadth,
         depth,
-        individualCustomerOfficialDocument,
-        vesselCustomerDocumentIdentity,
+        individualCustomerOfficialDocumentFieldName,
+        individualCustomerOfficialDocumentDisplayValue,
+        vesselCustomerDocumentIdentityFieldName,
+        vesselCustomerDocumentIdentityDisplayValue,
+        ownerOfficialDocumentFieldName,
+        ownerOfficialDocumentDisplayValue,
         residentMethodTypeId,
         ownerName,
         ownerGOIDNumber,
-        ownerPhysicalAddress,
+        ownerSimplePhysicalAddress,
         ownerResidentMethodTypeId,
     } = profileDetails;
 
-    const { identityFieldName, identityDisplayValue } =
-        PROFILE_TYPE_IDS.vessel == customerTypeId
-            ? vesselCustomerDocumentIdentity || {}
-            : individualCustomerOfficialDocument || {};
     const residentMethodTypeData = useSelector(selectors.selectResidentMethodTypeById(residentMethodTypeId));
     const { residentMethodType, printDescription } = residentMethodTypeData;
     const ownerResidentMethodTypeData = useSelector(selectors.selectResidentMethodTypeById(ownerResidentMethodTypeId));
@@ -182,8 +187,11 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
             { label: t("licenseDetails.goID"), content: goIDNumber },
         ],
         [
-            { label: identityFieldName, content: identityDisplayValue },
-            { label: t("licenseDetails.address"), content: physicalAddress },
+            {
+                label: individualCustomerOfficialDocumentFieldName,
+                content: individualCustomerOfficialDocumentDisplayValue,
+            },
+            { label: t("licenseDetails.address"), content: simplePhysicalAddress },
         ],
     ];
 
@@ -209,7 +217,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
             { label: t("licenseDetails.dba"), content: businessName },
             { label: t("licenseDetails.goID"), content: goIDNumber },
         ],
-        [{ label: t("licenseDetails.address"), content: physicalAddress }],
+        [{ label: t("licenseDetails.address"), content: simplePhysicalAddress }],
         [{ label: "", content: residentMethodType }],
     ];
 
@@ -219,7 +227,7 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
             { label: t("licenseDetails.goID"), content: goIDNumber },
         ],
         [
-            { label: identityFieldName, content: identityDisplayValue },
+            { label: vesselCustomerDocumentIdentityFieldName, content: vesselCustomerDocumentIdentityDisplayValue },
             { label: t("licenseDetails.fgNumber"), content: fgNumber },
         ],
         [{ label: t("licenseDetails.homePort"), content: homePort }],
@@ -246,7 +254,12 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
             { label: t("licenseDetails.owner"), content: ownerName },
             { label: t("licenseDetails.goID"), content: ownerGOIDNumber },
         ],
-        [{ label: t("licenseDetails.address"), content: ownerPhysicalAddress }],
+        ownerOfficialDocumentFieldName
+            ? [
+                  { label: ownerOfficialDocumentFieldName, content: ownerOfficialDocumentDisplayValue },
+                  { label: t("licenseDetails.address"), content: ownerSimplePhysicalAddress },
+              ]
+            : [{ label: t("licenseDetails.address"), content: ownerSimplePhysicalAddress }],
         [{ label: "", content: ownerResidentMethodType }],
     ];
 
@@ -319,12 +332,24 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
         });
     };
 
-    const getProfileDetails = async () => {
-        // @ts-ignore
-        await dispatch(ProfileThunk.initProfileDetails(currentInUseProfileId));
-        // @ts-ignore
-        await dispatch(ProfileThunk.initProfileCommonData());
+    const getLicenseOfActiveProfile = (isForce) => {
+        dispatch(ProfileThunk.refreshProfileList({ isForce })).then((response) => {
+            if (
+                response.isReloadData &&
+                (!response.success || response.primaryIsInactivated || response.ciuIsInactivated)
+            ) {
+                return;
+            }
+            dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } }));
+            dispatch(ProfileThunk.initProfileDetails(currentInUseProfileId));
+            dispatch(ProfileThunk.initProfileCommonData());
+        });
     };
+
+    useFocus(() => {
+        getLicenseOfActiveProfile(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const submitHarvestReportButtonEnable = () => {
         console.log(`isHarvestReportSubmissionAllowed:${isHarvestReportSubmissionAllowed}`);
@@ -352,11 +377,6 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
 
         return text;
     };
-
-    useFocus(() => {
-        getProfileDetails();
-    });
-
     return (
         <Page style={styles.container}>
             <CommonHeader rightIcon={false} title={t("licenseDetails.licenseDetails")} />
@@ -364,149 +384,164 @@ function LicenseDetailScreen(props: LicenseDetailScreenProps) {
                 style={styles.scrollView}
                 contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
                 showsVerticalScrollIndicator={false}
-            >
-                <View style={styles.content}>
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            marginHorizontal: DEFAULT_MARGIN,
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            marginTop: 10,
+                refreshControl={
+                    <RefreshControl
+                        colors={[AppTheme.colors.primary]}
+                        tintColor={AppTheme.colors.primary}
+                        refreshing={profileListRefreshing || licenseRefreshing}
+                        onRefresh={() => {
+                            getLicenseOfActiveProfile(true);
                         }}
-                    >
-                        <Text
-                            style={[styles.title, { fontSize: 40, lineHeight: 40 }]}
-                            testID={genTestId("validityCornerTitle")}
-                        >
-                            {validityCornerTitle}
-                        </Text>
-                        <Text style={{ lineHeight: 30 }} testID={genTestId("duplicateWatermark")}>
-                            {duplicateWatermark}
-                        </Text>
-                        <Text
-                            testID={genTestId("documentCode")}
-                            style={[styles.title, { fontSize: 40, lineHeight: 40 }]}
-                        >
-                            {documentCode}
-                        </Text>
-                    </View>
-                    <View style={{ alignItems: "center" }}>
-                        <View style={[styles.titleContainer]}>
-                            <Text
-                                numberOfLines={0}
-                                style={[styles.title, { ...AppTheme.typography.sub_section }]}
-                                testID={genTestId("stateOfCalifornia")}
+                    />
+                }
+            >
+                {profileListRefreshing || licenseRefreshing ? (
+                    <LicenseDetailLoading />
+                ) : (
+                    <>
+                        <View style={styles.content}>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginHorizontal: DEFAULT_MARGIN,
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    marginTop: 10,
+                                }}
                             >
-                                <Trans i18nKey="licenseDetails.stateOfCalifornia" />
-                            </Text>
-                        </View>
-                        <View style={[styles.titleContainer, { paddingTop: 0 }]}>
-                            <Text
-                                numberOfLines={0}
-                                style={[styles.title, { ...AppTheme.typography.sub_section }]}
-                                testID={genTestId("departmentOfFW")}
-                            >
-                                <Trans i18nKey="licenseDetails.departmentOfFW" />
-                            </Text>
-                        </View>
-                        <View style={[styles.line, { marginTop: 0 }]} />
-                        <View style={styles.titleContainer}>
-                            <Text
-                                numberOfLines={0}
-                                style={[
-                                    styles.title,
-                                    {
-                                        width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
-                                        paddingHorizontal: DEFAULT_MARGIN,
-                                    },
-                                ]}
-                                testID={genTestId("name")}
-                            >
-                                {name}
-                            </Text>
-                        </View>
-                        <View style={styles.titleContainer}>
-                            <Text
-                                numberOfLines={0}
-                                style={[
-                                    styles.title,
-                                    {
-                                        width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
-                                        paddingHorizontal: DEFAULT_MARGIN,
-                                    },
-                                ]}
-                                testID={genTestId("altTextValidFromTo")}
-                            >
-                                {altTextValidFromTo}
-                            </Text>
-                        </View>
-                        {!!additionalValidityText && (
-                            <View style={styles.titleContainer}>
-                                <Text numberOfLines={0} testID={genTestId("additionalValidityText")}>
-                                    {additionalValidityText}
+                                <Text
+                                    style={[styles.title, { fontSize: 40, lineHeight: 40 }]}
+                                    testID={genTestId("validityCornerTitle")}
+                                >
+                                    {validityCornerTitle}
                                 </Text>
+                                <Text style={{ lineHeight: 30 }} testID={genTestId("duplicateWatermark")}>
+                                    {duplicateWatermark}
+                                </Text>
+                                <Text
+                                    testID={genTestId("documentCode")}
+                                    style={[styles.title, { fontSize: 40, lineHeight: 40 }]}
+                                >
+                                    {documentCode}
+                                </Text>
+                            </View>
+                            <View style={{ alignItems: "center" }}>
+                                <View style={[styles.titleContainer]}>
+                                    <Text
+                                        numberOfLines={0}
+                                        style={[styles.title, { ...AppTheme.typography.sub_section }]}
+                                        testID={genTestId("stateOfCalifornia")}
+                                    >
+                                        <Trans i18nKey="licenseDetails.stateOfCalifornia" />
+                                    </Text>
+                                </View>
+                                <View style={[styles.titleContainer, { paddingTop: 0 }]}>
+                                    <Text
+                                        numberOfLines={0}
+                                        style={[styles.title, { ...AppTheme.typography.sub_section }]}
+                                        testID={genTestId("departmentOfFW")}
+                                    >
+                                        <Trans i18nKey="licenseDetails.departmentOfFW" />
+                                    </Text>
+                                </View>
+                                <View style={[styles.line, { marginTop: 0 }]} />
+                                <View style={styles.titleContainer}>
+                                    <Text
+                                        numberOfLines={0}
+                                        style={[
+                                            styles.title,
+                                            {
+                                                width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
+                                                paddingHorizontal: DEFAULT_MARGIN,
+                                            },
+                                        ]}
+                                        testID={genTestId("name")}
+                                    >
+                                        {name}
+                                    </Text>
+                                </View>
+                                <View style={styles.titleContainer}>
+                                    <Text
+                                        numberOfLines={0}
+                                        style={[
+                                            styles.title,
+                                            {
+                                                width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
+                                                paddingHorizontal: DEFAULT_MARGIN,
+                                            },
+                                        ]}
+                                        testID={genTestId("altTextValidFromTo")}
+                                    >
+                                        {altTextValidFromTo}
+                                    </Text>
+                                </View>
+                                {!!additionalValidityText && (
+                                    <View style={styles.titleContainer}>
+                                        <Text numberOfLines={0} testID={genTestId("additionalValidityText")}>
+                                            {additionalValidityText}
+                                        </Text>
+                                    </View>
+                                )}
+                                <View style={{ marginTop: 13, marginBottom: 10 }} testID={genTestId("barCode")}>
+                                    <Barcode
+                                        format="CODE39"
+                                        value={documentNumber}
+                                        text={documentNumber}
+                                        textStyle={{ fontFamily: "Lato_Bold" }}
+                                        width={240}
+                                        height={63}
+                                        maxWidth={SCREEN_WIDTH - 4 * DEFAULT_MARGIN}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.sectionContent}>{renderCustomerSection()}</View>
+                        <View style={styles.sectionContent}>
+                            {renderFeeSection()}
+                            <View style={[styles.licenseInfo, { marginTop: 10 }]}>
+                                <Text style={styles.labelText} testID={genTestId("feeNotice")}>
+                                    <Trans i18nKey="licenseDetails.feeNotice" />
+                                </Text>
+                            </View>
+                        </View>
+                        {mobileAppNeedPhysicalDocument && (
+                            <View style={[styles.sectionContent]}>
+                                <View style={[styles.licenseInfo, { marginTop: 10 }]}>
+                                    <View>
+                                        <Text testID={genTestId("documentRequiredReminder")}>
+                                            {appConfig.data.documentRequiredReminder}
+                                        </Text>
+                                    </View>
+                                </View>
                             </View>
                         )}
-                        <View style={{ marginTop: 13, marginBottom: 10 }} testID={genTestId("barCode")}>
-                            <Barcode
-                                format="CODE39"
-                                value={documentNumber}
-                                text={documentNumber}
-                                textStyle={{ fontFamily: "Lato_Bold" }}
-                                width={240}
-                                height={63}
-                                maxWidth={SCREEN_WIDTH - 4 * DEFAULT_MARGIN}
-                            />
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.sectionContent}>{renderCustomerSection()}</View>
-                <View style={styles.sectionContent}>
-                    {renderFeeSection()}
-                    <View style={[styles.licenseInfo, { marginTop: 10 }]}>
-                        <Text style={styles.labelText} testID={genTestId("feeNotice")}>
-                            <Trans i18nKey="licenseDetails.feeNotice" />
-                        </Text>
-                    </View>
-                </View>
-                {mobileAppNeedPhysicalDocument && (
-                    <View style={[styles.sectionContent]}>
-                        <View style={[styles.licenseInfo, { marginTop: 10 }]}>
-                            <View>
-                                <Text testID={genTestId("physicalDocumentNeeded")}>
-                                    <Trans i18nKey="license.physicalDocumentNeeded" />
-                                </Text>
+                        {!!printedDescriptiveText && (
+                            <View style={[styles.sectionContent]}>
+                                <View
+                                    style={[styles.licenseInfo, { marginTop: 10 }]}
+                                    testID={genTestId("printedDescriptiveText")}
+                                >
+                                    <RenderHtml
+                                        contentWidth={SCREEN_WIDTH}
+                                        source={{
+                                            html: printedDescriptiveText,
+                                        }}
+                                    />
+                                </View>
                             </View>
-                        </View>
-                    </View>
-                )}
-                {!!printedDescriptiveText && (
-                    <View style={[styles.sectionContent]}>
-                        <View
-                            style={[styles.licenseInfo, { marginTop: 10 }]}
-                            testID={genTestId("printedDescriptiveText")}
-                        >
-                            <RenderHtml
-                                contentWidth={SCREEN_WIDTH}
-                                source={{
-                                    html: printedDescriptiveText,
+                        )}
+                        {submitHarvestReportButtonDisplay() && (
+                            <PrimaryBtn
+                                disabled={!submitHarvestReportButtonEnable()}
+                                testID={genTestId("SubmitHarvestReportButton ")}
+                                style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
+                                onPress={() => {
+                                    navigateToIS();
                                 }}
+                                label={getSubmitHarvestReportButtonText()}
                             />
-                        </View>
-                    </View>
-                )}
-                {submitHarvestReportButtonDisplay() && (
-                    <PrimaryBtn
-                        disabled={!submitHarvestReportButtonEnable()}
-                        testID={genTestId("SubmitHarvestReportButton ")}
-                        style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
-                        onPress={() => {
-                            const targetPath = `/LicenseNeedsHarvestReporting/EnterHarvestMobile?id=${id}`;
-                            navigateToIS({ targetPath });
-                        }}
-                        label={getSubmitHarvestReportButtonText()}
-                    />
+                        )}
+                    </>
                 )}
             </ScrollView>
         </Page>

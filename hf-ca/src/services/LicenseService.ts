@@ -6,9 +6,6 @@ import { getLicenseListData, saveLicenseListData } from "../db";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 
-// API not ready, use mock data
-const NeedPhysicalDocumentItemIds = [11, 16, 18, 19, 23];
-
 const formateDate = (item, formatter) => {
     const validFrom =
         item.validFrom && DateUtils.dateToFormat(item.validFrom, formatter, AppContract.inputFormat.fmt_2);
@@ -52,12 +49,12 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             isHarvestReportSubmissionAllowed,
             isHarvestReportSubmissionEnabled,
             isHarvestReportSubmitted,
+            mobileAppNeedPhysicalDocument,
         } = item;
         const { duplicateWatermark, documentNumber, amount } = {
             ...item.document,
         };
         const name = `${itemYear} - ${itemName}`;
-        const mobileAppNeedPhysicalDocument = NeedPhysicalDocumentItemIds.includes(itemTypeId);
 
         return {
             pk: `${activeProfileId}_${licenseId}`,

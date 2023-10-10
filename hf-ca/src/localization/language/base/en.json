@@ -4,13 +4,11 @@
         "myLicense": "My Licenses",
         "firstNameLicense": "{{firstName}}'s Licenses",
         "license": "License",
-        "validFrom": "Valid From",
-        "validTo": "Valid To",
+        "validFromTo": "Validity Date Range:",
         "viewAllLicenses": "View All Licenses",
         "noLicenseTitle": "No licenses found",
         "noLicenseIntroduction": "Purchase your hunting or fishing license now",
-        "purchaseLicense": "Purchase License",
-        "physicalDocumentNeeded": "PHYSICAL DOCUMENT MUST BE IN IMMEDIATE POSSESSION"
+        "purchaseLicense": "Purchase License"
     },
     "licenseDetails": {
         "stateOfCalifornia": "STATE OF CALIFORNIA",
