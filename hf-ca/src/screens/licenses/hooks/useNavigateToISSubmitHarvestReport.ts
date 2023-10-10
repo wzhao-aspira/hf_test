@@ -9,8 +9,9 @@ function useNavigateToISSubmitHarvestReport(licenseId: string) {
     const { navigateToIS } = useNavigateToIS();
 
     return {
-        navigateToIS: async () => {
+        navigateToSubmitHarvestReport: async () => {
             const targetPath = `/LicenseNeedsHarvestReporting/EnterHarvestMobile?id=${licenseId}`;
+
             const result = await navigateToIS({
                 targetPath,
             });

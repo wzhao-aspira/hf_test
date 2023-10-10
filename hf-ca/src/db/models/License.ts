@@ -50,6 +50,8 @@ export default class License extends Realm.Object<License> {
 
     isHarvestReportSubmitted: boolean;
 
+    licenseReportId?: string;
+
     static schema = {
         name: "License",
         primaryKey: "pk",
@@ -78,6 +80,7 @@ export default class License extends Realm.Object<License> {
             isHarvestReportSubmissionAllowed: "bool",
             isHarvestReportSubmissionEnabled: "bool",
             isHarvestReportSubmitted: "bool",
+            licenseReportId: "string?",
         },
     };
 }
