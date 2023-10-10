@@ -23,6 +23,7 @@ import useFocus from "../../hooks/useFocus";
 import useNavigateToISSubmitHarvestReport from "./hooks/useNavigateToISSubmitHarvestReport";
 import LicenseDetailLoading from "./LicenseDetailLoading";
 import { appConfig } from "../../services/AppConfigService";
+import useNavigateToISViewHarvestReport from "./hooks/useNavigateToISViewHarvestReport";
 
 const styles = StyleSheet.create({
     container: {
@@ -134,8 +135,13 @@ function LicenseDetailScreen(props) {
         isHarvestReportSubmissionAllowed,
         isHarvestReportSubmissionEnabled,
         isHarvestReportSubmitted,
+        licenseReportId,
     } = licenseData;
-    const { navigateToIS } = useNavigateToISSubmitHarvestReport(id);
+
+    console.log(`license data:${JSON.stringify(licenseData)}`);
+
+    const { navigateToSubmitHarvestReport } = useNavigateToISSubmitHarvestReport(id);
+    const { navigateToViewHarvestReport } = useNavigateToISViewHarvestReport(licenseReportId);
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
     const profileDetails = useSelector(selectors.selectProfileDetailsById(currentInUseProfileId));
     const {
@@ -339,7 +345,7 @@ function LicenseDetailScreen(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const submitHarvestReportButtonEnable = () => {
+    const harvestReportButtonEnable = () => {
         console.log(`isHarvestReportSubmissionAllowed:${isHarvestReportSubmissionAllowed}`);
         console.log(`isHarvestReportSubmissionEnabled:${isHarvestReportSubmissionEnabled}`);
         console.log(`isHarvestReportSubmitted:${isHarvestReportSubmitted}`);
@@ -353,18 +359,28 @@ function LicenseDetailScreen(props) {
         return result;
     };
 
-    const submitHarvestReportButtonDisplay = () => {
+    const harvestReportButtonDisplay = () => {
         return isHarvestReportSubmissionAllowed;
     };
 
-    const getSubmitHarvestReportButtonText = () => {
-        let text = t("licenseDetails.submitHarvestReport");
+    const shouldShowViewHarvestReportButton = () => {
+        let result = false;
         if (isHarvestReportSubmissionAllowed && isHarvestReportSubmitted) {
+            result = true;
+        }
+
+        return result;
+    };
+
+    const getHarvestReportButtonText = () => {
+        let text = t("licenseDetails.submitHarvestReport");
+        if (shouldShowViewHarvestReportButton()) {
             text = t("licenseDetails.viewHarvestReport");
         }
 
         return text;
     };
+
     return (
         <Page style={styles.container}>
             <CommonHeader rightIcon={false} title={t("licenseDetails.licenseDetails")} />
@@ -518,15 +534,19 @@ function LicenseDetailScreen(props) {
                                 </View>
                             </View>
                         )}
-                        {submitHarvestReportButtonDisplay() && (
+                        {harvestReportButtonDisplay() && (
                             <PrimaryBtn
-                                disabled={!submitHarvestReportButtonEnable()}
+                                disabled={!harvestReportButtonEnable()}
                                 testID={genTestId("SubmitHarvestReportButton ")}
                                 style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
                                 onPress={() => {
-                                    navigateToIS();
+                                    if (shouldShowViewHarvestReportButton()) {
+                                        navigateToViewHarvestReport();
+                                    } else {
+                                        navigateToSubmitHarvestReport();
+                                    }
                                 }}
-                                label={getSubmitHarvestReportButtonText()}
+                                label={getHarvestReportButtonText()}
                             />
                         )}
                     </>

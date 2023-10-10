@@ -50,6 +50,7 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             isHarvestReportSubmissionEnabled,
             isHarvestReportSubmitted,
             mobileAppNeedPhysicalDocument,
+            licenseReportId,
         } = item;
         const { duplicateWatermark, documentNumber, amount } = {
             ...item.document,
@@ -81,6 +82,7 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             isHarvestReportSubmissionAllowed,
             isHarvestReportSubmissionEnabled,
             isHarvestReportSubmitted,
+            licenseReportId,
         };
     });
     // Save the license list data per profile

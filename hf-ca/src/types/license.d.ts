@@ -39,4 +39,5 @@ export interface License {
     isHarvestReportSubmissionAllowed: boolean;
     isHarvestReportSubmissionEnabled: boolean;
     isHarvestReportSubmitted: boolean;
+    licenseReportId: string;
 }
