@@ -17,7 +17,6 @@ import { selectors } from "../../redux/ProfileSlice";
 import ProfileThunk from "../../redux/ProfileThunk";
 import { PROFILE_TYPE_IDS, REQUEST_STATUS } from "../../constants/Constants";
 import { getHeight, getWeight } from "../profile/profile_details/ProfileDetailsUtils";
-import profileSelectors from "../../redux/ProfileSelector";
 import { selectLicenseForList } from "../../redux/LicenseSelector";
 import { getLicense } from "../../redux/LicenseSlice";
 import useFocus from "../../hooks/useFocus";
@@ -111,9 +110,6 @@ function LicenseDetailScreen(props) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
-
-    const profileListRequestStatus = useSelector(profileSelectors.selectProfileListRequestStatus);
-    const profileListRefreshing = profileListRequestStatus == REQUEST_STATUS.pending;
 
     const reduxData = useSelector(selectLicenseForList);
     const licenseRefreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
@@ -333,17 +329,9 @@ function LicenseDetailScreen(props) {
     };
 
     const getLicenseOfActiveProfile = (isForce) => {
-        dispatch(ProfileThunk.refreshProfileList({ isForce })).then((response) => {
-            if (
-                response.isReloadData &&
-                (!response.success || response.primaryIsInactivated || response.ciuIsInactivated)
-            ) {
-                return;
-            }
-            dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } }));
-            dispatch(ProfileThunk.initProfileDetails(currentInUseProfileId));
-            dispatch(ProfileThunk.initProfileCommonData());
-        });
+        dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } }));
+        dispatch(ProfileThunk.initProfileDetails(currentInUseProfileId));
+        dispatch(ProfileThunk.initProfileCommonData());
     };
 
     useFocus(() => {
@@ -388,14 +376,14 @@ function LicenseDetailScreen(props) {
                     <RefreshControl
                         colors={[AppTheme.colors.primary]}
                         tintColor={AppTheme.colors.primary}
-                        refreshing={profileListRefreshing || licenseRefreshing}
+                        refreshing={licenseRefreshing}
                         onRefresh={() => {
                             getLicenseOfActiveProfile(true);
                         }}
                     />
                 }
             >
-                {profileListRefreshing || licenseRefreshing ? (
+                {licenseRefreshing ? (
                     <LicenseDetailLoading />
                 ) : (
                     <>
