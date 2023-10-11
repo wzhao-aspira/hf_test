@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { isEmpty } from "lodash";
 import { getAccessPermitData } from "../services/AccessPermitServices";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
 import { AccessPermit } from "../types/accessPermit";
 import { saveAccessPermitDataToDB, getAccessPermitDataFromDB } from "../db";
+import cleanUpInvalidFiles from "../screens/access_permits/file_list/utils/cleanUpInvalidFiles";
+import { folderName } from "../screens/access_permits/file_list/FileList";
 
 interface AccessPermitState {
     data: AccessPermit;
@@ -30,6 +31,8 @@ export const getAccessPermit = createAsyncThunk(
             const dataForOffline = { ...dataFromAPI.data, profileId: activeProfileId };
             await saveAccessPermitDataToDB(dataForOffline);
             console.log("get access permit data from api");
+
+            cleanUpInvalidFiles({ accessPermitsData: dataFromAPI?.data?.accessPermits, folderName });
         } else {
             const data = await getAccessPermitDataFromDB(activeProfileId);
             result = { success: true, data, offline: true };
