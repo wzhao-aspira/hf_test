@@ -9,7 +9,7 @@ import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../../constants/Dimension";
 
 import PrimaryBtn from "../../../components/PrimaryBtn";
 
-import { genTestId, showNotImplementedFeature } from "../../../helper/AppHelper";
+import { genTestId } from "../../../helper/AppHelper";
 import DialogHelper from "../../../helper/DialogHelper";
 
 import type { FileInfo } from "../../../types/accessPermit";
@@ -62,15 +62,19 @@ interface FileProps {
     fileInfo: FileInfo;
 }
 
+export const folderName = "access_permit_files";
+
 function File(props: FileProps) {
     const { fileInfo } = props;
-    const { description, title: fileName, available, downloadId, type } = fileInfo;
+    const { id, type, name, title, description, available, downloadId } = fileInfo;
 
     const { t } = useTranslation();
     const { downloadFile, openFile, deleteFile, status } = useFileOperations({
-        fileName,
-        folderName: "access_permit_files",
-        fileID: downloadId,
+        fileID: id,
+        fileType: type,
+        fileName: name,
+        folderName,
+        downloadID: downloadId,
     });
 
     const [shouldShowDropdown, setShouldShowDropdown] = useState(false);
@@ -134,13 +138,13 @@ function File(props: FileProps) {
                 setShouldShowDropdown(false);
             }}
         >
-            <View key={fileName} style={[styles.sectionContainer]}>
-                <Text style={[styles.sectionTitle]} testID={genTestId(`permitDetailsFileName${fileName}`)}>
-                    {fileName}
+            <View style={[styles.sectionContainer]}>
+                <Text style={[styles.sectionTitle]} testID={genTestId(`permitDetailsFileName${title}`)}>
+                    {title}
                 </Text>
                 <View style={styles.licenseInfo}>
                     <Text
-                        testID={genTestId(`permitDetailsFileName${fileName}Description`)}
+                        testID={genTestId(`permitDetailsFileName${title}Description`)}
                         style={{ marginTop: -10, marginBottom: 13 }}
                     >
                         {description}
@@ -149,27 +153,26 @@ function File(props: FileProps) {
                 <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
                     {isNotDownloaded && available && (
                         <PrimaryBtn
-                            testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
+                            testID={genTestId(`permitDetailsFileName${title}ActionButton`)}
                             label={t("accessPermits.Download")}
                             onPress={() => {
-                                if (type === "notificationPDF") downloadFile();
-                                if (type === "attachment") showNotImplementedFeature();
+                                downloadFile();
                             }}
                         />
                     )}
                     {isDownloading && (
                         <PrimaryBtn
-                            testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
+                            testID={genTestId(`permitDetailsFileName${title}ActionButton`)}
                             label={t("accessPermits.Downloading")}
                             disabled
                             onPress={() => {
-                                console.log(`downloading ${fileName}`);
+                                console.log(`downloading ${title}`);
                             }}
                         />
                     )}
                     {isDownloaded && (
                         <PrimaryBtn
-                            testID={genTestId(`permitDetailsFileName${fileName}ActionButton`)}
+                            testID={genTestId(`permitDetailsFileName${title}ActionButton`)}
                             label={t("accessPermits.Open")}
                             onPress={() => {
                                 openFile();

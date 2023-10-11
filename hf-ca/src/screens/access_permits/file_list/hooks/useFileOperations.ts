@@ -1,30 +1,38 @@
 import { useState, useEffect } from "react";
 import * as FileSystem from "expo-file-system";
-import * as IntentLauncher from "expo-intent-launcher";
+import FileViewer from "react-native-file-viewer";
 
 import { useAppDispatch } from "../../../../hooks/redux";
 import { handleError } from "../../../../network/APIUtil";
-import { downloadAccessPermitFile } from "../../../../network/api_client/DrawResultsApi";
+import {
+    downloadAccessPermitNotification,
+    downloadAccessPermitAttachment,
+} from "../../../../network/api_client/DrawResultsApi";
 
-import { isAndroid } from "../../../../helper/AppHelper";
+import { isAndroid, showToast } from "../../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../../constants/Routers";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
+type FileTypes = "notificationPDF" | "attachment";
 
 function useDownloadFile({
     fileID,
+    fileType,
     fileName,
+    downloadID,
     folderName = "",
 }: {
     fileID: string;
+    fileType: FileTypes;
     fileName: string;
+    downloadID: string;
     folderName: string;
 }) {
     const dispatch = useAppDispatch();
     const navigation = useAppNavigation();
 
-    const fileDirectory = `${FileSystem.documentDirectory}${folderName}`;
-    const fileURI = `${fileDirectory}/${fileID}-${fileName}.pdf`;
+    const fileDirectory = `${FileSystem.documentDirectory}${folderName}/${fileID}`;
+    const fileURI = `${fileDirectory}/${fileName}`;
 
     const [status, setStatus] = useState<FileStatus>("unknown");
 
@@ -41,7 +49,15 @@ function useDownloadFile({
     async function downloadFile() {
         setStatus("downloading");
 
-        const handleErrorResult = await handleError(downloadAccessPermitFile(fileID), { dispatch, showLoading: true });
+        const handleErrorResult = await handleError(
+            (fileType === "notificationPDF" && downloadAccessPermitNotification(downloadID)) ||
+                (fileType === "attachment" && downloadAccessPermitAttachment(downloadID)),
+            {
+                dispatch,
+                showLoading: true,
+            }
+        );
+
         const { data: response, success } = handleErrorResult;
 
         if (!success) {
@@ -63,11 +79,11 @@ function useDownloadFile({
                     { encoding: FileSystem.EncodingType.Base64 } // Specify that the encoding type is base64
                 );
 
-                console.log(`The file is saved in ${fileURI}`);
-
                 setStatus("downloaded");
+                console.log(`The file ${fileURI} saved`);
             } catch (error) {
                 setStatus("not downloaded yet");
+                console.log({ error });
             }
         };
 
@@ -80,31 +96,27 @@ function useDownloadFile({
         }
 
         if (isAndroid()) {
-            FileSystem.getContentUriAsync(fileURI).then((cUri) => {
-                console.log(cUri);
-                IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
-                    data: cUri,
-                    // https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_READ_URI_PERMISSION
-                    // flag 1: FLAG_GRANT_READ_URI_PERMISSION
-                    flags: 1,
-                }).catch((error) => {
-                    console.log(`startActivityAsync error:${error}`);
+            FileViewer.open(fileURI)
+                .then(() => {
+                    console.log(`${fileURI} file opened`);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    showToast(error?.message);
                 });
-            });
         } else {
             navigation.navigate(Routers.webView, {
                 url: fileURI,
-                // TODO: to be confirmed with BA
-                // title: t("usefulLinks.usefulLinks"),
+                // title: t("usefulLinks.usefulLinks"), // TODO: to be confirmed with BA
             });
         }
     }
 
     async function deleteFile() {
-        const fileInfo = await FileSystem.getInfoAsync(fileURI);
+        const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
 
         if (fileInfo.exists) {
-            await FileSystem.deleteAsync(fileURI);
+            await FileSystem.deleteAsync(fileDirectory);
             setStatus("not downloaded yet");
             console.log("File deleted successfully");
         } else {

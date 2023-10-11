@@ -15,6 +15,7 @@ const convertAccessPermitItem = (activePermit: ActivePermitListVM): AccessPermit
     const activePermitHuntDays = huntDays
         .map((item) => {
             const {
+                huntId: hunIDFromAPI,
                 huntCode,
                 huntName,
                 huntDay,
@@ -25,22 +26,28 @@ const convertAccessPermitItem = (activePermit: ActivePermitListVM): AccessPermit
                 notificationAvailable,
                 fileTitle,
                 fileId,
+                filename,
             } = item;
+
             const huntId = huntDay + huntCode;
 
             const notification: FileInfo = {
+                id: drawTicketLicenseId,
                 type: "notificationPDF",
-                title: notificationTitle,
-                description: notificationDescription,
+                name: `${notificationTitle}.pdf`,
                 downloadId: drawTicketLicenseId,
                 available: notificationAvailable,
+                title: notificationTitle,
+                description: notificationDescription, // notification only
             };
 
             const attachment: FileInfo = {
+                id: hunIDFromAPI,
                 type: "attachment",
-                title: fileTitle,
-                downloadId: fileId, // TODO: this field will be changed to huntId @Zhang, Louis
+                name: filename,
+                downloadId: fileId,
                 available: !!fileId,
+                title: fileTitle,
             };
 
             const fileInfoList = [notification, attachment];
