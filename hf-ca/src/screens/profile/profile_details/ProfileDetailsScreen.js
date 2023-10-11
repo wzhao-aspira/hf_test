@@ -113,10 +113,14 @@ function ProfileDetailsScreen({ route }) {
 
     const handleRemoveBtnClick = async () => {
         const response = await dispatch(
-            ProfileThunk.getProfileListChangeStatus({ showGlobalLoading: true, networkErrorByDialog: true })
+            ProfileThunk.getProfileListChangeStatus({
+                showGlobalLoading: true,
+                networkErrorByDialog: true,
+                showCRSSVerifyMsg: false,
+            })
         );
 
-        if (!response.success || response.primaryIsInactivated || response.needCRSSVerify) {
+        if (!response.success || response.primaryIsInactivated) {
             return;
         }
 
