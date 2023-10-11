@@ -7,7 +7,7 @@ import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons/faLinkSlash";
 import { RefreshControl } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { selectors } from "../../../redux/ProfileSlice";
-import { removeProfile } from "../../../services/ProfileService";
+import { removeProfile, getGOIDLabel } from "../../../services/ProfileService";
 
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import AppTheme from "../../../assets/_default/AppTheme";
@@ -15,12 +15,10 @@ import Routers from "../../../constants/Routers";
 
 import CommonHeader from "../../../components/CommonHeader";
 import Page from "../../../components/Page";
-import SwitchProfileDialog from "../manage_profile/SwitchProfileDialog";
 import NavigationService from "../../../navigation/NavigationService";
 
 import { genTestId } from "../../../helper/AppHelper";
 import { getAddressList, getInfoList, styles } from "./ProfileDetailsUtils";
-import getGOIDLabel from "../../../helper/ProfileHelper";
 import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 import { handleError } from "../../../network/APIUtil";
 import DialogHelper from "../../../helper/DialogHelper";
@@ -79,30 +77,26 @@ function ProfileDetailsScreen({ route }) {
     const [loading, setLoading] = useState(false);
     const [noCacheData, setNoCacheData] = useState(false);
     const profileDetails = useSelector(selectors.selectProfileDetailsById(profileId));
-
-    const primaryProfileId = useSelector(selectors.selectPrimaryProfileID);
-    const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
+    const isPrimaryOrCiu = useSelector(selectors.selectIsPrimaryOrCiuProfile(profileId));
 
     const profilesInfo = getInfoList(profileDetails, t);
     const addressInfo = getAddressList(profileDetails, t);
 
-    const removeCallback = async (showListUpdated) => {
+    const removeCallback = async () => {
         NavigationService.navigate(Routers.manageProfile);
         const listResponse = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
         if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated || listResponse.needCRSSVerify) {
             return;
         }
-        if (showListUpdated) {
-            DialogHelper.showSimpleDialog({
-                title: "common.reminder",
-                message: "profile.profileListUpdated",
-                okText: "common.gotIt",
-            });
-        }
+        DialogHelper.showSimpleDialog({
+            title: "common.reminder",
+            message: "profile.profileListUpdated",
+            okText: "common.gotIt",
+        });
     };
 
     const handleRemove = async (profiles) => {
-        const profile = profiles.find((item) => item.customerId === profileId);
+        const profile = profiles?.find((item) => item.customerId === profileId);
         let response = { success: true };
 
         if (profile) {
@@ -113,7 +107,7 @@ function ProfileDetailsScreen({ route }) {
         }
 
         if (response.success) {
-            removeCallback(true);
+            removeCallback();
         }
     };
 
@@ -123,31 +117,6 @@ function ProfileDetailsScreen({ route }) {
         );
 
         if (!response.success || response.primaryIsInactivated || response.needCRSSVerify) {
-            return;
-        }
-
-        if (profileId === primaryProfileId) {
-            DialogHelper.showSimpleDialog({
-                title: "profile.removeProfile",
-                message: "profile.removePrimaryProfileMsg",
-                okText: "common.gotIt",
-                okAction: () => {
-                    removeCallback(response.listChanged);
-                },
-            });
-            return;
-        }
-
-        if (profileId === currentInUseProfileId) {
-            DialogHelper.showSelectDialog({
-                title: "profile.removeProfile",
-                okText: "profile.switchProfile",
-                message: "profile.removeCurrentInUseProfileMsg",
-                okAction: () =>
-                    DialogHelper.showCustomDialog({
-                        renderDialogContent: () => <SwitchProfileDialog hideDialog={() => NavigationService.back()} />,
-                    }),
-            });
             return;
         }
 
@@ -161,8 +130,11 @@ function ProfileDetailsScreen({ route }) {
 
     const getProfileDetails = async () => {
         setLoading(true);
-        await dispatch(ProfileThunk.initProfileDetails(profileId));
-        setLoading(false);
+        try {
+            await dispatch(ProfileThunk.initProfileDetails(profileId));
+        } finally {
+            setLoading(false);
+        }
     };
 
     useFocus(() => {
@@ -219,7 +191,7 @@ function ProfileDetailsScreen({ route }) {
                         </View>
                     )}
 
-                    {!loading && !noCacheData && (
+                    {!loading && !noCacheData && !isPrimaryOrCiu && (
                         <Pressable
                             onPress={handleRemoveBtnClick}
                             style={styles.bottomBtnBox}

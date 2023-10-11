@@ -10,7 +10,7 @@ import { commonStyles, profileItemCommonStyle } from "./Styles";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { shortName } from "../../../utils/GenUtil";
 import { genTestId } from "../../../helper/AppHelper";
-import getGOIDLabel, { isAssociatedProfile } from "../../../helper/ProfileHelper";
+import { isAssociatedProfile, getGOIDLabel } from "../../../services/ProfileService";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 
 const typeIcons = {

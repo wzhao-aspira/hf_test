@@ -97,3 +97,31 @@ export const profileScreenStyles = StyleSheet.create({
         marginBottom: 16,
     },
 });
+
+export const primaryProfileInactiveStyles = StyleSheet.create({
+    title: {
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_1,
+        textAlign: "center",
+        marginVertical: 10,
+    },
+    container: {
+        padding: 26,
+    },
+    okBtn: {
+        margin: 10,
+        marginTop: 20,
+    },
+    message: {
+        ...AppTheme.typography.overlay_sub_text,
+        color: AppTheme.colors.font_color_2,
+        lineHeight: 20,
+    },
+    subTitle: {
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_1,
+        paddingHorizontal: 26,
+        marginTop: 26,
+        marginBottom: -6,
+    },
+});

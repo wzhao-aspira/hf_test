@@ -60,8 +60,8 @@ export const refreshDataAndNavigateWhenSaveProfileCompleted = async (
     isAddPrimaryProfile,
     routeScreen
 ) => {
-    // Refresh/initial Profiles
-    if (isAddPrimaryProfile) {
+    // Refresh/initial Profiles - sign up
+    if (isAddPrimaryProfile && isEmpty(routeScreen)) {
         await dispatch(appThunkActions.initUserData(mobileAccount));
         await dispatch(ProfileThunk.initProfile());
     } else {

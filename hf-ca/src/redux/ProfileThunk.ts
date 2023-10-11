@@ -10,9 +10,10 @@ import {
     getCurrentInUseProfileID,
     getProfileList,
     getProfileDetailsById,
+    isIndividualProfile,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
-import { selectors as appSelectors } from "./AppSlice";
+import { actions as appActions, selectors as appSelectors } from "./AppSlice";
 import { handleError } from "../network/APIUtil";
 import {
     getProfileDetailFromDB,
@@ -211,13 +212,10 @@ const getProfileListChangeStatus =
         showGlobalLoading = false,
         showCIUChangedMsg = false,
         showListChangedMsg = false,
-        updateProfileWithNewData = false,
         networkErrorByDialog = false,
     } = {}) =>
     async (dispatch, getState) => {
         const rootState = getState();
-        const user = appSelectors.selectUser(rootState);
-        const { username } = user;
 
         const currentProfileIds = profileSelector.selectProfileIDs(rootState);
         const previousPrimaryProfileID = profileSelector.selectPrimaryProfileID(rootState);
@@ -233,7 +231,7 @@ const getProfileListChangeStatus =
         }
 
         const { result } = profileResponse.data.data;
-        const { primaryProfileId, profileListIDs } = getProfileData(result);
+        const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const differenceProfiles = xor(currentProfileIds, profileListIDs);
         console.log(`The difference profile ids are:[${differenceProfiles}]`);
 
@@ -257,14 +255,10 @@ const getProfileListChangeStatus =
         response.needCRSSVerify = needCRSSVerify;
 
         if (noPrimaryProfile) {
-            showProfileDialog(i18n.t("profile.primaryChanged"), () => {
-                NavigationService.navigate(Routers.addIndividualProfile, {
-                    mobileAccount: { userID: username },
-                    isAddPrimaryProfile: true,
-                    noBackBtn: true,
-                });
-                dispatch(updateProfileData(result, needCRSSVerify));
-            });
+            const individualProfiles = profileList.filter((profile) => isIndividualProfile(profile.profileType));
+            await dispatch(profileActions.setIndividualProfiles(individualProfiles));
+
+            dispatch(appActions.toggleShowPrimaryProfileInactiveMsg(true));
             return response;
         }
 
@@ -275,7 +269,9 @@ const getProfileListChangeStatus =
                 : i18n.t("profile.currentInUseInactiveMsg");
 
             showProfileDialog(message, () => {
-                dispatch(switchCurrentInUseProfile(primaryProfileId));
+                if (ciuIsInactivated) {
+                    dispatch(switchCurrentInUseProfile(primaryProfileId));
+                }
                 dispatch(updateProfileData(result, needCRSSVerify));
                 NavigationService.navigate(Routers.manageProfile);
             });
@@ -300,12 +296,11 @@ const getProfileListChangeStatus =
                 showProfileDialog(i18n.t("profile.profileListUpdatedAndRefresh"), () => {
                     dispatch(updateProfileData(result));
                 });
+                return response;
             }
         }
 
-        if (updateProfileWithNewData) {
-            dispatch(updateProfileData(result));
-        }
+        dispatch(updateProfileData(result));
         return response;
     };
 
@@ -326,9 +321,7 @@ const refreshProfileList =
         }
 
         dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.pending));
-        const response = await dispatch(
-            getProfileListChangeStatus({ showGlobalLoading, showCIUChangedMsg, updateProfileWithNewData: true })
-        );
+        const response = await dispatch(getProfileListChangeStatus({ showGlobalLoading, showCIUChangedMsg }));
         if (!response.success) {
             dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.rejected));
         } else {
