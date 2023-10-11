@@ -12,6 +12,7 @@ interface InitialState {
     loginStep: number;
     indicator: boolean;
     error: any;
+    showPrimaryProfileInactiveMsg: boolean;
 }
 
 const initialState: InitialState = {
@@ -19,6 +20,7 @@ const initialState: InitialState = {
     loginStep: LoginStep.login,
     indicator: false,
     error: {},
+    showPrimaryProfileInactiveMsg: false,
 };
 
 const appSlice = createSlice({
@@ -45,15 +47,22 @@ const appSlice = createSlice({
         toggleIndicator: (state, action: PayloadAction<boolean>) => {
             state.indicator = action?.payload;
         },
+        toggleShowPrimaryProfileInactiveMsg: (state, action: PayloadAction<boolean>) => {
+            state.showPrimaryProfileInactiveMsg = action?.payload;
+        },
     },
 });
 
-export const { updateUser, toggleIndicator, updateLoginStep } = appSlice.actions;
+export const { updateUser, toggleIndicator, updateLoginStep, toggleShowPrimaryProfileInactiveMsg } = appSlice.actions;
 
 const selectAppState = (/** @type{import('./Store').RootState */ state) => state.app;
 export const selectUsername = (state) => state.app.user.username;
 export const selectLoginStep = (state) => state.app.loginStep;
 export const selectIndicator = (state) => state.app.indicator;
+export const selectIsPrimaryProfileInactive = createSelector(
+    selectAppState,
+    (state) => state.showPrimaryProfileInactiveMsg
+);
 export const selectError = createSelector(selectAppState, (state) => state.error);
 
 const selectUser = createSelector(selectAppState, (app) => app.user);

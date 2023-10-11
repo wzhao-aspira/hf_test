@@ -4,7 +4,7 @@ import moment from "moment";
 import AppTheme from "../../../assets/BaseTheme";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
-import { isIndividualProfile } from "../../../helper/ProfileHelper";
+import { isIndividualProfile } from "../../../services/ProfileService";
 
 export const styles = StyleSheet.create({
     container: {

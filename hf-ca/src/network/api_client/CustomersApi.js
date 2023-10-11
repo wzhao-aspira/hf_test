@@ -52,3 +52,8 @@ export async function crssVerifyPerCustomer(customerId, customerCrssVM) {
     const api = new CustomersApi(getAPIConfig(), null, instance);
     return api.v1CustomersCustomerIdLinkVerificationPost(customerId, customerCrssVM);
 }
+
+export async function switchProfileToPrimary(params) {
+    const api = new CustomersApi(getAPIConfig(), null, instance);
+    return api.v1CustomersPrimaryLinkPut(params);
+}

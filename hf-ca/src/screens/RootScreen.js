@@ -11,6 +11,7 @@ import { Indicator } from "../components/Dialog";
 import { genTestId } from "../helper/AppHelper";
 import AppTheme from "../assets/_default/AppTheme";
 import useErrorHandling from "../hooks/useErrorHandling";
+import PrimaryProfileInactiveDialog from "./profile/manage_profile/PrimaryProfileInactiveDialog";
 
 export default function RootScreen() {
     const loginStep = useSelector(selectLoginStep);
@@ -27,6 +28,7 @@ export default function RootScreen() {
                     backgroundColor={isLogin ? AppTheme.colors.transparent : AppTheme.colors.page_bg}
                 />
                 <AppNavigator />
+                <PrimaryProfileInactiveDialog />
                 <Indicator testID={genTestId("appIndicator")} visible={indicator} />
             </SafeAreaView>
         </SafeAreaProvider>

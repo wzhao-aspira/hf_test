@@ -13,6 +13,7 @@ import {
     linkProfileBasedOnCustomerId,
     getProfileDetails,
     crssVerifyPerCustomer,
+    switchProfileToPrimary,
 } from "../network/api_client/CustomersApi";
 
 import {
@@ -245,4 +246,26 @@ export function batchUpdateProfileDetails(profiles) {
 
 export function crssVerify(customerId, password) {
     return crssVerifyPerCustomer(customerId, { password });
+}
+
+export function getGOIDLabel(t, profile) {
+    if (profile.profileType === PROFILE_TYPE_IDS.business) {
+        return t("profile.businessGOIDNumber");
+    }
+    if (profile.profileType === PROFILE_TYPE_IDS.vessel) {
+        return t("profile.vesselGOIDNumber");
+    }
+    return t("profile.goIDNumber");
+}
+
+export function isIndividualProfile(profileType: number) {
+    return profileType === PROFILE_TYPE_IDS.adult;
+}
+export function isAssociatedProfile(profileType: number) {
+    return profileType === PROFILE_TYPE_IDS.business || profileType === PROFILE_TYPE_IDS.vessel;
+}
+
+export async function switchToPrimary(customerId: string) {
+    const response = await switchProfileToPrimary({ customerId });
+    return response;
 }

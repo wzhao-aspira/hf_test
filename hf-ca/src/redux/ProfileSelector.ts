@@ -1,7 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
 import { IdentityTypeVM } from "../network/generated";
-import { isAssociatedProfile } from "../helper/ProfileHelper";
+import { isAssociatedProfile } from "../services/ProfileService";
+import { Profile } from "../types/profile";
 
 const selectProfileState = (state: RootState) => state.profile;
 
@@ -59,8 +60,8 @@ const selectCurrentInUseProfile = createSelector(
     }
 );
 
-const selectCurrentProfileFirstName = createSelector(selectCurrentInUseProfile, (profile) => {
-    if (isAssociatedProfile(profile)) {
+const selectCurrentProfileFirstName = createSelector(selectCurrentInUseProfile, (profile: Profile) => {
+    if (isAssociatedProfile(profile.profileType)) {
         return "";
     }
     return profile.displayName?.split(" ")[0];
@@ -113,6 +114,26 @@ const selectResidentMethodTypeById = (residentMethodTypeId) =>
 
 const selectCiuIsInactive = createSelector(selectProfileState, (profile) => profile.ciuProfileIsInactive);
 
+const selectIsPrimaryOrCiuProfile = (profileId) =>
+    createSelector(
+        selectCurrentInUseProfileID,
+        selectPrimaryProfileID,
+        (ciuProfileId, primaryProfileId) => profileId === ciuProfileId || profileId === primaryProfileId
+    );
+
+const selectAssociatedProfiles = createSelector(selectProfileList, (profileList: Profile[]) =>
+    profileList.filter((profile) => isAssociatedProfile(profile.profileType))
+);
+
+const selectIndividualProfiles = createSelector(selectProfileState, (state) => {
+    const { individualProfiles } = state;
+    if (individualProfiles?.length <= 0) return [];
+
+    return individualProfiles.sort((profileA, profileB) => {
+        return profileA.displayName.localeCompare(profileB.displayName);
+    });
+});
+
 const selectors = {
     selectProfileListRequestStatus,
     selectYouthIdentityOwners,
@@ -131,6 +152,9 @@ const selectors = {
     selectCiuIsInactive,
     selectOtherProfileListWithoutPrimary,
     selectCurrentProfileFirstName,
+    selectIsPrimaryOrCiuProfile,
+    selectAssociatedProfiles,
+    selectIndividualProfiles,
 };
 
 export default selectors;

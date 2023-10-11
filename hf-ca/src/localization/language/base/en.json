@@ -80,7 +80,8 @@
         "noThanks": "No Thanks",
         "reminder": "Reminder",
         "na": "N/A",
-        "authenticationFailed": "Authentication Failed"
+        "authenticationFailed": "Authentication Failed",
+        "proceed": "Proceed"
     },
     "errMsg": {
         "noNetworkToast": "No network connection\n Use cache data",
@@ -193,7 +194,13 @@
         "primaryChanged": "No active primary customer record available, please add new primary customer record first.",
         "primaryProfile": "Primary Customer Record",
         "crssRequiredTitle": "CRSS Required",
-        "crssRequiredContent": "Please enter your password as the CRSS has been updated for the existing profile."
+        "crssRequiredContent": "Please enter your password as the CRSS has been updated for the existing profile.",
+        "noAvailablePrimary": "No available primary customer record.",
+        "noPrimaryAvailable": "No Primary Customer Record Available",
+        "addNewPrimaryProfile": "Add New Primary Customer Record",
+        "orSwitchTo": "Or Switch To:",
+        "associatedRemovedAsWell": "The associated customer records have been removed as well.",
+        "associatedProfiles": "Associated customer record(s):"
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",

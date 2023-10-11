@@ -10,7 +10,7 @@ export interface Identification {
 export interface Profile {
     profileId: string;
     ownerId?: null | string;
-    profileType: string;
+    profileType: number;
     dateOfBirth?: null | string;
     goIDNumber: string;
     firstName?: null | string;
