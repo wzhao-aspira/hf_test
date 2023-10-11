@@ -1,3 +1,5 @@
+import { CustomerVM } from "../network/generated";
+
 export interface Identification {
     ownerTypeId: null | string;
     typeId: string;
@@ -33,31 +35,7 @@ export interface Profile {
     ownerName?: string;
 }
 
-export interface ProfileDetail {
-    customerId: string;
-    customerTypeId?: null | number;
-    goidNumber?: null | string;
-    displayName?: null | string;
-    dateOfBirth?: null | string;
-    gender?: null | string;
-    genderShortForm?: null | string;
-    hair?: null | string;
-    eye?: null | string;
-    height?: null | number;
-    weight?: null | number;
-    fishBusinessId?: null | string;
-    ownershipType?: null | string;
-    vesselName?: null | string;
-    ownerName?: null | string;
-    purchaseDate?: null | string;
-    currentDocumentation?: null | string;
-    physicalAddress?: null | string;
-    simplePhysicalAddress?: null | string;
-    mailingAddress?: null | string;
-    ownerGOIDNumber?: null | string;
-    ownerPhysicalAddress?: null | string;
-    ownerResidentMethodTypeId?: null | number;
-    ownerSimplePhysicalAddress?: null | string;
+export interface ProfileDetail extends CustomerVM {
     individualCustomerOfficialDocumentFieldName?: null | string;
     individualCustomerOfficialDocumentDisplayValue?: null | string;
     vesselCustomerDocumentIdentityFieldName?: null | string;
