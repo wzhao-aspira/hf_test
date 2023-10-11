@@ -1,5 +1,5 @@
 import { actions as appActions } from "../redux/AppSlice";
-import { globalDataForAPI } from "./commonUtil";
+import { globalDataForAPI, isConnectError } from "./commonUtil";
 
 export function clearLastPromise() {
     globalDataForAPI.lastPromise = null;
@@ -34,7 +34,8 @@ export async function handleError<T>(
         if (showError) dispatch(appActions.setError(error));
         console.log(error);
 
-        return { success: false };
+        const isNetworkError = isConnectError(error);
+        return { success: false, isNetworkError };
     } finally {
         if (showLoading) {
             dispatch(appActions.toggleIndicator(false));

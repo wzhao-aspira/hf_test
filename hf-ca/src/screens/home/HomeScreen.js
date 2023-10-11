@@ -39,9 +39,9 @@ export default function HomeScreen() {
     const ciuIsInactive = useSelector(profileSelectors.selectCiuIsInactive);
     const primaryProfileId = useSelector(profileSelectors.selectPrimaryProfileID);
 
-    const getLicenseOfActiveProfile = (isForce) => {
+    const getLicenseOfActiveProfile = (isForce, useCache) => {
         if (activeProfileId) {
-            dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
+            dispatch(getLicense({ isForce, searchParams: { activeProfileId }, useCache }));
         }
     };
 
@@ -68,21 +68,31 @@ export default function HomeScreen() {
         dispatch(ProfileThunk.refreshProfileList()).then((response) => {
             if (
                 response.isReloadData &&
-                (!response.success || response.primaryIsInactivated || response.ciuIsInactivated)
+                ((!response.success && !response.isNetworkError) ||
+                    response.primaryIsInactivated ||
+                    response.ciuIsInactivated)
             ) {
                 return;
             }
-            getLicenseOfActiveProfile(false);
+
+            const useCache = !response.success && response.isNetworkError;
+            getLicenseOfActiveProfile(false, useCache);
         });
     });
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
         dispatch(ProfileThunk.refreshProfileList({ isForce: true })).then((response) => {
-            if (!response.success || response.primaryIsInactivated || response.ciuIsInactivated) {
+            if (
+                (!response.success && !response.isNetworkError) ||
+                response.primaryIsInactivated ||
+                response.ciuIsInactivated
+            ) {
                 return;
             }
-            getLicenseOfActiveProfile(true);
+
+            const useCache = !response.success && response.isNetworkError;
+            getLicenseOfActiveProfile(true, useCache);
         });
     };
 

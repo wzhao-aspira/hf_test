@@ -20,13 +20,27 @@ interface LicenseState {
 
 export const getLicense = createAsyncThunk(
     "license/getLicense",
-    async ({ searchParams }: { searchParams: { activeProfileId: string }; isForce?: boolean }, { dispatch }) => {
-        const results = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), {
-            networkErrorByDialog: false,
-            dispatch,
-        });
-        // If the API returns an empty license data then we need to set an indicator here
-        const isAPISucceed = results.success;
+    async (
+        {
+            searchParams,
+            isForce = false,
+            useCache = false,
+        }: { searchParams: { activeProfileId: string }; isForce?: boolean; useCache?: boolean },
+        { dispatch }
+    ) => {
+        console.log(`isForce:${isForce}, useCache:${useCache}`);
+
+        let isAPISucceed = false;
+
+        if (useCache == false) {
+            const results = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), {
+                networkErrorByDialog: false,
+                dispatch,
+            });
+            // If the API returns an empty license data then we need to set an indicator here
+            isAPISucceed = results.success;
+        }
+
         const isEmptyOnlineDataCached = await getIsEmptyOnlineDataCachedInd(searchParams);
         const licenseData = await handleError(getLicenseListDataFromDB(searchParams), {
             showError: false,
