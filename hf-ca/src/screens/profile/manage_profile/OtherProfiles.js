@@ -33,7 +33,13 @@ export default function OtherProfiles({ isLoading }) {
             })
         );
 
-        if (!response.success || response.primaryIsInactivated || response.ciuIsInactivated || response.listChanged) {
+        if (
+            !response.success ||
+            response.primaryIsInactivated ||
+            response.ciuIsInactivated ||
+            response.listChanged ||
+            response.needCRSSVerify
+        ) {
             return;
         }
 

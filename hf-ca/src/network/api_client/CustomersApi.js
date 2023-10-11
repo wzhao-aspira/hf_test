@@ -47,3 +47,8 @@ export async function getProfileDetails(customerId) {
     const api = new CustomersApi(getAPIConfig(), null, instance);
     return api.v1CustomersCustomerIdGet(customerId);
 }
+
+export async function crssVerifyPerCustomer(customerId, customerCrssVM) {
+    const api = new CustomersApi(getAPIConfig(), null, instance);
+    return api.v1CustomersCustomerIdLinkVerificationPost(customerId, customerCrssVM);
+}

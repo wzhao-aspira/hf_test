@@ -12,6 +12,7 @@ import {
     getCustomersOwnerships,
     linkProfileBasedOnCustomerId,
     getProfileDetails,
+    crssVerifyPerCustomer,
 } from "../network/api_client/CustomersApi";
 
 import {
@@ -290,4 +291,8 @@ export function batchUpdateProfileDetails(profiles) {
                 });
         });
     }
+}
+
+export function crssVerify(customerId, password) {
+    return crssVerifyPerCustomer(customerId, { password });
 }

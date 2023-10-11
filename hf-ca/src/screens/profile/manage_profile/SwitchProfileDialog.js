@@ -18,7 +18,7 @@ export default function SwitchProfileDialog({ hideDialog }) {
     const switchProfileCallback = async (showUpdatedDialog) => {
         NavigationService.navigate(Routers.manageProfile);
         const listResponse = await dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
-        if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated) {
+        if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated || listResponse.needCRSSVerify) {
             return;
         }
         if (listResponse.listChanged && showUpdatedDialog) {
@@ -34,7 +34,7 @@ export default function SwitchProfileDialog({ hideDialog }) {
         hideDialog();
         dispatch(appActions.toggleIndicator(true));
         const response = await dispatch(profileThunkActions.getProfileListChangeStatus({ networkErrorByDialog: true }));
-        if (!response.success || response.primaryIsInactivated) {
+        if (!response.success || response.primaryIsInactivated || response.needCRSSVerify) {
             dispatch(appActions.toggleIndicator(false));
             return;
         }
