@@ -114,7 +114,7 @@ export default function CRSSScreen({ route }) {
                     </Text>
                     <View style={styles.field_container}>
                         <Text testID={genTestId("LastNameContent")} style={styles.field_content}>
-                            {isCRSSVerify ? profileInPage.displayName : profileInPage.lastName}
+                            {profileInPage.lastName}
                         </Text>
                     </View>
                     <Text testID={genTestId("DateOfBirthLabel")} style={styles.field_label}>

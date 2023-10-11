@@ -99,20 +99,12 @@ const initProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     }
 };
 
-const isNeedCRSSVerify = (result = []) => {
-    return result.filter((profile) => profile.needVerifyCRSS).length > 0;
-};
-
 const getCRSSVerifyProfiles = async (result = []) => {
     const profiles = result.filter((profile) => profile.needVerifyCRSS);
-    const crssVerifyProfiles = await Promise.all(
-        profiles.map(async (profile) => {
-            const rst = await getProfileDetailFromDB(profile.customerId);
-            const formattedProfile = formateProfile(rst.profile);
-            return formattedProfile;
-        })
-    );
-
+    const crssVerifyProfiles = profiles.map((profile) => {
+        const formattedProfile = formateProfile(profile);
+        return formattedProfile;
+    });
     const needCRSSVerify = crssVerifyProfiles.length > 0;
     console.log("Profile Thunk - getCRSSVerifyProfiles - needCRSSVerify: ", needCRSSVerify);
     console.log("Profile Thunk - getCRSSVerifyProfiles - crssVerifyProfiles:", crssVerifyProfiles);
@@ -137,8 +129,7 @@ const initProfile =
             result = response?.data?.data?.result;
             console.log(`fetch profile list:${JSON.stringify(result)}`);
             updateProfileSummaryToDB(result);
-            const needCRSSVerify = isNeedCRSSVerify(result);
-            if (!needCRSSVerify) setProfileListUpdateTime();
+            setProfileListUpdateTime();
         } else {
             const dbResult = await getProfileSummaryFromDB();
             if (dbResult.success) {
@@ -188,24 +179,20 @@ const switchCurrentInUseProfile =
         }
     };
 
-const updateProfileData =
-    (result, needCRSSVerify = false) =>
-    async (dispatch) => {
-        if (!needCRSSVerify) {
-            const dbResult = await updateProfileSummaryToDB(result);
-            if (dbResult.success) {
-                setProfileListUpdateTime();
-            } else {
-                console.log("update profile list db error");
-                return;
-            }
-        }
-        const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
-        dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
-        dispatch(profileActions.updateProfileIDs(profileListIDs));
-        dispatch(profileActions.setProfileList(profileList));
-        dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
-    };
+const updateProfileData = (result) => async (dispatch) => {
+    const dbResult = await updateProfileSummaryToDB(result);
+    if (dbResult.success) {
+        setProfileListUpdateTime();
+    } else {
+        console.log("update profile list db error");
+        return;
+    }
+    const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
+    dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
+    dispatch(profileActions.updateProfileIDs(profileListIDs));
+    dispatch(profileActions.setProfileList(profileList));
+    dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
+};
 
 const getProfileListChangeStatus =
     ({
@@ -213,6 +200,7 @@ const getProfileListChangeStatus =
         showCIUChangedMsg = false,
         showListChangedMsg = false,
         networkErrorByDialog = false,
+        showCRSSVerifyMsg = true,
     } = {}) =>
     async (dispatch, getState) => {
         const rootState = getState();
@@ -272,14 +260,14 @@ const getProfileListChangeStatus =
                 if (ciuIsInactivated) {
                     dispatch(switchCurrentInUseProfile(primaryProfileId));
                 }
-                dispatch(updateProfileData(result, needCRSSVerify));
+                dispatch(updateProfileData(result));
                 NavigationService.navigate(Routers.manageProfile);
             });
             return response;
         }
 
         // Verify CRSS
-        if (needCRSSVerify) {
+        if (needCRSSVerify && showCRSSVerifyMsg) {
             DialogHelper.showSimpleDialog({
                 title: i18n.t("profile.crssRequiredTitle"),
                 message: i18n.t("profile.crssRequiredContent"),
