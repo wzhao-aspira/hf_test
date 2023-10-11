@@ -98,6 +98,26 @@ const initProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     }
 };
 
+const isNeedCRSSVerify = (result = []) => {
+    return result.filter((profile) => profile.needVerifyCRSS).length > 0;
+};
+
+const getCRSSVerifyProfiles = async (result = []) => {
+    const profiles = result.filter((profile) => profile.needVerifyCRSS);
+    const crssVerifyProfiles = await Promise.all(
+        profiles.map(async (profile) => {
+            const rst = await getProfileDetailFromDB(profile.customerId);
+            const formattedProfile = formateProfile(rst.profile);
+            return formattedProfile;
+        })
+    );
+
+    const needCRSSVerify = crssVerifyProfiles.length > 0;
+    console.log("Profile Thunk - getCRSSVerifyProfiles - needCRSSVerify: ", needCRSSVerify);
+    console.log("Profile Thunk - getCRSSVerifyProfiles - crssVerifyProfiles:", crssVerifyProfiles);
+    return { needCRSSVerify, crssVerifyProfiles };
+};
+
 const initProfile =
     (isRemote = true): AppThunk =>
     async (dispatch, getState) => {
@@ -116,7 +136,8 @@ const initProfile =
             result = response?.data?.data?.result;
             console.log(`fetch profile list:${JSON.stringify(result)}`);
             updateProfileSummaryToDB(result);
-            setProfileListUpdateTime();
+            const needCRSSVerify = isNeedCRSSVerify(result);
+            if (!needCRSSVerify) setProfileListUpdateTime();
         } else {
             const dbResult = await getProfileSummaryFromDB();
             if (dbResult.success) {
@@ -166,20 +187,24 @@ const switchCurrentInUseProfile =
         }
     };
 
-const updateProfileData = (result) => async (dispatch) => {
-    const dbResult = await updateProfileSummaryToDB(result);
-    if (dbResult.success) {
-        setProfileListUpdateTime();
-    } else {
-        console.log("update profile list db error");
-        return;
-    }
-    const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
-    dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
-    dispatch(profileActions.updateProfileIDs(profileListIDs));
-    dispatch(profileActions.setProfileList(profileList));
-    dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
-};
+const updateProfileData =
+    (result, needCRSSVerify = false) =>
+    async (dispatch) => {
+        if (!needCRSSVerify) {
+            const dbResult = await updateProfileSummaryToDB(result);
+            if (dbResult.success) {
+                setProfileListUpdateTime();
+            } else {
+                console.log("update profile list db error");
+                return;
+            }
+        }
+        const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
+        dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
+        dispatch(profileActions.updateProfileIDs(profileListIDs));
+        dispatch(profileActions.setProfileList(profileList));
+        dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
+    };
 
 const getProfileListChangeStatus =
     ({
@@ -217,6 +242,7 @@ const getProfileListChangeStatus =
             listChanged: false,
             primaryIsInactivated: false,
             ciuIsInactivated: false,
+            needCRSSVerify: false,
             profiles: result,
         };
 
@@ -227,6 +253,8 @@ const getProfileListChangeStatus =
         response.listChanged = !isEmpty(differenceProfiles);
         response.ciuIsInactivated = ciuIsInactivated;
         response.primaryIsInactivated = primaryIsInactivated;
+        const { needCRSSVerify, crssVerifyProfiles } = await getCRSSVerifyProfiles(result);
+        response.needCRSSVerify = needCRSSVerify;
 
         if (noPrimaryProfile) {
             showProfileDialog(i18n.t("profile.primaryChanged"), () => {
@@ -235,7 +263,7 @@ const getProfileListChangeStatus =
                     isAddPrimaryProfile: true,
                     noBackBtn: true,
                 });
-                dispatch(updateProfileData(result));
+                dispatch(updateProfileData(result, needCRSSVerify));
             });
             return response;
         }
@@ -248,8 +276,21 @@ const getProfileListChangeStatus =
 
             showProfileDialog(message, () => {
                 dispatch(switchCurrentInUseProfile(primaryProfileId));
-                dispatch(updateProfileData(result));
+                dispatch(updateProfileData(result, needCRSSVerify));
                 NavigationService.navigate(Routers.manageProfile);
+            });
+            return response;
+        }
+
+        // Verify CRSS
+        if (needCRSSVerify) {
+            DialogHelper.showSimpleDialog({
+                title: i18n.t("profile.crssRequiredTitle"),
+                message: i18n.t("profile.crssRequiredContent"),
+                okText: i18n.t("common.gotIt"),
+                okAction: () => {
+                    NavigationService.navigate(Routers.crss, { crssVerifyProfiles });
+                },
             });
             return response;
         }

@@ -14,12 +14,15 @@ import { genTestId } from "../../helper/AppHelper";
 import { appConfig } from "../../services/AppConfigService";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
-import { linkCRSSProfile } from "../../services/ProfileService";
+import { crssVerify, linkCRSSProfile } from "../../services/ProfileService";
 import Attention from "../../components/Attention";
 import { handleError } from "../../network/APIUtil";
 import DateUtils from "../../utils/DateUtils";
 import AppContract from "../../assets/_default/AppContract";
 import { refreshDataAndNavigateWhenSaveProfileCompleted } from "../profile/add_profile/AddProfileInfo";
+import NavigationService from "../../navigation/NavigationService";
+import Routers from "../../constants/Routers";
+import { clearProfileListUpdateTime } from "../../helper/AutoRefreshHelper";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -45,12 +48,16 @@ const styles = StyleSheet.create({
     },
 });
 
+let profileIndex = 0;
+
 export default function CRSSScreen({ route }) {
     const { t } = useTranslation();
     const { params } = route || {};
-    const { mobileAccount, customer, profile, routeScreen, isAddPrimaryProfile } = params || {};
+    const { mobileAccount, customer, profile, routeScreen, isAddPrimaryProfile, crssVerifyProfiles } = params || {};
     const dispatch = useDispatch();
 
+    const isCRSSVerify = !(crssVerifyProfiles == null || crssVerifyProfiles.length == 0);
+    const [profileInPage, setProfileInPage] = useState(isCRSSVerify ? crssVerifyProfiles[profileIndex] : profile);
     const passwordRef = React.createRef();
     const [password, setPassword] = useState();
 
@@ -64,6 +71,23 @@ export default function CRSSScreen({ route }) {
         const error = emptyValidate(password, t("errMsg.emptyPassword"));
         if (error.error) {
             passwordRef?.current.setError(error);
+        } else if (isCRSSVerify) {
+            console.log("CRSSScreen - crssVerifyProfiles.length:", crssVerifyProfiles.length);
+            console.log("CRSSScreen - profileIndex", profileIndex);
+            const rst = await handleError(crssVerify(profileInPage.profileId, password), {
+                dispatch,
+                showLoading: true,
+            });
+            if (rst.success) {
+                if (profileIndex < crssVerifyProfiles.length - 1) {
+                    profileIndex += 1;
+                    setProfileInPage(crssVerifyProfiles[profileIndex]);
+                    setPassword(null);
+                } else {
+                    clearProfileListUpdateTime();
+                    NavigationService.navigate(Routers.manageProfile);
+                }
+            }
         } else {
             const ret = await handleError(linkCRSSProfile(customer.customerId, password, isAddPrimaryProfile), {
                 dispatch,
@@ -82,7 +106,7 @@ export default function CRSSScreen({ route }) {
 
     return (
         <Page>
-            <CommonHeader title={t("crss.enterYourPassword")} />
+            <CommonHeader title={t("crss.enterYourPassword")} showLeft={!isCRSSVerify} />
             <KeyboardAwareScrollView>
                 <View style={styles.page_container}>
                     <Attention contentKey="crss.attentionContent" />
@@ -91,7 +115,7 @@ export default function CRSSScreen({ route }) {
                     </Text>
                     <View style={styles.field_container}>
                         <Text testID={genTestId("LastNameContent")} style={styles.field_content}>
-                            {profile.lastName}
+                            {isCRSSVerify ? profileInPage.displayName : profileInPage.lastName}
                         </Text>
                     </View>
                     <Text testID={genTestId("DateOfBirthLabel")} style={styles.field_label}>
@@ -100,9 +124,9 @@ export default function CRSSScreen({ route }) {
                     <View style={styles.field_container}>
                         <Text testID={genTestId("DateOfBirthContent")} style={styles.field_content}>
                             {DateUtils.dateToFormat(
-                                profile.dateOfBirth,
+                                profileInPage.dateOfBirth,
                                 AppContract.outputFormat.fmt_2,
-                                AppContract.inputFormat.fmt_5
+                                isCRSSVerify ? AppContract.inputFormat.fmt_3 : AppContract.inputFormat.fmt_5
                             )}
                         </Text>
                     </View>
@@ -111,7 +135,7 @@ export default function CRSSScreen({ route }) {
                     </Text>
                     <View style={styles.field_container}>
                         <Text testID={genTestId("GOIDContent")} style={styles.field_content}>
-                            {customer.goid}
+                            {isCRSSVerify ? profileInPage.goIDNumber : customer.goid}
                         </Text>
                     </View>
                     <StatefulTextInput

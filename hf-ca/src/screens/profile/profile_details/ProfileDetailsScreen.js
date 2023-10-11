@@ -89,7 +89,7 @@ function ProfileDetailsScreen({ route }) {
     const removeCallback = async (showListUpdated) => {
         NavigationService.navigate(Routers.manageProfile);
         const listResponse = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
-        if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated) {
+        if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated || listResponse.needCRSSVerify) {
             return;
         }
         if (showListUpdated) {
@@ -122,7 +122,7 @@ function ProfileDetailsScreen({ route }) {
             ProfileThunk.getProfileListChangeStatus({ showGlobalLoading: true, networkErrorByDialog: true })
         );
 
-        if (!response.success || response.primaryIsInactivated) {
+        if (!response.success || response.primaryIsInactivated || response.needCRSSVerify) {
             return;
         }
 

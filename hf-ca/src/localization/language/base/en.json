@@ -192,7 +192,9 @@
         "profileListUpdatedAndRefresh": "Customer Record list has been updated, please refresh first to proceed next action.",
         "profileListUpdated": "Your customer record list has been updated.",
         "primaryChanged": "No active primary customer record available, please add new primary customer record first.",
-        "primaryProfile": "Primary Customer Record"
+        "primaryProfile": "Primary Customer Record",
+        "crssRequiredTitle": "CRSS Required",
+        "crssRequiredContent": "Please enter your password as the CRSS has been updated for the existing profile."
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",
