@@ -4,7 +4,6 @@
         "myLicense": "My Licenses",
         "firstNameLicense": "{{firstName}}'s Licenses",
         "license": "License",
-        "validFromTo": "Validity Date Range:",
         "viewAllLicenses": "View All Licenses",
         "noLicenseTitle": "No licenses found",
         "noLicenseIntroduction": "Purchase your hunting or fishing license now",

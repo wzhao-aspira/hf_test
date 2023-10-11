@@ -204,62 +204,11 @@ export async function removeAccountCurrentInUseProfileID(accountID) {
     }
 }
 
-const convertProfileDetail = (customer: CustomerVM): ProfileDetail => {
-    // API provide base class type's props, API have story try to back all props use sub class props.
-    const {
-        customerId,
-        customerTypeId,
-        goidNumber,
-        displayName,
-        dateOfBirth,
-        gender,
-        genderShortForm,
-        hair,
-        eye,
-        height,
-        weight,
-        fishBusinessId,
-        ownershipType,
-        vesselName,
-        ownerName,
-        purchaseDate,
-        currentDocumentation,
-        physicalAddress,
-        simplePhysicalAddress,
-        mailingAddress,
-        ownerGOIDNumber,
-        ownerPhysicalAddress,
-        ownerResidentMethodTypeId,
-        ownerSimplePhysicalAddress,
-        individualCustomerOfficialDocument,
-        vesselCustomerDocumentIdentity,
-        ownerOfficialDocument,
-    } = customer;
-    const profileDetail = {
-        customerId,
-        customerTypeId,
-        goidNumber,
-        displayName,
-        dateOfBirth,
-        gender,
-        genderShortForm,
-        hair,
-        eye,
-        height,
-        weight,
-        fishBusinessId,
-        ownershipType,
-        vesselName,
-        ownerName,
-        purchaseDate,
-        currentDocumentation,
-        physicalAddress,
-        simplePhysicalAddress,
-        mailingAddress,
-        ownerGOIDNumber,
-        ownerPhysicalAddress,
-        ownerResidentMethodTypeId,
-        ownerSimplePhysicalAddress,
+export const convertProfileDetail = (customer: CustomerVM): ProfileDetail => {
+    // @ts-ignore API provide base class type's props, API have story try to back all props use sub class props.
+    const { individualCustomerOfficialDocument, vesselCustomerDocumentIdentity, ownerOfficialDocument } = customer;
+    const profileDetail: ProfileDetail = {
+        ...customer,
         individualCustomerOfficialDocumentFieldName: individualCustomerOfficialDocument?.identityFieldName,
         individualCustomerOfficialDocumentDisplayValue: individualCustomerOfficialDocument?.identityDisplayValue,
         vesselCustomerDocumentIdentityFieldName: vesselCustomerDocumentIdentity?.identityFieldName,
@@ -269,6 +218,7 @@ const convertProfileDetail = (customer: CustomerVM): ProfileDetail => {
     };
     return profileDetail;
 };
+
 export async function getProfileDetailsById(profileId) {
     const profileDetails = await getProfileDetails(profileId);
     const { result, errors, isValidResponse } = profileDetails.data;

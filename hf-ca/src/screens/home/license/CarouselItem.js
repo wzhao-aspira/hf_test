@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import Carousel from "react-native-reanimated-carousel";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../../constants/Dimension";
@@ -27,20 +27,20 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     cardBottomContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "flex-end",
+        paddingTop: 20,
         height: 44,
     },
 });
 
-const renderValidDate = (title, date) => {
+const renderValidDate = (date) => {
     return date ? (
         <View>
-            <Text testID={genTestId(`date-${title}`)} style={{ ...AppTheme.typography.card_small_m }}>
-                {title}
-            </Text>
-            <Text testID={genTestId(`date-${date}`)} style={{ ...AppTheme.typography.card_small_r, marginTop: 5 }}>
+            <Text
+                testID={genTestId(`date-${date}`)}
+                style={{ ...AppTheme.typography.card_small_r }}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+            >
                 {date}
             </Text>
         </View>
@@ -51,7 +51,6 @@ const renderValidDate = (title, date) => {
 
 function CarouselContent({ item }) {
     const { altTextValidFromTo, name } = item;
-    const { t } = useTranslation();
     return (
         <View style={styles.card}>
             <Pressable
@@ -69,9 +68,7 @@ function CarouselContent({ item }) {
                 </Text>
                 <View style={{ flex: 1 }} />
                 <SeparateLine style={{ marginHorizontal: -20 }} />
-                <View style={styles.cardBottomContainer}>
-                    {renderValidDate(t("license.validFromTo"), altTextValidFromTo)}
-                </View>
+                <View style={styles.cardBottomContainer}>{renderValidDate(altTextValidFromTo)}</View>
             </Pressable>
         </View>
     );

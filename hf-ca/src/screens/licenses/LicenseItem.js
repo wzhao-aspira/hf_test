@@ -1,7 +1,6 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
-import { Trans } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";
@@ -64,7 +63,7 @@ function getValidDates(itemData) {
     if (altTextValidFromTo) {
         return (
             <Text testID={genTestId(`${altTextValidFromTo}`)} style={styles.validDateLabel}>
-                <Trans i18nKey="license.validFromTo" /> {altTextValidFromTo}
+                {altTextValidFromTo}
             </Text>
         );
     }
