@@ -48,14 +48,13 @@ const styles = StyleSheet.create({
     },
 });
 
-let profileIndex = 0;
-
 export default function CRSSScreen({ route }) {
     const { t } = useTranslation();
     const { params } = route || {};
     const { mobileAccount, customer, profile, routeScreen, isAddPrimaryProfile, crssVerifyProfiles } = params || {};
     const dispatch = useDispatch();
 
+    const [profileIndex, setProfileIndex] = useState(0);
     const isCRSSVerify = !(crssVerifyProfiles == null || crssVerifyProfiles.length == 0);
     const [profileInPage, setProfileInPage] = useState(isCRSSVerify ? crssVerifyProfiles[profileIndex] : profile);
     const passwordRef = React.createRef();
@@ -80,8 +79,8 @@ export default function CRSSScreen({ route }) {
             });
             if (rst.success) {
                 if (profileIndex < crssVerifyProfiles.length - 1) {
-                    profileIndex += 1;
-                    setProfileInPage(crssVerifyProfiles[profileIndex]);
+                    setProfileIndex((state) => state + 1);
+                    setProfileInPage(crssVerifyProfiles[profileIndex + 1]);
                     setPassword(null);
                 } else {
                     clearProfileListUpdateTime();
