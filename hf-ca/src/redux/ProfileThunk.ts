@@ -200,6 +200,7 @@ const getProfileListChangeStatus =
         showCIUChangedMsg = false,
         showListChangedMsg = false,
         networkErrorByDialog = false,
+        updateProfileWithNewData = false,
         showCRSSVerifyMsg = true,
     } = {}) =>
     async (dispatch, getState) => {
@@ -284,11 +285,12 @@ const getProfileListChangeStatus =
                 showProfileDialog(i18n.t("profile.profileListUpdatedAndRefresh"), () => {
                     dispatch(updateProfileData(result));
                 });
-                return response;
             }
         }
 
-        dispatch(updateProfileData(result));
+        if (updateProfileWithNewData) {
+            dispatch(updateProfileData(result));
+        }
         return response;
     };
 
@@ -309,7 +311,9 @@ const refreshProfileList =
         }
 
         dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.pending));
-        const response = await dispatch(getProfileListChangeStatus({ showGlobalLoading, showCIUChangedMsg }));
+        const response = await dispatch(
+            getProfileListChangeStatus({ showGlobalLoading, showCIUChangedMsg, updateProfileWithNewData: true })
+        );
         if (!response.success) {
             dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.rejected));
         } else {
