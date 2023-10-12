@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Image, StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -12,8 +12,7 @@ import SplitLine from "../components/SplitLine";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { genTestId, openLink } from "../helper/AppHelper";
-import QuickAccessChecker from "../components/QuickAccessChecker";
+import { genTestId, openLink, showNotImplementedFeature } from "../helper/AppHelper";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
 import NavigationService from "./NavigationService";
@@ -129,9 +128,6 @@ export default function DrawerContent({ navigation }) {
 
     const drawerStatus = useDrawerStatus();
     const drawerContentScrollView = useRef();
-    const quickAccessChecker = useRef();
-
-    const [quickAccessEnabled, setQuickAccessEnabled] = useState(false);
 
     const { navigateToIS } = useNavigateToISPurchaseLicense();
 
@@ -222,32 +218,23 @@ export default function DrawerContent({ navigation }) {
             <>
                 <View style={styles.sectionTitleContainer}>
                     <Text testID={genTestId(`${testIDPrefix}AccountSectionLabel`)} style={styles.sectionTitle}>
-                        <Trans i18nKey="common.account" />
+                        <Trans i18nKey="hamburgerMenu.information" />
                     </Text>
                 </View>
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
-                            navigation.navigate(Routers.manageProfile);
+                            showNotImplementedFeature();
                         }}
-                        title="profile.manageProfile"
-                        testID="ManageProfiles"
+                        title="hamburgerMenu.regulations"
+                        testID="Regulations"
                     />
-                    {quickAccessEnabled && (
-                        <MenuItem
-                            onClick={() => {
-                                navigation.navigate(Routers.quickAccessSetting);
-                            }}
-                            title="hamburgerMenu.quickAccess"
-                            testID="QuickAccess"
-                        />
-                    )}
                     <MenuItem
                         onClick={() => {
-                            navigation.navigate(Routers.setting);
+                            navigation.navigate(Routers.usefulLinks);
                         }}
-                        title="hamburgerMenu.settings"
-                        testID="Settings"
+                        title="hamburgerMenu.usefulLinks"
+                        testID="usefulLinks"
                     />
                 </View>
             </>
@@ -352,12 +339,6 @@ export default function DrawerContent({ navigation }) {
                 {renderSignOutSection()}
             </ScrollView>
             {renderBottomSection()}
-            <QuickAccessChecker
-                ref={quickAccessChecker}
-                onChange={({ available }) => {
-                    setQuickAccessEnabled(available);
-                }}
-            />
         </View>
     );
 }

@@ -7,6 +7,12 @@
         "viewAllLicenses": "View All Licenses",
         "noLicenseTitle": "No licenses found",
         "noLicenseIntroduction": "Purchase your hunting or fishing license now",
+        "physicalDocumentNeeded": "PHYSICAL DOCUMENT MUST BE IN IMMEDIATE POSSESSION",
+        "importantInformation": "Important Information",
+        "purchaseTitle": "To Internet Sales",
+        "myActiveLicenses": "My Active Licenses",
+        "viewDrawApplication": "View Draw Application/Results",
+        "myActivePermits": "My Active Access Permits",
         "purchaseLicense": "Purchase License"
     },
     "licenseDetails": {
@@ -139,8 +145,8 @@
     },
     "tabBar": {
         "tabHome": "Home",
-        "tabHunting": "Hunting",
-        "tabFishing": "Fishing"
+        "tabLicenses": "Licenses",
+        "tabMe": "Me"
     },
     "home": {
         "greeting": "Welcome, {{name}}!"
@@ -163,6 +169,7 @@
         "vesselGOIDNumber": "Vessel GO ID",
         "goIDNumber": "GO ID",
         "manageProfile": "Manage Customer Records",
+        "manageProfiles": "Manage Profiles",
         "currentlyInUse": "Currently In Use",
         "switchProfile": "Switch Customer Record",
         "otherProfiles": "Other Customer Records",
@@ -268,9 +275,13 @@
         "quickAccess": "Quick Access",
         "settings": "Settings",
         "privacyPolicy": "Privacy Policy",
-        "termsOfService": "Terms of Service"
+        "termsOfService": "Terms of Service",
+        "information": "Information",
+        "regulations": "Regulations",
+        "usefulLinks": "Useful Links"
     },
     "setting": {
+        "title": "Setting",
         "deleteAccount": "Delete Account",
         "changePassword": "Change Password",
         "currentPassword": "Current Password",
@@ -397,5 +408,11 @@
     "netStatus": {
         "offline": "Offline",
         "backOnline": "Back Online"
+    },
+    "me": {
+        "profileRelated": "Profile Related",
+        "account": "Account",
+        "security": "Security",
+        "quickAccessSetting": "Quick Access Setting"
     }
 }

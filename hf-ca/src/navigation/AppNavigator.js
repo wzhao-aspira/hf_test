@@ -19,12 +19,10 @@ import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
 import ContactUsScreen from "../screens/social_content/ContactUsScreen";
 import CRSSScreen from "../screens/shared/CRSSScreen";
 import DeleteAccountScreen from "../screens/delete_account/DeleteAccountScreen";
-import FishingScreen from "../screens/fish/FishingScreen";
 import FollowUsScreen from "../screens/social_content/FollowUsScreen";
 import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
 import HomeScreen from "../screens/home/HomeScreen";
-import HuntingScreen from "../screens/hunting/HuntingScreen";
 import LicenseDetailScreen from "../screens/licenses/LicenseDetailScreen";
 import LicenseListScreen from "../screens/licenses/LicenseListScreen";
 import LoginScreen from "../screens/login/LoginScreen";
@@ -48,6 +46,8 @@ import AddIndividualProfileInfoScreen from "../screens/profile/add_profile/AddIn
 import AddIndividualProfileInfoDetailsScreen from "../screens/profile/add_profile/AddIndividualProfileInfoDetailsScreen";
 import AddBusinessVesselProfileInfoScreen from "../screens/profile/add_profile/AddBusinessVesselProfileInfoScreen";
 import NetInfoBar from "../components/NetInfoBar";
+import LicensesTabScreen from "../screens/licenses/LicenseTabScreen";
+import MeTabScreen from "../screens/me/MeTabScreen";
 
 const NavTheme = {
     colors: {
@@ -239,8 +239,8 @@ function TabNav() {
         // https://reactnavigation.org/docs/bottom-tab-navigator#tabbar
         <BottomTab.Navigator screenOptions={screenOpt} tabBar={TabContent}>
             <BottomTab.Screen name={Routers.home} component={HomeScreen} />
-            <BottomTab.Screen name={Routers.hunting} component={HuntingScreen} />
-            <BottomTab.Screen name={Routers.fishing} component={FishingScreen} />
+            <BottomTab.Screen name={Routers.licenses} component={LicensesTabScreen} />
+            <BottomTab.Screen name={Routers.me} component={MeTabScreen} />
         </BottomTab.Navigator>
     );
 }

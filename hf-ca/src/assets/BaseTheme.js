@@ -88,6 +88,10 @@ export default {
             fontFamily: "Regular",
             fontSize: 16,
         },
+        setting_sub_title: {
+            fontFamily: "Regular",
+            fontSize: 15,
+        },
         overlay_hyperLink: {
             fontFamily: "Bold",
             fontSize: 14,

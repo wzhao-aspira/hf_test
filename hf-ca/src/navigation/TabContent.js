@@ -1,10 +1,9 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
-import * as React from "react";
 import { Shadow } from "react-native-shadow-2";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { TAB_BAR_HEIGHT } from "../constants/Dimension";
 import AppTheme from "../assets/_default/AppTheme";
-import { tabIcons, tabSelIcons } from "../constants/TabConfig";
-import SVGIcon from "../components/SVGIcon";
+import tabIcons from "../constants/TabConfig";
 import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
@@ -33,16 +32,10 @@ function TabContent(props) {
             <View style={styles.container}>
                 {state.routes.map((route, index) => {
                     const isFocused = state.index === index;
-                    const tabIcon = isFocused ? tabSelIcons[index] : tabIcons[index];
-                    const viewBoxSplit = tabIcon.viewBox.split(" ");
-                    if (tabIcon.height) {
-                        tabIcon.size = {
-                            width: tabIcon.height * (viewBoxSplit[2] / viewBoxSplit[3]),
-                            height: tabIcon.height,
-                        };
-                    }
+                    const tabIcon = isFocused ? tabIcons[index] : tabIcons[index];
+
                     const tabColor = isFocused ? AppTheme.colors.secondary_900 : AppTheme.colors.primary_2;
-                    const keyStr = tabIcon?.name;
+                    const keyStr = tabIcon?.label;
 
                     const onPress = () => {
                         const event = navigation.emit({
@@ -60,8 +53,8 @@ function TabContent(props) {
                     return (
                         <Pressable
                             accessibilityState={isFocused ? { selected: true } : {}}
-                            accessibilityLabel={`${tabIcon?.name} Tab`}
-                            testID={genTestId(tabIcon?.name)}
+                            accessibilityLabel={`${tabIcon?.label} Tab`}
+                            testID={genTestId(tabIcon?.id)}
                             onPress={onPress}
                             style={{
                                 ...styles.iconContainer,
@@ -69,15 +62,10 @@ function TabContent(props) {
                             }}
                             key={keyStr}
                         >
-                            <SVGIcon
-                                style={{
-                                    height: 25,
-                                    justifyContent: "center",
-                                }}
-                                iconSize={tabIcon?.size}
-                                pathList={tabIcon?.name}
-                                viewBox={tabIcon?.viewBox}
-                                fillColor={tabColor}
+                            <FontAwesomeIcon
+                                color={tabColor}
+                                icon={isFocused ? tabIcon.selected : tabIcon.unselected}
+                                size={24}
                             />
                             <Text
                                 style={{
