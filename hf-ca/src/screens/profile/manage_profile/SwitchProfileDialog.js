@@ -66,7 +66,7 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary }) {
     };
 
     const switchToOthers = async (profileId) => {
-        const response = await dispatch(profileThunkActions.getProfileListChangeStatus());
+        const response = await dispatch(profileThunkActions.getProfileListChangeStatus({ showCRSSVerifyMsg: false }));
 
         // if network error, user can switch the profile, other api error will block switch profile
         if (!response.success && response.isNetworkError) {
@@ -74,7 +74,7 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary }) {
             return;
         }
 
-        if (!response.success || response.primaryIsInactivated || response.needCRSSVerify) {
+        if (!response.success || response.primaryIsInactivated) {
             return;
         }
 
