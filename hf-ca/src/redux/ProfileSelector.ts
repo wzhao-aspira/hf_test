@@ -128,10 +128,7 @@ const selectAssociatedProfiles = createSelector(selectProfileList, (profileList:
 const selectIndividualProfiles = createSelector(selectProfileState, (state) => {
     const { individualProfiles } = state;
     if (individualProfiles?.length <= 0) return [];
-
-    return individualProfiles.sort((profileA, profileB) => {
-        return profileA.displayName.localeCompare(profileB.displayName);
-    });
+    return individualProfiles;
 });
 
 const selectors = {

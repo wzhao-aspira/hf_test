@@ -19,6 +19,7 @@ const goToAddNewPrimaryProfilePage = (userID) => {
         mobileAccount: { userID },
         isAddPrimaryProfile: true,
         noBackBtn: true,
+        routeScreen: Routers.manageProfile,
     });
 };
 
