@@ -10,7 +10,6 @@ import {
     getCurrentInUseProfileID,
     getProfileList,
     getProfileDetailsById,
-    isIndividualProfile,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { actions as appActions, selectors as appSelectors } from "./AppSlice";
@@ -244,8 +243,7 @@ const getProfileListChangeStatus =
         response.needCRSSVerify = needCRSSVerify;
 
         if (noPrimaryProfile) {
-            const individualProfiles = profileList.filter((profile) => isIndividualProfile(profile.profileType));
-            await dispatch(profileActions.setIndividualProfiles(individualProfiles));
+            await dispatch(profileActions.setIndividualProfiles(profileList));
 
             dispatch(appActions.toggleShowPrimaryProfileInactiveMsg(true));
             return response;

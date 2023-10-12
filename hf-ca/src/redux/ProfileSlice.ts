@@ -5,6 +5,7 @@ import type { Profile } from "../types/profile";
 import profileSelectors from "./ProfileSelector";
 import { CountryVM, IdentityTypesVM, StateVM, YouthIdentityOwnerVM, ResidentMethodTypeVM } from "../network/generated";
 import { REQUEST_STATUS } from "../constants/Constants";
+import { isIndividualProfile } from "../services/ProfileService";
 
 interface InitialState {
     youthIdentityOwners: YouthIdentityOwnerVM[];
@@ -100,8 +101,13 @@ const profileSlice = createSlice({
             state.ciuProfileIsInactive = payload;
         },
         setIndividualProfiles(state, action: PayloadAction<Profile[]>) {
-            const { payload } = action;
-            state.individualProfiles = payload;
+            const profiles = action.payload || [];
+            const individualProfiles = profiles
+                .filter((profile) => isIndividualProfile(profile.profileType))
+                .sort((profileA, profileB) => {
+                    return profileA.displayName.localeCompare(profileB.displayName);
+                });
+            state.individualProfiles = individualProfiles;
         },
     },
 });

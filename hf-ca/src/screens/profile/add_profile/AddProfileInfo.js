@@ -65,7 +65,10 @@ export const refreshDataAndNavigateWhenSaveProfileCompleted = async (
         await dispatch(appThunkActions.initUserData(mobileAccount));
         await dispatch(ProfileThunk.initProfile());
     } else {
-        dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+        const response = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
+        if (!response.success || response.primaryIsInactivated) {
+            return;
+        }
     }
     // Navigate to page
     if (!isEmpty(routeScreen)) {
