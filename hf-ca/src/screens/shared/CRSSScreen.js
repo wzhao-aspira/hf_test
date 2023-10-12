@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, BackHandler } from "react-native";
 import { isEmpty } from "lodash";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as WebBrowser from "expo-web-browser";
 import CommonHeader from "../../components/CommonHeader";
-import Page from "../../components/Page";
 import AppTheme from "../../assets/_default/AppTheme";
 import { SharedStyles } from "../../styles/CommonStyles";
 import { DEFAULT_BTN_RADIUS } from "../../constants/Dimension";
@@ -21,10 +20,13 @@ import DateUtils from "../../utils/DateUtils";
 import AppContract from "../../assets/_default/AppContract";
 import { refreshDataAndNavigateWhenSaveProfileCompleted } from "../profile/add_profile/AddProfileInfo";
 import NavigationService from "../../navigation/NavigationService";
-import Routers from "../../constants/Routers";
 import { clearProfileListUpdateTime } from "../../helper/AutoRefreshHelper";
+import Page from "../../components/Page";
 
 const styles = StyleSheet.create({
+    container: {
+        paddingBottom: 10,
+    },
     page_container: {
         flexDirection: "column",
         paddingHorizontal: 40,
@@ -58,7 +60,16 @@ export default function CRSSScreen({ route }) {
     const isCRSSVerify = !(crssVerifyProfiles == null || crssVerifyProfiles.length == 0);
     const [profileInPage, setProfileInPage] = useState(isCRSSVerify ? crssVerifyProfiles[profileIndex] : profile);
     const passwordRef = React.createRef();
-    const [password, setPassword] = useState();
+    const [password, setPassword] = useState(null);
+
+    useEffect(() => {
+        const backListener = BackHandler.addEventListener("hardwareBackPress", () => {
+            return true;
+        });
+        return () => {
+            backListener.remove();
+        };
+    }, []);
 
     const emptyValidate = (input, msg = "required") => {
         return {
@@ -84,7 +95,7 @@ export default function CRSSScreen({ route }) {
                     setPassword(null);
                 } else {
                     clearProfileListUpdateTime();
-                    NavigationService.navigate(Routers.manageProfile);
+                    NavigationService.back();
                 }
             }
         } else {
@@ -104,7 +115,7 @@ export default function CRSSScreen({ route }) {
     };
 
     return (
-        <Page>
+        <Page style={styles.container}>
             <CommonHeader title={t("crss.enterYourPassword")} showLeft={!isCRSSVerify} />
             <KeyboardAwareScrollView>
                 <View style={styles.page_container}>
