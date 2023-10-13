@@ -20,6 +20,7 @@ import appThunkActions from "../../../redux/AppThunk";
 import OnBoardingHelper from "../../../helper/OnBoardingHelper";
 import LoginStep from "../../../constants/LoginStep";
 import { updateLoginStep } from "../../../redux/AppSlice";
+import { clearProfileListUpdateTime } from "../../../helper/AutoRefreshHelper";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -65,10 +66,7 @@ export const refreshDataAndNavigateWhenSaveProfileCompleted = async (
         await dispatch(appThunkActions.initUserData(mobileAccount));
         await dispatch(ProfileThunk.initProfile());
     } else {
-        const response = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
-        if (!response.success || response.primaryIsInactivated) {
-            return;
-        }
+        clearProfileListUpdateTime();
     }
     // Navigate to page
     if (!isEmpty(routeScreen)) {

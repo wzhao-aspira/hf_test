@@ -205,7 +205,7 @@
         "noAvailablePrimary": "No available primary customer record.",
         "noPrimaryAvailable": "No Primary Customer Record Available",
         "addNewPrimaryProfile": "Add New Primary Customer Record",
-        "orSwitchTo": "Or Switch To:",
+        "orSwitchTo": "Or Switch to:",
         "associatedRemovedAsWell": "The associated customer records have been removed as well.",
         "associatedProfiles": "Associated customer record(s):"
     },
