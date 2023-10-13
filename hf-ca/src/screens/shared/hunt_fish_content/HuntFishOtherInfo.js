@@ -51,7 +51,7 @@ function HuntFishOtherInfo() {
                     }}
                 />
                 <HuntFishOtherInfoItem
-                    title={t("preferencePoint.myPreferencePoint")}
+                    title={t("preferencePoint.viewPreferencePoint")}
                     onPress={() => {
                         NavigationService.navigate(Routers.preferencePoint);
                     }}
