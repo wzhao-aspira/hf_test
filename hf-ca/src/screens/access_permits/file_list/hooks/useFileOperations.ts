@@ -11,6 +11,7 @@ import {
 
 import { isAndroid, showToast } from "../../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../../constants/Routers";
+import DialogHelper from "../../../../helper/DialogHelper";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 type FileTypes = "notificationPDF" | "attachment";
@@ -102,12 +103,21 @@ function useDownloadFile({
                 })
                 .catch((error) => {
                     console.log(error);
-                    showToast(error?.message);
+
+                    const errorMessage = error?.message;
+
+                    if (errorMessage === "No app associated with this mime type") {
+                        DialogHelper.showSimpleDialog({
+                            message: `Sorry, this file ${fileName} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format.`,
+                            okText: "common.gotIt",
+                        });
+                    } else {
+                        showToast(errorMessage);
+                    }
                 });
         } else {
             navigation.navigate(Routers.webView, {
                 url: fileURI,
-                // title: t("usefulLinks.usefulLinks"), // TODO: to be confirmed with BA
             });
         }
     }

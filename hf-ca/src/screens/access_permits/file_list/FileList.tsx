@@ -142,14 +142,16 @@ function File(props: FileProps) {
                 <Text style={[styles.sectionTitle]} testID={genTestId(`permitDetailsFileName${title}`)}>
                     {title}
                 </Text>
-                <View style={styles.licenseInfo}>
-                    <Text
-                        testID={genTestId(`permitDetailsFileName${title}Description`)}
-                        style={{ marginTop: -10, marginBottom: 13 }}
-                    >
-                        {description}
-                    </Text>
-                </View>
+                {!!description && (
+                    <View style={styles.licenseInfo}>
+                        <Text
+                            testID={genTestId(`permitDetailsFileName${title}Description`)}
+                            style={{ marginTop: -10, marginBottom: 13 }}
+                        >
+                            {description}
+                        </Text>
+                    </View>
+                )}
                 <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
                     {isNotDownloaded && available && (
                         <PrimaryBtn
