@@ -64,12 +64,15 @@ export default function CRSSScreen({ route }) {
 
     useEffect(() => {
         const backListener = BackHandler.addEventListener("hardwareBackPress", () => {
-            return true;
+            if (isCRSSVerify) {
+                return true;
+            }
+            return false;
         });
         return () => {
             backListener.remove();
         };
-    }, []);
+    }, [isCRSSVerify]);
 
     const emptyValidate = (input, msg = "required") => {
         return {
