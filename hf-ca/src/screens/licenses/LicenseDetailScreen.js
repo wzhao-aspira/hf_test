@@ -531,11 +531,9 @@ function LicenseDetailScreen(props) {
                         {mobileAppNeedPhysicalDocument && (
                             <View style={[styles.sectionContent]}>
                                 <View style={[styles.licenseInfo, { marginTop: 10 }]}>
-                                    <View>
-                                        <Text testID={genTestId("documentRequiredReminder")}>
-                                            {appConfig.data.documentRequiredReminder}
-                                        </Text>
-                                    </View>
+                                    <Text style={styles.labelText} testID={genTestId("documentRequiredReminder")}>
+                                        {appConfig.data.documentRequiredReminder}
+                                    </Text>
                                 </View>
                             </View>
                         )}
