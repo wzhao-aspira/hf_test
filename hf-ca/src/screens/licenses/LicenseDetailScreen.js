@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, RefreshControl } from "react-native";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import { useTranslation, Trans } from "react-i18next";
@@ -86,8 +87,8 @@ const styles = StyleSheet.create({
 });
 
 function renderInfoSection(sectionName, sectionInformation) {
-    return sectionInformation.map((rowItem) => {
-        return (
+    return sectionInformation?.map((rowItem) => {
+        return rowItem && rowItem[0] ? (
             <View key={`${sectionName}_${rowItem[0].label}_Wrapper`} style={[styles.licenseInfo, { marginTop: 10 }]}>
                 {rowItem.map((item, index) => (
                     <View
@@ -103,9 +104,21 @@ function renderInfoSection(sectionName, sectionInformation) {
                     </View>
                 ))}
             </View>
-        );
+        ) : null;
     });
 }
+
+const selectLicenseById = (id, licenseState) => {
+    const licenseData = licenseState.data;
+    let selectedLicense = {};
+    licenseData?.forEach((group) => {
+        const item = group?.data?.find((license) => license.id === id);
+        if (item) {
+            selectedLicense = item;
+        }
+    });
+    return selectedLicense;
+};
 
 function LicenseDetailScreen(props) {
     const { t } = useTranslation();
@@ -116,7 +129,9 @@ function LicenseDetailScreen(props) {
     const licenseRefreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
 
     const { route } = props;
-    const { licenseData } = route.params;
+    const { licenseData: license } = route.params;
+    const { id } = license;
+    const licenseData = selectLicenseById(id, reduxData);
     const {
         name,
         documentCode,
@@ -131,12 +146,11 @@ function LicenseDetailScreen(props) {
         mobileAppNeedPhysicalDocument,
         itemName,
         additionalValidityText,
-        id,
         isHarvestReportSubmissionAllowed,
         isHarvestReportSubmissionEnabled,
         isHarvestReportSubmitted,
         licenseReportId,
-    } = licenseData;
+    } = licenseData || {};
 
     console.log(`license data:${JSON.stringify(licenseData)}`);
 
@@ -211,7 +225,7 @@ function LicenseDetailScreen(props) {
             { label: t("licenseDetails.weight"), content: getWeight(weight) },
             { label: t("licenseDetails.dob"), content: moment(dateOfBirth).format("MM/DD/YYYY") },
         ],
-        [{ label: "", content: printDescription }],
+        printDescription ? [{ label: "", content: printDescription }] : null,
     ];
 
     const businessCustomerBaseInfo = [
@@ -220,7 +234,7 @@ function LicenseDetailScreen(props) {
             { label: t("licenseDetails.goID"), content: goIDNumber },
         ],
         [{ label: t("licenseDetails.address"), content: simplePhysicalAddress }],
-        [{ label: "", content: residentMethodType }],
+        residentMethodType ? [{ label: "", content: residentMethodType }] : null,
     ];
 
     const vesselCustomerBasicInfo = [
@@ -262,7 +276,7 @@ function LicenseDetailScreen(props) {
                   { label: t("licenseDetails.address"), content: ownerSimplePhysicalAddress },
               ]
             : [{ label: t("licenseDetails.address"), content: ownerSimplePhysicalAddress }],
-        [{ label: "", content: ownerResidentMethodType }],
+        ownerResidentMethodType ? [{ label: "", content: ownerResidentMethodType }] : null,
     ];
 
     const renderIndividualCustomerSection = () => {
@@ -341,6 +355,10 @@ function LicenseDetailScreen(props) {
     };
 
     useFocus(() => {
+        getLicenseOfActiveProfile(false);
+    });
+
+    useEffect(() => {
         getLicenseOfActiveProfile(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -487,15 +505,17 @@ function LicenseDetailScreen(props) {
                                     </View>
                                 )}
                                 <View style={{ marginTop: 13, marginBottom: 10 }} testID={genTestId("barCode")}>
-                                    <Barcode
-                                        format="CODE39"
-                                        value={documentNumber}
-                                        text={documentNumber}
-                                        textStyle={{ fontFamily: "Lato_Bold" }}
-                                        width={240}
-                                        height={63}
-                                        maxWidth={SCREEN_WIDTH - 4 * DEFAULT_MARGIN}
-                                    />
+                                    {documentNumber && (
+                                        <Barcode
+                                            format="CODE39"
+                                            value={documentNumber}
+                                            text={documentNumber}
+                                            textStyle={{ fontFamily: "Lato_Bold" }}
+                                            width={240}
+                                            height={63}
+                                            maxWidth={SCREEN_WIDTH - 4 * DEFAULT_MARGIN}
+                                        />
+                                    )}
                                 </View>
                             </View>
                         </View>
