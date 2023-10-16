@@ -111,7 +111,7 @@ const getCRSSVerifyProfiles = async (result = []) => {
 };
 
 const initProfile =
-    (isRemote = true): AppThunk =>
+    (isRemote = true, isReopenApp = false): AppThunk =>
     async (dispatch, getState) => {
         const rootState = getState();
         const userState = appSelectors.selectUser(rootState);
@@ -141,13 +141,18 @@ const initProfile =
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
-        if (currentInUseProfileID && !includes(profileListIDs, currentInUseProfileID)) {
-            dispatch(profileActions.updateCiuProfileIsInactive(true));
+        if (isReopenApp) {
+            if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
+                dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
+            } else if (primaryProfileId) {
+                showProfileDialog(i18n.t("profile.currentInUseInactiveMsg"), () => {
+                    dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
+                    NavigationService.navigate(Routers.manageProfile);
+                });
+            }
         }
-        if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
-            dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
-        }
-        if (!currentInUseProfileID && primaryProfileId) {
+
+        if (!isReopenApp && primaryProfileId) {
             await updateCurrentInUseProfileID(username, primaryProfileId);
             dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
         }

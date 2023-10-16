@@ -18,7 +18,6 @@ interface InitialState {
     profilesIDs: string[] | null;
     profileList: Profile[];
     profileListRequestStatus: string;
-    ciuProfileIsInactive: boolean;
     individualProfiles: Profile[];
 }
 
@@ -33,7 +32,6 @@ const initialState: InitialState = {
     profilesIDs: null,
     profileList: [],
     profileListRequestStatus: REQUEST_STATUS.idle,
-    ciuProfileIsInactive: false,
     individualProfiles: [],
 };
 
@@ -95,10 +93,6 @@ const profileSlice = createSlice({
             const profile = action.payload;
             const profileIndex = state.profileList.findIndex((item) => item.profileId === profile.profileId);
             state.profileList[profileIndex] = profile;
-        },
-        updateCiuProfileIsInactive(state, action: PayloadAction<boolean>) {
-            const { payload } = action;
-            state.ciuProfileIsInactive = payload;
         },
         setIndividualProfiles(state, action: PayloadAction<Profile[]>) {
             const profiles = action.payload || [];

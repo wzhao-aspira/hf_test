@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { View, FlatList, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
@@ -18,11 +17,6 @@ import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
 import profileSelectors from "../../redux/ProfileSelector";
 import useFocus from "../../hooks/useFocus";
 import ProfileThunk from "../../redux/ProfileThunk";
-import DialogHelper from "../../helper/DialogHelper";
-import i18n from "../../localization/i18n";
-import NavigationService from "../../navigation/NavigationService";
-import Routers from "../../constants/Routers";
-import { actions as profileActions } from "../../redux/ProfileSlice";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -36,31 +30,12 @@ export default function HomeScreen() {
     const licenseData = licenseReduxData.data;
     const { isShowSkeletonWhenOffline } = licenseReduxData;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
-    const ciuIsInactive = useSelector(profileSelectors.selectCiuIsInactive);
-    const primaryProfileId = useSelector(profileSelectors.selectPrimaryProfileID);
 
     const getLicenseOfActiveProfile = (isForce, useCache) => {
         if (activeProfileId) {
             dispatch(getLicense({ isForce, searchParams: { activeProfileId }, useCache }));
         }
     };
-
-    // sign in: need to check ciuIsInactive
-    useEffect(() => {
-        console.log("home screen ciuIsInactive-:", ciuIsInactive);
-        if (ciuIsInactive && primaryProfileId) {
-            DialogHelper.showSimpleDialog({
-                title: i18n.t("common.reminder"),
-                message: i18n.t("profile.currentInUseInactiveMsg"),
-                okText: i18n.t("common.gotIt"),
-                okAction: () => {
-                    dispatch(profileActions.updateCiuProfileIsInactive(false));
-                    dispatch(ProfileThunk.switchCurrentInUseProfile(primaryProfileId));
-                    NavigationService.navigate(Routers.manageProfile);
-                },
-            });
-        }
-    }, [ciuIsInactive, dispatch, primaryProfileId]);
 
     useFocus(() => {
         console.log("home focus");
