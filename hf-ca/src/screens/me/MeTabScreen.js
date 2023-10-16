@@ -112,7 +112,7 @@ function RenderContent() {
             <Text style={styles.sectionTitle}>{t("me.profileRelated")}</Text>
             <View style={styles.sectionContainer}>
                 <HuntFishOtherInfoItem
-                    title={t("profile.manageProfiles")}
+                    title={t("profile.manageProfile")}
                     onPress={() => {
                         NavigationService.navigate(Routers.manageProfile);
                     }}
