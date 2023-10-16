@@ -11,7 +11,7 @@ import CustomerInfo from "./models/CustomerInfo";
 import HuntDay from "./models/HuntDay";
 import FileInfo from "./models/FileInfo";
 
-const schemaVersion = 1;
+const schemaVersion = 2;
 
 export let realm: Realm;
 
@@ -36,7 +36,7 @@ export async function openRealm() {
         //         // Migration
         //     }
         // },
-    });
+    }).catch((e) => console.log(e));
 }
 
 export function closeRealm() {
