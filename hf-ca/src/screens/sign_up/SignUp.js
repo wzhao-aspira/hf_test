@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import { View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { useTranslation, Trans } from "react-i18next";
 import emailValidator from "email-validator";
 import { useDispatch } from "react-redux";
 import StatefulTextInput from "../../components/StatefulTextInput";
@@ -8,12 +8,52 @@ import CountdownTextInput from "../../components/CountdownTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "../profile/add_profile/ProfileValidate";
 import PrimaryBtn from "../../components/PrimaryBtn";
+import OutlinedBtn from "../../components/OutlinedBtn";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
 import { setLoginCredential } from "../../helper/LocalAuthHelper";
+import { updateLoginStep } from "../../redux/AppSlice";
+import LoginStep from "../../constants/LoginStep";
+import { DEFAULT_RADIUS } from "../../constants/Dimension";
+import { appConfig } from "../../services/AppConfigService";
+import { genTestId } from "../../helper/AppHelper";
+
+const styles = StyleSheet.create({
+    disclaimerCard: {
+        ...AppTheme.shadow,
+        backgroundColor: AppTheme.colors.font_color_4,
+        borderRadius: DEFAULT_RADIUS,
+        padding: 20,
+        top: 120,
+        marginBottom: 10,
+        position: "absolute",
+        zIndex: 1,
+        width: "100%",
+    },
+    disclaimerText: {
+        maxHeight: 400,
+    },
+    disclaimerTitle: {
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_1,
+        textAlign: "center",
+        marginVertical: 10,
+    },
+    disclaimerMessage: {
+        ...AppTheme.typography.overlay_sub_text,
+        color: AppTheme.colors.font_color_2,
+        lineHeight: 20,
+        marginVertical: 10,
+    },
+    disclaimerButton: {
+        marginTop: 20,
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+});
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -21,12 +61,11 @@ function SignUp() {
     const [mobileAccount, setMobileAccount] = useState();
     const [isEmailValidationCodeBeSended, setEmailValidationCodeBeSended] = useState(false);
     const [isShowCountdown, setIsShowCountdown] = useState(true);
-
+    const [isShowAcknowledgement, setIsShowAcknowledgement] = useState(true);
     const userIDRef = useRef();
     const emailValidationCodeRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
-
     const isEmptyValidationCode = () => {
         const emptyValidationCode = emptyValidate(
             mobileAccount?.emailValidationCode,
@@ -114,6 +153,7 @@ function SignUp() {
             NavigationService.navigate(Routers.addIndividualProfile, { mobileAccount, isAddPrimaryProfile: true });
         }
     };
+
     return (
         <View>
             <StatefulTextInput
@@ -134,6 +174,30 @@ function SignUp() {
                     userIDRef?.current.setError(error);
                 }}
             />
+            {isShowAcknowledgement && (
+                <View style={styles.disclaimerCard}>
+                    <ScrollView style={styles.disclaimerText}>
+                        <Text testID={genTestId("disclaimer_title")} style={styles.disclaimerTitle}>
+                            <Trans i18nKey="signUp.disclaimerTitle" />
+                        </Text>
+                        <Text testID={genTestId("disclaimer_text")} style={styles.disclaimerMessage}>
+                            {appConfig.data.userAcknowledgement}
+                        </Text>
+                    </ScrollView>
+                    <View style={styles.disclaimerButton}>
+                        <OutlinedBtn
+                            onPress={() => dispatch(updateLoginStep(LoginStep.login))}
+                            label={t("common.cancel")}
+                            testID={genTestId("AcknowledgeCancel")}
+                        />
+                        <PrimaryBtn
+                            testID={genTestId("Acknowledge")}
+                            label={t("signUp.acknowledge")}
+                            onPress={() => setIsShowAcknowledgement(false)}
+                        />
+                    </View>
+                </View>
+            )}
             {!isEmailValidationCodeBeSended && (
                 <PrimaryBtn
                     style={{ marginTop: 40 }}
