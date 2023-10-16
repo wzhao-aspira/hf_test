@@ -10,7 +10,7 @@ import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
 import NavigationService from "../../../navigation/NavigationService";
 import DialogHelper from "../../../helper/DialogHelper";
-import { actions as appActions, selectors as appSelectors } from "../../../redux/AppSlice";
+import { selectors as appSelectors } from "../../../redux/AppSlice";
 import Routers from "../../../constants/Routers";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { genTestId } from "../../../helper/AppHelper";
@@ -94,10 +94,9 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary }) {
 
     const handleSwitch = async (profileId) => {
         try {
-            dispatch(appActions.toggleIndicator(true));
             hideDialog();
             if (isSwitchToPrimary) {
-                const response = await handleError(switchToPrimary(profileId), { dispatch });
+                const response = await handleError(switchToPrimary(profileId), { dispatch, showLoading: true });
                 if (response.success) {
                     NavigationService.navigate(Routers.manageProfile);
                     dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
@@ -107,8 +106,6 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary }) {
             }
         } catch (error) {
             console.log("switch error", error);
-        } finally {
-            dispatch(appActions.toggleIndicator(false));
         }
     };
 
