@@ -140,12 +140,9 @@ export default function DrawerContent({ navigation }) {
     }, [drawerStatus]);
 
     const onSignOut = async () => {
-        const response = await handleError(AccountService.signOut(), { dispatch, showLoading: true });
-        console.log("onSignOut response:", response);
-        if (response.success) {
-            await AccountService.clearAppData(dispatch);
-            dispatch(updateLoginStep(LoginStep.login));
-        }
+        await handleError(AccountService.signOut(), { dispatch, showLoading: true, showError: false });
+        await AccountService.clearAppData(dispatch);
+        dispatch(updateLoginStep(LoginStep.login));
     };
 
     const renderProfileSection = () => {
