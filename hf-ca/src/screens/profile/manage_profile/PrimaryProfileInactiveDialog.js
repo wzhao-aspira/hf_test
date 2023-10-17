@@ -7,21 +7,13 @@ import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import NavigationService from "../../../navigation/NavigationService";
 import DialogHelper from "../../../helper/DialogHelper";
 import { actions, selectors as appSelectors, selectIsPrimaryProfileInactive } from "../../../redux/AppSlice";
-import Routers from "../../../constants/Routers";
 import { genTestId } from "../../../helper/AppHelper";
 
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import SwitchProfileDialog from "./SwitchProfileDialog";
 import { primaryProfileInactiveStyles } from "./Styles";
-
-const goToAddNewPrimaryProfilePage = (userID) => {
-    NavigationService.navigate(Routers.addIndividualProfile, {
-        mobileAccount: { userID },
-        isAddPrimaryProfile: true,
-        noBackBtn: true,
-        routeScreen: Routers.manageProfile,
-    });
-};
+import { goToAddNewPrimaryProfilePage } from "../../../services/ProfileService";
+import Routers from "../../../constants/Routers";
 
 function PrimaryProfileInactiveDialog() {
     const dispatch = useDispatch();
@@ -33,6 +25,7 @@ function PrimaryProfileInactiveDialog() {
 
     const hasAssociatedProfile = associatedProfiles.length > 0;
     const hasIndividualProfile = individualProfiles.length > 0;
+    const currentRoute = Routers.current;
 
     const handleProceed = () => {
         dispatch(actions.toggleShowPrimaryProfileInactiveMsg(false));
@@ -40,11 +33,15 @@ function PrimaryProfileInactiveDialog() {
         if (hasIndividualProfile) {
             DialogHelper.showCustomDialog({
                 renderDialogContent: () => (
-                    <SwitchProfileDialog hideDialog={() => NavigationService.back()} isSwitchToPrimary />
+                    <SwitchProfileDialog
+                        hideDialog={() => NavigationService.back()}
+                        isSwitchToPrimary
+                        currentRoute={currentRoute}
+                    />
                 ),
             });
         } else {
-            goToAddNewPrimaryProfilePage(userID);
+            goToAddNewPrimaryProfilePage(userID, currentRoute);
         }
     };
 

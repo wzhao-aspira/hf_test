@@ -15,19 +15,14 @@ import Routers from "../../../constants/Routers";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { genTestId } from "../../../helper/AppHelper";
 import { handleError } from "../../../network/APIUtil";
-import { switchToPrimary } from "../../../services/ProfileService";
+import { goToAddNewPrimaryProfilePage, switchToPrimary } from "../../../services/ProfileService";
 
-function AddPrimaryProfile() {
+function AddPrimaryProfile({ currentRoute }) {
     const userID = useSelector(appSelectors.selectUsername);
     return (
         <Pressable
             onPress={() => {
-                NavigationService.navigate(Routers.addIndividualProfile, {
-                    mobileAccount: { userID },
-                    isAddPrimaryProfile: true,
-                    noBackBtn: true,
-                    routeScreen: Routers.manageProfile,
-                });
+                goToAddNewPrimaryProfilePage(userID, currentRoute);
             }}
             testID={genTestId("addPrimaryProfile")}
         >
@@ -43,7 +38,7 @@ function AddPrimaryProfile() {
     );
 }
 
-export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary }) {
+export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary, currentRoute }) {
     const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
@@ -67,7 +62,6 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary }) {
 
     const switchToOthers = async (profileId) => {
         const response = await dispatch(profileThunkActions.getProfileListChangeStatus({ showCRSSVerifyMsg: false }));
-
         // if network error, user can switch the profile, other api error will block switch profile
         if (!response.success && response.isNetworkError) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
@@ -121,7 +115,7 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary }) {
                         <Text testID={genTestId("noPrimaryAvailable")} style={primaryProfileInactiveStyles.subTitle}>
                             {t("profile.noPrimaryAvailable")}
                         </Text>
-                        <AddPrimaryProfile />
+                        <AddPrimaryProfile currentRoute={currentRoute} />
                     </View>
                 ) : (
                     <ProfileItem

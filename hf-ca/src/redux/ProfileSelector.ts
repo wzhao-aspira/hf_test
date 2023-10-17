@@ -112,8 +112,6 @@ const selectResidentMethodTypeById = (residentMethodTypeId) =>
         return residentMethodTypeList?.find((item) => item.residentMethodTypeId === residentMethodTypeId) || {};
     });
 
-const selectCiuIsInactive = createSelector(selectProfileState, (profile) => profile.ciuProfileIsInactive);
-
 const selectIsPrimaryOrCiuProfile = (profileId) =>
     createSelector(
         selectCurrentInUseProfileID,
@@ -146,7 +144,6 @@ const selectors = {
     selectProfileDetailsById,
     selectResidentMethodTypeById,
     selectSortedByDisplayNameOtherProfileList,
-    selectCiuIsInactive,
     selectOtherProfileListWithoutPrimary,
     selectCurrentProfileFirstName,
     selectIsPrimaryOrCiuProfile,
