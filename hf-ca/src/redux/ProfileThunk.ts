@@ -5,7 +5,6 @@ import {
     getIdentityTypes,
     getStates,
     getYouthIdentityOwners,
-    getResidentMethodTypes,
     updateCurrentInUseProfileID,
     getCurrentInUseProfileID,
     getProfileList,
@@ -20,7 +19,12 @@ import {
     updateProfileDetailToDB,
     updateProfileSummaryToDB,
 } from "../db";
-import { getProfileListUpdateTime, setProfileListUpdateTime } from "../helper/AutoRefreshHelper";
+import {
+    getCurrentProfileDetailsUpdateTime,
+    getProfileListUpdateTime,
+    setCurrentProfileDetailsUpdateTime,
+    setProfileListUpdateTime,
+} from "../helper/AutoRefreshHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import DialogHelper from "../helper/DialogHelper";
@@ -33,6 +37,7 @@ import { actions as preferencePointActions } from "./PreferencePointSlice";
 
 const formateProfile = (profile) => {
     const { customerId, name, customerTypeId, goidNumber, goid, ...otherProps } = profile;
+
     return {
         profileId: customerId,
         displayName: name,
@@ -89,12 +94,6 @@ const initProfileCommonData = (): AppThunk => async (dispatch, getState) => {
     if (shouldYouthIdentityOwnersInitialize) {
         const youthIdentityOwners = await handleError(getYouthIdentityOwners(), { dispatch });
         dispatch(profileActions.setYouthIdentifyOwners(youthIdentityOwners?.data));
-    }
-
-    const shouldResidentMethodTypesInitialize = isEmpty(state.profile.residentMethodTypes);
-    if (shouldResidentMethodTypesInitialize) {
-        const residentMethodTypes = await handleError(getResidentMethodTypes(), { dispatch });
-        dispatch(profileActions.setResidentMethodTypes(residentMethodTypes?.data));
     }
 };
 
@@ -297,6 +296,49 @@ const getProfileListChangeStatus =
         return response;
     };
 
+const initProfileDetails =
+    ({ profileId, isForce = true }) =>
+    async (dispatch, getState) => {
+        let result;
+        const rootState = getState();
+        const { profileDetailsRequestStatus } = rootState.profile;
+
+        if (profileDetailsRequestStatus == REQUEST_STATUS.pending) {
+            return;
+        }
+        dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.pending));
+        if (isForce || checkNeedAutoRefreshData(getCurrentProfileDetailsUpdateTime())) {
+            const response = await handleError(getProfileDetailsById(profileId), {
+                dispatch,
+                networkErrorByDialog: false,
+            });
+            if (response.success) {
+                result = response.data.data.result;
+                if (!isEmpty(result)) {
+                    await updateProfileDetailToDB(result);
+                    setCurrentProfileDetailsUpdateTime();
+                }
+                dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.fulfilled));
+            } else {
+                dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.rejected));
+            }
+        }
+        if (!result) {
+            const dbResult = await getProfileDetailFromDB(profileId);
+            if (dbResult.success) {
+                result = dbResult.profile;
+            }
+            if (isEmpty(result)) {
+                const filteredVal = getState()?.profile?.profileList?.find((ele) => ele?.profileId == profileId);
+                result = { ...filteredVal, noCacheData: true };
+            }
+        }
+
+        const formattedProfile = formateProfile(result);
+        dispatch(profileActions.updateProfileDetailsById(formattedProfile));
+        dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.fulfilled));
+    };
+
 const refreshProfileList =
     ({ isForce = false, showCIUChangedMsg = true, showGlobalLoading = false } = {}): AppThunk =>
     async (dispatch, getState) => {
@@ -322,32 +364,13 @@ const refreshProfileList =
         } else {
             dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
         }
-
+        // Initial Current User Profile Details
+        const currentInUseProfileID = profileSelector.selectCurrentInUseProfileID(rootState);
+        if (currentInUseProfileID) {
+            await dispatch(initProfileDetails({ profileId: currentInUseProfileID, isForce: false }));
+        }
         return { ...response, isReloadData: true };
     };
-
-const initProfileDetails = (profileId) => async (dispatch, getState) => {
-    let result;
-    const response = await handleError(getProfileDetailsById(profileId), { dispatch, networkErrorByDialog: false });
-    if (response.success) {
-        result = response.data.data.result;
-        if (!isEmpty(result)) {
-            updateProfileDetailToDB(result);
-        }
-    } else {
-        const dbResult = await getProfileDetailFromDB(profileId);
-        if (dbResult.success) {
-            result = dbResult.profile;
-        }
-        if (isEmpty(result)) {
-            const filteredVal = getState()?.profile?.profileList?.find((ele) => ele?.profileId == profileId);
-            result = { ...filteredVal, noCacheData: true };
-        }
-    }
-
-    const formattedProfile = formateProfile(result);
-    dispatch(profileActions.updateProfileDetailsById(formattedProfile));
-};
 
 export default {
     initProfileCommonData,

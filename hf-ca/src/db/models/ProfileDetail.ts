@@ -62,6 +62,28 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
 
     ownerOfficialDocumentDisplayValue?: string;
 
+    fgNumber?: string;
+
+    homePort?: string;
+
+    hullNumber?: string;
+
+    ownerCustomerTypeId?: number;
+
+    yearBuilt?: number;
+
+    residentMethodTypeId?: number;
+
+    displayBreadth?: string;
+
+    displayDepth?: string;
+
+    displayGrossTonnage?: string;
+
+    displayLength?: string;
+
+    displayNetTonnage?: string;
+
     static schema = {
         name: "ProfileDetail",
         properties: {
@@ -95,6 +117,17 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
             vesselCustomerDocumentIdentityDisplayValue: "string?",
             ownerOfficialDocumentFieldName: "string?",
             ownerOfficialDocumentDisplayValue: "string?",
+            fgNumber: "string?",
+            homePort: "string?",
+            hullNumber: "string?",
+            ownerCustomerTypeId: "int?",
+            yearBuilt: "int?",
+            residentMethodTypeId: "int?",
+            displayBreadth: "string?",
+            displayDepth: "string?",
+            displayGrossTonnage: "string?",
+            displayLength: "string?",
+            displayNetTonnage: "string?",
         },
         primaryKey: "customerId",
     };

@@ -2,6 +2,7 @@ import { isEmpty } from "lodash";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
 import { updateProfileDetailToDB } from "../db";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
+import defaultResidentMethodTypes from "./residentMethodTypes.json";
 import {
     getProfiles,
     findAndLinkAuditProfile,
@@ -35,6 +36,10 @@ import { ProfileDetail } from "../types/profile";
 import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
 
+export const residentMethodTypes: { data: ResidentMethodTypeVM[] } = {
+    data: null,
+};
+
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
     return ret?.data?.result;
@@ -52,9 +57,29 @@ export async function getStates(): Promise<StateVM[]> {
     return ret?.data?.result;
 }
 
-export async function getResidentMethodTypes(): Promise<ResidentMethodTypeVM[]> {
-    const ret = await getResidentMethodTypesData();
-    return ret?.data?.result;
+export async function initResidentMethodTypes() {
+    const jsonData = await getResidentMethodTypes();
+    residentMethodTypes.data = jsonData;
+}
+
+async function getResidentMethodTypes(): Promise<ResidentMethodTypeVM[]> {
+    try {
+        const result = await getResidentMethodTypesData();
+        const data = result?.data.result;
+        await storeItem(KEY_CONSTANT.keyResidentMethodTypes, data);
+        return data;
+    } catch (error) {
+        console.log(error);
+        return getResidentMethodTypesFromCache();
+    }
+}
+
+async function getResidentMethodTypesFromCache(): Promise<ResidentMethodTypeVM[]> {
+    let data = await retrieveItem(KEY_CONSTANT.keyResidentMethodTypes);
+    if (!data) {
+        data = defaultResidentMethodTypes.data;
+    }
+    return data;
 }
 
 export async function getProfileList() {
@@ -210,6 +235,8 @@ export async function removeAccountCurrentInUseProfileID(accountID) {
 export const convertProfileDetail = (customer: CustomerVM): ProfileDetail => {
     // @ts-ignore API provide base class type's props, API have story try to back all props use sub class props.
     const { individualCustomerOfficialDocument, vesselCustomerDocumentIdentity, ownerOfficialDocument } = customer;
+    // @ts-ignore API provide base class type's props, API have story try to back all props use sub class props.
+    const { breadth, depth, grossTonnage, length, netTonnage } = customer;
     const profileDetail: ProfileDetail = {
         ...customer,
         individualCustomerOfficialDocumentFieldName: individualCustomerOfficialDocument?.identityFieldName,
@@ -218,6 +245,11 @@ export const convertProfileDetail = (customer: CustomerVM): ProfileDetail => {
         vesselCustomerDocumentIdentityDisplayValue: vesselCustomerDocumentIdentity?.identityDisplayValue,
         ownerOfficialDocumentFieldName: ownerOfficialDocument?.identityFieldName,
         ownerOfficialDocumentDisplayValue: ownerOfficialDocument?.identityDisplayValue,
+        displayBreadth: breadth?.toString(),
+        displayDepth: depth?.toString(),
+        displayGrossTonnage: grossTonnage?.toString(),
+        displayLength: length?.toString(),
+        displayNetTonnage: netTonnage?.toString(),
     };
     return profileDetail;
 };

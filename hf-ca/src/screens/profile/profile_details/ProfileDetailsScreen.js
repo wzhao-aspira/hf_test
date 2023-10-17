@@ -135,7 +135,7 @@ function ProfileDetailsScreen({ route }) {
     const getProfileDetails = async () => {
         setLoading(true);
         try {
-            await dispatch(ProfileThunk.initProfileDetails(profileId));
+            await dispatch(ProfileThunk.initProfileDetails({ profileId }));
         } finally {
             setLoading(false);
         }

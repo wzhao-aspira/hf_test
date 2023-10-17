@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Profile } from "../types/profile";
 import profileSelectors from "./ProfileSelector";
-import { CountryVM, IdentityTypesVM, StateVM, YouthIdentityOwnerVM, ResidentMethodTypeVM } from "../network/generated";
+import { CountryVM, IdentityTypesVM, StateVM, YouthIdentityOwnerVM } from "../network/generated";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { isIndividualProfile } from "../services/ProfileService";
 
@@ -12,12 +12,13 @@ interface InitialState {
     identityTypes: IdentityTypesVM;
     countries: CountryVM[];
     states: StateVM[];
-    residentMethodTypes: ResidentMethodTypeVM[];
     currentInUseProfileID: string | null;
     primaryProfileID: string | null;
     profilesIDs: string[] | null;
     profileList: Profile[];
     profileListRequestStatus: string;
+    profileDetailsRequestStatus: string;
+    ciuProfileIsInactive: boolean;
     individualProfiles: Profile[];
 }
 
@@ -26,12 +27,13 @@ const initialState: InitialState = {
     identityTypes: null,
     countries: null,
     states: null,
-    residentMethodTypes: null,
     currentInUseProfileID: null,
     primaryProfileID: null,
     profilesIDs: null,
     profileList: [],
     profileListRequestStatus: REQUEST_STATUS.idle,
+    profileDetailsRequestStatus: REQUEST_STATUS.idle,
+    ciuProfileIsInactive: false,
     individualProfiles: [],
 };
 
@@ -42,6 +44,11 @@ const profileSlice = createSlice({
         setProfileListRequestStatus(state, action: PayloadAction<string>) {
             const { payload } = action;
             state.profileListRequestStatus = payload;
+            state.profileDetailsRequestStatus = initialState.profileDetailsRequestStatus;
+        },
+        setProfileDetailsRequestStatus(state, action: PayloadAction<string>) {
+            const { payload } = action;
+            state.profileDetailsRequestStatus = payload;
         },
         setYouthIdentifyOwners(state, action: PayloadAction<YouthIdentityOwnerVM[]>) {
             const { payload } = action;
@@ -58,10 +65,6 @@ const profileSlice = createSlice({
         setStates(state, action: PayloadAction<StateVM[]>) {
             const { payload } = action;
             state.states = payload;
-        },
-        setResidentMethodTypes(state, action: PayloadAction<ResidentMethodTypeVM[]>) {
-            const { payload } = action;
-            state.residentMethodTypes = payload;
         },
         setProfileList(state, action: PayloadAction<Profile[]>) {
             const { payload } = action;

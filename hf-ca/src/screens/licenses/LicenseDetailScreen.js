@@ -24,6 +24,7 @@ import useFocus from "../../hooks/useFocus";
 import useNavigateToISSubmitHarvestReport from "./hooks/useNavigateToISSubmitHarvestReport";
 import LicenseDetailLoading from "./LicenseDetailLoading";
 import { appConfig } from "../../services/AppConfigService";
+import { initResidentMethodTypes, residentMethodTypes } from "../../services/ProfileService";
 import useNavigateToISViewHarvestReport from "./hooks/useNavigateToISViewHarvestReport";
 
 const styles = StyleSheet.create({
@@ -120,6 +121,10 @@ const selectLicenseById = (id, licenseState) => {
     return selectedLicense;
 };
 
+const selectResidentMethodTypeById = (residentMethodTypeId) => {
+    return residentMethodTypes.data?.find((item) => item.residentMethodTypeId === residentMethodTypeId) || {};
+};
+
 function LicenseDetailScreen(props) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
@@ -158,6 +163,9 @@ function LicenseDetailScreen(props) {
     const { navigateToViewHarvestReport } = useNavigateToISViewHarvestReport(licenseReportId);
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
     const profileDetails = useSelector(selectors.selectProfileDetailsById(currentInUseProfileId));
+    const profileDetailsStatus = useSelector(selectors.selectProfileDetailsRequestStatus);
+    const profileRefreshing =
+        profileDetailsStatus === REQUEST_STATUS.pending || profileDetailsStatus === REQUEST_STATUS.idle;
     const {
         profileType: customerTypeId,
         displayName,
@@ -175,11 +183,11 @@ function LicenseDetailScreen(props) {
         homePort,
         hullNumber,
         yearBuilt,
-        grossTonnage,
-        netTonnage,
-        length,
-        breadth,
-        depth,
+        displayGrossTonnage,
+        displayNetTonnage,
+        displayLength,
+        displayBreadth,
+        displayDepth,
         individualCustomerOfficialDocumentFieldName,
         individualCustomerOfficialDocumentDisplayValue,
         vesselCustomerDocumentIdentityFieldName,
@@ -193,9 +201,9 @@ function LicenseDetailScreen(props) {
         ownerResidentMethodTypeId,
     } = profileDetails;
 
-    const residentMethodTypeData = useSelector(selectors.selectResidentMethodTypeById(residentMethodTypeId));
+    const residentMethodTypeData = selectResidentMethodTypeById(residentMethodTypeId);
     const { residentMethodType, printDescription } = residentMethodTypeData;
-    const ownerResidentMethodTypeData = useSelector(selectors.selectResidentMethodTypeById(ownerResidentMethodTypeId));
+    const ownerResidentMethodTypeData = selectResidentMethodTypeById(ownerResidentMethodTypeId);
     const { residentMethodType: ownerResidentMethodType } = ownerResidentMethodTypeData;
     const individualCustomerBasicInfo = [
         [
@@ -255,14 +263,14 @@ function LicenseDetailScreen(props) {
             { label: t("licenseDetails.yearBuilt"), content: yearBuilt },
         ],
         [
-            { label: t("licenseDetails.grossTonnage"), content: grossTonnage },
-            { label: t("licenseDetails.netTonnage"), content: netTonnage },
+            { label: t("licenseDetails.grossTonnage"), content: displayGrossTonnage },
+            { label: t("licenseDetails.netTonnage"), content: displayNetTonnage },
         ],
         [
-            { label: t("licenseDetails.length"), content: length },
-            { label: t("licenseDetails.breadth"), content: breadth },
+            { label: t("licenseDetails.length"), content: displayLength },
+            { label: t("licenseDetails.breadth"), content: displayBreadth },
         ],
-        [{ label: t("licenseDetails.depth"), content: depth }],
+        [{ label: t("licenseDetails.depth"), content: displayDepth }],
     ];
 
     const vesselCustomerOwnerBaseInfo = [
@@ -348,10 +356,10 @@ function LicenseDetailScreen(props) {
         });
     };
 
-    const getLicenseOfActiveProfile = (isForce) => {
+    const getLicenseOfActiveProfile = async (isForce) => {
+        await initResidentMethodTypes();
         dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } }));
-        dispatch(ProfileThunk.initProfileDetails(currentInUseProfileId));
-        dispatch(ProfileThunk.initProfileCommonData());
+        dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce }));
     };
 
     useFocus(() => {
@@ -417,10 +425,22 @@ function LicenseDetailScreen(props) {
                     />
                 }
             >
-                {licenseRefreshing ? (
+                {licenseRefreshing || profileRefreshing || profileDetails.noCacheData ? (
                     <LicenseDetailLoading />
                 ) : (
                     <>
+                        {mobileAppNeedPhysicalDocument && (
+                            <View style={[styles.sectionContent]}>
+                                <View style={[styles.licenseInfo, { marginTop: 10 }]}>
+                                    <Text
+                                        style={([styles.labelText], { color: AppTheme.colors.error })}
+                                        testID={genTestId("documentRequiredReminder")}
+                                    >
+                                        {appConfig.data.documentRequiredReminder}
+                                    </Text>
+                                </View>
+                            </View>
+                        )}
                         <View style={styles.content}>
                             <View
                                 style={{
@@ -528,15 +548,6 @@ function LicenseDetailScreen(props) {
                                 </Text>
                             </View>
                         </View>
-                        {mobileAppNeedPhysicalDocument && (
-                            <View style={[styles.sectionContent]}>
-                                <View style={[styles.licenseInfo, { marginTop: 10 }]}>
-                                    <Text style={styles.labelText} testID={genTestId("documentRequiredReminder")}>
-                                        {appConfig.data.documentRequiredReminder}
-                                    </Text>
-                                </View>
-                            </View>
-                        )}
                         {!!printedDescriptiveText && (
                             <View style={[styles.sectionContent]}>
                                 <View

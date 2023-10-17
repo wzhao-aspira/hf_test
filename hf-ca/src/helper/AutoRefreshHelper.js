@@ -2,6 +2,7 @@ import moment from "moment";
 
 const refreshTime = {
     profileList: null,
+    currentProfileDetails: null,
     preferencePointList: {},
 };
 
@@ -15,6 +16,18 @@ export function setProfileListUpdateTime() {
 
 export function clearProfileListUpdateTime() {
     refreshTime.profileList = null;
+}
+
+export function getCurrentProfileDetailsUpdateTime() {
+    return refreshTime.currentProfileDetails;
+}
+
+export function setCurrentProfileDetailsUpdateTime() {
+    refreshTime.currentProfileDetails = moment().unix();
+}
+
+export function clearCurrentProfileDetailsUpdateTime() {
+    refreshTime.currentProfileDetails = null;
 }
 
 export function getPreferencePointListUpdateTime(profileId) {

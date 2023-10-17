@@ -1,3 +1,4 @@
+import { clearCurrentProfileDetailsUpdateTime } from "../../../helper/AutoRefreshHelper";
 import { useAppDispatch } from "../../../hooks/redux";
 import useNavigateToIS from "../../../hooks/useNavigateToIS";
 import { actions as licenseActions } from "../../../redux/LicenseSlice";
@@ -18,6 +19,8 @@ function useNavigateToISViewHarvestReport(harvestReportId: string) {
             if (result) {
                 // clear license update time
                 dispatch(licenseActions.clearUpdateTime());
+                // clear current profile update time
+                clearCurrentProfileDetailsUpdateTime();
             }
         },
     };

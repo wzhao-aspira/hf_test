@@ -1,6 +1,7 @@
 import useNavigateToIS from "../../../hooks/useNavigateToIS";
 import { useAppDispatch } from "../../../hooks/redux";
 import { actions as licenseActions } from "../../../redux/LicenseSlice";
+import { clearCurrentProfileDetailsUpdateTime } from "../../../helper/AutoRefreshHelper";
 
 function useNavigateToISSubmitHarvestReport(licenseId: string) {
     const dispatch = useAppDispatch();
@@ -18,6 +19,8 @@ function useNavigateToISSubmitHarvestReport(licenseId: string) {
             if (result) {
                 // clear license update time
                 dispatch(licenseActions.clearUpdateTime());
+                // clear current profile update time
+                clearCurrentProfileDetailsUpdateTime();
             }
         },
     };

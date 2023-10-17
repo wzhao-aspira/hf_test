@@ -1,0 +1,24 @@
+{
+    "data": [
+        {
+            "residentMethodTypeId": 1,
+            "residentMethodType": "Resident",
+            "printDescription": "Resident: I have resided in California continuously for the past 6 months"
+        },
+        {
+            "residentMethodTypeId": 2,
+            "residentMethodType": "Active Military",
+            "printDescription": "Resident: I am an active member of the military"
+        },
+        {
+            "residentMethodTypeId": 3,
+            "residentMethodType": "Job Corps Enrollee",
+            "printDescription": "Resident: I am a current enrollee in the Job Corps"
+        },
+        {
+            "residentMethodTypeId": 4,
+            "residentMethodType": "Non Resident",
+            "printDescription": "NonResident"
+        }
+    ]
+}
