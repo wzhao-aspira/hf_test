@@ -8,6 +8,11 @@ const selectProfileState = (state: RootState) => state.profile;
 
 const selectProfileListRequestStatus = createSelector(selectProfileState, (state) => state.profileListRequestStatus);
 
+const selectProfileDetailsRequestStatus = createSelector(
+    selectProfileState,
+    (state) => state.profileDetailsRequestStatus
+);
+
 const selectYouthIdentityOwners = createSelector(selectProfileState, (state) => state.youthIdentityOwners);
 const selectIdentityTypes = (selectOne: IdentityTypeVM) =>
     createSelector(selectProfileState, (state) => {
@@ -106,12 +111,6 @@ const selectOtherProfileListWithoutPrimary = createSelector(
 const selectProfileDetailsById = (profileId) =>
     createSelector(selectProfileList, (profileList) => profileList.find((item) => item.profileId === profileId) || {});
 
-const residentMethodTypes = createSelector(selectProfileState, (state) => state.residentMethodTypes);
-const selectResidentMethodTypeById = (residentMethodTypeId) =>
-    createSelector(residentMethodTypes, (residentMethodTypeList) => {
-        return residentMethodTypeList?.find((item) => item.residentMethodTypeId === residentMethodTypeId) || {};
-    });
-
 const selectIsPrimaryOrCiuProfile = (profileId) =>
     createSelector(
         selectCurrentInUseProfileID,
@@ -131,6 +130,7 @@ const selectIndividualProfiles = createSelector(selectProfileState, (state) => {
 
 const selectors = {
     selectProfileListRequestStatus,
+    selectProfileDetailsRequestStatus,
     selectYouthIdentityOwners,
     selectIdentityTypes,
     selectCountries,
@@ -142,7 +142,6 @@ const selectors = {
     selectPrimaryProfile,
     selectProfileIDs,
     selectProfileDetailsById,
-    selectResidentMethodTypeById,
     selectSortedByDisplayNameOtherProfileList,
     selectOtherProfileListWithoutPrimary,
     selectCurrentProfileFirstName,

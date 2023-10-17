@@ -42,4 +42,9 @@ export interface ProfileDetail extends CustomerVM {
     vesselCustomerDocumentIdentityDisplayValue?: null | string;
     ownerOfficialDocumentFieldName?: null | string;
     ownerOfficialDocumentDisplayValue?: null | string;
+    displayBreadth?: null | string;
+    displayDepth?: null | string;
+    displayGrossTonnage?: null | string;
+    displayLength?: null | string;
+    displayNetTonnage?: null | string;
 }
