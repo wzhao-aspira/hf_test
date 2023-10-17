@@ -32,6 +32,8 @@ import {
     YouthIdentityOwnerVM,
 } from "../network/generated/api";
 import { ProfileDetail } from "../types/profile";
+import NavigationService from "../navigation/NavigationService";
+import Routers from "../constants/Routers";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
@@ -269,3 +271,20 @@ export async function switchToPrimary(customerId: string) {
     const response = await switchProfileToPrimary({ customerId });
     return response;
 }
+
+export const goToAddNewPrimaryProfilePage = (userID: string, route: string) => {
+    let routeScreen;
+    if (route === Routers.manageProfile || route === Routers.profileDetails) {
+        routeScreen = Routers.manageProfile;
+    } else {
+        routeScreen = Routers.home;
+    }
+    console.log("inactive primary in ", routeScreen);
+
+    NavigationService.navigate(Routers.addIndividualProfile, {
+        mobileAccount: { userID },
+        isAddPrimaryProfile: true,
+        noBackBtn: true,
+        routeScreen,
+    });
+};
