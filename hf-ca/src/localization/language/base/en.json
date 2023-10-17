@@ -416,5 +416,8 @@
         "account": "Account",
         "security": "Security",
         "quickAccessSetting": "Quick Access Setting"
+    },
+    "drawApplicationDetail": {
+        "of": "{{position}} Of {{totalNumber}} Choices"
     }
 }
