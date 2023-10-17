@@ -10,7 +10,7 @@ import { isEmpty } from "lodash";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
 import AppContract from "./src/assets/_default/AppContract";
-import { initAppConfig } from "./src/services/AppConfigService";
+import { fetchAppConfig, initAppLocalConfig } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
 import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
@@ -55,9 +55,8 @@ export default function App() {
         const hideScreen = async () => {
             await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
             await Font.loadAsync(AppContract.fonts);
-            // await getConfig1();
-            // await getConfig2();
-            await initAppConfig();
+            await initAppLocalConfig();
+            fetchAppConfig();
             await openRealm();
             await initAppData();
             setAppReady(true);
