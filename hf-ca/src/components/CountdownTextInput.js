@@ -1,9 +1,11 @@
 import React, { useState, useImperativeHandle } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import { useTranslation } from "react-i18next";
 import AppTheme from "../assets/_default/AppTheme";
 import { statefulStyle } from "../styles/CommonStyles";
-import { genTestId } from "../helper/AppHelper";
+import { genTestId, isIos } from "../helper/AppHelper";
+import { DEFAULT_BTN_RADIUS } from "../constants/Dimension";
 
 const styles = StyleSheet.create({
     container: {
@@ -14,10 +16,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         ...AppTheme.typography.sub_section,
         color: AppTheme.colors.font_color_2,
-    },
-    inputContainer: {
-        flexDirection: "row",
-        alignItems: "center",
     },
     inputStyle: {
         width: "100%",
@@ -30,27 +28,49 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         paddingHorizontal: 10,
     },
-    countdown: {
+    countdownContainer: {
         flexDirection: "row",
-        position: "absolute",
-        alignContent: "center",
-        right: 10,
+        alignItems: "center",
+        alignSelf: "flex-end",
+        paddingTop: 10,
+    },
+    didNotReceiveCode: {
+        ...AppTheme.typography.overlay_sub_text,
+        paddingRight: 10,
+    },
+    sendResendContainer: {
+        borderRadius: DEFAULT_BTN_RADIUS,
+        backgroundColor: AppTheme.colors.primary_2,
+    },
+    sendResendDisableContainer: {
+        borderRadius: DEFAULT_BTN_RADIUS,
+        backgroundColor: AppTheme.colors.font_color_3,
+    },
+    sendResendDisableButton: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    sendResendDisable: {
+        ...AppTheme.typography.overlay_sub_text,
+        color: AppTheme.colors.font_color_4,
+        textAlign: "center",
+        paddingLeft: 15,
+    },
+    sendResend: {
+        ...AppTheme.typography.overlay_sub_text,
+        color: AppTheme.colors.font_color_4,
+        textAlign: "center",
+        paddingHorizontal: 15,
+        paddingVertical: 6,
+    },
+    countdownView: {
+        paddingLeft: 2,
+        paddingRight: 10,
     },
     errorMsg: {
         color: AppTheme.colors.error,
         marginTop: 5,
         ...AppTheme.typography.sub_section,
-    },
-    sendResendContainer: {
-        alignSelf: "center",
-    },
-    sendResend: {
-        color: AppTheme.colors.primary_2,
-        ...AppTheme.typography.card_title,
-    },
-    sendResendDisable: {
-        color: AppTheme.colors.font_color_3,
-        ...AppTheme.typography.card_title,
     },
 });
 
@@ -58,6 +78,7 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
     const { initErrorObj = { error: false, errorMsg: undefined } } = props;
     const [focused, setFocused] = useState(false);
     const [errorObj, setErrorObj] = useState(initErrorObj);
+    const { t } = useTranslation();
     const hasError = errorObj.error;
     const {
         testID = "",
@@ -74,16 +95,8 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
         onClickSendResend,
         onBlur,
         isShowCountdown,
-        isShowResendCode,
         onCountdownFinish,
     } = props;
-
-    let codeInputPaddingRight = 95;
-    if (isShowCountdown) {
-        codeInputPaddingRight = 155;
-    } else if (isShowResendCode) {
-        codeInputPaddingRight = 110;
-    }
 
     useImperativeHandle(ref, () => ({
         setError: (obj) => {
@@ -112,7 +125,6 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
                 style={statefulStyle(
                     {
                         ...styles.inputStyle,
-                        paddingRight: codeInputPaddingRight,
                         ...inputStyle,
                     },
                     disabled,
@@ -137,42 +149,12 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
 
     const renderCountdown = () => {
         return (
-            <View style={styles.countdown}>
-                {isShowCountdown && (
-                    <CountdownCircleTimer
-                        isPlaying
-                        duration={60}
-                        colors={AppTheme.colors.error}
-                        onComplete={onCountdownFinish}
-                        size={50}
-                        strokeWidth={0}
-                    >
-                        {({ remainingTime, color }) => {
-                            const minutes = Math.floor(remainingTime / 60);
-                            const seconds = remainingTime % 60;
-                            let minStr = minutes;
-                            let secStr = seconds;
-                            if (minutes < 10) {
-                                minStr = `0${minStr}`;
-                            }
-                            if (seconds < 10) {
-                                secStr = `0${secStr}`;
-                            } else if (seconds == 0) {
-                                secStr = "00";
-                            }
-                            return (
-                                <Text testID={genTestId(`${testID}Countdown`)} style={{ color, fontSize: 15 }}>
-                                    {minStr}:{secStr}
-                                </Text>
-                            );
-                        }}
-                    </CountdownCircleTimer>
-                )}
+            <View style={isShowCountdown ? styles.sendResendDisableContainer : styles.sendResendContainer}>
                 <Pressable
                     testID={genTestId(`${testID}SendResendButton`)}
-                    onPress={onClickSendResend}
-                    style={styles.sendResendContainer}
+                    style={isShowCountdown ? styles.sendResendDisableButton : null}
                     disabled={isShowCountdown}
+                    onPress={onClickSendResend}
                 >
                     <Text
                         testID={genTestId(`${testID}SendResendLabel`)}
@@ -180,7 +162,44 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
                     >
                         {sendResend}
                     </Text>
+                    {isShowCountdown && (
+                        <View style={styles.countdownView}>
+                            <CountdownCircleTimer
+                                isPlaying
+                                duration={6}
+                                colors={AppTheme.colors.font_color_4}
+                                onComplete={onCountdownFinish}
+                                size={isIos() ? 29 : 30.9}
+                                strokeWidth={0}
+                            >
+                                {({ remainingTime, color }) => {
+                                    let secStr = remainingTime;
+                                    if (remainingTime < 10) {
+                                        secStr = `0${secStr}`;
+                                    } else if (remainingTime == 0) {
+                                        secStr = "00";
+                                    }
+                                    return (
+                                        <Text testID={genTestId(`${testID}Countdown`)} style={{ color, fontSize: 14 }}>
+                                            {`${secStr}s`}
+                                        </Text>
+                                    );
+                                }}
+                            </CountdownCircleTimer>
+                        </View>
+                    )}
                 </Pressable>
+            </View>
+        );
+    };
+
+    const renderCountdownContainer = () => {
+        return (
+            <View style={styles.countdownContainer}>
+                <Text testID={genTestId(`${testID}DidNotReceiveCodeLabel`)} style={styles.didNotReceiveCode}>
+                    {t("countdownTextInput.didNotReceiveCode")}
+                </Text>
+                {renderCountdown()}
             </View>
         );
     };
@@ -200,10 +219,8 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
     return (
         <View style={[styles.container, { ...style }]}>
             {renderCodeInputLabel()}
-            <View style={styles.inputContainer}>
-                {renderCodeInput()}
-                {renderCountdown()}
-            </View>
+            {renderCodeInput()}
+            {renderCountdownContainer()}
             {renderErrorMessage()}
         </View>
     );

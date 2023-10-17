@@ -351,8 +351,8 @@
         },
         "enterValidationCode": {
             "emailValidationCode": "Email Validation Code",
-            "sendCode": "Send Code",
-            "resendCode": "Resend Code",
+            "sendCode": "Get Code",
+            "resendCode": "Get Code After",
             "tipMessage": "If you are having issues with accessing your customer record, contact CDFW at (916)928-2537 or LRB@wildlife.ca.gov."
         },
         "resetPassword": {
@@ -419,5 +419,8 @@
     },
     "drawApplicationDetail": {
         "of": "{{position}} Of {{totalNumber}} Choices"
+    },
+    "countdownTextInput": {
+        "didNotReceiveCode": "Didn't Receive Code?"
     }
 }

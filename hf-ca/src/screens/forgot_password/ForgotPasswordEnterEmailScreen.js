@@ -29,7 +29,6 @@ export default function ForgotPasswordEnterEmailScreen() {
     const [emailAddress, setEmailAddress] = useState("");
     const [emailValidationCode, setEmailValidationCode] = useState();
     const [isShowCountdown, setIsShowCountdown] = useState(false);
-    const [isShowResendCode, setIsShowResendCode] = useState(false);
     const emailAddressRef = createRef();
     const emailValidationCodeRef = createRef();
 
@@ -125,7 +124,7 @@ export default function ForgotPasswordEnterEmailScreen() {
                     isEmptyValidationCode();
                 }}
                 sendResend={
-                    isShowResendCode
+                    isShowCountdown
                         ? t("forgotPassword.enterValidationCode.resendCode")
                         : t("forgotPassword.enterValidationCode.sendCode")
                 }
@@ -144,11 +143,9 @@ export default function ForgotPasswordEnterEmailScreen() {
                     });
                     if (sendCodeResponse.success) {
                         setIsShowCountdown(true);
-                        setIsShowResendCode(true);
                     }
                 }}
                 isShowCountdown={isShowCountdown}
-                isShowResendCode={isShowResendCode}
                 onCountdownFinish={() => {
                     setIsShowCountdown(false);
                 }}

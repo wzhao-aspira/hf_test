@@ -223,12 +223,15 @@ function SignUp() {
                         onBlur={() => {
                             isEmptyValidationCode();
                         }}
-                        sendResend={t("forgotPassword.enterValidationCode.resendCode")}
+                        sendResend={
+                            isShowCountdown
+                                ? t("forgotPassword.enterValidationCode.resendCode")
+                                : t("forgotPassword.enterValidationCode.sendCode")
+                        }
                         onClickSendResend={async () => {
                             onSendEmailVerifyCode();
                         }}
                         isShowCountdown={isShowCountdown}
-                        isShowResendCode
                         onCountdownFinish={() => {
                             setIsShowCountdown(false);
                         }}
