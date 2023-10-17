@@ -13,7 +13,12 @@ export const appConfig: { data: MobileAppConfigurationVM } = {
     data: null,
 };
 
-export async function initAppConfig() {
+export async function initAppLocalConfig() {
+    const jsonData = await getAppConfigFromCache();
+    appConfig.data = jsonData;
+}
+
+export async function fetchAppConfig() {
     const jsonData = await getAppConfig();
     appConfig.data = jsonData;
     console.log("jsonData", jsonData);
