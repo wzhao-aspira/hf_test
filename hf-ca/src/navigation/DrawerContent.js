@@ -24,6 +24,8 @@ import AccountService from "../services/AccountService";
 import useNavigateToISPurchaseLicense from "../screens/licenses/hooks/useNavigateToISPurchaseLicense";
 import { appConfig } from "../services/AppConfigService";
 
+import drawApplicationData from "../services/mock_data/drawApplication.json"; // TODO: remove after API integration
+
 const styles = StyleSheet.create({
     logoContainer: {
         flex: 1,
@@ -204,6 +206,16 @@ export default function DrawerContent({ navigation }) {
                         }}
                         title="common.accessPermits"
                         testID="accessPermits"
+                    />
+                    {/* TODO: remove after the draw application finished */}
+                    <MenuItem
+                        onClick={async () => {
+                            NavigationService.navigate(Routers.drawApplicationDetail, {
+                                drawApplicationDetailData: drawApplicationData.detail,
+                            });
+                        }}
+                        title="drawApplicationDetailTmp"
+                        testID="drawApplicationDetail"
                     />
                 </View>
             </>

@@ -1,6 +1,7 @@
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { License } from "../types/license";
+import type { DrawApplicationItem } from "../types/drawApplication";
 import ValueOf from "../types/valueOf";
 import { FileInfo } from "../types/accessPermit";
 
@@ -15,6 +16,7 @@ const Routers = {
     crss: "crssScreen",
     current: "current",
     deleteAccount: "deleteAccountScreen",
+    drawApplicationDetail: "drawApplicationDetailScreen",
     drawerNav: "drawerNav",
     followUs: "followUs",
     forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
@@ -69,6 +71,9 @@ export type RouteParams = {
     };
     licenseDetailScreen: {
         licenseData: License;
+    };
+    drawApplicationDetailScreen: {
+        drawApplicationDetailData: DrawApplicationItem[];
     };
 };
 

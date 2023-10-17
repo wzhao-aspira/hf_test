@@ -19,6 +19,7 @@ import ChangeLocationScreen from "../screens/discovery/ChangeLocationScreen";
 import ContactUsScreen from "../screens/social_content/ContactUsScreen";
 import CRSSScreen from "../screens/shared/CRSSScreen";
 import DeleteAccountScreen from "../screens/delete_account/DeleteAccountScreen";
+import DrawApplicationDetailScreen from "../screens/draw_application/detail/DrawApplicationDetailScreen";
 import FollowUsScreen from "../screens/social_content/FollowUsScreen";
 import ForgotPasswordEnterEmailScreen from "../screens/forgot_password/ForgotPasswordEnterEmailScreen";
 import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/ForgotPasswordResetPasswordScreen";
@@ -197,6 +198,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
+            <MainStack.Screen name={Routers.drawApplicationDetail} component={DrawApplicationDetailScreen} />
             <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
             <MainStack.Screen
                 name={Routers.forgotPasswordResetPassword}

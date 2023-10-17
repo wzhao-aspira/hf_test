@@ -1,0 +1,32 @@
+{
+    "detail": [
+        {
+            "type": "2022-Deer",
+            "status": "Complete",
+            "partNumber": "23055904",
+            "choiceNumber": "1",
+            "choiceCode": "G1",
+            "choiceName": "Late Season Buck Hunt in Zone C4",
+            "didIWin": "Y",
+            "alternateNumber": "N/A"
+        },
+        {
+            "type": "2022-Deer",
+            "status": "Complete",
+            "partNumber": "23055904",
+            "choiceNumber": "1",
+            "choiceCode": "X1",
+            "choiceName": "Zone X12",
+            "didIWin": "N",
+            "alternateNumber": "N/A"
+        },
+        {
+            "type": "Chimineas Apprentice Deer Hunt",
+            "status": "Pending",
+            "partNumber": "23055904",
+            "choiceNumber": "1",
+            "choiceCode": "CHIM1",
+            "choiceName": "Carrizo Plain ER - Chiminease Unit Apprentice Deer"
+        }
+    ]
+}
