@@ -203,7 +203,7 @@
         "primaryChanged": "No active primary customer record available, please add new primary customer record first.",
         "primaryProfile": "Primary Customer Record",
         "crssRequiredTitle": "CRSS Required",
-        "crssRequiredContent": "Please enter your password as the CRSS has been updated for the existing profile.",
+        "crssRequiredContent": "Please enter your password as the CRSS has been updated for the existing customer record.",
         "noAvailablePrimary": "No available primary customer record.",
         "noPrimaryAvailable": "No Primary Customer Record Available",
         "addNewPrimaryProfile": "Add New Primary Customer Record",
@@ -413,7 +413,7 @@
         "backOnline": "Back Online"
     },
     "me": {
-        "profileRelated": "Profile Related",
+        "profileRelated": "Customer Record Related",
         "account": "Account",
         "security": "Security",
         "quickAccessSetting": "Quick Access Setting"
