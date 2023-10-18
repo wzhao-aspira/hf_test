@@ -30,7 +30,7 @@ function AddPrimaryProfile({ currentRoute }) {
                 <View style={commonStyles.profileShortNameContainer}>
                     <FontAwesomeIcon icon={faPlus} size={24} color={AppTheme.colors.primary_2} />
                 </View>
-                <View>
+                <View style={{ flex: 1 }}>
                     <Text style={commonStyles.profileDisplayName}>{t("profile.addNewPrimaryProfile")}</Text>
                 </View>
             </View>
