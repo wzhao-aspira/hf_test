@@ -24,7 +24,6 @@ const Routers = {
     home: "homeScreen",
     licenses: "LicenseScreen",
     me: "MeScreen",
-
     licenseDetail: "licenseDetailScreen",
     licenseList: "licenseList",
     login: "loginScreen",
@@ -73,7 +72,10 @@ export type RouteParams = {
         licenseData: License;
     };
     drawApplicationDetailScreen: {
-        drawApplicationDetailData: DrawApplicationItem[];
+        drawApplicationDetailData: {
+            title: string;
+            DrawApplicationChoices: DrawApplicationItem[];
+        };
     };
 };
 
