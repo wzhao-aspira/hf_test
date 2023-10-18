@@ -8,8 +8,9 @@ import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: "row",
         backgroundColor: AppTheme.colors.font_color_4,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: AppTheme.colors.primary_2,
     },
     headerContainer: {
         flexDirection: "row",
@@ -17,9 +18,6 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         paddingHorizontal: DEFAULT_MARGIN,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: AppTheme.colors.primary_2,
-        backgroundColor: AppTheme.colors.font_color_4,
     },
     headerTextContainer: {
         justifyContent: "center",
@@ -31,6 +29,18 @@ const styles = StyleSheet.create({
         ...AppTheme.typography.section_header,
         color: AppTheme.colors.font_color_1,
     },
+    subHeaderContainer: {
+        flexDirection: "row",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: -25,
+        paddingVertical: 5,
+    },
+    headerSubTitleText: {
+        ...AppTheme.typography.card_small_r,
+        color: AppTheme.colors.font_color_2,
+    },
 });
 
 function CommonHeader({
@@ -41,6 +51,7 @@ function CommonHeader({
     leftIcon = faChevronLeft,
     showLeft = true,
     rightIcon,
+    subTitle,
 }) {
     return (
         <View style={styles.container}>
@@ -67,6 +78,17 @@ function CommonHeader({
                     {rightIcon && <FontAwesomeIcon icon={rightIcon} size={20} color={AppTheme.colors.primary_2} />}
                 </Pressable>
             </View>
+            {subTitle && (
+                <View style={styles.subHeaderContainer}>
+                    <Text
+                        testID={genTestId(`${testID}SubTitleLabel`)}
+                        style={styles.headerSubTitleText}
+                        numberOfLines={1}
+                    >
+                        {subTitle}
+                    </Text>
+                </View>
+            )}
         </View>
     );
 }

@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
+import moment from "moment";
 import { getLicense } from "../../redux/LicenseSlice";
 import { selectLicenseForList } from "../../redux/LicenseSelector";
 import Page from "../../components/Page";
@@ -15,7 +16,7 @@ import LicenseItem from "./LicenseItem";
 import LicenseListEmpty from "./LicenseListEmpty";
 import { getLoadingData } from "../../services/LicenseService";
 import { genTestId } from "../../helper/AppHelper";
-import { REQUEST_STATUS } from "../../constants/Constants";
+import { LAST_UPDATE_TIME_DISPLAY_FORMAT, REQUEST_STATUS } from "../../constants/Constants";
 import profileSelectors from "../../redux/ProfileSelector";
 import useFocus from "../../hooks/useFocus";
 import NavigationService from "../../navigation/NavigationService";
@@ -43,6 +44,9 @@ function LicenseListScreen() {
     const refreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
     const { isShowSkeletonWhenOffline } = reduxData;
     const data = refreshing || isShowSkeletonWhenOffline ? getLoadingData() : reduxData.data;
+    const lastUpdateTimeFromServer = reduxData.lastUpdateTimeFromServer
+        ? moment(reduxData.lastUpdateTimeFromServer).format(LAST_UPDATE_TIME_DISPLAY_FORMAT)
+        : null;
     const { t } = useTranslation();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const firstName = useSelector(profileSelectors.selectCurrentProfileFirstName);
@@ -62,7 +66,10 @@ function LicenseListScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={firstName ? t("license.firstNameLicense", { firstName }) : t("license.myLicense")} />
+            <CommonHeader
+                title={firstName ? t("license.firstNameLicense", { firstName }) : t("license.myLicense")}
+                subTitle={lastUpdateTimeFromServer ? t("license.lastUpdated") + lastUpdateTimeFromServer : ""}
+            />
             <ScrollView
                 testID={genTestId("licenseList")}
                 contentContainerStyle={{

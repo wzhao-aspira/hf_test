@@ -1,5 +1,6 @@
 import { realm } from "./ConfigRealm";
 import License from "./models/License";
+import LicenseLastUpdateTime from "./models/LicenseLastUpdateTime";
 
 export async function getLicenseListData(activeProfileId: string) {
     console.log("Get license list data");
@@ -20,5 +21,17 @@ export async function removeLicenseListData() {
     realm.write(() => {
         const objects = realm.objects(License);
         realm.delete(objects);
+    });
+}
+
+export async function getLicenseLastUpdateTimeData(profileId: string) {
+    console.log("Get license last update time data");
+    return realm.objects(LicenseLastUpdateTime).filtered("profileId = $0", profileId);
+}
+
+export async function saveLicenseLastUpdateTimeData(licenseLastUpdateTime: any) {
+    console.log("Save license last update time data");
+    realm.write(() => {
+        realm.create(LicenseLastUpdateTime, licenseLastUpdateTime, true);
     });
 }

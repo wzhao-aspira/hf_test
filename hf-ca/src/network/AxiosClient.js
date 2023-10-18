@@ -49,6 +49,7 @@ instance.interceptors.response.use(
         const result = {
             success: true,
             data: response.data,
+            lastUpdateTime: response.headers["last-license-updated-date"],
         };
         /**
          * do some things for business error
