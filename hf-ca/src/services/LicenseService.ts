@@ -2,7 +2,12 @@ import { values, isEmpty } from "lodash";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import licensesAPIs from "../network/api_client/LicensesAPIs";
-import { getLicenseListData, saveLicenseListData } from "../db";
+import {
+    getLicenseLastUpdateTimeData,
+    getLicenseListData,
+    saveLicenseLastUpdateTimeData,
+    saveLicenseListData,
+} from "../db";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 
@@ -25,7 +30,8 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
     const { activeProfileId } = searchParams;
 
     const getLicensesByCustomerIDRequestResult = await licensesAPIs.getLicensesByCustomerID(activeProfileId);
-
+    // @ts-ignore
+    const { lastUpdateTime } = getLicensesByCustomerIDRequestResult;
     const { result, errors } = getLicensesByCustomerIDRequestResult.data;
     const licenseList = result;
 
@@ -36,8 +42,8 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             licenseId,
             validFrom,
             validTo,
-            uiTabId,
-            uiTabName,
+            listGroupingId,
+            listGroupingName,
             itemTypeId,
             itemName,
             itemYear,
@@ -76,8 +82,8 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             duplicateWatermark,
             amount,
             documentNumber, // for barcode
-            uiTabId,
-            uiTabName,
+            uiTabId: listGroupingId,
+            uiTabName: listGroupingName,
             mobileAppNeedPhysicalDocument,
             isHarvestReportSubmissionAllowed,
             isHarvestReportSubmissionEnabled,
@@ -88,6 +94,7 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
     // Save the license list data per profile
     if (!isEmpty(formattedResult)) {
         await saveLicenseListData(formattedResult);
+        await saveLicenseLastUpdateTimeData({ profileId: activeProfileId, lastUpdateTime });
         await storeItem(`${KEY_CONSTANT.keyIsEmptyOnlineDataCached}_${activeProfileId}`, false);
     } else {
         await storeItem(`${KEY_CONSTANT.keyIsEmptyOnlineDataCached}_${activeProfileId}`, true);
@@ -108,6 +115,13 @@ export async function getLicenseListDataFromDB(searchParams: { activeProfileId: 
     const { activeProfileId } = searchParams;
     const dbResult = await getLicenseListData(activeProfileId);
     return values(dbResult);
+}
+
+export async function getLicenseLastUpdateTimeDataFromDB(searchParams: { activeProfileId: string }) {
+    const { activeProfileId } = searchParams;
+    const dbResult = await getLicenseLastUpdateTimeData(activeProfileId);
+    const result = values(dbResult);
+    return result ? result[0] : {};
 }
 
 export function getLoadingData() {

@@ -4,6 +4,7 @@ import AppContract from "../assets/_default/AppContract";
 import ProfileSummary from "./models/ProfileSummary";
 import ProfileDetail from "./models/ProfileDetail";
 import License from "./models/License";
+import LicenseLastUpdateTime from "./models/LicenseLastUpdateTime";
 import PreferencePoint from "./models/PreferencePoint";
 import AccessPermit from "./models/AccessPermit";
 import AccessPermitItem from "./models/AccessPermitItem";
@@ -21,6 +22,7 @@ export async function openRealm() {
             ProfileSummary,
             ProfileDetail,
             License,
+            LicenseLastUpdateTime,
             PreferencePoint,
             FileInfo,
             HuntDay,

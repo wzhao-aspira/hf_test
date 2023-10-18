@@ -1,6 +1,7 @@
 {
     "noLicTitle": "No licenses found",
     "license": {
+        "lastUpdated": "Last Updated: ",
         "myLicense": "My Licenses",
         "firstNameLicense": "{{firstName}}'s Licenses",
         "license": "License",

@@ -14,7 +14,7 @@ export default class License extends Realm.Object<License> {
 
     validTo?: string;
 
-    uiTabId: number;
+    uiTabId: string;
 
     uiTabName: string;
 
@@ -62,7 +62,7 @@ export default class License extends Realm.Object<License> {
             name: "string",
             validFrom: "string?",
             validTo: "string?",
-            uiTabId: "int",
+            uiTabId: "string",
             uiTabName: "string",
             mobileAppNeedPhysicalDocument: "bool",
             documentCode: "string",

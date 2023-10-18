@@ -19,7 +19,7 @@ export interface License {
     validTo: string;
     licenseOwner: string;
     documentNumber: string;
-    uiTabId: number;
+    uiTabId: string;
     uiTabName: string;
     validFrom: string;
     validTo: string;
@@ -40,4 +40,9 @@ export interface License {
     isHarvestReportSubmissionEnabled: boolean;
     isHarvestReportSubmitted: boolean;
     licenseReportId: string;
+}
+
+export interface LicenseLastUpdateTime {
+    profileId: string;
+    lastUpdateTime: string;
 }

@@ -2,7 +2,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 import { isEmpty } from "lodash";
-import { getIsEmptyOnlineDataCachedInd, getLicenseData, getLicenseListDataFromDB } from "../services/LicenseService";
+import {
+    getIsEmptyOnlineDataCachedInd,
+    getLicenseData,
+    getLicenseLastUpdateTimeDataFromDB,
+    getLicenseListDataFromDB,
+} from "../services/LicenseService";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import { showToast } from "../helper/AppHelper";
 import { REQUEST_STATUS } from "../constants/Constants";
@@ -16,6 +21,7 @@ interface LicenseState {
     updateTime: null | number;
     isAPISucceed: boolean;
     isShowSkeletonWhenOffline: boolean;
+    lastUpdateTimeFromServer: null | string;
 }
 
 export const getLicense = createAsyncThunk(
@@ -31,7 +37,6 @@ export const getLicense = createAsyncThunk(
         console.log(`isForce:${isForce}, useCache:${useCache}`);
 
         let isAPISucceed = false;
-
         if (useCache == false) {
             const results = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), {
                 networkErrorByDialog: false,
@@ -48,7 +53,14 @@ export const getLicense = createAsyncThunk(
             dispatch,
         });
         const isShowSkeletonWhenOffline = isEmpty(licenseData.data) && !isAPISucceed && !isEmptyOnlineDataCached;
-        return { ...licenseData, isAPISucceed, isShowSkeletonWhenOffline };
+        // Last Update Time from Server
+        const licenseLastUpdateTime = await handleError(getLicenseLastUpdateTimeDataFromDB(searchParams), {
+            showError: false,
+            networkErrorByDialog: false,
+            dispatch,
+        });
+        const { lastUpdateTime } = licenseLastUpdateTime.data || {};
+        return { ...licenseData, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime };
     },
     {
         condition: ({ isForce = false }, { getState }) => {
@@ -74,6 +86,7 @@ const initialState: LicenseState = {
     updateTime: null,
     isAPISucceed: true,
     isShowSkeletonWhenOffline: false,
+    lastUpdateTimeFromServer: null,
 };
 
 const licenseSlice = createSlice({
@@ -95,7 +108,7 @@ const licenseSlice = createSlice({
         });
         builder.addCase(getLicense.fulfilled, (state, action) => {
             const payload = action?.payload;
-            const { success, data, isAPISucceed, isShowSkeletonWhenOffline } = payload;
+            const { success, data, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime } = payload;
             if (success) {
                 // Check if is empty data from the API, if not then need to show the skeleton
                 if (isAPISucceed) {
@@ -104,6 +117,7 @@ const licenseSlice = createSlice({
                 }
                 state.isAPISucceed = isAPISucceed;
                 state.isShowSkeletonWhenOffline = isShowSkeletonWhenOffline;
+                state.lastUpdateTimeFromServer = lastUpdateTime;
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 state.data = data;
             } else {
