@@ -211,7 +211,10 @@ export default function DrawerContent({ navigation }) {
                     <MenuItem
                         onClick={async () => {
                             NavigationService.navigate(Routers.drawApplicationDetail, {
-                                drawApplicationDetailData: drawApplicationData.detail,
+                                drawApplicationDetailData: {
+                                    title: "TO BE REPLACED WITH REAL DATA",
+                                    DrawApplicationChoices: drawApplicationData.detail,
+                                },
                             });
                         }}
                         title="drawApplicationDetailTmp"

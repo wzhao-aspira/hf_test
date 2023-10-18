@@ -419,7 +419,15 @@
         "quickAccessSetting": "Quick Access Setting"
     },
     "drawApplicationDetail": {
-        "of": "{{position}} Of {{totalNumber}} Choices"
+        "of": "{{position}} Of {{totalNumber}} Choices",
+        "DrawType": "Draw Type:",
+        "DrawStatus": "Draw Status:",
+        "Party#Members": "Party#\nMembers:",
+        "Choice#": "Choice #:",
+        "ChoiceCode": "Choice Code:",
+        "ChoiceName": "Choice Name:",
+        "DidIWin": "Did I Win?",
+        "Alternate#": "Alternate #:"
     },
     "countdownTextInput": {
         "didNotReceiveCode": "Didn't Receive Code?"
