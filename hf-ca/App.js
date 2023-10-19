@@ -10,16 +10,17 @@ import { isEmpty } from "lodash";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
 import AppContract from "./src/assets/_default/AppContract";
-import { fetchAppConfig, initAppLocalConfig } from "./src/services/AppConfigService";
+import { fetchPicture, getAppConfigData } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
 import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
-import { getActiveUserID } from "./src/helper/AppHelper";
+import { getActiveUserID, showToast } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links/UsefulLinksHelper";
 import ProfileThunk from "./src/redux/ProfileThunk";
 import { restoreToken } from "./src/network/tokenUtil";
 import { openRealm } from "./src/db";
+import { getErrorMessage } from "./src/hooks/useErrorHandling";
 
 if (!global.btoa) {
     global.btoa = encode;
@@ -38,7 +39,6 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
     const [appReady, setAppReady] = useState(false);
-
     const initAppData = async () => {
         const lastUsedMobileAccountId = await getActiveUserID();
         if (!isEmpty(lastUsedMobileAccountId)) {
@@ -55,8 +55,18 @@ export default function App() {
         const hideScreen = async () => {
             await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
             await Font.loadAsync(AppContract.fonts);
-            await initAppLocalConfig();
-            fetchAppConfig();
+            try {
+                await getAppConfigData();
+            } catch (error) {
+                await SplashScreen.hideAsync();
+                const errorMessage = getErrorMessage(error);
+                console.log(errorMessage);
+
+                showToast(errorMessage, { duration: 0 });
+                return;
+            }
+
+            fetchPicture();
             await openRealm();
             await initAppData();
             setAppReady(true);

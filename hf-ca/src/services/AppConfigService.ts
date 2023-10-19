@@ -6,23 +6,20 @@ import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { isJpgFormat } from "../utils/GenUtil";
 import { getAppConfigs } from "../network/api_client/StaticDataApi";
-import defaultConfig from "./appConfig.json";
 import { MobileAppConfigurationVM } from "../network/generated";
 
 export const appConfig: { data: MobileAppConfigurationVM } = {
     data: null,
 };
 
-export async function initAppLocalConfig() {
-    const jsonData = await getAppConfigFromCache();
-    appConfig.data = jsonData;
-}
-
-export async function fetchAppConfig() {
+export async function getAppConfigData() {
     const jsonData = await getAppConfig();
     appConfig.data = jsonData;
     console.log("jsonData", jsonData);
-    // merge(AppContract.strings, jsonData?.strings);
+}
+
+export async function fetchPicture() {
+    const jsonData = appConfig.data;
     const keyLoginSplash = await retrieveItem(KEY_CONSTANT.keyLoginSplash);
     const remoteLoginSplash = jsonData.mobileAppLandingPagePicture[0];
     if (remoteLoginSplash && !isEqual(keyLoginSplash, remoteLoginSplash)) {
@@ -54,14 +51,18 @@ async function getAppConfig() {
         return data;
     } catch (error) {
         console.log(error);
-        return getAppConfigFromCache();
+        // get app config failed, then get data from storage.
+        const config = await getAppConfigFromCache();
+        if (!config) {
+            console.log("app config api error and not storage data");
+            throw error;
+        }
+        console.log("app config api error, get data from storage");
+        return config;
     }
 }
 
 async function getAppConfigFromCache(): Promise<MobileAppConfigurationVM> {
-    let config = await retrieveItem(KEY_CONSTANT.keyAppConfig);
-    if (!config) {
-        config = defaultConfig;
-    }
+    const config = await retrieveItem(KEY_CONSTANT.keyAppConfig);
     return config;
 }

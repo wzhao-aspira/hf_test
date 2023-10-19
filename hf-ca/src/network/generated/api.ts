@@ -107,159 +107,6 @@ export interface ActivePermitVMExecutionResult {
 /**
  * 
  * @export
- * @interface BigGameDrawResultsVM
- */
-export interface BigGameDrawResultsVM {
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameDrawResultsVM
-     */
-    'instructions'?: string | null;
-    /**
-     * 
-     * @type {Array<BigGameListVM>}
-     * @memberof BigGameDrawResultsVM
-     */
-    'bigGameResultList'?: Array<BigGameListVM> | null;
-}
-/**
- * 
- * @export
- * @interface BigGameDrawResultsVMExecutionResult
- */
-export interface BigGameDrawResultsVMExecutionResult {
-    /**
-     * 
-     * @type {BigGameDrawResultsVM}
-     * @memberof BigGameDrawResultsVMExecutionResult
-     */
-    'result'?: BigGameDrawResultsVM;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof BigGameDrawResultsVMExecutionResult
-     */
-    'isValidResponse'?: boolean;
-    /**
-     * 
-     * @type {Array<StringStringKeyValuePair>}
-     * @memberof BigGameDrawResultsVMExecutionResult
-     */
-    'errors'?: Array<StringStringKeyValuePair> | null;
-}
-/**
- * 
- * @export
- * @interface BigGameListVM
- */
-export interface BigGameListVM {
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'year'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'drawStatus'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'drawType'?: string | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof BigGameListVM
-     */
-    'memberNames'?: Array<string> | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'partyNumber'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof BigGameListVM
-     */
-    'choice'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'choiceCode'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'choiceName'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'drawWon'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'alternateSeq'?: string | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof BigGameListVM
-     */
-    'notificationAvailable'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'notificationDescription'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'fileID'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'fileTitle'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'filename'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'drawTicketLicenseId'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof BigGameListVM
-     */
-    'notificationTitle'?: string | null;
-}
-/**
- * 
- * @export
  * @interface BooleanExecutionResult
  */
 export interface BooleanExecutionResult {
@@ -364,10 +211,16 @@ export interface CustomerBasicVM {
     'name'?: string | null;
     /**
      * 
-     * @type {Array<CustomerIdVM>}
+     * @type {string}
      * @memberof CustomerBasicVM
      */
-    'owners'?: Array<CustomerIdVM> | null;
+    'lastName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomerBasicVM
+     */
+    'dateOfBirth'?: string | null;
     /**
      * 
      * @type {boolean}
@@ -666,6 +519,219 @@ export interface DrawResultsCustomerInfoVM {
 /**
  * 
  * @export
+ * @interface DrawResultsListVM
+ */
+export interface DrawResultsListVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'year'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'drawStatus'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'drawType'?: string | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DrawResultsListVM
+     */
+    'memberNames'?: Array<string> | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'partyNumber'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof DrawResultsListVM
+     */
+    'choice'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'drawWon'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'alternateSeq'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'huntId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'huntCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'huntName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'fileId'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'fileTitle'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'filename'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'drawTicketLicenseId'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DrawResultsListVM
+     */
+    'notificationAvailable'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'notificationTitle'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'notificationDescription'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof DrawResultsListVM
+     */
+    'drawnSequence'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'huntDay'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'formatHuntDay'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DrawResultsListVM
+     */
+    'isDrawSequenceDisplayed'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'huntFirstOpenDate'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
+    'huntLastCloseDate'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DrawResultsListVM
+     */
+    'isGeneratedDraw'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface DrawResultsVM
+ */
+export interface DrawResultsVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsVM
+     */
+    'instructions'?: string | null;
+    /**
+     * 
+     * @type {NonPendingStatusList}
+     * @memberof DrawResultsVM
+     */
+    'successList'?: NonPendingStatusList;
+    /**
+     * 
+     * @type {NonPendingStatusList}
+     * @memberof DrawResultsVM
+     */
+    'unSuccessList'?: NonPendingStatusList;
+    /**
+     * 
+     * @type {PendingStatusList}
+     * @memberof DrawResultsVM
+     */
+    'pendingList'?: PendingStatusList;
+}
+/**
+ * 
+ * @export
+ * @interface DrawResultsVMExecutionResult
+ */
+export interface DrawResultsVMExecutionResult {
+    /**
+     * 
+     * @type {DrawResultsVM}
+     * @memberof DrawResultsVMExecutionResult
+     */
+    'result'?: DrawResultsVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DrawResultsVMExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof DrawResultsVMExecutionResult
+     */
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
  * @interface ExecutionResult
  */
 export interface ExecutionResult {
@@ -933,6 +999,30 @@ export interface HuntDayVM {
      * @memberof HuntDayVM
      */
     'formatHuntDay'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof HuntDayVM
+     */
+    'isDrawSequenceDisplayed'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'huntFirstOpenDate'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof HuntDayVM
+     */
+    'huntLastCloseDate'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof HuntDayVM
+     */
+    'isGeneratedDraw'?: boolean;
 }
 /**
  * 
@@ -1594,6 +1684,60 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'userAcknowledgement'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'regulationDescription'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'cdfwRegulationsLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'iOSRegulationApp'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'androidRegulationApp'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'facebookLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'twitterLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'youTubeLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactAspiraLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'faqLink'?: string | null;
 }
 /**
  * 
@@ -1755,6 +1899,31 @@ export interface MobileAppUserVMExecutionResult {
 /**
  * 
  * @export
+ * @interface NonPendingStatusList
+ */
+export interface NonPendingStatusList {
+    /**
+     * 
+     * @type {Array<Array<DrawResultsListVM>>}
+     * @memberof NonPendingStatusList
+     */
+    'copyHuntsList'?: Array<Array<DrawResultsListVM>> | null;
+    /**
+     * 
+     * @type {Array<DrawResultsListVM>}
+     * @memberof NonPendingStatusList
+     */
+    'generatedHuntsList'?: Array<DrawResultsListVM> | null;
+    /**
+     * 
+     * @type {Array<DrawResultsListVM>}
+     * @memberof NonPendingStatusList
+     */
+    'multiChoiceCopyHuntsList'?: Array<DrawResultsListVM> | null;
+}
+/**
+ * 
+ * @export
  * @interface OptionVM
  */
 export interface OptionVM {
@@ -1858,6 +2027,19 @@ export interface PasswordChangeVM {
      * @memberof PasswordChangeVM
      */
     'newPassword': string;
+}
+/**
+ * 
+ * @export
+ * @interface PendingStatusList
+ */
+export interface PendingStatusList {
+    /**
+     * 
+     * @type {Array<DrawResultsListVM>}
+     * @memberof PendingStatusList
+     */
+    'pendingHuntsList'?: Array<DrawResultsListVM> | null;
 }
 /**
  * 
@@ -2238,19 +2420,6 @@ export interface UserCustomerAddVM {
 /**
  * 
  * @export
- * @interface UserCustomerRemoveVM
- */
-export interface UserCustomerRemoveVM {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserCustomerRemoveVM
-     */
-    'customerId'?: string;
-}
-/**
- * 
- * @export
  * @interface YouthIdentityOwnerVM
  */
 export interface YouthIdentityOwnerVM {
@@ -2335,6 +2504,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary Get last license updated date
          * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2475,11 +2645,11 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary Delete User Customer Link
-         * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+         * @param {CustomerIdVM} [customerIdVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersLinksDelete: async (userCustomerRemoveVM?: UserCustomerRemoveVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        v1CustomersLinksDelete: async (customerIdVM?: CustomerIdVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/v1/Customers/Links`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2499,7 +2669,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(userCustomerRemoveVM, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(customerIdVM, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2640,7 +2810,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary Check Business And Vesel
+         * @summary Check Business And Vessel
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2670,7 +2840,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary Switch Customer Priamry Link
+         * @summary Switch Customer Primary Link
          * @param {CustomerIdVM} [customerIdVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2725,6 +2895,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get last license updated date
          * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2770,12 +2941,12 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Delete User Customer Link
-         * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+         * @param {CustomerIdVM} [customerIdVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerIdVMListExecutionResult>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksDelete(userCustomerRemoveVM, options);
+        async v1CustomersLinksDelete(customerIdVM?: CustomerIdVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerIdVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersLinksDelete(customerIdVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2823,7 +2994,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Check Business And Vesel
+         * @summary Check Business And Vessel
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2833,7 +3004,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Switch Customer Priamry Link
+         * @summary Switch Customer Primary Link
          * @param {CustomerIdVM} [customerIdVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2864,6 +3035,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @summary Get last license updated date
          * @param {string} customerId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2905,12 +3077,12 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary Delete User Customer Link
-         * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+         * @param {CustomerIdVM} [customerIdVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: any): AxiosPromise<CustomerIdVMListExecutionResult> {
-            return localVarFp.v1CustomersLinksDelete(userCustomerRemoveVM, options).then((request) => request(axios, basePath));
+        v1CustomersLinksDelete(customerIdVM?: CustomerIdVM, options?: any): AxiosPromise<CustomerIdVMListExecutionResult> {
+            return localVarFp.v1CustomersLinksDelete(customerIdVM, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2953,7 +3125,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary Check Business And Vesel
+         * @summary Check Business And Vessel
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2962,7 +3134,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary Switch Customer Priamry Link
+         * @summary Switch Customer Primary Link
          * @param {CustomerIdVM} [customerIdVM] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2991,6 +3163,7 @@ export interface CustomersApiInterface {
 
     /**
      * 
+     * @summary Get last license updated date
      * @param {string} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3032,12 +3205,12 @@ export interface CustomersApiInterface {
     /**
      * 
      * @summary Delete User Customer Link
-     * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+     * @param {CustomerIdVM} [customerIdVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApiInterface
      */
-    v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: AxiosRequestConfig): AxiosPromise<CustomerIdVMListExecutionResult>;
+    v1CustomersLinksDelete(customerIdVM?: CustomerIdVM, options?: AxiosRequestConfig): AxiosPromise<CustomerIdVMListExecutionResult>;
 
     /**
      * 
@@ -3080,7 +3253,7 @@ export interface CustomersApiInterface {
 
     /**
      * 
-     * @summary Check Business And Vesel
+     * @summary Check Business And Vessel
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApiInterface
@@ -3089,7 +3262,7 @@ export interface CustomersApiInterface {
 
     /**
      * 
-     * @summary Switch Customer Priamry Link
+     * @summary Switch Customer Primary Link
      * @param {CustomerIdVM} [customerIdVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3120,6 +3293,7 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
 
     /**
      * 
+     * @summary Get last license updated date
      * @param {string} customerId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3169,13 +3343,13 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
     /**
      * 
      * @summary Delete User Customer Link
-     * @param {UserCustomerRemoveVM} [userCustomerRemoveVM] 
+     * @param {CustomerIdVM} [customerIdVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApi
      */
-    public v1CustomersLinksDelete(userCustomerRemoveVM?: UserCustomerRemoveVM, options?: AxiosRequestConfig) {
-        return CustomersApiFp(this.configuration).v1CustomersLinksDelete(userCustomerRemoveVM, options).then((request) => request(this.axios, this.basePath));
+    public v1CustomersLinksDelete(customerIdVM?: CustomerIdVM, options?: AxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).v1CustomersLinksDelete(customerIdVM, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3227,7 +3401,7 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
 
     /**
      * 
-     * @summary Check Business And Vesel
+     * @summary Check Business And Vessel
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CustomersApi
@@ -3238,7 +3412,7 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
 
     /**
      * 
-     * @summary Switch Customer Priamry Link
+     * @summary Switch Customer Primary Link
      * @param {CustomerIdVM} [customerIdVM] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3442,7 +3616,7 @@ export const DrawResultsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1CustomersCustomerIdDrawResultsGet(customerId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BigGameDrawResultsVMExecutionResult>> {
+        async v1CustomersCustomerIdDrawResultsGet(customerId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DrawResultsVMExecutionResult>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.v1CustomersCustomerIdDrawResultsGet(customerId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3493,7 +3667,7 @@ export const DrawResultsApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1CustomersCustomerIdDrawResultsGet(customerId: string, options?: any): AxiosPromise<BigGameDrawResultsVMExecutionResult> {
+        v1CustomersCustomerIdDrawResultsGet(customerId: string, options?: any): AxiosPromise<DrawResultsVMExecutionResult> {
             return localVarFp.v1CustomersCustomerIdDrawResultsGet(customerId, options).then((request) => request(axios, basePath));
         },
     };
@@ -3543,7 +3717,7 @@ export interface DrawResultsApiInterface {
      * @throws {RequiredError}
      * @memberof DrawResultsApiInterface
      */
-    v1CustomersCustomerIdDrawResultsGet(customerId: string, options?: AxiosRequestConfig): AxiosPromise<BigGameDrawResultsVMExecutionResult>;
+    v1CustomersCustomerIdDrawResultsGet(customerId: string, options?: AxiosRequestConfig): AxiosPromise<DrawResultsVMExecutionResult>;
 
 }
 

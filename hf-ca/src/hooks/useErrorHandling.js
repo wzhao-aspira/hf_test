@@ -12,7 +12,7 @@ import { handleError } from "../network/APIUtil";
 import { globalDataForAPI, isNoAuthorization, isConnectError } from "../network/commonUtil";
 import AccountService from "../services/AccountService";
 
-function getErrorMessage(error) {
+export function getErrorMessage(error) {
     const errors = error.response?.data?.errors;
     if (isArray(errors) && errors.length > 0) {
         const errorMessages = errors.map((err) => Object.values(err).join()).join("\n");
