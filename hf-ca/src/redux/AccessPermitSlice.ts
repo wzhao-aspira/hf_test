@@ -6,8 +6,8 @@ import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
 import { AccessPermit } from "../types/accessPermit";
 import { saveAccessPermitDataToDB, getAccessPermitDataFromDB } from "../db";
-import cleanUpInvalidFiles from "../screens/access_permits/file_list/utils/cleanUpInvalidFiles";
-import { folderName } from "../screens/access_permits/file_list/FileList";
+import cleanUpInvalidFiles from "../components/file_list/utils/cleanUpInvalidFiles";
+import { folderName } from "../components/file_list/FileList";
 
 interface AccessPermitState {
     data: AccessPermit;

@@ -10,7 +10,7 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH } from "../../constant
 
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
-import FileList from "./file_list/FileList";
+import FileList from "../../components/file_list/FileList";
 
 const styles = StyleSheet.create({
     container: {

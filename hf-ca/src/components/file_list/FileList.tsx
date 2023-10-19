@@ -4,15 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEllipsisH } from "@fortawesome/pro-regular-svg-icons/faEllipsisH";
 import { useTranslation, Trans } from "react-i18next";
 
-import AppTheme from "../../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../../constants/Dimension";
+import AppTheme from "../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../constants/Dimension";
 
-import PrimaryBtn from "../../../components/PrimaryBtn";
+import PrimaryBtn from "../PrimaryBtn";
 
-import { genTestId } from "../../../helper/AppHelper";
-import DialogHelper from "../../../helper/DialogHelper";
+import { genTestId } from "../../helper/AppHelper";
+import DialogHelper from "../../helper/DialogHelper";
 
-import type { FileInfo } from "../../../types/accessPermit";
+import type { FileInfo } from "../../types/accessPermit";
 
 import useFileOperations from "./hooks/useFileOperations";
 

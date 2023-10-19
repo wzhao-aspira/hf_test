@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
 
-import { useAppDispatch } from "../../../../hooks/redux";
-import { handleError } from "../../../../network/APIUtil";
+import { useAppDispatch } from "../../../hooks/redux";
+import { handleError } from "../../../network/APIUtil";
 import {
     downloadAccessPermitNotification,
     downloadAccessPermitAttachment,
-} from "../../../../network/api_client/DrawResultsApi";
+} from "../../../network/api_client/DrawResultsApi";
 
-import { isAndroid, showToast } from "../../../../helper/AppHelper";
-import Routers, { useAppNavigation } from "../../../../constants/Routers";
-import DialogHelper from "../../../../helper/DialogHelper";
+import { isAndroid, showToast } from "../../../helper/AppHelper";
+import Routers, { useAppNavigation } from "../../../constants/Routers";
+import DialogHelper from "../../../helper/DialogHelper";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 type FileTypes = "notificationPDF" | "attachment";

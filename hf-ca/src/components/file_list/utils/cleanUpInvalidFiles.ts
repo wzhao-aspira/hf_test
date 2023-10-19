@@ -1,5 +1,5 @@
 import * as FileSystem from "expo-file-system";
-import { AccessPermitItem } from "../../../../types/accessPermit";
+import { AccessPermitItem } from "../../../types/accessPermit";
 
 async function cleanUpInvalidFiles({
     folderName,
