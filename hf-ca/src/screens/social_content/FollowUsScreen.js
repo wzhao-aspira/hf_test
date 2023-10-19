@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
 import ListItem from "../shared/ListItem";
-import AppContract from "../../assets/_default/AppContract";
 import { openLink } from "../../helper/AppHelper";
-import { getListData, styles } from "./SocialContentUtils";
+import { styles } from "./SocialContentUtils";
+import { getSocialLinks } from "../../services/LinkService";
 
 function FollowUsScreen() {
     const { t, i18n } = useTranslation();
-    const socialtList = getListData(i18n, t, AppContract.socialList);
+    const socialList = getSocialLinks(i18n, t);
 
     return (
         <Page style={styles.container}>
@@ -19,10 +19,10 @@ function FollowUsScreen() {
                 <FlatList
                     scrollEnabled={false}
                     contentContainerStyle={styles.contentContainerStyle}
-                    data={socialtList}
+                    data={socialList}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => {
-                        const hiddenBottomLine = index === socialtList.length - 1;
+                        const hiddenBottomLine = index === socialList.length - 1;
                         return (
                             <ListItem
                                 item={item}

@@ -3,16 +3,13 @@ import { useTranslation } from "react-i18next";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
 import ListItem from "../shared/ListItem";
-import AppContract from "../../assets/_default/AppContract";
 import { openLink } from "../../helper/AppHelper";
-import { getListData, styles } from "./SocialContentUtils";
-import { appConfig } from "../../services/AppConfigService";
+import { styles } from "./SocialContentUtils";
+import { getContactUsLinks } from "../../services/LinkService";
 
 function ContactUsScreen() {
     const { t, i18n } = useTranslation();
-    const newContactList = AppContract.contactList;
-    newContactList[0].url = appConfig.data.contactCDFWLink;
-    const contactList = getListData(i18n, t, newContactList);
+    const contactList = getContactUsLinks(i18n, t);
 
     return (
         <Page style={styles.container}>

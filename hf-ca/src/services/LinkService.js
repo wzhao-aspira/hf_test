@@ -1,0 +1,41 @@
+import AppContract from "../assets/_default/AppContract";
+import { appConfig } from "./AppConfigService";
+
+export const getListData = (i18n, t, list = []) => {
+    const data = list?.map((item) => {
+        const title = i18n.exists(`contact.${item.titleKey}`) ? t(`contact.${item.titleKey}`) : item.titleKey;
+        return { ...item, title };
+    });
+    return data;
+};
+
+export function getContactUsLinks(i18n, t) {
+    const newContactList = AppContract.contactList;
+    const { contactCDFWLink, contactAspiraLink, faqLink } = appConfig.data;
+    if (contactCDFWLink) {
+        newContactList[0].url = contactCDFWLink;
+    }
+    if (contactAspiraLink) {
+        newContactList[1].url = contactAspiraLink;
+    }
+    if (faqLink) {
+        newContactList[2].url = faqLink;
+    }
+
+    return getListData(i18n, t, newContactList);
+}
+
+export function getSocialLinks(i18n, t) {
+    const newSocialList = AppContract.socialList;
+    const { facebookLink, twitterLink, youTubeLink } = appConfig.data;
+    if (facebookLink) {
+        newSocialList[0].url = facebookLink;
+    }
+    if (twitterLink) {
+        newSocialList[1].url = twitterLink;
+    }
+    if (youTubeLink) {
+        newSocialList[2].url = youTubeLink;
+    }
+    return getListData(i18n, t, newSocialList);
+}

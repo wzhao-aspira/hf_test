@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { StyleSheet } from "react-native";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
@@ -24,11 +25,3 @@ export const styles = StyleSheet.create({
         overflow: "hidden",
     },
 });
-
-export const getListData = (i18n, t, list = []) => {
-    const data = list?.map((item) => {
-        const title = i18n.exists(`contact.${item.titleKey}`) ? t(`contact.${item.titleKey}`) : item.titleKey;
-        return { ...item, title };
-    });
-    return data;
-};
