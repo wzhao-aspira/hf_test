@@ -100,3 +100,18 @@ export function getAppStaticInfo() {
     const appStaticInfo = `${appStaticName}_${buildNumber}_${platform}_${contractName}`;
     return appStaticInfo;
 }
+
+export function getISWebStaticInfo() {
+    const { appStaticName } = AppContract;
+    if (isEmpty(appStaticName)) {
+        throw new Error("App Name can not be empty!");
+    }
+    const platform = isAndroid() ? "android" : "ios";
+    const version = Constants.expoConfig?.ios?.buildNumber;
+
+    const appStaticInfo = `mobileAppName=${encodeURIComponent(appStaticName)}&mobileAppPlatform=${encodeURIComponent(
+        platform
+    )}&mobileAppVersion=${encodeURIComponent(version)}`;
+
+    return appStaticInfo;
+}

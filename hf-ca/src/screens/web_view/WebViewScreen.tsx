@@ -3,11 +3,12 @@ import { View } from "react-native";
 import { WebView } from "react-native-webview";
 import { StatusBar, setStatusBarStyle, setStatusBarBackgroundColor } from "expo-status-bar";
 
+import { isEmpty } from "lodash";
 import CommonHeader from "../../components/CommonHeader";
 import { SimpleDialog } from "../../components/Dialog";
 
 import AppTheme from "../../assets/_default/AppTheme";
-import { isAndroid } from "../../helper/AppHelper";
+import { isAndroid, openLink } from "../../helper/AppHelper";
 import type { AppNativeStackScreenProps } from "../../constants/Routers";
 
 const originWhitelist = ["http://*", "https://*", "file://*", "data:*", "content:*"];
@@ -21,6 +22,15 @@ const styles = {
         backgroundColor: AppTheme.colors.page_bg,
     },
 };
+
+interface EventData {
+    url: string;
+}
+
+interface WebViewMessage {
+    eventName: string;
+    eventData: EventData;
+}
 
 interface WebViewScreenProps extends AppNativeStackScreenProps<"webViewScreen"> {}
 
@@ -78,8 +88,19 @@ function WebViewScreen(props: WebViewScreenProps) {
                 onLoadEnd={handleLoadEnd}
                 onError={handleError}
                 onMessage={(event) => {
-                    const message = event.nativeEvent.data;
-                    console.log(message);
+                    try {
+                        console.log(`webview event:${event.nativeEvent.data}`);
+                        const message: WebViewMessage = JSON.parse(event.nativeEvent.data);
+                        if (message?.eventName == "downloadFile") {
+                            const { eventData } = message;
+                            const urlString = eventData?.url;
+                            if (!isEmpty(urlString)) {
+                                openLink(urlString);
+                            }
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }}
             />
             <SimpleDialog

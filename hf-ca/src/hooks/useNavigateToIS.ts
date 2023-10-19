@@ -11,6 +11,7 @@ import { retrieveAccessToken } from "../network/tokenUtil";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import { handleError } from "../network/APIUtil";
 import Miscellaneous from "../network/api_client/Miscellaneous";
+import { getISWebStaticInfo } from "../helper/AppHelper";
 
 function useNavigateToIS() {
     const dispatch = useDispatch();
@@ -31,10 +32,11 @@ function useNavigateToIS() {
             const internetSalesBaseURL = appConfig.data?.internetSalesBaseURL;
             const accessToken = retrieveAccessToken();
             const focusCustomerID = currentInUseProfileID;
+            const webStaticInfo = getISWebStaticInfo();
 
             const ISPurchaseLicenseURL = `${internetSalesBaseURL}CustomerSearch/AutoLoginForMobile?token=${accessToken}&focusCustomerID=${focusCustomerID}&targetPath=${encodeURIComponent(
                 targetPath
-            )}`;
+            )}&${webStaticInfo}`;
 
             console.log({ ISPurchaseLicenseURL });
 
