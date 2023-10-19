@@ -9,6 +9,7 @@ import {
     getCurrentInUseProfileID,
     getProfileList,
     getProfileDetailsById,
+    getLatestCustomerList,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { actions as appActions, selectors as appSelectors } from "./AppSlice";
@@ -372,6 +373,18 @@ const refreshProfileList =
         return { ...response, isReloadData: true };
     };
 
+const getLatestCustomerLists = () => async (dispatch) => {
+    const searchResult = { success: false, customerList: null };
+    const response = await handleError(getLatestCustomerList(), { dispatch });
+    if (response.success) {
+        const { result } = response.data.data;
+        const { profileList } = getProfileData(result);
+        searchResult.success = true;
+        searchResult.customerList = profileList;
+    }
+    return searchResult;
+};
+
 export default {
     initProfileCommonData,
     initProfile,
@@ -380,4 +393,5 @@ export default {
     updateProfileData,
     initProfileDetails,
     getProfileListChangeStatus,
+    getLatestCustomerLists,
 };

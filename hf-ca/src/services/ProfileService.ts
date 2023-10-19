@@ -35,6 +35,8 @@ import {
 import { ProfileDetail } from "../types/profile";
 import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
+import { clearCustomerDetailById } from "../db/ProfileDetail";
+import { clearCustomerSummaryById } from "../db/ProfileSummary";
 
 export const residentMethodTypes: { data: ResidentMethodTypeVM[] } = {
     data: null,
@@ -320,3 +322,12 @@ export const goToAddNewPrimaryProfilePage = (userID: string, route: string) => {
         routeScreen,
     });
 };
+
+export async function removeCustomerFromDB(customerId: string) {
+    await clearCustomerDetailById(customerId);
+    await clearCustomerSummaryById(customerId);
+}
+
+export async function getLatestCustomerList() {
+    return getProfiles();
+}
