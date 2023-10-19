@@ -7,6 +7,7 @@ import ProfileDetail from "./models/ProfileDetail";
 export async function updateProfileSummaryToDB(profileList: Array<any>) {
     const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
     try {
+        await clearProfileSummaryFromDB();
         profileList.forEach((ele) => {
             console.log("update profile summary", ele);
             realm.write(() => {
