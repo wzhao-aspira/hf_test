@@ -7,6 +7,7 @@ import licenseReducer from "./LicenseSlice";
 import accountReducer from "./AccountSlice";
 import accessPermitReducer from "./AccessPermitSlice";
 import preferencePointReducer from "./PreferencePointSlice";
+import drawApplicationReducer from "./DrawApplicationSlice";
 
 const myAppReducer = combineReducers({
     app: appReducer,
@@ -16,6 +17,7 @@ const myAppReducer = combineReducers({
     license: licenseReducer,
     account: accountReducer,
     preferencePoint: preferencePointReducer,
+    drawApplication: drawApplicationReducer,
 });
 
 const rootReducer = (state, action) => {

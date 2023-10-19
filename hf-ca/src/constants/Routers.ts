@@ -17,6 +17,7 @@ const Routers = {
     current: "current",
     deleteAccount: "deleteAccountScreen",
     drawApplicationDetail: "drawApplicationDetailScreen",
+    drawApplicationList: "drawApplicationListScreen",
     drawerNav: "drawerNav",
     followUs: "followUs",
     forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
