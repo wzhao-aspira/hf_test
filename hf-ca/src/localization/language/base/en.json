@@ -213,7 +213,6 @@
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",
-        "myDrawApplications": "My Draw Applications",
         "ruleRegulations": "Rules and Regulations",
         "usefulLink": "Useful Links",
         "otherInfomation": "Other Information",
@@ -417,6 +416,15 @@
         "account": "Account",
         "security": "Security",
         "quickAccessSetting": "Quick Access Setting"
+    },
+    "drawApplicationList": {
+        "myDrawApplications": "My Draw Application",
+        "draws": "Draws",
+        "emptyDrawTitle": "No draw Applications found",
+        "emptyDrawSubTitle": "Once you apply for a draw(s),you can view your draw applications here.",
+        "successful": "Successful",
+        "unsuccessful": "Unsuccessful",
+        "pending": "Pending"
     },
     "drawApplicationDetail": {
         "of": "{{position}} Of {{totalNumber}} Choices",

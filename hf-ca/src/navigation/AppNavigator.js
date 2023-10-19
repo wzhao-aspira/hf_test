@@ -49,6 +49,7 @@ import AddBusinessVesselProfileInfoScreen from "../screens/profile/add_profile/A
 import NetInfoBar from "../components/NetInfoBar";
 import LicensesTabScreen from "../screens/licenses/LicenseTabScreen";
 import MeTabScreen from "../screens/me/MeTabScreen";
+import DrawApplicationListScreen from "../screens/draw_application/list/DrawApplicationListScreen";
 
 const NavTheme = {
     colors: {
@@ -199,6 +200,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
             <MainStack.Screen name={Routers.drawApplicationDetail} component={DrawApplicationDetailScreen} />
+            <MainStack.Screen name={Routers.drawApplicationList} component={DrawApplicationListScreen} />
             <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
             <MainStack.Screen
                 name={Routers.forgotPasswordResetPassword}

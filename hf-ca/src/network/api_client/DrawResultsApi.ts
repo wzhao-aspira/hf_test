@@ -19,4 +19,9 @@ export async function downloadAccessPermitAttachment(fileId: string) {
     return api.buildAttachmentAsync(fileId, { responseType: "blob" });
 }
 
+export async function getDrawApplicationListByCustomerId(customerId: string) {
+    const api = new DrawResultsApi(getAPIConfig(), null, instance);
+    return api.v1CustomersCustomerIdDrawResultsGet(customerId);
+}
+
 export type { ActivePermitListVM } from "../generated";

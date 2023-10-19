@@ -178,27 +178,17 @@ export default function DrawerContent({ navigation }) {
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
-                            navigation.navigate(Routers.preferencePoint);
-                        }}
-                        title="preferencePoint.myPreferencePoint"
-                        testID="PreferencePoint"
-                    />
-                    <MenuItem
-                        onClick={() => {
                             navigateToIS();
                         }}
                         title="license.purchaseLicense"
                         testID="PurchaseLicense"
                     />
                     <MenuItem
-                        onClick={async () => {
-                            const lastLocation = await retrieveItem(KEY_CONSTANT.keyLastLocation);
-                            NavigationService.navigate(Routers.salesAgents, {
-                                lastLocation,
-                            });
+                        onClick={() => {
+                            navigation.navigate(Routers.preferencePoint);
                         }}
-                        title="common.agentLocations"
-                        testID="SalesAgents"
+                        title="preferencePoint.myPreferencePoint"
+                        testID="PreferencePoint"
                     />
                     <MenuItem
                         onClick={async () => {
@@ -206,6 +196,13 @@ export default function DrawerContent({ navigation }) {
                         }}
                         title="common.accessPermits"
                         testID="accessPermits"
+                    />
+                    <MenuItem
+                        onClick={async () => {
+                            NavigationService.navigate(Routers.drawApplicationList);
+                        }}
+                        title="drawApplicationList.myDrawApplications"
+                        testID="drawApplicationList"
                     />
                     {/* TODO: remove after the draw application finished */}
                     <MenuItem
@@ -219,6 +216,16 @@ export default function DrawerContent({ navigation }) {
                         }}
                         title="drawApplicationDetailTmp"
                         testID="drawApplicationDetail"
+                    />
+                    <MenuItem
+                        onClick={async () => {
+                            const lastLocation = await retrieveItem(KEY_CONSTANT.keyLastLocation);
+                            NavigationService.navigate(Routers.salesAgents, {
+                                lastLocation,
+                            });
+                        }}
+                        title="common.agentLocations"
+                        testID="SalesAgents"
                     />
                 </View>
             </>
