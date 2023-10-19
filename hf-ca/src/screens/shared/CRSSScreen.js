@@ -13,7 +13,7 @@ import { genTestId } from "../../helper/AppHelper";
 import { appConfig } from "../../services/AppConfigService";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
-import { crssVerify, linkCRSSProfile } from "../../services/ProfileService";
+import { crssVerify, linkCRSSProfile, removeCustomerFromDB, removeProfile } from "../../services/ProfileService";
 import Attention from "../../components/Attention";
 import { handleError } from "../../network/APIUtil";
 import DateUtils from "../../utils/DateUtils";
@@ -22,6 +22,8 @@ import { refreshDataAndNavigateWhenSaveProfileCompleted } from "../profile/add_p
 import NavigationService from "../../navigation/NavigationService";
 import { clearProfileListUpdateTime } from "../../helper/AutoRefreshHelper";
 import Page from "../../components/Page";
+import ProfileThunk from "../../redux/ProfileThunk";
+import { actions as appActions } from "../../redux/AppSlice";
 
 const styles = StyleSheet.create({
     container: {
@@ -80,6 +82,18 @@ export default function CRSSScreen({ route }) {
             errorMsg: msg,
         };
     };
+
+    const prepareNext = () => {
+        if (profileIndex < crssVerifyProfiles.length - 1) {
+            setProfileIndex((state) => state + 1);
+            setProfileInPage(crssVerifyProfiles[profileIndex + 1]);
+            setPassword(null);
+        } else {
+            clearProfileListUpdateTime();
+            NavigationService.back();
+        }
+    };
+
     const onSubmit = async () => {
         const error = emptyValidate(password, t("errMsg.emptyPassword"));
         if (error.error) {
@@ -92,14 +106,7 @@ export default function CRSSScreen({ route }) {
                 showLoading: true,
             });
             if (rst.success) {
-                if (profileIndex < crssVerifyProfiles.length - 1) {
-                    setProfileIndex((state) => state + 1);
-                    setProfileInPage(crssVerifyProfiles[profileIndex + 1]);
-                    setPassword(null);
-                } else {
-                    clearProfileListUpdateTime();
-                    NavigationService.back();
-                }
+                prepareNext();
             }
         } else {
             const ret = await handleError(linkCRSSProfile(customer.customerId, password, isAddPrimaryProfile), {
@@ -114,6 +121,36 @@ export default function CRSSScreen({ route }) {
                     routeScreen
                 );
             }
+        }
+    };
+
+    const onUnlinkCustomerRecord = async () => {
+        dispatch(appActions.toggleIndicator(true));
+        const customerId = profileInPage.profileId;
+        const rst = await dispatch(ProfileThunk.getLatestCustomerLists());
+        if (!rst.success) {
+            dispatch(appActions.toggleIndicator(false));
+            return;
+        }
+        const { customerList } = rst;
+        console.log("CRSSScreen - customerList:", customerList);
+        if (customerList != null && customerList.length > 0) {
+            const customerExisting = customerList?.find((item) => item.profileId === customerId);
+            if (customerExisting) {
+                const response = await handleError(removeProfile({ customerId }), {
+                    dispatch,
+                    showLoading: false,
+                });
+                if (!response.success) {
+                    dispatch(appActions.toggleIndicator(false));
+                    return;
+                }
+            }
+            await removeCustomerFromDB(customerId);
+            dispatch(appActions.toggleIndicator(false));
+            prepareNext();
+        } else {
+            dispatch(appActions.toggleIndicator(false));
         }
     };
 
@@ -191,6 +228,16 @@ export default function CRSSScreen({ route }) {
                             onSubmit();
                         }}
                     />
+                    {isCRSSVerify && (
+                        <PrimaryBtn
+                            testID="UnlinkCustomerRecordButton"
+                            style={styles.submit_button}
+                            label={t("crss.unlinkCustomerRecord")}
+                            onPress={() => {
+                                onUnlinkCustomerRecord();
+                            }}
+                        />
+                    )}
                 </View>
             </KeyboardAwareScrollView>
         </Page>

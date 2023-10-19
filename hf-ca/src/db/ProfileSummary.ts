@@ -51,3 +51,17 @@ export async function clearProfileSummaryFromDB() {
     }
     return result;
 }
+
+export async function clearCustomerSummaryById(customerId: string) {
+    console.log("clearCustomerSummaryById");
+    const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
+    try {
+        const collection = realm.objects(ProfileSummary).filtered("customerId= $0", customerId);
+        realm.write(() => {
+            realm.delete(collection);
+        });
+    } catch (error) {
+        result.success = false;
+    }
+    return result;
+}

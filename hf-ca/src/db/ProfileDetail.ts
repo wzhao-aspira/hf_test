@@ -34,3 +34,17 @@ export async function getProfileDetailFromDB(profileId: string) {
     console.log("get profile detail", result);
     return result;
 }
+
+export async function clearCustomerDetailById(customerId: string) {
+    console.log("clearCustomerDetailById");
+    const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
+    try {
+        const collection = realm.objects(ProfileDetail).filtered("customerId= $0", customerId);
+        realm.write(() => {
+            realm.delete(collection);
+        });
+    } catch (error) {
+        result.success = false;
+    }
+    return result;
+}
