@@ -52,11 +52,3 @@ export async function saveLicenseLastUpdateTimeData(licenseLastUpdateTime: any) 
         realm.create(LicenseLastUpdateTime, licenseLastUpdateTime, true);
     });
 }
-
-export async function removeLicenseLastUpdateTimeData() {
-    console.log("Remove license last update time data");
-    realm.write(() => {
-        const objects = realm.objects(LicenseLastUpdateTime);
-        realm.delete(objects);
-    });
-}
