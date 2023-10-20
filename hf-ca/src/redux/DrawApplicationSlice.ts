@@ -58,10 +58,10 @@ const drawApplicationSlice = createSlice({
             const result = action?.payload;
             if (result.success) {
                 state.requestStatus = REQUEST_STATUS.fulfilled;
-                if (!isEmpty(action?.payload?.data)) {
-                    const { successfulData, unsuccessfulData, pendingList, instructions } = action.payload.data;
-                    state.successfulData = successfulData;
-                    state.unsuccessfulData = unsuccessfulData;
+                if (!isEmpty(action?.payload.data)) {
+                    const { successList, unSuccessList, pendingList, instructions } = action.payload.data;
+                    state.successfulData = successList;
+                    state.unsuccessfulData = unSuccessList;
                     state.pendingList = pendingList;
                     state.instructions = instructions;
                 }

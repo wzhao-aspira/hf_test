@@ -6,11 +6,11 @@ import SkeletonLoader from "../../../components/SkeletonLoader";
 const styles = StyleSheet.create({
     mainContainerStyle: {
         ...AppTheme.shadow,
-        borderRadius: 10,
+        borderRadius: 8,
         marginHorizontal: DEFAULT_MARGIN,
         backgroundColor: AppTheme.colors.font_color_4,
-        paddingHorizontal: 14,
-        marginVertical: 7,
+        paddingHorizontal: 10,
+        marginTop: 28,
     },
 });
 
@@ -19,9 +19,21 @@ const width = SCREEN_WIDTH - DEFAULT_MARGIN * 2 - 28;
 function DrawApplicationListLoading() {
     const layout = [
         {
+            marginVertical: 18,
+            width,
+            height: 16,
+            borderRadius: 4,
+        },
+        {
+            marginTop: 10,
+            width,
+            height: 16,
+            borderRadius: 10,
+        },
+        {
             marginTop: 18,
-            width: width * 0.8,
-            height: 28,
+            width,
+            height: 16,
             borderRadius: 10,
             marginBottom: 18,
         },
