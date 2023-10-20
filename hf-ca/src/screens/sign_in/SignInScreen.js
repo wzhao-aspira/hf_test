@@ -23,7 +23,6 @@ import { resetBiometricIDLoginBlock, setLoginCredential, setPasswordChangeInd } 
 import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
 import ProfileThunk from "../../redux/ProfileThunk";
-import { clearProfileSummaryFromDB, removePreferencePointListFromDB, removeAccessPermitFromDB } from "../../db";
 
 function SignInScreen(route) {
     const { t } = useTranslation();
@@ -57,10 +56,6 @@ function SignInScreen(route) {
     };
 
     const doSignIn = async (uid = userId, pwd = password) => {
-        await clearProfileSummaryFromDB();
-        await removePreferencePointListFromDB();
-        await removeAccessPermitFromDB();
-
         const response = await handleError(AccountService.authSignIn(uid, pwd), { dispatch, showLoading: true });
         if (!response.success) {
             return;
