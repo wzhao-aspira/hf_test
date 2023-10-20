@@ -1,5 +1,6 @@
+import { isEmpty } from "lodash";
 import { actions as appActions } from "../redux/AppSlice";
-import { globalDataForAPI, isConnectError } from "./commonUtil";
+import { globalDataForAPI, isConnectError, isBusinessErrorCode } from "./commonUtil";
 
 export function clearLastPromise() {
     globalDataForAPI.lastPromise = null;
@@ -7,6 +8,7 @@ export function clearLastPromise() {
 
 interface HandleErrorOptions {
     showError?: boolean;
+    skippedBusinessErrorCode?: string;
     showLoading?: boolean;
     retry?: boolean;
     dispatch: any;
@@ -15,7 +17,14 @@ interface HandleErrorOptions {
 
 export async function handleError<T>(
     requestPromise: T,
-    { showError = true, showLoading = false, retry = false, networkErrorByDialog = true, dispatch }: HandleErrorOptions
+    {
+        showError = true,
+        skippedBusinessErrorCode = "", // allow a business error handling by user. It only takes effect when showError=true
+        showLoading = false,
+        retry = false,
+        networkErrorByDialog = true,
+        dispatch,
+    }: HandleErrorOptions
 ) {
     try {
         globalDataForAPI.lastPromise = null;
@@ -31,11 +40,16 @@ export async function handleError<T>(
 
         return { success: true, data: response };
     } catch (error) {
-        if (showError) dispatch(appActions.setError(error));
+        if (
+            showError &&
+            (isEmpty(skippedBusinessErrorCode) ? true : !isBusinessErrorCode(error, skippedBusinessErrorCode))
+        ) {
+            dispatch(appActions.setError(error));
+        }
         console.log(error);
 
         const isNetworkError = isConnectError(error);
-        return { success: false, isNetworkError };
+        return { success: false, isNetworkError, error };
     } finally {
         if (showLoading) {
             dispatch(appActions.toggleIndicator(false));
