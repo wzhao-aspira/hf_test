@@ -12,7 +12,7 @@ import CustomerInfo from "./models/CustomerInfo";
 import HuntDay from "./models/HuntDay";
 import FileInfo from "./models/FileInfo";
 
-const schemaVersion = 2;
+const schemaVersion = 3;
 
 export let realm: Realm;
 

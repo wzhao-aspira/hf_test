@@ -36,7 +36,7 @@ const selectCountriesStates = createSelector(selectProfileState, (state) => {
         states: state.states || [],
     };
 });
-
+const residentMethodTypes = createSelector(selectProfileState, (state) => state.residentMethodTypes);
 const selectProfileIDs = createSelector(selectProfileState, (state) => state.profilesIDs);
 
 const selectPrimaryProfileID = createSelector(selectProfileState, (profileState) => profileState.primaryProfileID);
@@ -66,10 +66,10 @@ const selectCurrentInUseProfile = createSelector(
 );
 
 const selectCurrentProfileFirstName = createSelector(selectCurrentInUseProfile, (profile: Profile) => {
-    if (isAssociatedProfile(profile.profileType)) {
+    if (isAssociatedProfile(profile?.profileType)) {
         return "";
     }
-    return profile.displayName?.split(" ")[0];
+    return profile?.displayName?.split(" ")[0];
 });
 
 const selectPrimaryProfile = createSelector(
@@ -119,7 +119,7 @@ const selectIsPrimaryOrCiuProfile = (profileId) =>
     );
 
 const selectAssociatedProfiles = createSelector(selectProfileList, (profileList: Profile[]) =>
-    profileList.filter((profile) => isAssociatedProfile(profile.profileType))
+    profileList.filter((profile) => isAssociatedProfile(profile?.profileType))
 );
 
 const selectIndividualProfiles = createSelector(selectProfileState, (state) => {
@@ -135,6 +135,7 @@ const selectors = {
     selectIdentityTypes,
     selectCountries,
     selectStates,
+    residentMethodTypes,
     selectCountriesStates,
     selectCurrentInUseProfile,
     selectCurrentInUseProfileID,
