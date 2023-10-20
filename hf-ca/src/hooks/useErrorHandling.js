@@ -21,6 +21,9 @@ export function getErrorMessage(error) {
         const errorMessages = errors.map((err) => Object.values(err).join()).join("\n");
         return errorMessages;
     }
+    if (error.response?.data?.message) {
+        return error.response?.data?.message;
+    }
     return error?.message;
 }
 

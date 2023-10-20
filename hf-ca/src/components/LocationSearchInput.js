@@ -2,6 +2,7 @@ import { FlatList, Keyboard, Pressable, Text, TextInput, View, Linking, StyleShe
 import { useTranslation } from "react-i18next";
 import React, { useCallback, useState } from "react";
 import { isEmpty, debounce } from "lodash";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocation } from "@fortawesome/pro-regular-svg-icons/faLocation";
 import { faTimes } from "@fortawesome/pro-light-svg-icons/faTimes";
@@ -13,6 +14,7 @@ import getSalesAgentsSearchHistory from "../helper/SalesAgentsHelper";
 import { SUGGESTED_LOCATIONS } from "../constants/Constants";
 import { getCurrentLocation, searchLocationByText } from "../services/SalesAgentsService";
 import DialogHelper from "../helper/DialogHelper";
+import { handleError } from "../network/APIUtil";
 
 const styles = StyleSheet.create({
     autocompleteContainer: {
@@ -102,7 +104,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
     } = props;
 
     const { t } = useTranslation();
-
+    const dispatch = useDispatch();
     const [value, setValue] = useState("");
     const [dropdownData, setDropdownData] = useState([]);
     const [recentDisplayed, setRecentDisplayed] = useState(false);
@@ -123,7 +125,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
             setDropdownData([]);
             return;
         }
-        const searchResult = await searchLocationByText(text);
+        const searchResult = await handleError(searchLocationByText(text), { dispatch });
         if (searchResult.success) {
             const locations = searchResult.value;
             if (isEmpty(locations)) {
@@ -131,12 +133,6 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
             } else {
                 setDropdownData(locations.filter((ele) => ele.text != SUGGESTED_LOCATIONS));
             }
-        } else {
-            const { title, message } = searchResult;
-            DialogHelper.showSimpleDialog({
-                title,
-                message,
-            });
         }
     };
 

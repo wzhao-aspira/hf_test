@@ -1,6 +1,5 @@
 import * as Location from "expo-location";
 import { getCurrentLocationByText, getLocationByText } from "../network/API";
-import { NETWORK_REQUEST_FAILED } from "../constants/Constants";
 import LicenseAgentsAPIs from "../network/api_client/LicenseAgentsAPIs";
 import { handleError } from "../network/APIUtil";
 
@@ -42,24 +41,7 @@ export async function getCurrentLocationWithoutPopup() {
 }
 
 export async function searchLocationByText(text) {
-    const result = { success: false, title: "errMsg.commonErrorTitle", message: "errMsg.commonErrorMsg" };
-    try {
-        const apiRst = await getLocationByText(text);
-        if (apiRst.success) {
-            return apiRst;
-        }
-    } catch (error) {
-        if (error.message == NETWORK_REQUEST_FAILED || error.status == NETWORK_REQUEST_FAILED) {
-            result.title = "errMsg.networkErrorTitle";
-            result.message = "errMsg.networkErrorMsg";
-        } else {
-            const errorSplits = error.message.split("|");
-            if (errorSplits.length == 2) {
-                const msg = JSON.parse(errorSplits[1]);
-                result.message = msg.message;
-            }
-        }
-    }
+    const result = await getLocationByText(text);
     return result;
 }
 
