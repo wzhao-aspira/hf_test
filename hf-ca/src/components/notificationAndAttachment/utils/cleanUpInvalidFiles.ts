@@ -1,14 +1,13 @@
 import * as FileSystem from "expo-file-system";
-import { AccessPermitItem } from "../../../types/accessPermit";
 
 async function cleanUpInvalidFiles({
     folderName,
-    accessPermitsData,
+    downloadableFileIDList,
 }: {
     folderName: string;
-    accessPermitsData: AccessPermitItem[];
+    downloadableFileIDList: string[];
 }) {
-    if (!accessPermitsData) return;
+    if (!downloadableFileIDList) return;
 
     try {
         const filesDirectory = `${FileSystem.documentDirectory}${folderName}`;
@@ -20,13 +19,9 @@ async function cleanUpInvalidFiles({
             const dirContents = await FileSystem.readDirectoryAsync(filesDirectory);
             const downloadedFilesIDList = dirContents;
 
-            // Use the flatMap function to get the file info list from each hunt day in each access permit
-            const fileInfoList = accessPermitsData.flatMap((accessPermit) =>
-                accessPermit.huntDays.flatMap((huntDay) => huntDay.fileInfoList)
+            const invalidDownloadedFilesIDList = downloadedFilesIDList.filter(
+                (id) => !downloadableFileIDList.includes(id)
             );
-            const fileIDList = fileInfoList.map((fileInfo) => fileInfo.id).filter((fileID) => fileID);
-
-            const invalidDownloadedFilesIDList = downloadedFilesIDList.filter((id) => !fileIDList.includes(id));
 
             invalidDownloadedFilesIDList.forEach((fileID) => {
                 FileSystem.deleteAsync(`${filesDirectory}/${fileID}`);

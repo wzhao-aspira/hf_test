@@ -4,10 +4,7 @@ import FileViewer from "react-native-file-viewer";
 
 import { useAppDispatch } from "../../../hooks/redux";
 import { handleError } from "../../../network/APIUtil";
-import {
-    downloadAccessPermitNotification,
-    downloadAccessPermitAttachment,
-} from "../../../network/api_client/DrawResultsApi";
+import { downloadNotification, downloadAttachment } from "../../../network/api_client/DrawResultsApi";
 
 import { isAndroid, showToast } from "../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../constants/Routers";
@@ -51,8 +48,8 @@ function useDownloadFile({
         setStatus("downloading");
 
         const handleErrorResult = await handleError(
-            (fileType === "notificationPDF" && downloadAccessPermitNotification(downloadID)) ||
-                (fileType === "attachment" && downloadAccessPermitAttachment(downloadID)),
+            (fileType === "notificationPDF" && downloadNotification(downloadID)) ||
+                (fileType === "attachment" && downloadAttachment(downloadID)),
             {
                 dispatch,
                 showLoading: true,

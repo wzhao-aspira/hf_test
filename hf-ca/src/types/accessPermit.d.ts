@@ -1,14 +1,7 @@
 // export type FileType = "File1" | "File2";
+import { FileInfo } from "./notificationAndAttachment";
 
-export interface FileInfo {
-    type: "notificationPDF" | "attachment";
-    id: string;
-    name: string;
-    title: string;
-    description?: string;
-    downloadId: string;
-    available: boolean;
-}
+export { FileInfo };
 
 export interface HuntDay {
     id: string;

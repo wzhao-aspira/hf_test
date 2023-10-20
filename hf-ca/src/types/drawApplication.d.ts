@@ -1,3 +1,5 @@
+import { FileInfo } from "./notificationAndAttachment";
+
 export interface DrawApplicationItem {
     type: string;
     status: string;
@@ -7,6 +9,7 @@ export interface DrawApplicationItem {
     choiceName: string;
     didIWin?: string;
     alternateNumber?: string;
+    fileInfoList?: [FileInfo, FileInfo];
 }
 
 export interface DrawResultsListItem {
