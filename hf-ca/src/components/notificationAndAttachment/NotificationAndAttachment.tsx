@@ -4,15 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEllipsisH } from "@fortawesome/pro-regular-svg-icons/faEllipsisH";
 import { useTranslation, Trans } from "react-i18next";
 
-import AppTheme from "../../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../../constants/Dimension";
+import AppTheme from "../../assets/_default/AppTheme";
+import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../constants/Dimension";
 
-import PrimaryBtn from "../../../components/PrimaryBtn";
+import PrimaryBtn from "../PrimaryBtn";
 
-import { genTestId } from "../../../helper/AppHelper";
-import DialogHelper from "../../../helper/DialogHelper";
+import { genTestId } from "../../helper/AppHelper";
+import DialogHelper from "../../helper/DialogHelper";
 
-import type { FileInfo } from "../../../types/accessPermit";
+import type { FileInfo } from "../../types/notificationAndAttachment";
 
 import useFileOperations from "./hooks/useFileOperations";
 
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
 
 interface FileProps {
     fileInfo: FileInfo;
+    folderName: string;
+    cardMarginHorizontal?: number;
 }
 
-export const folderName = "access_permit_files";
-
 function File(props: FileProps) {
-    const { fileInfo } = props;
+    const { fileInfo, folderName, cardMarginHorizontal } = props;
     const { id, type, name, title, description, available, downloadId } = fileInfo;
 
     const { t } = useTranslation();
@@ -106,8 +106,8 @@ function File(props: FileProps) {
                         <Pressable
                             onPress={() => {
                                 DialogHelper.showSelectDialog({
-                                    title: "accessPermits.deleteFile",
-                                    message: "accessPermits.deleteFileMessage",
+                                    title: "notificationAndAttachment.deleteFile",
+                                    message: "notificationAndAttachment.deleteFileMessage",
                                     okText: "common.yes",
                                     okAction: () => {
                                         deleteFile();
@@ -122,7 +122,7 @@ function File(props: FileProps) {
                         >
                             <View style={styles.dropdownItemContainer}>
                                 <Text style={styles.dropdownItemTitle}>
-                                    <Trans i18nKey="accessPermits.deleteDownloaded" />
+                                    <Trans i18nKey="notificationAndAttachment.deleteDownloaded" />
                                 </Text>
                             </View>
                         </Pressable>
@@ -138,14 +138,16 @@ function File(props: FileProps) {
                 setShouldShowDropdown(false);
             }}
         >
-            <View style={[styles.sectionContainer]}>
-                <Text style={[styles.sectionTitle]} testID={genTestId(`permitDetailsFileName${title}`)}>
+            <View
+                style={[styles.sectionContainer, !!cardMarginHorizontal && { marginHorizontal: cardMarginHorizontal }]}
+            >
+                <Text style={[styles.sectionTitle]} testID={genTestId(`notificationOrAttachmentFileName${title}`)}>
                     {title}
                 </Text>
                 {!!description && (
                     <View style={styles.licenseInfo}>
                         <Text
-                            testID={genTestId(`permitDetailsFileName${title}Description`)}
+                            testID={genTestId(`notificationOrAttachmentFileName${title}Description`)}
                             style={{ marginTop: -10, marginBottom: 13 }}
                         >
                             {description}
@@ -155,8 +157,8 @@ function File(props: FileProps) {
                 <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
                     {isNotDownloaded && available && (
                         <PrimaryBtn
-                            testID={genTestId(`permitDetailsFileName${title}ActionButton`)}
-                            label={t("accessPermits.Download")}
+                            testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                            label={t("notificationAndAttachment.Download")}
                             onPress={() => {
                                 downloadFile();
                             }}
@@ -164,8 +166,8 @@ function File(props: FileProps) {
                     )}
                     {isDownloading && (
                         <PrimaryBtn
-                            testID={genTestId(`permitDetailsFileName${title}ActionButton`)}
-                            label={t("accessPermits.Downloading")}
+                            testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                            label={t("notificationAndAttachment.Downloading")}
                             disabled
                             onPress={() => {
                                 console.log(`downloading ${title}`);
@@ -174,8 +176,8 @@ function File(props: FileProps) {
                     )}
                     {isDownloaded && (
                         <PrimaryBtn
-                            testID={genTestId(`permitDetailsFileName${title}ActionButton`)}
-                            label={t("accessPermits.Open")}
+                            testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                            label={t("notificationAndAttachment.Open")}
                             onPress={() => {
                                 openFile();
                             }}
@@ -194,11 +196,13 @@ function File(props: FileProps) {
 }
 
 interface FileListProps {
-    fileInfoList: FileInfo[];
+    folderName: string;
+    fileInfoList: [FileInfo, FileInfo];
+    cardMarginHorizontal?: number;
 }
 
-function FileList(props: FileListProps) {
-    const { fileInfoList } = props;
+function NotificationAndAttachment(props: FileListProps) {
+    const { folderName, fileInfoList, cardMarginHorizontal } = props;
 
     const [notification, attachment] = fileInfoList;
 
@@ -206,10 +210,10 @@ function FileList(props: FileListProps) {
 
     return (
         <>
-            <File fileInfo={notification} />
-            <File fileInfo={attachment} />
+            <File folderName={folderName} fileInfo={notification} cardMarginHorizontal={cardMarginHorizontal} />
+            <File folderName={folderName} fileInfo={attachment} cardMarginHorizontal={cardMarginHorizontal} />
         </>
     );
 }
 
-export default FileList;
+export default NotificationAndAttachment;

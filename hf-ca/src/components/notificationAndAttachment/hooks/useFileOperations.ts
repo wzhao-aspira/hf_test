@@ -2,16 +2,13 @@ import { useState, useEffect } from "react";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
 
-import { useAppDispatch } from "../../../../hooks/redux";
-import { handleError } from "../../../../network/APIUtil";
-import {
-    downloadAccessPermitNotification,
-    downloadAccessPermitAttachment,
-} from "../../../../network/api_client/DrawResultsApi";
+import { useAppDispatch } from "../../../hooks/redux";
+import { handleError } from "../../../network/APIUtil";
+import { downloadNotification, downloadAttachment } from "../../../network/api_client/DrawResultsApi";
 
-import { isAndroid, showToast } from "../../../../helper/AppHelper";
-import Routers, { useAppNavigation } from "../../../../constants/Routers";
-import DialogHelper from "../../../../helper/DialogHelper";
+import { isAndroid, showToast } from "../../../helper/AppHelper";
+import Routers, { useAppNavigation } from "../../../constants/Routers";
+import DialogHelper from "../../../helper/DialogHelper";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 type FileTypes = "notificationPDF" | "attachment";
@@ -51,8 +48,8 @@ function useDownloadFile({
         setStatus("downloading");
 
         const handleErrorResult = await handleError(
-            (fileType === "notificationPDF" && downloadAccessPermitNotification(downloadID)) ||
-                (fileType === "attachment" && downloadAccessPermitAttachment(downloadID)),
+            (fileType === "notificationPDF" && downloadNotification(downloadID)) ||
+                (fileType === "attachment" && downloadAttachment(downloadID)),
             {
                 dispatch,
                 showLoading: true,

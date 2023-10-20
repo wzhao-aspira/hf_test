@@ -62,7 +62,7 @@ export type RouteParams = {
             reservationNumber: string;
             name: string;
             address: string;
-            fileInfoList: FileInfo[];
+            fileInfoList: [FileInfo, FileInfo];
         };
     };
     webViewScreen: {

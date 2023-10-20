@@ -10,7 +10,7 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH } from "../../constant
 
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
-import FileList from "./file_list/FileList";
+import NotificationAndAttachment from "../../components/notificationAndAttachment/NotificationAndAttachment";
 
 const styles = StyleSheet.create({
     container: {
@@ -59,6 +59,8 @@ interface AccessPermitDetailScreenProps extends AppNativeStackScreenProps<"acces
     //
 }
 
+export const folderName = "access_permit_files";
+
 function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
     const { route } = props;
     const { document } = route.params;
@@ -78,7 +80,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader rightIcon={false} title={t("accessPermits.PermitDetails")} />
+            <CommonHeader title={t("accessPermits.PermitDetails")} rightIcon={false} subTitle={null} />
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
@@ -135,7 +137,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                         })}
                     </View>
                 </View>
-                <FileList fileInfoList={fileInfoList} />
+                <NotificationAndAttachment folderName={folderName} fileInfoList={fileInfoList} />
             </ScrollView>
         </Page>
     );

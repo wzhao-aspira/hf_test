@@ -9,12 +9,12 @@ export async function getActivePermitsByCustomerId(customerId: string) {
     return api.v1CustomersCustomerIdActivePermitsGet(customerId);
 }
 
-export async function downloadAccessPermitNotification(drawTicketLicenseId: string) {
+export async function downloadNotification(drawTicketLicenseId: string) {
     const api = new DrawResultsApi(getAPIConfig(), null, instance);
     return api.buildNotificationAsync(drawTicketLicenseId, { responseType: "blob" });
 }
 
-export async function downloadAccessPermitAttachment(fileId: string) {
+export async function downloadAttachment(fileId: string) {
     const api = new DrawResultsApi(getAPIConfig(), null, instance);
     return api.buildAttachmentAsync(fileId, { responseType: "blob" });
 }

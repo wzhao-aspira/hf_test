@@ -175,7 +175,7 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader rightIcon={false} title={title} />
+            <CommonHeader title={title} rightIcon={false} subTitle={null} />
             {totalNumberOfTheChoices > 0 && (
                 <>
                     <View style={styles.positionInfo}>

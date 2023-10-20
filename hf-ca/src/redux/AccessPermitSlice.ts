@@ -4,10 +4,10 @@ import { getAccessPermitData } from "../services/AccessPermitServices";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
-import { AccessPermit } from "../types/accessPermit";
+import { AccessPermit, AccessPermitItem } from "../types/accessPermit";
 import { saveAccessPermitDataToDB, getAccessPermitDataFromDB } from "../db";
-import cleanUpInvalidFiles from "../screens/access_permits/file_list/utils/cleanUpInvalidFiles";
-import { folderName } from "../screens/access_permits/file_list/FileList";
+import cleanUpInvalidFiles from "../components/notificationAndAttachment/utils/cleanUpInvalidFiles";
+import { folderName } from "../screens/access_permits/AccessPermitDetailScreen";
 
 interface AccessPermitState {
     data: AccessPermit;
@@ -16,6 +16,18 @@ interface AccessPermitState {
 }
 
 const initialState: AccessPermitState = { data: null, requestStatus: REQUEST_STATUS.idle, offline: false };
+
+function getAccessPermitDownloadableFileIDList(accessPermitsData: AccessPermitItem[]) {
+    if (!accessPermitsData) return null;
+
+    const fileInfoList = accessPermitsData.flatMap((accessPermit) =>
+        accessPermit.huntDays.flatMap((huntDay) => huntDay.fileInfoList)
+    );
+
+    const downloadableFileIDList = fileInfoList.map((fileInfo) => fileInfo.id).filter((fileID) => fileID);
+
+    return downloadableFileIDList;
+}
 
 export const getAccessPermit = createAsyncThunk(
     "accessPermit/getAccessPermit",
@@ -32,7 +44,9 @@ export const getAccessPermit = createAsyncThunk(
             await saveAccessPermitDataToDB(dataForOffline);
             console.log("get access permit data from api");
 
-            cleanUpInvalidFiles({ accessPermitsData: dataFromAPI?.data?.accessPermits, folderName });
+            const downloadableFileIDList = getAccessPermitDownloadableFileIDList(dataFromAPI?.data?.accessPermits);
+
+            cleanUpInvalidFiles({ folderName, downloadableFileIDList });
         } else {
             const data = await getAccessPermitDataFromDB(activeProfileId);
             result = { success: true, data, offline: true };
