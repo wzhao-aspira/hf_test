@@ -2,17 +2,19 @@ import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+
 import Page from "../../../components/Page";
 import CommonHeader from "../../../components/CommonHeader";
 import DrawApplicationListEmpty from "./DrawApplicationListEmpty";
 import AppTheme from "../../../assets/_default/AppTheme";
-import DrawApplicationTabItem from "./DrawApplicationTabItem";
+import DrawApplicationTabContainer from "./tab_View/DrawApplicationTabContainer";
 import { getDrawList } from "../../../redux/DrawApplicationSlice";
 import profileSelectors from "../../../redux/ProfileSelector";
 import drawSelectors from "../../../redux/DrawApplicationSelector";
 import DrawApplicationListLoading from "./DrawApplicationListLoading";
-import { REQUEST_STATUS } from "../../../constants/Constants";
+import { useAppDispatch } from "../../../hooks/redux";
+import { genTestId } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     container: {
@@ -21,23 +23,29 @@ export const styles = StyleSheet.create({
 });
 
 function SuccessfulRoute() {
-    return <DrawApplicationTabItem list={[]} />;
+    const data = useSelector(drawSelectors.selectSuccessfulData);
+    const isEmptyData = useSelector(drawSelectors.selectSuccessfulDataIsEmpty);
+    return <DrawApplicationTabContainer tabData={data} tabName="successful" isEmptyTab={isEmptyData} />;
 }
 
 function UnsuccessfulRoute() {
-    return <DrawApplicationTabItem list={[]} />;
+    const data = useSelector(drawSelectors.selectUnsuccessfulData);
+    const isEmptyData = useSelector(drawSelectors.selectUnsuccessfulDataIsEmpty);
+    return <DrawApplicationTabContainer tabData={data} tabName="unsuccessful" isEmptyTab={isEmptyData} />;
 }
 
 function PendingRoute() {
-    return <DrawApplicationTabItem list={[]} />;
+    const list = useSelector(drawSelectors.selectPendingList);
+    const isEmptyData = useSelector(drawSelectors.selectPendingListIsEmpty);
+    return <DrawApplicationTabContainer list={list} tabName="pending" isEmptyTab={isEmptyData} />;
 }
 
 const renderTabBar = (props) => (
     <TabBar
         {...props}
         pressColor={AppTheme.colors.page_bg}
-        indicatorStyle={{ backgroundColor: AppTheme.colors.fishing_blue }}
-        style={{ backgroundColor: AppTheme.colors.page_bg, shadowColor: AppTheme.colors.page_bg }}
+        indicatorStyle={{ backgroundColor: AppTheme.colors.indicator }}
+        style={{ backgroundColor: AppTheme.colors.body_50, shadowColor: AppTheme.colors.body_50 }}
         renderLabel={({ route, focused }) => (
             <Text
                 style={{
@@ -46,6 +54,7 @@ const renderTabBar = (props) => (
                     paddingHorizontal: focused ? 0 : 6,
                     textAlign: "center",
                 }}
+                testID={genTestId(`drawApplicationTab_${route.key}`)}
             >
                 {route.title}
             </Text>
@@ -62,8 +71,7 @@ const renderScene = SceneMap({
 function DrawListContent() {
     const { t } = useTranslation();
 
-    const drawRequestStatus = useSelector(drawSelectors.selectDrawRequestStatus);
-    const refreshing = drawRequestStatus.requestStatus === REQUEST_STATUS.pending;
+    const refreshing = useSelector(drawSelectors.selectIsDrawListLoading);
     const drawListIsEmpty = useSelector(drawSelectors.selectDrawListIsEmpty);
     const [index, setIndex] = useState(0);
     const [routes] = useState([
@@ -91,13 +99,17 @@ function DrawListContent() {
 
 function DrawApplicationListScreen() {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
-
+    const dispatch = useAppDispatch();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
+    const getDrawListByProfileId = () => {
+        if (activeProfileId) {
+            dispatch(getDrawList(activeProfileId));
+        }
+    };
+
     useEffect(() => {
-        // @ts-ignore
-        dispatch(getDrawList(activeProfileId));
+        getDrawListByProfileId();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

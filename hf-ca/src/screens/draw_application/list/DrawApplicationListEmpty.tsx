@@ -1,18 +1,15 @@
 import { StyleSheet, View, Text, ScrollView, RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import AppTheme from "../../../assets/_default/AppTheme";
-
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
 import { genTestId } from "../../../helper/AppHelper";
-
-// import { useTranslation } from "react-i18next";
-
 import DrawSelectors from "../../../redux/DrawApplicationSelector";
 import { REQUEST_STATUS } from "../../../constants/Constants";
 import profileSelectors from "../../../redux/ProfileSelector";
 import { getDrawList } from "../../../redux/DrawApplicationSlice";
+import { useAppDispatch } from "../../../hooks/redux";
 
 export const styles = StyleSheet.create({
     emptyContainer: {
@@ -40,20 +37,19 @@ export const styles = StyleSheet.create({
 function DrawApplicationListEmpty() {
     const { t } = useTranslation();
     const insets = useSafeAreaInsets();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const drawRequestStatus = useSelector(DrawSelectors.selectDrawRequestStatus);
     const refreshing = drawRequestStatus.requestStatus === REQUEST_STATUS.pending;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const getDrawListByProfileId = () => {
         if (activeProfileId) {
-            // @ts-ignore
             dispatch(getDrawList(activeProfileId));
         }
     };
     return (
         <ScrollView
-            testID={genTestId("licenseList")}
+            testID={genTestId("drawApplicationList")}
             contentContainerStyle={{
                 flexGrow: 1,
                 marginTop: 14,
@@ -72,10 +68,10 @@ function DrawApplicationListEmpty() {
         >
             <View style={styles.emptyContainer}>
                 <View style={styles.emptyArea}>
-                    <Text testID={genTestId("noLicenses")} style={styles.emptyTitle}>
+                    <Text testID={genTestId("noDrawListTitle")} style={styles.emptyTitle}>
                         {t("drawApplicationList.emptyDrawTitle")}
                     </Text>
-                    <Text testID={genTestId("licIntroduction")} style={styles.emptyDescription}>
+                    <Text testID={genTestId("noDrawListSubtitle")} style={styles.emptyDescription}>
                         {t("drawApplicationList.emptyDrawSubTitle")}
                     </Text>
                 </View>

@@ -36,10 +36,15 @@ export interface DrawResultsListItem {
     huntLastCloseDate?: string;
     isGeneratedDraw?: boolean;
 }
+
+export interface FormattedCopyHuntListItem extends DrawResultsListItem {
+    items?: { huntName: string; huntCode: string; isDrawWon: boolean }[];
+}
 export interface NonPendingStatusList {
     copyHuntsList?: DrawResultsListItem[][];
     generatedHuntsList?: DrawResultsListItem[];
     multiChoiceCopyHuntsList?: DrawResultsListItem[];
+    formattedCopyHuntList?: FormattedCopyHuntListItem[];
 }
 export interface DrawApplicationList {
     instructions?: string;
@@ -47,3 +52,6 @@ export interface DrawApplicationList {
     unSuccessList?: NonPendingStatusList;
     pendingList?: DrawResultsListItem[];
 }
+
+export type DrawApplicationListTabName = "pending" | "successful" | "unsuccessful";
+export type DrawApplicationListGroupName = "copyHunt" | "generatedHunt" | "multiChoiceCopy";

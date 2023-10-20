@@ -423,8 +423,17 @@
         "emptyDrawTitle": "No draw Applications found",
         "emptyDrawSubTitle": "Once you apply for a draw(s),you can view your draw applications here.",
         "successful": "Successful",
+        "successfulFor": "Successful for",
         "unsuccessful": "Unsuccessful",
-        "pending": "Pending"
+        "pending": "Pending",
+        "successfulCopyTitle": "Successful View Copy Hunt",
+        "successfulGeneratedTitle": "Successful View Generated Hunt",
+        "successfulMultiTitle": "Successful View Multi Choice Copy",
+        "unsuccessfulCopyTitle": "Unsuccessful View Copy Hunt",
+        "unsuccessfulGeneratedTitle": "Unsuccessful View Generated Hunt",
+        "unsuccessfulMultiTitle": "Unsuccessful View Multi Choice Copy",
+        "status": "Status",
+        "result": "Result"
     },
     "drawApplicationDetail": {
         "of": "{{position}} Of {{totalNumber}} Choices",

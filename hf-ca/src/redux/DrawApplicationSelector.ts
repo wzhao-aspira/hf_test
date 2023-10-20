@@ -3,10 +3,13 @@ import { isEmpty } from "lodash";
 
 import type { RootState } from "./Store";
 import { getNonPendingDrawIsEmpty } from "../services/DrawApplicationServices";
+import { REQUEST_STATUS } from "../constants/Constants";
 
 const selectDrawApplicationState = (state: RootState) => state.drawApplication;
 
 const selectDrawRequestStatus = createSelector(selectDrawApplicationState, (draw) => draw.requestStatus);
+const selectIsDrawListLoading = createSelector(selectDrawRequestStatus, (status) => status === REQUEST_STATUS.pending);
+const selectInstructions = createSelector(selectDrawApplicationState, (draw) => draw.instructions);
 
 const selectSuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.successfulData);
 const selectUnsuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.unsuccessfulData);
@@ -32,6 +35,8 @@ const selectors = {
     selectPendingListIsEmpty,
     selectDrawListIsEmpty,
     selectDrawRequestStatus,
+    selectIsDrawListLoading,
+    selectInstructions,
 };
 
 export default selectors;
