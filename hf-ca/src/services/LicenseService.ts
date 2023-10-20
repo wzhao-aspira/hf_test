@@ -93,7 +93,7 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
     });
     // Save the license list data per profile
     if (!isEmpty(formattedResult)) {
-        await saveLicenseListData(formattedResult);
+        await saveLicenseListData(activeProfileId, formattedResult);
         await storeItem(`${KEY_CONSTANT.keyIsEmptyOnlineDataCached}_${activeProfileId}`, false);
     } else {
         await storeItem(`${KEY_CONSTANT.keyIsEmptyOnlineDataCached}_${activeProfileId}`, true);

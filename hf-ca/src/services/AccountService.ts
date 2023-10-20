@@ -14,6 +14,12 @@ import { clearToken } from "../network/tokenUtil";
 import { globalDataForAPI } from "../network/commonUtil";
 import { restBiometricLoginDataByUserId } from "../helper/LocalAuthHelper";
 import { MobileAppUserResetPasswordCommand, PasswordChangeVM } from "../network/generated";
+import {
+    clearProfileSummaryFromDB,
+    removeAccessPermitFromDB,
+    removeLicenseListData,
+    removePreferencePointListFromDB,
+} from "../db";
 
 async function verifyPassword(accountPassword: string) {
     if (!accountPassword) return "failed: password is empty";
@@ -101,6 +107,11 @@ async function clearAppData(dispatch) {
     const userID = await getActiveUserID();
     await setActiveUserID(null);
     clearToken(userID);
+    // clear local DB data
+    await clearProfileSummaryFromDB();
+    await removePreferencePointListFromDB();
+    await removeAccessPermitFromDB();
+    await removeLicenseListData();
 }
 
 export default {
