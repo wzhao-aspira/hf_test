@@ -77,3 +77,14 @@ export const isNotFindCustomerError = (error) => {
     }
     return false;
 };
+
+export const isBusinessErrorCode = (error, businessCode) => {
+    const is400ErrorCode = isErrorCode(error, 400);
+    if (is400ErrorCode) {
+        const errors = error.response?.data?.errors;
+        const existingCanNotFindCustomerErrorMsg =
+            isArray(errors) && errors.length > 0 && errors.some((err) => err[businessCode]);
+        return existingCanNotFindCustomerErrorMsg;
+    }
+    return false;
+};
