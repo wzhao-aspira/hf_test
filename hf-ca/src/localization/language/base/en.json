@@ -1,7 +1,7 @@
 {
     "noLicTitle": "No licenses found",
     "license": {
-        "lastUpdated": "Last Updated: ",
+        "lastUpdated": "Last updated: ",
         "myLicense": "My Licenses",
         "firstNameLicense": "{{firstName}}'s Licenses",
         "license": "License",
@@ -98,7 +98,6 @@
         "emptyUserID": "Please enter User Email Address",
         "emptyPassword": "Please enter Password",
         "emptyConfirmPassword": "Please enter Confirm Password",
-        "incorrectPassword": "The password is incorrect, please enter again to proceed with the OK button.",
         "emptyDateOfBirth": "Please enter Date of Birth",
         "emptyFirstName": "Please enter First Name",
         "emptyLastName": "Please enter Last Name",

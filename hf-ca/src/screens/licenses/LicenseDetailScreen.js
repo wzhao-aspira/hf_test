@@ -24,8 +24,8 @@ import useFocus from "../../hooks/useFocus";
 import useNavigateToISSubmitHarvestReport from "./hooks/useNavigateToISSubmitHarvestReport";
 import LicenseDetailLoading from "./LicenseDetailLoading";
 import { appConfig } from "../../services/AppConfigService";
-import { initResidentMethodTypes, residentMethodTypes } from "../../services/ProfileService";
 import useNavigateToISViewHarvestReport from "./hooks/useNavigateToISViewHarvestReport";
+import profileSelectors from "../../redux/ProfileSelector";
 
 const styles = StyleSheet.create({
     container: {
@@ -121,8 +121,8 @@ const selectLicenseById = (id, licenseState) => {
     return selectedLicense;
 };
 
-const selectResidentMethodTypeById = (residentMethodTypeId) => {
-    return residentMethodTypes.data?.find((item) => item.residentMethodTypeId === residentMethodTypeId) || {};
+const selectResidentMethodTypeById = (residentMethodTypes, residentMethodTypeId) => {
+    return residentMethodTypes?.find((item) => item.residentMethodTypeId === residentMethodTypeId) || {};
 };
 
 function LicenseDetailScreen(props) {
@@ -200,8 +200,8 @@ function LicenseDetailScreen(props) {
         ownerSimplePhysicalAddress,
         ownerResidentMethodTypeId,
     } = profileDetails;
-
-    const residentMethodTypeData = selectResidentMethodTypeById(residentMethodTypeId);
+    const residentMethodTypes = useSelector(profileSelectors.residentMethodTypes);
+    const residentMethodTypeData = selectResidentMethodTypeById(residentMethodTypes, residentMethodTypeId);
     const { residentMethodType, printDescription } = residentMethodTypeData;
     const ownerResidentMethodTypeData = selectResidentMethodTypeById(ownerResidentMethodTypeId);
     const { residentMethodType: ownerResidentMethodType } = ownerResidentMethodTypeData;
@@ -357,9 +357,13 @@ function LicenseDetailScreen(props) {
     };
 
     const getLicenseOfActiveProfile = async (isForce) => {
-        await initResidentMethodTypes();
-        dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } }));
-        dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce }));
+        dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } })).then((response) => {
+            if (response.isReloadData && !response.success && !response.isNetworkError) {
+                return;
+            }
+            dispatch(ProfileThunk.initResidentMethodTypes());
+            dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce }));
+        });
     };
 
     useFocus(() => {

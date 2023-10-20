@@ -2,7 +2,6 @@ import { isEmpty } from "lodash";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
 import { updateProfileDetailToDB } from "../db";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
-import defaultResidentMethodTypes from "./residentMethodTypes.json";
 import {
     getProfiles,
     findAndLinkAuditProfile,
@@ -38,10 +37,6 @@ import Routers from "../constants/Routers";
 import { clearCustomerDetailById } from "../db/ProfileDetail";
 import { clearCustomerSummaryById } from "../db/ProfileSummary";
 
-export const residentMethodTypes: { data: ResidentMethodTypeVM[] } = {
-    data: null,
-};
-
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
     return ret?.data?.result;
@@ -59,29 +54,9 @@ export async function getStates(): Promise<StateVM[]> {
     return ret?.data?.result;
 }
 
-export async function initResidentMethodTypes() {
-    const jsonData = await getResidentMethodTypes();
-    residentMethodTypes.data = jsonData;
-}
-
-async function getResidentMethodTypes(): Promise<ResidentMethodTypeVM[]> {
-    try {
-        const result = await getResidentMethodTypesData();
-        const data = result?.data.result;
-        await storeItem(KEY_CONSTANT.keyResidentMethodTypes, data);
-        return data;
-    } catch (error) {
-        console.log(error);
-        return getResidentMethodTypesFromCache();
-    }
-}
-
-async function getResidentMethodTypesFromCache(): Promise<ResidentMethodTypeVM[]> {
-    let data = await retrieveItem(KEY_CONSTANT.keyResidentMethodTypes);
-    if (!data) {
-        data = defaultResidentMethodTypes.data;
-    }
-    return data;
+export async function getResidentMethodTypes(): Promise<ResidentMethodTypeVM[]> {
+    const ret = await getResidentMethodTypesData();
+    return ret?.data?.result;
 }
 
 export async function getProfileList() {

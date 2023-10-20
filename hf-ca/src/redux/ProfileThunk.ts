@@ -10,6 +10,7 @@ import {
     getProfileList,
     getProfileDetailsById,
     getLatestCustomerList,
+    getResidentMethodTypes,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { actions as appActions, selectors as appSelectors } from "./AppSlice";
@@ -26,7 +27,7 @@ import {
     setCurrentProfileDetailsUpdateTime,
     setProfileListUpdateTime,
 } from "../helper/AutoRefreshHelper";
-import { REQUEST_STATUS } from "../constants/Constants";
+import { KEY_CONSTANT, REQUEST_STATUS } from "../constants/Constants";
 import { checkNeedAutoRefreshData } from "../utils/GenUtil";
 import DialogHelper from "../helper/DialogHelper";
 import i18n from "../localization/i18n";
@@ -35,6 +36,7 @@ import Routers from "../constants/Routers";
 import { Profile } from "../types/profile";
 import { actions as licenseActions } from "./LicenseSlice";
 import { actions as preferencePointActions } from "./PreferencePointSlice";
+import { retrieveItem, storeItem } from "../helper/StorageHelper";
 
 const formateProfile = (profile) => {
     const { customerId, name, customerTypeId, goidNumber, goid, ...otherProps } = profile;
@@ -68,7 +70,7 @@ const showProfileDialog = (message, okAction) =>
         title: i18n.t("common.reminder"),
         message,
         okText: i18n.t("common.gotIt"),
-        okAction: () => okAction(),
+        okAction: () => setTimeout(() => okAction()),
     });
 
 const initProfileCommonData = (): AppThunk => async (dispatch, getState) => {
@@ -97,6 +99,26 @@ const initProfileCommonData = (): AppThunk => async (dispatch, getState) => {
         dispatch(profileActions.setYouthIdentifyOwners(youthIdentityOwners?.data));
     }
 };
+
+const initResidentMethodTypes =
+    ({ networkErrorByDialog = false } = {}): AppThunk =>
+    async (dispatch, getState) => {
+        const state = getState();
+        const shouldResidentMethodTypesInitialize = isEmpty(state.profile.residentMethodTypes);
+        if (shouldResidentMethodTypesInitialize) {
+            const residentMethodTypes = await handleError(getResidentMethodTypes(), {
+                dispatch,
+                networkErrorByDialog,
+            });
+            if (residentMethodTypes?.success) {
+                await storeItem(KEY_CONSTANT.keyResidentMethodTypes, residentMethodTypes?.data);
+                dispatch(profileActions.setResidentMethodTypes(residentMethodTypes?.data));
+            } else {
+                const residentMethodTypesData = await retrieveItem(KEY_CONSTANT.keyResidentMethodTypes);
+                dispatch(profileActions.setResidentMethodTypes(residentMethodTypesData));
+            }
+        }
+    };
 
 const getCRSSVerifyProfiles = async (result = []) => {
     const profiles = result.filter((profile) => profile.needVerifyCRSS);
@@ -365,10 +387,13 @@ const refreshProfileList =
         } else {
             dispatch(profileActions.setProfileListRequestStatus(REQUEST_STATUS.fulfilled));
         }
-        // Initial Current User Profile Details
-        const currentInUseProfileID = profileSelector.selectCurrentInUseProfileID(rootState);
-        if (currentInUseProfileID) {
-            await dispatch(initProfileDetails({ profileId: currentInUseProfileID, isForce: false }));
+        // @ts-ignore Initial Current User Profile Details
+        const { ciuIsInactivated } = response;
+        if (!ciuIsInactivated) {
+            const currentInUseProfileID = profileSelector.selectCurrentInUseProfileID(rootState);
+            if (currentInUseProfileID) {
+                await dispatch(initProfileDetails({ profileId: currentInUseProfileID, isForce: false }));
+            }
         }
         return { ...response, isReloadData: true };
     };
@@ -387,6 +412,7 @@ const getLatestCustomerLists = () => async (dispatch) => {
 
 export default {
     initProfileCommonData,
+    initResidentMethodTypes,
     initProfile,
     switchCurrentInUseProfile,
     refreshProfileList,

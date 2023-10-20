@@ -1,3 +1,4 @@
+import { isArray } from "lodash";
 import { isUATEnv, isProdEnv } from "../helper/AppHelper";
 
 let path = "/prod";
@@ -64,4 +65,15 @@ export const isNoAuthorization = (error) => {
 
 export const isConnectError = (error) => {
     return isErrorCode(error, 500) || error.code === "ERR_NETWORK";
+};
+
+export const isNotFindCustomerError = (error) => {
+    const is400ErrorCode = isErrorCode(error, 400);
+    if (is400ErrorCode) {
+        const errors = error.response?.data?.errors;
+        const existingCanNotFindCustomerErrorMsg =
+            isArray(errors) && errors.length > 0 && errors.some((err) => err.CANNOT_FIND_CUSTOMER);
+        return existingCanNotFindCustomerErrorMsg;
+    }
+    return false;
 };
