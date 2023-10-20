@@ -9,8 +9,11 @@ import { showToast } from "../helper/AppHelper";
 import LoginStep from "../constants/LoginStep";
 import AppTheme from "../assets/_default/AppTheme";
 import { handleError } from "../network/APIUtil";
-import { globalDataForAPI, isNoAuthorization, isConnectError } from "../network/commonUtil";
+import { globalDataForAPI, isNoAuthorization, isConnectError, isNotFindCustomerError } from "../network/commonUtil";
 import AccountService from "../services/AccountService";
+import Routers from "../constants/Routers";
+import NavigationService from "../navigation/NavigationService";
+import { clearProfileListUpdateTime } from "../helper/AutoRefreshHelper";
 
 export function getErrorMessage(error) {
     const errors = error.response?.data?.errors;
@@ -60,6 +63,7 @@ function useErrorHandling() {
                     DialogHelper.showSimpleDialog({
                         title: t("errMsg.noNetworkDialogTitle"),
                         message: t("errMsg.noNetworkDialog"),
+                        okText: "common.gotIt",
                         okAction: () => {
                             dispatch(appActions.clearError());
                         },
@@ -89,11 +93,19 @@ function useErrorHandling() {
                 );
             } else {
                 const message = getErrorMessage(error);
+                const canNotFindCustomer = isNotFindCustomerError(error);
                 DialogHelper.showSimpleDialog({
                     title: "common.error",
+                    okText: "common.gotIt",
                     message,
                     okAction: () => {
                         dispatch(appActions.clearError());
+                        if (canNotFindCustomer) {
+                            clearProfileListUpdateTime();
+                            setTimeout(() => {
+                                NavigationService.navigate(Routers.manageProfile);
+                            });
+                        }
                     },
                 });
             }
