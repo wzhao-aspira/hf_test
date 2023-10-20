@@ -24,6 +24,7 @@ import { clearProfileListUpdateTime } from "../../helper/AutoRefreshHelper";
 import Page from "../../components/Page";
 import ProfileThunk from "../../redux/ProfileThunk";
 import { actions as appActions } from "../../redux/AppSlice";
+import OutlinedBtn from "../../components/OutlinedBtn";
 
 const styles = StyleSheet.create({
     container: {
@@ -229,7 +230,7 @@ export default function CRSSScreen({ route }) {
                         }}
                     />
                     {isCRSSVerify && (
-                        <PrimaryBtn
+                        <OutlinedBtn
                             testID="UnlinkCustomerRecordButton"
                             style={styles.submit_button}
                             label={t("crss.unlinkCustomerRecord")}
