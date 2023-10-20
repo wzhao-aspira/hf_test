@@ -1,12 +1,35 @@
 import { isEmpty } from "lodash";
-import { DrawApplicationList, DrawResultsListItem, NonPendingStatusList } from "../types/drawApplication";
+import type { DrawApplicationList, DrawResultsListItem, NonPendingStatusList } from "../types/drawApplication";
 // import { getDrawApplicationListByCustomerId } from "../network/api_client/DrawResultsApi";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import DrawList from "./mock_data/drawList.json";
 
 const convertDrawApplicationItem = (drawItem: DrawResultsListItem) => {
-    const { year, drawType, drawStatus, huntId, huntCode, huntDay, drawnSequence, huntName } = drawItem;
+    const {
+        year,
+        drawType,
+        drawStatus,
+        huntId,
+        huntCode,
+        huntDay,
+        drawnSequence,
+        huntName,
+        partyNumber,
+        memberNames,
+        choice,
+        drawWon,
+        alternateSeq,
+        isGeneratedDraw,
+        drawTicketLicenseId,
+        notificationTitle,
+        notificationAvailable,
+        notificationDescription,
+        filename,
+        fileId,
+        fileTitle,
+    } = drawItem;
+
     return {
         year,
         drawType,
@@ -17,6 +40,19 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListItem) => {
             huntDay && DateUtils.dateToFormat(huntDay, AppContract.outputFormat.fmt_2, AppContract.inputFormat.fmt_2),
         drawnSequence,
         huntName,
+        partyNumber,
+        memberNames,
+        choice,
+        drawWon,
+        alternateSeq,
+        isGeneratedDraw,
+        drawTicketLicenseId,
+        notificationTitle,
+        notificationAvailable,
+        notificationDescription,
+        filename,
+        fileId,
+        fileTitle,
     };
 };
 
