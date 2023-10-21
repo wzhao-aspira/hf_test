@@ -7,7 +7,7 @@ import ProfileDetail from "./models/ProfileDetail";
 export async function updateProfileSummaryToDB(profileList: Array<any>) {
     const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
     try {
-        await clearProfileSummaryFromDB();
+        await clearCustomerSummaryFromDB();
         profileList.forEach((ele) => {
             console.log("update profile summary", ele);
             realm.write(() => {
@@ -52,8 +52,21 @@ export async function clearProfileSummaryFromDB() {
     return result;
 }
 
+export async function clearCustomerSummaryFromDB() {
+    console.log("ProfileSummary - clearCustomerSummaryFromDB");
+    const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
+    try {
+        realm.write(() => {
+            realm.delete(realm.objects(ProfileSummary));
+        });
+    } catch (error) {
+        result.success = false;
+    }
+    return result;
+}
+
 export async function clearCustomerSummaryById(customerId: string) {
-    console.log("clearCustomerSummaryById");
+    console.log("ProfileSummary - clearCustomerSummaryById");
     const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
     try {
         const collection = realm.objects(ProfileSummary).filtered("customerId= $0", customerId);

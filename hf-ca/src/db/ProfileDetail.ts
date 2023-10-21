@@ -36,7 +36,7 @@ export async function getProfileDetailFromDB(profileId: string) {
 }
 
 export async function clearCustomerDetailById(customerId: string) {
-    console.log("clearCustomerDetailById");
+    console.log("ProfileDetail - clearCustomerDetailById");
     const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
     try {
         const collection = realm.objects(ProfileDetail).filtered("customerId= $0", customerId);

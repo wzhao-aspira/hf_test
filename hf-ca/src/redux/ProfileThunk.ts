@@ -330,6 +330,8 @@ const initProfileDetails =
             return;
         }
         dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.pending));
+        console.log("ProfileThunk - initProfileDetails - isForce:", isForce);
+        console.log("ProfileThunk - initProfileDetails - profileId:", profileId);
         if (isForce || checkNeedAutoRefreshData(getCurrentProfileDetailsUpdateTime())) {
             const response = await handleError(getProfileDetailsById(profileId), {
                 dispatch,
@@ -337,6 +339,7 @@ const initProfileDetails =
             });
             if (response.success) {
                 result = response.data.data.result;
+                console.log("ProfileThunk - initProfileDetails - getProfileDetailsById:", result);
                 if (!isEmpty(result)) {
                     await updateProfileDetailToDB(result);
                     setCurrentProfileDetailsUpdateTime();
@@ -348,6 +351,7 @@ const initProfileDetails =
         }
         if (!result) {
             const dbResult = await getProfileDetailFromDB(profileId);
+            console.log("ProfileThunk - initProfileDetails - getProfileDetailFromDB:", dbResult);
             if (dbResult.success) {
                 result = dbResult.profile;
             }
@@ -358,6 +362,7 @@ const initProfileDetails =
         }
 
         const formattedProfile = formateProfile(result);
+        console.log("ProfileThunk - initProfileDetails - formattedProfile:", formattedProfile);
         dispatch(profileActions.updateProfileDetailsById(formattedProfile));
         dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.fulfilled));
     };
