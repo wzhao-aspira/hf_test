@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 /* eslint-disable no-undef */
 import moment from "moment";
-import { isJpgFormat, sum, checkNeedAutoRefreshData, shortName } from "../../src/utils/GenUtil";
+import { isImageFormat, sum, checkNeedAutoRefreshData, shortName } from "../../src/utils/GenUtil";
 
 describe("Test sum", () => {
     test("call sum normally", () => {
@@ -14,19 +14,19 @@ describe("Test isJpgFormat", () => {
     test("jpeg format", () => {
         const value = "image/jpeg";
         const expectResult = true;
-        expect(isJpgFormat(value)).toBe(expectResult);
+        expect(isImageFormat(value)).toBe(expectResult);
     });
 
     test("jpg format", () => {
         const value = "image/jpg";
         const expectResult = true;
-        expect(isJpgFormat(value)).toBe(expectResult);
+        expect(isImageFormat(value)).toBe(expectResult);
     });
 
     test("png format", () => {
         const value = "image/png";
-        const expectResult = false;
-        expect(isJpgFormat(value)).toBe(expectResult);
+        const expectResult = true;
+        expect(isImageFormat(value)).toBe(expectResult);
     });
 });
 

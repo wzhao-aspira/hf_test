@@ -1,14 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 import moment from "moment";
-import { isEmpty, isEqual } from "lodash";
+import { isEmpty } from "lodash";
 import { AUTO_REFRESH_TIMEOUT } from "../constants/Constants";
 
 export function sum(a, b) {
     return a + b;
 }
 
-export function isJpgFormat(value) {
-    return isEqual(value, "image/jpeg") || isEqual(value, "image/jpg");
+export function isImageFormat(value = "") {
+    return value?.includes("image");
 }
 
 export function checkNeedAutoRefreshData(updateTime) {
