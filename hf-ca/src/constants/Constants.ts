@@ -1,5 +1,6 @@
 export const KEY_CONSTANT = {
     keyLoginSplash: "keyLoginSplash",
+    keyAppLoadingSplash: "keyAppLoadingSplash",
     keyAppConfig: "keyAppConfigV1_3",
     keyResidentMethodTypes: "keyResidentMethodTypes",
     keyLatLon: "keyLatLon",

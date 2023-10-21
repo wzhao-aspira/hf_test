@@ -1,26 +1,25 @@
+/* eslint-disable react/style-prop-object */
 import "react-native-url-polyfill/auto";
 import { decode, encode } from "base-64";
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
-import * as ScreenOrientation from "expo-screen-orientation";
-import * as Font from "expo-font";
+
 import { I18nextProvider } from "react-i18next";
 import { isEmpty } from "lodash";
+import { View } from "react-native";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
-import AppContract from "./src/assets/_default/AppContract";
-import { fetchPicture, getAppConfigData } from "./src/services/AppConfigService";
 import i18n from "./src/localization/i18n";
 import { updateLoginStep } from "./src/redux/AppSlice";
 import appThunkActions from "./src/redux/AppThunk";
 import LoginStep from "./src/constants/LoginStep";
-import { getActiveUserID, showToast } from "./src/helper/AppHelper";
-import { clearUnusedDownloadedFiles } from "./src/screens/useful_links/UsefulLinksHelper";
+import { getActiveUserID } from "./src/helper/AppHelper";
 import ProfileThunk from "./src/redux/ProfileThunk";
 import { restoreToken } from "./src/network/tokenUtil";
-import { openRealm } from "./src/db";
-import { getErrorMessage } from "./src/hooks/useErrorHandling";
+import RenderSplash from "./src/components/AppSplash";
+
+SplashScreen.preventAutoHideAsync().catch((e) => console.log(e));
 
 if (!global.btoa) {
     global.btoa = encode;
@@ -34,12 +33,8 @@ if (__DEV__) {
     import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
 }
 
-// Keep the splash screen visible while we fetch resources
-SplashScreen.preventAutoHideAsync();
-
-export default function App() {
-    const [appReady, setAppReady] = useState(false);
-    const initAppData = async () => {
+function RenderContent() {
+    const checkLogin = async () => {
         const lastUsedMobileAccountId = await getActiveUserID();
         if (!isEmpty(lastUsedMobileAccountId)) {
             const hasAccessToken = await restoreToken(lastUsedMobileAccountId);
@@ -52,40 +47,28 @@ export default function App() {
     };
 
     useEffect(() => {
-        const hideScreen = async () => {
-            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-            await Font.loadAsync(AppContract.fonts);
-            try {
-                await getAppConfigData();
-            } catch (error) {
-                await SplashScreen.hideAsync();
-                const errorMessage = getErrorMessage(error);
-                console.log(errorMessage);
-
-                showToast(errorMessage, { duration: 0 });
-                return;
-            }
-
-            fetchPicture();
-            await openRealm();
-            await initAppData();
-            setAppReady(true);
-            await SplashScreen.hideAsync();
-        };
-        hideScreen();
+        checkLogin();
     }, []);
+    return <RootScreen />;
+}
+export default function App() {
+    const [showSplash, setShowSplash] = useState(true);
+    const [showContent, setShowContent] = useState(false);
 
-    useEffect(() => {
-        clearUnusedDownloadedFiles();
-    }, []);
-
-    if (!appReady) {
-        return null;
-    }
     return (
         <I18nextProvider i18n={i18n}>
             <Provider store={store}>
-                <RootScreen />
+                <View style={{ flex: 1 }}>
+                    {showContent && <RenderContent />}
+                    {showSplash && (
+                        <RenderSplash
+                            onContentReady={() => setShowContent(true)}
+                            onHide={() => {
+                                setShowSplash(false);
+                            }}
+                        />
+                    )}
+                </View>
             </Provider>
         </I18nextProvider>
     );
