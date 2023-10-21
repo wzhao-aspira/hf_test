@@ -357,12 +357,11 @@ function LicenseDetailScreen(props) {
     };
 
     const getLicenseOfActiveProfile = async (isForce) => {
-        dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } })).then((response) => {
-            if (response.isReloadData && !response.success && !response.isNetworkError) {
-                return;
+        dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce })).then((response) => {
+            if (response?.success) {
+                dispatch(ProfileThunk.initResidentMethodTypes());
+                dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } }));
             }
-            dispatch(ProfileThunk.initResidentMethodTypes());
-            dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce }));
         });
     };
 

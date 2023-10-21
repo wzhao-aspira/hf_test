@@ -108,6 +108,7 @@ const initResidentMethodTypes =
         if (shouldResidentMethodTypesInitialize) {
             const residentMethodTypes = await handleError(getResidentMethodTypes(), {
                 dispatch,
+                showError: false,
                 networkErrorByDialog,
             });
             if (residentMethodTypes?.success) {
@@ -327,7 +328,7 @@ const initProfileDetails =
         const { profileDetailsRequestStatus } = rootState.profile;
 
         if (profileDetailsRequestStatus == REQUEST_STATUS.pending) {
-            return;
+            return result;
         }
         dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.pending));
         console.log("ProfileThunk - initProfileDetails - isForce:", isForce);
@@ -348,6 +349,7 @@ const initProfileDetails =
             } else {
                 dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.rejected));
             }
+            result = { ...result, success: response.success };
         }
         if (!result) {
             const dbResult = await getProfileDetailFromDB(profileId);
@@ -359,12 +361,14 @@ const initProfileDetails =
                 const filteredVal = getState()?.profile?.profileList?.find((ele) => ele?.profileId == profileId);
                 result = { ...filteredVal, noCacheData: true };
             }
+            result = { ...result, success: dbResult.success };
         }
 
         const formattedProfile = formateProfile(result);
         console.log("ProfileThunk - initProfileDetails - formattedProfile:", formattedProfile);
         dispatch(profileActions.updateProfileDetailsById(formattedProfile));
         dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.fulfilled));
+        return formattedProfile;
     };
 
 const refreshProfileList =

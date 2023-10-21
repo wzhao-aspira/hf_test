@@ -23,7 +23,7 @@ export async function getPreferencePointsByProfileId(profileId: string) {
     });
 
     if (!isEmpty(formattedResult)) {
-        await savePreferencePointListToDB(formattedResult);
+        await savePreferencePointListToDB(profileId, formattedResult);
         await storeItem(`${KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached}_${profileId}`, false);
     } else {
         await storeItem(`${KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached}_${profileId}`, true);
