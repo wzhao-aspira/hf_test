@@ -68,15 +68,36 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
 
-    const { title, barcode, huntDate, huntName, reservationNumber, name, address, fileInfoList } = document;
+    const {
+        title,
+        barcode,
+        huntDate,
+        huntName,
+        reservationNumber,
+        name,
+        address,
+        fileInfoList,
+        isGeneratedDraw,
+        huntCode,
+        huntRange,
+        isDisplayReservation,
+    } = document;
 
-    const accessPermitDocumentBasicInformation = [
-        { label: t("accessPermits.HuntDate"), content: huntDate },
-        { label: t("accessPermits.HuntName"), content: huntName },
-        { label: t("accessPermits.Reservation#"), content: reservationNumber },
-        { label: t("accessPermits.Name"), content: name },
-        { label: t("accessPermits.Address"), content: address },
-    ];
+    const accessPermitDocumentBasicInformation = isGeneratedDraw
+        ? [
+              { label: t("accessPermits.HuntDate"), content: huntDate },
+              { label: t("accessPermits.HuntName"), content: huntName },
+              isDisplayReservation && { label: t("accessPermits.Reservation#"), content: reservationNumber },
+              { label: t("accessPermits.Name"), content: name },
+              { label: t("accessPermits.Address"), content: address },
+          ]
+        : [
+              { label: t("accessPermits.HuntRange"), content: huntRange },
+              { label: t("accessPermits.HuntName"), content: huntName },
+              { label: t("accessPermits.huntCode"), content: huntCode },
+              { label: t("accessPermits.Name"), content: name },
+              { label: t("accessPermits.Address"), content: address },
+          ];
 
     return (
         <Page style={styles.container}>
@@ -116,25 +137,30 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
                         </View>
                     </View>
                     <View style={{ width: "100%", marginBottom: 10 }}>
-                        {accessPermitDocumentBasicInformation.map((item) => {
-                            const { label, content } = item;
+                        {accessPermitDocumentBasicInformation
+                            .filter((item) => item.label)
+                            .map((item) => {
+                                const { label, content } = item;
 
-                            return (
-                                <View key={label} style={[styles.licenseInfo, { marginTop: 10 }]}>
-                                    <View style={[{ flex: 1 }]}>
-                                        <Text testID={genTestId(`permitInfoLabel${label}`)} style={styles.labelText}>
-                                            {label}
-                                        </Text>
-                                        <Text
-                                            testID={genTestId(`permitInfoLabel${label}Content`)}
-                                            style={styles.valueText}
-                                        >
-                                            {content}
-                                        </Text>
+                                return (
+                                    <View key={label} style={[styles.licenseInfo, { marginTop: 10 }]}>
+                                        <View style={[{ flex: 1 }]}>
+                                            <Text
+                                                testID={genTestId(`permitInfoLabel${label}`)}
+                                                style={styles.labelText}
+                                            >
+                                                {label}
+                                            </Text>
+                                            <Text
+                                                testID={genTestId(`permitInfoLabel${label}Content`)}
+                                                style={styles.valueText}
+                                            >
+                                                {content}
+                                            </Text>
+                                        </View>
                                     </View>
-                                </View>
-                            );
-                        })}
+                                );
+                            })}
                     </View>
                 </View>
                 <NotificationAndAttachment folderName={folderName} fileInfoList={fileInfoList} />

@@ -1,4 +1,4 @@
-import { AccessPermitItem, AccessPermit, HuntDay, FileInfo } from "../types/accessPermit";
+import { AccessPermitItem, AccessPermit, FileInfo } from "../types/accessPermit";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import { getActivePermitsByCustomerId } from "../network/api_client/DrawResultsApi";
@@ -12,58 +12,72 @@ const convertAccessPermitItem = (activePermit: ActivePermitListVM): AccessPermit
     const { applicationYear, masterHuntTypeName, masterHuntTypeId, huntDays } = activePermit;
     const id = applicationYear + masterHuntTypeId;
     const name = `${applicationYear} ${masterHuntTypeName}`;
-    const activePermitHuntDays = huntDays
-        .map((item) => {
-            const {
-                huntId: hunIDFromAPI,
-                huntCode,
-                huntName,
-                huntDay,
-                drawnSequence,
-                notificationTitle,
-                notificationDescription,
-                drawTicketLicenseId,
-                notificationAvailable,
-                fileTitle,
-                fileId,
-                filename,
-            } = item;
+    const activePermitHuntDays = huntDays.map((item) => {
+        const {
+            huntId: hunIDFromAPI,
+            huntCode,
+            huntName,
+            huntDay,
+            drawnSequence,
+            notificationTitle,
+            notificationDescription,
+            drawTicketLicenseId,
+            notificationAvailable,
+            fileTitle,
+            fileId,
+            filename,
+            isDrawSequenceDisplayed,
+            isGeneratedDraw,
+            huntFirstOpenDate,
+            huntLastCloseDate,
+        } = item;
 
-            const huntId = huntDay + huntCode;
+        const huntId = huntDay + huntCode;
 
-            const notification: FileInfo = {
-                id: drawTicketLicenseId,
-                type: "notificationPDF",
-                name: `${notificationTitle}.pdf`,
-                downloadId: drawTicketLicenseId,
-                available: notificationAvailable,
-                title: notificationTitle,
-                description: notificationDescription, // notification only
-            };
+        const notification: FileInfo = {
+            id: drawTicketLicenseId,
+            type: "notificationPDF",
+            name: `${notificationTitle}.pdf`,
+            downloadId: drawTicketLicenseId,
+            available: notificationAvailable,
+            title: notificationTitle,
+            description: notificationDescription, // notification only
+        };
 
-            const attachment: FileInfo = {
-                id: hunIDFromAPI,
-                type: "attachment",
-                name: filename,
-                downloadId: fileId,
-                available: !!fileId,
-                title: fileTitle,
-            };
+        const attachment: FileInfo = {
+            id: hunIDFromAPI,
+            type: "attachment",
+            name: filename,
+            downloadId: fileId,
+            available: !!fileId,
+            title: fileTitle,
+        };
 
-            const fileInfoList = [notification, attachment];
+        const fileInfoList = [notification, attachment];
+        let formattedHuntDay = formateHuntDay(huntDay, AppContract.outputFormat.fmt_1);
+        if (!isGeneratedDraw) {
+            const firstOpenDate = formateHuntDay(huntFirstOpenDate, AppContract.outputFormat.fmt_1);
+            const lastCloseDate = formateHuntDay(huntLastCloseDate, AppContract.outputFormat.fmt_1);
+            formattedHuntDay = `${firstOpenDate} - ${lastCloseDate}`;
+        }
+        // upland type doesn't display reservation alway, common type reservation display is controlled by isDrawSequenceDisplayed
+        const isDisplayReservation = isGeneratedDraw ? isDrawSequenceDisplayed : false;
 
-            return {
-                id: huntId,
-                huntCode,
-                huntName,
-                huntDayForSort: huntDay,
-                huntDay: formateHuntDay(huntDay, AppContract.outputFormat.fmt_1),
-                huntDayForDetail: formateHuntDay(huntDay, AppContract.outputFormat.fmt_2),
-                drawnSequence,
-                fileInfoList,
-            };
-        })
-        .sort((a, b) => b.huntDayForSort.localeCompare(a.huntDayForSort) && a.huntName.localeCompare(b.huntName));
+        return {
+            id: huntId,
+            huntCode,
+            huntName,
+            huntDayForSort: huntDay,
+            huntDay: formattedHuntDay,
+            huntDayForDetail: formateHuntDay(huntDay, AppContract.outputFormat.fmt_2),
+            drawnSequence,
+            isDisplayReservation,
+            fileInfoList,
+            isGeneratedDraw, // isGeneratedDraw=false means upland
+            huntFirstOpenDate,
+            huntLastCloseDate,
+        };
+    });
 
     return { id, name, huntDays: activePermitHuntDays };
 };
@@ -73,35 +87,14 @@ const convertCustomerInfo = (customerInfo) => {
     return { name: `${firstName}, ${lastName}`, address: mailingAddress, goId };
 };
 
-export const sortHuntDays = (huntDays: HuntDay[], ascendingOrder: boolean) => {
-    if (ascendingOrder) {
-        huntDays.sort((a, b) => {
-            if (a.huntDayForSort != b.huntDayForSort) {
-                return a.huntDayForSort.localeCompare(b.huntDayForSort);
-            }
-            return a.huntName.localeCompare(b.huntName);
-        });
-    } else {
-        huntDays.sort((a, b) => {
-            if (a.huntDayForSort != b.huntDayForSort) {
-                return b.huntDayForSort.localeCompare(a.huntDayForSort);
-            }
-            return a.huntName.localeCompare(b.huntName);
-        });
-    }
-    return huntDays;
-};
-
 export async function getAccessPermitData(searchParams: { activeProfileId: string }): Promise<AccessPermit> {
     const { activeProfileId } = searchParams;
     const getActivePermitsResult = await getActivePermitsByCustomerId(activeProfileId);
     const { result } = getActivePermitsResult.data;
     const { instructions, activePermitList, customerInfo } = result;
-    const accessPermits = activePermitList
-        .map((item) => {
-            return convertAccessPermitItem(item);
-        })
-        .sort((a, b) => b.name.localeCompare(a.name));
+    const accessPermits = activePermitList.map((item) => {
+        return convertAccessPermitItem(item);
+    });
     const customer = convertCustomerInfo(customerInfo);
     const data = { attention: instructions, accessPermits, customer };
     return data;
