@@ -12,7 +12,7 @@ import SplitLine from "../components/SplitLine";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import Routers from "../constants/Routers";
 import ProfileItem from "../screens/profile/manage_profile/ProfileItem";
-import { genTestId, openLink, showNotImplementedFeature } from "../helper/AppHelper";
+import { genTestId, openLink } from "../helper/AppHelper";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
 import NavigationService from "./NavigationService";
@@ -243,7 +243,7 @@ export default function DrawerContent({ navigation }) {
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
-                            showNotImplementedFeature();
+                            navigation.navigate(Routers.regulationList);
                         }}
                         title="hamburgerMenu.regulations"
                         testID="Regulations"

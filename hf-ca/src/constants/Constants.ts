@@ -17,6 +17,7 @@ export const KEY_CONSTANT = {
     currentInUseProfileIDOfAccounts: "currentInUseProfileIDOfAccounts",
     keySalesAgentsRecentSearch: "keySalesAgentsRecentSearch",
     usefulLinks: "usefulLinks",
+    regulations: "regulations",
     keyLastLocation: "keyLastLocation",
     keyPasswordChanged: "keyPasswordChanged",
     keyWeatherData: "keyWeatherData",

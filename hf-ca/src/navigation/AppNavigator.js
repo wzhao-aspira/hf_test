@@ -50,6 +50,8 @@ import NetInfoBar from "../components/NetInfoBar";
 import LicensesTabScreen from "../screens/licenses/LicenseTabScreen";
 import MeTabScreen from "../screens/me/MeTabScreen";
 import DrawApplicationListScreen from "../screens/draw_application/list/DrawApplicationListScreen";
+import RegulationListScreen from "../screens/regulation/list/RegulationListScreen";
+import RegulationDetailScreen from "../screens/regulation/detail/RegulationDetailScreen";
 
 const NavTheme = {
     colors: {
@@ -220,6 +222,8 @@ function MainNav() {
             <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
             <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
+            <MainStack.Screen name={Routers.regulationList} component={RegulationListScreen} />
+            <MainStack.Screen name={Routers.regulationDetail} component={RegulationDetailScreen} />
         </MainStack.Navigator>
     );
 }

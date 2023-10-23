@@ -1689,30 +1689,6 @@ export interface MobileAppConfigurationVM {
      * @type {string}
      * @memberof MobileAppConfigurationVM
      */
-    'regulationDescription'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof MobileAppConfigurationVM
-     */
-    'cdfwRegulationsLink'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof MobileAppConfigurationVM
-     */
-    'iOSRegulationApp'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof MobileAppConfigurationVM
-     */
-    'androidRegulationApp'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof MobileAppConfigurationVM
-     */
     'facebookLink'?: string | null;
     /**
      * 
@@ -2133,6 +2109,55 @@ export interface ProblemDetails {
 /**
  * 
  * @export
+ * @interface RegulationList
+ */
+export interface RegulationList {
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationList
+     */
+    'regulationId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationList
+     */
+    'regulationTitle'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationList
+     */
+    'regulationDetail'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof RegulationList
+     */
+    'regulationSize'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationList
+     */
+    'regulationUrl'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationList
+     */
+    'fileFormat'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof RegulationList
+     */
+    'displayOrder'?: number;
+}
+/**
+ * 
+ * @export
  * @interface RegulationVM
  */
 export interface RegulationVM {
@@ -2141,37 +2166,31 @@ export interface RegulationVM {
      * @type {string}
      * @memberof RegulationVM
      */
-    'regulationId'?: string;
+    'regulationDescription'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof RegulationVM
      */
-    'regulationTitle'?: string | null;
+    'cdfwRegulationsLink'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof RegulationVM
      */
-    'regulationDetail'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof RegulationVM
-     */
-    'regulationSize'?: number;
+    'iosRegulationApp'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof RegulationVM
      */
-    'regulationUrl'?: string | null;
+    'androidRegulationApp'?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {Array<RegulationList>}
      * @memberof RegulationVM
      */
-    'displayOrder'?: number;
+    'regulationList'?: Array<RegulationList> | null;
 }
 /**
  * 

@@ -454,5 +454,15 @@
     },
     "countdownTextInput": {
         "didNotReceiveCode": "Didn't Receive Code?"
+    },
+    "regulation":{
+        "headerTitle":"Fishing and Hunting Regulations",
+        "noRegulationTitle": "No regulations found",
+        "downloadRegulationApp": "Download CDFW regulations application",
+        "visitRegulationSite": "Visit CDFW regulations web site",
+        "detailTitle": "Regulation Details",
+        "download": "Download",
+        "viewFromWeb": "View from Web",
+        "viewFromDownload": "View from Download"
     }
 }
