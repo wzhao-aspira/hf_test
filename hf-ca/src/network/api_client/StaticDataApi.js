@@ -31,3 +31,8 @@ export async function getResidentMethodTypes() {
     const api = new StaticDataApi(getAPIConfig(false), null, instance);
     return api.v1StaticDataResidentMethodTypesGet();
 }
+
+export async function getRegulations() {
+    const api = new StaticDataApi(getAPIConfig(false), null, instance);
+    return api.v1StaticDataRegulationsGet();
+}

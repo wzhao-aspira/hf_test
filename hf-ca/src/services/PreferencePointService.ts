@@ -10,17 +10,22 @@ export async function getPreferencePointsByProfileId(profileId: string) {
 
     const { result, errors } = response.data;
     const preferencePointList = result;
-    const formattedResult = preferencePointList.map((item) => {
-        const { huntTypeName, currentPreferencePoints, lastParticipationLicenseYear } = item;
+    const formattedResult = preferencePointList
+        .filter((item) => {
+            const { huntTypeName, currentPreferencePoints, lastParticipationLicenseYear } = item;
+            return !isEmpty(huntTypeName) && !currentPreferencePoints && !lastParticipationLicenseYear;
+        })
+        .map((item) => {
+            const { huntTypeName, currentPreferencePoints, lastParticipationLicenseYear } = item;
 
-        return {
-            pk: `${profileId}_${huntTypeName}_${currentPreferencePoints}_${lastParticipationLicenseYear}`,
-            profileId,
-            huntTypeName,
-            currentPreferencePoints,
-            lastParticipationLicenseYear,
-        };
-    });
+            return {
+                pk: `${profileId}_${huntTypeName}_${currentPreferencePoints}_${lastParticipationLicenseYear}`,
+                profileId,
+                huntTypeName,
+                currentPreferencePoints,
+                lastParticipationLicenseYear,
+            };
+        });
 
     if (!isEmpty(formattedResult)) {
         await savePreferencePointListToDB(profileId, formattedResult);

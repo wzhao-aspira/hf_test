@@ -48,6 +48,8 @@ const Routers = {
     usefulLinks: "usefulLinsScreen",
     weather: "weatherScreen",
     webView: "webViewScreen",
+    regulationList: "regulationListScreen",
+    regulationDetail: "RegulationDetailScreen",
 } as const;
 
 type RoutersUnion = ValueOf<typeof Routers>;
