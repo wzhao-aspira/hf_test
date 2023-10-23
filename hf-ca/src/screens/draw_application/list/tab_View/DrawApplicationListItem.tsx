@@ -119,6 +119,7 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
         huntName,
         huntId,
         drawStatus: normalDataDrawStatus,
+        isGeneratedDraw,
     } = itemData || {};
     const { year: copyDataYear, drawType: copyDataDrawType, drawStatus: copyDataDrawStatus, items } = copyData || {};
     let year = normalDataYear;
@@ -147,6 +148,7 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
 
                     NavigationService.navigate(Routers.drawApplicationDetail, {
                         drawApplicationDetailData: {
+                            isGeneratedDraw,
                             title: `${year} ${drawType}`,
                             DrawApplicationChoices: drawApplicationList,
                         },

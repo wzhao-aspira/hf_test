@@ -24,8 +24,6 @@ import AccountService from "../services/AccountService";
 import useNavigateToISPurchaseLicense from "../screens/licenses/hooks/useNavigateToISPurchaseLicense";
 import { appConfig } from "../services/AppConfigService";
 
-import drawApplicationData from "../services/mock_data/drawApplication.json"; // TODO: remove after API integration
-
 const styles = StyleSheet.create({
     logoContainer: {
         flex: 1,
@@ -203,19 +201,6 @@ export default function DrawerContent({ navigation }) {
                         }}
                         title="drawApplicationList.myDrawApplications"
                         testID="drawApplicationList"
-                    />
-                    {/* TODO: remove after the draw application finished */}
-                    <MenuItem
-                        onClick={async () => {
-                            NavigationService.navigate(Routers.drawApplicationDetail, {
-                                drawApplicationDetailData: {
-                                    title: "TO BE REPLACED WITH REAL DATA",
-                                    DrawApplicationChoices: drawApplicationData.detail,
-                                },
-                            });
-                        }}
-                        title="drawApplicationDetailTmp"
-                        testID="drawApplicationDetail"
                     />
                     <MenuItem
                         onClick={async () => {

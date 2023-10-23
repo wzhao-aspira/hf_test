@@ -80,6 +80,7 @@ export type RouteParams = {
     };
     drawApplicationDetailScreen: {
         drawApplicationDetailData: {
+            isGeneratedDraw: boolean;
             title: string;
             DrawApplicationChoices: DrawApplicationItem[];
         };
