@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
 import { useTranslation } from "react-i18next";
+import { isEmpty } from "lodash";
 import AppTheme from "../../../../assets/_default/AppTheme";
 import { genTestId } from "../../../../helper/AppHelper";
 import convertDrawResultsListToDrawApplicationList from "../../detail/utils/convertDrawResultsListToDrawApplicationList";
@@ -12,7 +13,7 @@ import Routers from "../../../../constants/Routers";
 import type {
     DrawApplicationListGroupName,
     DrawApplicationListTabName,
-    FormattedCopyHuntListItem,
+    CopyHuntsItem,
     DrawResultsListItem,
 } from "../../../../types/drawApplication";
 
@@ -53,13 +54,15 @@ export const styles = StyleSheet.create({
 });
 
 interface ListItemResultSectionProps {
-    itemData: FormattedCopyHuntListItem;
+    itemData: DrawResultsListItem;
+    copyData?: CopyHuntsItem;
     tabName: DrawApplicationListTabName;
     groupName?: DrawApplicationListGroupName;
 }
 
-function ListItemResultSection({ tabName, itemData, groupName }: ListItemResultSectionProps) {
-    const { drawnSequence, items } = itemData;
+function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListItemResultSectionProps) {
+    const { drawnSequence } = itemData || {};
+    const { items } = copyData || {};
     const { t } = useTranslation();
     if (tabName === "unsuccessful") {
         return (
@@ -86,7 +89,7 @@ function ListItemResultSection({ tabName, itemData, groupName }: ListItemResultS
 
     return items?.map(
         (item) =>
-            item.isDrawWon && (
+            item.drawWon === "Y" && (
                 <Text
                     style={{ ...styles.subTitle }}
                     testID={genTestId(`successfulFor_${item.huntName}`)}
@@ -99,20 +102,37 @@ function ListItemResultSection({ tabName, itemData, groupName }: ListItemResultS
 }
 
 interface ItemProps {
-    itemData: FormattedCopyHuntListItem;
+    itemData?: DrawResultsListItem;
+    copyData?: CopyHuntsItem;
     tabName: DrawApplicationListTabName;
     drawDetailData: DrawResultsListItem[];
     groupName?: DrawApplicationListGroupName;
 }
 
-function ListItem({ itemData, tabName, groupName, drawDetailData }: ItemProps) {
-    const { year, drawType, formatHuntDay, huntName, huntId, drawStatus, items, isGeneratedDraw } = itemData;
+function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: ItemProps) {
     const { t } = useTranslation();
 
+    const {
+        year: normalDataYear,
+        drawType: normalDataDrawType,
+        formatHuntDay,
+        huntName,
+        huntId,
+        drawStatus: normalDataDrawStatus,
+        isGeneratedDraw,
+    } = itemData || {};
+    const { year: copyDataYear, drawType: copyDataDrawType, drawStatus: copyDataDrawStatus, items } = copyData || {};
+    let year = normalDataYear;
+    let drawType = normalDataDrawType;
+    let drawStatus = normalDataDrawStatus;
+
     let itemExtTitle = huntName && `(${huntName})`;
-    if (groupName === "copyHunt") {
-        const huntCodes = items.map((i) => i.huntCode);
+    if (groupName === "copyHunt" && !isEmpty(items)) {
+        const huntCodes = items?.map((i) => i.huntCode);
         itemExtTitle = huntCodes && `(${huntCodes.join(", ")})`;
+        year = copyDataYear;
+        drawType = copyDataDrawType;
+        drawStatus = copyDataDrawStatus;
     }
     if (groupName === "generatedHunt") {
         if (huntName || formatHuntDay) {
@@ -160,6 +180,7 @@ function ListItem({ itemData, tabName, groupName, drawDetailData }: ItemProps) {
                                         groupName={groupName}
                                         tabName={tabName}
                                         itemData={itemData}
+                                        copyData={copyData}
                                     />
                                 </View>
                             </View>

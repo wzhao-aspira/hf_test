@@ -17,9 +17,10 @@ export interface DrawApplicationItem {
 }
 
 export interface DrawResultsListItem {
-    year?: string;
-    drawStatus?: string;
-    drawType?: string;
+    id: string;
+    year: string;
+    drawStatus: string;
+    drawType: string;
     memberNames?: string[];
     partyNumber?: string;
     choice?: number;
@@ -44,14 +45,16 @@ export interface DrawResultsListItem {
     isGeneratedDraw?: boolean;
 }
 
-export interface FormattedCopyHuntListItem extends DrawResultsListItem {
-    items?: { huntName: string; huntCode: string; isDrawWon: boolean }[];
+export interface CopyHuntsItem {
+    year: string;
+    drawType: string;
+    drawStatus?: string;
+    items?: DrawResultsListItem[];
 }
 export interface NonPendingStatusList {
-    copyHuntsList?: DrawResultsListItem[][];
+    copyHuntsList?: CopyHuntsItem[];
     generatedHuntsList?: DrawResultsListItem[];
     multiChoiceCopyHuntsList?: DrawResultsListItem[];
-    formattedCopyHuntList?: FormattedCopyHuntListItem[];
 }
 export interface DrawApplicationList {
     instructions?: string;

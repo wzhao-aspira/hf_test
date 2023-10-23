@@ -423,8 +423,8 @@
     "drawApplicationList": {
         "myDrawApplications": "My Draw Application",
         "draws": "Draws",
-        "emptyDrawTitle": "No draw Applications found",
-        "emptyDrawSubTitle": "Once you apply for a draw(s),you can view your draw applications here.",
+        "emptyDrawTitle": "No draw applications found",
+        "emptyDrawSubTitle": "Once you apply for a draw(s), you can view your draw applications here.",
         "successful": "Successful",
         "successfulFor": "Successful for",
         "unsuccessful": "Unsuccessful",

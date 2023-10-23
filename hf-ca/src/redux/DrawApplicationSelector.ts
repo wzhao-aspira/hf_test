@@ -10,6 +10,8 @@ const selectDrawApplicationState = (state: RootState) => state.drawApplication;
 const selectDrawRequestStatus = createSelector(selectDrawApplicationState, (draw) => draw.requestStatus);
 const selectIsDrawListLoading = createSelector(selectDrawRequestStatus, (status) => status === REQUEST_STATUS.pending);
 const selectInstructions = createSelector(selectDrawApplicationState, (draw) => draw.instructions);
+const selectIsUseCacheData = createSelector(selectDrawApplicationState, (draw) => draw.isUseCacheData);
+const selectNoCacheData = createSelector(selectDrawApplicationState, (draw) => draw.noCacheData);
 
 const selectSuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.successfulData);
 const selectUnsuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.unsuccessfulData);
@@ -37,6 +39,8 @@ const selectors = {
     selectDrawRequestStatus,
     selectIsDrawListLoading,
     selectInstructions,
+    selectIsUseCacheData,
+    selectNoCacheData,
 };
 
 export default selectors;

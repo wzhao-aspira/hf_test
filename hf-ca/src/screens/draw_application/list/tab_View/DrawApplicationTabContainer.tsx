@@ -16,14 +16,14 @@ import DrawListAttention from "./DrawListAttention";
 import ListItem from "./DrawApplicationListItem";
 import {
     DrawApplicationListTabName,
-    FormattedCopyHuntListItem,
     NonPendingStatusList,
+    DrawResultsListItem,
 } from "../../../../types/drawApplication";
 import { useAppDispatch } from "../../../../hooks/redux";
 
 interface TabContentProps {
     tabName?: DrawApplicationListTabName;
-    list?: FormattedCopyHuntListItem[];
+    pendingList?: DrawResultsListItem[];
     tabData?: NonPendingStatusList;
 }
 interface TabProps extends TabContentProps {
@@ -44,9 +44,8 @@ export const styles = StyleSheet.create({
     },
 });
 
-function TabListContent({ tabName, list, tabData }: TabContentProps) {
+function TabListContent({ tabName, pendingList, tabData }: TabContentProps) {
     const { t } = useTranslation();
-    const { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList, formattedCopyHuntList } = tabData;
 
     const copyHuntGroupTitle =
         tabName === "successful"
@@ -66,12 +65,13 @@ function TabListContent({ tabName, list, tabData }: TabContentProps) {
     if (tabName === "pending") {
         return (
             <View style={styles.groupContainer}>
-                {list.map((item) => (
-                    <ListItem itemData={item} key={item.huntId} tabName={tabName} drawDetailData={[item]} />
+                {pendingList?.map((item) => (
+                    <ListItem itemData={item} key={item.id} tabName={tabName} drawDetailData={[item]} />
                 ))}
             </View>
         );
     }
+    const { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList } = tabData;
 
     return (
         <View>
@@ -80,13 +80,13 @@ function TabListContent({ tabName, list, tabData }: TabContentProps) {
                     <Text style={styles.groupTitle} testID={genTestId("copyHuntGroupTitle")}>
                         {copyHuntGroupTitle}
                     </Text>
-                    {formattedCopyHuntList.map((item, index) => (
+                    {copyHuntsList.map((item) => (
                         <ListItem
-                            itemData={item}
-                            key={item.huntId}
+                            copyData={item}
+                            key={item.year + item.drawType}
                             tabName={tabName}
                             groupName="copyHunt"
-                            drawDetailData={copyHuntsList[index]}
+                            drawDetailData={item.items}
                         />
                     ))}
                 </View>
@@ -100,7 +100,7 @@ function TabListContent({ tabName, list, tabData }: TabContentProps) {
                     {generatedHuntsList.map((item) => (
                         <ListItem
                             itemData={item}
-                            key={item.huntId}
+                            key={item.id}
                             tabName={tabName}
                             groupName="generatedHunt"
                             drawDetailData={[item]}
@@ -117,7 +117,7 @@ function TabListContent({ tabName, list, tabData }: TabContentProps) {
                     {multiChoiceCopyHuntsList.map((item) => (
                         <ListItem
                             itemData={item}
-                            key={item.huntId}
+                            key={item.id}
                             tabName={tabName}
                             groupName="multiChoiceCopy"
                             drawDetailData={[item]}
@@ -129,7 +129,7 @@ function TabListContent({ tabName, list, tabData }: TabContentProps) {
     );
 }
 
-function DrawApplicationTabItem({ tabData = {}, list = [], tabName, isEmptyTab }: TabProps) {
+function DrawApplicationTabItem({ tabData = {}, pendingList = [], tabName, isEmptyTab }: TabProps) {
     const insets = useSafeAreaInsets();
     const dispatch = useAppDispatch();
 
@@ -172,7 +172,7 @@ function DrawApplicationTabItem({ tabData = {}, list = [], tabName, isEmptyTab }
         >
             <View style={styles.tabContainer}>
                 {instructions && <DrawListAttention html={instructions} />}
-                <TabListContent tabName={tabName} list={list} tabData={tabData} />
+                <TabListContent tabName={tabName} pendingList={pendingList} tabData={tabData} />
             </View>
         </ScrollView>
     );

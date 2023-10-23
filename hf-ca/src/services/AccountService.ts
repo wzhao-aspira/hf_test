@@ -16,6 +16,7 @@ import { restBiometricLoginDataByUserId } from "../helper/LocalAuthHelper";
 import { MobileAppUserResetPasswordCommand, PasswordChangeVM } from "../network/generated";
 import {
     clearProfileSummaryFromDB,
+    deleteDrawApplicationDataFromDB,
     removeAccessPermitFromDB,
     removeLicenseListData,
     removePreferencePointListFromDB,
@@ -112,6 +113,7 @@ async function clearAppData(dispatch) {
     await removePreferencePointListFromDB();
     await removeAccessPermitFromDB();
     await removeLicenseListData();
+    await deleteDrawApplicationDataFromDB();
 }
 
 export default {

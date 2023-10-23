@@ -14,6 +14,11 @@ import {
     removePreferencePointListFromDB,
 } from "./PreferencePointList";
 import { saveAccessPermitDataToDB, getAccessPermitDataFromDB, removeAccessPermitFromDB } from "./AccessPermit";
+import {
+    getDrawApplicationDataFromDB,
+    saveDrawApplicationDataToDB,
+    deleteDrawApplicationDataFromDB,
+} from "./DrawApplication";
 
 export {
     realm,
@@ -34,4 +39,7 @@ export {
     getAccessPermitDataFromDB,
     saveAccessPermitDataToDB,
     removeAccessPermitFromDB,
+    getDrawApplicationDataFromDB,
+    saveDrawApplicationDataToDB,
+    deleteDrawApplicationDataFromDB,
 };

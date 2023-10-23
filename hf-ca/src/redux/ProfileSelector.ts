@@ -118,8 +118,9 @@ const selectIsPrimaryOrCiuProfile = (profileId) =>
         (ciuProfileId, primaryProfileId) => profileId === ciuProfileId || profileId === primaryProfileId
     );
 
-const selectAssociatedProfiles = createSelector(selectProfileList, (profileList: Profile[]) =>
-    profileList.filter((profile) => isAssociatedProfile(profile?.profileType))
+const selectAssociatedProfiles = createSelector(
+    selectProfileList,
+    (profileList: Profile[]) => profileList?.filter((profile) => isAssociatedProfile(profile?.profileType)) || []
 );
 
 const selectIndividualProfiles = createSelector(selectProfileState, (state) => {
