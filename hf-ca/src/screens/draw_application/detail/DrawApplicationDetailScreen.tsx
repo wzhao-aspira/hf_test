@@ -20,6 +20,8 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH, SCREEN_HEIGHT } from 
 import type { AppNativeStackScreenProps } from "../../../constants/Routers";
 import type { DrawApplicationItem as DrawApplicationItemData } from "../../../types/drawApplication";
 
+import formatDrawApplicationChoices from "./utils/formatDrawApplicationChoices";
+
 const styles = StyleSheet.create({
     container: {
         paddingBottom: 0,
@@ -89,7 +91,6 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
         name,
         didIWin,
         alternateNumber,
-        fileInfoList,
         isGeneratedDraw,
         members,
         huntDate,
@@ -97,7 +98,6 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
     } = item;
 
     const { t } = useTranslation();
-    const safeAreaInsets = useSafeAreaInsets();
 
     const shouldShowLeftAngle = isActive && index > 0;
     const shouldShowRightAngle = isActive && index < totalNumberOfTheChoices - 1;
@@ -169,30 +169,17 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
                     size={20}
                 />
             )}
-            <ScrollView
-                style={styles.scrollView}
-                contentContainerStyle={{
-                    paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM + 100,
-                }}
-                showsVerticalScrollIndicator={false}
-                overScrollMode="never"
-            >
-                <View style={styles.content}>
-                    {labelValueList.map((labelValue) => {
-                        return (
-                            <View key={labelValue.label} style={styles.labelValueRow}>
-                                <Text style={styles.labelText}>{labelValue.label}</Text>
-                                <Text style={styles.valueText}>{labelValue.value}</Text>
-                            </View>
-                        );
-                    })}
-                </View>
-                <NotificationAndAttachment
-                    folderName={folderName}
-                    fileInfoList={fileInfoList}
-                    cardMarginHorizontal={DEFAULT_MARGIN + 5}
-                />
-            </ScrollView>
+
+            <View style={styles.content}>
+                {labelValueList.map((labelValue) => {
+                    return (
+                        <View key={labelValue.label} style={styles.labelValueRow}>
+                            <Text style={styles.labelText}>{labelValue.label}</Text>
+                            <Text style={styles.valueText}>{labelValue.value}</Text>
+                        </View>
+                    );
+                })}
+            </View>
         </>
     );
 }
@@ -204,8 +191,12 @@ interface DrawApplicationDetailScreenProps extends AppNativeStackScreenProps<"dr
 function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
     const { route } = props;
     const { drawApplicationDetailData } = route.params;
-    const { title, DrawApplicationChoices } = drawApplicationDetailData;
-    const totalNumberOfTheChoices = DrawApplicationChoices?.length;
+    const { title, DrawApplicationChoices, isGeneratedDraw } = drawApplicationDetailData;
+
+    const { filteredDrawApplicationChoices, fileList } = formatDrawApplicationChoices(DrawApplicationChoices);
+    const totalNumberOfTheChoices = filteredDrawApplicationChoices?.length;
+
+    const safeAreaInsets = useSafeAreaInsets();
 
     const [activeItemNumber, setActiveItemNumber] = useState(0);
 
@@ -213,7 +204,14 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
         <Page style={styles.container}>
             <CommonHeader title={title} rightIcon={false} subTitle={null} />
             {totalNumberOfTheChoices > 0 && (
-                <>
+                <ScrollView
+                    style={styles.scrollView}
+                    contentContainerStyle={{
+                        paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM,
+                    }}
+                    showsVerticalScrollIndicator={false}
+                    overScrollMode="never"
+                >
                     <View style={styles.positionInfo}>
                         <Text style={styles.positionInfoText}>
                             {totalNumberOfTheChoices > 1 && (
@@ -230,7 +228,8 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
                     <Carousel
                         testID={genTestId("drawApplicationDetailScreenCarousel")}
                         width={SCREEN_WIDTH}
-                        data={DrawApplicationChoices}
+                        data={filteredDrawApplicationChoices}
+                        height={isGeneratedDraw ? 301 : 401}
                         renderItem={({ item, index }) => {
                             return (
                                 <DrawApplicationItem
@@ -253,7 +252,15 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
                             activeOffsetX: [-10, 10],
                         }}
                     />
-                </>
+                    {fileList.map((item) => (
+                        <NotificationAndAttachment
+                            key={item[0].id}
+                            folderName={folderName}
+                            fileInfoList={item}
+                            cardMarginHorizontal={DEFAULT_MARGIN + 5}
+                        />
+                    ))}
+                </ScrollView>
             )}
         </Page>
     );

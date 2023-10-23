@@ -106,7 +106,7 @@ interface ItemProps {
 }
 
 function ListItem({ itemData, tabName, groupName, drawDetailData }: ItemProps) {
-    const { year, drawType, formatHuntDay, huntName, huntId, drawStatus, items } = itemData;
+    const { year, drawType, formatHuntDay, huntName, huntId, drawStatus, items, isGeneratedDraw } = itemData;
     const { t } = useTranslation();
 
     let itemExtTitle = huntName && `(${huntName})`;
@@ -128,6 +128,7 @@ function ListItem({ itemData, tabName, groupName, drawDetailData }: ItemProps) {
 
                     NavigationService.navigate(Routers.drawApplicationDetail, {
                         drawApplicationDetailData: {
+                            isGeneratedDraw,
                             title: `${year} ${drawType}`,
                             DrawApplicationChoices: drawApplicationList,
                         },
