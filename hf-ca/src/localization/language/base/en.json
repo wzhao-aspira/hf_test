@@ -441,12 +441,15 @@
         "of": "{{position}} Of {{totalNumber}} Choices",
         "DrawType": "Draw Type:",
         "DrawStatus": "Draw Status:",
-        "Party#Members": "Party#\nMembers:",
+        "Party#Members": "Party#/\nMembers:",
         "Choice#": "Choice #:",
         "ChoiceCode": "Choice Code:",
         "ChoiceName": "Choice Name:",
         "DidIWin": "Did I Win?",
-        "Alternate#": "Alternate #:"
+        "Alternate#": "Alternate #:",
+        "HuntName": "Hunt Name:",
+        "HuntDate": "Hunt Date:",
+        "ReservationNumber": "Reservation #:"
     },
     "countdownTextInput": {
         "didNotReceiveCode": "Didn't Receive Code?"

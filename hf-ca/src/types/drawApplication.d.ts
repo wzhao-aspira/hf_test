@@ -1,14 +1,18 @@
 import { FileInfo } from "./notificationAndAttachment";
 
 export interface DrawApplicationItem {
+    isGeneratedDraw: boolean;
     type: string;
     status: string;
     partNumber: string;
-    choiceNumber: string;
+    members: string[];
+    choiceNumber: number;
     choiceCode: string;
-    choiceName: string;
+    name: string;
     didIWin?: string;
     alternateNumber?: string;
+    huntDate?: string;
+    reservationNumber?: number;
     fileInfoList?: [FileInfo, FileInfo];
 }
 

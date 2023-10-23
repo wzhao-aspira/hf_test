@@ -4,17 +4,17 @@ import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
 import { useTranslation } from "react-i18next";
 import AppTheme from "../../../../assets/_default/AppTheme";
 import { genTestId } from "../../../../helper/AppHelper";
-import {
+import convertDrawResultsListToDrawApplicationList from "../../detail/utils/convertDrawResultsListToDrawApplicationList";
+
+import NavigationService from "../../../../navigation/NavigationService";
+import Routers from "../../../../constants/Routers";
+
+import type {
     DrawApplicationListGroupName,
     DrawApplicationListTabName,
     FormattedCopyHuntListItem,
+    DrawResultsListItem,
 } from "../../../../types/drawApplication";
-
-interface ItemProps {
-    itemData: FormattedCopyHuntListItem;
-    tabName: DrawApplicationListTabName;
-    groupName?: DrawApplicationListGroupName;
-}
 
 export const styles = StyleSheet.create({
     mainContainer: {
@@ -51,7 +51,14 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
 });
-function ListItemResultSection({ tabName, itemData, groupName }: ItemProps) {
+
+interface ListItemResultSectionProps {
+    itemData: FormattedCopyHuntListItem;
+    tabName: DrawApplicationListTabName;
+    groupName?: DrawApplicationListGroupName;
+}
+
+function ListItemResultSection({ tabName, itemData, groupName }: ListItemResultSectionProps) {
     const { drawnSequence, items } = itemData;
     const { t } = useTranslation();
     if (tabName === "unsuccessful") {
@@ -91,7 +98,14 @@ function ListItemResultSection({ tabName, itemData, groupName }: ItemProps) {
     );
 }
 
-function ListItem({ itemData, tabName, groupName }: ItemProps) {
+interface ItemProps {
+    itemData: FormattedCopyHuntListItem;
+    tabName: DrawApplicationListTabName;
+    drawDetailData: DrawResultsListItem[];
+    groupName?: DrawApplicationListGroupName;
+}
+
+function ListItem({ itemData, tabName, groupName, drawDetailData }: ItemProps) {
     const { year, drawType, formatHuntDay, huntName, huntId, drawStatus, items } = itemData;
     const { t } = useTranslation();
 
@@ -108,7 +122,19 @@ function ListItem({ itemData, tabName, groupName }: ItemProps) {
 
     return (
         <View style={styles.mainContainer}>
-            <Pressable onPress={() => {}} testID={genTestId(`drawApplicationItem_${huntId}`)}>
+            <Pressable
+                onPress={() => {
+                    const drawApplicationList = convertDrawResultsListToDrawApplicationList(drawDetailData);
+
+                    NavigationService.navigate(Routers.drawApplicationDetail, {
+                        drawApplicationDetailData: {
+                            title: `${year} ${drawType}`,
+                            DrawApplicationChoices: drawApplicationList,
+                        },
+                    });
+                }}
+                testID={genTestId(`drawApplicationItem_${huntId}`)}
+            >
                 <View style={styles.itemContent}>
                     <View style={styles.itemText}>
                         <Text testID={genTestId(`title_${huntName}`)} numberOfLines={0} style={styles.title}>

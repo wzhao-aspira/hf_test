@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Page from "../../../components/Page";
 import CommonHeader from "../../../components/CommonHeader";
+import NotificationAndAttachment from "../../../components/notificationAndAttachment/NotificationAndAttachment";
 
 import { genTestId } from "../../../helper/AppHelper";
 
@@ -75,9 +76,25 @@ interface DrawApplicationItemProps {
     isActive: boolean;
 }
 
+export const folderName = "draw_application_files";
+
 function DrawApplicationItem(props: DrawApplicationItemProps) {
     const { item, index, totalNumberOfTheChoices, isActive } = props;
-    const { type, status, partNumber, choiceNumber, choiceCode, choiceName, didIWin, alternateNumber } = item;
+    const {
+        type,
+        status,
+        partNumber,
+        choiceNumber,
+        choiceCode,
+        name,
+        didIWin,
+        alternateNumber,
+        fileInfoList,
+        isGeneratedDraw,
+        members,
+        huntDate,
+        reservationNumber,
+    } = item;
 
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
@@ -85,34 +102,48 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
     const shouldShowLeftAngle = isActive && index > 0;
     const shouldShowRightAngle = isActive && index < totalNumberOfTheChoices - 1;
 
-    const labelValueList = [
-        { label: t("drawApplicationDetail.DrawType"), value: type },
-        { label: t("drawApplicationDetail.DrawStatus"), value: status },
-        {
-            label: t("drawApplicationDetail.Party#Members"),
-            value: partNumber,
-        },
-        {
-            label: t("drawApplicationDetail.Choice#"),
-            value: choiceNumber,
-        },
-        {
-            label: t("drawApplicationDetail.ChoiceCode"),
-            value: choiceCode,
-        },
-        {
-            label: t("drawApplicationDetail.ChoiceName"),
-            value: choiceName,
-        },
-        {
-            label: t("drawApplicationDetail.DidIWin"),
-            value: didIWin,
-        },
-        {
-            label: t("drawApplicationDetail.Alternate#"),
-            value: alternateNumber,
-        },
-    ].filter((labelValue) => !!labelValue.value);
+    const labelValueList = isGeneratedDraw
+        ? [
+              { label: t("drawApplicationDetail.DrawType"), value: type },
+              { label: t("drawApplicationDetail.DrawStatus"), value: status },
+              { label: t("drawApplicationDetail.HuntName"), value: name },
+              { label: t("drawApplicationDetail.HuntDate"), value: huntDate },
+              { label: t("drawApplicationDetail.ReservationNumber"), value: reservationNumber },
+              {
+                  label: t("drawApplicationDetail.DidIWin"),
+                  value: didIWin,
+              },
+          ]
+        : [
+              { label: t("drawApplicationDetail.DrawType"), value: type },
+              { label: t("drawApplicationDetail.DrawStatus"), value: status },
+              {
+                  label: t("drawApplicationDetail.Party#Members"),
+                  value: `${partNumber}${members?.reduce((previousValue, currentValue) => {
+                      return `${previousValue}\n${currentValue}`;
+                  }, "")}`,
+              },
+              {
+                  label: t("drawApplicationDetail.Choice#"),
+                  value: choiceNumber,
+              },
+              {
+                  label: t("drawApplicationDetail.ChoiceCode"),
+                  value: choiceCode,
+              },
+              {
+                  label: t("drawApplicationDetail.ChoiceName"),
+                  value: name,
+              },
+              {
+                  label: t("drawApplicationDetail.DidIWin"),
+                  value: didIWin,
+              },
+              {
+                  label: t("drawApplicationDetail.Alternate#"),
+                  value: alternateNumber,
+              },
+          ];
 
     return (
         <>
@@ -156,6 +187,11 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
                         );
                     })}
                 </View>
+                <NotificationAndAttachment
+                    folderName={folderName}
+                    fileInfoList={fileInfoList}
+                    cardMarginHorizontal={DEFAULT_MARGIN + 5}
+                />
             </ScrollView>
         </>
     );
