@@ -5,7 +5,6 @@ import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import HuntFishOtherInfoItem from "./HuntFishOtherInfoItem";
 import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
-import { showNotImplementedFeature } from "../../../helper/AppHelper";
 
 const styles = StyleSheet.create({
     sectionTitle: {
@@ -41,7 +40,7 @@ function HuntFishOtherInfo() {
                 <HuntFishOtherInfoItem
                     title={t("license.viewDrawApplication")}
                     onPress={() => {
-                        showNotImplementedFeature();
+                        NavigationService.navigate(Routers.drawApplicationList);
                     }}
                 />
                 <HuntFishOtherInfoItem

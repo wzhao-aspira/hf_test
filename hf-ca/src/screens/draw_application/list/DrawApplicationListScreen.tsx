@@ -37,7 +37,7 @@ function UnsuccessfulRoute() {
 function PendingRoute() {
     const list = useSelector(drawSelectors.selectPendingList);
     const isEmptyData = useSelector(drawSelectors.selectPendingListIsEmpty);
-    return <DrawApplicationTabContainer list={list} tabName="pending" isEmptyTab={isEmptyData} />;
+    return <DrawApplicationTabContainer pendingList={list} tabName="pending" isEmptyTab={isEmptyData} />;
 }
 
 const renderTabBar = (props) => (
@@ -73,6 +73,9 @@ function DrawListContent() {
 
     const refreshing = useSelector(drawSelectors.selectIsDrawListLoading);
     const drawListIsEmpty = useSelector(drawSelectors.selectDrawListIsEmpty);
+    const isUseCacheData = useSelector(drawSelectors.selectIsUseCacheData);
+    const noCacheData = useSelector(drawSelectors.selectNoCacheData);
+
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: "successful", title: t("drawApplicationList.successful") },
@@ -80,7 +83,7 @@ function DrawListContent() {
         { key: "pending", title: t("drawApplicationList.pending") },
     ]);
 
-    if (refreshing) {
+    if (refreshing || (isUseCacheData && noCacheData)) {
         return <DrawApplicationListLoading />;
     }
     if (drawListIsEmpty) {

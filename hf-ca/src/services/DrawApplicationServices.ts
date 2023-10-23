@@ -7,6 +7,7 @@ import DrawList from "./mock_data/drawList.json";
 
 const convertDrawApplicationItem = (drawItem: DrawResultsListItem) => {
     const {
+        id,
         year,
         drawType,
         drawStatus,
@@ -31,6 +32,7 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListItem) => {
     } = drawItem;
 
     return {
+        id,
         year,
         drawType,
         drawStatus,
@@ -56,29 +58,20 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListItem) => {
     };
 };
 
-function formatCopyHuntList(copyList: DrawResultsListItem[][]) {
-    const result = [];
-    copyList?.forEach((copyGroup) => {
-        const items = copyGroup.map((copyItem) => ({
-            isDrawWon: copyItem.drawWon === "Y",
-            huntName: copyItem.huntName,
-            huntCode: copyItem.huntCode,
-        }));
-        const { year, drawType, drawStatus, huntId } = copyGroup[0];
-        result.push({ items, year, drawType, drawStatus, huntId });
-    });
-    return result;
-}
-
 export const formateNonPendingDrawList = (list: NonPendingStatusList) => {
     const copyHuntsList = list.copyHuntsList?.map((group) => {
-        return group.map((item) => convertDrawApplicationItem(item));
+        const { items = [] } = group;
+        return {
+            ...group,
+            drawStatus: items[0].drawStatus,
+            items: items?.map((item) => convertDrawApplicationItem(item)),
+        };
     });
-    const formattedCopyHuntList = formatCopyHuntList(list.copyHuntsList);
+
     const generatedHuntsList = list.generatedHuntsList?.map((item) => convertDrawApplicationItem(item));
     const multiChoiceCopyHuntsList = list.multiChoiceCopyHuntsList?.map((item) => convertDrawApplicationItem(item));
 
-    return { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList, formattedCopyHuntList };
+    return { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList };
 };
 
 export async function getDrawApplicationList(profileId: string): Promise<DrawApplicationList> {

@@ -6,6 +6,7 @@ import ValueOf from "../types/valueOf";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import { getDrawApplicationList } from "../services/DrawApplicationServices";
+import { getDrawApplicationDataFromDB, saveDrawApplicationDataToDB } from "../db";
 
 interface InitialState {
     instructions: string;
@@ -13,6 +14,8 @@ interface InitialState {
     unsuccessfulData: NonPendingStatusList;
     pendingList: DrawResultsListItem[];
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
+    isUseCacheData: boolean;
+    noCacheData: boolean;
 }
 
 const initialState: InitialState = {
@@ -21,6 +24,8 @@ const initialState: InitialState = {
     unsuccessfulData: {},
     pendingList: [],
     requestStatus: REQUEST_STATUS.idle,
+    isUseCacheData: false,
+    noCacheData: false,
 };
 
 export const getDrawList = createAsyncThunk(
@@ -32,10 +37,14 @@ export const getDrawList = createAsyncThunk(
             networkErrorByDialog: false,
         });
         if (dataFromAPI.success) {
-            result = { ...dataFromAPI, offline: false };
+            result = { ...dataFromAPI, isUseCacheData: false };
+            console.log("get draw application data from api");
 
-            console.log("get draw application data from api", result);
+            const dataForOffline = { ...dataFromAPI.data, profileId: activeProfileId };
+            await saveDrawApplicationDataToDB(dataForOffline);
         } else {
+            const data = await getDrawApplicationDataFromDB(activeProfileId);
+            result = { success: true, data, isUseCacheData: true };
             console.log("get draw application data from db");
         }
 
@@ -58,16 +67,21 @@ const drawApplicationSlice = createSlice({
             const result = action?.payload;
             if (result.success) {
                 state.requestStatus = REQUEST_STATUS.fulfilled;
-                if (!isEmpty(action?.payload.data)) {
+                if (!isEmpty(result.data)) {
                     const { successList, unSuccessList, pendingList, instructions } = action.payload.data;
                     state.successfulData = successList;
                     state.unsuccessfulData = unSuccessList;
                     state.pendingList = pendingList;
                     state.instructions = instructions;
+                    state.noCacheData = false;
+                } else {
+                    state.noCacheData = true;
                 }
             } else {
                 state.requestStatus = REQUEST_STATUS.rejected;
             }
+
+            state.isUseCacheData = result.isUseCacheData;
         });
     },
 });

@@ -11,8 +11,12 @@ import AccessPermitItem from "./models/AccessPermitItem";
 import CustomerInfo from "./models/CustomerInfo";
 import HuntDay from "./models/HuntDay";
 import FileInfo from "./models/FileInfo";
+import DrawApplicationItem from "./models/DrawApplicationItem";
+import DrawApplication from "./models/DrawApplication";
+import DrawApplicationNonPendingInfo from "./models/DrawApplicationNonPendingInfo";
+import CopyHuntsInfo from "./models/CopyHuntsInfo";
 
-const schemaVersion = 3;
+const schemaVersion = 4;
 
 export let realm: Realm;
 
@@ -29,6 +33,10 @@ export async function openRealm() {
             CustomerInfo,
             AccessPermitItem,
             AccessPermit,
+            DrawApplicationItem,
+            CopyHuntsInfo,
+            DrawApplicationNonPendingInfo,
+            DrawApplication,
         ],
         path: `${AppContract.contractName}.realm`,
         schemaVersion,
