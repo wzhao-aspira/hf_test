@@ -58,17 +58,19 @@ export const styles = StyleSheet.create({
 
 function AccessPermitItem(props) {
     const { itemData, itemKey, onPress } = props;
-    const { huntCode, huntName, huntDay, drawnSequence } = itemData;
+    const { huntCode, huntName, huntDay, drawnSequence, isDisplayReservation, isGeneratedDraw } = itemData;
     const { t } = useTranslation();
     return (
         <View style={styles.mainContainer}>
             <Pressable key={itemKey} onPress={onPress} testID={genTestId(`accessPermitListItem_${itemKey}`)}>
                 <View style={styles.itemContent}>
-                    <View style={styles.leftIcon}>
-                        <Text style={styles.huntDay} testID={genTestId("huntDay")}>
-                            {huntDay?.substr(4, 2)}
-                        </Text>
-                    </View>
+                    {isGeneratedDraw && (
+                        <View style={styles.leftIcon}>
+                            <Text style={styles.huntDay} testID={genTestId("huntDay")}>
+                                {huntDay?.substr(4, 2)}
+                            </Text>
+                        </View>
+                    )}
                     <View style={styles.itemText}>
                         <Text testID={genTestId(`huntDay_${huntDay}`)} numberOfLines={0} style={styles.title}>
                             {huntDay}
@@ -77,12 +79,14 @@ function AccessPermitItem(props) {
                             <Text style={styles.subTitle} testID={genTestId(`huntCode_${huntCode}`)}>
                                 {t("accessPermits.huntCode")}: {huntCode}
                             </Text>
-                            <Text
-                                style={{ ...styles.subTitle, marginLeft: 8 }}
-                                testID={genTestId(`reservation_${drawnSequence}`)}
-                            >
-                                {t("accessPermits.Reservation#")}: {drawnSequence}
-                            </Text>
+                            {isDisplayReservation && (
+                                <Text
+                                    style={{ ...styles.subTitle, marginLeft: 8 }}
+                                    testID={genTestId(`reservation_${drawnSequence}`)}
+                                >
+                                    {t("accessPermits.Reservation#")}: {drawnSequence}
+                                </Text>
+                            )}
                         </View>
                         <Text style={styles.subTitle} testID={genTestId(`huntName_${huntName}`)}>
                             {t("accessPermits.huntName")}: {huntName}

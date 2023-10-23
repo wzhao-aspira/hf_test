@@ -63,6 +63,10 @@ export type RouteParams = {
             name: string;
             address: string;
             fileInfoList: [FileInfo, FileInfo];
+            isGeneratedDraw: boolean;
+            huntCode: string;
+            huntRange: string;
+            isDisplayReservation: boolean;
         };
     };
     webViewScreen: {
