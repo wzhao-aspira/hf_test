@@ -75,12 +75,13 @@ function RegulationListDataView({ data }) {
                 )}
             </View>
 
-            {regulationList.map((item) => {
+            {regulationList.map((item, index) => {
                 console.log(`regulation item:${JSON.stringify(item)}`);
                 return (
                     <RegulationItemView
                         key={item.regulationId}
                         itemData={item}
+                        itemIndex={index + 1}
                         onPress={() => {
                             console.log("click regulation item");
                             NavigationService.navigate(Routers.regulationDetail, { regulation: item });

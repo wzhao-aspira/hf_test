@@ -50,8 +50,8 @@ export const styles = StyleSheet.create({
 });
 
 function RegulationItemView(props) {
-    const { itemData, onPress } = props;
-    const { regulationTitle, regulationId, displayOrder } = itemData;
+    const { itemData, onPress, itemIndex } = props;
+    const { regulationTitle, regulationId } = itemData;
     return (
         <View style={styles.mainContainer}>
             <Pressable
@@ -66,8 +66,8 @@ function RegulationItemView(props) {
             >
                 <View style={styles.itemContent}>
                     <View style={styles.leftIcon}>
-                        <Text style={styles.huntDay} testID={genTestId(`regulationIndex_${displayOrder}`)}>
-                            {displayOrder}
+                        <Text style={styles.huntDay} testID={genTestId(`regulationIndex_${itemIndex}`)}>
+                            {itemIndex}
                         </Text>
                     </View>
                     <View style={styles.itemText}>

@@ -1,13 +1,12 @@
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 import { isEmpty } from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import AppTheme from "../../../assets/_default/AppTheme";
 import RegulationListLoading from "./RegulationListLoading";
 import Page from "../../../components/Page";
 import CommonHeader from "../../../components/CommonHeader";
-import useFocus from "../../../hooks/useFocus";
 import RegulationListDataView from "./RegulationListDataView";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId } from "../../../helper/AppHelper";
@@ -86,9 +85,10 @@ function RegulationListScreen() {
         setRefreshing(false);
     };
 
-    useFocus(() => {
+    useEffect(() => {
         getRegulationListData();
-    });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Page style={styles.container}>
