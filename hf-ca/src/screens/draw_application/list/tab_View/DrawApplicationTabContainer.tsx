@@ -35,12 +35,12 @@ export const styles = StyleSheet.create({
         marginHorizontal: DEFAULT_MARGIN,
     },
     groupContainer: {
-        marginTop: 16,
+        marginTop: 20,
     },
     groupTitle: {
-        ...AppTheme.typography.overlay_hyperLink,
-        fontSize: 15,
-        marginBottom: 10,
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_1,
+        marginBottom: 15,
     },
 });
 

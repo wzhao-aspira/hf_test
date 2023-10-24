@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     mainContainer: {
         ...AppTheme.shadow,
         backgroundColor: AppTheme.colors.font_color_4,
-        marginBottom: 15,
+        marginBottom: 20,
         padding: 10,
         paddingLeft: 15,
         borderRadius: 8,
@@ -32,13 +32,13 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
     title: {
-        ...AppTheme.typography.overlay_hyperLink,
+        ...AppTheme.typography.card_title,
         color: AppTheme.colors.font_color_1,
     },
     subTitle: {
-        marginTop: 5,
         ...AppTheme.typography.card_small_r,
-        color: AppTheme.colors.font_color_1,
+        color: AppTheme.colors.font_color_2,
+        marginTop: 5,
     },
 
     itemContent: {
@@ -87,17 +87,18 @@ function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListI
         );
     }
 
-    return items?.map(
-        (item) =>
-            item.drawWon === "Y" && (
-                <Text
-                    style={{ ...styles.subTitle }}
-                    testID={genTestId(`successfulFor_${item.huntName}`)}
-                    key={item.huntName}
-                >
-                    {t("drawApplicationList.successfulFor")} {item.huntCode} {item.huntName && `(${item.huntName})`}
-                </Text>
-            )
+    const drawWonItem = items?.find((item) => item.drawWon === "Y");
+    return (
+        drawWonItem && (
+            <Text
+                style={{ ...styles.subTitle }}
+                testID={genTestId(`successfulFor_${drawWonItem.huntName}`)}
+                key={drawWonItem.huntName}
+            >
+                {t("drawApplicationList.successfulFor")} {drawWonItem.huntCode}
+                {drawWonItem.huntName && `(${drawWonItem.huntName})`}
+            </Text>
+        )
     );
 }
 
@@ -126,13 +127,23 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
     let drawType = normalDataDrawType;
     let drawStatus = normalDataDrawStatus;
 
+    let itemTitle = `${year} ${drawType}`;
     let itemExtTitle = huntName && `(${huntName})`;
+
     if (groupName === "copyHunt" && !isEmpty(items)) {
-        const huntCodes = items?.map((i) => i.huntCode);
-        itemExtTitle = huntCodes && `(${huntCodes.join(", ")})`;
         year = copyDataYear;
         drawType = copyDataDrawType;
         drawStatus = copyDataDrawStatus;
+        const alternateItem = items.find((item) => item.alternateSeq && item.alternateSeq !== "N/A");
+
+        if (!isEmpty(alternateItem)) {
+            itemTitle = `${t("drawApplicationList.alternateForHunt")} ${alternateItem.huntCode}`;
+            itemExtTitle = alternateItem.huntName && ` -  ${alternateItem.huntName}`;
+        } else {
+            const huntCodes = items?.map((i) => i.huntCode);
+            itemTitle = `${year} ${drawType}`;
+            itemExtTitle = huntCodes && `(${huntCodes.join(", ")})`;
+        }
     }
     if (groupName === "generatedHunt") {
         if (huntName || formatHuntDay) {
@@ -159,7 +170,7 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
                 <View style={styles.itemContent}>
                     <View style={styles.itemText}>
                         <Text testID={genTestId(`title_${huntName}`)} numberOfLines={0} style={styles.title}>
-                            {year} {drawType} {itemExtTitle}
+                            {itemTitle} {itemExtTitle}
                         </Text>
 
                         <View style={{ flexDirection: "row", flex: 1 }}>

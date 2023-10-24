@@ -5,16 +5,21 @@ import { genTestId } from "../../../../helper/AppHelper";
 import AppTheme from "../../../../assets/_default/AppTheme";
 
 const styles = StyleSheet.create({
+    attention_container: {
+        marginBottom: 10,
+    },
     attention_label: {
-        ...AppTheme.typography.temperature_switch,
-        marginBottom: 14,
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_2,
+        marginTop: 10,
+        marginBottom: 10,
     },
 });
 function DrawListAttention({ html }) {
     const { width } = useWindowDimensions();
 
     return (
-        <View>
+        <View style={styles.attention_container}>
             <Text testID={genTestId("AttentionLabel")} style={styles.attention_label}>
                 <Trans i18nKey="common.attention" />
             </Text>

@@ -82,8 +82,6 @@ export const getDrawList = createAsyncThunk(
 
             const downloadableFileIDList = getDrawApplicationDownloadableFileIDList(result.data);
             cleanUpInvalidFiles({ downloadableFileIDList, folderName });
-
-            console.log("get draw application data from api", result);
         } else {
             const data = await getDrawApplicationDataFromDB(activeProfileId);
             result = { success: true, data, isUseCacheData: true };
