@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         backgroundColor: AppTheme.colors.font_color_4,
         borderRadius: DEFAULT_RADIUS,
         padding: 20,
-        top: 120,
+        top: 130,
         marginBottom: 10,
         position: "absolute",
         zIndex: 1,
