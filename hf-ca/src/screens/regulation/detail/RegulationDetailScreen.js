@@ -69,7 +69,7 @@ export default function RegulationDetailScreen(props) {
                             />
                         )}
                     </View>
-                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                    <View style={{ flexDirection: "row", marginHorizontal: DEFAULT_MARGIN }}>
                         <Text style={styles.additionalText}>
                             Format: {isEmpty(fileFormat) ? "N/A" : fileFormat.toUpperCase()}
                         </Text>
