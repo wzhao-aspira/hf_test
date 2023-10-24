@@ -369,7 +369,7 @@ const initProfileDetails =
             }
             result = { ...result, success: response.success };
         }
-        if (!result) {
+        if (!result || !result.success) {
             const dbResult = await getProfileDetailFromDB(profileId);
             console.log("ProfileThunk - initProfileDetails - getProfileDetailFromDB:", dbResult);
             if (dbResult.success) {
