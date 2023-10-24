@@ -11,6 +11,8 @@ import {
     getProfileDetailsById,
     getLatestCustomerList,
     getResidentMethodTypes,
+    saveCustomerLicenseToDB,
+    getCustomerLicenseFromDB,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { actions as appActions, selectors as appSelectors } from "./AppSlice";
@@ -128,9 +130,15 @@ const getCRSSVerifyProfiles = async (result = []) => {
         return formattedProfile;
     });
     const needCRSSVerify = crssVerifyProfiles.length > 0;
-    console.log("Profile Thunk - getCRSSVerifyProfiles - needCRSSVerify: ", needCRSSVerify);
-    console.log("Profile Thunk - getCRSSVerifyProfiles - crssVerifyProfiles:", crssVerifyProfiles);
+    console.log("ProfileThunk - getCRSSVerifyProfiles - needCRSSVerify: ", needCRSSVerify);
+    console.log("ProfileThunk - getCRSSVerifyProfiles - crssVerifyProfiles:", crssVerifyProfiles);
     return { needCRSSVerify, crssVerifyProfiles };
+};
+
+const updateCustomerLicenseToRedux = (customerId) => async (dispatch) => {
+    console.log("ProfileThunk - updateCustomerLicenseToRedux - customerId", customerId);
+    const licenseData = await getCustomerLicenseFromDB(customerId);
+    await dispatch(licenseActions.updateLicense(licenseData));
 };
 
 const initProfile =
@@ -164,12 +172,17 @@ const initProfile =
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
+        console.log("ProfileThunk - initProfile - saveCustomerLicenseToDB");
+        await saveCustomerLicenseToDB(profileListIDs);
+
         if (isReopenApp) {
             if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
                 dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
+                await dispatch(updateCustomerLicenseToRedux(currentInUseProfileID));
             } else if (primaryProfileId) {
-                showProfileDialog(i18n.t("profile.currentInUseInactiveMsg"), () => {
+                showProfileDialog(i18n.t("profile.currentInUseInactiveMsg"), async () => {
                     dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
+                    await dispatch(updateCustomerLicenseToRedux(primaryProfileId));
                     NavigationService.navigate(Routers.manageProfile);
                 });
             }
@@ -178,6 +191,7 @@ const initProfile =
         if (!isReopenApp && primaryProfileId) {
             await updateCurrentInUseProfileID(username, primaryProfileId);
             dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
+            await dispatch(updateCustomerLicenseToRedux(primaryProfileId));
         }
 
         dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
@@ -198,8 +212,6 @@ const switchCurrentInUseProfile =
         try {
             await updateCurrentInUseProfileID(username, profileID);
             dispatch(profileActions.updateCurrentInUseProfileID(profileID));
-            // clear license refresh time, after this when the home page and license list shown, it will trigger auto refresh
-            dispatch(licenseActions.clearUpdateTime());
             dispatch(preferencePointActions.clearUpdateTime());
         } catch (error) {
             console.log("switch profile error:", error);
@@ -229,6 +241,7 @@ const getProfileListChangeStatus =
         networkErrorByDialog = false,
         updateProfileWithNewData = false,
         showCRSSVerifyMsg = true,
+        needCacheLicense = true,
     } = {}) =>
     async (dispatch, getState) => {
         const rootState = getState();
@@ -249,7 +262,6 @@ const getProfileListChangeStatus =
         const { result } = profileResponse.data.data;
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const differenceProfiles = xor(currentProfileIds, profileListIDs);
-        console.log(`The difference profile ids are:[${differenceProfiles}]`);
 
         const response = {
             success: true,
@@ -269,6 +281,12 @@ const getProfileListChangeStatus =
         response.primaryIsInactivated = primaryIsInactivated;
         const { needCRSSVerify, crssVerifyProfiles } = await getCRSSVerifyProfiles(result);
         response.needCRSSVerify = needCRSSVerify;
+
+        console.log("ProfileService - getProfileListChangeStatus - needCacheLicense:", needCacheLicense);
+        if (needCacheLicense) {
+            await saveCustomerLicenseToDB(profileListIDs);
+            await dispatch(updateCustomerLicenseToRedux(currentInUseProfileID));
+        }
 
         if (noPrimaryProfile) {
             await dispatch(profileActions.setIndividualProfiles(profileList));
@@ -365,7 +383,6 @@ const initProfileDetails =
         }
 
         const formattedProfile = formateProfile(result);
-        console.log("ProfileThunk - initProfileDetails - formattedProfile:", formattedProfile);
         dispatch(profileActions.updateProfileDetailsById(formattedProfile));
         dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.fulfilled));
         return formattedProfile;

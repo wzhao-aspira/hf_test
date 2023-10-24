@@ -26,13 +26,11 @@ export const formateDateForDashboard = (item) => {
     return formateDate(item, AppContract.outputFormat.fmt_2);
 };
 
-export async function getLicenseData(searchParams: { activeProfileId: string }) {
-    const { activeProfileId } = searchParams;
-
-    const getLicensesByCustomerIDRequestResult = await licensesAPIs.getLicensesByCustomerID(activeProfileId);
+export async function getLatestLicenseDataByCustomerId(customerId) {
+    const searchResult = await licensesAPIs.getLicensesByCustomerID(customerId);
     // @ts-ignore
-    const { lastUpdateTime } = getLicensesByCustomerIDRequestResult;
-    const { result, errors } = getLicensesByCustomerIDRequestResult.data;
+    const { lastUpdateTime } = searchResult;
+    const { result, errors } = searchResult.data;
     const licenseList = result;
 
     const formattedResult = licenseList.map((item) => {
@@ -64,8 +62,8 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
         const name = `${itemYear} - ${itemName}`;
 
         return {
-            pk: `${activeProfileId}_${licenseId}`,
-            profileId: activeProfileId,
+            pk: `${customerId}_${licenseId}`,
+            profileId: customerId,
             id: licenseId,
             name,
             validFrom,
@@ -91,6 +89,13 @@ export async function getLicenseData(searchParams: { activeProfileId: string }) 
             licenseReportId,
         };
     });
+    return { formattedResult, lastUpdateTime, errors };
+}
+
+export async function getLicenseData(searchParams: { activeProfileId: string }) {
+    const { activeProfileId } = searchParams;
+    const searchResult = await getLatestLicenseDataByCustomerId(activeProfileId);
+    const { formattedResult, lastUpdateTime, errors } = searchResult;
     // Save the license list data per profile
     if (!isEmpty(formattedResult)) {
         await saveLicenseListData(activeProfileId, formattedResult);

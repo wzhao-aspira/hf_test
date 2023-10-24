@@ -1,6 +1,6 @@
 import { isEmpty } from "lodash";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
-import { updateProfileDetailToDB } from "../db";
+import { saveLicenseListData, updateProfileDetailToDB } from "../db";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
 import {
     getProfiles,
@@ -15,7 +15,6 @@ import {
     crssVerifyPerCustomer,
     switchProfileToPrimary,
 } from "../network/api_client/CustomersApi";
-
 import {
     getIdentityTypes as getIdentityTypesData,
     getYouthIdentityOwners as getYouthIdentityOwnersData,
@@ -36,6 +35,7 @@ import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
 import { clearCustomerDetailById } from "../db/ProfileDetail";
 import { clearCustomerSummaryById } from "../db/ProfileSummary";
+import { getLatestLicenseDataByCustomerId, getLicenseListDataFromDB } from "./LicenseService";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
@@ -305,4 +305,24 @@ export async function removeCustomerFromDB(customerId: string) {
 
 export async function getLatestCustomerList() {
     return getProfiles();
+}
+
+export async function saveCustomerLicenseToDB(profileListIDs) {
+    console.log("ProfileService - saveCustomerLicenseToDB - profileListIDs:", profileListIDs);
+    await Promise.all(
+        profileListIDs.map(async (profileId) => {
+            try {
+                const { formattedResult } = await getLatestLicenseDataByCustomerId(profileId);
+                if (!isEmpty(formattedResult)) {
+                    await saveLicenseListData(profileId, formattedResult);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })
+    );
+}
+
+export async function getCustomerLicenseFromDB(customerId) {
+    return getLicenseListDataFromDB({ activeProfileId: customerId });
 }

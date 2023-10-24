@@ -5,11 +5,11 @@ import { realm } from "./ConfigRealm";
 import ProfileDetail from "./models/ProfileDetail";
 
 export async function updateProfileSummaryToDB(profileList: Array<any>) {
+    console.log("ProfileSummary - updateProfileSummaryToDB");
     const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
     try {
         await clearCustomerSummaryFromDB();
         profileList.forEach((ele) => {
-            console.log("update profile summary", ele);
             realm.write(() => {
                 realm.create(ProfileSummary, ele, true);
             });
@@ -22,6 +22,7 @@ export async function updateProfileSummaryToDB(profileList: Array<any>) {
 }
 
 export async function getProfileSummaryFromDB() {
+    console.log("ProfileSummary - getProfileSummaryFromDB");
     const result: { success: boolean; code: number; profileList: null | Realm.Results<ProfileSummary> } = {
         success: true,
         code: ERROR_CODE.COMMON_ERROR,
@@ -34,12 +35,11 @@ export async function getProfileSummaryFromDB() {
         console.log(error);
         result.success = false;
     }
-    console.log("get profile list", result);
     return result;
 }
 
 export async function clearProfileSummaryFromDB() {
-    console.log("clearProfileSummaryFromDB");
+    console.log("ProfileSummary - clearProfileSummaryFromDB");
     const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
     try {
         realm.write(() => {
