@@ -25,6 +25,7 @@ async function cleanUpInvalidFiles({
 
             invalidDownloadedFilesIDList.forEach((fileID) => {
                 FileSystem.deleteAsync(`${filesDirectory}/${fileID}`);
+                console.log(`${filesDirectory}/${fileID} deleted`);
             });
         }
     } catch (error) {

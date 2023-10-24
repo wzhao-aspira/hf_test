@@ -1,12 +1,15 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { isEmpty } from "lodash";
-import { DrawResultsListItem, NonPendingStatusList } from "../types/drawApplication";
+import { DrawResultsListItem, NonPendingStatusList, DrawApplicationList } from "../types/drawApplication";
 import ValueOf from "../types/valueOf";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import { getDrawApplicationList } from "../services/DrawApplicationServices";
 import { getDrawApplicationDataFromDB, saveDrawApplicationDataToDB } from "../db";
+import convertDrawResultsListToDrawApplicationList from "../screens/draw_application/detail/utils/convertDrawResultsListToDrawApplicationList";
+import { folderName } from "../screens/draw_application/detail/DrawApplicationDetailScreen";
+import cleanUpInvalidFiles from "../components/notificationAndAttachment/utils/cleanUpInvalidFiles";
 
 interface InitialState {
     instructions: string;
@@ -28,6 +31,40 @@ const initialState: InitialState = {
     noCacheData: false,
 };
 
+function getDrawApplicationDownloadableFileIDList(drawApplicationList: DrawApplicationList) {
+    const { successList, unSuccessList } = drawApplicationList;
+
+    if (
+        Array.isArray(successList?.copyHuntsList) &&
+        Array.isArray(unSuccessList?.copyHuntsList) &&
+        Array.isArray(successList?.generatedHuntsList) &&
+        Array.isArray(successList?.multiChoiceCopyHuntsList) &&
+        Array.isArray(unSuccessList?.multiChoiceCopyHuntsList)
+    ) {
+        const copyHuntsList = [
+            ...successList.copyHuntsList.flatMap((item) => item?.items),
+            ...unSuccessList.copyHuntsList.flatMap((item) => item?.items),
+        ];
+        const generatedHuntsList = [...successList.generatedHuntsList, ...unSuccessList.generatedHuntsList];
+        const multiChoiceCopyHuntsList = [
+            ...successList.multiChoiceCopyHuntsList,
+            ...unSuccessList.multiChoiceCopyHuntsList,
+        ];
+
+        const drawApplicationItemList = [...copyHuntsList.flat(), ...generatedHuntsList, ...multiChoiceCopyHuntsList];
+
+        const fileInfoList = convertDrawResultsListToDrawApplicationList(drawApplicationItemList).flatMap(
+            (item) => item.fileInfoList
+        );
+
+        const downloadableFileIDList = fileInfoList.map((fileInfo) => fileInfo.id).filter((fileID) => fileID);
+
+        return downloadableFileIDList;
+    }
+
+    return null;
+}
+
 export const getDrawList = createAsyncThunk(
     "drawApplication/getDrawList",
     async (activeProfileId: string, { dispatch }) => {
@@ -42,6 +79,11 @@ export const getDrawList = createAsyncThunk(
 
             const dataForOffline = { ...dataFromAPI.data, profileId: activeProfileId };
             await saveDrawApplicationDataToDB(dataForOffline);
+
+            const downloadableFileIDList = getDrawApplicationDownloadableFileIDList(result.data);
+            cleanUpInvalidFiles({ downloadableFileIDList, folderName });
+
+            console.log("get draw application data from api", result);
         } else {
             const data = await getDrawApplicationDataFromDB(activeProfileId);
             result = { success: true, data, isUseCacheData: true };

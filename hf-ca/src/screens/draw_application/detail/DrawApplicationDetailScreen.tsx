@@ -15,7 +15,7 @@ import NotificationAndAttachment from "../../../components/notificationAndAttach
 import { genTestId } from "../../../helper/AppHelper";
 
 import AppTheme from "../../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH, SCREEN_HEIGHT } from "../../../constants/Dimension";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH } from "../../../constants/Dimension";
 
 import type { AppNativeStackScreenProps } from "../../../constants/Routers";
 import type { DrawApplicationItem as DrawApplicationItemData } from "../../../types/drawApplication";
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     positionInfo: {
-        marginTop: 20,
         marginHorizontal: DEFAULT_MARGIN + 4,
     },
     positionInfoText: {
@@ -39,13 +38,14 @@ const styles = StyleSheet.create({
         color: AppTheme.colors.font_color_1,
     },
     content: {
-        marginTop: 6,
         marginHorizontal: DEFAULT_MARGIN + 5,
         ...AppTheme.shadow,
         backgroundColor: AppTheme.colors.font_color_4,
         paddingTop: 6,
-        paddingBottom: 32,
+        paddingBottom: 12,
         borderRadius: 14,
+        marginVertical: 6,
+        height: "97%",
     },
     labelValueRow: {
         flexDirection: "row",
@@ -151,7 +151,7 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
                 <FontAwesomeIcon
                     style={{
                         position: "absolute",
-                        top: SCREEN_HEIGHT / 2 - 140,
+                        top: "48%",
                         left: 13,
                     }}
                     icon={faAngleLeft}
@@ -162,23 +162,24 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
                 <FontAwesomeIcon
                     style={{
                         position: "absolute",
-                        top: SCREEN_HEIGHT / 2 - 140,
+                        top: "48%",
                         right: 13,
                     }}
                     icon={faAngleRight}
                     size={20}
                 />
             )}
-
-            <View style={styles.content}>
-                {labelValueList.map((labelValue) => {
-                    return (
-                        <View key={labelValue.label} style={styles.labelValueRow}>
-                            <Text style={styles.labelText}>{labelValue.label}</Text>
-                            <Text style={styles.valueText}>{labelValue.value}</Text>
-                        </View>
-                    );
-                })}
+            <View style={[styles.content]}>
+                <ScrollView nestedScrollEnabled showsVerticalScrollIndicator={false} overScrollMode="never">
+                    {labelValueList.map((labelValue) => {
+                        return (
+                            <View key={labelValue.label} style={styles.labelValueRow}>
+                                <Text style={styles.labelText}>{labelValue.label}</Text>
+                                <Text style={styles.valueText}>{labelValue.value}</Text>
+                            </View>
+                        );
+                    })}
+                </ScrollView>
             </View>
         </>
     );
@@ -207,14 +208,19 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
                 <ScrollView
                     style={styles.scrollView}
                     contentContainerStyle={{
-                        paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM,
+                        paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM - 10,
                     }}
                     showsVerticalScrollIndicator={false}
                     overScrollMode="never"
                 >
-                    <View style={styles.positionInfo}>
-                        <Text style={styles.positionInfoText}>
-                            {totalNumberOfTheChoices > 1 && (
+                    <View
+                        style={{
+                            marginTop: 15,
+                        }}
+                    />
+                    {totalNumberOfTheChoices > 1 && (
+                        <View style={styles.positionInfo}>
+                            <Text style={styles.positionInfoText}>
                                 <Trans
                                     i18nKey="drawApplicationDetail.of"
                                     tOptions={{
@@ -222,14 +228,14 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
                                         totalNumber: totalNumberOfTheChoices,
                                     }}
                                 />
-                            )}
-                        </Text>
-                    </View>
+                            </Text>
+                        </View>
+                    )}
                     <Carousel
                         testID={genTestId("drawApplicationDetailScreenCarousel")}
                         width={SCREEN_WIDTH}
                         data={filteredDrawApplicationChoices}
-                        height={isGeneratedDraw ? 301 : 401}
+                        height={isGeneratedDraw ? 300 : 400}
                         renderItem={({ item, index }) => {
                             return (
                                 <DrawApplicationItem
