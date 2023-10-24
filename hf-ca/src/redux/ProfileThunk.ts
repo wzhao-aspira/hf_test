@@ -446,4 +446,5 @@ export default {
     initProfileDetails,
     getProfileListChangeStatus,
     getLatestCustomerLists,
+    updateCustomerLicenseToRedux,
 };

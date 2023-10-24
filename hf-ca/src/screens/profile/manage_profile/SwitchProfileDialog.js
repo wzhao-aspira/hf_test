@@ -69,6 +69,7 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary, cur
         // if network error, user can switch the profile, other api error will block switch profile
         if (!response.success && response.isNetworkError) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
+            await dispatch(profileThunkActions.updateCustomerLicenseToRedux(profileId));
             return;
         }
 
