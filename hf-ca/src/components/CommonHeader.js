@@ -51,7 +51,7 @@ function CommonHeader({
     leftIcon = faChevronLeft,
     showLeft = true,
     rightIcon,
-    subTitle,
+    subTitle = "",
 }) {
     return (
         <View style={styles.container}>

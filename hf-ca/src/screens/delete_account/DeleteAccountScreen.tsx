@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { StyleSheet, ScrollView, View, Text } from "react-native";
-import { useTranslation, Trans } from "react-i18next";
+import { ScrollView, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 import Page from "../../components/Page";
@@ -23,12 +23,7 @@ import AccountService from "../../services/AccountService";
 
 import { updateLoginStep, selectors as appSelectors } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
-
-const styles = StyleSheet.create({
-    paragraphSpacing: {
-        marginBottom: 20,
-    },
-});
+import Attention from "../../components/Attention";
 
 function DeleteAccountScreen() {
     const { t } = useTranslation();
@@ -100,19 +95,8 @@ function DeleteAccountScreen() {
             <CommonHeader title={titleText} rightIcon={false} />
             <ScrollView testID={genTestId("DeleteAccountScrollView")} style={{ paddingHorizontal: DEFAULT_MARGIN }}>
                 <Page style={{ flex: 1 }}>
-                    <View style={{ marginTop: 20 }}>
-                        <Text style={{ ...AppTheme.typography.card_title, ...styles.paragraphSpacing }}>
-                            <Trans i18nKey="deleteAccount.attention" />
-                        </Text>
-                        <Text style={{ ...AppTheme.typography.card_title }}>
-                            <Trans i18nKey="deleteAccount.description1" />
-                        </Text>
-                        <Text style={{ ...AppTheme.typography.sub_section, ...styles.paragraphSpacing }}>
-                            <Trans i18nKey="deleteAccount.description2" />
-                        </Text>
-                        <Text style={{ ...AppTheme.typography.sub_section, ...styles.paragraphSpacing }}>
-                            <Trans i18nKey="deleteAccount.description3" />
-                        </Text>
+                    <View style={{ marginBottom: 20 }}>
+                        <Attention labelKey="deleteAccount.attention" contentKey="deleteAccount.description" />
                     </View>
                     <View style={{ marginBottom: 25 }}>
                         <StatefulTextInput
