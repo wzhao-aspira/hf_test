@@ -107,6 +107,68 @@ export interface ActivePermitVMExecutionResult {
 /**
  * 
  * @export
+ * @interface AppVersionUpdateVM
+ */
+export interface AppVersionUpdateVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof AppVersionUpdateVM
+     */
+    'appId'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppVersionUpdateVM
+     */
+    'latestVersion'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof AppVersionUpdateVM
+     */
+    'updateOption'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppVersionUpdateVM
+     */
+    'installerUrl'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppVersionUpdateVM
+     */
+    'updateMessage'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface AppVersionUpdateVMExecutionResult
+ */
+export interface AppVersionUpdateVMExecutionResult {
+    /**
+     * 
+     * @type {AppVersionUpdateVM}
+     * @memberof AppVersionUpdateVMExecutionResult
+     */
+    'result'?: AppVersionUpdateVM;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AppVersionUpdateVMExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof AppVersionUpdateVMExecutionResult
+     */
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
  * @interface BooleanExecutionResult
  */
 export interface BooleanExecutionResult {
@@ -128,6 +190,31 @@ export interface BooleanExecutionResult {
      * @memberof BooleanExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface CopyHuntListVM
+ */
+export interface CopyHuntListVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof CopyHuntListVM
+     */
+    'year'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CopyHuntListVM
+     */
+    'drawType'?: string | null;
+    /**
+     * 
+     * @type {Array<DrawResultsListVM>}
+     * @memberof CopyHuntListVM
+     */
+    'items'?: Array<DrawResultsListVM> | null;
 }
 /**
  * 
@@ -527,6 +614,12 @@ export interface DrawResultsListVM {
      * @type {string}
      * @memberof DrawResultsListVM
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DrawResultsListVM
+     */
     'year'?: string | null;
     /**
      * 
@@ -641,7 +734,7 @@ export interface DrawResultsListVM {
      * @type {string}
      * @memberof DrawResultsListVM
      */
-    'huntDay'?: string;
+    'huntDay'?: string | null;
     /**
      * 
      * @type {string}
@@ -992,7 +1085,7 @@ export interface HuntDayVM {
      * @type {string}
      * @memberof HuntDayVM
      */
-    'huntDay'?: string;
+    'huntDay'?: string | null;
     /**
      * 
      * @type {string}
@@ -1530,6 +1623,12 @@ export interface LicenseVM {
      * @memberof LicenseVM
      */
     'listGroupingName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LicenseVM
+     */
+    'huntTagDescription'?: string | null;
 }
 /**
  * 
@@ -1880,10 +1979,10 @@ export interface MobileAppUserVMExecutionResult {
 export interface NonPendingStatusList {
     /**
      * 
-     * @type {Array<Array<DrawResultsListVM>>}
+     * @type {Array<CopyHuntListVM>}
      * @memberof NonPendingStatusList
      */
-    'copyHuntsList'?: Array<Array<DrawResultsListVM>> | null;
+    'copyHuntsList'?: Array<CopyHuntListVM> | null;
     /**
      * 
      * @type {Array<DrawResultsListVM>}
@@ -2195,25 +2294,25 @@ export interface RegulationVM {
 /**
  * 
  * @export
- * @interface RegulationVMListExecutionResult
+ * @interface RegulationVMExecutionResult
  */
-export interface RegulationVMListExecutionResult {
+export interface RegulationVMExecutionResult {
     /**
      * 
-     * @type {Array<RegulationVM>}
-     * @memberof RegulationVMListExecutionResult
+     * @type {RegulationVM}
+     * @memberof RegulationVMExecutionResult
      */
-    'result'?: Array<RegulationVM> | null;
+    'result'?: RegulationVM;
     /**
      * 
      * @type {boolean}
-     * @memberof RegulationVMListExecutionResult
+     * @memberof RegulationVMExecutionResult
      */
     'isValidResponse'?: boolean;
     /**
      * 
      * @type {Array<StringStringKeyValuePair>}
-     * @memberof RegulationVMListExecutionResult
+     * @memberof RegulationVMExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
 }
@@ -3810,7 +3909,7 @@ export const ItemsApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         v1ItemsTipsGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/v1/Items/tips`;
+            const localVarPath = `/v1/Items/Tips`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4357,6 +4456,51 @@ export const MiscellaneousApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
+         * @summary Get app version update info
+         * @param {string} [appId] 
+         * @param {string} [clientType] 
+         * @param {string} [versionNumber] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MiscellaneousAppVersionUpdateGet: async (appId?: string, clientType?: string, versionNumber?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Miscellaneous/AppVersionUpdate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (appId !== undefined) {
+                localVarQueryParameter['appId'] = appId;
+            }
+
+            if (clientType !== undefined) {
+                localVarQueryParameter['clientType'] = clientType;
+            }
+
+            if (versionNumber !== undefined) {
+                localVarQueryParameter['versionNumber'] = versionNumber;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get current date and time
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4437,6 +4581,19 @@ export const MiscellaneousApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get app version update info
+         * @param {string} [appId] 
+         * @param {string} [clientType] 
+         * @param {string} [versionNumber] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MiscellaneousAppVersionUpdateGet(appId?: string, clientType?: string, versionNumber?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppVersionUpdateVMExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MiscellaneousAppVersionUpdateGet(appId, clientType, versionNumber, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get current date and time
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4476,6 +4633,18 @@ export const MiscellaneousApiFactory = function (configuration?: Configuration, 
         },
         /**
          * 
+         * @summary Get app version update info
+         * @param {string} [appId] 
+         * @param {string} [clientType] 
+         * @param {string} [versionNumber] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MiscellaneousAppVersionUpdateGet(appId?: string, clientType?: string, versionNumber?: string, options?: any): AxiosPromise<AppVersionUpdateVMExecutionResult> {
+            return localVarFp.v1MiscellaneousAppVersionUpdateGet(appId, clientType, versionNumber, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get current date and time
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4509,6 +4678,18 @@ export interface MiscellaneousApiInterface {
      * @memberof MiscellaneousApiInterface
      */
     v1MiscellaneousApiInfoGet(options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+    /**
+     * 
+     * @summary Get app version update info
+     * @param {string} [appId] 
+     * @param {string} [clientType] 
+     * @param {string} [versionNumber] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MiscellaneousApiInterface
+     */
+    v1MiscellaneousAppVersionUpdateGet(appId?: string, clientType?: string, versionNumber?: string, options?: AxiosRequestConfig): AxiosPromise<AppVersionUpdateVMExecutionResult>;
 
     /**
      * 
@@ -4546,6 +4727,20 @@ export class MiscellaneousApi extends BaseAPI implements MiscellaneousApiInterfa
      */
     public v1MiscellaneousApiInfoGet(options?: AxiosRequestConfig) {
         return MiscellaneousApiFp(this.configuration).v1MiscellaneousApiInfoGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get app version update info
+     * @param {string} [appId] 
+     * @param {string} [clientType] 
+     * @param {string} [versionNumber] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MiscellaneousApi
+     */
+    public v1MiscellaneousAppVersionUpdateGet(appId?: string, clientType?: string, versionNumber?: string, options?: AxiosRequestConfig) {
+        return MiscellaneousApiFp(this.configuration).v1MiscellaneousAppVersionUpdateGet(appId, clientType, versionNumber, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5582,7 +5777,7 @@ export const StaticDataApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1StaticDataRegulationsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegulationVMListExecutionResult>> {
+        async v1StaticDataRegulationsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegulationVMExecutionResult>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataRegulationsGet(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -5669,7 +5864,7 @@ export const StaticDataApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1StaticDataRegulationsGet(options?: any): AxiosPromise<RegulationVMListExecutionResult> {
+        v1StaticDataRegulationsGet(options?: any): AxiosPromise<RegulationVMExecutionResult> {
             return localVarFp.v1StaticDataRegulationsGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -5751,7 +5946,7 @@ export interface StaticDataApiInterface {
      * @throws {RequiredError}
      * @memberof StaticDataApiInterface
      */
-    v1StaticDataRegulationsGet(options?: AxiosRequestConfig): AxiosPromise<RegulationVMListExecutionResult>;
+    v1StaticDataRegulationsGet(options?: AxiosRequestConfig): AxiosPromise<RegulationVMExecutionResult>;
 
     /**
      * 
