@@ -290,7 +290,7 @@
         "currentPassword": "Current Password",
         "helpAndSupport": "Help & Support",
         "passwordSetSuccessfully": "Password set successfully",
-        "changePasswordAttention": "Once you have changed your password, we kindly ask you to log in to the app again for security purposes."
+        "changePasswordAttention": "Once you reset your password, log out of the application and log back in with your new password for security purposes."
     },
     "auth": {
         "biometricID": "Biometric ID",
@@ -313,10 +313,8 @@
     },
     "deleteAccount": {
         "pageTitle": "Verification",
-        "attention": "Attention",
-        "description1": "Deleting your account is permanent.",
-        "description2": "When you delete your account, you won’t be able to retrieve the content and information you’ve had on app.",
-        "description3": "To continue, verify you are the owner of this account by typing your password below.",
+        "attention": "Caution - Deleting your account is permanent.",
+        "description": "Once deleted you will not be able to retrieve any information stored or associated with this mobile account.",
         "accountPassword": "Account Password",
         "verifyAndContinue": "Verify and Continue",
         "deletingAccountPermanently": "Deleting Account Permanently",
@@ -456,8 +454,8 @@
     "countdownTextInput": {
         "didNotReceiveCode": "Didn't Receive Code?"
     },
-    "regulation":{
-        "headerTitle":"Fishing and Hunting Regulations",
+    "regulation": {
+        "headerTitle": "Fishing and Hunting Regulations",
         "noRegulationTitle": "No regulations found",
         "downloadRegulationApp": "Download CDFW regulations application",
         "visitRegulationSite": "Visit CDFW regulations web site",
