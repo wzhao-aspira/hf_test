@@ -262,7 +262,7 @@
     },
     "crss": {
         "enterYourPassword": "Enter Customer's Internet Sales Online Password",
-        "attentionContent": "The customer record you are trying to add to mobile application has security enabled and requires a password to access. Please enter the password used to access the online CDFW customer record.",
+        "attentionContent": "The customer record you are trying to add to mobile application has security enabled and requires a password to access.\n\nPlease enter the password used to access the online CDFW customer record.",
         "unlinkCustomerRecord": "Unlink Customer Record"
     },
     "onboarding": {
