@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-solid-svg-icons/faAngleRight";
 import { faAngleLeft } from "@fortawesome/pro-solid-svg-icons/faAngleLeft";
 
-import { useTranslation, Trans } from "react-i18next";
+import i18next from "i18next";
+import { Trans } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Page from "../../../components/Page";
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
         paddingBottom: 12,
         borderRadius: 14,
         marginVertical: 6,
-        height: "97%",
     },
     labelValueRow: {
         flexDirection: "row",
@@ -80,8 +80,7 @@ interface DrawApplicationItemProps {
 
 export const folderName = "draw_application_files";
 
-function DrawApplicationItem(props: DrawApplicationItemProps) {
-    const { item, index, totalNumberOfTheChoices, isActive } = props;
+function getLabelValueLis(drawApplicationItemData: DrawApplicationItemData) {
     const {
         type,
         status,
@@ -95,12 +94,9 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
         members,
         huntDate,
         reservationNumber,
-    } = item;
+    } = drawApplicationItemData;
 
-    const { t } = useTranslation();
-
-    const shouldShowLeftAngle = isActive && index > 0;
-    const shouldShowRightAngle = isActive && index < totalNumberOfTheChoices - 1;
+    const { t } = i18next;
 
     const labelValueList = isGeneratedDraw
         ? [
@@ -145,6 +141,17 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
               },
           ];
 
+    return labelValueList;
+}
+
+function DrawApplicationItem(props: DrawApplicationItemProps) {
+    const { item, index, totalNumberOfTheChoices, isActive } = props;
+
+    const shouldShowLeftAngle = isActive && index > 0;
+    const shouldShowRightAngle = isActive && index < totalNumberOfTheChoices - 1;
+
+    const labelValueList = getLabelValueLis(item);
+
     return (
         <>
             {shouldShowLeftAngle && (
@@ -169,8 +176,8 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
                     size={20}
                 />
             )}
-            <View style={[styles.content]}>
-                <ScrollView nestedScrollEnabled showsVerticalScrollIndicator={false} overScrollMode="never">
+            <View style={[styles.content, { height: "97%" }]}>
+                <ScrollView nestedScrollEnabled showsVerticalScrollIndicator persistentScrollbar overScrollMode="never">
                     {labelValueList.map((labelValue) => {
                         return (
                             <View key={labelValue.label} style={styles.labelValueRow}>
@@ -231,33 +238,47 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
                             </Text>
                         </View>
                     )}
-                    <Carousel
-                        testID={genTestId("drawApplicationDetailScreenCarousel")}
-                        width={SCREEN_WIDTH}
-                        data={filteredDrawApplicationChoices}
-                        height={isGeneratedDraw ? 300 : 400}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <DrawApplicationItem
-                                    item={item}
-                                    index={index}
-                                    totalNumberOfTheChoices={totalNumberOfTheChoices}
-                                    isActive={index === activeItemNumber}
-                                />
-                            );
-                        }}
-                        loop={false}
-                        mode="parallax"
-                        modeConfig={{
-                            parallaxScrollingScale: 1,
-                            parallaxAdjacentItemScale: 1,
-                            parallaxScrollingOffset: 45,
-                        }}
-                        onSnapToItem={(itemNumber) => setActiveItemNumber(itemNumber)}
-                        panGestureHandlerProps={{
-                            activeOffsetX: [-10, 10],
-                        }}
-                    />
+                    {totalNumberOfTheChoices > 1 && (
+                        <Carousel
+                            testID={genTestId("drawApplicationDetailScreenCarousel")}
+                            width={SCREEN_WIDTH}
+                            data={filteredDrawApplicationChoices}
+                            height={isGeneratedDraw ? 300 : 400}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <DrawApplicationItem
+                                        item={item}
+                                        index={index}
+                                        totalNumberOfTheChoices={totalNumberOfTheChoices}
+                                        isActive={index === activeItemNumber}
+                                    />
+                                );
+                            }}
+                            loop={false}
+                            mode="parallax"
+                            modeConfig={{
+                                parallaxScrollingScale: 1,
+                                parallaxAdjacentItemScale: 1,
+                                parallaxScrollingOffset: 45,
+                            }}
+                            onSnapToItem={(itemNumber) => setActiveItemNumber(itemNumber)}
+                            panGestureHandlerProps={{
+                                activeOffsetX: [-10, 10],
+                            }}
+                        />
+                    )}
+                    {totalNumberOfTheChoices === 1 && (
+                        <View style={[styles.content, { paddingBottom: 32 }]}>
+                            {getLabelValueLis(DrawApplicationChoices[0]).map((labelValue) => {
+                                return (
+                                    <View key={labelValue.label} style={styles.labelValueRow}>
+                                        <Text style={styles.labelText}>{labelValue.label}</Text>
+                                        <Text style={styles.valueText}>{labelValue.value}</Text>
+                                    </View>
+                                );
+                            })}
+                        </View>
+                    )}
                     {fileList.map((item) => (
                         <NotificationAndAttachment
                             key={item[0].id}
