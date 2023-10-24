@@ -24,6 +24,7 @@ export default function OtherProfiles({ isLoading }) {
     const otherProfilesWithoutPrimary = useSelector(profileSelectors.selectOtherProfileListWithoutPrimary);
 
     const handleAddProfile = async () => {
+        console.log("OtherProfiles - handleAddProfile - getProfileListChangeStatus before add profile");
         const response = await dispatch(
             ProfileThunk.getProfileListChangeStatus({
                 showGlobalLoading: true,
@@ -31,6 +32,7 @@ export default function OtherProfiles({ isLoading }) {
                 showListChangedMsg: true,
                 networkErrorByDialog: true,
                 showCRSSVerifyMsg: false,
+                needCacheLicense: false,
             })
         );
 

@@ -4,9 +4,9 @@ import ProfileDetail from "./models/ProfileDetail";
 import { realm } from "./ConfigRealm";
 
 export async function updateProfileDetailToDB(profile: any) {
+    console.log("ProfileDetail - updateProfileDetailToDB");
     const result = { success: true, code: ERROR_CODE.COMMON_ERROR };
     try {
-        console.log("update profile detail", profile);
         realm.write(() => {
             realm.create(ProfileDetail, profile, true);
         });
@@ -18,6 +18,7 @@ export async function updateProfileDetailToDB(profile: any) {
 }
 
 export async function getProfileDetailFromDB(profileId: string) {
+    console.log("ProfileDetail - getProfileDetailFromDB");
     const result: { success: boolean; code: number; profile: null | Realm.Object<ProfileDetail> } = {
         success: true,
         code: ERROR_CODE.COMMON_ERROR,
@@ -31,7 +32,6 @@ export async function getProfileDetailFromDB(profileId: string) {
         console.log(error);
         result.success = false;
     }
-    console.log("get profile detail", result);
     return result;
 }
 

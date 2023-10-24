@@ -112,11 +112,13 @@ function ProfileDetailsScreen({ route }) {
     };
 
     const handleRemoveBtnClick = async () => {
+        console.log("ProfileDetailScreen - handleRemoveBtnClick - getProfileListChangeStatus before remove profile");
         const response = await dispatch(
             ProfileThunk.getProfileListChangeStatus({
                 showGlobalLoading: true,
                 networkErrorByDialog: true,
                 showCRSSVerifyMsg: false,
+                needCacheLicense: false,
             })
         );
 

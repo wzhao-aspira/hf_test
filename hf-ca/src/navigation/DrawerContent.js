@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from "@fortawesome/pro-light-svg-icons/faChevronRight";
 import { useDrawerStatus } from "@react-navigation/drawer";
 import { Trans, useTranslation } from "react-i18next";
+import Constants from "expo-constants";
 import { DRAWER_WIDTH } from "../constants/Dimension";
 import AppTheme from "../assets/_default/AppTheme";
 import { getLogo } from "../helper/ImgHelper";
@@ -87,6 +88,15 @@ const styles = StyleSheet.create({
     },
     bottomArea: {
         width: "100%",
+        marginTop: 15,
+    },
+    versionContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+    versionText: {
+        ...AppTheme.typography.card_small_m,
+        color: AppTheme.colors.font_color_1,
     },
     privacy: {
         ...AppTheme.typography.card_small_m,
@@ -299,7 +309,14 @@ export default function DrawerContent({ navigation }) {
     const renderBottomSection = () => {
         return (
             <View style={styles.bottomArea}>
-                <SplitLine style={styles.menuSplitLine} />
+                <View style={styles.versionContainer}>
+                    <Text testID={genTestId(`${testIDPrefix}VersionLabel`)} style={styles.versionText}>
+                        <Trans i18nKey="common.version" />
+                    </Text>
+                    <Text testID={genTestId(`${testIDPrefix}VersionNumber`)} style={styles.versionText}>
+                        {` ${Constants.expoConfig?.ios?.buildNumber}`}
+                    </Text>
+                </View>
                 <View
                     style={{
                         flexDirection: "row",

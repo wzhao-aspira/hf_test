@@ -2,6 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 import { isEmpty } from "lodash";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import {
     getIsEmptyOnlineDataCachedInd,
     getLicenseData,
@@ -95,6 +96,10 @@ const licenseSlice = createSlice({
     reducers: {
         clearUpdateTime(state) {
             state.updateTime = initialState.updateTime;
+        },
+        updateLicense(state, action: PayloadAction<License[]>) {
+            const { payload } = action;
+            state.data = payload;
         },
     },
     extraReducers: (builder) => {
