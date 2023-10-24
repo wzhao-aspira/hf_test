@@ -1,11 +1,11 @@
 import { isEmpty } from "lodash";
-import type { DrawApplicationList, DrawResultsListItem, NonPendingStatusList } from "../types/drawApplication";
-// import { getDrawApplicationListByCustomerId } from "../network/api_client/DrawResultsApi";
+import type { DrawApplicationList, NonPendingStatusList } from "../types/drawApplication";
+import { getDrawApplicationListByCustomerId } from "../network/api_client/DrawResultsApi";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
-import DrawList from "./mock_data/drawList.json";
+import { DrawResultsListVM, NonPendingStatusList as APINonPendingStatusList } from "../network/generated";
 
-const convertDrawApplicationItem = (drawItem: DrawResultsListItem) => {
+const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
     const {
         id,
         year,
@@ -58,12 +58,13 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListItem) => {
     };
 };
 
-export const formateNonPendingDrawList = (list: NonPendingStatusList) => {
+export const formateNonPendingDrawList = (list: APINonPendingStatusList) => {
     const copyHuntsList = list.copyHuntsList?.map((group) => {
         const { items = [] } = group;
         return {
-            ...group,
-            drawStatus: items[0].drawStatus,
+            year: group.year,
+            drawType: group.drawType,
+            drawStatus: items[0]?.drawStatus || "",
             items: items?.map((item) => convertDrawApplicationItem(item)),
         };
     });
@@ -75,20 +76,8 @@ export const formateNonPendingDrawList = (list: NonPendingStatusList) => {
 };
 
 export async function getDrawApplicationList(profileId: string): Promise<DrawApplicationList> {
-    // const response = await getDrawApplicationListByCustomerId(profileId);
-    // const { result } = response.data;
-
-    // TODO: use mock data since API is not completed
-    const mockData: any = await new Promise((resolve) => {
-        setTimeout(() => {
-            if (profileId === "K3jp4_b6KVO81uU6cIE1Zw") {
-                resolve(DrawList);
-            } else {
-                resolve({ result: {} });
-            }
-        }, 1000);
-    });
-    const { result } = mockData;
+    const response = await getDrawApplicationListByCustomerId(profileId);
+    const { result } = response.data;
 
     const successList = formateNonPendingDrawList(result.successList || {});
     const unSuccessList = formateNonPendingDrawList(result.unSuccessList || {});

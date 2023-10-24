@@ -437,7 +437,8 @@
         "unsuccessfulGeneratedTitle": "Unsuccessful View Generated Hunt",
         "unsuccessfulMultiTitle": "Unsuccessful View Multi Choice Copy",
         "status": "Status",
-        "result": "Result"
+        "result": "Result",
+        "alternateForHunt": "Alternate for Hunt"
     },
     "drawApplicationDetail": {
         "of": "{{position}} Of {{totalNumber}} Choices",
@@ -456,8 +457,8 @@
     "countdownTextInput": {
         "didNotReceiveCode": "Didn't Receive Code?"
     },
-    "regulation":{
-        "headerTitle":"Fishing and Hunting Regulations",
+    "regulation": {
+        "headerTitle": "Fishing and Hunting Regulations",
         "noRegulationTitle": "No regulations found",
         "downloadRegulationApp": "Download CDFW regulations application",
         "visitRegulationSite": "Visit CDFW regulations web site",

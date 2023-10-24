@@ -19,7 +19,7 @@ export interface DrawApplicationItem {
 export interface DrawResultsListItem {
     id: string;
     year: string;
-    drawStatus: string;
+    drawStatus?: string;
     drawType: string;
     memberNames?: string[];
     partyNumber?: string;
@@ -48,7 +48,7 @@ export interface DrawResultsListItem {
 export interface CopyHuntsItem {
     year: string;
     drawType: string;
-    drawStatus?: string;
+    drawStatus: string;
     items?: DrawResultsListItem[];
 }
 export interface NonPendingStatusList {
