@@ -9,6 +9,10 @@ import { KEY_CONSTANT } from "../constants/Constants";
 
 export const CHANNEL = BuildType.toUpperCase();
 
+export const SplashStatus = {
+    show: true,
+};
+
 export function isAndroid() {
     return Platform.OS == "android";
 }
@@ -39,7 +43,17 @@ export function getBaseURL() {
     return AppContract.URL.qa;
 }
 
+let showToastTimeout;
 export function showToast(message, option = {}) {
+    const { delay = true } = option;
+    if (delay && SplashStatus.show) {
+        console.log("splash shown, delay toast some time...");
+        clearTimeout(showToastTimeout);
+        showToastTimeout = setTimeout(() => {
+            showToast(message, option);
+        }, 500);
+        return;
+    }
     Toast.show(message, {
         duration: Toast.durations.SHORT,
         position: Toast.positions.BOTTOM,

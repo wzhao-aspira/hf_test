@@ -10,7 +10,7 @@ import AppContract from "../assets/_default/AppContract";
 import { openRealm } from "../db";
 import { fetchPicture, getAppConfigData, getLoadingSplashFromFile } from "../services/AppConfigService";
 import { getErrorMessage } from "../hooks/useErrorHandling";
-import { showToast } from "../helper/AppHelper";
+import { showToast, SplashStatus } from "../helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "../screens/useful_links/UsefulLinksHelper";
 import AppTheme from "../assets/_default/AppTheme";
 
@@ -42,7 +42,7 @@ export default function RenderSplash({ onHide, onContentReady }) {
             const errorMessage = getErrorMessage(error);
             console.log(errorMessage);
 
-            showToast(errorMessage, { duration: 0 });
+            showToast(errorMessage, { duration: 0, delay: false });
             getConfigError.current = true;
         });
         if (!getConfigError.current) {
@@ -51,9 +51,11 @@ export default function RenderSplash({ onHide, onContentReady }) {
             const loadTime = Date.now() - startTime.current;
             if (loadTime >= 3000) {
                 onHide?.();
+                SplashStatus.show = false;
             } else {
                 setTimeout(() => {
                     onHide?.();
+                    SplashStatus.show = false;
                 }, 3000 - loadTime);
             }
         }
