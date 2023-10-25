@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 20,
         paddingBottom: 28,
-        maxHeight: "100%",
         backgroundColor: AppTheme.colors.font_color_4,
     },
     title: {
         marginHorizontal: DEFAULT_MARGIN,
         minHeight: 260,
+        marginBottom:10,
     },
     title_label: {
         ...AppTheme.typography.section_header,
