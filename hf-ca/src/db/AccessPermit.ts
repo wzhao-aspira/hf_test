@@ -12,9 +12,13 @@ export async function getAccessPermitDataFromDB(activeProfileId: string) {
 
 export async function saveAccessPermitDataToDB(accessPermit: any) {
     console.log("Save access permit data");
-    realm.write(() => {
-        realm.create(AccessPermit, accessPermit, true);
-    });
+    try {
+        realm.write(() => {
+            realm.create(AccessPermit, accessPermit, true);
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export async function removeAccessPermitFromDB() {

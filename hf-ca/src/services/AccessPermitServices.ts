@@ -74,8 +74,6 @@ const convertAccessPermitItem = (activePermit: ActivePermitListVM): AccessPermit
             isDisplayReservation,
             fileInfoList,
             isGeneratedDraw, // isGeneratedDraw=false means upland
-            huntFirstOpenDate,
-            huntLastCloseDate,
         };
     });
 
