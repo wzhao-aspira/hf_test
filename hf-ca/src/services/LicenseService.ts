@@ -55,6 +55,7 @@ export async function getLatestLicenseDataByCustomerId(customerId) {
             isHarvestReportSubmitted,
             mobileAppNeedPhysicalDocument,
             licenseReportId,
+            huntTagDescription,
         } = item;
         const { duplicateWatermark, documentNumber, amount } = {
             ...item.document,
@@ -87,6 +88,7 @@ export async function getLatestLicenseDataByCustomerId(customerId) {
             isHarvestReportSubmissionEnabled,
             isHarvestReportSubmitted,
             licenseReportId,
+            huntTagDescription,
         };
     });
     return { formattedResult, lastUpdateTime, errors };

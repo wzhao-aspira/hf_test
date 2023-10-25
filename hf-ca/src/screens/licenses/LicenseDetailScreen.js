@@ -155,6 +155,7 @@ function LicenseDetailScreen(props) {
         isHarvestReportSubmissionEnabled,
         isHarvestReportSubmitted,
         licenseReportId,
+        huntTagDescription,
     } = licenseData || {};
 
     console.log(`license data:${JSON.stringify(licenseData)}`);
@@ -505,6 +506,23 @@ function LicenseDetailScreen(props) {
                                         {name}
                                     </Text>
                                 </View>
+                                {huntTagDescription && (
+                                    <View style={styles.titleContainer}>
+                                        <Text
+                                            numberOfLines={0}
+                                            style={[
+                                                styles.title,
+                                                {
+                                                    width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
+                                                    paddingHorizontal: DEFAULT_MARGIN,
+                                                },
+                                            ]}
+                                            testID={genTestId("huntTagDescription")}
+                                        >
+                                            {huntTagDescription}
+                                        </Text>
+                                    </View>
+                                )}
                                 <View style={styles.titleContainer}>
                                     <Text
                                         numberOfLines={0}
