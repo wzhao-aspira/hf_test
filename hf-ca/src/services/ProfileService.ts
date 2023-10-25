@@ -312,7 +312,7 @@ export async function saveCustomerLicenseToDB(profileListIDs) {
     await Promise.all(
         profileListIDs.map(async (profileId) => {
             try {
-                await getLicenseData(profileId);
+                await getLicenseData({ activeProfileId: profileId });
             } catch (error) {
                 console.log(error);
             }
