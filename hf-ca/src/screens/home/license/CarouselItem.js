@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Trans } from "react-i18next";
 import Carousel from "react-native-reanimated-carousel";
@@ -78,6 +77,7 @@ function CarouseItem({ licenses, setActiveSlide }) {
     return (
         <Carousel
             testID={genTestId("xarousel")}
+            key={licenses.length}
             style={{
                 marginHorizontal: -DEFAULT_MARGIN,
                 alignSelf: "center",

@@ -101,6 +101,10 @@ const licenseSlice = createSlice({
             const { payload } = action;
             state.data = payload;
         },
+        updateLastUpdateTime(state, action: PayloadAction<number>) {
+            const { payload } = action;
+            state.updateTime = payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getLicense.rejected, (state, action) => {

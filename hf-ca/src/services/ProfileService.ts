@@ -1,6 +1,6 @@
 import { isEmpty } from "lodash";
 import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
-import { saveLicenseListData, updateProfileDetailToDB } from "../db";
+import { updateProfileDetailToDB } from "../db";
 import { storeItem, retrieveItem } from "../helper/StorageHelper";
 import {
     getProfiles,
@@ -35,7 +35,7 @@ import NavigationService from "../navigation/NavigationService";
 import Routers from "../constants/Routers";
 import { clearCustomerDetailById } from "../db/ProfileDetail";
 import { clearCustomerSummaryById } from "../db/ProfileSummary";
-import { getLatestLicenseDataByCustomerId, getLicenseListDataFromDB } from "./LicenseService";
+import { getLicenseData, getLicenseListDataFromDB } from "./LicenseService";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
@@ -312,10 +312,7 @@ export async function saveCustomerLicenseToDB(profileListIDs) {
     await Promise.all(
         profileListIDs.map(async (profileId) => {
             try {
-                const { formattedResult } = await getLatestLicenseDataByCustomerId(profileId);
-                if (!isEmpty(formattedResult)) {
-                    await saveLicenseListData(profileId, formattedResult);
-                }
+                await getLicenseData(profileId);
             } catch (error) {
                 console.log(error);
             }
