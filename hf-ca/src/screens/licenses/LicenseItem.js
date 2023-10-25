@@ -1,6 +1,7 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
+import { Trans } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { genTestId } from "../../helper/AppHelper";
@@ -47,6 +48,14 @@ export const styles = StyleSheet.create({
         color: AppTheme.colors.error,
         marginTop: 5,
     },
+    huntTagDesc: {
+        width: "100%",
+        flexDirection: "column",
+    },
+    huntTagDescNameValue: {
+        ...AppTheme.typography.card_small_m,
+        color: AppTheme.colors.font_color_1,
+    },
 });
 
 function getProductName(itemData) {
@@ -55,6 +64,26 @@ function getProductName(itemData) {
         <Text testID={genTestId(name)} numberOfLines={0} style={styles.productName}>
             {name}
         </Text>
+    );
+}
+
+function getTagDescription(itemData) {
+    const { name, huntTagDescription } = itemData;
+    return (
+        huntTagDescription && (
+            <View style={styles.huntTagDesc}>
+                <Text testID={genTestId(`${name}_tag_desc_name`)} numberOfLines={0} style={styles.huntTagDescNameValue}>
+                    <Trans i18nKey="license.tagDescription" />
+                </Text>
+                <Text
+                    testID={genTestId(`${name}_tag_desc_value`)}
+                    numberOfLines={0}
+                    style={styles.huntTagDescNameValue}
+                >
+                    {huntTagDescription}
+                </Text>
+            </View>
+        )
     );
 }
 
@@ -90,6 +119,7 @@ function LicenseItem(props) {
                 <View style={styles.itemContent}>
                     <View style={styles.itemText}>
                         {getProductName(itemData)}
+                        {getTagDescription(itemData)}
                         {getValidDates(itemData)}
                         {getLicenseTag(itemData)}
                     </View>

@@ -32,7 +32,7 @@ function HomeLicenseSection(props: HomeLicenseSectionProps) {
 
     useEffect(() => {
         setActiveSlide(0);
-    }, [licenses.length]);
+    }, [licenses]);
 
     return (
         <View>
