@@ -14,8 +14,6 @@ export interface HuntDay {
     fileInfoList: FileInfo[];
     isDisplayReservation: boolean;
     isGeneratedDraw: boolean;
-    huntFirstOpenDate: string;
-    huntLastCloseDate: string;
 }
 
 export interface AccessPermitItem {
