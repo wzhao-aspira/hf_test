@@ -51,6 +51,7 @@ export const styles = StyleSheet.create({
     huntTagDesc: {
         width: "100%",
         flexDirection: "column",
+        marginTop: 5,
     },
     huntTagDescNameValue: {
         ...AppTheme.typography.card_small_m,
@@ -70,7 +71,7 @@ function getProductName(itemData) {
 function getTagDescription(itemData) {
     const { name, huntTagDescription } = itemData;
     return (
-        huntTagDescription && (
+        !!huntTagDescription && (
             <View style={styles.huntTagDesc}>
                 <Text testID={genTestId(`${name}_tag_desc_name`)} numberOfLines={0} style={styles.huntTagDescNameValue}>
                     <Trans i18nKey="license.tagDescription" />
