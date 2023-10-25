@@ -11,7 +11,7 @@ import { openRealm } from "../db";
 import { fetchPicture, getAppConfigData, getLoadingSplashFromFile } from "../services/AppConfigService";
 import { getErrorMessage } from "../hooks/useErrorHandling";
 import { showToast, SplashStatus } from "../helper/AppHelper";
-import { clearUnusedDownloadedFiles } from "../screens/useful_links/UsefulLinksHelper";
+import { clearUnusedDownloadedFiles } from "../screens/useful_links_old/UsefulLinksHelper";
 import AppTheme from "../assets/_default/AppTheme";
 
 const defaultLoadingSplash = require("../assets/_default/images/splash.png");
