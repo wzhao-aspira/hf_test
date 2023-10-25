@@ -39,6 +39,7 @@ import { Profile } from "../types/profile";
 import { actions as licenseActions } from "./LicenseSlice";
 import { actions as preferencePointActions } from "./PreferencePointSlice";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
+import { getLicenseLastUpdateTimeDataFromDB } from "../services/LicenseService";
 
 const formateProfile = (profile) => {
     const { customerId, name, customerTypeId, goidNumber, goid, ...otherProps } = profile;
@@ -136,9 +137,11 @@ const getCRSSVerifyProfiles = async (result = []) => {
 };
 
 const updateCustomerLicenseToRedux = (customerId) => async (dispatch) => {
-    console.log("ProfileThunk - updateCustomerLicenseToRedux - customerId", customerId);
+    console.log("ProfileThunk - updateCustomerLicenseToRedux - customerId:", customerId);
     const licenseData = await getCustomerLicenseFromDB(customerId);
     await dispatch(licenseActions.updateLicense(licenseData));
+    const lastUpdateTime = await getLicenseLastUpdateTimeDataFromDB({ activeProfileId: customerId });
+    await dispatch(licenseActions.updateLastUpdateTime(lastUpdateTime));
 };
 
 const initProfile =
@@ -213,6 +216,7 @@ const switchCurrentInUseProfile =
             await updateCurrentInUseProfileID(username, profileID);
             dispatch(profileActions.updateCurrentInUseProfileID(profileID));
             dispatch(preferencePointActions.clearUpdateTime());
+            await dispatch(updateCustomerLicenseToRedux(profileID));
         } catch (error) {
             console.log("switch profile error:", error);
         }
@@ -290,7 +294,6 @@ const getProfileListChangeStatus =
 
         if (noPrimaryProfile) {
             await dispatch(profileActions.setIndividualProfiles(profileList));
-
             dispatch(appActions.toggleShowPrimaryProfileInactiveMsg(true));
             return response;
         }

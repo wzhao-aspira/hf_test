@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { isEmpty } from "lodash";
 import { Trans } from "react-i18next";
@@ -29,6 +29,10 @@ function HomeLicenseSection(props: HomeLicenseSectionProps) {
     const [activeSlide, setActiveSlide] = useState(0);
     const { licenses } = props;
     const isLicensesEmpty = isEmpty(licenses);
+
+    useEffect(() => {
+        setActiveSlide(0);
+    }, [licenses.length]);
 
     return (
         <View>
