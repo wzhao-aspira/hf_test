@@ -58,8 +58,17 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textAlignVertical: "center",
     },
+    subTitle: {
+        ...AppTheme.typography.overlay_hyperLink,
+        color: AppTheme.colors.font_color_1,
+        textAlign: "center",
+        textAlignVertical: "center",
+    },
     titleContainer: {
         paddingVertical: 10,
+    },
+    subTitleContainer: {
+        paddingVertical: 5,
     },
     licenseInfo: {
         flexDirection: "row",
@@ -506,12 +515,12 @@ function LicenseDetailScreen(props) {
                                         {name}
                                     </Text>
                                 </View>
-                                {huntTagDescription && (
-                                    <View style={styles.titleContainer}>
+                                {!!huntTagDescription && (
+                                    <View style={styles.subTitleContainer}>
                                         <Text
                                             numberOfLines={0}
                                             style={[
-                                                styles.title,
+                                                styles.subTitle,
                                                 {
                                                     width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
                                                     paddingHorizontal: DEFAULT_MARGIN,
@@ -523,11 +532,11 @@ function LicenseDetailScreen(props) {
                                         </Text>
                                     </View>
                                 )}
-                                <View style={styles.titleContainer}>
+                                <View style={styles.subTitleContainer}>
                                     <Text
                                         numberOfLines={0}
                                         style={[
-                                            styles.title,
+                                            styles.subTitle,
                                             {
                                                 width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
                                                 paddingHorizontal: DEFAULT_MARGIN,
@@ -539,8 +548,18 @@ function LicenseDetailScreen(props) {
                                     </Text>
                                 </View>
                                 {!!additionalValidityText && (
-                                    <View style={styles.titleContainer}>
-                                        <Text numberOfLines={0} testID={genTestId("additionalValidityText")}>
+                                    <View style={styles.subTitleContainer}>
+                                        <Text
+                                            style={[
+                                                styles.subTitle,
+                                                {
+                                                    width: SCREEN_WIDTH - 2 * DEFAULT_MARGIN,
+                                                    paddingHorizontal: DEFAULT_MARGIN,
+                                                },
+                                            ]}
+                                            numberOfLines={0}
+                                            testID={genTestId("additionalValidityText")}
+                                        >
                                             {additionalValidityText}
                                         </Text>
                                     </View>
