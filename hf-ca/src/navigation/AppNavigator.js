@@ -121,6 +121,7 @@ function AppNavigator() {
                         screenOptions={{
                             presentation: "transparentModal",
                             animation: "none",
+                            orientation: "portrait",
                         }}
                     >
                         <RootStack.Screen name={Routers.modal} component={ModalScreen} />
