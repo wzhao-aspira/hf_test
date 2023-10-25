@@ -1,6 +1,7 @@
 import React from "react";
 import Routers from "../constants/Routers";
 import NavigationService from "../navigation/NavigationService";
+import { SplashStatus } from "./AppHelper";
 
 const DialogActions = {
     okAction: () => {},
@@ -23,14 +24,33 @@ interface DialogParamInterface {
     renderDialogContent?: () => React.FunctionComponent;
 }
 
+let showSimpleDialogTimeout;
+
 function showSimpleDialog(param: DialogParamInterface) {
+    if (SplashStatus.show) {
+        console.log("splash shown, delay SimpleDialog some time...");
+        clearTimeout(showSimpleDialogTimeout);
+        showSimpleDialogTimeout = setTimeout(() => {
+            showSimpleDialog(param);
+        }, 500);
+        return;
+    }
     DialogActions.okAction = param.okAction;
     const copyed = { ...param, isSelect: false };
     delete copyed.okAction;
     NavigationService.push(Routers.modal, copyed);
 }
 
+let showSelectDialogTimeout;
 function showSelectDialog(param: DialogParamInterface) {
+    if (SplashStatus.show) {
+        console.log("splash shown, delay SelectDialog some time...");
+        clearTimeout(showSelectDialogTimeout);
+        showSelectDialogTimeout = setTimeout(() => {
+            showSelectDialog(param);
+        }, 500);
+        return;
+    }
     DialogActions.selCancelAction = param.cancelAction;
     DialogActions.selOkAction = param.okAction;
     const copyed = { ...param, isSelect: true };
@@ -39,7 +59,16 @@ function showSelectDialog(param: DialogParamInterface) {
     NavigationService.push(Routers.modal, copyed);
 }
 
+let showCustomDialogTimeout;
 function showCustomDialog(param: DialogParamInterface) {
+    if (SplashStatus.show) {
+        console.log("splash shown, delay CustomDialog some time...");
+        clearTimeout(showCustomDialogTimeout);
+        showCustomDialogTimeout = setTimeout(() => {
+            showCustomDialog(param);
+        }, 500);
+        return;
+    }
     DialogActions.renderContent = param.renderDialogContent;
     const copyed = { ...param, custom: true };
     delete copyed.renderDialogContent;
