@@ -1,9 +1,5 @@
 export interface UsefulLinkData {
-    description: string;
-    id: string;
-    isPDF: boolean;
-    pdfViewOnlineEnable: boolean;
-    size: number;
+    description?: string;
     title: string;
-    url: string;
+    linkUrl: string;
 }
