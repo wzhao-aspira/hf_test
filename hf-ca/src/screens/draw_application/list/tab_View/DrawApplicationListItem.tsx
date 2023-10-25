@@ -96,7 +96,7 @@ function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListI
                 key={drawWonItem.huntName}
             >
                 {t("drawApplicationList.successfulFor")} {drawWonItem.huntCode}
-                {drawWonItem.huntName && `(${drawWonItem.huntName})`}
+                {drawWonItem.huntName && ` (${drawWonItem.huntName})`}
             </Text>
         )
     );
@@ -130,15 +130,17 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
     let itemTitle = `${year} ${drawType}`;
     let itemExtTitle = huntName && `(${huntName})`;
 
+    const alternateItem = items?.find((item) => item.alternateSeq && item.alternateSeq !== "N/A");
+    const isAlternateItem = !isEmpty(alternateItem);
+
     if (groupName === "copyHunt" && !isEmpty(items)) {
         year = copyDataYear;
         drawType = copyDataDrawType;
         drawStatus = copyDataDrawStatus;
-        const alternateItem = items.find((item) => item.alternateSeq && item.alternateSeq !== "N/A");
 
-        if (!isEmpty(alternateItem)) {
-            itemTitle = `${t("drawApplicationList.alternateForHunt")} ${alternateItem.huntCode}`;
-            itemExtTitle = alternateItem.huntName && ` -  ${alternateItem.huntName}`;
+        if (isAlternateItem) {
+            itemTitle = `${alternateItem.drawType} (${alternateItem.huntCode})`;
+            itemExtTitle = "";
         } else {
             const huntCodes = items?.map((i) => i.huntCode);
             itemTitle = `${year} ${drawType}`;
@@ -195,6 +197,12 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
                                     />
                                 </View>
                             </View>
+                        )}
+                        {isAlternateItem && (
+                            <Text style={{ ...styles.subTitle }} testID={genTestId("alternateText")}>
+                                {t("drawApplicationList.alternateForHunt")} {alternateItem.huntCode}
+                                {alternateItem.huntName && ` -  ${alternateItem.huntName}`}
+                            </Text>
                         )}
                     </View>
                     <View style={styles.rightIcon}>
