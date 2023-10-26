@@ -68,20 +68,21 @@ function DeleteAccountScreen() {
 
     async function pressProceedDeleteHandler() {
         setShouldShowConfirmDialog(false);
+        setTimeout(async () => {
+            try {
+                const result = await dispatch(accountThunkActions.deleteCurrentAccount(password));
 
-        try {
-            const result = await dispatch(accountThunkActions.deleteCurrentAccount(password));
+                if (result === "succeeded") {
+                    dispatch(updateLoginStep(LoginStep.login));
+                }
 
-            if (result === "succeeded") {
-                dispatch(updateLoginStep(LoginStep.login));
+                if (result === "failed") {
+                    // TODO: handle failed
+                }
+            } catch (error) {
+                // TODO: handle error
             }
-
-            if (result === "failed") {
-                // TODO: handle failed
-            }
-        } catch (error) {
-            // TODO: handle error
-        }
+        });
     }
 
     function backToThePreviousScreen() {
