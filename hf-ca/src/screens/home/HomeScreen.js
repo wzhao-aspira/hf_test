@@ -32,6 +32,7 @@ export default function HomeScreen() {
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
     const getLicenseOfActiveProfile = (isForce, useCache) => {
+        console.log("HomeScreen - getLicenseOfActiveProfile - activeProfileId:", activeProfileId);
         if (activeProfileId) {
             dispatch(getLicense({ isForce, searchParams: { activeProfileId }, useCache }));
         }
