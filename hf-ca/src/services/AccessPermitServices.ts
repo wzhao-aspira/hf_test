@@ -82,7 +82,7 @@ const convertAccessPermitItem = (activePermit: ActivePermitListVM): AccessPermit
 
 const convertCustomerInfo = (customerInfo) => {
     const { firstName, lastName, goId, mailingAddress } = customerInfo;
-    return { name: `${firstName}, ${lastName}`, address: mailingAddress, goId };
+    return { name: `${firstName} ${lastName}`, address: mailingAddress, goId };
 };
 
 export async function getAccessPermitData(searchParams: { activeProfileId: string }): Promise<AccessPermit> {
