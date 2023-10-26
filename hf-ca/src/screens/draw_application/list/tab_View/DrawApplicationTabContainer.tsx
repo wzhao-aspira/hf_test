@@ -83,7 +83,7 @@ function TabListContent({ tabName, pendingList, tabData }: TabContentProps) {
                     {copyHuntsList.map((item) => (
                         <ListItem
                             copyData={item}
-                            key={item.year + item.drawType}
+                            key={item.year + item.drawType + item.partyNumber}
                             tabName={tabName}
                             groupName="copyHunt"
                             drawDetailData={item.items}
