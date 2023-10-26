@@ -9,7 +9,9 @@ export default class CopyHuntsInfo extends Realm.Object<CopyHuntsInfo> {
 
     drawType: string;
 
-    drawStatus?: string;
+    drawStatus: string;
+
+    partyNumber: string;
 
     items: DrawApplicationItem[];
 
@@ -18,7 +20,8 @@ export default class CopyHuntsInfo extends Realm.Object<CopyHuntsInfo> {
         properties: {
             year: "string",
             drawType: "string",
-            drawStatus: "string?",
+            drawStatus: "string",
+            partyNumber: "string",
             items: { type: "list", objectType: "DrawApplicationItem" },
         },
     };

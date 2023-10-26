@@ -14,7 +14,7 @@ import profileSelectors from "../../../redux/ProfileSelector";
 import drawSelectors from "../../../redux/DrawApplicationSelector";
 import DrawApplicationListLoading from "./DrawApplicationListLoading";
 import { useAppDispatch } from "../../../hooks/redux";
-import { genTestId } from "../../../helper/AppHelper";
+import { genTestId, showNotImplementedFeature } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     container: {
@@ -59,6 +59,13 @@ const renderTabBar = (props) => (
                 {route.title}
             </Text>
         )}
+        onTabPress={({ route, preventDefault }) => {
+            // TODO: prevent view pending tab in release 1.4
+            if (route.key === "pending") {
+                preventDefault();
+                showNotImplementedFeature();
+            }
+        }}
     />
 );
 
@@ -118,7 +125,7 @@ function DrawApplicationListScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("drawApplicationList.draws")} rightIcon={false} subTitle={false} />
+            <CommonHeader title={t("drawApplicationList.draws")} rightIcon={false} />
             <View style={{ flex: 1, backgroundColor: AppTheme.colors.page_bg }}>
                 <DrawListContent />
             </View>

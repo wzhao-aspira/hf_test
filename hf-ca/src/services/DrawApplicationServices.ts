@@ -3,7 +3,7 @@ import type { DrawApplicationList, NonPendingStatusList } from "../types/drawApp
 import { getDrawApplicationListByCustomerId } from "../network/api_client/DrawResultsApi";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
-import { DrawResultsListVM, NonPendingStatusList as APINonPendingStatusList } from "../network/generated";
+import { DrawResultsListVM, DrawStatusList as APINonPendingStatusList } from "../network/generated";
 
 const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
     const {
@@ -64,6 +64,7 @@ export const formateNonPendingDrawList = (list: APINonPendingStatusList) => {
         return {
             year: group.year,
             drawType: group.drawType,
+            partyNumber: group.partyNumber,
             drawStatus: items[0]?.drawStatus || "",
             items: items?.map((item) => convertDrawApplicationItem(item)),
         };

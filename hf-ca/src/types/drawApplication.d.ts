@@ -49,6 +49,7 @@ export interface CopyHuntsItem {
     year: string;
     drawType: string;
     drawStatus: string;
+    partyNumber: string;
     items?: DrawResultsListItem[];
 }
 export interface NonPendingStatusList {

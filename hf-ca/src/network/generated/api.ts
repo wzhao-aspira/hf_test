@@ -211,6 +211,12 @@ export interface CopyHuntListVM {
     'drawType'?: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof CopyHuntListVM
+     */
+    'partyNumber'?: string | null;
+    /**
+     * 
      * @type {Array<DrawResultsListVM>}
      * @memberof CopyHuntListVM
      */
@@ -780,22 +786,22 @@ export interface DrawResultsVM {
     'instructions'?: string | null;
     /**
      * 
-     * @type {NonPendingStatusList}
+     * @type {DrawStatusList}
      * @memberof DrawResultsVM
      */
-    'successList'?: NonPendingStatusList;
+    'successList'?: DrawStatusList;
     /**
      * 
-     * @type {NonPendingStatusList}
+     * @type {DrawStatusList}
      * @memberof DrawResultsVM
      */
-    'unSuccessList'?: NonPendingStatusList;
+    'unSuccessList'?: DrawStatusList;
     /**
      * 
-     * @type {PendingStatusList}
+     * @type {PendingHuntList}
      * @memberof DrawResultsVM
      */
-    'pendingList'?: PendingStatusList;
+    'pendingList'?: PendingHuntList;
 }
 /**
  * 
@@ -821,6 +827,31 @@ export interface DrawResultsVMExecutionResult {
      * @memberof DrawResultsVMExecutionResult
      */
     'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
+ * @interface DrawStatusList
+ */
+export interface DrawStatusList {
+    /**
+     * 
+     * @type {Array<CopyHuntListVM>}
+     * @memberof DrawStatusList
+     */
+    'copyHuntsList'?: Array<CopyHuntListVM> | null;
+    /**
+     * 
+     * @type {Array<DrawResultsListVM>}
+     * @memberof DrawStatusList
+     */
+    'generatedHuntsList'?: Array<DrawResultsListVM> | null;
+    /**
+     * 
+     * @type {Array<DrawResultsListVM>}
+     * @memberof DrawStatusList
+     */
+    'multiChoiceCopyHuntsList'?: Array<DrawResultsListVM> | null;
 }
 /**
  * 
@@ -1813,6 +1844,18 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'faqLink'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileAppConfigurationVM
+     */
+    'isAccessPermitsAvailable'?: boolean | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileAppConfigurationVM
+     */
+    'isDrawResultAvailable'?: boolean | null;
 }
 /**
  * 
@@ -1974,31 +2017,6 @@ export interface MobileAppUserVMExecutionResult {
 /**
  * 
  * @export
- * @interface NonPendingStatusList
- */
-export interface NonPendingStatusList {
-    /**
-     * 
-     * @type {Array<CopyHuntListVM>}
-     * @memberof NonPendingStatusList
-     */
-    'copyHuntsList'?: Array<CopyHuntListVM> | null;
-    /**
-     * 
-     * @type {Array<DrawResultsListVM>}
-     * @memberof NonPendingStatusList
-     */
-    'generatedHuntsList'?: Array<DrawResultsListVM> | null;
-    /**
-     * 
-     * @type {Array<DrawResultsListVM>}
-     * @memberof NonPendingStatusList
-     */
-    'multiChoiceCopyHuntsList'?: Array<DrawResultsListVM> | null;
-}
-/**
- * 
- * @export
  * @interface OptionVM
  */
 export interface OptionVM {
@@ -2106,13 +2124,13 @@ export interface PasswordChangeVM {
 /**
  * 
  * @export
- * @interface PendingStatusList
+ * @interface PendingHuntList
  */
-export interface PendingStatusList {
+export interface PendingHuntList {
     /**
      * 
      * @type {Array<DrawResultsListVM>}
-     * @memberof PendingStatusList
+     * @memberof PendingHuntList
      */
     'pendingHuntsList'?: Array<DrawResultsListVM> | null;
 }
@@ -2247,12 +2265,6 @@ export interface RegulationList {
      * @memberof RegulationList
      */
     'fileFormat'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof RegulationList
-     */
-    'displayOrder'?: number;
 }
 /**
  * 
@@ -2478,12 +2490,6 @@ export interface UsefulLinkVM {
      * @memberof UsefulLinkVM
      */
     'linkUrl'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof UsefulLinkVM
-     */
-    'displayOrder'?: number;
 }
 /**
  * 
