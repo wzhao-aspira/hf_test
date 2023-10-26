@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import RenderHtml from "react-native-render-html";
 import moment from "moment";
+import { isEmpty } from "lodash";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { genTestId } from "../../helper/AppHelper";
 
@@ -438,7 +439,7 @@ function LicenseDetailScreen(props) {
                     />
                 }
             >
-                {licenseRefreshing || profileRefreshing || profileDetails.noCacheData ? (
+                {isEmpty(licenseData) || licenseRefreshing || profileRefreshing || profileDetails.noCacheData ? (
                     <LicenseDetailLoading />
                 ) : (
                     <>
