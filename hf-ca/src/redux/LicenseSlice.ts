@@ -100,9 +100,10 @@ const licenseSlice = createSlice({
             const { payload } = action;
             state.data = payload;
         },
-        updateLastUpdateTime(state, action: PayloadAction<number>) {
+        updateLastUpdateTime(state, action: PayloadAction<string>) {
             const { payload } = action;
-            state.updateTime = payload;
+            state.updateTime = moment().unix();
+            state.lastUpdateTimeFromServer = payload;
         },
     },
     extraReducers: (builder) => {
