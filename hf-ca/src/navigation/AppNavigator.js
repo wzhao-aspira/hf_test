@@ -52,6 +52,7 @@ import MeTabScreen from "../screens/me/MeTabScreen";
 import DrawApplicationListScreen from "../screens/draw_application/list/DrawApplicationListScreen";
 import RegulationListScreen from "../screens/regulation/list/RegulationListScreen";
 import RegulationDetailScreen from "../screens/regulation/detail/RegulationDetailScreen";
+import { isIos } from "../helper/AppHelper";
 
 const NavTheme = {
     colors: {
@@ -70,6 +71,9 @@ const screenOpt = {
     headerShown: false,
     presentation: "card",
 };
+
+const iOSDialogScreenOpt = { presentation: "transparentModal", animation: "none", orientation: "portrait" };
+const androidDialogScreenOpt = { presentation: "transparentModal", animation: "none" };
 
 // gets the current screen from navigation state
 function getActiveRouteName(navigationState) {
@@ -117,13 +121,7 @@ function AppNavigator() {
                             <RootStack.Screen name={Routers.drawerNav} component={DrawerNav} />
                         )}
                     </RootStack.Group>
-                    <RootStack.Group
-                        screenOptions={{
-                            presentation: "transparentModal",
-                            animation: "none",
-                            orientation: "portrait",
-                        }}
-                    >
+                    <RootStack.Group screenOptions={isIos() ? iOSDialogScreenOpt : androidDialogScreenOpt}>
                         <RootStack.Screen name={Routers.modal} component={ModalScreen} />
                     </RootStack.Group>
                 </RootStack.Navigator>

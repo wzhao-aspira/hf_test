@@ -4,6 +4,8 @@ const whiteList = [
     "StaticData/YouthIdentityOwners",
     "StaticData/Countries",
     "StaticData/States",
+    "StaticData/Regulations",
+    "StaticData/UsefulLinks",
 ];
 
 export default whiteList;
