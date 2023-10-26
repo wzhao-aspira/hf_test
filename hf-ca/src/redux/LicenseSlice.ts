@@ -35,8 +35,7 @@ export const getLicense = createAsyncThunk(
         }: { searchParams: { activeProfileId: string }; isForce?: boolean; useCache?: boolean },
         { dispatch }
     ) => {
-        console.log(`isForce:${isForce}, useCache:${useCache}`);
-
+        console.log(`LicenseSlice - getLicense - isForce:${isForce}, useCache:${useCache}`);
         let isAPISucceed = false;
         if (useCache == false) {
             const results = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), {
@@ -75,7 +74,7 @@ export const getLicense = createAsyncThunk(
                 return true;
             }
             const result = checkNeedAutoRefreshData(updateTime);
-            console.log(`result:${result}`);
+            console.log("LicenseSlice - checkNeedAutoRefreshData - result:", result);
             return result;
         },
     }

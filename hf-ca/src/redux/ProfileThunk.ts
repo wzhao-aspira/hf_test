@@ -140,7 +140,9 @@ const updateCustomerLicenseToRedux = (customerId) => async (dispatch) => {
     console.log("ProfileThunk - updateCustomerLicenseToRedux - customerId:", customerId);
     const licenseData = await getCustomerLicenseFromDB(customerId);
     await dispatch(licenseActions.updateLicense(licenseData));
-    const lastUpdateTime = await getLicenseLastUpdateTimeDataFromDB({ activeProfileId: customerId });
+    const timeResultFromDB = await getLicenseLastUpdateTimeDataFromDB({ activeProfileId: customerId });
+    const { lastUpdateTime } = timeResultFromDB;
+    console.log("ProfileThunk - updateCustomerLicenseToRedux - lastUpdateTime:", lastUpdateTime);
     await dispatch(licenseActions.updateLastUpdateTime(lastUpdateTime));
 };
 
