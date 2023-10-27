@@ -17,11 +17,13 @@ import UsefulLinksLoading from "./UsefulLinksLoading";
 const styles = StyleSheet.create({
     container: {
         backgroundColor: AppTheme.colors.page_bg,
+        paddingBottom: 0,
     },
     listView: {
         flex: 1,
         marginHorizontal: DEFAULT_MARGIN,
         marginTop: DEFAULT_MARGIN,
+        paddingBottom: DEFAULT_MARGIN,
     },
     itemContainer: {
         ...AppTheme.shadow,
