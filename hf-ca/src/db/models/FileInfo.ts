@@ -16,6 +16,7 @@ export default class FileInfo extends Realm.Object<FileInfo> {
 
     static schema = {
         name: schemaName,
+        embedded: true,
         properties: {
             type: "string",
             title: "string?",

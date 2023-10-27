@@ -13,7 +13,7 @@ export default class AccessPermitItem extends Realm.Object<AccessPermitItem> {
 
     static schema = {
         name: schemaName,
-        primaryKey: "id",
+        embedded: true,
         properties: {
             id: "string",
             name: "string",
