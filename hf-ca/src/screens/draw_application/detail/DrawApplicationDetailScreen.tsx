@@ -105,10 +105,7 @@ function getLabelValueLis(drawApplicationItemData: DrawApplicationItemData) {
               { label: t("drawApplicationDetail.HuntName"), value: name },
               { label: t("drawApplicationDetail.HuntDate"), value: huntDate },
               { label: t("drawApplicationDetail.ReservationNumber"), value: reservationNumber },
-              {
-                  label: t("drawApplicationDetail.DidIWin"),
-                  value: didIWin,
-              },
+              { label: t("drawApplicationDetail.DidIWin"), value: didIWin },
           ]
         : [
               { label: t("drawApplicationDetail.DrawType"), value: type },
@@ -119,26 +116,11 @@ function getLabelValueLis(drawApplicationItemData: DrawApplicationItemData) {
                       return `${previousValue}\n${currentValue}`;
                   }, "")}`,
               },
-              {
-                  label: t("drawApplicationDetail.Choice#"),
-                  value: choiceNumber,
-              },
-              {
-                  label: t("drawApplicationDetail.ChoiceCode"),
-                  value: choiceCode,
-              },
-              {
-                  label: t("drawApplicationDetail.ChoiceName"),
-                  value: name,
-              },
-              {
-                  label: t("drawApplicationDetail.DidIWin"),
-                  value: didIWin,
-              },
-              {
-                  label: t("drawApplicationDetail.Alternate#"),
-                  value: alternateNumber,
-              },
+              { label: t("drawApplicationDetail.Choice#"), value: choiceNumber },
+              { label: t("drawApplicationDetail.ChoiceCode"), value: choiceCode },
+              { label: t("drawApplicationDetail.ChoiceName"), value: name },
+              { label: t("drawApplicationDetail.DidIWin"), value: didIWin },
+              { label: t("drawApplicationDetail.Alternate#"), value: alternateNumber },
           ];
 
     return labelValueList;
@@ -176,8 +158,16 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
                     size={20}
                 />
             )}
-            <View style={[styles.content, { height: "97%" }]}>
-                <ScrollView nestedScrollEnabled showsVerticalScrollIndicator persistentScrollbar overScrollMode="never">
+            <View style={[styles.content, { height: "95%" }]}>
+                <ScrollView
+                    nestedScrollEnabled
+                    showsVerticalScrollIndicator
+                    persistentScrollbar
+                    overScrollMode="never"
+                    contentContainerStyle={{
+                        paddingBottom: 18,
+                    }}
+                >
                     {labelValueList.map((labelValue) => {
                         return (
                             <View key={labelValue.label} style={styles.labelValueRow}>
@@ -279,14 +269,17 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
                             })}
                         </View>
                     )}
-                    {fileList.map((item) => (
-                        <NotificationAndAttachment
-                            key={item[0].id}
-                            folderName={folderName}
-                            fileInfoList={item}
-                            cardMarginHorizontal={DEFAULT_MARGIN + 5}
-                        />
-                    ))}
+                    {fileList.map((item) => {
+                        const [file1, file2] = item;
+                        return (
+                            <NotificationAndAttachment
+                                key={`${file1?.id}${file2?.id}`}
+                                folderName={folderName}
+                                fileInfoList={item}
+                                cardMarginHorizontal={DEFAULT_MARGIN + 5}
+                            />
+                        );
+                    })}
                 </ScrollView>
             )}
         </Page>
