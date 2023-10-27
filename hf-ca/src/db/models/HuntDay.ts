@@ -27,6 +27,7 @@ export default class HuntDay extends Realm.Object<HuntDay> {
 
     static schema = {
         name: schemaName,
+        embedded: true,
         properties: {
             id: "string",
             huntCode: "string?",

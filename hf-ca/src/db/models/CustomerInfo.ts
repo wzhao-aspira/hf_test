@@ -12,6 +12,7 @@ export default class CustomerInfo extends Realm.Object<CustomerInfo> {
 
     static schema = {
         name: schemaName,
+        embedded: true,
         properties: {
             name: "string",
             address: "string",
