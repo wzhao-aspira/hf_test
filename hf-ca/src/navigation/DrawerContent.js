@@ -150,9 +150,9 @@ export default function DrawerContent({ navigation }) {
     }, [drawerStatus]);
 
     const onSignOut = async () => {
-        await handleError(AccountService.signOut(), { dispatch, showLoading: false, showError: false });
-        await AccountService.clearAppData(dispatch);
+        handleError(AccountService.signOut(), { dispatch, showLoading: false, showError: false });
         dispatch(updateLoginStep(LoginStep.login));
+        await AccountService.clearAppData(dispatch);
     };
 
     const renderProfileSection = () => {

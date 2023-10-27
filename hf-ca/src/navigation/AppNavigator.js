@@ -53,6 +53,7 @@ import DrawApplicationListScreen from "../screens/draw_application/list/DrawAppl
 import RegulationListScreen from "../screens/regulation/list/RegulationListScreen";
 import RegulationDetailScreen from "../screens/regulation/detail/RegulationDetailScreen";
 import { isIos } from "../helper/AppHelper";
+import RenderSplash from "../components/AppSplash";
 
 const NavTheme = {
     colors: {
@@ -105,6 +106,9 @@ function AppNavigator() {
             >
                 <RootStack.Navigator mode="modal" headerMode="none" screenOptions={screenOpt}>
                     <RootStack.Group>
+                        {loginStep === LoginStep.splash && (
+                            <RootStack.Screen name={Routers.splash} component={RenderSplash} />
+                        )}
                         {loginStep === LoginStep.login && (
                             <RootStack.Screen name={Routers.login} component={LoginScreen} />
                         )}
@@ -126,7 +130,7 @@ function AppNavigator() {
                     </RootStack.Group>
                 </RootStack.Navigator>
             </NavigationContainer>
-            <NetInfoBar />
+            {loginStep != LoginStep.splash && <NetInfoBar />}
         </View>
     );
 }
