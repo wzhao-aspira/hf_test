@@ -127,7 +127,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
         }
         const searchResult = await handleError(searchLocationByText(text), { dispatch });
         if (searchResult.success) {
-            const locations = searchResult.value;
+            const locations = searchResult.data.value;
             if (isEmpty(locations)) {
                 setDropdownData([]);
             } else {
