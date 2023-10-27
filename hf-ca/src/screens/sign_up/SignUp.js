@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         backgroundColor: AppTheme.colors.font_color_4,
         borderRadius: DEFAULT_RADIUS,
         padding: 20,
-        top: 130,
+        top: 128,
         marginBottom: 10,
         position: "absolute",
         zIndex: 1,
@@ -200,7 +200,7 @@ function SignUp() {
             )}
             {!isEmailValidationCodeBeSended && (
                 <PrimaryBtn
-                    style={{ marginTop: 40 }}
+                    style={{ marginTop: 42 }}
                     label={t("common.sendValidationCode")}
                     onPress={onSendEmailVerifyCode}
                 />
