@@ -139,7 +139,7 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
         drawStatus = copyDataDrawStatus;
 
         if (isAlternateItem) {
-            itemTitle = `${alternateItem.drawType} (${alternateItem.huntCode})`;
+            itemTitle = `${alternateItem.year} ${alternateItem.drawType} (${alternateItem.huntCode})`;
             itemExtTitle = "";
         } else {
             const huntCodes = items?.map((i) => i.huntCode);
