@@ -4,15 +4,21 @@ import { StyleSheet, View, Image } from "react-native";
 
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { isEmpty } from "lodash";
 import AppContract from "../assets/_default/AppContract";
 import { openRealm } from "../db";
 import { fetchPicture, getAppConfigData, getLoadingSplashFromFile } from "../services/AppConfigService";
 import { getErrorMessage } from "../hooks/useErrorHandling";
-import { showToast, SplashStatus } from "../helper/AppHelper";
+import { getActiveUserID, showToast, SplashStatus } from "../helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "../screens/useful_links_old/UsefulLinksHelper";
 import AppTheme from "../assets/_default/AppTheme";
+import { restoreToken } from "../network/tokenUtil";
+import store from "../redux/Store";
+import ProfileThunk from "../redux/ProfileThunk";
+import LoginStep from "../constants/LoginStep";
+import { updateLoginStep } from "../redux/AppSlice";
+import appThunkActions from "../redux/AppThunk";
 
 const defaultLoadingSplash = require("../assets/_default/images/splash.png");
 
@@ -27,7 +33,21 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function RenderSplash({ onHide, onContentReady }) {
+const checkLogin = async () => {
+    const lastUsedMobileAccountId = await getActiveUserID();
+    if (!isEmpty(lastUsedMobileAccountId)) {
+        const hasAccessToken = await restoreToken(lastUsedMobileAccountId);
+        if (hasAccessToken) {
+            await store.dispatch(appThunkActions.initUserData({ userID: lastUsedMobileAccountId }));
+            await store.dispatch(ProfileThunk.initProfile(false, true));
+            store.dispatch(updateLoginStep(LoginStep.home));
+            return;
+        }
+    }
+    store.dispatch(updateLoginStep(LoginStep.login));
+};
+
+export default function RenderSplash() {
     const [cachedSplash, setCachedSplash] = useState();
     const getConfigError = useRef(false);
     const startTime = useRef(0);
@@ -46,15 +66,14 @@ export default function RenderSplash({ onHide, onContentReady }) {
             getConfigError.current = true;
         });
         if (!getConfigError.current) {
-            onContentReady?.();
             fetchPicture();
             const loadTime = Date.now() - startTime.current;
             if (loadTime >= 3000) {
-                onHide?.();
+                await checkLogin();
                 SplashStatus.show = false;
             } else {
-                setTimeout(() => {
-                    onHide?.();
+                setTimeout(async () => {
+                    await checkLogin();
                     SplashStatus.show = false;
                 }, 3000 - loadTime);
             }
@@ -81,10 +100,5 @@ export default function RenderSplash({ onHide, onContentReady }) {
     if (!cachedSplash) {
         return <View style={{ position: "absolute", flex: 1 }} />;
     }
-    return (
-        <View style={styles.splash}>
-            <StatusBar translucent style="dark" backgroundColor={AppTheme.colors.transparent} />
-            <Image resizeMode="cover" style={styles.splash} source={cachedSplash} />
-        </View>
-    );
+    return <Image resizeMode="cover" style={styles.splash} source={cachedSplash} />;
 }

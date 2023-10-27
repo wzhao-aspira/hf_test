@@ -17,7 +17,7 @@ interface InitialState {
 
 const initialState: InitialState = {
     user: {},
-    loginStep: LoginStep.login,
+    loginStep: LoginStep.splash,
     indicator: false,
     error: {},
     showPrimaryProfileInactiveMsg: false,

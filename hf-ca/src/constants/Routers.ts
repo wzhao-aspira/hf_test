@@ -6,6 +6,7 @@ import ValueOf from "../types/valueOf";
 import { FileInfo } from "../types/accessPermit";
 
 const Routers = {
+    splash: "splash",
     accessPermitDetail: "accessPermitDetail",
     addProfile: "addProfileScreen",
     addBusinessVesselProfile: "addBusinessVesselProfileScreen",

@@ -5,4 +5,5 @@ export default {
     signIn: 3,
     signUp: 4,
     home: 10,
+    splash: 11,
 };
