@@ -47,7 +47,7 @@
         "fee": "FEE*:",
         "lePermitType": "LE Permit Type:",
         "lePermitId": "LE Permit ID:",
-        "feeNotice": "* Include any application fee, agent handing fees and license buyer surcharge",
+        "feeNotice": "* Include any application fee, agent handing fees and license buyer surcharge.",
         "vesselOwnerInformation": "Vessel Owner Information",
         "submitHarvestReport": "Submit Harvest Report",
         "viewHarvestReport": "View Harvest Report History"
