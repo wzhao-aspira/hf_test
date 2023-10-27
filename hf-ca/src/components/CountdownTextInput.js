@@ -166,7 +166,7 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
                         <View style={styles.countdownView}>
                             <CountdownCircleTimer
                                 isPlaying
-                                duration={6}
+                                duration={60}
                                 colors={AppTheme.colors.font_color_4}
                                 onComplete={onCountdownFinish}
                                 size={isIos() ? 29 : 30.9}
