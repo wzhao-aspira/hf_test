@@ -104,7 +104,7 @@ function AppNavigator() {
                     getActiveRouteName(state);
                 }}
             >
-                <RootStack.Navigator mode="modal" headerMode="none" screenOptions={screenOpt}>
+                <RootStack.Navigator mode="modal" headerMode="none" screenOptions={{ ...screenOpt, animation: "none" }}>
                     <RootStack.Group>
                         {loginStep === LoginStep.splash && (
                             <RootStack.Screen name={Routers.splash} component={RenderSplash} />
