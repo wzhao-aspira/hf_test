@@ -13,6 +13,10 @@ import { genTestId } from "../../../helper/AppHelper";
 import { handleError } from "../../../network/APIUtil";
 import { getCacheRegulations, getRegulationData, saveCacheRegulations } from "../../../services/RegulationService";
 
+import getRegulationFileIDList from "../detail/utils/getRegulationFileIDList";
+import { folderName } from "../detail/RegulationDetailScreen";
+import cleanUpInvalidFiles from "../../../components/notificationAndAttachment/utils/cleanUpInvalidFiles";
+
 const styles = StyleSheet.create({
     container: {
         paddingBottom: 0,
@@ -71,7 +75,13 @@ function RegulationListScreen() {
         console.log(`regulation api response:${JSON.stringify(response)}`);
 
         if (response.success && !isEmpty(response?.data?.data?.result)) {
-            await saveCacheRegulations(response.data.data.result);
+            const result = response.data.data?.result;
+
+            await saveCacheRegulations(result);
+            console.log(result);
+
+            const regulationFileIDList = getRegulationFileIDList(result.regulationList);
+            cleanUpInvalidFiles({ folderName, downloadableFileIDList: regulationFileIDList });
         }
 
         const cacheRegulationData = await getCacheRegulations();
