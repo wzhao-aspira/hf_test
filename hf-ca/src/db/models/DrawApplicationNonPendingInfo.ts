@@ -14,6 +14,7 @@ export default class DrawApplicationNonPendingInfo extends Realm.Object<DrawAppl
 
     static schema = {
         name: schemaName,
+        embedded: true,
         properties: {
             copyHuntsList: { type: "list", objectType: "CopyHuntsInfo" },
             generatedHuntsList: { type: "list", objectType: "DrawApplicationItem" },

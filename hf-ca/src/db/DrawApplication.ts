@@ -1,8 +1,5 @@
 import { realm } from "./ConfigRealm";
-import CopyHuntsInfo from "./models/CopyHuntsInfo";
 import DrawApplication from "./models/DrawApplication";
-import DrawApplicationItem from "./models/DrawApplicationItem";
-import DrawApplicationNonPendingInfo from "./models/DrawApplicationNonPendingInfo";
 
 export async function getDrawApplicationDataFromDB(activeProfileId: string) {
     let response = {};
@@ -31,9 +28,6 @@ export async function deleteDrawApplicationDataFromDB() {
     try {
         realm.write(() => {
             realm.delete(realm.objects(DrawApplication));
-            realm.delete(realm.objects(CopyHuntsInfo));
-            realm.delete(realm.objects(DrawApplicationItem));
-            realm.delete(realm.objects(DrawApplicationNonPendingInfo));
         });
     } catch (error) {
         console.log("deleteDrawApplicationDataFromDB error:", error);

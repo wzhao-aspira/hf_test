@@ -50,7 +50,7 @@ export default class DrawApplicationItem extends Realm.Object<DrawApplicationIte
 
     static schema = {
         name: schemaName,
-        primaryKey: "huntId",
+        embedded: true,
         properties: {
             id: "string",
             year: "string",

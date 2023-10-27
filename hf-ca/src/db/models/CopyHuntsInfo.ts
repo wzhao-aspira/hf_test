@@ -17,6 +17,7 @@ export default class CopyHuntsInfo extends Realm.Object<CopyHuntsInfo> {
 
     static schema = {
         name: schemaName,
+        embedded: true,
         properties: {
             year: "string",
             drawType: "string",
