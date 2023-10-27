@@ -4,9 +4,11 @@ import RenderHtml from "react-native-render-html";
 import { isEmpty } from "lodash";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
-import { genTestId, openLink } from "../../../helper/AppHelper";
+import { genTestId, openLink, isIos } from "../../../helper/AppHelper";
 import CommonHeader from "../../../components/CommonHeader";
 import PrimaryBtn from "../../../components/PrimaryBtn";
+
+import useFileOperations from "./hooks/useFileOperations";
 
 const styles = StyleSheet.create({
     container: {
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
     title: {
         marginHorizontal: DEFAULT_MARGIN,
         minHeight: 260,
-        marginBottom:10,
+        marginBottom: 10,
     },
     title_label: {
         ...AppTheme.typography.section_header,
@@ -42,12 +44,22 @@ const styles = StyleSheet.create({
     },
 });
 
+export const folderName = "regulation_files";
+
 export default function RegulationDetailScreen(props) {
     const { t } = useTranslation();
     const { width } = useWindowDimensions();
     const { route } = props;
     const { regulation } = route.params;
     const { regulationTitle, regulationDetail, regulationSize, fileFormat, regulationUrl } = regulation;
+
+    const { downloadFile, openFile, status } = useFileOperations({
+        downloadURL: regulationUrl,
+        folderName,
+    });
+    const isNotDownloaded = status === "not downloaded yet";
+    const isDownloading = status === "downloading";
+    const isDownloaded = status === "downloaded";
 
     return (
         <View style={styles.container}>
@@ -78,30 +90,47 @@ export default function RegulationDetailScreen(props) {
                         </Text>
                     </View>
                     <View style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 10 }}>
-                        <PrimaryBtn
-                            style={styles.button}
-                            testID="downloadBtn"
-                            label={t("regulation.download")}
-                            onPress={() => {}}
-                        />
                         {!isEmpty(regulationUrl) && (
-                            <PrimaryBtn
-                                style={styles.button}
-                                testID="viewFromWebBtn"
-                                label={t("regulation.viewFromWeb")}
-                                onPress={() => {
-                                    if (!isEmpty(regulationUrl)) {
-                                        openLink(regulationUrl);
-                                    }
-                                }}
-                            />
+                            <>
+                                {isNotDownloaded && (
+                                    <PrimaryBtn
+                                        style={styles.button}
+                                        testID="downloadBtn"
+                                        label={t("regulation.download")}
+                                        onPress={downloadFile}
+                                    />
+                                )}
+                                {isDownloading && (
+                                    <PrimaryBtn
+                                        style={styles.button}
+                                        testID="downloadingBtn"
+                                        label={t("regulation.downloading")}
+                                        onPress={() => {}}
+                                        disabled
+                                    />
+                                )}
+                                {isDownloaded && (
+                                    <PrimaryBtn
+                                        style={styles.button}
+                                        testID="viewFromDownloadBtn"
+                                        label={t("regulation.viewFromDownload")}
+                                        onPress={openFile}
+                                    />
+                                )}
+                                {isIos() && (
+                                    <PrimaryBtn
+                                        style={styles.button}
+                                        testID="viewFromWebBtn"
+                                        label={t("regulation.viewFromWeb")}
+                                        onPress={() => {
+                                            if (!isEmpty(regulationUrl)) {
+                                                openLink(regulationUrl);
+                                            }
+                                        }}
+                                    />
+                                )}
+                            </>
                         )}
-                        <PrimaryBtn
-                            style={styles.button}
-                            testID="viewFromDownloadBtn"
-                            label={t("regulation.viewFromDownload")}
-                            onPress={() => {}}
-                        />
                     </View>
                 </View>
             </ScrollView>
