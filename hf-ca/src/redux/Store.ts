@@ -8,6 +8,7 @@ import accountReducer from "./AccountSlice";
 import accessPermitReducer from "./AccessPermitSlice";
 import preferencePointReducer from "./PreferencePointSlice";
 import drawApplicationReducer from "./DrawApplicationSlice";
+import LoginStep from "../constants/LoginStep";
 
 const myAppReducer = combineReducers({
     app: appReducer,
@@ -22,7 +23,25 @@ const myAppReducer = combineReducers({
 
 const rootReducer = (state, action) => {
     if (action.type === "USER_LOGOUT") {
-        return myAppReducer(undefined, action);
+        return myAppReducer(
+            {
+                app: {
+                    user: {},
+                    loginStep: LoginStep.login,
+                    indicator: false,
+                    error: {},
+                    showPrimaryProfileInactiveMsg: false,
+                },
+                accessPermit: undefined,
+                weather: undefined,
+                profile: undefined,
+                license: undefined,
+                account: undefined,
+                preferencePoint: undefined,
+                drawApplication: undefined,
+            },
+            action
+        );
     }
 
     return myAppReducer(state, action);
