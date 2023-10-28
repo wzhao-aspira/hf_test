@@ -16,7 +16,7 @@ import DrawApplication from "./models/DrawApplication";
 import DrawApplicationListInfo from "./models/DrawApplicationListInfo";
 import CopyHuntsInfo from "./models/CopyHuntsInfo";
 
-const schemaVersion = 10;
+const schemaVersion = 11;
 
 export let realm: Realm;
 
