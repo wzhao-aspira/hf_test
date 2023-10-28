@@ -24,6 +24,7 @@ function convertDrawResultsListToDrawApplicationList(DrawResultsList: DrawResult
             alternateSeq,
             formatHuntDay,
             drawnSequence,
+            isDrawSequenceDisplayed,
         } = drawResultsItem;
 
         const notification: FileInfo = {
@@ -60,6 +61,7 @@ function convertDrawResultsListToDrawApplicationList(DrawResultsList: DrawResult
             alternateNumber: alternateSeq, // copy hunt only
             huntDate: formatHuntDay,
             reservationNumber: drawnSequence,
+            isReservationNumberDisplayed: isDrawSequenceDisplayed,
             fileInfoList,
         };
 

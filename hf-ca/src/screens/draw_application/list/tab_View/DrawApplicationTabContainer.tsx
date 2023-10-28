@@ -14,17 +14,12 @@ import { getDrawList } from "../../../../redux/DrawApplicationSlice";
 import DrawApplicationListLoading from "../DrawApplicationListLoading";
 import DrawListAttention from "./DrawListAttention";
 import ListItem from "./DrawApplicationListItem";
-import {
-    DrawApplicationListTabName,
-    NonPendingStatusList,
-    DrawResultsListItem,
-} from "../../../../types/drawApplication";
+import { DrawApplicationListTabName, DrawTabData } from "../../../../types/drawApplication";
 import { useAppDispatch } from "../../../../hooks/redux";
 
 interface TabContentProps {
     tabName?: DrawApplicationListTabName;
-    pendingList?: DrawResultsListItem[];
-    tabData?: NonPendingStatusList;
+    tabData?: DrawTabData;
 }
 interface TabProps extends TabContentProps {
     isEmptyTab?: boolean;
@@ -44,41 +39,33 @@ export const styles = StyleSheet.create({
     },
 });
 
-function TabListContent({ tabName, pendingList, tabData }: TabContentProps) {
+const groupTitles = {
+    successful: {
+        copyHuntGroupTitle: "drawApplicationList.successfulCopyTitle",
+        generatedHuntGroupTitle: "drawApplicationList.successfulGeneratedTitle",
+        multiChoiceGroupTitle: "drawApplicationList.successfulMultiTitle",
+    },
+    unsuccessful: {
+        copyHuntGroupTitle: "drawApplicationList.unsuccessfulCopyTitle",
+        generatedHuntGroupTitle: "drawApplicationList.unsuccessfulGeneratedTitle",
+        multiChoiceGroupTitle: "drawApplicationList.unsuccessfulMultiTitle",
+    },
+    pending: {
+        copyHuntGroupTitle: "drawApplicationList.pendingCopyTitle",
+        generatedHuntGroupTitle: "drawApplicationList.pendingGeneratedTitle",
+        multiChoiceGroupTitle: "drawApplicationList.pendingMultiTitle",
+    },
+};
+
+function TabListContent({ tabName, tabData }: TabContentProps) {
     const { t } = useTranslation();
-
-    const copyHuntGroupTitle =
-        tabName === "successful"
-            ? t("drawApplicationList.successfulCopyTitle")
-            : t("drawApplicationList.unsuccessfulCopyTitle");
-
-    const generatedHuntGroupTitle =
-        tabName === "successful"
-            ? t("drawApplicationList.successfulGeneratedTitle")
-            : t("drawApplicationList.unsuccessfulGeneratedTitle");
-
-    const multiChoiceGroupTitle =
-        tabName === "successful"
-            ? t("drawApplicationList.successfulMultiTitle")
-            : t("drawApplicationList.unsuccessfulMultiTitle");
-
-    if (tabName === "pending") {
-        return (
-            <View style={styles.groupContainer}>
-                {pendingList?.map((item) => (
-                    <ListItem itemData={item} key={item.id} tabName={tabName} drawDetailData={[item]} />
-                ))}
-            </View>
-        );
-    }
     const { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList } = tabData;
-
     return (
         <View>
             {!isEmpty(copyHuntsList) && (
                 <View style={styles.groupContainer}>
                     <Text style={styles.groupTitle} testID={genTestId("copyHuntGroupTitle")}>
-                        {copyHuntGroupTitle}
+                        {t(groupTitles[tabName].copyHuntGroupTitle)}
                     </Text>
                     {copyHuntsList.map((item) => (
                         <ListItem
@@ -95,7 +82,7 @@ function TabListContent({ tabName, pendingList, tabData }: TabContentProps) {
             {!isEmpty(generatedHuntsList) && (
                 <View style={styles.groupContainer}>
                     <Text style={styles.groupTitle} testID={genTestId("generatedHuntGroupTitle")}>
-                        {generatedHuntGroupTitle}
+                        {t(groupTitles[tabName].generatedHuntGroupTitle)}
                     </Text>
                     {generatedHuntsList.map((item) => (
                         <ListItem
@@ -112,7 +99,7 @@ function TabListContent({ tabName, pendingList, tabData }: TabContentProps) {
             {!isEmpty(multiChoiceCopyHuntsList) && (
                 <View style={styles.groupContainer}>
                     <Text style={styles.groupTitle} testID={genTestId("multiChoiceGroupTitle")}>
-                        {multiChoiceGroupTitle}
+                        {t(groupTitles[tabName].multiChoiceGroupTitle)}
                     </Text>
                     {multiChoiceCopyHuntsList.map((item) => (
                         <ListItem
@@ -129,7 +116,7 @@ function TabListContent({ tabName, pendingList, tabData }: TabContentProps) {
     );
 }
 
-function DrawApplicationTabItem({ tabData = {}, pendingList = [], tabName, isEmptyTab }: TabProps) {
+function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps) {
     const insets = useSafeAreaInsets();
     const dispatch = useAppDispatch();
 
@@ -172,7 +159,7 @@ function DrawApplicationTabItem({ tabData = {}, pendingList = [], tabName, isEmp
         >
             <View style={styles.tabContainer}>
                 {instructions && <DrawListAttention html={instructions} />}
-                <TabListContent tabName={tabName} pendingList={pendingList} tabData={tabData} />
+                <TabListContent tabName={tabName} tabData={tabData} />
             </View>
         </ScrollView>
     );

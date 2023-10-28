@@ -435,6 +435,9 @@
         "unsuccessfulCopyTitle": "Unsuccessful View Copy Hunt",
         "unsuccessfulGeneratedTitle": "Unsuccessful View Generated Hunt",
         "unsuccessfulMultiTitle": "Unsuccessful View Multi Choice Copy",
+        "pendingCopyTitle": "Pending View Copy Hunt",
+        "pendingGeneratedTitle": "Pending View Generated Hunt",
+        "pendingMultiTitle": "Pending View Multi Choice Copy",
         "status": "Status",
         "result": "Result",
         "alternateForHunt": "Alternate for Hunt"

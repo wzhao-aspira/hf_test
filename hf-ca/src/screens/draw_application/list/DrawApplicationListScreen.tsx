@@ -14,7 +14,7 @@ import profileSelectors from "../../../redux/ProfileSelector";
 import drawSelectors from "../../../redux/DrawApplicationSelector";
 import DrawApplicationListLoading from "./DrawApplicationListLoading";
 import { useAppDispatch } from "../../../hooks/redux";
-import { genTestId, showNotImplementedFeature } from "../../../helper/AppHelper";
+import { genTestId } from "../../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     container: {
@@ -35,9 +35,9 @@ function UnsuccessfulRoute() {
 }
 
 function PendingRoute() {
-    const list = useSelector(drawSelectors.selectPendingList);
+    const data = useSelector(drawSelectors.selectPendingList);
     const isEmptyData = useSelector(drawSelectors.selectPendingListIsEmpty);
-    return <DrawApplicationTabContainer pendingList={list} tabName="pending" isEmptyTab={isEmptyData} />;
+    return <DrawApplicationTabContainer tabData={data} tabName="pending" isEmptyTab={isEmptyData} />;
 }
 
 const renderTabBar = (props) => (
@@ -59,13 +59,6 @@ const renderTabBar = (props) => (
                 {route.title}
             </Text>
         )}
-        onTabPress={({ route, preventDefault }) => {
-            // TODO: prevent view pending tab in release 1.4
-            if (route.key === "pending") {
-                preventDefault();
-                showNotImplementedFeature();
-            }
-        }}
     />
 );
 

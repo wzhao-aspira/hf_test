@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { isEmpty } from "lodash";
-import { DrawResultsListItem, NonPendingStatusList, DrawApplicationList } from "../types/drawApplication";
+import { DrawTabData, DrawApplicationList } from "../types/drawApplication";
 import ValueOf from "../types/valueOf";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
@@ -13,9 +13,9 @@ import cleanUpInvalidFiles from "../components/notificationAndAttachment/utils/c
 
 interface InitialState {
     instructions: string;
-    successfulData: NonPendingStatusList;
-    unsuccessfulData: NonPendingStatusList;
-    pendingList: DrawResultsListItem[];
+    successfulData: DrawTabData;
+    unsuccessfulData: DrawTabData;
+    pendingData: DrawTabData;
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
     isUseCacheData: boolean;
     noCacheData: boolean;
@@ -25,7 +25,7 @@ const initialState: InitialState = {
     instructions: "",
     successfulData: {},
     unsuccessfulData: {},
-    pendingList: [],
+    pendingData: {},
     requestStatus: REQUEST_STATUS.idle,
     isUseCacheData: false,
     noCacheData: false,
@@ -108,10 +108,10 @@ const drawApplicationSlice = createSlice({
             if (result.success) {
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 if (!isEmpty(result.data)) {
-                    const { successList, unSuccessList, pendingList, instructions } = action.payload.data;
+                    const { successList, unSuccessList, pendingList, instructions } = result.data;
                     state.successfulData = successList;
                     state.unsuccessfulData = unSuccessList;
-                    state.pendingList = pendingList;
+                    state.pendingData = pendingList;
                     state.instructions = instructions;
                     state.noCacheData = false;
                 } else {

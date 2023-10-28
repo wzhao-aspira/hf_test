@@ -3,9 +3,9 @@ import Realm from "realm";
 import DrawApplicationItem from "./DrawApplicationItem";
 import CopyHuntsInfo from "./CopyHuntsInfo";
 
-const schemaName = "DrawApplicationNonPendingInfo";
+const schemaName = "DrawApplicationListInfo";
 
-export default class DrawApplicationNonPendingInfo extends Realm.Object<DrawApplicationNonPendingInfo> {
+export default class DrawApplicationListInfo extends Realm.Object<DrawApplicationListInfo> {
     copyHuntsList: CopyHuntsInfo[];
 
     generatedHuntsList: DrawApplicationItem[];
