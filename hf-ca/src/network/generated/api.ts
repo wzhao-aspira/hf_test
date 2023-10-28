@@ -798,10 +798,10 @@ export interface DrawResultsVM {
     'unSuccessList'?: DrawStatusList;
     /**
      * 
-     * @type {PendingHuntList}
+     * @type {DrawStatusList}
      * @memberof DrawResultsVM
      */
-    'pendingList'?: PendingHuntList;
+    'pendingList'?: DrawStatusList;
 }
 /**
  * 
@@ -1856,6 +1856,30 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'isDrawResultAvailable'?: boolean | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactCDFWEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactCDFWPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactAspiraEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactAspiraPhone'?: string | null;
 }
 /**
  * 
@@ -2120,19 +2144,6 @@ export interface PasswordChangeVM {
      * @memberof PasswordChangeVM
      */
     'newPassword': string;
-}
-/**
- * 
- * @export
- * @interface PendingHuntList
- */
-export interface PendingHuntList {
-    /**
-     * 
-     * @type {Array<DrawResultsListVM>}
-     * @memberof PendingHuntList
-     */
-    'pendingHuntsList'?: Array<DrawResultsListVM> | null;
 }
 /**
  * 

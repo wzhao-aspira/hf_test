@@ -61,7 +61,7 @@ interface ListItemResultSectionProps {
 }
 
 function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListItemResultSectionProps) {
-    const { drawnSequence } = itemData || {};
+    const { drawnSequence, isDrawSequenceDisplayed } = itemData || {};
     const { items } = copyData || {};
     const { t } = useTranslation();
     if (tabName === "unsuccessful") {
@@ -81,8 +81,8 @@ function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListI
     if (groupName === "generatedHunt") {
         return (
             <Text style={{ ...styles.subTitle }} testID={genTestId(`successfulText_${drawnSequence}`)}>
-                {t("drawApplicationList.successful")} {t("accessPermits.Reservation#")}
-                {drawnSequence}
+                {t("drawApplicationList.successful")}
+                {isDrawSequenceDisplayed && ` ${t("accessPermits.Reservation#")}${drawnSequence}`}
             </Text>
         );
     }
@@ -96,7 +96,7 @@ function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListI
                 key={drawWonItem.huntName}
             >
                 {t("drawApplicationList.successfulFor")} {drawWonItem.huntCode}
-                {drawWonItem.huntName && ` (${drawWonItem.huntName})`}
+                {!isEmpty(drawWonItem.huntName) && ` (${drawWonItem.huntName})`}
             </Text>
         )
     );
@@ -201,7 +201,7 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
                         {isAlternateItem && (
                             <Text style={{ ...styles.subTitle }} testID={genTestId("alternateText")}>
                                 {t("drawApplicationList.alternateForHunt")} {alternateItem.huntCode}
-                                {alternateItem.huntName && ` -  ${alternateItem.huntName}`}
+                                {!isEmpty(alternateItem.huntName) && ` -  ${alternateItem.huntName}`}
                             </Text>
                         )}
                     </View>

@@ -1,9 +1,9 @@
 import { isEmpty } from "lodash";
-import type { DrawApplicationList, NonPendingStatusList } from "../types/drawApplication";
+import type { DrawApplicationList, DrawTabData } from "../types/drawApplication";
 import { getDrawApplicationListByCustomerId } from "../network/api_client/DrawResultsApi";
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
-import { DrawResultsListVM, DrawStatusList as APINonPendingStatusList } from "../network/generated";
+import { DrawResultsListVM, DrawStatusList } from "../network/generated";
 
 const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
     const {
@@ -15,6 +15,7 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
         huntCode,
         huntDay,
         drawnSequence,
+        isDrawSequenceDisplayed,
         huntName,
         partyNumber,
         memberNames,
@@ -41,6 +42,7 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
         formatHuntDay:
             huntDay && DateUtils.dateToFormat(huntDay, AppContract.outputFormat.fmt_2, AppContract.inputFormat.fmt_2),
         drawnSequence,
+        isDrawSequenceDisplayed,
         huntName,
         partyNumber,
         memberNames,
@@ -58,7 +60,7 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
     };
 };
 
-export const formateNonPendingDrawList = (list: APINonPendingStatusList) => {
+export const formateDrawList = (list: DrawStatusList) => {
     const copyHuntsList = list.copyHuntsList?.map((group) => {
         const { items = [] } = group;
         return {
@@ -80,14 +82,14 @@ export async function getDrawApplicationList(profileId: string): Promise<DrawApp
     const response = await getDrawApplicationListByCustomerId(profileId);
     const { result } = response.data;
 
-    const successList = formateNonPendingDrawList(result.successList || {});
-    const unSuccessList = formateNonPendingDrawList(result.unSuccessList || {});
-    const pendingList = result.pendingList?.pendingHuntsList?.map((item) => convertDrawApplicationItem(item));
+    const successList = formateDrawList(result.successList || {});
+    const unSuccessList = formateDrawList(result.unSuccessList || {});
+    const pendingList = formateDrawList(result.pendingList || {});
 
     return { instructions: result.instructions, successList, unSuccessList, pendingList };
 }
 
-export function getNonPendingDrawIsEmpty(data: NonPendingStatusList) {
+export function getDrawTabDataIsEmpty(data: DrawTabData) {
     const { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList } = data || {};
 
     return isEmpty(copyHuntsList) && isEmpty(generatedHuntsList) && isEmpty(multiChoiceCopyHuntsList);

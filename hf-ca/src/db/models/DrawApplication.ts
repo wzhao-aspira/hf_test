@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 import Realm from "realm";
-import DrawApplicationItem from "./DrawApplicationItem";
-import DrawApplicationNonPendingInfo from "./DrawApplicationNonPendingInfo";
+import DrawApplicationListInfo from "./DrawApplicationListInfo";
 
 const schemaName = "DrawApplication";
 
@@ -10,11 +9,11 @@ export default class DrawApplication extends Realm.Object<DrawApplication> {
 
     instructions?: string;
 
-    successList: DrawApplicationNonPendingInfo;
+    successList: DrawApplicationListInfo;
 
-    unSuccessList: DrawApplicationNonPendingInfo;
+    unSuccessList: DrawApplicationListInfo;
 
-    pendingList: DrawApplicationItem[];
+    pendingList: DrawApplicationListInfo;
 
     static schema = {
         name: schemaName,
@@ -22,9 +21,9 @@ export default class DrawApplication extends Realm.Object<DrawApplication> {
         properties: {
             profileId: "string",
             instructions: "string?",
-            successList: "DrawApplicationNonPendingInfo",
-            unSuccessList: "DrawApplicationNonPendingInfo",
-            pendingList: { type: "list", objectType: "DrawApplicationItem" },
+            successList: "DrawApplicationListInfo",
+            unSuccessList: "DrawApplicationListInfo",
+            pendingList: "DrawApplicationListInfo",
         },
     };
 }

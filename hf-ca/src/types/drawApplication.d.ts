@@ -13,6 +13,7 @@ export interface DrawApplicationItem {
     alternateNumber?: string;
     huntDate?: string;
     reservationNumber?: number;
+    isReservationNumberDisplayed?: boolean;
     fileInfoList?: [FileInfo, FileInfo];
 }
 
@@ -52,16 +53,16 @@ export interface CopyHuntsItem {
     partyNumber: string;
     items?: DrawResultsListItem[];
 }
-export interface NonPendingStatusList {
+export interface DrawTabData {
     copyHuntsList?: CopyHuntsItem[];
     generatedHuntsList?: DrawResultsListItem[];
     multiChoiceCopyHuntsList?: DrawResultsListItem[];
 }
 export interface DrawApplicationList {
     instructions?: string;
-    successList?: NonPendingStatusList;
-    unSuccessList?: NonPendingStatusList;
-    pendingList?: DrawResultsListItem[];
+    successList?: DrawTabData;
+    unSuccessList?: DrawTabData;
+    pendingList?: DrawTabData;
 }
 
 export type DrawApplicationListTabName = "pending" | "successful" | "unsuccessful";

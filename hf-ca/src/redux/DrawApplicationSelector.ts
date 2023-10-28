@@ -1,8 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { isEmpty } from "lodash";
 
 import type { RootState } from "./Store";
-import { getNonPendingDrawIsEmpty } from "../services/DrawApplicationServices";
+import { getDrawTabDataIsEmpty } from "../services/DrawApplicationServices";
 import { REQUEST_STATUS } from "../constants/Constants";
 
 const selectDrawApplicationState = (state: RootState) => state.drawApplication;
@@ -15,11 +14,11 @@ const selectNoCacheData = createSelector(selectDrawApplicationState, (draw) => d
 
 const selectSuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.successfulData);
 const selectUnsuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.unsuccessfulData);
-const selectPendingList = createSelector(selectDrawApplicationState, (draw) => draw.pendingList);
+const selectPendingList = createSelector(selectDrawApplicationState, (draw) => draw.pendingData);
 
-const selectSuccessfulDataIsEmpty = createSelector(selectSuccessfulData, (data) => getNonPendingDrawIsEmpty(data));
-const selectUnsuccessfulDataIsEmpty = createSelector(selectUnsuccessfulData, (data) => getNonPendingDrawIsEmpty(data));
-const selectPendingListIsEmpty = createSelector(selectPendingList, (data) => isEmpty(data));
+const selectSuccessfulDataIsEmpty = createSelector(selectSuccessfulData, (data) => getDrawTabDataIsEmpty(data));
+const selectUnsuccessfulDataIsEmpty = createSelector(selectUnsuccessfulData, (data) => getDrawTabDataIsEmpty(data));
+const selectPendingListIsEmpty = createSelector(selectPendingList, (data) => getDrawTabDataIsEmpty(data));
 const selectDrawListIsEmpty = createSelector(
     selectSuccessfulDataIsEmpty,
     selectUnsuccessfulDataIsEmpty,

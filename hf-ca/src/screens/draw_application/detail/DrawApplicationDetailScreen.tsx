@@ -94,6 +94,7 @@ function getLabelValueLis(drawApplicationItemData: DrawApplicationItemData) {
         members,
         huntDate,
         reservationNumber,
+        isReservationNumberDisplayed,
     } = drawApplicationItemData;
 
     const { t } = i18next;
@@ -104,7 +105,10 @@ function getLabelValueLis(drawApplicationItemData: DrawApplicationItemData) {
               { label: t("drawApplicationDetail.DrawStatus"), value: status },
               { label: t("drawApplicationDetail.HuntName"), value: name },
               { label: t("drawApplicationDetail.HuntDate"), value: huntDate },
-              { label: t("drawApplicationDetail.ReservationNumber"), value: reservationNumber },
+              {
+                  label: t("drawApplicationDetail.ReservationNumber"),
+                  value: isReservationNumberDisplayed ? reservationNumber : "",
+              },
               { label: t("drawApplicationDetail.DidIWin"), value: didIWin },
           ]
         : [
