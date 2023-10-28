@@ -20,6 +20,8 @@ export default class DrawApplicationItem extends Realm.Object<DrawApplicationIte
 
     drawnSequence?: number;
 
+    isDrawSequenceDisplayed: boolean;
+
     huntName?: string;
 
     partyNumber?: string;
@@ -60,6 +62,7 @@ export default class DrawApplicationItem extends Realm.Object<DrawApplicationIte
             huntCode: "string",
             formatHuntDay: "string?",
             drawnSequence: "int?",
+            isDrawSequenceDisplayed: "bool",
             huntName: "string?",
             partyNumber: "string?",
             memberNames: { type: "list", objectType: "string" },
