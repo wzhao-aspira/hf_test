@@ -92,7 +92,7 @@ export default function RegulationDetailScreen(props) {
                     <View style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 10 }}>
                         {!isEmpty(regulationUrl) && (
                             <>
-                                {isNotDownloaded && (
+                                {(isNotDownloaded || isDownloaded) && (
                                     <PrimaryBtn
                                         style={styles.button}
                                         testID="downloadBtn"
