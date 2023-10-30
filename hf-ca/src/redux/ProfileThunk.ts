@@ -177,6 +177,7 @@ const initProfile =
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
+        dispatch(initResidentMethodTypes());
         console.log("ProfileThunk - initProfile - saveCustomerLicenseToDB");
         await saveCustomerLicenseToDB(profileListIDs);
 
