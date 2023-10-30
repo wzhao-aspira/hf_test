@@ -146,7 +146,7 @@ const updateCustomerLicenseToRedux = (customerId) => async (dispatch) => {
     await dispatch(licenseActions.updateLastUpdateTime(lastUpdateTime));
 };
 
-const initProfile =
+const initProfileWithoutLoading =
     (isRemote = true, isReopenApp = false): AppThunk =>
     async (dispatch, getState) => {
         const rootState = getState();
@@ -156,7 +156,7 @@ const initProfile =
 
         let result = null;
         if (isRemote) {
-            const response = await handleError(getProfileList(), { dispatch, showLoading: true });
+            const response = await handleError(getProfileList(), { dispatch, showLoading: false });
             if (!response.success) {
                 return response;
             }
@@ -205,6 +205,17 @@ const initProfile =
         dispatch(profileActions.setProfileList(profileList));
 
         return { success: true, primaryProfileId };
+    };
+
+const initProfile =
+    (isRemote = true, isReopenApp = false): AppThunk =>
+    async (dispatch) => {
+        try {
+            dispatch(appActions.toggleIndicator(true));
+            return dispatch(initProfileWithoutLoading(isRemote, isReopenApp));
+        } finally {
+            dispatch(appActions.toggleIndicator(false));
+        }
     };
 
 const switchCurrentInUseProfile =
