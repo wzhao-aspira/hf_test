@@ -396,7 +396,7 @@ const initProfileDetails =
                 const filteredVal = getState()?.profile?.profileList?.find((ele) => ele?.profileId == profileId);
                 result = { ...filteredVal, noCacheData: true };
             }
-            result = { ...result, success: dbResult.success };
+            result = { ...result, success: result.success };
         }
 
         const formattedProfile = formateProfile(result);
