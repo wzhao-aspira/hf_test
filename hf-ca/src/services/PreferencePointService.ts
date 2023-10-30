@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { savePreferencePointListToDB } from "../db";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
@@ -47,4 +48,11 @@ export async function getIsEmptyOnlineDataCachedInd(profileId: string) {
     }
 
     return isEmptyOnlineDataCachedInd;
+}
+
+export async function clearIsEmptyOnlineDataCachedInd() {
+    const keys = await AsyncStorage.getAllKeys();
+    keys.filter((key) => key.includes(KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached)).forEach(async (key) => {
+        await storeItem(key, false);
+    });
 }
