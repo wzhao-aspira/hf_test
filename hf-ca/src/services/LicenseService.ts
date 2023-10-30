@@ -130,7 +130,7 @@ export async function getLicenseLastUpdateTimeDataFromDB(searchParams: { activeP
     const { activeProfileId } = searchParams;
     const dbResult = await getLicenseLastUpdateTimeData(activeProfileId);
     const result = values(dbResult);
-    return result ? result[0] : {};
+    return !isEmpty(result) ? result[0] : {};
 }
 
 export function getLoadingData() {
