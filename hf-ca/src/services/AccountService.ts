@@ -21,6 +21,7 @@ import {
     removeLicenseListData,
     removePreferencePointListFromDB,
 } from "../db";
+import { clearIsEmptyOnlineDataCachedInd } from "./PreferencePointService";
 
 async function verifyPassword(accountPassword: string) {
     if (!accountPassword) return "failed: password is empty";
@@ -111,6 +112,7 @@ async function clearAppData(dispatch) {
     // clear local DB data
     await clearProfileSummaryFromDB();
     await removePreferencePointListFromDB();
+    await clearIsEmptyOnlineDataCachedInd();
     await removeAccessPermitFromDB();
     await removeLicenseListData();
     await deleteDrawApplicationDataFromDB();
