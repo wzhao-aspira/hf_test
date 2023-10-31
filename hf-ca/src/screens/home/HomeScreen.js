@@ -75,7 +75,7 @@ export default function HomeScreen() {
 
     const renderItem = (index) => {
         if (index == 0) {
-            if (licenseRefreshing || isShowSkeletonWhenOffline) {
+            if (profileListRefreshing || licenseRefreshing || isShowSkeletonWhenOffline) {
                 return <HomeLicenseSectionLoading />;
             }
             return <HomeLicenseSection licenses={licenseData} />;

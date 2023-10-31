@@ -185,11 +185,9 @@ const initProfileWithoutLoading =
         if (isReopenApp) {
             if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
                 dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
-                await dispatch(updateCustomerLicenseToRedux(currentInUseProfileID));
             } else if (primaryProfileId) {
                 showProfileDialog(i18n.t("profile.currentInUseInactiveMsg"), async () => {
                     dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
-                    await dispatch(updateCustomerLicenseToRedux(primaryProfileId));
                     NavigationService.navigate(Routers.manageProfile);
                 });
             }
@@ -198,7 +196,6 @@ const initProfileWithoutLoading =
         if (!isReopenApp && primaryProfileId) {
             await updateCurrentInUseProfileID(username, primaryProfileId);
             dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
-            await dispatch(updateCustomerLicenseToRedux(primaryProfileId));
         }
 
         dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
