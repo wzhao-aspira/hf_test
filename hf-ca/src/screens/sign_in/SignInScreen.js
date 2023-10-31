@@ -8,21 +8,21 @@ import { isEmpty } from "lodash";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import Page from "../../components/Page";
-import { updateLoginStep } from "../../redux/AppSlice";
+import { actions as appActions, updateLoginStep } from "../../redux/AppSlice";
 import appThunkActions from "../../redux/AppThunk";
 import LoginStep from "../../constants/LoginStep";
 import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
-import { genTestId, setActiveUserID } from "../../helper/AppHelper";
+import { genTestId } from "../../helper/AppHelper";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
 import BiometricLoginBtn from "../../components/BiometricLoginBtn";
 import { resetBiometricIDLoginBlock, setLoginCredential, setPasswordChangeInd } from "../../helper/LocalAuthHelper";
-import DialogHelper from "../../helper/DialogHelper";
 import { handleError } from "../../network/APIUtil";
 import ProfileThunk from "../../redux/ProfileThunk";
+import { actions as ProfileActions } from "../../redux/ProfileSlice";
 
 function SignInScreen(route) {
     const { t } = useTranslation();
@@ -39,42 +39,16 @@ function SignInScreen(route) {
     const [errorMsg, setErrorMsg] = useState();
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
-    const showNoPrimaryProfileDialog = (userID) => {
-        DialogHelper.showSimpleDialog({
-            title: "common.reminder",
-            message: "profile.primaryChanged",
-            okText: "common.gotIt",
-            withModal: true,
-            okAction: () => {
-                NavigationService.navigate(Routers.addIndividualProfile, {
-                    mobileAccount: { userID },
-                    isAddPrimaryProfile: true,
-                    noBackBtn: true,
-                });
-            },
-        });
-    };
-
     const doSignIn = async (uid = userId, pwd = password) => {
         const response = await handleError(AccountService.authSignIn(uid, pwd), { dispatch, showLoading: true });
         if (!response.success) {
             return;
         }
-        // set user in redux and don't set user in local storage.
-        await dispatch(appThunkActions.initUserData({ userID: uid }, false));
+
+        await dispatch(appThunkActions.initUserData({ userID: uid }));
         await setLoginCredential(uid, pwd);
 
         const profileResponse = await dispatch(ProfileThunk.initProfile());
-        if (!profileResponse.success) {
-            return;
-        }
-        if (!profileResponse.primaryProfileId) {
-            showNoPrimaryProfileDialog(uid);
-            return;
-        }
-
-        // sign in successfully, set userId to local storage
-        setActiveUserID(uid);
 
         // Clean the password change indicator
         await setPasswordChangeInd(uid, false);
@@ -84,6 +58,11 @@ function SignInScreen(route) {
             dispatch(updateLoginStep(LoginStep.onBoarding));
         } else {
             dispatch(updateLoginStep(LoginStep.home));
+        }
+
+        if (profileResponse.success && !profileResponse.primaryProfileId) {
+            await dispatch(ProfileActions.setIndividualProfiles(profileResponse.profileList));
+            dispatch(appActions.toggleShowPrimaryProfileInactiveMsg(true));
         }
     };
 

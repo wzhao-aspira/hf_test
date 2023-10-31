@@ -185,11 +185,6 @@ const initProfileWithoutLoading =
         if (isReopenApp) {
             if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
                 dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
-            } else if (primaryProfileId) {
-                showProfileDialog(i18n.t("profile.currentInUseInactiveMsg"), async () => {
-                    dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
-                    NavigationService.navigate(Routers.manageProfile);
-                });
             }
         }
 
@@ -202,7 +197,7 @@ const initProfileWithoutLoading =
         dispatch(profileActions.updateProfileIDs(profileListIDs));
         dispatch(profileActions.setProfileList(profileList));
 
-        return { success: true, primaryProfileId };
+        return { success: true, primaryProfileId, profileList };
     };
 
 const initProfile =
