@@ -18,7 +18,7 @@ export default function RootScreen() {
     const indicator = useSelector(selectIndicator);
     useErrorHandling();
 
-    const isLogin = loginStep == LoginStep.login || loginStep == LoginStep.splash;
+    const isLogin = loginStep == LoginStep.login;
     return (
         <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1 }} edges={!isLogin ? null : ["left", "right"]} accessible>

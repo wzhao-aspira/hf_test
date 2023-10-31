@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const checkLogin = async () => {
+export const checkLogin = async () => {
     const lastUsedMobileAccountId = await getActiveUserID();
     if (!isEmpty(lastUsedMobileAccountId)) {
         const hasAccessToken = await restoreToken(lastUsedMobileAccountId);
