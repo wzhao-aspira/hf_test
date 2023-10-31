@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Trans } from "react-i18next";
 import Carousel from "react-native-reanimated-carousel";
 import { isEmpty } from "lodash";
-import { useEffect, useState } from "react";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../../constants/Dimension";
 import SeparateLine from "../../../components/SeparateLine";
@@ -131,18 +130,9 @@ function CarouselContent({ item }) {
 }
 
 function CarouseItem({ licenses, setActiveSlide }) {
-    const [carouselKey, setCarouselKey] = useState(0);
-
-    useEffect(() => {
-        if (licenses != null) {
-            setCarouselKey(licenses.length);
-        }
-    }, [licenses]);
-
     return (
         <Carousel
             testID={genTestId("xarousel")}
-            key={carouselKey}
             style={{
                 marginHorizontal: -DEFAULT_MARGIN,
                 alignSelf: "center",
