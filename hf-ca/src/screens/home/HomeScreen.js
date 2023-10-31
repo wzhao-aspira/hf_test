@@ -41,22 +41,20 @@ export default function HomeScreen() {
     useFocus(() => {
         console.log("home focus");
         // fix the tab not appear issue AWO-215729
-        setTimeout(() => {
-            dispatch(getWeatherDataFromRedux({}));
-            dispatch(ProfileThunk.refreshProfileList()).then((response) => {
-                if (
-                    response.isReloadData &&
-                    ((!response.success && !response.isNetworkError) ||
-                        response.primaryIsInactivated ||
-                        response.ciuIsInactivated)
-                ) {
-                    return;
-                }
+        dispatch(getWeatherDataFromRedux({}));
+        dispatch(ProfileThunk.refreshProfileList()).then((response) => {
+            if (
+                response.isReloadData &&
+                ((!response.success && !response.isNetworkError) ||
+                    response.primaryIsInactivated ||
+                    response.ciuIsInactivated)
+            ) {
+                return;
+            }
 
-                const useCache = !response.success && response.isNetworkError;
-                getLicenseOfActiveProfile(false, useCache);
-            });
-        }, 100);
+            const useCache = !response.success && response.isNetworkError;
+            getLicenseOfActiveProfile(false, useCache);
+        });
     });
 
     const refreshData = () => {

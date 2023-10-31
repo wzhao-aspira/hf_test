@@ -177,10 +177,11 @@ const initProfileWithoutLoading =
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
-        dispatch(initResidentMethodTypes());
         console.log("ProfileThunk - initProfile - saveCustomerLicenseToDB");
-        await saveCustomerLicenseToDB(profileListIDs);
-
+        if (isRemote) {
+            dispatch(initResidentMethodTypes());
+            saveCustomerLicenseToDB(profileListIDs);
+        }
         if (isReopenApp) {
             if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
                 dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
