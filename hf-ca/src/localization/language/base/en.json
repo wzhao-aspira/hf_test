@@ -90,6 +90,7 @@
         "na": "N/A",
         "authenticationFailed": "Authentication Failed",
         "proceed": "Proceed",
+        "switchCustomer": "Switch Customer",
         "version": "Version"
     },
     "errMsg": {
@@ -174,7 +175,7 @@
         "goIDNumber": "GO ID",
         "manageProfile": "Manage Customer Records",
         "currentlyInUse": "Currently In Use",
-        "switchProfile": "Switch Customer Record",
+        "switchProfile": "Switch Customer",
         "otherProfiles": "Other Customer Records",
         "selectOne": "[Select One]",
         "fgNumber": "FG #",
@@ -230,6 +231,7 @@
     },
     "preferencePoint": {
         "myPreferencePoint": "My Preference Points",
+        "firstNamePreferencePoint": "{{firstName}}'s Preference Points",
         "viewPreferencePoint": "View Preference Points",
         "drawType": "Draw Type",
         "currentPoint": "Current Points",
@@ -375,6 +377,7 @@
     },
     "accessPermits": {
         "myAccessPermits": "My Access Permits",
+        "firstNameAccessPermits": "{{firstName}}'s Access Permits",
         "noAccessPermits": "No Permits/Reservations found",
         "purchaseAccessPermit": "Purchase Daily Draw",
         "huntCode": "Hunt Code",
@@ -423,6 +426,7 @@
     "drawApplicationList": {
         "myDrawApplications": "My Draw Application",
         "draws": "Draws",
+        "firstNameDraws": "{{firstName}}'s Draws",
         "emptyDrawTitle": "No draw applications found",
         "emptyDrawSubTitle": "Once you apply for a draw(s), you can view your draw applications here.",
         "successful": "Successful",

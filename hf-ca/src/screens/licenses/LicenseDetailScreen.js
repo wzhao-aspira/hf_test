@@ -423,7 +423,7 @@ function LicenseDetailScreen(props) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader rightIcon={false} title={t("licenseDetails.licenseDetails")} />
+            <CommonHeader title={t("licenseDetails.licenseDetails")} />
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}

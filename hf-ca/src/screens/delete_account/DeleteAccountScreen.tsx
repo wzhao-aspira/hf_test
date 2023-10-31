@@ -93,7 +93,7 @@ function DeleteAccountScreen() {
 
     return (
         <View style={{ flex: 1 }}>
-            <CommonHeader title={titleText} rightIcon={false} />
+            <CommonHeader title={titleText} />
             <ScrollView testID={genTestId("DeleteAccountScrollView")} style={{ paddingHorizontal: DEFAULT_MARGIN }}>
                 <Page style={{ flex: 1 }}>
                     <View style={{ marginBottom: 20 }}>

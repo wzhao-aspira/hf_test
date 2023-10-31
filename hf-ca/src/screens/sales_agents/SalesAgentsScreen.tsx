@@ -263,7 +263,7 @@ export default function SalesAgentsScreen({ route }) {
 
     return (
         <View style={styles.container}>
-            <CommonHeader title={t("salesAgents.salesAgents")} rightIcon={false} />
+            <CommonHeader title={t("salesAgents.salesAgents")} />
             {renderContentView()}
             <LocationSearchInput
                 ref={agentSearchInputRef}

@@ -21,6 +21,8 @@ import profileSelectors from "../../redux/ProfileSelector";
 import useFocus from "../../hooks/useFocus";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
+import useTitle from "../../hooks/useTitle";
+import SwitchCustomer from "../../components/SwitchCustomer";
 
 export const styles = StyleSheet.create({
     container: {
@@ -49,8 +51,7 @@ function LicenseListScreen() {
         : null;
     const { t } = useTranslation();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
-    const firstName = useSelector(profileSelectors.selectCurrentProfileFirstName);
-
+    const title = useTitle("license.firstNameLicense", "license.license");
     const getLicenseOfActiveProfile = (isForce) => {
         dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
     };
@@ -67,7 +68,8 @@ function LicenseListScreen() {
     return (
         <Page style={styles.container}>
             <CommonHeader
-                title={firstName ? t("license.firstNameLicense", { firstName }) : t("license.myLicense")}
+                title={title}
+                rightComponent={<SwitchCustomer />}
                 subTitle={lastUpdateTimeFromServer ? t("license.lastUpdated") + lastUpdateTimeFromServer : ""}
             />
             <ScrollView

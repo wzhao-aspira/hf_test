@@ -87,7 +87,8 @@ export const profileScreenStyles = StyleSheet.create({
 
     switchProfile: {
         ...AppTheme.typography.hyperLink,
-        color: AppTheme.colors.primary_2,
+        color: AppTheme.colors.primary,
+        marginLeft: 4,
     },
 
     horizontalContainer: {
