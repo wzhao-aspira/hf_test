@@ -1,6 +1,8 @@
 import { Pressable, ScrollView, Text, View, RefreshControl } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faArrowRightArrowLeft } from "@fortawesome/pro-regular-svg-icons/faArrowRightArrowLeft";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import CommonHeader from "../../../components/CommonHeader";
 import Page from "../../../components/Page";
@@ -32,7 +34,12 @@ function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey }) {
             <View style={profileScreenStyles.horizontalContainer}>
                 <Text style={commonStyles.subTitle}>{t(titleKey)}</Text>
                 {showSwitchProfile && (
-                    <Pressable onPress={handleSwitchClick} testID={genTestId("switchProfile")}>
+                    <Pressable
+                        onPress={handleSwitchClick}
+                        testID={genTestId("switchProfile")}
+                        style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                        <FontAwesomeIcon icon={faArrowRightArrowLeft} size={12} color={AppTheme.colors.primary} />
                         <Text style={profileScreenStyles.switchProfile}>{t("profile.switchProfile")}</Text>
                     </Pressable>
                 )}

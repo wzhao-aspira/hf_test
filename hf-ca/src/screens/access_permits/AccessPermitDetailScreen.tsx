@@ -101,7 +101,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("accessPermits.PermitDetails")} rightIcon={false} subTitle={null} />
+            <CommonHeader title={t("accessPermits.PermitDetails")} subTitle={null} />
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}

@@ -190,7 +190,7 @@ function UsefulLinksScreen(props: UsefulLinksScreenProps) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={titleStr} rightIcon={null} />
+            <CommonHeader title={titleStr} />
             <FlatList
                 onScrollBeginDrag={() => {
                     DeviceEventEmitter.emit(hideDropdownKey);

@@ -3,8 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/pro-light-svg-icons/faChevronLeft";
 import AppTheme from "../assets/_default/AppTheme";
 import NavigationService from "../navigation/NavigationService";
-import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../constants/Dimension";
+import { DEFAULT_MARGIN } from "../constants/Dimension";
 import { genTestId } from "../helper/AppHelper";
+
+// LEFT_BLACK + LEFT_WIDTH = RIGHT_WIDTH + RIGHT_PADDING
+const LEFT_BLACK = 60;
+const LEFT_WIDTH = 20;
+const RIGHT_PADDING = 4;
+const RIGHT_WIDTH = LEFT_BLACK + LEFT_WIDTH - RIGHT_PADDING;
 
 const styles = StyleSheet.create({
     container: {
@@ -17,13 +23,22 @@ const styles = StyleSheet.create({
         height: 64,
         width: "100%",
         alignItems: "center",
-        paddingHorizontal: DEFAULT_MARGIN,
+        paddingLeft: DEFAULT_MARGIN,
+        paddingRight: RIGHT_PADDING,
+    },
+    headerLeftContainer: {
+        flexDirection: "row",
+        width: LEFT_WIDTH,
+        marginRight: LEFT_BLACK - DEFAULT_MARGIN,
     },
     headerTextContainer: {
         justifyContent: "center",
         alignItems: "center",
-        paddingHorizontal: 20,
-        width: SCREEN_WIDTH - DEFAULT_MARGIN * 4,
+        paddingHorizontal: 8,
+        flex: 1,
+    },
+    headerRightContainer: {
+        width: RIGHT_WIDTH,
     },
     headerText: {
         ...AppTheme.typography.section_header,
@@ -47,10 +62,9 @@ function CommonHeader({
     testID = "",
     title,
     onBackClick = NavigationService.back,
-    onRightClick = undefined,
     leftIcon = faChevronLeft,
     showLeft = true,
-    rightIcon,
+    rightComponent = null,
     subTitle = "",
 }) {
     return (
@@ -59,7 +73,7 @@ function CommonHeader({
                 <Pressable
                     testID={genTestId(`${testID}BackToPreviousPageButton`)}
                     onPress={showLeft ? onBackClick : null}
-                    style={{ flexDirection: "row", width: 20 }}
+                    style={styles.headerLeftContainer}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 >
                     {showLeft && <FontAwesomeIcon icon={leftIcon} size={20} color={AppTheme.colors.primary_2} />}
@@ -69,14 +83,7 @@ function CommonHeader({
                         {title}
                     </Text>
                 </View>
-                <Pressable
-                    testID={genTestId(`${testID}GoToNextPageButton`)}
-                    onPress={onRightClick}
-                    style={{ flexDirection: "row", width: 20 }}
-                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                >
-                    {rightIcon && <FontAwesomeIcon icon={rightIcon} size={20} color={AppTheme.colors.primary_2} />}
-                </Pressable>
+                <View style={styles.headerRightContainer}>{rightComponent}</View>
             </View>
             {subTitle && (
                 <View style={styles.subHeaderContainer}>

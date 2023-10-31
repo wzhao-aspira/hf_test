@@ -108,7 +108,7 @@ function UsefulLinksScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("usefulLinks.usefulLinks")} rightIcon={null} />
+            <CommonHeader title={t("usefulLinks.usefulLinks")} />
             <ScrollView>
                 <View style={styles.listView}>
                     <UsefulLinksContent data={data} refreshing={refreshing} noCacheData={noCacheData} />

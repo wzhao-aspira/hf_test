@@ -38,7 +38,7 @@ function AddPrimaryProfile({ currentRoute }) {
     );
 }
 
-export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary, currentRoute }) {
+export default function SwitchProfileDialog({ hideDialog, postProcess, isSwitchToPrimary, currentRoute }) {
     const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
@@ -101,6 +101,9 @@ export default function SwitchProfileDialog({ hideDialog, isSwitchToPrimary, cur
                 }
             } else {
                 await switchToOthers(profileId);
+                if (postProcess) {
+                    postProcess();
+                }
             }
         } catch (error) {
             console.log("switch error", error);

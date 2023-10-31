@@ -204,7 +204,7 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={title} rightIcon={false} subTitle={null} />
+            <CommonHeader title={title} subTitle={null} />
             {totalNumberOfTheChoices > 0 && (
                 <ScrollView
                     style={styles.scrollView}

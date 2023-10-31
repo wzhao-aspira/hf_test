@@ -70,7 +70,6 @@ function WebViewScreen(props: WebViewScreenProps) {
         <View style={styles.content}>
             <StatusBar style={AppTheme.statusBarStyle} backgroundColor={AppTheme.colors.page_bg} />
             <CommonHeader
-                rightIcon={false}
                 title={title}
                 onBackClick={() => {
                     onBackButtonPress();

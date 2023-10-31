@@ -19,6 +19,8 @@ import {
     selectShowSkeletonWhenOffline,
 } from "../../redux/PreferencePointSelector";
 import { REQUEST_STATUS } from "../../constants/Constants";
+import useTitle from "../../hooks/useTitle";
+import SwitchCustomer from "../../components/SwitchCustomer";
 
 const styles = StyleSheet.create({
     container: {
@@ -42,7 +44,7 @@ function PreferencePointContent({ data }) {
 
 function PreferencePointScreen() {
     const dispatch = useDispatch();
-    const { t } = useTranslation();
+    const title = useTitle("preferencePoint.firstNamePreferencePoint", "preferencePoint.myPreferencePoint");
 
     const safeAreaInsets = useSafeAreaInsets();
 
@@ -68,7 +70,7 @@ function PreferencePointScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("preferencePoint.myPreferencePoint")} />
+            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
             <ScrollView
                 nestedScrollEnabled
                 refreshControl={

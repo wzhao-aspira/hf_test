@@ -15,6 +15,8 @@ import drawSelectors from "../../../redux/DrawApplicationSelector";
 import DrawApplicationListLoading from "./DrawApplicationListLoading";
 import { useAppDispatch } from "../../../hooks/redux";
 import { genTestId } from "../../../helper/AppHelper";
+import useTitle from "../../../hooks/useTitle";
+import SwitchCustomer from "../../../components/SwitchCustomer";
 
 export const styles = StyleSheet.create({
     container: {
@@ -101,7 +103,7 @@ function DrawListContent() {
 }
 
 function DrawApplicationListScreen() {
-    const { t } = useTranslation();
+    const title = useTitle("drawApplicationList.firstNameDraws", "drawApplicationList.draws");
     const dispatch = useAppDispatch();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
@@ -118,7 +120,7 @@ function DrawApplicationListScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("drawApplicationList.draws")} rightIcon={false} />
+            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
             <View style={{ flex: 1, backgroundColor: AppTheme.colors.page_bg }}>
                 <DrawListContent />
             </View>

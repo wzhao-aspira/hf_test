@@ -2,7 +2,6 @@ import { View, StyleSheet, RefreshControl, ScrollView } from "react-native";
 import { useEffect } from "react";
 import { isEmpty } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
-import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { genTestId } from "../../helper/AppHelper";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
@@ -13,11 +12,13 @@ import AccessPermitListEmpty from "./access_permit_list/AccessPermitListEmpty";
 import AccessPermitCardLoading from "./access_permit_list/AccessPermitCardLoading";
 import AppTheme from "../../assets/_default/AppTheme";
 import CommonHeader from "../../components/CommonHeader";
+import SwitchCustomer from "../../components/SwitchCustomer";
 import profileSelectors from "../../redux/ProfileSelector";
 import { getLoadingData } from "../../services/AccessPermitServices";
 import { REQUEST_STATUS } from "../../constants/Constants";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
+import useTitle from "../../hooks/useTitle";
 
 const styles = StyleSheet.create({
     container: {
@@ -53,7 +54,7 @@ const showData = (data, refreshing, loadingData, attention, customer, isShowSkel
 };
 
 export default function AccessPermitListScreen() {
-    const { t } = useTranslation();
+    const title = useTitle("accessPermits.firstNameAccessPermits", "accessPermits.myAccessPermits");
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
@@ -80,7 +81,7 @@ export default function AccessPermitListScreen() {
 
     return (
         <View style={styles.container}>
-            <CommonHeader title={t("accessPermits.myAccessPermits")} />
+            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
             <ScrollView
                 testID={genTestId("accessPermitList")}
                 contentContainerStyle={{
