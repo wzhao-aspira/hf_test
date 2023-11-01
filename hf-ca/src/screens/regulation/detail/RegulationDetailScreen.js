@@ -1,11 +1,11 @@
 import { View, StyleSheet, useWindowDimensions, Text, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
-import RenderHtml from "react-native-render-html";
 import { isEmpty } from "lodash";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId, openLink, isIos } from "../../../helper/AppHelper";
 import CommonHeader from "../../../components/CommonHeader";
+import RenderHTML from "../../../components/RenderHTML";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 
 import useFileOperations from "./hooks/useFileOperations";
@@ -72,7 +72,7 @@ export default function RegulationDetailScreen(props) {
                             {regulationTitle}
                         </Text>
                         {!isEmpty(regulationDetail) && (
-                            <RenderHtml
+                            <RenderHTML
                                 testID={genTestId("regulationDetails")}
                                 source={{
                                     html: regulationDetail,
