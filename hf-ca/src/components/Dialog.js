@@ -40,6 +40,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderWidth: 0,
     },
+    horizontalCtaContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginTop: 20,
+    },
 });
 
 export function SimpleDialogView({
@@ -48,6 +54,7 @@ export function SimpleDialogView({
     message = "common.message",
     okText = "common.ok",
     okAction = () => {},
+    messageStyle = {},
 }) {
     const { t, i18n } = useTranslation();
     return (
@@ -57,7 +64,10 @@ export function SimpleDialogView({
                     <Text testID={genTestId(`${testID}SimpleDialogTitle`)} style={styles.title}>
                         {i18n.exists(title) ? t(title) : title}
                     </Text>
-                    <Text testID={genTestId(`${testID}SimpleDialogMessage`)} style={styles.message}>
+                    <Text
+                        testID={genTestId(`${testID}SimpleDialogMessage`)}
+                        style={{ ...styles.message, ...messageStyle }}
+                    >
                         {i18n.exists(message) ? t(message) : message}
                     </Text>
                     <PrimaryBtn
@@ -105,6 +115,8 @@ export function SelectDialogView({
     cancelText = "common.cancel",
     cancelAction = () => {},
     children = null,
+    horizontalCTA = false,
+    messageStyle = {},
 }) {
     const { t, i18n } = useTranslation();
     return (
@@ -114,22 +126,44 @@ export function SelectDialogView({
                     <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.title}>
                         {i18n.exists(title) ? t(title) : title}
                     </Text>
-                    <Text testID={genTestId(`${testID}SelectDialogTitle`)} style={styles.message}>
+                    <Text
+                        testID={genTestId(`${testID}SelectDialogTitle`)}
+                        style={{ ...styles.message, ...messageStyle }}
+                    >
                         {i18n.exists(message) ? t(message) : message}
                     </Text>
                     {children}
-                    <PrimaryBtn
-                        onPress={okAction}
-                        label={i18n.exists(okText) ? t(okText) : okText}
-                        style={styles.okBtn}
-                        testID={`${testID}SelectDialogOKButton`}
-                    />
-                    <OutlinedBtn
-                        onPress={cancelAction}
-                        label={i18n.exists(cancelText) ? t(cancelText) : cancelText}
-                        style={styles.cancelBtn}
-                        testID={`${testID}SelectDialogCancelButton`}
-                    />
+                    {!horizontalCTA && (
+                        <>
+                            <PrimaryBtn
+                                onPress={okAction}
+                                label={i18n.exists(okText) ? t(okText) : okText}
+                                style={styles.okBtn}
+                                testID={`${testID}SelectDialogOKButton`}
+                            />
+                            <OutlinedBtn
+                                onPress={cancelAction}
+                                label={i18n.exists(cancelText) ? t(cancelText) : cancelText}
+                                style={styles.cancelBtn}
+                                testID={`${testID}SelectDialogCancelButton`}
+                            />
+                        </>
+                    )}
+
+                    {horizontalCTA && (
+                        <View style={styles.horizontalCtaContainer}>
+                            <OutlinedBtn
+                                onPress={cancelAction}
+                                label={t("common.cancel")}
+                                testID={`${testID}SelectDialogCancelButton`}
+                            />
+                            <PrimaryBtn
+                                onPress={okAction}
+                                label={i18n.exists(okText) ? t(okText) : okText}
+                                testID={`${testID}SelectDialogOKButton`}
+                            />
+                        </View>
+                    )}
                 </View>
             </View>
         </View>
@@ -148,6 +182,7 @@ export function SelectDialog(props) {
         cancelText = "common.cancel",
         cancelAction = () => {},
         children = null,
+        horizontalCTA = false,
     } = props;
 
     return (
@@ -160,6 +195,7 @@ export function SelectDialog(props) {
                 okAction={okAction}
                 cancelText={cancelText}
                 cancelAction={cancelAction}
+                horizontalCTA={horizontalCTA}
             >
                 {children}
             </SelectDialogView>

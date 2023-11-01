@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import * as Font from "expo-font";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { isEmpty } from "lodash";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
 import i18n from "./src/localization/i18n";
@@ -15,9 +16,13 @@ import { fetchPicture, getAppConfigData, getLoadingSplashFromFile } from "./src/
 import AppContract from "./src/assets/_default/AppContract";
 import { openRealm } from "./src/db";
 import { getErrorMessage } from "./src/hooks/useErrorHandling";
-import { showToast } from "./src/helper/AppHelper";
-import { checkLogin } from "./src/components/AppSplash";
+import { getActiveUserID, showToast } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links_old/UsefulLinksHelper";
+import { restoreToken } from "./src/network/tokenUtil";
+import { updateLoginStep } from "./src/redux/AppSlice";
+import LoginStep from "./src/constants/LoginStep";
+import ProfileThunk from "./src/redux/ProfileThunk";
+import appThunkActions from "./src/redux/AppThunk";
 
 SplashScreen.preventAutoHideAsync().catch((e) => console.log(e));
 
@@ -33,6 +38,20 @@ if (__DEV__) {
     import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
 }
 const defaultLoadingSplash = require("./src/assets/_default/images/splash.png");
+
+const checkLogin = async () => {
+    const lastUsedMobileAccountId = await getActiveUserID();
+    if (!isEmpty(lastUsedMobileAccountId)) {
+        const hasAccessToken = await restoreToken(lastUsedMobileAccountId);
+        if (hasAccessToken) {
+            await store.dispatch(appThunkActions.initUserData({ userID: lastUsedMobileAccountId }));
+            await store.dispatch(ProfileThunk.initProfile(false, true));
+            store.dispatch(updateLoginStep(LoginStep.home));
+            return;
+        }
+    }
+    store.dispatch(updateLoginStep(LoginStep.login));
+};
 
 export default function App() {
     const [isSplashReady, setIsSplashReady] = useState(false);

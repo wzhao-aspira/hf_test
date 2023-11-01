@@ -1,5 +1,8 @@
+import Constants from "expo-constants";
+import { Platform } from "react-native";
 import { instance } from "../AxiosClient";
 import getAPIConfig from "../APIConfig";
+import AppContract from "../../assets/_default/AppContract";
 
 import { MiscellaneousApi } from "../generated";
 
@@ -9,4 +12,23 @@ function checkTokenAPI() {
     return api.v1MiscellaneousTokenCheckGet();
 }
 
-export default { checkTokenAPI };
+function checkNewVersionAPI() {
+    const api = new MiscellaneousApi(getAPIConfig(), null, instance);
+
+    /**
+     *  "2023.1.5.1234" no update
+     *  "2023.1.6.1234" force update
+     *  "2023.1.7.1234" optional update
+     */
+    // const version = Constants.expoConfig?.ios?.buildNumber;
+    // fix me, temp code for test
+    const version = "2023.1.6.1234";
+
+    const clientType = Platform.OS == "android" ? "Android" : "Ios";
+
+    const { appId } = AppContract;
+
+    return api.v1MiscellaneousAppVersionUpdateGet(appId, clientType, version);
+}
+
+export default { checkTokenAPI, checkNewVersionAPI };
