@@ -23,6 +23,8 @@ export const KEY_CONSTANT = {
     keyWeatherData: "keyWeatherData",
     keyIsEmptyOnlineDataCached: "keyIsEmptyOnlineDataCached",
     keyIsEmptyPreferencePointOnlineDataCached: "keyIsEmptyPreferencePointOnlineDataCached",
+    keyUpdatePromoteCount: "keyUpdatePromoteCount",
+    keyVersionInfo: "keyVersionInfo",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = {

@@ -471,5 +471,12 @@
         "downloading": "Downloading",
         "viewFromWeb": "View from Web",
         "viewFromDownload": "View from Download"
+    },
+    "versionUpgrade": {
+        "newVersionAvailable": "New Version Available",
+        "btnUpdate": "Update",
+        "btnCancel": "Cancel",
+        "openIosStoreError": "unable to open App Store.",
+        "openAndroidStoreError": "unable to open Play Store."
     }
 }

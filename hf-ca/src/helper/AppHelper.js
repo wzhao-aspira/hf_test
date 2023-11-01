@@ -2,6 +2,7 @@ import { Linking, Platform } from "react-native";
 import { camelCase, isEmpty } from "lodash";
 import Toast from "react-native-root-toast";
 import Constants from "expo-constants";
+import i18next from "i18next";
 import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
 import { retrieveItem, storeItem } from "./StorageHelper";
@@ -88,6 +89,35 @@ export function openLink(url) {
         }
     }
     // TODO: empty url dialog
+}
+
+export function openAppStore(url) {
+    const { t } = i18next;
+    function openStoreError() {
+        showToast(isIos() ? t("versionUpgrade.openIosStoreError") : t("versionUpgrade.openAndroidStoreError"));
+    }
+    if (isEmpty(url)) {
+        openStoreError();
+        return;
+    }
+    if (!isEmpty(url)) {
+        try {
+            if (isIos()) {
+                Linking.canOpenURL(url).then((canOpen) => {
+                    if (canOpen) {
+                        Linking.openURL(url);
+                    }
+                });
+            } else {
+                const storeUrl = `https://play.google.com/store/apps/details?id=${AppContract.appId}`;
+                // const storeUrl = `https://play.google.com/store/apps/details?id=com.aspiraconnect.hf.ab`;
+                Linking.openURL(storeUrl);
+            }
+        } catch (e) {
+            console.log(`AppUtils - openLink - Catch the exception [${e}]`);
+            openStoreError();
+        }
+    }
 }
 
 export function getAppStaticInfo() {
