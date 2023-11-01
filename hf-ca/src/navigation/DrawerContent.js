@@ -24,6 +24,7 @@ import { handleError } from "../network/APIUtil";
 import AccountService from "../services/AccountService";
 import useNavigateToISPurchaseLicense from "../screens/licenses/hooks/useNavigateToISPurchaseLicense";
 import { appConfig } from "../services/AppConfigService";
+import useNavigateToISViewCustomerHarvestReports from "../screens/licenses/hooks/useNavigateToISViewCustomerHarvestReports";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -121,7 +122,12 @@ function MenuItem(props) {
                 }}
             >
                 <View style={styles.menuItemContainer}>
-                    <Text testID={genTestId(`${testIDPrefix}${testID}ItemButtonLabel`)} style={styles.menuTitle}>
+                    <Text
+                        testID={genTestId(`${testIDPrefix}${testID}ItemButtonLabel`)}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={styles.menuTitle}
+                    >
                         {t(title)}
                     </Text>
                     <FontAwesomeIcon icon={faChevronRight} size={16} color={AppTheme.colors.font_color_1} />
@@ -140,6 +146,7 @@ export default function DrawerContent({ navigation }) {
     const drawerContentScrollView = useRef();
 
     const { navigateToIS } = useNavigateToISPurchaseLicense();
+    const { navigateToViewCustomerHarvestReports } = useNavigateToISViewCustomerHarvestReports();
 
     const testIDPrefix = "HamburgerMenu";
 
@@ -176,6 +183,7 @@ export default function DrawerContent({ navigation }) {
     };
 
     const renderGeneralSection = () => {
+        const { isDrawResultAvailable, isAccessPermitsAvailable } = appConfig.data;
         return (
             <>
                 <View style={styles.sectionTitleContainer}>
@@ -186,6 +194,38 @@ export default function DrawerContent({ navigation }) {
                 <View style={styles.sectionContentContainer}>
                     <MenuItem
                         onClick={() => {
+                            NavigationService.navigate(Routers.licenseList);
+                        }}
+                        title="license.myActiveLicenses"
+                        testID="MyActiveLicenses"
+                    />
+                    {isDrawResultAvailable && (
+                        <MenuItem
+                            onClick={async () => {
+                                NavigationService.navigate(Routers.drawApplicationList);
+                            }}
+                            title="license.viewDrawApplication"
+                            testID="ViewDrawApplications"
+                        />
+                    )}
+                    {isAccessPermitsAvailable && (
+                        <MenuItem
+                            onClick={async () => {
+                                NavigationService.navigate(Routers.accessPermitList);
+                            }}
+                            title="license.myActivePermits"
+                            testID="MyActivePermits"
+                        />
+                    )}
+                    <MenuItem
+                        onClick={() => {
+                            navigation.navigate(Routers.preferencePoint);
+                        }}
+                        title="preferencePoint.viewPreferencePoint"
+                        testID="ViewPreferencePoint"
+                    />
+                    <MenuItem
+                        onClick={() => {
                             navigateToIS();
                         }}
                         title="license.purchaseLicense"
@@ -193,34 +233,10 @@ export default function DrawerContent({ navigation }) {
                     />
                     <MenuItem
                         onClick={() => {
-                            navigation.navigate(Routers.preferencePoint);
+                            navigateToViewCustomerHarvestReports();
                         }}
-                        title="preferencePoint.myPreferencePoint"
-                        testID="PreferencePoint"
-                    />
-                    <MenuItem
-                        onClick={async () => {
-                            NavigationService.navigate(Routers.accessPermitList);
-                        }}
-                        title="common.accessPermits"
-                        testID="accessPermits"
-                    />
-                    <MenuItem
-                        onClick={async () => {
-                            NavigationService.navigate(Routers.drawApplicationList);
-                        }}
-                        title="drawApplicationList.myDrawApplications"
-                        testID="drawApplicationList"
-                    />
-                    <MenuItem
-                        onClick={async () => {
-                            const lastLocation = await retrieveItem(KEY_CONSTANT.keyLastLocation);
-                            NavigationService.navigate(Routers.salesAgents, {
-                                lastLocation,
-                            });
-                        }}
-                        title="common.agentLocations"
-                        testID="SalesAgents"
+                        title="licenseDetails.submitHarvestReport"
+                        testID="SubmitHarvestReport"
                     />
                 </View>
             </>
@@ -236,6 +252,16 @@ export default function DrawerContent({ navigation }) {
                     </Text>
                 </View>
                 <View style={styles.sectionContentContainer}>
+                    <MenuItem
+                        onClick={async () => {
+                            const lastLocation = await retrieveItem(KEY_CONSTANT.keyLastLocation);
+                            NavigationService.navigate(Routers.salesAgents, {
+                                lastLocation,
+                            });
+                        }}
+                        title="common.agentLocations"
+                        testID="SalesAgents"
+                    />
                     <MenuItem
                         onClick={() => {
                             navigation.navigate(Routers.regulationList);
