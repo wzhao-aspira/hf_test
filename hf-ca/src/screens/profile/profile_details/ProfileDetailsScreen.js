@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -6,6 +6,7 @@ import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons/faLinkSlash";
 
 import { RefreshControl } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
+import { isEmpty } from "lodash";
 import { selectors } from "../../../redux/ProfileSlice";
 import { removeProfile, getGOIDLabel } from "../../../services/ProfileService";
 
@@ -26,6 +27,8 @@ import ProfileThunk from "../../../redux/ProfileThunk";
 
 import useFocus from "../../../hooks/useFocus";
 import ProfileDetailsLoading from "./ProfileDetailsLoading";
+import { appConfig } from "../../../services/AppConfigService";
+import RenderHTML from "../../../components/RenderHTML";
 
 function RenderItem({ item, divider }) {
     if (!item.value) {
@@ -71,6 +74,7 @@ function ProfileDetailsScreen({ route }) {
     const { params } = route;
     const profileId = params?.profileId;
 
+    const { width } = useWindowDimensions();
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -81,6 +85,8 @@ function ProfileDetailsScreen({ route }) {
 
     const profilesInfo = getInfoList(profileDetails, t);
     const addressInfo = getAddressList(profileDetails, t);
+
+    const { customerRecordAttention } = appConfig.data;
 
     const removeCallback = async () => {
         NavigationService.navigate(Routers.manageProfile);
@@ -195,6 +201,22 @@ function ProfileDetailsScreen({ route }) {
                                 <RenderItem item={item} divider={index < profilesInfo.length - 1} key={item.type} />
                             ))}
                         </View>
+                    )}
+
+                    {loading || noCacheData ? (
+                        <ProfileDetailsLoading />
+                    ) : (
+                        !isEmpty(customerRecordAttention) && (
+                            <View style={[styles.attention, { marginTop: 36, paddingBottom: 18, marginBottom: 20 }]}>
+                                <RenderHTML
+                                    testID={genTestId("customerRecordAttention")}
+                                    source={{
+                                        html: customerRecordAttention,
+                                    }}
+                                    contentWidth={width}
+                                />
+                            </View>
+                        )
                     )}
 
                     {!loading && !noCacheData && !isPrimaryOrCiu && (
