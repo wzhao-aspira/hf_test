@@ -24,7 +24,7 @@ const Routers = {
     forgotPasswordEnterEmail: "forgotPasswordEnterEmailScreen",
     forgotPasswordResetPassword: "forgotPasswordResetPasswordScreen",
     home: "homeScreen",
-    licenses: "LicenseScreen",
+    myMenu: "myMenuScreen",
     licenseDetail: "licenseDetailScreen",
     licenseList: "licenseList",
     login: "loginScreen",

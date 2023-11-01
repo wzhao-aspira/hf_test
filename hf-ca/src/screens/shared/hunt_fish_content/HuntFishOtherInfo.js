@@ -1,10 +1,12 @@
 import { View, StyleSheet, Text } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import HuntFishOtherInfoItem from "./HuntFishOtherInfoItem";
 import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
+import selectors from "../../../redux/ProfileSelector";
 import { appConfig } from "../../../services/AppConfigService";
 
 const styles = StyleSheet.create({
@@ -27,6 +29,8 @@ const styles = StyleSheet.create({
 
 function HuntFishOtherInfo() {
     const { t } = useTranslation();
+    const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
+
     const { isDrawResultAvailable, isAccessPermitsAvailable } = appConfig.data;
     return (
         <View>
@@ -58,6 +62,14 @@ function HuntFishOtherInfo() {
                     title={t("preferencePoint.viewPreferencePoint")}
                     onPress={() => {
                         NavigationService.navigate(Routers.preferencePoint);
+                    }}
+                />
+                <HuntFishOtherInfoItem
+                    title={t("profile.viewCustomerRecord")}
+                    onPress={() => {
+                        NavigationService.navigate(Routers.profileDetails, {
+                            profileId: currentInUseProfileId,
+                        });
                     }}
                 />
             </View>

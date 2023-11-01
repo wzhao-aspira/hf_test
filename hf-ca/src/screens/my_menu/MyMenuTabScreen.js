@@ -11,7 +11,7 @@ import SplitLine from "../../components/SplitLine";
 import { PAGE_MARGIN_BOTTOM, DEFAULT_MARGIN } from "../../constants/Dimension";
 import HuntFishOtherInfo from "../shared/hunt_fish_content/HuntFishOtherInfo";
 import HuntFishCardItem from "../shared/hunt_fish_content/HuntFishCardItem";
-import useNavigateToISPurchaseLicense from "./hooks/useNavigateToISPurchaseLicense";
+import useNavigateToISPurchaseLicense from "../licenses/hooks/useNavigateToISPurchaseLicense";
 import { selectors as profileSelectors } from "../../redux/ProfileSlice";
 
 const styles = StyleSheet.create({
@@ -75,18 +75,19 @@ function RenderContent() {
     );
 }
 
-export default function LicensesTabScreen() {
+export default function MyMenuTabScreen() {
     const { t } = useTranslation();
-
     const primaryColor = AppTheme.colors.hunting_green;
+
+    const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
     return (
         <Page style={styles.content}>
             <HeaderBar />
             <View style={{ backgroundColor: primaryColor }}>
-                <Text style={styles.title}>{t("tabBar.tabLicenses")}</Text>
+                <Text style={styles.title}>{t("tabBar.myMenu")}</Text>
                 <SplitLine style={styles.line} />
-                <Text style={styles.description}>{null}</Text>
+                <Text style={styles.description}>{activeProfile?.displayName}</Text>
             </View>
             <RenderContent />
         </Page>
