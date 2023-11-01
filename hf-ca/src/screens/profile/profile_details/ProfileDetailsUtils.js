@@ -104,6 +104,13 @@ export const styles = StyleSheet.create({
         lineHeight: 20,
         marginLeft: 10,
     },
+    attention: {
+        paddingTop: 18,
+        paddingHorizontal: 16,
+        backgroundColor: AppTheme.colors.font_color_4,
+        borderRadius: 20,
+        ...AppTheme.shadow,
+    },
 });
 
 export const switchAction = "switch";
