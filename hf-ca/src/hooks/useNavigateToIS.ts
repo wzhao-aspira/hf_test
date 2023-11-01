@@ -18,6 +18,14 @@ function useNavigateToIS() {
     const currentInUseProfileID = useAppSelector(profileSelectors.selectCurrentInUseProfileID);
     const navigation = useAppNavigation();
 
+    const getAdditionalInfoQueryString = useCallback(() => {
+        const focusCustomerID = currentInUseProfileID;
+        const accessToken = retrieveAccessToken();
+        const webStaticInfo = getISWebStaticInfo();
+
+        return `&token=${accessToken}&focusCustomerID=${focusCustomerID}&${webStaticInfo}`;
+    }, [currentInUseProfileID]);
+
     const navigateToIS = useCallback(
         async ({ targetPath }: { targetPath: string }) => {
             const checkTokenResponse = await handleError(Miscellaneous.checkTokenAPI(), {
@@ -30,26 +38,24 @@ function useNavigateToIS() {
             }
 
             const internetSalesBaseURL = appConfig.data?.internetSalesBaseURL;
-            const accessToken = retrieveAccessToken();
-            const focusCustomerID = currentInUseProfileID;
-            const webStaticInfo = getISWebStaticInfo();
+            const additionalInfoQueryString = getAdditionalInfoQueryString();
 
-            const ISPurchaseLicenseURL = `${internetSalesBaseURL}CustomerSearch/AutoLoginForMobile?token=${accessToken}&focusCustomerID=${focusCustomerID}&targetPath=${encodeURIComponent(
+            const ISURLWithAdditionalInfo = `${internetSalesBaseURL}CustomerSearch/AutoLoginForMobile?targetPath=${encodeURIComponent(
                 targetPath
-            )}&${webStaticInfo}`;
+            )}${additionalInfoQueryString}`;
 
-            console.log({ ISPurchaseLicenseURL });
+            console.log({ ISURLWithAdditionalInfo });
 
             navigation.navigate(Routers.webView, {
-                url: ISPurchaseLicenseURL,
+                url: ISURLWithAdditionalInfo,
             });
 
             return true;
         },
-        [currentInUseProfileID, dispatch, navigation]
+        [dispatch, getAdditionalInfoQueryString, navigation]
     );
 
-    return { navigateToIS };
+    return { navigateToIS, getAdditionalInfoQueryString };
 }
 
 export default useNavigateToIS;
