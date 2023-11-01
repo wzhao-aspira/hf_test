@@ -15,7 +15,7 @@ export async function getPreferencePointsByProfileId(profileId: string) {
         .filter((item) => {
             const { huntTypeName, currentPreferencePoints, lastParticipationLicenseYear } = item;
             const filterResult =
-                huntTypeName != null && currentPreferencePoints != null && !lastParticipationLicenseYear != null;
+                huntTypeName != null && currentPreferencePoints != null && lastParticipationLicenseYear != null;
             return filterResult;
         })
         .map((item) => {
