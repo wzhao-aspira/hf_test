@@ -9,6 +9,7 @@ import AppTheme from "../../assets/_default/AppTheme";
 import { emptyError, emptyValidate } from "../profile/add_profile/ProfileValidate";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import OutlinedBtn from "../../components/OutlinedBtn";
+import RenderHTML from "../../components/RenderHTML";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
@@ -17,7 +18,7 @@ import { handleError } from "../../network/APIUtil";
 import { setLoginCredential } from "../../helper/LocalAuthHelper";
 import { updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
-import { DEFAULT_RADIUS } from "../../constants/Dimension";
+import { DEFAULT_RADIUS, SCREEN_WIDTH } from "../../constants/Dimension";
 import { appConfig } from "../../services/AppConfigService";
 import { genTestId } from "../../helper/AppHelper";
 
@@ -180,9 +181,12 @@ function SignUp() {
                         <Text testID={genTestId("disclaimer_title")} style={styles.disclaimerTitle}>
                             <Trans i18nKey="signUp.disclaimerTitle" />
                         </Text>
-                        <Text testID={genTestId("disclaimer_text")} style={styles.disclaimerMessage}>
-                            {appConfig.data.userAcknowledgement}
-                        </Text>
+                        <View style={styles.disclaimerMessage}>
+                            <RenderHTML
+                                source={{ html: appConfig.data.userAcknowledgement }}
+                                contentWidth={SCREEN_WIDTH - 40 - 56}
+                            />
+                        </View>
                     </ScrollView>
                     <View style={styles.disclaimerButton}>
                         <OutlinedBtn
