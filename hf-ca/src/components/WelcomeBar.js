@@ -4,10 +4,14 @@ import { useSelector } from "react-redux";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
+import SwitchCustomer from "./SwitchCustomer";
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "center",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingRight: 10,
+        justifyContent: "space-between",
         height: 50,
         backgroundColor: AppTheme.colors.font_color_4,
         borderBottomColor: AppTheme.colors.primary_900,
@@ -18,6 +22,10 @@ const styles = StyleSheet.create({
         ...AppTheme.typography.secondary_heading,
         paddingHorizontal: DEFAULT_MARGIN,
         color: AppTheme.colors.font_color_1,
+        flex: 1,
+    },
+    switchCustomer: {
+        width: 110,
     },
 });
 
@@ -32,6 +40,9 @@ function WelcomeBar() {
             <Text style={styles.label} numberOfLines={1} ellipsizeMode="tail">
                 {t("home.greeting", { name: currentInUseProfile.displayName })}
             </Text>
+            <View style={styles.switchCustomer}>
+                <SwitchCustomer />
+            </View>
         </View>
     );
 }
