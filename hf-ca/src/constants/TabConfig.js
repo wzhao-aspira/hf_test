@@ -20,7 +20,7 @@ const tabIcons = [
         unselected: faIdCard,
     },
     {
-        label: i18n.t("tabBar.tabMe"),
+        label: i18n.t("setting.title"),
         id: "me",
         selected: faUserSolid,
         unselected: faUser,
