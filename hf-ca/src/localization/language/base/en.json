@@ -283,7 +283,8 @@
         "termsOfService": "Terms of Service",
         "information": "Information",
         "regulations": "Regulations",
-        "usefulLinks": "Useful Links"
+        "usefulLinks": "Useful Links",
+        "harvestReport": "Harvest Report"
     },
     "setting": {
         "title": "Settings",

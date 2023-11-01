@@ -228,15 +228,15 @@ export default function DrawerContent({ navigation }) {
                         onClick={() => {
                             navigateToIS();
                         }}
-                        title="license.purchaseLicense"
+                        title="huntAndFish.purchaseTitle"
                         testID="PurchaseLicense"
                     />
                     <MenuItem
                         onClick={() => {
                             navigateToViewCustomerHarvestReports();
                         }}
-                        title="licenseDetails.submitHarvestReport"
-                        testID="SubmitHarvestReport"
+                        title="hamburgerMenu.harvestReport"
+                        testID="HarvestReport"
                     />
                 </View>
             </>
