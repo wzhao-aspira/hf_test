@@ -150,7 +150,7 @@
     },
     "tabBar": {
         "tabHome": "Home",
-        "tabLicenses": "Licenses"
+        "myMenu": "My Menu"
     },
     "home": {
         "greeting": "Welcome, {{name}}!"
@@ -210,7 +210,8 @@
         "addNewPrimaryProfile": "Add New Primary Customer Record",
         "orSwitchTo": "Or Switch to:",
         "associatedRemovedAsWell": "The associated customer records have been removed as well.",
-        "associatedProfiles": "Associated customer record(s):"
+        "associatedProfiles": "Associated customer record(s):",
+        "viewCustomerRecord": "View Customer Record"
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",
