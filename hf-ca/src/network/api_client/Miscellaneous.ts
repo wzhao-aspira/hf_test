@@ -20,9 +20,7 @@ function checkNewVersionAPI() {
      *  "2023.1.6.1234" force update
      *  "2023.1.7.1234" optional update
      */
-    // const version = Constants.expoConfig?.ios?.buildNumber;
-    // fix me, temp code for test
-    const version = "2023.1.6.1234";
+    const version = Constants.expoConfig?.ios?.buildNumber;
 
     const clientType = Platform.OS == "android" ? "Android" : "Ios";
 
