@@ -150,8 +150,7 @@
     },
     "tabBar": {
         "tabHome": "Home",
-        "tabLicenses": "Licenses",
-        "tabMe": "Me"
+        "tabLicenses": "Licenses"
     },
     "home": {
         "greeting": "Welcome, {{name}}!"
@@ -279,7 +278,6 @@
     "hamburgerMenu": {
         "general": "General",
         "quickAccess": "Quick Access",
-        "settings": "Settings",
         "privacyPolicy": "Privacy Policy",
         "termsOfService": "Terms of Service",
         "information": "Information",
@@ -287,7 +285,7 @@
         "usefulLinks": "Useful Links"
     },
     "setting": {
-        "title": "Setting",
+        "title": "Settings",
         "deleteAccount": "Delete Account",
         "changePassword": "Change Password",
         "currentPassword": "Current Password",
@@ -418,7 +416,6 @@
         "backOnline": "Back Online"
     },
     "me": {
-        "profileRelated": "Customer Record Related",
         "account": "Account",
         "security": "Security",
         "quickAccessSetting": "Quick Access Setting"

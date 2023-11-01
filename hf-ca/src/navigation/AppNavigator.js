@@ -36,7 +36,6 @@ import QuickAccessMethodsScreen from "../screens/setting/QuickAccessSettingScree
 import SalesAgentsScreen from "../screens/sales_agents/SalesAgentsScreen";
 import AccessPermitListScreen from "../screens/access_permits/AccessPermitListScreen";
 import AccessPermitScreen from "../screens/access_permits/AccessPermitScreen";
-import SettingsScreen from "../screens/setting/SettingsScreen";
 import SignInScreen from "../screens/sign_in/SignInScreen";
 import SignUpScreen from "../screens/sign_up/SignUpScreen";
 import SolunarScreen from "../screens/discovery/SolunarScreen";
@@ -48,7 +47,7 @@ import AddIndividualProfileInfoDetailsScreen from "../screens/profile/add_profil
 import AddBusinessVesselProfileInfoScreen from "../screens/profile/add_profile/AddBusinessVesselProfileInfoScreen";
 import NetInfoBar from "../components/NetInfoBar";
 import LicensesTabScreen from "../screens/licenses/LicenseTabScreen";
-import MeTabScreen from "../screens/me/MeTabScreen";
+import SettingsTabScreen from "../screens/setting/SettingsTabScreen";
 import DrawApplicationListScreen from "../screens/draw_application/list/DrawApplicationListScreen";
 import RegulationListScreen from "../screens/regulation/list/RegulationListScreen";
 import RegulationDetailScreen from "../screens/regulation/detail/RegulationDetailScreen";
@@ -218,7 +217,6 @@ function MainNav() {
             <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />
             <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
             <MainStack.Screen name={Routers.quickAccessSetting} component={QuickAccessMethodsScreen} />
-            <MainStack.Screen name={Routers.setting} component={SettingsScreen} />
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
             <MainStack.Screen name={Routers.tabNav} component={TabNav} />
             <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
@@ -250,7 +248,7 @@ function TabNav() {
         <BottomTab.Navigator screenOptions={screenOpt} tabBar={TabContent}>
             <BottomTab.Screen name={Routers.home} component={HomeScreen} />
             <BottomTab.Screen name={Routers.licenses} component={LicensesTabScreen} />
-            <BottomTab.Screen name={Routers.me} component={MeTabScreen} />
+            <BottomTab.Screen name={Routers.settings} component={SettingsTabScreen} />
         </BottomTab.Navigator>
     );
 }

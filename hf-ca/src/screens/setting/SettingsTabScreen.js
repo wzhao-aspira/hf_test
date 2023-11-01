@@ -14,7 +14,6 @@ import { selectors as profileSelectors } from "../../redux/ProfileSlice";
 import { selectUsername } from "../../redux/AppSlice";
 import HeaderBar from "../../components/HeaderBar";
 import SplitLine from "../../components/SplitLine";
-import HuntFishOtherInfoItem from "../shared/hunt_fish_content/HuntFishOtherInfoItem";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
 
 const styles = StyleSheet.create({
@@ -109,18 +108,12 @@ function RenderContent() {
 
     return (
         <ScrollView contentContainerStyle={{ paddingBottom: PAGE_MARGIN_BOTTOM }}>
-            <Text style={styles.sectionTitle}>{t("me.profileRelated")}</Text>
-            <View style={styles.sectionContainer}>
-                <HuntFishOtherInfoItem
-                    title={t("profile.manageProfile")}
-                    onPress={() => {
-                        NavigationService.navigate(Routers.manageProfile);
-                    }}
-                />
-            </View>
-
             <Text style={styles.sectionTitle}>{t("me.account")}</Text>
             <View style={styles.sectionContainer}>
+                {renderItem(t("profile.manageProfile"), () => {
+                    NavigationService.navigate(Routers.manageProfile);
+                })}
+                <SeparateLine />
                 {renderItem(t("setting.changePassword"), () => {
                     NavigationService.navigate(Routers.forgotPasswordResetPassword, {
                         emailAddress: userName,
@@ -152,7 +145,7 @@ function RenderContent() {
     );
 }
 
-export default function MeTabScreen() {
+export default function SettingsTabScreen() {
     const { t } = useTranslation();
     const userName = useSelector(selectUsername);
 
