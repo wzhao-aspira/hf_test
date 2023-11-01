@@ -369,10 +369,13 @@
     },
     "contact": {
         "contactCDFW": "Contact Dept. Fish and Wildlife",
-        "contactAspira": "Contact Aspira (Online License Agent)",
+        "contactAspira": "Contact Online License Agent (Aspira)",
         "FAQ": "FAQ's",
         "Facebook": "Facebook",
         "Twitter": "Twitter",
+        "webSite": "Website",
+        "email": "Email:",
+        "call": "Call:",
         "YouTube": "YouTube"
     },
     "accessPermits": {

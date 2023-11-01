@@ -11,12 +11,28 @@ export const getListData = (i18n, t, list = []) => {
 
 export function getContactUsLinks(i18n, t) {
     const newContactList = AppContract.contactList;
-    const { contactCDFWLink, contactAspiraLink, faqLink } = appConfig.data;
+    const {
+        contactCDFWLink,
+        contactAspiraLink,
+        faqLink,
+        contactCDFWEmail,
+        contactCDFWPhone,
+        cdfwWorkingHours,
+        contactAspiraEmail,
+        contactAspiraPhone,
+        aspiraWorkingHours,
+    } = appConfig.data;
     if (contactCDFWLink) {
         newContactList[0].url = contactCDFWLink;
+        newContactList[0].email = contactCDFWEmail;
+        newContactList[0].phone = contactCDFWPhone;
+        newContactList[0].workingHours = cdfwWorkingHours;
     }
     if (contactAspiraLink) {
         newContactList[1].url = contactAspiraLink;
+        newContactList[1].email = contactAspiraEmail;
+        newContactList[1].phone = contactAspiraPhone;
+        newContactList[1].workingHours = aspiraWorkingHours;
     }
     if (faqLink) {
         newContactList[2].url = faqLink;

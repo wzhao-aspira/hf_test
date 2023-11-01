@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function PrimaryBtn({ label = "Primary Btn", onPress, testID, style = {}, disabled = false }) {
+function PrimaryBtn({ label = "Primary Btn", onPress, testID, style = {}, disabled = false, labelStyle = {} }) {
     const calTestID = testID || label;
     return (
         <Pressable
@@ -33,7 +33,7 @@ function PrimaryBtn({ label = "Primary Btn", onPress, testID, style = {}, disabl
                 if (onPress) onPress();
             }}
         >
-            <Text numberOfLines={1} style={styles.label}>
+            <Text numberOfLines={1} style={[styles.label, labelStyle]}>
                 {label}
             </Text>
         </Pressable>
