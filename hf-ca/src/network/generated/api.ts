@@ -1837,6 +1837,18 @@ export interface MobileAppConfigurationVM {
      * @type {string}
      * @memberof MobileAppConfigurationVM
      */
+    'instagramLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'linkedinLink'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
     'contactAspiraLink'?: string | null;
     /**
      * 
@@ -1873,6 +1885,12 @@ export interface MobileAppConfigurationVM {
      * @type {string}
      * @memberof MobileAppConfigurationVM
      */
+    'cdfwWorkingHours'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
     'contactAspiraEmail'?: string | null;
     /**
      * 
@@ -1880,6 +1898,18 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'contactAspiraPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'aspiraWorkingHours'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'customerRecordAttention'?: string | null;
 }
 /**
  * 

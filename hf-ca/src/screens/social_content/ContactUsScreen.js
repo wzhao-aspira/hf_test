@@ -2,7 +2,7 @@ import { FlatList, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
-import ListItem from "../shared/ListItem";
+import ContractItem from "./ContractItem";
 import { openLink } from "../../helper/AppHelper";
 import { styles } from "./SocialContentUtils";
 import { getContactUsLinks } from "../../services/LinkService";
@@ -22,11 +22,11 @@ function ContactUsScreen() {
                     data={contactList}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => {
-                        const hiddenBottomLine = index === contactList.length - 1;
+                        const onlyShowTitle = index === contactList.length - 1;
                         return (
-                            <ListItem
+                            <ContractItem
                                 item={item}
-                                hiddenBottomLine={hiddenBottomLine}
+                                onlyShowTitle={onlyShowTitle}
                                 onPress={() => {
                                     openLink(item.url);
                                 }}
