@@ -1,10 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
-import { selectLoginStep } from "../redux/AppSlice";
+import { selectLoginStep, actions as appActions } from "../redux/AppSlice";
 import { DRAWER_WIDTH } from "../constants/Dimension";
 import LoginStep from "../constants/LoginStep";
 import Routers from "../constants/Routers";
@@ -75,31 +75,32 @@ const iOSDialogScreenOpt = { presentation: "transparentModal", animation: "none"
 const androidDialogScreenOpt = { presentation: "transparentModal", animation: "none" };
 
 // gets the current screen from navigation state
-function getActiveRouteName(navigationState) {
+function getActiveRouteName(navigationState, dispatch) {
     if (!navigationState) {
         return null;
     }
     const route = navigationState.routes[navigationState.index];
     // dive into nested navigators
     if (route.state) {
-        return getActiveRouteName(route.state);
+        return getActiveRouteName(route.state, dispatch);
     }
     console.log(`route.name:${route.name}`);
     Routers.current = route.name;
+    dispatch(appActions.setCurrentRouter(route.name));
     return route.name;
 }
 
 function AppNavigator() {
     const loginStep = useSelector(selectLoginStep);
     console.log(`loginStep:${loginStep}`);
-
+    const dispatch = useDispatch();
     return (
         <View style={{ flex: 1 }}>
             <NavigationContainer
                 ref={navigationRef}
                 theme={NavTheme}
                 onStateChange={(state) => {
-                    getActiveRouteName(state);
+                    getActiveRouteName(state, dispatch);
                 }}
             >
                 <RootStack.Navigator mode="modal" headerMode="none" screenOptions={{ ...screenOpt, animation: "none" }}>

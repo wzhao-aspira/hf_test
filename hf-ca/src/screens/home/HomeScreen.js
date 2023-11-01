@@ -18,6 +18,8 @@ import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
 import profileSelectors from "../../redux/ProfileSelector";
 import useFocus from "../../hooks/useFocus";
 import ProfileThunk from "../../redux/ProfileThunk";
+import { actions as appActions } from "../../redux/AppSlice";
+import Routers from "../../constants/Routers";
 import { checkVersion } from "../../services/VersionCheckService";
 
 export default function HomeScreen() {
@@ -42,6 +44,7 @@ export default function HomeScreen() {
 
     useFocus(() => {
         console.log("home focus");
+        dispatch(appActions.setCurrentRouter(Routers.home));
         // fix the tab not appear issue AWO-215729
         dispatch(getWeatherDataFromRedux({}));
         dispatch(ProfileThunk.refreshProfileList()).then((response) => {

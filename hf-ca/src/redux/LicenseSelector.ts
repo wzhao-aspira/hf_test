@@ -1,6 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
+import moment from "moment";
 import type { RootState } from "./Store";
 import { formateDateForList, formateDateForDashboard } from "../services/LicenseService";
+import { LAST_UPDATE_TIME_DISPLAY_FORMAT } from "../constants/Constants";
 
 const selectLicenseState = (state: RootState) => state.license;
 
@@ -9,7 +11,7 @@ export const selectLicenseForList = createSelector(selectLicenseState, (licenseS
     let groupedData = licenseData.reduce((accumulator, item) => {
         const groupKey = item.uiTabId;
         if (!accumulator.has(groupKey)) {
-            accumulator.set(groupKey, { title: item.uiTabName, data: [] });
+            accumulator.set(groupKey, { groupKey, title: item.uiTabName, data: [] });
         }
         const { validFrom, validTo } = formateDateForList(item);
         accumulator.get(groupKey).data.push({ ...item, validFrom, validTo });
@@ -20,6 +22,13 @@ export const selectLicenseForList = createSelector(selectLicenseState, (licenseS
     groupedData = Array.from(groupedData.values());
 
     return { ...licenseState, data: groupedData };
+});
+
+export const selectLastUpdateTimeFromServer = createSelector(selectLicenseForList, (licenseDataForList) => {
+    const lastUpdateTimeFromServer = licenseDataForList.lastUpdateTimeFromServer
+        ? moment(licenseDataForList.lastUpdateTimeFromServer).format(LAST_UPDATE_TIME_DISPLAY_FORMAT)
+        : null;
+    return lastUpdateTimeFromServer;
 });
 
 export const selectLicenseForDashboard = createSelector(selectLicenseState, (licenseState) => {

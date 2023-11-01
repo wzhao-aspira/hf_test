@@ -13,6 +13,7 @@ interface InitialState {
     indicator: boolean;
     error: any;
     showPrimaryProfileInactiveMsg: boolean;
+    currentRouter: string;
 }
 
 const initialState: InitialState = {
@@ -21,6 +22,7 @@ const initialState: InitialState = {
     indicator: false,
     error: {},
     showPrimaryProfileInactiveMsg: false,
+    currentRouter: null,
 };
 
 const appSlice = createSlice({
@@ -50,6 +52,9 @@ const appSlice = createSlice({
         toggleShowPrimaryProfileInactiveMsg: (state, action: PayloadAction<boolean>) => {
             state.showPrimaryProfileInactiveMsg = action?.payload;
         },
+        setCurrentRouter: (state, action: PayloadAction<string>) => {
+            state.currentRouter = action?.payload;
+        },
     },
 });
 
@@ -64,13 +69,14 @@ export const selectIsPrimaryProfileInactive = createSelector(
     (state) => state.showPrimaryProfileInactiveMsg
 );
 export const selectError = createSelector(selectAppState, (state) => state.error);
+export const selectCurrentRouter = createSelector(selectAppState, (app) => app.currentRouter);
 
 const selectUser = createSelector(selectAppState, (app) => app.user);
-
 const selectors = {
     selectUsername,
     selectUser,
     selectError,
+    selectCurrentRouter,
 };
 
 const { reducer, actions } = appSlice;

@@ -34,12 +34,13 @@ export const REQUEST_STATUS = {
     rejected: "rejected",
 } as const;
 export const AUTO_REFRESH_TIMEOUT = 0.5 * 60 * 60;
+export const OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT = 360;
 
 export const CATEGORY = { Hunting: 1, Fishing: 2 };
 export const IDENTIFICATION_TYPE_GO_ID = "1";
 export const DEFAULT_DATE_FORMAT = "MM DD YYYY";
 export const DATE_OF_BIRTH_DISPLAY_FORMAT = "MM/DD/YYYY";
-export const LAST_UPDATE_TIME_DISPLAY_FORMAT = "MM/DD/YYYY HH:mm";
+export const LAST_UPDATE_TIME_DISPLAY_FORMAT = "MM/DD/YYYY hh:mm A";
 export const PROFILE_TYPE_IDS = {
     adult: 1,
     youth: 3,
