@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { Trans } from "react-i18next";
-import RenderHTML from "react-native-render-html";
+import RenderHTML from "../../../../components/RenderHTML";
 import { genTestId } from "../../../../helper/AppHelper";
 import AppTheme from "../../../../assets/_default/AppTheme";
 

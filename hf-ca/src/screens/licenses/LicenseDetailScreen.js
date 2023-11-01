@@ -4,10 +4,10 @@ import Barcode from "@kichiyaki/react-native-barcode-generator";
 import { useTranslation, Trans } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import RenderHtml from "react-native-render-html";
 import moment from "moment";
 import { isEmpty } from "lodash";
 import PrimaryBtn from "../../components/PrimaryBtn";
+import RenderHTML from "../../components/RenderHTML";
 import { genTestId } from "../../helper/AppHelper";
 
 import AppTheme from "../../assets/_default/AppTheme";
@@ -592,10 +592,10 @@ function LicenseDetailScreen(props) {
                         {!!printedDescriptiveText && (
                             <View style={[styles.sectionContent]}>
                                 <View
-                                    style={[styles.licenseInfo, { marginTop: 10 }]}
+                                    style={{ paddingTop: 10, paddingHorizontal: DEFAULT_MARGIN }}
                                     testID={genTestId("printedDescriptiveText")}
                                 >
-                                    <RenderHtml
+                                    <RenderHTML
                                         contentWidth={SCREEN_WIDTH}
                                         source={{
                                             html: printedDescriptiveText,

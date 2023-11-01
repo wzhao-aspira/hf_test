@@ -1,7 +1,7 @@
 import { Linking, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 import { isEmpty } from "lodash";
-import RenderHtml from "react-native-render-html";
+import RenderHTML from "../../../components/RenderHTML";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId, isIos } from "../../../helper/AppHelper";
@@ -58,7 +58,7 @@ function RegulationListDataView({ data }) {
             <View style={{ marginBottom: 25 }}>
                 {regulationDescription && (
                     <View style={styles.regulationDescription}>
-                        <RenderHtml
+                        <RenderHTML
                             testID={genTestId("regulationDescription")}
                             source={{
                                 html: regulationDescription,

@@ -1,11 +1,11 @@
 import { View, StyleSheet, useWindowDimensions, Text, Pressable, ScrollView } from "react-native";
 import { Trans } from "react-i18next";
-import RenderHtml from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import AppTheme from "../../assets/_default/AppTheme";
 import AccessPermitItem from "./access_permit/AccessPermitItem";
 import CommonHeader from "../../components/CommonHeader";
+import RenderHTML from "../../components/RenderHTML";
 import { genTestId } from "../../helper/AppHelper";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
@@ -43,7 +43,7 @@ export default function AccessPermitScreen(props) {
                         <Text testID={genTestId("AttentionLabel")} style={styles.attention_label}>
                             <Trans i18nKey="common.attention" />
                         </Text>
-                        <RenderHtml
+                        <RenderHTML
                             testID={genTestId("AttentionContent")}
                             source={{
                                 html,
