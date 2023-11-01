@@ -415,7 +415,8 @@
     },
     "netStatus": {
         "offline": "Offline",
-        "backOnline": "Back Online"
+        "backOnline": "Back Online",
+        "licenseRefreshedOn": "License Refreshed On:"
     },
     "me": {
         "account": "Account",

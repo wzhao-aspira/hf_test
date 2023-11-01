@@ -97,7 +97,7 @@ function LicenseListScreen() {
                             return <LicenseCardLoading key={item.id} />;
                         }
                         return (
-                            <View key={item.title}>
+                            <View key={item.groupKey}>
                                 <View style={styles.groupTitleContainer}>
                                     <Text style={styles.groupTitle}>{item.title}</Text>
                                 </View>
