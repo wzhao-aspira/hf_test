@@ -5,6 +5,7 @@ import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import HuntFishOtherInfoItem from "./HuntFishOtherInfoItem";
 import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
+import { appConfig } from "../../../services/AppConfigService";
 
 const styles = StyleSheet.create({
     sectionTitle: {
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
 
 function HuntFishOtherInfo() {
     const { t } = useTranslation();
-
+    const { isDrawResultAvailable, isAccessPermitsAvailable } = appConfig.data;
     return (
         <View>
             <Text style={styles.sectionTitle}>{t("license.importantInformation")}</Text>
@@ -37,18 +38,22 @@ function HuntFishOtherInfo() {
                         NavigationService.navigate(Routers.licenseList);
                     }}
                 />
-                <HuntFishOtherInfoItem
-                    title={t("license.viewDrawApplication")}
-                    onPress={() => {
-                        NavigationService.navigate(Routers.drawApplicationList);
-                    }}
-                />
-                <HuntFishOtherInfoItem
-                    title={t("license.myActivePermits")}
-                    onPress={() => {
-                        NavigationService.navigate(Routers.accessPermitList);
-                    }}
-                />
+                {isDrawResultAvailable && (
+                    <HuntFishOtherInfoItem
+                        title={t("license.viewDrawApplication")}
+                        onPress={() => {
+                            NavigationService.navigate(Routers.drawApplicationList);
+                        }}
+                    />
+                )}
+                {isAccessPermitsAvailable && (
+                    <HuntFishOtherInfoItem
+                        title={t("license.myActivePermits")}
+                        onPress={() => {
+                            NavigationService.navigate(Routers.accessPermitList);
+                        }}
+                    />
+                )}
                 <HuntFishOtherInfoItem
                     title={t("preferencePoint.viewPreferencePoint")}
                     onPress={() => {
