@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-
+import useFocus from "../../../hooks/useFocus";
 import Page from "../../../components/Page";
 import CommonHeader from "../../../components/CommonHeader";
 import DrawApplicationListEmpty from "./DrawApplicationListEmpty";
@@ -113,10 +113,9 @@ function DrawApplicationListScreen() {
         }
     };
 
-    useEffect(() => {
+    useFocus(() => {
         getDrawListByProfileId();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    });
 
     return (
         <Page style={styles.container}>
