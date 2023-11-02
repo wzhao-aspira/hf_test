@@ -1,5 +1,4 @@
 import { View, StyleSheet, RefreshControl, ScrollView } from "react-native";
-import { useEffect } from "react";
 import { isEmpty } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -19,6 +18,7 @@ import { REQUEST_STATUS } from "../../constants/Constants";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import useTitle from "../../hooks/useTitle";
+import useFocus from "../../hooks/useFocus";
 
 const styles = StyleSheet.create({
     container: {
@@ -74,10 +74,9 @@ export default function AccessPermitListScreen() {
         }
     };
 
-    useEffect(() => {
+    useFocus(() => {
         getAccessPermitOfActiveProfile();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    });
 
     return (
         <View style={styles.container}>
