@@ -86,7 +86,9 @@ function getActiveRouteName(navigationState, dispatch) {
     }
     console.log(`route.name:${route.name}`);
     Routers.current = route.name;
-    dispatch(appActions.setCurrentRouter(route.name));
+    if (Routers.modal !== route.name) {
+        dispatch(appActions.setCurrentRouter(route.name));
+    }
     return route.name;
 }
 

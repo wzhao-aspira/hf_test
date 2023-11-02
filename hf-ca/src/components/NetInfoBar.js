@@ -13,23 +13,20 @@ import { OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT } from "../constants/Constants";
 
 const styles = StyleSheet.create({
     message: {
-        height: 30,
-        lineHeight: 30,
-        width: "100%",
-        backgroundColor: AppTheme.colors.font_color_2,
+        height: 14,
+        lineHeight: 14,
         color: AppTheme.colors.font_color_4,
-        textAlign: "center",
-        textAlignVertical: "center",
+        verticalAlign: "middle",
         ...AppTheme.typography.button_text,
     },
     messageContainer: {
         flexDirection: "column",
         justifyContent: "center",
-        paddingVertical: 6,
-    },
-    messageWithUpdateTimeLines: {
-        height: 14,
-        lineHeight: 14,
+        alignItems: "center",
+        width: "100%",
+        backgroundColor: AppTheme.colors.font_color_2,
+        height: 36,
+        lineHeight: 36,
     },
 });
 
@@ -82,26 +79,30 @@ export default function NetInfoBar() {
 
     const renderOfflineWithLicenseLastUpdateTime = () => {
         return SCREEN_WIDTH < OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT ? (
-            <View style={[styles.messageContainer, { backgroundColor }]}>
-                <Text style={[styles.message, styles.messageWithUpdateTimeLines]}>{text}</Text>
+            <>
+                <Text style={[styles.message]}>{text}</Text>
                 <Text
+                    style={[styles.message]}
                     numberOfLines={1}
                     ellipsizeMode="tail"
-                    style={[styles.message, styles.messageWithUpdateTimeLines]}
                 >{`${licenseRefreshedOnText} ${lastUpdateTimeFromServer}`}</Text>
-            </View>
+            </>
         ) : (
             <Text
+                style={[styles.message]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                style={[styles.message, { backgroundColor }]}
             >{`${text} - ${licenseRefreshedOnText} ${lastUpdateTimeFromServer}`}</Text>
         );
     };
 
-    return !netConnected && Routers.home === currentRouter ? (
-        renderOfflineWithLicenseLastUpdateTime()
-    ) : (
-        <Text style={[styles.message, { backgroundColor }]}>{text}</Text>
+    return (
+        <View style={[styles.messageContainer, { backgroundColor }]}>
+            {!netConnected && Routers.home === currentRouter ? (
+                renderOfflineWithLicenseLastUpdateTime()
+            ) : (
+                <Text style={[styles.message]}>{text}</Text>
+            )}
+        </View>
     );
 }
