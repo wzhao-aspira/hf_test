@@ -32,6 +32,7 @@ export default function RootScreen() {
             }
             appState.current = state;
         });
+        checkVersion();
     }, []);
 
     return (

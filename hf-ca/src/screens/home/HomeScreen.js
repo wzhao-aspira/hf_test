@@ -1,6 +1,5 @@
 import { View, FlatList, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
 import HomeDiscoverySection from "./HomeDiscoverySection";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
@@ -20,7 +19,6 @@ import useFocus from "../../hooks/useFocus";
 import ProfileThunk from "../../redux/ProfileThunk";
 import { actions as appActions } from "../../redux/AppSlice";
 import Routers from "../../constants/Routers";
-import { checkVersion } from "../../services/VersionCheckService";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -61,10 +59,6 @@ export default function HomeScreen() {
             getLicenseOfActiveProfile(false, useCache);
         });
     });
-
-    useEffect(() => {
-        checkVersion();
-    }, []);
 
     const refreshData = () => {
         dispatch(getWeatherDataFromRedux({ isForce: true }));
