@@ -226,17 +226,17 @@ export default function DrawerContent({ navigation }) {
                     />
                     <MenuItem
                         onClick={() => {
-                            navigateToIS();
-                        }}
-                        title="huntAndFish.purchaseTitle"
-                        testID="PurchaseLicense"
-                    />
-                    <MenuItem
-                        onClick={() => {
                             navigateToViewCustomerHarvestReports();
                         }}
                         title="hamburgerMenu.harvestReport"
                         testID="HarvestReport"
+                    />
+                    <MenuItem
+                        onClick={() => {
+                            navigateToIS();
+                        }}
+                        title="huntAndFish.purchaseTitle"
+                        testID="PurchaseLicense"
                     />
                 </View>
             </>
