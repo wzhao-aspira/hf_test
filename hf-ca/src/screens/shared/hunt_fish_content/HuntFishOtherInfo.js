@@ -8,6 +8,7 @@ import Routers from "../../../constants/Routers";
 import NavigationService from "../../../navigation/NavigationService";
 import selectors from "../../../redux/ProfileSelector";
 import { appConfig } from "../../../services/AppConfigService";
+import useNavigateToISViewCustomerHarvestReports from "../../licenses/hooks/useNavigateToISViewCustomerHarvestReports";
 
 const styles = StyleSheet.create({
     sectionTitle: {
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
 function HuntFishOtherInfo() {
     const { t } = useTranslation();
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
+    const { navigateToViewCustomerHarvestReports } = useNavigateToISViewCustomerHarvestReports();
 
     const { isDrawResultAvailable, isAccessPermitsAvailable } = appConfig.data;
     return (
@@ -62,6 +64,12 @@ function HuntFishOtherInfo() {
                     title={t("preferencePoint.viewPreferencePoint")}
                     onPress={() => {
                         NavigationService.navigate(Routers.preferencePoint);
+                    }}
+                />
+                <HuntFishOtherInfoItem
+                    title={t("license.viewHarvestReport")}
+                    onPress={() => {
+                        navigateToViewCustomerHarvestReports();
                     }}
                 />
                 <HuntFishOtherInfoItem
