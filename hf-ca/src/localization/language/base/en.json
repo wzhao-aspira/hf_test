@@ -448,7 +448,8 @@
         "pendingMultiTitle": "Pending View Multi Choice Copy",
         "status": "Status",
         "result": "Result",
-        "alternateForHunt": "Alternate for Hunt"
+        "alternateForHunt": "Alternate for Hunt",
+        "partyNumber": "Party#"
     },
     "drawApplicationDetail": {
         "of": "{{position}} Of {{totalNumber}} Choices",

@@ -121,11 +121,13 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
         huntId,
         drawStatus: normalDataDrawStatus,
         isGeneratedDraw,
+        partyNumber: normalDataPartyNumber,
     } = itemData || {};
     const { year: copyDataYear, drawType: copyDataDrawType, drawStatus: copyDataDrawStatus, items } = copyData || {};
     let year = normalDataYear;
     let drawType = normalDataDrawType;
     let drawStatus = normalDataDrawStatus;
+    let partyNumber = normalDataPartyNumber;
 
     let itemTitle = `${year} ${drawType}`;
     let itemExtTitle = huntName && `(${huntName})`;
@@ -137,6 +139,7 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
         year = copyDataYear;
         drawType = copyDataDrawType;
         drawStatus = copyDataDrawStatus;
+        partyNumber = items[0]?.partyNumber;
 
         if (isAlternateItem) {
             itemTitle = `${alternateItem.year} ${alternateItem.drawType} (${alternateItem.huntCode})`;
@@ -152,6 +155,8 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
             itemExtTitle = `(${huntName && `${huntName} `}${formatHuntDay && formatHuntDay})`;
         }
     }
+
+    const showPartyNumber = groupName !== "generatedHunt" && !isEmpty(partyNumber);
 
     return (
         <View style={styles.mainContainer}>
@@ -184,6 +189,17 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
                                 {drawStatus}
                             </Text>
                         </View>
+
+                        {showPartyNumber && (
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={styles.subTitle}>{t("drawApplicationList.partyNumber")}:</Text>
+                                <View style={{ flex: 1, marginLeft: 2 }}>
+                                    <Text style={{ ...styles.subTitle }} testID={genTestId("partyNumber")}>
+                                        {partyNumber}
+                                    </Text>
+                                </View>
+                            </View>
+                        )}
 
                         {tabName !== "pending" && (
                             <View style={{ flexDirection: "row" }}>
