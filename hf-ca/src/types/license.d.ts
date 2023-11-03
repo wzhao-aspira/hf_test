@@ -40,6 +40,7 @@ export interface License {
     isHarvestReportSubmissionEnabled: boolean;
     isHarvestReportSubmitted: boolean;
     licenseReportId: string;
+    licenseNotInReportingPeriodAttention: string;
     huntTagDescription: string;
 }
 

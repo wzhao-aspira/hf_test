@@ -54,6 +54,7 @@ export async function getLatestLicenseDataByCustomerId(customerId) {
             isHarvestReportSubmissionEnabled,
             isHarvestReportSubmitted,
             mobileAppNeedPhysicalDocument,
+            licenseNotInReportingPeriodAttention,
             licenseReportId,
             huntTagDescription,
         } = item;
@@ -87,6 +88,7 @@ export async function getLatestLicenseDataByCustomerId(customerId) {
             isHarvestReportSubmissionAllowed,
             isHarvestReportSubmissionEnabled,
             isHarvestReportSubmitted,
+            licenseNotInReportingPeriodAttention,
             licenseReportId,
             huntTagDescription,
         };

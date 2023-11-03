@@ -164,6 +164,7 @@ function LicenseDetailScreen(props) {
         isHarvestReportSubmissionAllowed,
         isHarvestReportSubmissionEnabled,
         isHarvestReportSubmitted,
+        licenseNotInReportingPeriodAttention,
         licenseReportId,
         huntTagDescription,
     } = licenseData || {};
@@ -607,19 +608,29 @@ function LicenseDetailScreen(props) {
                             </View>
                         )}
                         {harvestReportButtonDisplay() && (
-                            <PrimaryBtn
-                                disabled={!harvestReportButtonEnable()}
-                                testID={genTestId("SubmitHarvestReportButton ")}
-                                style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
-                                onPress={() => {
-                                    if (shouldShowViewHarvestReportButton()) {
-                                        navigateToViewHarvestReport();
-                                    } else {
-                                        navigateToSubmitHarvestReport();
-                                    }
-                                }}
-                                label={getHarvestReportButtonText()}
-                            />
+                            <View>
+                                <PrimaryBtn
+                                    disabled={!harvestReportButtonEnable()}
+                                    testID={genTestId("SubmitHarvestReportButton ")}
+                                    style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 26 }}
+                                    onPress={() => {
+                                        if (shouldShowViewHarvestReportButton()) {
+                                            navigateToViewHarvestReport();
+                                        } else {
+                                            navigateToSubmitHarvestReport();
+                                        }
+                                    }}
+                                    label={getHarvestReportButtonText()}
+                                />
+                                {!harvestReportButtonEnable() && !!licenseNotInReportingPeriodAttention && (
+                                    <Text
+                                        style={[styles.valueText, { marginHorizontal: DEFAULT_MARGIN, marginTop: 10 }]}
+                                        testID={genTestId("reportingPeriodAttention")}
+                                    >
+                                        {licenseNotInReportingPeriodAttention}
+                                    </Text>
+                                )}
+                            </View>
                         )}
                     </>
                 )}
