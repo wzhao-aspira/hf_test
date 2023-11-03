@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { StyleSheet, RefreshControl, View, Text, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
 import moment from "moment";
@@ -50,7 +49,6 @@ function LicenseListScreen() {
     const lastUpdateTimeFromServer = reduxData.lastUpdateTimeFromServer
         ? moment(reduxData.lastUpdateTimeFromServer).format(LAST_UPDATE_TIME_DISPLAY_FORMAT)
         : null;
-    const { t } = useTranslation();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const title = useTitle("license.firstNameLicense", "license.licenses");
     const getLicenseOfActiveProfile = (isForce) => {
@@ -68,12 +66,7 @@ function LicenseListScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader
-                title={title}
-                rightComponent={<SwitchCustomer />}
-                subTitle={lastUpdateTimeFromServer ? t("common.refreshedOn") + lastUpdateTimeFromServer : ""}
-                subTitleStyle={{ color: AppTheme.colors.refresh_time }}
-            />
+            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
 
             <ScrollView
                 testID={genTestId("licenseList")}
@@ -96,6 +89,7 @@ function LicenseListScreen() {
                 <View style={{ flex: 1 }}>
                     {!refreshing && (
                         <RefreshBar
+                            refreshTime={lastUpdateTimeFromServer}
                             style={{ marginHorizontal: DEFAULT_MARGIN, paddingVertical: 10 }}
                             onRefresh={() => getLicenseOfActiveProfile(true)}
                         />
