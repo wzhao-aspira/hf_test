@@ -37,7 +37,7 @@ export default function RootScreen() {
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }} edges={!isLogin ? null : ["left", "right"]} accessible>
+            <SafeAreaView style={{ flex: 1 }} edges={!isLogin ? null : ["left", "right"]}>
                 <StatusBar
                     translucent={isLogin}
                     style="dark"

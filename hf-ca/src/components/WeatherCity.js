@@ -27,6 +27,7 @@ export default function WeatherCity(props) {
     const cityName = city || AppContract.weather.defaultCityName;
     return (
         <Pressable
+            accessibilityLabel="Select city"
             testID={genTestId(`${testID}CitySwitchingButton`)}
             onPress={() => {
                 NavigationService.navigate(Routers.changeLocation);

@@ -134,6 +134,7 @@ function File(props: FileProps) {
 
     return (
         <TouchableWithoutFeedback
+            accessible={false}
             onPress={() => {
                 setShouldShowDropdown(false);
             }}
@@ -186,7 +187,11 @@ function File(props: FileProps) {
                 </View>
                 {shouldShowDropdown && Dropdown}
                 {shouldShowDropdownToggleButton && (
-                    <Pressable style={styles.topRightBtn} onPress={() => setShouldShowDropdown(true)}>
+                    <Pressable
+                        accessibilityLabel="dropdown toggle button"
+                        style={styles.topRightBtn}
+                        onPress={() => setShouldShowDropdown(true)}
+                    >
                         <FontAwesomeIcon icon={faEllipsisH} size={15} color={AppTheme.colors.primary_2} />
                     </Pressable>
                 )}

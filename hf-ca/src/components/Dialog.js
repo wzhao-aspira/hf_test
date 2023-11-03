@@ -209,6 +209,7 @@ export function DialogWrapper(props) {
 
     return (
         <Pressable
+            accessible={false}
             testID={genTestId(`${testID}DialogCloseButton`)}
             style={{ flex: 1 }}
             onPress={() => {
