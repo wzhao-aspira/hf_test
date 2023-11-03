@@ -139,6 +139,7 @@ function MenuItem(props) {
 }
 
 export default function DrawerContent({ navigation }) {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
@@ -333,14 +334,17 @@ export default function DrawerContent({ navigation }) {
     };
 
     const renderBottomSection = () => {
+        const appVersionNumber = t("common.appVersion", { appVersion: Constants.expoConfig?.ios?.buildNumber });
+        const apiVersionNumber = t("common.apiVersion", { apiVersion: appConfig.data.apiVersion });
         return (
             <View style={styles.bottomArea}>
                 <View style={styles.versionContainer}>
-                    <Text testID={genTestId(`${testIDPrefix}VersionLabel`)} style={styles.versionText}>
-                        <Trans i18nKey="common.version" />
+                    <Text testID={genTestId(`${testIDPrefix}AppVersionLabel`)} style={styles.versionText}>
+                        {appVersionNumber}
                     </Text>
-                    <Text testID={genTestId(`${testIDPrefix}VersionNumber`)} style={styles.versionText}>
-                        {` ${Constants.expoConfig?.ios?.buildNumber}`}
+                    <Text style={[styles.privacy, { marginHorizontal: 10 }]}>|</Text>
+                    <Text testID={genTestId(`${testIDPrefix}ApiVersionLabel`)} style={styles.versionText}>
+                        {apiVersionNumber}
                     </Text>
                 </View>
                 <View
