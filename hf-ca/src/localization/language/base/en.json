@@ -339,7 +339,7 @@
         "downloadFailed": "Download Failed",
         "downloadFailedLinkIssueMsg": "Download failed because of a link issue. Please try again later.",
         "downloadFailedMsg": "Download failed, please check your internet connection and try again.",
-        "deleteDownloaded": "Delete Downloaded",
+        "deleteDownloaded": "Delete Download",
         "deleteFile": "Delete File?",
         "deleteFileMessage": "Are you sure you wish to delete this file?",
         "downloadDocumentNoWiFi": "Download Document (no WiFi)?",
@@ -402,7 +402,7 @@
         "Open": "Open",
         "deleteFile": "Delete File?",
         "deleteFileMessage": "Are you sure you wish to delete this file?",
-        "deleteDownloaded": "Delete Downloaded"
+        "deleteDownloaded": "Delete Download"
     },
     "salesAgents": {
         "salesAgents": "Find License Agent",

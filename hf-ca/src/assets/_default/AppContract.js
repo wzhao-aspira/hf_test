@@ -45,6 +45,14 @@ const AppContract = {
             titleKey: "YouTube",
             url: "https://www.youtube.com/CaliforniaDFG",
         },
+        {
+            titleKey: "Instagram",
+            url: "https://www.instagram.com/californiadfw",
+        },
+        {
+            titleKey: "LinkedIn",
+            url: "https://www.linkedin.com/company/california-department-of-fish-and-wildlife",
+        },
     ],
     contactList: [
         {

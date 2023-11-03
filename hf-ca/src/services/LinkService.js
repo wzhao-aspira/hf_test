@@ -43,7 +43,7 @@ export function getContactUsLinks(i18n, t) {
 
 export function getSocialLinks(i18n, t) {
     const newSocialList = AppContract.socialList;
-    const { facebookLink, twitterLink, youTubeLink } = appConfig.data;
+    const { facebookLink, twitterLink, youTubeLink, instagramLink, linkedinLink } = appConfig.data;
     if (facebookLink) {
         newSocialList[0].url = facebookLink;
     }
@@ -52,6 +52,12 @@ export function getSocialLinks(i18n, t) {
     }
     if (youTubeLink) {
         newSocialList[2].url = youTubeLink;
+    }
+    if (instagramLink) {
+        newSocialList[3].url = instagramLink;
+    }
+    if (linkedinLink) {
+        newSocialList[4].url = linkedinLink;
     }
     return getListData(i18n, t, newSocialList);
 }
