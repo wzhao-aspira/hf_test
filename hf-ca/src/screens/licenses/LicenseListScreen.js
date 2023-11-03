@@ -52,7 +52,7 @@ function LicenseListScreen() {
         : null;
     const { t } = useTranslation();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
-    const title = useTitle("license.firstNameLicense", "license.license");
+    const title = useTitle("license.firstNameLicense", "license.licenses");
     const getLicenseOfActiveProfile = (isForce) => {
         dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
     };
