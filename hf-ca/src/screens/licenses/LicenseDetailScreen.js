@@ -369,9 +369,9 @@ function LicenseDetailScreen(props) {
     };
 
     const getLicenseOfActiveProfile = async (isForce) => {
+        dispatch(ProfileThunk.initResidentMethodTypes());
         dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce })).then((response) => {
             if (response?.success) {
-                dispatch(ProfileThunk.initResidentMethodTypes());
                 dispatch(getLicense({ isForce, searchParams: { activeProfileId: currentInUseProfileId } }));
             }
         });
