@@ -3,7 +3,7 @@ import { isEmpty } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { genTestId } from "../../helper/AppHelper";
-import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import { getAccessPermit } from "../../redux/AccessPermitSlice";
 import { selectAccessPermitState } from "../../redux/AccessPermitSelector";
 import AccessPermitListItem from "./access_permit_list/AccessPermitListItem";
@@ -18,12 +18,18 @@ import { REQUEST_STATUS } from "../../constants/Constants";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import useTitle from "../../hooks/useTitle";
+import RefreshBar from "../../components/RefreshBar";
 import useFocus from "../../hooks/useFocus";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: AppTheme.colors.page_bg,
+    },
+    refreshBar: {
+        marginHorizontal: DEFAULT_MARGIN,
+        paddingTop: 10,
+        paddingBottom: 20,
     },
 });
 
@@ -81,6 +87,7 @@ export default function AccessPermitListScreen() {
     return (
         <View style={styles.container}>
             <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
+
             <ScrollView
                 testID={genTestId("accessPermitList")}
                 contentContainerStyle={{
@@ -100,6 +107,7 @@ export default function AccessPermitListScreen() {
                 }
             >
                 <View style={{ flex: 1 }}>
+                    {!refreshing && <RefreshBar style={styles.refreshBar} onRefresh={getAccessPermitOfActiveProfile} />}
                     {showData(data, refreshing, loadingData, attention, customer, isShowSkeletonInOffline)}
                 </View>
             </ScrollView>
