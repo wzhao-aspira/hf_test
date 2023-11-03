@@ -92,7 +92,8 @@
         "authenticationFailed": "Authentication Failed",
         "proceed": "Proceed",
         "switchCustomer": "Switch Customer",
-        "version": "Version"
+        "appVersion": "APP Version {{appVersion}}",
+        "apiVersion": "API {{apiVersion}}"
     },
     "errMsg": {
         "noNetworkToast": "No network connection\n Use cache data",
