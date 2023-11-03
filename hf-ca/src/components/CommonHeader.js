@@ -71,6 +71,7 @@ function CommonHeader({
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Pressable
+                    accessibilityLabel="Go Back"
                     testID={genTestId(`${testID}BackToPreviousPageButton`)}
                     onPress={showLeft ? onBackClick : null}
                     style={styles.headerLeftContainer}

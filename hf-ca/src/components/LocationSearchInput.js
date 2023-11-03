@@ -248,6 +248,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
                     onBlur={() => {}}
                 />
                 <Pressable
+                    accessibilityLabel={isEmpty(value?.trim()) ? "Get Current Location" : "Clear input"}
                     testID={genTestId(`${testID}CurrentLocationButton`)}
                     style={styles.searchIcon}
                     onPress={() => {
@@ -262,6 +263,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
                 </Pressable>
             </View>
             <Pressable
+                accessible={false}
                 testID={genTestId(`${testID}LocationContainerButton`)}
                 style={styles.dropDownFeedback}
                 onPress={() => {

@@ -61,6 +61,7 @@ function ProfileItem({ profile, onPress, showGoToDetailsPageButton, showNameInOn
 
     return (
         <Pressable
+            accessible
             onPress={() => {
                 if (onPress) onPress();
             }}
