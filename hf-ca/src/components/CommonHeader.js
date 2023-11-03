@@ -10,7 +10,6 @@ import { genTestId } from "../helper/AppHelper";
 const LEFT_BLACK = 60;
 const LEFT_WIDTH = 20;
 const RIGHT_PADDING = 4;
-const RIGHT_WIDTH = LEFT_BLACK + LEFT_WIDTH - RIGHT_PADDING;
 
 const styles = StyleSheet.create({
     container: {
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     headerRightContainer: {
-        width: RIGHT_WIDTH,
+        width: LEFT_BLACK + LEFT_WIDTH - RIGHT_PADDING,
     },
     headerText: {
         ...AppTheme.typography.section_header,
@@ -67,6 +66,9 @@ function CommonHeader({
     rightComponent = null,
     subTitle = "",
 }) {
+    const blank = rightComponent ? LEFT_BLACK : DEFAULT_MARGIN;
+    const rightComponentWidth = blank + LEFT_WIDTH - RIGHT_PADDING;
+    const leftContainerMarginRight = blank - DEFAULT_MARGIN;
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -74,7 +76,7 @@ function CommonHeader({
                     accessibilityLabel="Go Back"
                     testID={genTestId(`${testID}BackToPreviousPageButton`)}
                     onPress={showLeft ? onBackClick : null}
-                    style={styles.headerLeftContainer}
+                    style={[styles.headerLeftContainer, { marginRight: leftContainerMarginRight }]}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 >
                     {showLeft && <FontAwesomeIcon icon={leftIcon} size={20} color={AppTheme.colors.primary_2} />}
@@ -84,7 +86,7 @@ function CommonHeader({
                         {title}
                     </Text>
                 </View>
-                <View style={styles.headerRightContainer}>{rightComponent}</View>
+                <View style={[styles.headerRightContainer, { width: rightComponentWidth }]}>{rightComponent}</View>
             </View>
             {subTitle && (
                 <View style={styles.subHeaderContainer}>
