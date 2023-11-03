@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
 function WelcomeBar() {
     const { t } = useTranslation();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
-
+    const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
+    const showSwitchProfile = otherProfiles.length > 0;
     if (!currentInUseProfile) return null;
 
     return (
@@ -40,9 +41,11 @@ function WelcomeBar() {
             <Text style={styles.label} numberOfLines={1} ellipsizeMode="tail">
                 {t("home.greeting", { name: currentInUseProfile.displayName })}
             </Text>
-            <View style={styles.switchCustomer}>
-                <SwitchCustomer />
-            </View>
+            {showSwitchProfile && (
+                <View style={styles.switchCustomer}>
+                    <SwitchCustomer />
+                </View>
+            )}
         </View>
     );
 }
