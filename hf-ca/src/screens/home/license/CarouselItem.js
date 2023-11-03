@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         color: AppTheme.colors.font_color_1,
     },
     licenseTag: {
-        ...AppTheme.typography.card_small_r,
+        ...AppTheme.typography.hyperLink,
         color: AppTheme.colors.error,
     },
 });

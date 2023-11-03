@@ -447,7 +447,9 @@ function LicenseDetailScreen(props) {
                             <View style={[styles.sectionContent]}>
                                 <View style={[styles.licenseInfo, { marginTop: 10 }]}>
                                     <Text
-                                        style={([styles.labelText], { color: AppTheme.colors.error })}
+                                        style={
+                                            ([styles.labelText], { color: AppTheme.colors.error, fontFamily: "Bold" })
+                                        }
                                         testID={genTestId("documentRequiredReminder")}
                                     >
                                         {appConfig.data.documentRequiredReminder}

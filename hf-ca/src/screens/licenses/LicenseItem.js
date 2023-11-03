@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
     licenseTag: {
-        ...AppTheme.typography.sub_section,
+        ...AppTheme.typography.temperature_switch,
         color: AppTheme.colors.error,
         marginTop: 5,
     },
