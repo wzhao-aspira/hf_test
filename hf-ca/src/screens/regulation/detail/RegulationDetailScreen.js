@@ -86,7 +86,7 @@ export default function RegulationDetailScreen(props) {
                             Format: {isEmpty(fileFormat) ? "N/A" : fileFormat.toUpperCase()}
                         </Text>
                         <Text style={[styles.additionalText, { marginLeft: 20 }]}>
-                            Size: {regulationSize || "N/A"}KB
+                            Size: {regulationSize ? (regulationSize / 1024).toFixed(2) : "N/A"}MB
                         </Text>
                     </View>
                     <View style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 10 }}>
