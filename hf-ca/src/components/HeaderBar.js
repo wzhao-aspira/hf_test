@@ -30,7 +30,13 @@ function HeaderBar() {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <Image contentFit="contain" style={styles.logo} source={getLogo()} testID={genTestId("logo")} />
+            <Image
+                contentFit="contain"
+                style={styles.logo}
+                source={getLogo()}
+                testID={genTestId("logo")}
+                cachePolicy="none"
+            />
             <Pressable
                 testID={genTestId("navMenu")}
                 onPress={() => {
