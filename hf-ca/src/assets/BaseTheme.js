@@ -121,6 +121,10 @@ export default {
             fontFamily: "Bold",
             fontSize: 10,
         },
+        refresh_time: {
+            fontFamily: "Regular",
+            fontSize: 10,
+        },
     },
 
     shadow: {
