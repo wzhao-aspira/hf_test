@@ -13,6 +13,7 @@ interface InitialState {
     indicator: boolean;
     error: any;
     showPrimaryProfileInactiveMsg: boolean;
+    primaryInactivatedWhenSignIn: boolean;
     currentRouter: string;
 }
 
@@ -22,6 +23,7 @@ const initialState: InitialState = {
     indicator: false,
     error: {},
     showPrimaryProfileInactiveMsg: false,
+    primaryInactivatedWhenSignIn: false,
     currentRouter: null,
 };
 
@@ -52,13 +54,22 @@ const appSlice = createSlice({
         toggleShowPrimaryProfileInactiveMsg: (state, action: PayloadAction<boolean>) => {
             state.showPrimaryProfileInactiveMsg = action?.payload;
         },
+        togglePrimaryInactivatedWhenSignIn: (state, action: PayloadAction<boolean>) => {
+            state.primaryInactivatedWhenSignIn = action?.payload;
+        },
         setCurrentRouter: (state, action: PayloadAction<string>) => {
             state.currentRouter = action?.payload;
         },
     },
 });
 
-export const { updateUser, toggleIndicator, updateLoginStep, toggleShowPrimaryProfileInactiveMsg } = appSlice.actions;
+export const {
+    updateUser,
+    toggleIndicator,
+    updateLoginStep,
+    toggleShowPrimaryProfileInactiveMsg,
+    togglePrimaryInactivatedWhenSignIn,
+} = appSlice.actions;
 
 const selectAppState = (/** @type{import('./Store').RootState */ state) => state.app;
 export const selectUsername = (state) => state.app.user.username;
@@ -67,6 +78,10 @@ export const selectIndicator = (state) => state.app.indicator;
 export const selectIsPrimaryProfileInactive = createSelector(
     selectAppState,
     (state) => state.showPrimaryProfileInactiveMsg
+);
+export const selectPrimaryInactivatedWhenSignIn = createSelector(
+    selectAppState,
+    (state) => state.primaryInactivatedWhenSignIn
 );
 export const selectError = createSelector(selectAppState, (state) => state.error);
 export const selectCurrentRouter = createSelector(selectAppState, (app) => app.currentRouter);

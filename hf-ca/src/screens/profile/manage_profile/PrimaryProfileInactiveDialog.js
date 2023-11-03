@@ -29,6 +29,7 @@ function PrimaryProfileInactiveDialog() {
 
     const handleProceed = () => {
         dispatch(actions.toggleShowPrimaryProfileInactiveMsg(false));
+        dispatch(actions.togglePrimaryInactivatedWhenSignIn(false));
 
         if (hasIndividualProfile) {
             DialogHelper.showCustomDialog({

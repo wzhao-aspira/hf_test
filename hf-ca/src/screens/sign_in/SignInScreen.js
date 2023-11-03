@@ -62,7 +62,7 @@ function SignInScreen(route) {
 
         if (profileResponse.success && !profileResponse.primaryProfileId) {
             await dispatch(ProfileActions.setIndividualProfiles(profileResponse.profileList));
-            dispatch(appActions.toggleShowPrimaryProfileInactiveMsg(true));
+            dispatch(appActions.togglePrimaryInactivatedWhenSignIn(true));
         }
     };
 

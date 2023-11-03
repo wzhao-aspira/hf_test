@@ -1,5 +1,6 @@
 import { View, FlatList, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
 import HomeDiscoverySection from "./HomeDiscoverySection";
 import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
@@ -17,7 +18,7 @@ import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
 import profileSelectors from "../../redux/ProfileSelector";
 import useFocus from "../../hooks/useFocus";
 import ProfileThunk from "../../redux/ProfileThunk";
-import { actions as appActions } from "../../redux/AppSlice";
+import { actions as appActions, selectPrimaryInactivatedWhenSignIn } from "../../redux/AppSlice";
 import Routers from "../../constants/Routers";
 
 export default function HomeScreen() {
@@ -32,6 +33,7 @@ export default function HomeScreen() {
     const licenseData = licenseReduxData.data;
     const { isShowSkeletonWhenOffline } = licenseReduxData;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
+    const primaryInactivatedWhenSignIn = useSelector(selectPrimaryInactivatedWhenSignIn);
 
     const getLicenseOfActiveProfile = (isForce, useCache) => {
         console.log("HomeScreen - getLicenseOfActiveProfile - activeProfileId:", activeProfileId);
@@ -39,6 +41,13 @@ export default function HomeScreen() {
             dispatch(getLicense({ isForce, searchParams: { activeProfileId }, useCache }));
         }
     };
+
+    useEffect(() => {
+        console.log("home screen primaryInactivatedWhenSign:", primaryInactivatedWhenSignIn);
+        if (primaryInactivatedWhenSignIn) {
+            dispatch(appActions.toggleShowPrimaryProfileInactiveMsg(true));
+        }
+    }, [dispatch, primaryInactivatedWhenSignIn]);
 
     useFocus(() => {
         console.log("home focus");
