@@ -50,6 +50,8 @@ export default class License extends Realm.Object<License> {
 
     isHarvestReportSubmitted: boolean;
 
+    licenseNotInReportingPeriodAttention?: string;
+
     licenseReportId?: string;
 
     huntTagDescription?: string;
@@ -82,6 +84,7 @@ export default class License extends Realm.Object<License> {
             isHarvestReportSubmissionAllowed: "bool",
             isHarvestReportSubmissionEnabled: "bool",
             isHarvestReportSubmitted: "bool",
+            licenseNotInReportingPeriodAttention: "string?",
             licenseReportId: "string?",
             huntTagDescription: "string?",
         },

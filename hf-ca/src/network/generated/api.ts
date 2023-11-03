@@ -1599,12 +1599,6 @@ export interface LicenseVM {
      * @type {boolean}
      * @memberof LicenseVM
      */
-    'isHarvestReportExpired'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof LicenseVM
-     */
     'isHarvestReportSubmissionAllowed'?: boolean;
     /**
      * 
@@ -1624,6 +1618,12 @@ export interface LicenseVM {
      * @memberof LicenseVM
      */
     'harvestReportRequirementText'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LicenseVM
+     */
+    'licenseNotInReportingPeriodAttention'?: string | null;
     /**
      * 
      * @type {number}
@@ -1910,6 +1910,18 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'customerRecordAttention'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'licenseNotInReportingPeriodAttention'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'apiVersion'?: string | null;
 }
 /**
  * 
