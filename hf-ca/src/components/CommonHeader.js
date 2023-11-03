@@ -65,6 +65,7 @@ function CommonHeader({
     showLeft = true,
     rightComponent = null,
     subTitle = "",
+    subTitleStyle = {},
 }) {
     const blank = rightComponent ? LEFT_BLACK : DEFAULT_MARGIN;
     const rightComponentWidth = blank + LEFT_WIDTH - RIGHT_PADDING;
@@ -92,7 +93,7 @@ function CommonHeader({
                 <View style={styles.subHeaderContainer}>
                     <Text
                         testID={genTestId(`${testID}SubTitleLabel`)}
-                        style={styles.headerSubTitleText}
+                        style={[styles.headerSubTitleText, subTitleStyle]}
                         numberOfLines={1}
                     >
                         {subTitle}

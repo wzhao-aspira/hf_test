@@ -10,6 +10,7 @@ import { REQUEST_STATUS } from "../../../constants/Constants";
 import profileSelectors from "../../../redux/ProfileSelector";
 import { getDrawList } from "../../../redux/DrawApplicationSlice";
 import { useAppDispatch } from "../../../hooks/redux";
+import RefreshBar from "../../../components/RefreshBar";
 
 export const styles = StyleSheet.create({
     emptyContainer: {
@@ -32,6 +33,7 @@ export const styles = StyleSheet.create({
         color: AppTheme.colors.font_color_2,
         textAlign: "center",
     },
+    refreshBar: { paddingVertical: 10, marginHorizontal: DEFAULT_MARGIN },
 });
 
 function DrawApplicationListEmpty() {
@@ -66,6 +68,7 @@ function DrawApplicationListEmpty() {
                 />
             }
         >
+            <RefreshBar style={styles.refreshBar} onRefresh={() => getDrawListByProfileId()} />
             <View style={styles.emptyContainer}>
                 <View style={styles.emptyArea}>
                     <Text testID={genTestId("noDrawListTitle")} style={styles.emptyTitle}>

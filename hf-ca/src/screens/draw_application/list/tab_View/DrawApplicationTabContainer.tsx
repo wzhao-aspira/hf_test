@@ -16,6 +16,7 @@ import DrawListAttention from "./DrawListAttention";
 import ListItem from "./DrawApplicationListItem";
 import { DrawApplicationListTabName, DrawTabData } from "../../../../types/drawApplication";
 import { useAppDispatch } from "../../../../hooks/redux";
+import RefreshBar from "../../../../components/RefreshBar";
 
 interface TabContentProps {
     tabName?: DrawApplicationListTabName;
@@ -158,6 +159,7 @@ function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps)
             }
         >
             <View style={styles.tabContainer}>
+                <RefreshBar style={{ paddingVertical: 10 }} onRefresh={() => getDrawListByProfileId()} />
                 {instructions && <DrawListAttention html={instructions} />}
                 <TabListContent tabName={tabName} tabData={tabData} />
             </View>

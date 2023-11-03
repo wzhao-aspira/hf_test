@@ -4,6 +4,7 @@ import { isEmpty } from "lodash";
 import { Trans } from "react-i18next";
 import { faChevronRight } from "@fortawesome/pro-regular-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useSelector } from "react-redux";
 import AppTheme from "../../../assets/_default/AppTheme";
 import HomeStyles from "../HomeStyles";
 import NavigationService from "../../../navigation/NavigationService";
@@ -11,8 +12,11 @@ import LicenseEmpty from "./LicenseEmpty";
 import CarouselItem from "./CarouselItem";
 import Routers from "../../../constants/Routers";
 import { genTestId } from "../../../helper/AppHelper";
+import RefreshBar from "../../../components/RefreshBar";
 
 import type { License } from "../../../types/license";
+import { selectLastUpdateTimeFromServer } from "../../../redux/LicenseSelector";
+import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 
 const styles = StyleSheet.create({
     viewAllContainer: {
@@ -23,12 +27,14 @@ const styles = StyleSheet.create({
 
 interface HomeLicenseSectionProps {
     licenses: License[];
+    onRefresh: () => {};
 }
 
 function HomeLicenseSection(props: HomeLicenseSectionProps) {
     const [activeSlide, setActiveSlide] = useState(0);
-    const { licenses } = props;
+    const { licenses, onRefresh } = props;
     const isLicensesEmpty = isEmpty(licenses);
+    const refreshTime = useSelector(selectLastUpdateTimeFromServer);
 
     return (
         <View>
@@ -51,6 +57,11 @@ function HomeLicenseSection(props: HomeLicenseSectionProps) {
                     </View>
                 )}
             </View>
+            <RefreshBar
+                style={{ marginHorizontal: DEFAULT_MARGIN, paddingBottom: 5 }}
+                onRefresh={onRefresh}
+                refreshTime={refreshTime}
+            />
             {isLicensesEmpty ? (
                 <LicenseEmpty />
             ) : (

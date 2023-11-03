@@ -92,6 +92,10 @@
         "authenticationFailed": "Authentication Failed",
         "proceed": "Proceed",
         "switchCustomer": "Switch Customer",
+        "version": "Version",
+        "clickDragRefresh": "Click here or drag down the page to refresh",
+        "clickRefresh": "Click here to refresh",
+        "refreshedOn": "Refreshed on:",
         "appVersion": "APP Version {{appVersion}}",
         "apiVersion": "API {{apiVersion}}"
     },

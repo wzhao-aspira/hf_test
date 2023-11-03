@@ -10,7 +10,7 @@ import PreferenceLoading from "./PreferencePointLoading";
 import selectors from "../../redux/ProfileSelector";
 import LicenseListEmpty from "../licenses/LicenseListEmpty";
 import AppTheme from "../../assets/_default/AppTheme";
-import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
+import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import useFocus from "../../hooks/useFocus";
 import { getPreferencePoint } from "../../redux/PreferencePointSlice";
 import {
@@ -21,10 +21,15 @@ import {
 import { REQUEST_STATUS } from "../../constants/Constants";
 import useTitle from "../../hooks/useTitle";
 import SwitchCustomer from "../../components/SwitchCustomer";
+import RefreshBar from "../../components/RefreshBar";
 
 const styles = StyleSheet.create({
     container: {
         paddingBottom: 0,
+    },
+    refreshBar: {
+        marginHorizontal: DEFAULT_MARGIN,
+        paddingVertical: 20,
     },
 });
 
@@ -83,6 +88,7 @@ function PreferencePointScreen() {
                 }
                 contentContainerStyle={{ flex: 1, paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
             >
+                {!isLoading && <RefreshBar onRefresh={() => getPreferencePointData(true)} style={styles.refreshBar} />}
                 {(isLoading || showSkeletonWhenOffline) && <PreferenceLoading />}
                 {!isLoading && !showSkeletonWhenOffline && <PreferencePointContent data={data} />}
             </ScrollView>

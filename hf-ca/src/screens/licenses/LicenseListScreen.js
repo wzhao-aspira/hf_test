@@ -23,6 +23,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import useTitle from "../../hooks/useTitle";
 import SwitchCustomer from "../../components/SwitchCustomer";
+import RefreshBar from "../../components/RefreshBar";
 
 export const styles = StyleSheet.create({
     container: {
@@ -70,8 +71,10 @@ function LicenseListScreen() {
             <CommonHeader
                 title={title}
                 rightComponent={<SwitchCustomer />}
-                subTitle={lastUpdateTimeFromServer ? t("license.lastUpdated") + lastUpdateTimeFromServer : ""}
+                subTitle={lastUpdateTimeFromServer ? t("common.refreshedOn") + lastUpdateTimeFromServer : ""}
+                subTitleStyle={{ color: AppTheme.colors.refresh_time }}
             />
+
             <ScrollView
                 testID={genTestId("licenseList")}
                 contentContainerStyle={{
@@ -91,6 +94,12 @@ function LicenseListScreen() {
                 }
             >
                 <View style={{ flex: 1 }}>
+                    {!refreshing && (
+                        <RefreshBar
+                            style={{ marginHorizontal: DEFAULT_MARGIN, paddingVertical: 10 }}
+                            onRefresh={() => getLicenseOfActiveProfile(true)}
+                        />
+                    )}
                     {!refreshing && !isShowSkeletonWhenOffline && isEmpty(data) && <LicenseListEmpty />}
                     {data?.map((item) => {
                         if (refreshing || isShowSkeletonWhenOffline) {

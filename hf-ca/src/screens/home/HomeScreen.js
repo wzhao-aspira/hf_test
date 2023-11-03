@@ -90,7 +90,7 @@ export default function HomeScreen() {
             if (profileListRefreshing || licenseRefreshing || isShowSkeletonWhenOffline) {
                 return <HomeLicenseSectionLoading />;
             }
-            return <HomeLicenseSection licenses={licenseData} />;
+            return <HomeLicenseSection licenses={licenseData} onRefresh={() => refreshData()} />;
         }
         if (index == 1) {
             if (weatherRequestStatus == REQUEST_STATUS.pending) {
