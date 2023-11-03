@@ -5,6 +5,7 @@
         "myLicense": "My Licenses",
         "firstNameLicense": "{{firstName}}'s Licenses",
         "license": "License",
+        "licenses": "Licenses",
         "viewAllLicenses": "View All Licenses",
         "noLicenseTitle": "No licenses found",
         "tagDescription": "Tag Description:",
