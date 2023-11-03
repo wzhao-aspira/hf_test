@@ -12,6 +12,10 @@ import NavigationService from "../navigation/NavigationService";
 let displayCount = 0;
 
 export async function checkVersion() {
+    if (__DEV__) {
+        return;
+    }
+
     const response = await handleError(MiscellaneousApi.checkNewVersionAPI(), {
         showError: false,
         showLoading: false,
