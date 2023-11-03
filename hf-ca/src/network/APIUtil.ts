@@ -35,7 +35,6 @@ export async function handleError<T>(
         if (showLoading) {
             dispatch(appActions.toggleIndicator(true));
         }
-        globalDataForAPI.networkErrorByDialog = networkErrorByDialog;
         const response = await requestPromise;
 
         return { success: true, data: response };
@@ -44,7 +43,7 @@ export async function handleError<T>(
             showError &&
             (isEmpty(skippedBusinessErrorCode) ? true : !isBusinessErrorCode(error, skippedBusinessErrorCode))
         ) {
-            dispatch(appActions.setError(error));
+            dispatch(appActions.setError({ ...error, networkErrorByDialog }));
         }
         console.log(error);
 

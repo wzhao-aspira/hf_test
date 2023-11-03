@@ -62,7 +62,9 @@ function useErrorHandling() {
                     dispatch(updateLoginStep(LoginStep.login));
                 });
             } else if (isConnectError(error)) {
-                if (globalDataForAPI.networkErrorByDialog) {
+                console.log("api url with error:", error.config?.url);
+
+                if (error.networkErrorByDialog) {
                     DialogHelper.showSimpleDialog({
                         title: t("errMsg.noNetworkDialogTitle"),
                         message: t("errMsg.noNetworkDialog"),
