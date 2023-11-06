@@ -56,7 +56,7 @@ function SignUpScreen() {
                     onBackClick();
                 }}
             />
-            <Page>
+            <Page style={{ paddingBottom: 0 }}>
                 <KeyboardAwareScrollView
                     contentContainerStyle={{
                         ...styles.contentContainerStyle,

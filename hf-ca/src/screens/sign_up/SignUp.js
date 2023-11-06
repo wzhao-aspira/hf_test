@@ -18,7 +18,7 @@ import { handleError } from "../../network/APIUtil";
 import { setLoginCredential } from "../../helper/LocalAuthHelper";
 import { updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
-import { DEFAULT_RADIUS, SCREEN_WIDTH } from "../../constants/Dimension";
+import { DEFAULT_RADIUS, SCREEN_WIDTH, SCREEN_HEIGHT } from "../../constants/Dimension";
 import { appConfig } from "../../services/AppConfigService";
 import { genTestId } from "../../helper/AppHelper";
 
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     disclaimerText: {
-        maxHeight: 400,
+        maxHeight: SCREEN_HEIGHT * 0.5,
     },
     disclaimerTitle: {
         ...AppTheme.typography.section_header,
