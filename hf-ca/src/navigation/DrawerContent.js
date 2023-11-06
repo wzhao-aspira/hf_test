@@ -76,11 +76,13 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginRight: 10,
     },
+    menuTitleContainer: {
+        width: "90%",
+    },
     menuTitle: {
         ...AppTheme.typography.section_header,
         color: AppTheme.colors.font_color_1,
         marginLeft: 17,
-        marginRight: 40,
         marginVertical: 5,
     },
     menuSplitLine: {
@@ -122,14 +124,16 @@ function MenuItem(props) {
                 }}
             >
                 <View style={styles.menuItemContainer}>
-                    <Text
-                        testID={genTestId(`${testIDPrefix}${testID}ItemButtonLabel`)}
-                        numberOfLines={1}
-                        ellipsizeMode="tail"
-                        style={styles.menuTitle}
-                    >
-                        {t(title)}
-                    </Text>
+                    <View style={styles.menuTitleContainer}>
+                        <Text
+                            testID={genTestId(`${testIDPrefix}${testID}ItemButtonLabel`)}
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                            style={styles.menuTitle}
+                        >
+                            {t(title)}
+                        </Text>
+                    </View>
                     <FontAwesomeIcon icon={faChevronRight} size={16} color={AppTheme.colors.font_color_1} />
                 </View>
             </Pressable>

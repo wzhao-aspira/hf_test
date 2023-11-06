@@ -97,7 +97,7 @@
         "clickDragRefresh": "Click here or drag down the page to refresh",
         "clickRefresh": "Click here to refresh",
         "refreshedOn": "Refreshed on:",
-        "appVersion": "APP Version {{appVersion}}",
+        "appVersion": "App Version {{appVersion}}",
         "apiVersion": "API {{apiVersion}}"
     },
     "errMsg": {
