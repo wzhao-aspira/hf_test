@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     disclaimerText: {
-        maxHeight: SCREEN_HEIGHT * 0.5,
+        maxHeight: SCREEN_HEIGHT * 0.4,
     },
     disclaimerTitle: {
         ...AppTheme.typography.section_header,
