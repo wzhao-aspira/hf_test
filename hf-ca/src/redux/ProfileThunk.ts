@@ -5,8 +5,6 @@ import {
     getIdentityTypes,
     getStates,
     getYouthIdentityOwners,
-    updateCurrentInUseProfileID,
-    getCurrentInUseProfileID,
     getProfileList,
     getProfileDetailsById,
     getLatestCustomerList,
@@ -15,7 +13,7 @@ import {
     getCustomerLicenseFromDB,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
-import { actions as appActions, selectors as appSelectors } from "./AppSlice";
+import { actions as appActions } from "./AppSlice";
 import { handleError } from "../network/APIUtil";
 import {
     getProfileDetailFromDB,
@@ -147,13 +145,8 @@ const updateCustomerLicenseToRedux = (customerId) => async (dispatch) => {
 };
 
 const initProfile =
-    (isRemote = true, isReopenApp = false): AppThunk =>
-    async (dispatch, getState) => {
-        const rootState = getState();
-        const userState = appSelectors.selectUser(rootState);
-
-        const { username } = userState;
-
+    (isRemote = true): AppThunk =>
+    async (dispatch) => {
         let result = null;
         if (isRemote) {
             const response = await handleError(getProfileList(), { dispatch, showLoading: true });
@@ -175,25 +168,18 @@ const initProfile =
         }
 
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
-        const currentInUseProfileID = await getCurrentInUseProfileID(username);
 
         console.log("ProfileThunk - initProfile - saveCustomerLicenseToDB");
         if (isRemote) {
             dispatch(initResidentMethodTypes());
             saveCustomerLicenseToDB(profileListIDs);
         }
-        if (isReopenApp) {
-            if (currentInUseProfileID && includes(profileListIDs, currentInUseProfileID)) {
-                dispatch(profileActions.updateCurrentInUseProfileID(currentInUseProfileID));
-            }
-        }
 
-        if (!isReopenApp && primaryProfileId) {
-            await updateCurrentInUseProfileID(username, primaryProfileId);
+        if (primaryProfileId) {
             dispatch(profileActions.updateCurrentInUseProfileID(primaryProfileId));
+            dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
         }
 
-        dispatch(profileActions.updatePrimaryProfileID(primaryProfileId));
         dispatch(profileActions.updateProfileIDs(profileListIDs));
         dispatch(profileActions.setProfileList(profileList));
 
@@ -202,14 +188,8 @@ const initProfile =
 
 const switchCurrentInUseProfile =
     (profileID): AppThunk =>
-    async (dispatch, getState) => {
-        const rootState = getState();
-        const userState = appSelectors.selectUser(rootState);
-
-        const { username } = userState;
-
+    async (dispatch) => {
         try {
-            await updateCurrentInUseProfileID(username, profileID);
             dispatch(profileActions.updateCurrentInUseProfileID(profileID));
             dispatch(preferencePointActions.clearUpdateTime());
             await dispatch(updateCustomerLicenseToRedux(profileID));

@@ -158,40 +158,6 @@ export async function linkCRSSProfile(customerId, password, isPrimaryCustomer) {
     return linkProfileBasedOnCustomerId({ customerId, password, isPrimaryCustomer });
 }
 
-export async function updateCurrentInUseProfileID(accountID, currentInUseProfileID) {
-    const currentInUseProfileIDOfAccounts = await retrieveItem(KEY_CONSTANT.currentInUseProfileIDOfAccounts);
-
-    if (currentInUseProfileIDOfAccounts) {
-        const parsedCurrentInUseProfileIDOfAccounts = JSON.parse(currentInUseProfileIDOfAccounts);
-        const updatedCurrentInUseProfileIDOfAccount = {
-            ...parsedCurrentInUseProfileIDOfAccounts,
-            [accountID]: currentInUseProfileID,
-        };
-
-        await storeItem(
-            KEY_CONSTANT.currentInUseProfileIDOfAccounts,
-            JSON.stringify(updatedCurrentInUseProfileIDOfAccount)
-        );
-    } else {
-        await storeItem(
-            KEY_CONSTANT.currentInUseProfileIDOfAccounts,
-            JSON.stringify({ [accountID]: currentInUseProfileID })
-        );
-    }
-}
-
-export async function getCurrentInUseProfileID(accountID) {
-    const currentInUseProfileIDOfAccounts = await retrieveItem(KEY_CONSTANT.currentInUseProfileIDOfAccounts);
-
-    if (currentInUseProfileIDOfAccounts) {
-        const parsedCurrentInUseProfileIDOfAccounts = JSON.parse(currentInUseProfileIDOfAccounts);
-
-        return parsedCurrentInUseProfileIDOfAccounts[accountID];
-    }
-
-    return null;
-}
-
 export async function removeAccountCurrentInUseProfileID(accountID) {
     const currentInUseProfileIDOfAccounts = await retrieveItem(KEY_CONSTANT.currentInUseProfileIDOfAccounts);
 
