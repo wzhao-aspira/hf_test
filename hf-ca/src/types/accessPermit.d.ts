@@ -32,4 +32,5 @@ export interface AccessPermit {
     accessPermits: AccessPermitItem[];
     attention: string;
     customer: CustomerInfo;
+    lastUpdateDate?: string;
 }

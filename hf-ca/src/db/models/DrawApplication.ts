@@ -15,6 +15,8 @@ export default class DrawApplication extends Realm.Object<DrawApplication> {
 
     pendingList: DrawApplicationListInfo;
 
+    lastUpdateDate?: string;
+
     static schema = {
         name: schemaName,
         primaryKey: "profileId",
@@ -24,6 +26,7 @@ export default class DrawApplication extends Realm.Object<DrawApplication> {
             successList: "DrawApplicationListInfo",
             unSuccessList: "DrawApplicationListInfo",
             pendingList: "DrawApplicationListInfo",
+            lastUpdateDate: "string?",
         },
     };
 }

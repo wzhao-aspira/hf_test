@@ -124,6 +124,7 @@ function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps)
     const refreshing = useSelector(DrawSelectors.selectIsDrawListLoading);
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const instructions = useSelector(DrawSelectors.selectInstructions);
+    const lastUpdateDate = useSelector(DrawSelectors.selectLastUpdateDate);
 
     const getDrawListByProfileId = () => {
         if (activeProfileId) {
@@ -159,7 +160,11 @@ function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps)
             }
         >
             <View style={styles.tabContainer}>
-                <RefreshBar style={{ paddingVertical: 10 }} onRefresh={() => getDrawListByProfileId()} />
+                <RefreshBar
+                    refreshTime={lastUpdateDate}
+                    style={{ paddingVertical: 10 }}
+                    onRefresh={() => getDrawListByProfileId()}
+                />
                 {instructions && <DrawListAttention html={instructions} />}
                 <TabListContent tabName={tabName} tabData={tabData} />
             </View>

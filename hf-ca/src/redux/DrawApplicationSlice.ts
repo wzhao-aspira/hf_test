@@ -19,6 +19,7 @@ interface InitialState {
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
     isUseCacheData: boolean;
     noCacheData: boolean;
+    lastUpdateDate: string;
 }
 
 const initialState: InitialState = {
@@ -29,6 +30,7 @@ const initialState: InitialState = {
     requestStatus: REQUEST_STATUS.idle,
     isUseCacheData: false,
     noCacheData: false,
+    lastUpdateDate: "",
 };
 
 function getDrawApplicationDownloadableFileIDList(drawApplicationList: DrawApplicationList) {
@@ -108,12 +110,13 @@ const drawApplicationSlice = createSlice({
             if (result.success) {
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 if (!isEmpty(result.data)) {
-                    const { successList, unSuccessList, pendingList, instructions } = result.data;
+                    const { successList, unSuccessList, pendingList, instructions, lastUpdateDate } = result.data;
                     state.successfulData = successList;
                     state.unsuccessfulData = unSuccessList;
                     state.pendingData = pendingList;
                     state.instructions = instructions;
                     state.noCacheData = false;
+                    state.lastUpdateDate = lastUpdateDate;
                 } else {
                     state.noCacheData = true;
                 }

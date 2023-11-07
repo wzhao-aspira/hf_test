@@ -14,6 +14,8 @@ export default class AccessPermit extends Realm.Object<AccessPermit> {
 
     accessPermits: AccessPermitItem[];
 
+    lastUpdateDate?: string;
+
     static schema = {
         name: schemaName,
         primaryKey: "profileId",
@@ -22,6 +24,7 @@ export default class AccessPermit extends Realm.Object<AccessPermit> {
             attention: "string",
             customer: "CustomerInfo",
             accessPermits: { type: "list", objectType: "AccessPermitItem" },
+            lastUpdateDate: "string?",
         },
     };
 }

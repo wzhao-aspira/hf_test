@@ -3,6 +3,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
 import { getDrawTabDataIsEmpty } from "../services/DrawApplicationServices";
 import { REQUEST_STATUS } from "../constants/Constants";
+import { getFormattedLastUpdateDate } from "../utils/DateUtils";
 
 const selectDrawApplicationState = (state: RootState) => state.drawApplication;
 
@@ -27,6 +28,11 @@ const selectDrawListIsEmpty = createSelector(
         successfulIsEmpty && unsuccessfulIsEmpty && pendingIsEmpty
 );
 
+const selectLastUpdateDate = createSelector(selectDrawApplicationState, (draw) => {
+    const { lastUpdateDate } = draw;
+    return getFormattedLastUpdateDate(lastUpdateDate);
+});
+
 const selectors = {
     selectSuccessfulData,
     selectUnsuccessfulData,
@@ -40,6 +46,7 @@ const selectors = {
     selectInstructions,
     selectIsUseCacheData,
     selectNoCacheData,
+    selectLastUpdateDate,
 };
 
 export default selectors;

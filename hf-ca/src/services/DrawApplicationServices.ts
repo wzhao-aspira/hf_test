@@ -81,12 +81,14 @@ export const formateDrawList = (list: DrawStatusList) => {
 export async function getDrawApplicationList(profileId: string): Promise<DrawApplicationList> {
     const response = await getDrawApplicationListByCustomerId(profileId);
     const { result } = response.data;
+    // @ts-ignore
+    const { lastUpdateDate } = response;
 
     const successList = formateDrawList(result.successList || {});
     const unSuccessList = formateDrawList(result.unSuccessList || {});
     const pendingList = formateDrawList(result.pendingList || {});
 
-    return { instructions: result.instructions, successList, unSuccessList, pendingList };
+    return { instructions: result.instructions, successList, unSuccessList, pendingList, lastUpdateDate };
 }
 
 export function getDrawTabDataIsEmpty(data: DrawTabData) {

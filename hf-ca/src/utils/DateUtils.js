@@ -1,6 +1,7 @@
 import moment from "moment";
 import { isEmpty, isUndefined } from "lodash";
 import AppContract from "../assets/_default/AppContract";
+import { LAST_UPDATE_TIME_DISPLAY_FORMAT } from "../constants/Constants";
 
 export default {
     /**
@@ -65,4 +66,7 @@ function validFormat(fmt) {
 
 function validInputFormat(fmt) {
     return !!Object.values(AppContract.inputFormat).find((v) => v === fmt);
+}
+export function getFormattedLastUpdateDate(date) {
+    return date ? moment(date).format(LAST_UPDATE_TIME_DISPLAY_FORMAT) : null;
 }
