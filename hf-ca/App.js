@@ -45,7 +45,7 @@ const checkLogin = async () => {
         const hasAccessToken = await restoreToken(lastUsedMobileAccountId);
         if (hasAccessToken) {
             await store.dispatch(appThunkActions.initUserData({ userID: lastUsedMobileAccountId }));
-            await store.dispatch(ProfileThunk.initProfile(false, true));
+            await store.dispatch(ProfileThunk.initProfile(false));
             store.dispatch(updateLoginStep(LoginStep.home));
             return;
         }
