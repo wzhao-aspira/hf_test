@@ -89,12 +89,15 @@ export async function getAccessPermitData(searchParams: { activeProfileId: strin
     const { activeProfileId } = searchParams;
     const getActivePermitsResult = await getActivePermitsByCustomerId(activeProfileId);
     const { result } = getActivePermitsResult.data;
+    // @ts-ignore
+    const { lastUpdateDate } = getActivePermitsResult;
+
     const { instructions, activePermitList, customerInfo } = result;
     const accessPermits = activePermitList.map((item) => {
         return convertAccessPermitItem(item);
     });
     const customer = convertCustomerInfo(customerInfo);
-    const data = { attention: instructions, accessPermits, customer };
+    const data = { attention: instructions, accessPermits, customer, lastUpdateDate };
     return data;
 }
 

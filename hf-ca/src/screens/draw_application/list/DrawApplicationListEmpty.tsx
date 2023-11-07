@@ -6,7 +6,6 @@ import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
 import { genTestId } from "../../../helper/AppHelper";
 import DrawSelectors from "../../../redux/DrawApplicationSelector";
-import { REQUEST_STATUS } from "../../../constants/Constants";
 import profileSelectors from "../../../redux/ProfileSelector";
 import { getDrawList } from "../../../redux/DrawApplicationSlice";
 import { useAppDispatch } from "../../../hooks/redux";
@@ -41,9 +40,10 @@ function DrawApplicationListEmpty() {
     const insets = useSafeAreaInsets();
     const dispatch = useAppDispatch();
 
-    const drawRequestStatus = useSelector(DrawSelectors.selectDrawRequestStatus);
-    const refreshing = drawRequestStatus.requestStatus === REQUEST_STATUS.pending;
+    const refreshing = useSelector(DrawSelectors.selectIsDrawListLoading);
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
+    const lastUpdateDate = useSelector(DrawSelectors.selectLastUpdateDate);
+
     const getDrawListByProfileId = () => {
         if (activeProfileId) {
             dispatch(getDrawList(activeProfileId));
@@ -68,7 +68,11 @@ function DrawApplicationListEmpty() {
                 />
             }
         >
-            <RefreshBar style={styles.refreshBar} onRefresh={() => getDrawListByProfileId()} />
+            <RefreshBar
+                refreshTime={lastUpdateDate}
+                style={styles.refreshBar}
+                onRefresh={() => getDrawListByProfileId()}
+            />
             <View style={styles.emptyContainer}>
                 <View style={styles.emptyArea}>
                     <Text testID={genTestId("noDrawListTitle")} style={styles.emptyTitle}>

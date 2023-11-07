@@ -50,6 +50,7 @@ instance.interceptors.response.use(
             success: true,
             data: response.data,
             lastUpdateTime: response.headers["last-license-updated-date"],
+            lastUpdateDate: response.headers["last-updated-date"],
         };
         /**
          * do some things for business error

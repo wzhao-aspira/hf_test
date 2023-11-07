@@ -63,6 +63,7 @@ export interface DrawApplicationList {
     successList?: DrawTabData;
     unSuccessList?: DrawTabData;
     pendingList?: DrawTabData;
+    lastUpdateDate?: string;
 }
 
 export type DrawApplicationListTabName = "pending" | "successful" | "unsuccessful";

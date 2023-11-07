@@ -20,6 +20,7 @@ import Routers from "../../constants/Routers";
 import useTitle from "../../hooks/useTitle";
 import RefreshBar from "../../components/RefreshBar";
 import useFocus from "../../hooks/useFocus";
+import { getFormattedLastUpdateDate } from "../../utils/DateUtils";
 
 const styles = StyleSheet.create({
     container: {
@@ -73,6 +74,7 @@ export default function AccessPermitListScreen() {
     const isShowSkeletonInOffline = isOffline && isEmpty(AccessPermitReduxData.data);
     const attention = AccessPermitReduxData.data?.attention;
     const customer = AccessPermitReduxData.data?.customer;
+    const lastUpdateDate = getFormattedLastUpdateDate(AccessPermitReduxData.data?.lastUpdateDate);
 
     const getAccessPermitOfActiveProfile = () => {
         if (activeProfileId) {
@@ -107,7 +109,13 @@ export default function AccessPermitListScreen() {
                 }
             >
                 <View style={{ flex: 1 }}>
-                    {!refreshing && <RefreshBar style={styles.refreshBar} onRefresh={getAccessPermitOfActiveProfile} />}
+                    {!refreshing && (
+                        <RefreshBar
+                            refreshTime={lastUpdateDate}
+                            style={styles.refreshBar}
+                            onRefresh={getAccessPermitOfActiveProfile}
+                        />
+                    )}
                     {showData(data, refreshing, loadingData, attention, customer, isShowSkeletonInOffline)}
                 </View>
             </ScrollView>
