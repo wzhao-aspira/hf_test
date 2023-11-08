@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     tableContainer: {
         ...AppTheme.shadow,
         marginHorizontal: 14,
-        marginTop: 26,
         marginBottom: 10,
         borderRadius: 20,
         paddingBottom: 30,
