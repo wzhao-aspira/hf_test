@@ -215,7 +215,7 @@ function LicenseDetailScreen(props) {
     const residentMethodTypes = useSelector(profileSelectors.residentMethodTypes);
     const residentMethodTypeData = selectResidentMethodTypeById(residentMethodTypes, residentMethodTypeId);
     const { residentMethodType, printDescription } = residentMethodTypeData;
-    const ownerResidentMethodTypeData = selectResidentMethodTypeById(ownerResidentMethodTypeId);
+    const ownerResidentMethodTypeData = selectResidentMethodTypeById(residentMethodTypes, ownerResidentMethodTypeId);
     const { residentMethodType: ownerResidentMethodType } = ownerResidentMethodTypeData;
     const individualCustomerBasicInfo = [
         [
