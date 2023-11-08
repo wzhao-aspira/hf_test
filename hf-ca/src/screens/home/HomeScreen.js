@@ -1,6 +1,6 @@
 import { View, FlatList, RefreshControl } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
 import HomeDiscoverySection from "./HomeDiscoverySection";
 import AppTheme from "../../assets/_default/AppTheme";
@@ -33,11 +33,12 @@ export default function HomeScreen() {
     const { isShowSkeletonWhenOffline } = licenseReduxData;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const primaryInactivatedWhenSignIn = useSelector(selectPrimaryInactivatedWhenSignIn);
+    const [refresh, setRefresh] = useState(false);
 
-    const getLicenseOfActiveProfile = (isForce, useCache) => {
+    const getLicenseOfActiveProfile = async (isForce, useCache) => {
         console.log("HomeScreen - getLicenseOfActiveProfile - activeProfileId:", activeProfileId);
         if (activeProfileId) {
-            dispatch(getLicense({ isForce, searchParams: { activeProfileId }, useCache }));
+            await dispatch(getLicense({ isForce, searchParams: { activeProfileId }, useCache }));
         }
     };
 
@@ -48,40 +49,32 @@ export default function HomeScreen() {
         }
     }, [dispatch, primaryInactivatedWhenSignIn]);
 
-    useFocus(() => {
+    const getProfileAndLicense = async (isForce) => {
+        const response = await dispatch(ProfileThunk.refreshProfileList({ isForce }));
+        if (
+            response.isReloadData &&
+            ((!response.success && !response.isNetworkError) ||
+                response.primaryIsInactivated ||
+                response.ciuIsInactivated)
+        ) {
+            return;
+        }
+        const useCache = !response.success && response.isNetworkError;
+        await getLicenseOfActiveProfile(isForce, useCache);
+    };
+
+    useFocus(async () => {
         console.log("home focus");
         dispatch(appActions.setCurrentRouter(Routers.home));
-        // fix the tab not appear issue AWO-215729
-        dispatch(getWeatherDataFromRedux({}));
-        dispatch(ProfileThunk.refreshProfileList()).then((response) => {
-            if (
-                response.isReloadData &&
-                ((!response.success && !response.isNetworkError) ||
-                    response.primaryIsInactivated ||
-                    response.ciuIsInactivated)
-            ) {
-                return;
-            }
-
-            const useCache = !response.success && response.isNetworkError;
-            getLicenseOfActiveProfile(false, useCache);
-        });
+        setRefresh(true);
+        await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: false })), getProfileAndLicense(false)]).catch();
+        setRefresh(false);
     });
 
-    const refreshData = () => {
-        dispatch(getWeatherDataFromRedux({ isForce: true }));
-        dispatch(ProfileThunk.refreshProfileList({ isForce: true })).then((response) => {
-            if (
-                (!response.success && !response.isNetworkError) ||
-                response.primaryIsInactivated ||
-                response.ciuIsInactivated
-            ) {
-                return;
-            }
-
-            const useCache = !response.success && response.isNetworkError;
-            getLicenseOfActiveProfile(true, useCache);
-        });
+    const refreshData = async () => {
+        setRefresh(true);
+        await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: true })), getProfileAndLicense(true)]).catch();
+        setRefresh(false);
     };
 
     const renderItem = (index) => {
@@ -112,6 +105,7 @@ export default function HomeScreen() {
                             colors={[AppTheme.colors.primary]}
                             tintColor={AppTheme.colors.primary}
                             refreshing={
+                                refresh ||
                                 weatherRequestStatus == REQUEST_STATUS.pending ||
                                 licenseRefreshing ||
                                 profileListRefreshing
