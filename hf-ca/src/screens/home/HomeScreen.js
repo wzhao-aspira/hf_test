@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
 import HomeDiscoverySection from "./HomeDiscoverySection";
-import { PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import AppTheme from "../../assets/_default/AppTheme";
 import Page from "../../components/Page";
 import { getWeatherDataFromRedux } from "../../redux/WeatherSlice";
@@ -127,7 +126,7 @@ export default function HomeScreen() {
                         return renderItem(index);
                     }}
                     keyExtractor={(item) => JSON.stringify(item)}
-                    contentContainerStyle={{ paddingBottom: 41 + PAGE_MARGIN_BOTTOM }}
+                    contentContainerStyle={{ paddingBottom: 20 }}
                 />
             </Page>
         </View>
