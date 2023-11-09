@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     },
 });
 
-function LicenseListEmpty({ title, subtitle }) {
+function LicenseListEmpty({ title, subtitle, showPurchase = true }) {
     const { t } = useTranslation();
     const { navigateToIS } = useNavigateToISPurchaseLicense();
 
@@ -55,20 +55,24 @@ function LicenseListEmpty({ title, subtitle }) {
                 <Text testID={genTestId("noLicenses")} style={styles.emptyTitle}>
                     {title || defaultTitle}
                 </Text>
-                <Text testID={genTestId("licIntroduction")} style={styles.emptyDescription}>
-                    {subtitle || defaultSubTitle}
-                </Text>
-                <Pressable
-                    style={styles.emptyButton}
-                    testID={genTestId("purchaseLicenseButton")}
-                    onPress={() => {
-                        navigateToIS();
-                    }}
-                >
-                    <Text testID={genTestId("purchaseLicense")} style={styles.emptyButtonTitle}>
-                        <Trans i18nKey="license.purchaseLicense" />
-                    </Text>
-                </Pressable>
+                {showPurchase && (
+                    <>
+                        <Text testID={genTestId("licIntroduction")} style={styles.emptyDescription}>
+                            {subtitle || defaultSubTitle}
+                        </Text>
+                        <Pressable
+                            style={styles.emptyButton}
+                            testID={genTestId("purchaseLicenseButton")}
+                            onPress={() => {
+                                navigateToIS();
+                            }}
+                        >
+                            <Text testID={genTestId("purchaseLicense")} style={styles.emptyButtonTitle}>
+                                <Trans i18nKey="license.purchaseLicense" />
+                            </Text>
+                        </Pressable>
+                    </>
+                )}
             </View>
         </View>
     );
