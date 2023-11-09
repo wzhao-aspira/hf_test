@@ -27,7 +27,6 @@ import LicenseDetailLoading from "./LicenseDetailLoading";
 import { appConfig } from "../../services/AppConfigService";
 import useNavigateToISViewHarvestReport from "./hooks/useNavigateToISViewHarvestReport";
 import profileSelectors from "../../redux/ProfileSelector";
-import DialogHelper from "../../helper/DialogHelper";
 
 const styles = StyleSheet.create({
     container: {
@@ -617,12 +616,6 @@ function LicenseDetailScreen(props) {
                                     onPress={() => {
                                         if (shouldShowViewHarvestReportButton()) {
                                             navigateToViewHarvestReport();
-                                        } else if (PROFILE_TYPE_IDS.business == customerTypeId) {
-                                            DialogHelper.showSimpleDialog({
-                                                title: "common.reminder",
-                                                message: "licenseDetails.unableToProcessReport",
-                                                okText: "common.gotIt",
-                                            });
                                         } else {
                                             navigateToSubmitHarvestReport();
                                         }
