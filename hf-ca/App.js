@@ -94,6 +94,7 @@ export default function App() {
     if (!isSplashReady) {
         return (
             <Image
+                cachePolicy="none"
                 source={cachedSplash}
                 contentFit="cover"
                 style={{ flex: 1 }}
