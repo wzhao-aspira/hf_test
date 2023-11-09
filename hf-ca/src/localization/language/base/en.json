@@ -52,7 +52,8 @@
         "feeNotice": "* Include any application fee, agent handing fees and license buyer surcharge.",
         "vesselOwnerInformation": "Vessel Owner Information",
         "submitHarvestReport": "Submit Harvest Report",
-        "viewHarvestReport": "View Harvest Report History"
+        "viewHarvestReport": "View Harvest Report History",
+        "unableToProcessReport": "Unable to process report, please contact CDFW."
     },
     "common": {
         "ok": "OK",
