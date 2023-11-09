@@ -72,9 +72,10 @@ export default function LoginScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={image} contentFit="cover" transition={200} />
+                <Image style={styles.image} source={image} contentFit="cover" transition={200} cachePolicy="none" />
             </View>
             <Image
+                cachePolicy="none"
                 style={[
                     styles.logo,
                     {
