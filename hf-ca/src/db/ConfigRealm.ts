@@ -15,8 +15,9 @@ import DrawApplicationItem from "./models/DrawApplicationItem";
 import DrawApplication from "./models/DrawApplication";
 import DrawApplicationListInfo from "./models/DrawApplicationListInfo";
 import CopyHuntsInfo from "./models/CopyHuntsInfo";
+import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDate";
 
-const schemaVersion = 13;
+const schemaVersion = 14;
 
 export let realm: Realm;
 
@@ -28,6 +29,7 @@ export async function openRealm() {
             License,
             LicenseLastUpdateTime,
             PreferencePoint,
+            PreferencePointLastUpdateDate,
             FileInfo,
             HuntDay,
             CustomerInfo,

@@ -12,6 +12,8 @@ import {
     getPreferencePointListFromDB,
     savePreferencePointListToDB,
     removePreferencePointListFromDB,
+    getPreferencePointLastUpdateDate,
+    savePreferencePointLastUpdateDate,
 } from "./PreferencePointList";
 import { saveAccessPermitDataToDB, getAccessPermitDataFromDB, removeAccessPermitFromDB } from "./AccessPermit";
 import {
@@ -35,6 +37,8 @@ export {
     getLicenseLastUpdateTimeData,
     getPreferencePointListFromDB,
     savePreferencePointListToDB,
+    getPreferencePointLastUpdateDate,
+    savePreferencePointLastUpdateDate,
     removePreferencePointListFromDB,
     getAccessPermitDataFromDB,
     saveAccessPermitDataToDB,

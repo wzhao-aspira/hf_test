@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
+import { getFormattedLastUpdateDate } from "../utils/DateUtils";
 
 const selectPreferencePointState = (state: RootState) => state.preferencePoint;
 
@@ -13,4 +14,7 @@ export const selectPreferencePointRequestStatus = createSelector(selectPreferenc
 
 export const selectShowSkeletonWhenOffline = createSelector(selectPreferencePointState, (preferencePointState) => {
     return preferencePointState.isShowSkeletonWhenOffline;
+});
+export const selectLastUpdateDate = createSelector(selectPreferencePointState, (preferencePointState) => {
+    return getFormattedLastUpdateDate(preferencePointState.lastUpdateDate);
 });
