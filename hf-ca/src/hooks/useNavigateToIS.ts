@@ -18,13 +18,16 @@ function useNavigateToIS() {
     const currentInUseProfileID = useAppSelector(profileSelectors.selectCurrentInUseProfileID);
     const navigation = useAppNavigation();
 
-    const getAdditionalInfoQueryString = useCallback(() => {
-        const focusCustomerID = currentInUseProfileID;
-        const accessToken = retrieveAccessToken();
-        const webStaticInfo = getISWebStaticInfo();
+    const getAdditionalInfoQueryString = useCallback(
+        (openInBrowser = false) => {
+            const focusCustomerID = currentInUseProfileID;
+            const accessToken = retrieveAccessToken();
+            const webStaticInfo = getISWebStaticInfo(openInBrowser);
 
-        return `&token=${accessToken}&focusCustomerID=${focusCustomerID}&${webStaticInfo}`;
-    }, [currentInUseProfileID]);
+            return `&token=${accessToken}&focusCustomerID=${focusCustomerID}&${webStaticInfo}`;
+        },
+        [currentInUseProfileID]
+    );
 
     const navigateToIS = useCallback(
         async ({ targetPath }: { targetPath: string }) => {

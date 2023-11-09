@@ -20,7 +20,7 @@ function RenderHTML(props: RenderHTMLProps) {
                         const shouldAutoLogin = href.includes(AUTO_LOGIN_FLAG);
 
                         const URL = shouldAutoLogin
-                            ? href.replace(AUTO_LOGIN_FLAG, getAdditionalInfoQueryString())
+                            ? href.replace(AUTO_LOGIN_FLAG, getAdditionalInfoQueryString(true))
                             : href;
 
                         Linking.openURL(URL);

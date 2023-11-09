@@ -131,12 +131,19 @@ export function getAppStaticInfo() {
     return appStaticInfo;
 }
 
-export function getISWebStaticInfo() {
+export function getISWebStaticInfo(openInBrowser = false) {
     const { appStaticName } = AppContract;
     if (isEmpty(appStaticName)) {
         throw new Error("App Name can not be empty!");
     }
-    const platform = isAndroid() ? "android" : "ios";
+
+    let platform;
+    if (openInBrowser) {
+        platform = isAndroid() ? "androidbrowser" : "iosbrowser";
+    } else {
+        platform = isAndroid() ? "android" : "ios";
+    }
+
     const version = Constants.expoConfig?.ios?.buildNumber;
 
     const appStaticInfo = `mobileAppName=${encodeURIComponent(appStaticName)}&mobileAppPlatform=${encodeURIComponent(
