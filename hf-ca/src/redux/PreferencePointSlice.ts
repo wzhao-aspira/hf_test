@@ -7,7 +7,11 @@ import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
 import { PreferencePoint } from "../types/PreferencePoint";
-import { getIsEmptyOnlineDataCachedInd, getPreferencePointsByProfileId } from "../services/PreferencePointService";
+import {
+    getIsEmptyOnlineDataCachedInd,
+    getPreferencePointsByProfileId,
+    getPreferencePointsLastUpdateDateFromDB,
+} from "../services/PreferencePointService";
 import { getPreferencePointListFromDB } from "../db";
 
 interface PreferencePointState {
@@ -16,6 +20,7 @@ interface PreferencePointState {
     updateTime: null | number;
     isAPISucceed: boolean;
     isShowSkeletonWhenOffline: boolean;
+    lastUpdateDate: string;
 }
 
 export const getPreferencePoint = createAsyncThunk(
@@ -37,12 +42,20 @@ export const getPreferencePoint = createAsyncThunk(
         const dbResult = await getPreferencePointListFromDB(activeProfileId);
         const preferencePointData = values(dbResult);
 
+        const lastUpdateDateResponse = await getPreferencePointsLastUpdateDateFromDB(activeProfileId);
+
         const isShowSkeletonWhenOffline = isEmpty(preferencePointData) && !isAPISucceed && !isEmptyOnlineDataCached;
 
         console.log(`preference point list isAPISucceed:${isAPISucceed}`);
         console.log(`db preference point list:${JSON.stringify(preferencePointData)}`);
 
-        const payload = { success: true, data: preferencePointData, isAPISucceed, isShowSkeletonWhenOffline };
+        const payload = {
+            success: true,
+            data: preferencePointData,
+            isAPISucceed,
+            isShowSkeletonWhenOffline,
+            lastUpdateDate: lastUpdateDateResponse.lastUpdateDate,
+        };
 
         return payload;
     },
@@ -70,6 +83,7 @@ const initialState: PreferencePointState = {
     updateTime: null,
     isAPISucceed: true,
     isShowSkeletonWhenOffline: false,
+    lastUpdateDate: "",
 };
 
 const preferencePointSlice = createSlice({
@@ -89,7 +103,7 @@ const preferencePointSlice = createSlice({
         });
         builder.addCase(getPreferencePoint.fulfilled, (state, action) => {
             const payload = action?.payload;
-            const { success, data, isAPISucceed, isShowSkeletonWhenOffline } = payload;
+            const { success, data, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateDate } = payload;
             console.log(`payload:${JSON.stringify(payload)}`);
             if (success) {
                 // Check if is empty data from the API, if not then need to show the skeleton
@@ -101,6 +115,7 @@ const preferencePointSlice = createSlice({
                 state.isShowSkeletonWhenOffline = isShowSkeletonWhenOffline;
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 state.data = data;
+                state.lastUpdateDate = lastUpdateDate;
             } else {
                 state.requestStatus = REQUEST_STATUS.rejected;
             }

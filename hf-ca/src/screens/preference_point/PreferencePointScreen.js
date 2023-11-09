@@ -14,6 +14,7 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import useFocus from "../../hooks/useFocus";
 import { getPreferencePoint } from "../../redux/PreferencePointSlice";
 import {
+    selectLastUpdateDate,
     selectPreferencePointList,
     selectPreferencePointRequestStatus,
     selectShowSkeletonWhenOffline,
@@ -55,6 +56,7 @@ function PreferencePointScreen() {
 
     const activeProfileId = useSelector(selectors.selectCurrentInUseProfileID);
 
+    const lastUpdateDate = useSelector(selectLastUpdateDate);
     const data = useSelector(selectPreferencePointList);
     const requestStatus = useSelector(selectPreferencePointRequestStatus);
     const showSkeletonWhenOffline = useSelector(selectShowSkeletonWhenOffline);
@@ -88,7 +90,13 @@ function PreferencePointScreen() {
                 }
                 contentContainerStyle={{ flex: 1, paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
             >
-                {!isLoading && <RefreshBar onRefresh={() => getPreferencePointData(true)} style={styles.refreshBar} />}
+                {!isLoading && (
+                    <RefreshBar
+                        refreshTime={lastUpdateDate}
+                        onRefresh={() => getPreferencePointData(true)}
+                        style={styles.refreshBar}
+                    />
+                )}
                 {(isLoading || showSkeletonWhenOffline) && <PreferenceLoading />}
                 {!isLoading && !showSkeletonWhenOffline && <PreferencePointContent data={data} />}
             </ScrollView>

@@ -1,6 +1,7 @@
 import { ERROR_CODE } from "../constants/Constants";
 import { realm } from "./ConfigRealm";
 import PreferencePoint from "./models/PreferencePoint";
+import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDate";
 
 export async function getPreferencePointListFromDB(activeProfileId: string) {
     console.log("Get preference point list");
@@ -21,10 +22,11 @@ export async function savePreferencePointListToDB(
 }
 
 export async function removePreferencePointListFromDB() {
-    console.log("Remove preference point list");
+    console.log("Remove preference point list and LastUpdateDate");
     realm.write(() => {
         const objects = realm.objects(PreferencePoint);
         realm.delete(objects);
+        realm.delete(realm.objects(PreferencePointLastUpdateDate));
     });
 }
 
@@ -40,4 +42,16 @@ export async function removePreferencePointListByProfileId(activeProfileId: stri
         result.success = false;
     }
     return result;
+}
+
+export async function getPreferencePointLastUpdateDate(profileId: string) {
+    console.log("Get PreferencePoint last update date");
+    return realm.objects(PreferencePointLastUpdateDate).filtered("profileId = $0", profileId);
+}
+
+export async function savePreferencePointLastUpdateDate(data: { profileId: string; lastUpdateDate: string }) {
+    console.log("Save PreferencePoint last update date");
+    realm.write(() => {
+        realm.create(PreferencePointLastUpdateDate, data, true);
+    });
 }

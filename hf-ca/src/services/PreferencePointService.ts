@@ -1,13 +1,19 @@
-import { isEmpty } from "lodash";
+import { values, isEmpty } from "lodash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KEY_CONSTANT } from "../constants/Constants";
-import { savePreferencePointListToDB } from "../db";
+import {
+    getPreferencePointLastUpdateDate,
+    savePreferencePointLastUpdateDate,
+    savePreferencePointListToDB,
+} from "../db";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { getPreferencePoints } from "../network/api_client/PreferencePointsApi";
 
 // eslint-disable-next-line import/prefer-default-export
 export async function getPreferencePointsByProfileId(profileId: string) {
     const response = await getPreferencePoints(profileId);
+    // @ts-ignore
+    const { lastUpdateDate } = response;
 
     const { result, errors } = response.data;
     const preferencePointList = result;
@@ -36,7 +42,7 @@ export async function getPreferencePointsByProfileId(profileId: string) {
     } else {
         await storeItem(`${KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached}_${profileId}`, true);
     }
-
+    await savePreferencePointLastUpdateDate({ profileId, lastUpdateDate });
     return { formattedResult, errors };
 }
 
@@ -57,4 +63,10 @@ export async function clearIsEmptyOnlineDataCachedInd() {
     keys.filter((key) => key.includes(KEY_CONSTANT.keyIsEmptyPreferencePointOnlineDataCached)).forEach(async (key) => {
         await storeItem(key, false);
     });
+}
+
+export async function getPreferencePointsLastUpdateDateFromDB(activeProfileId: string) {
+    const dbResult = await getPreferencePointLastUpdateDate(activeProfileId);
+    const result = values(dbResult);
+    return !isEmpty(result) && Array.isArray(result) ? result[0] : {};
 }
