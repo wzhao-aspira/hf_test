@@ -97,8 +97,8 @@
         "clickDragRefresh": "Click here or drag down the page to refresh",
         "clickRefresh": "Click here to refresh",
         "refreshedOn": "Refreshed on:",
-        "appVersion": "App Version {{appVersion}}",
-        "apiVersion": "API {{apiVersion}}"
+        "appVersion": "App v{{appVersion}}",
+        "apiVersion": "API v{{apiVersion}}"
     },
     "errMsg": {
         "noNetworkToast": "No network connection\n Use cache data",

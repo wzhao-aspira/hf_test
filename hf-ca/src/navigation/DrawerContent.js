@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     versionText: {
         ...AppTheme.typography.card_small_m,
         color: AppTheme.colors.font_color_1,
+        flex: 1,
     },
     privacy: {
         ...AppTheme.typography.card_small_m,
@@ -338,16 +339,22 @@ export default function DrawerContent({ navigation }) {
     };
 
     const renderBottomSection = () => {
-        const appVersionNumber = t("common.appVersion", { appVersion: Constants.expoConfig?.ios?.buildNumber });
+        const appVersionNumber = t("common.appVersion", { appVersion: Constants.expoConfig?.version });
         const apiVersionNumber = t("common.apiVersion", { apiVersion: appConfig.data.apiVersion });
         return (
             <View style={styles.bottomArea}>
                 <View style={styles.versionContainer}>
-                    <Text testID={genTestId(`${testIDPrefix}AppVersionLabel`)} style={styles.versionText}>
+                    <Text
+                        testID={genTestId(`${testIDPrefix}AppVersionLabel`)}
+                        style={{ ...styles.versionText, textAlign: "right" }}
+                    >
                         {appVersionNumber}
                     </Text>
                     <Text style={[styles.privacy, { marginHorizontal: 10 }]}>|</Text>
-                    <Text testID={genTestId(`${testIDPrefix}ApiVersionLabel`)} style={styles.versionText}>
+                    <Text
+                        testID={genTestId(`${testIDPrefix}ApiVersionLabel`)}
+                        style={{ ...styles.versionText, textAlign: "left" }}
+                    >
                         {apiVersionNumber}
                     </Text>
                 </View>
@@ -359,7 +366,7 @@ export default function DrawerContent({ navigation }) {
                 >
                     <Text
                         testID={genTestId(`${testIDPrefix}PrivacyLink`)}
-                        style={styles.privacy}
+                        style={{ ...styles.privacy, flex: 1, textAlign: "right" }}
                         onPress={() => {
                             openLink(appConfig.data.privacyPolicyLink);
                         }}
@@ -369,7 +376,7 @@ export default function DrawerContent({ navigation }) {
                     <Text style={[styles.privacy, { marginHorizontal: 10 }]}>|</Text>
                     <Text
                         testID={genTestId(`${testIDPrefix}TermsOfUseLink`)}
-                        style={styles.privacy}
+                        style={{ ...styles.privacy, flex: 1, textAlign: "left" }}
                         onPress={() => {
                             openLink(appConfig.data.conditionOfUseLink);
                         }}
