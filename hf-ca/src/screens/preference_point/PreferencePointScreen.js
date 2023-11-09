@@ -40,6 +40,7 @@ function PreferencePointContent({ data }) {
     if (isEmpty(data)) {
         return (
             <LicenseListEmpty
+                showPurchase={false}
                 title={t("preferencePoint.noPreferencePoint")}
                 subtitle={t("preferencePoint.purchaseLicense")}
             />
