@@ -380,7 +380,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = CDFWMobile/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "CDFW Mobile";
+				INFOPLIST_KEY_CFBundleDisplayName = "CDFW License";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -416,7 +416,7 @@
 				CURRENT_PROJECT_VERSION = 2.0.0.0;
 				DEVELOPMENT_TEAM = DYP2VJ46N5;
 				INFOPLIST_FILE = CDFWMobile/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "CDFW Mobile";
+				INFOPLIST_KEY_CFBundleDisplayName = "CDFW License";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
