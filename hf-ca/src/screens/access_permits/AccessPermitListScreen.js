@@ -76,9 +76,9 @@ export default function AccessPermitListScreen() {
     const customer = AccessPermitReduxData.data?.customer;
     const lastUpdateDate = getFormattedLastUpdateDate(AccessPermitReduxData.data?.lastUpdateDate);
 
-    const getAccessPermitOfActiveProfile = () => {
-        if (activeProfileId) {
-            dispatch(getAccessPermit({ searchParams: { activeProfileId } }));
+    const getAccessPermitOfActiveProfile = (profileId = activeProfileId) => {
+        if (profileId) {
+            dispatch(getAccessPermit({ searchParams: { activeProfileId: profileId } }));
         }
     };
 
@@ -88,7 +88,12 @@ export default function AccessPermitListScreen() {
 
     return (
         <View style={styles.container}>
-            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
+            <CommonHeader
+                title={title}
+                rightComponent={
+                    <SwitchCustomer postProcess={(profileId) => getAccessPermitOfActiveProfile(profileId)} />
+                }
+            />
 
             <ScrollView
                 testID={genTestId("accessPermitList")}

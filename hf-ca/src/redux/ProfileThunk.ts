@@ -132,11 +132,9 @@ const getCRSSVerifyProfiles = async (result = []) => {
     return { needCRSSVerify, crssVerifyProfiles };
 };
 
-const preCacheLicense = (needCacheLicense, currentInUseProfileID, profileListIDs) => async (dispatch) => {
+const preCacheLicense = (needCacheLicense, profileListIDs) => async (dispatch) => {
     if (needCacheLicense) {
-        console.log("ProfileThunk - getProfileListChangeStatus - currentInUseProfileID:", currentInUseProfileID);
         saveCustomerLicenseToDB(profileListIDs);
-        dispatch(licenseActions.updateLicense(null));
         dispatch(licenseActions.clearUpdateTime());
     }
 };
@@ -275,7 +273,7 @@ const getProfileListChangeStatus =
                 if (ciuIsInactivated) {
                     dispatch(switchCurrentInUseProfile(primaryProfileId));
                 }
-                dispatch(preCacheLicense(needCacheLicense, currentInUseProfileID, profileListIDs));
+                dispatch(preCacheLicense(needCacheLicense, profileListIDs));
                 dispatch(updateProfileData(result));
                 NavigationService.navigate(Routers.manageProfile);
             });
@@ -308,7 +306,7 @@ const getProfileListChangeStatus =
         }
 
         console.log("ProfileThunk - getProfileListChangeStatus - needCacheLicense:", needCacheLicense);
-        dispatch(preCacheLicense(needCacheLicense, currentInUseProfileID, profileListIDs));
+        dispatch(preCacheLicense(needCacheLicense, profileListIDs));
 
         return response;
     };

@@ -10,7 +10,7 @@ import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
 import NavigationService from "../../../navigation/NavigationService";
 import DialogHelper from "../../../helper/DialogHelper";
-import { actions as appActions, selectors as appSelectors } from "../../../redux/AppSlice";
+import { selectors as appSelectors } from "../../../redux/AppSlice";
 import Routers from "../../../constants/Routers";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { genTestId } from "../../../helper/AppHelper";
@@ -38,7 +38,13 @@ function AddPrimaryProfile({ currentRoute }) {
     );
 }
 
-export default function SwitchProfileDialog({ hideDialog, postProcess, isSwitchToPrimary, currentRoute }) {
+export default function SwitchProfileDialog({
+    hideDialog,
+    postProcess,
+    isSwitchToPrimary,
+    currentRoute,
+    showListUpdatedMsg = true,
+}) {
     const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
@@ -69,6 +75,9 @@ export default function SwitchProfileDialog({ hideDialog, postProcess, isSwitchT
         // if network error, user can switch the profile, other api error will block switch profile
         if (!response.success && response.isNetworkError) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
+            if (postProcess) {
+                postProcess(profileId);
+            }
             return;
         }
 
@@ -79,7 +88,10 @@ export default function SwitchProfileDialog({ hideDialog, postProcess, isSwitchT
         const profile = response.profiles.find((item) => item.customerId === profileId);
         if (profile) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
-            switchProfileCallback(true);
+            if (postProcess) {
+                postProcess(profileId);
+            }
+            await switchProfileCallback(showListUpdatedMsg);
         } else {
             DialogHelper.showSimpleDialog({
                 title: "common.reminder",
@@ -92,27 +104,19 @@ export default function SwitchProfileDialog({ hideDialog, postProcess, isSwitchT
 
     const handleSwitch = async (profileId) => {
         hideDialog();
-        setTimeout(async () => {
-            try {
-                dispatch(appActions.toggleIndicator(true));
-                if (isSwitchToPrimary) {
-                    const response = await handleError(switchToPrimary(profileId), { dispatch, showLoading: true });
-                    if (response.success) {
-                        NavigationService.navigate(Routers.manageProfile);
-                        dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
-                    }
-                } else {
-                    await switchToOthers(profileId);
-                    if (postProcess) {
-                        postProcess();
-                    }
+        try {
+            if (isSwitchToPrimary) {
+                const response = await handleError(switchToPrimary(profileId), { dispatch, showLoading: true });
+                if (response.success) {
+                    NavigationService.navigate(Routers.manageProfile);
+                    dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
                 }
-            } catch (error) {
-                console.log("switch error", error);
-            } finally {
-                dispatch(appActions.toggleIndicator(false));
+            } else {
+                await switchToOthers(profileId);
             }
-        }, 100);
+        } catch (error) {
+            console.log("switch error", error);
+        }
     };
 
     return (

@@ -40,3 +40,5 @@ export const selectLicenseForDashboard = createSelector(selectLicenseState, (lic
 
     return { ...licenseState, data };
 });
+
+export const selectUpdateTime = createSelector(selectLicenseState, (license) => license.updateTime);

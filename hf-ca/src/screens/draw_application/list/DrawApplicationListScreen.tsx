@@ -107,9 +107,9 @@ function DrawApplicationListScreen() {
     const dispatch = useAppDispatch();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
-    const getDrawListByProfileId = () => {
-        if (activeProfileId) {
-            dispatch(getDrawList(activeProfileId));
+    const getDrawListByProfileId = (profileId = activeProfileId) => {
+        if (profileId) {
+            dispatch(getDrawList(profileId));
         }
     };
 
@@ -119,7 +119,10 @@ function DrawApplicationListScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
+            <CommonHeader
+                title={title}
+                rightComponent={<SwitchCustomer postProcess={(profileId) => getDrawListByProfileId(profileId)} />}
+            />
             <View style={{ flex: 1, backgroundColor: AppTheme.colors.page_bg }}>
                 <DrawListContent />
             </View>

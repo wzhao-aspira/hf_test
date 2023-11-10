@@ -1,10 +1,11 @@
 import { View, StyleSheet, Text } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import SwitchCustomer from "./SwitchCustomer";
+import { getLicense } from "../redux/LicenseSlice";
 
 const styles = StyleSheet.create({
     container: {
@@ -31,10 +32,17 @@ const styles = StyleSheet.create({
 
 function WelcomeBar() {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
     const showSwitchProfile = otherProfiles.length > 0;
     if (!currentInUseProfile) return null;
+
+    const refreshLicense = async (activeProfileId) => {
+        if (activeProfileId) {
+            await dispatch(getLicense({ isForce: true, searchParams: { activeProfileId } }));
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -43,7 +51,11 @@ function WelcomeBar() {
             </Text>
             {showSwitchProfile && (
                 <View style={styles.switchCustomer}>
-                    <SwitchCustomer />
+                    <SwitchCustomer
+                        postProcess={(profileId) => {
+                            refreshLicense(profileId);
+                        }}
+                    />
                 </View>
             )}
         </View>
