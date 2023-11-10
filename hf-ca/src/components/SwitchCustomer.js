@@ -9,7 +9,6 @@ import SwitchProfileDialog from "../screens/profile/manage_profile/SwitchProfile
 import { genTestId } from "../helper/AppHelper";
 import DialogHelper from "../helper/DialogHelper";
 import NavigationService from "../navigation/NavigationService";
-import Routers from "../constants/Routers";
 
 const styles = StyleSheet.create({
     container: {
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function SwitchCustomer() {
+export default function SwitchCustomer({ postProcess }) {
     const { t } = useTranslation();
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
     const showSwitchProfile = otherProfiles.length > 0;
@@ -36,9 +35,12 @@ export default function SwitchCustomer() {
                     hideDialog={() => {
                         NavigationService.back();
                     }}
-                    postProcess={() => {
-                        NavigationService.push(Routers.manageProfile);
+                    postProcess={(profileId) => {
+                        if (postProcess) {
+                            postProcess(profileId);
+                        }
                     }}
+                    showListUpdatedMsg={false}
                 />
             ),
         });

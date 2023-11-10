@@ -51,8 +51,10 @@ function LicenseListScreen() {
         : null;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const title = useTitle("license.firstNameLicense", "license.licenses");
-    const getLicenseOfActiveProfile = (isForce) => {
-        dispatch(getLicense({ isForce, searchParams: { activeProfileId } }));
+    const getLicenseOfActiveProfile = (isForce, profileId = activeProfileId) => {
+        if (profileId) {
+            dispatch(getLicense({ isForce, searchParams: { activeProfileId: profileId } }));
+        }
     };
 
     useFocus(() => {
@@ -66,7 +68,12 @@ function LicenseListScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
+            <CommonHeader
+                title={title}
+                rightComponent={
+                    <SwitchCustomer postProcess={(profileId) => getLicenseOfActiveProfile(true, profileId)} />
+                }
+            />
 
             <ScrollView
                 testID={genTestId("licenseList")}

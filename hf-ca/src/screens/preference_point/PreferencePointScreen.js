@@ -68,8 +68,8 @@ function PreferencePointScreen() {
     console.log(`showSkeletonWhenOffline:${showSkeletonWhenOffline}`);
     console.log(`preference point data:${JSON.stringify(data)}`);
 
-    const getPreferencePointData = (isForce) => {
-        dispatch(getPreferencePoint({ searchParams: { activeProfileId }, isForce }));
+    const getPreferencePointData = (isForce, profileId = activeProfileId) => {
+        dispatch(getPreferencePoint({ searchParams: { activeProfileId: profileId }, isForce }));
     };
 
     useFocus(() => {
@@ -78,7 +78,10 @@ function PreferencePointScreen() {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={title} rightComponent={<SwitchCustomer />} />
+            <CommonHeader
+                title={title}
+                rightComponent={<SwitchCustomer postProcess={(profileId) => getPreferencePointData(true, profileId)} />}
+            />
             <ScrollView
                 nestedScrollEnabled
                 refreshControl={

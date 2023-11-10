@@ -25,6 +25,18 @@ interface LicenseState {
     lastUpdateTimeFromServer: null | string;
 }
 
+const getLicenseFromDB = async (searchParams, dispatch) => {
+    const licenses = { success: false, data: null };
+    const licenseData = await handleError(getLicenseListDataFromDB(searchParams), {
+        showError: false,
+        networkErrorByDialog: false,
+        dispatch,
+    });
+    licenses.success = licenseData.success;
+    licenses.data = licenseData.data;
+    return licenses;
+};
+
 export const getLicense = createAsyncThunk(
     "license/getLicense",
     async (
@@ -36,6 +48,7 @@ export const getLicense = createAsyncThunk(
         { dispatch }
     ) => {
         console.log(`LicenseSlice - getLicense - isForce:${isForce}, useCache:${useCache}`);
+        const licenses = { success: false, data: null };
         let isAPISucceed = false;
         if (useCache == false) {
             const results = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), {
@@ -44,15 +57,22 @@ export const getLicense = createAsyncThunk(
             });
             // If the API returns an empty license data then we need to set an indicator here
             isAPISucceed = results.success;
+            if (isAPISucceed) {
+                licenses.success = isAPISucceed;
+                licenses.data = results.data.formattedResult;
+            } else {
+                const licensesFromDB = await getLicenseFromDB(searchParams, dispatch);
+                licenses.success = licensesFromDB.success;
+                licenses.data = licensesFromDB.data;
+            }
+        } else {
+            const licensesFromDB = await getLicenseFromDB(searchParams, dispatch);
+            licenses.success = licensesFromDB.success;
+            licenses.data = licensesFromDB.data;
         }
 
         const isEmptyOnlineDataCached = await getIsEmptyOnlineDataCachedInd(searchParams);
-        const licenseData = await handleError(getLicenseListDataFromDB(searchParams), {
-            showError: false,
-            networkErrorByDialog: false,
-            dispatch,
-        });
-        const isShowSkeletonWhenOffline = isEmpty(licenseData.data) && !isAPISucceed && !isEmptyOnlineDataCached;
+        const isShowSkeletonWhenOffline = isEmpty(licenses.data) && !isAPISucceed && !isEmptyOnlineDataCached;
         // Last Update Time from Server
         const licenseLastUpdateTime = await handleError(getLicenseLastUpdateTimeDataFromDB(searchParams), {
             showError: false,
@@ -60,7 +80,7 @@ export const getLicense = createAsyncThunk(
             dispatch,
         });
         const { lastUpdateTime } = licenseLastUpdateTime.data || {};
-        return { ...licenseData, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime };
+        return { ...licenses, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime };
     },
     {
         condition: ({ isForce = false }, { getState }) => {

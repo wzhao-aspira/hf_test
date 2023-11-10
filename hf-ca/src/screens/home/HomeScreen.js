@@ -11,7 +11,7 @@ import HeaderBar from "../../components/HeaderBar";
 import WelcomeBar from "../../components/WelcomeBar";
 import { genTestId } from "../../helper/AppHelper";
 import { getLicense } from "../../redux/LicenseSlice";
-import { selectLicenseForDashboard } from "../../redux/LicenseSelector";
+import { selectLicenseForDashboard, selectUpdateTime } from "../../redux/LicenseSelector";
 import HomeLicenseSection from "./license/HomeLicenseSection";
 import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
 import profileSelectors from "../../redux/ProfileSelector";
@@ -19,6 +19,8 @@ import useFocus from "../../hooks/useFocus";
 import ProfileThunk from "../../redux/ProfileThunk";
 import { actions as appActions, selectPrimaryInactivatedWhenSignIn } from "../../redux/AppSlice";
 import Routers from "../../constants/Routers";
+import { checkNeedAutoRefreshData } from "../../utils/GenUtil";
+import { getProfileListUpdateTime } from "../../helper/AutoRefreshHelper";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -33,6 +35,7 @@ export default function HomeScreen() {
     const { isShowSkeletonWhenOffline } = licenseReduxData;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const primaryInactivatedWhenSignIn = useSelector(selectPrimaryInactivatedWhenSignIn);
+    const licenseUpdateTime = useSelector(selectUpdateTime);
     const [refresh, setRefresh] = useState(false);
 
     const getLicenseOfActiveProfile = async (isForce, useCache) => {
@@ -50,6 +53,10 @@ export default function HomeScreen() {
     }, [dispatch, primaryInactivatedWhenSignIn]);
 
     const getProfileAndLicense = async (isForce) => {
+        const needAutoRefreshProfile = checkNeedAutoRefreshData(getProfileListUpdateTime());
+        const needAutoRefreshLicense = checkNeedAutoRefreshData(licenseUpdateTime);
+        setRefresh(isForce || needAutoRefreshProfile || needAutoRefreshLicense);
+
         const response = await dispatch(ProfileThunk.refreshProfileList({ isForce }));
         if (
             response.isReloadData &&
@@ -61,25 +68,22 @@ export default function HomeScreen() {
         }
         const useCache = !response.success && response.isNetworkError;
         await getLicenseOfActiveProfile(isForce, useCache);
+        setRefresh(false);
     };
 
     useFocus(async () => {
         console.log("home focus");
         dispatch(appActions.setCurrentRouter(Routers.home));
-        setRefresh(true);
         await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: false })), getProfileAndLicense(false)]).catch();
-        setRefresh(false);
     });
 
     const refreshData = async () => {
-        setRefresh(true);
         await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: true })), getProfileAndLicense(true)]).catch();
-        setRefresh(false);
     };
 
     const renderItem = (index) => {
         if (index == 0) {
-            if (profileListRefreshing || licenseRefreshing || isShowSkeletonWhenOffline) {
+            if (refresh || profileListRefreshing || licenseRefreshing || isShowSkeletonWhenOffline) {
                 return <HomeLicenseSectionLoading />;
             }
             return <HomeLicenseSection licenses={licenseData} onRefresh={() => refreshData()} />;
