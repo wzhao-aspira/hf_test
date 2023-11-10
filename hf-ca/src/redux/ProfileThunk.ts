@@ -10,7 +10,6 @@ import {
     getLatestCustomerList,
     getResidentMethodTypes,
     saveCustomerLicenseToDB,
-    getCustomerLicenseFromDB,
 } from "../services/ProfileService";
 import { actions as profileActions, selectors as profileSelector } from "./ProfileSlice";
 import { actions as appActions } from "./AppSlice";
@@ -37,7 +36,6 @@ import { Profile } from "../types/profile";
 import { actions as licenseActions } from "./LicenseSlice";
 import { actions as preferencePointActions } from "./PreferencePointSlice";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
-import { getLicenseLastUpdateTimeDataFromDB } from "../services/LicenseService";
 
 const formateProfile = (profile) => {
     const { customerId, name, customerTypeId, goidNumber, goid, ...otherProps } = profile;
@@ -134,14 +132,13 @@ const getCRSSVerifyProfiles = async (result = []) => {
     return { needCRSSVerify, crssVerifyProfiles };
 };
 
-const updateCustomerLicenseToRedux = (customerId) => async (dispatch) => {
-    console.log("ProfileThunk - updateCustomerLicenseToRedux - customerId:", customerId);
-    const licenseData = await getCustomerLicenseFromDB(customerId);
-    await dispatch(licenseActions.updateLicense(licenseData));
-    const timeResultFromDB = await getLicenseLastUpdateTimeDataFromDB({ activeProfileId: customerId });
-    const { lastUpdateTime } = timeResultFromDB;
-    console.log("ProfileThunk - updateCustomerLicenseToRedux - lastUpdateTime:", lastUpdateTime);
-    await dispatch(licenseActions.updateLastUpdateTime(lastUpdateTime));
+const preCacheLicense = (needCacheLicense, currentInUseProfileID, profileListIDs) => async (dispatch) => {
+    if (needCacheLicense) {
+        console.log("ProfileThunk - getProfileListChangeStatus - currentInUseProfileID:", currentInUseProfileID);
+        saveCustomerLicenseToDB(profileListIDs);
+        dispatch(licenseActions.updateLicense(null));
+        dispatch(licenseActions.clearUpdateTime());
+    }
 };
 
 const initProfile =
@@ -169,9 +166,9 @@ const initProfile =
 
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
 
-        console.log("ProfileThunk - initProfile - saveCustomerLicenseToDB");
         if (isRemote) {
             dispatch(initResidentMethodTypes());
+            console.log("ProfileThunk - initProfile - saveCustomerLicenseToDB");
             saveCustomerLicenseToDB(profileListIDs);
         }
 
@@ -192,7 +189,7 @@ const switchCurrentInUseProfile =
         try {
             dispatch(profileActions.updateCurrentInUseProfileID(profileID));
             dispatch(preferencePointActions.clearUpdateTime());
-            await dispatch(updateCustomerLicenseToRedux(profileID));
+            dispatch(licenseActions.clearUpdateTime());
         } catch (error) {
             console.log("switch profile error:", error);
         }
@@ -262,12 +259,6 @@ const getProfileListChangeStatus =
         const { needCRSSVerify, crssVerifyProfiles } = await getCRSSVerifyProfiles(result);
         response.needCRSSVerify = needCRSSVerify;
 
-        console.log("ProfileService - getProfileListChangeStatus - needCacheLicense:", needCacheLicense);
-        if (needCacheLicense) {
-            await saveCustomerLicenseToDB(profileListIDs);
-            await dispatch(updateCustomerLicenseToRedux(currentInUseProfileID));
-        }
-
         if (noPrimaryProfile) {
             await dispatch(profileActions.setIndividualProfiles(profileList));
             dispatch(appActions.toggleShowPrimaryProfileInactiveMsg(true));
@@ -284,6 +275,7 @@ const getProfileListChangeStatus =
                 if (ciuIsInactivated) {
                     dispatch(switchCurrentInUseProfile(primaryProfileId));
                 }
+                dispatch(preCacheLicense(needCacheLicense, currentInUseProfileID, profileListIDs));
                 dispatch(updateProfileData(result));
                 NavigationService.navigate(Routers.manageProfile);
             });
@@ -314,6 +306,10 @@ const getProfileListChangeStatus =
         if (updateProfileWithNewData) {
             dispatch(updateProfileData(result));
         }
+
+        console.log("ProfileThunk - getProfileListChangeStatus - needCacheLicense:", needCacheLicense);
+        dispatch(preCacheLicense(needCacheLicense, currentInUseProfileID, profileListIDs));
+
         return response;
     };
 
@@ -328,8 +324,6 @@ const initProfileDetails =
             return result;
         }
         dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.pending));
-        console.log("ProfileThunk - initProfileDetails - isForce:", isForce);
-        console.log("ProfileThunk - initProfileDetails - profileId:", profileId);
         if (isForce || checkNeedAutoRefreshData(getCurrentProfileDetailsUpdateTime())) {
             const response = await handleError(getProfileDetailsById(profileId), {
                 dispatch,
@@ -337,7 +331,6 @@ const initProfileDetails =
             });
             if (response.success) {
                 result = response.data.data.result;
-                console.log("ProfileThunk - initProfileDetails - getProfileDetailsById:", result);
                 if (!isEmpty(result)) {
                     await updateProfileDetailToDB(result);
                     setCurrentProfileDetailsUpdateTime();
@@ -350,7 +343,6 @@ const initProfileDetails =
         }
         if (!result || !result.success) {
             const dbResult = await getProfileDetailFromDB(profileId);
-            console.log("ProfileThunk - initProfileDetails - getProfileDetailFromDB:", dbResult);
             if (dbResult.success) {
                 result = dbResult.profile;
             }
@@ -425,5 +417,5 @@ export default {
     initProfileDetails,
     getProfileListChangeStatus,
     getLatestCustomerLists,
-    updateCustomerLicenseToRedux,
+    preCacheLicense,
 };
