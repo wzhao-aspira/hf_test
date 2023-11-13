@@ -219,7 +219,8 @@
         "orSwitchTo": "Or Switch to:",
         "associatedRemovedAsWell": "The associated customer records have been removed as well.",
         "associatedProfiles": "Associated customer record(s):",
-        "viewCustomerRecord": "View Customer Record"
+        "viewCustomerRecord": "View Customer Record",
+        "notAllowRemoveProfileInOfflineMsg": "You are not allowed to remove current customer record during offline, please process when back online."
     },
     "huntAndFish": {
         "myLicenses": "My Licenses",

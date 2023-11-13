@@ -13,6 +13,7 @@ interface HandleErrorOptions {
     retry?: boolean;
     dispatch: any;
     networkErrorByDialog?: boolean;
+    networkErrorMsg?: string;
 }
 
 export async function handleError<T>(
@@ -23,6 +24,7 @@ export async function handleError<T>(
         showLoading = false,
         retry = false,
         networkErrorByDialog = true,
+        networkErrorMsg = "",
         dispatch,
     }: HandleErrorOptions
 ) {
@@ -43,7 +45,7 @@ export async function handleError<T>(
             showError &&
             (isEmpty(skippedBusinessErrorCode) ? true : !isBusinessErrorCode(error, skippedBusinessErrorCode))
         ) {
-            dispatch(appActions.setError({ ...error, networkErrorByDialog }));
+            dispatch(appActions.setError({ ...error, networkErrorByDialog, networkErrorMsg }));
         }
         console.log(error);
 

@@ -27,6 +27,14 @@ export function getErrorMessage(error) {
     return error?.message;
 }
 
+function getNetworkErrorMessage(t, error = {}) {
+    const { networkErrorMsg } = error;
+    if (isEmpty(networkErrorMsg)) {
+        return t("errMsg.noNetworkDialog");
+    }
+    return networkErrorMsg;
+}
+
 function retryRequest(error, okAction, cancelAction) {
     DialogHelper.showSelectDialog({
         okText: "common.retry",
@@ -65,9 +73,10 @@ function useErrorHandling() {
                 console.log("api url with error:", error.config?.url);
 
                 if (error.networkErrorByDialog) {
+                    const message = getNetworkErrorMessage(t, error);
                     DialogHelper.showSimpleDialog({
                         title: t("errMsg.noNetworkDialogTitle"),
-                        message: t("errMsg.noNetworkDialog"),
+                        message,
                         okText: "common.gotIt",
                         okAction: () => {
                             dispatch(appActions.clearError());
