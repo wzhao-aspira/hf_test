@@ -125,7 +125,10 @@ export async function getIsEmptyOnlineDataCachedInd(searchParams: { activeProfil
 export async function getLicenseListDataFromDB(searchParams: { activeProfileId: string }) {
     const { activeProfileId } = searchParams;
     const dbResult = await getLicenseListData(activeProfileId);
-    return values(dbResult);
+    if (!dbResult) {
+        return undefined;
+    }
+    return dbResult.toJSON();
 }
 
 export async function getLicenseLastUpdateTimeDataFromDB(searchParams: { activeProfileId: string }) {

@@ -25,18 +25,6 @@ interface LicenseState {
     lastUpdateTimeFromServer: null | string;
 }
 
-const getLicenseFromDB = async (searchParams, dispatch) => {
-    const licenses = { success: false, data: null };
-    const licenseData = await handleError(getLicenseListDataFromDB(searchParams), {
-        showError: false,
-        networkErrorByDialog: false,
-        dispatch,
-    });
-    licenses.success = licenseData.success;
-    licenses.data = licenseData.data;
-    return licenses;
-};
-
 export const getLicense = createAsyncThunk(
     "license/getLicense",
     async (
@@ -61,14 +49,14 @@ export const getLicense = createAsyncThunk(
                 licenses.success = isAPISucceed;
                 licenses.data = results.data.formattedResult;
             } else {
-                const licensesFromDB = await getLicenseFromDB(searchParams, dispatch);
-                licenses.success = licensesFromDB.success;
-                licenses.data = licensesFromDB.data;
+                const licensesFromDB = await getLicenseListDataFromDB(searchParams);
+                licenses.success = true;
+                licenses.data = licensesFromDB;
             }
         } else {
-            const licensesFromDB = await getLicenseFromDB(searchParams, dispatch);
-            licenses.success = licensesFromDB.success;
-            licenses.data = licensesFromDB.data;
+            const licensesFromDB = await getLicenseListDataFromDB(searchParams);
+            licenses.success = true;
+            licenses.data = licensesFromDB;
         }
 
         const isEmptyOnlineDataCached = await getIsEmptyOnlineDataCachedInd(searchParams);
