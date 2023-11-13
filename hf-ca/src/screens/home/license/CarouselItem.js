@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Trans } from "react-i18next";
 import Carousel from "react-native-reanimated-carousel";
 import { isEmpty } from "lodash";
+import { useState } from "react";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../../constants/Dimension";
 import SeparateLine from "../../../components/SeparateLine";
@@ -64,8 +65,10 @@ const renderValidDate = (date) => {
     );
 };
 
-function CarouselContent({ item }) {
+function CarouselContent({ item, index }) {
     const { altTextValidFromTo, name, huntTagDescription, mobileAppNeedPhysicalDocument } = item;
+
+    const [pressState, setPressState] = useState({});
 
     const renderTagDescription = () => {
         if (isEmpty(huntTagDescription)) {
@@ -110,8 +113,35 @@ function CarouselContent({ item }) {
             <Pressable
                 testID={genTestId("carouselItem")}
                 style={{ height: "100%" }}
-                onPress={() => {
-                    NavigationService.navigate(Routers.licenseDetail, { licenseData: item });
+                onPressIn={(event) => {
+                    // fix issue AWO-216369 [HFCA app] - When slide license card from home page, system direct user to license details.
+                    console.log(`index:${index} start x:${event.nativeEvent.pageX}`);
+                    console.log(`index:${index} start Y:${event.nativeEvent.pageY}`);
+                    setPressState({
+                        ...pressState,
+                        [`${index}x`]: event.nativeEvent.pageX,
+                        [`${index}y`]: event.nativeEvent.pageY,
+                    });
+                }}
+                onPressOut={(event) => {
+                    // fix issue AWO-216369 [HFCA app] - When slide license card from home page, system direct user to license details.
+                    console.log(`index:${index} end x:${event.nativeEvent.pageX}`);
+                    console.log(`index:${index} end Y:${event.nativeEvent.pageY}`);
+
+                    let deltaX = Number.MAX_SAFE_INTEGER;
+                    let deltaY = Number.MAX_SAFE_INTEGER;
+                    if (event.nativeEvent.pageX) {
+                        deltaX = event.nativeEvent.pageX - pressState[`${index}x`];
+                    }
+                    if (event.nativeEvent.pageY) {
+                        deltaY = event.nativeEvent.pageY - pressState[`${index}y`];
+                    }
+                    console.log(`deltaX:${deltaX}`);
+                    console.log(`deltaY:${deltaY}`);
+
+                    if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) {
+                        NavigationService.navigate(Routers.licenseDetail, { licenseData: item });
+                    }
                 }}
             >
                 <Text testID={genTestId(`carouselItem-${name}`)} style={styles.cardTitle} numberOfLines={2}>
@@ -152,8 +182,8 @@ function CarouseItem({ licenses, setActiveSlide }) {
             onSnapToItem={(index) => {
                 setActiveSlide(index);
             }}
-            renderItem={({ item }) => {
-                return <CarouselContent item={item} />;
+            renderItem={({ item, index }) => {
+                return <CarouselContent item={item} index={index} />;
             }}
             panGestureHandlerProps={{
                 activeOffsetX: [-10, 10],
