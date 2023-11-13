@@ -119,10 +119,12 @@ function ProfileDetailsScreen({ route }) {
 
     const handleRemoveBtnClick = async () => {
         console.log("ProfileDetailScreen - handleRemoveBtnClick - getProfileListChangeStatus before remove profile");
+        const notAllowRemoveProfileInOfflineMsg = t("profile.notAllowRemoveProfileInOfflineMsg");
         const response = await dispatch(
             ProfileThunk.getProfileListChangeStatus({
                 showGlobalLoading: true,
                 networkErrorByDialog: true,
+                networkErrorMsg: notAllowRemoveProfileInOfflineMsg,
                 showCRSSVerifyMsg: false,
                 needCacheLicense: false,
             })

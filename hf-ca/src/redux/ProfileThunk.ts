@@ -214,6 +214,7 @@ const getProfileListChangeStatus =
         showCIUChangedMsg = false,
         showListChangedMsg = false,
         networkErrorByDialog = false,
+        networkErrorMsg = "",
         updateProfileWithNewData = false,
         showCRSSVerifyMsg = true,
         needCacheLicense = true,
@@ -229,6 +230,7 @@ const getProfileListChangeStatus =
             dispatch,
             showLoading: showGlobalLoading,
             networkErrorByDialog,
+            networkErrorMsg,
         });
         if (!profileResponse.success) {
             return profileResponse;
