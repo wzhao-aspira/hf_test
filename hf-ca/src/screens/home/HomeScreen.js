@@ -64,6 +64,7 @@ export default function HomeScreen() {
                 response.primaryIsInactivated ||
                 response.ciuIsInactivated)
         ) {
+            setRefresh(false);
             return;
         }
         const useCache = !response.success && response.isNetworkError;
