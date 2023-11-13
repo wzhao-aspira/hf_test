@@ -215,8 +215,12 @@ function NotificationAndAttachment(props: FileListProps) {
 
     return (
         <>
-            <File folderName={folderName} fileInfo={notification} cardMarginHorizontal={cardMarginHorizontal} />
-            <File folderName={folderName} fileInfo={attachment} cardMarginHorizontal={cardMarginHorizontal} />
+            {notification && (
+                <File folderName={folderName} fileInfo={notification} cardMarginHorizontal={cardMarginHorizontal} />
+            )}
+            {attachment && (
+                <File folderName={folderName} fileInfo={attachment} cardMarginHorizontal={cardMarginHorizontal} />
+            )}
         </>
     );
 }

@@ -1,5 +1,7 @@
 import type { DrawApplicationItem as DrawApplicationItemData } from "../../../../types/drawApplication";
 
+type FileInfoList = DrawApplicationItemData["fileInfoList"];
+
 function formatDrawApplicationChoices(drawApplicationChoices: DrawApplicationItemData[]) {
     if (drawApplicationChoices.length > 1) {
         let indexOfFirstItem: number;
@@ -34,6 +36,15 @@ function formatDrawApplicationChoices(drawApplicationChoices: DrawApplicationIte
                 fileList,
             };
         }
+
+        const fileList = drawApplicationChoices.map((item, index) =>
+            index === 0 ? item.fileInfoList : ([null, item.fileInfoList[1]] as FileInfoList)
+        );
+
+        return {
+            filteredDrawApplicationChoices: drawApplicationChoices,
+            fileList,
+        };
     }
 
     return {
