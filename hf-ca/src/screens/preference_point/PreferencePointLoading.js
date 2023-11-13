@@ -9,13 +9,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 14,
         backgroundColor: AppTheme.colors.font_color_4,
         paddingHorizontal: 24,
-        marginVertical: 26,
+        // marginVertical: 26,
         paddingVertical: 20,
     },
 });
 
 const width = "100%";
-function PreferenceLoading() {
+function PreferenceLoading({ isLoading }) {
     const layout = [
         {
             width,
@@ -37,7 +37,7 @@ function PreferenceLoading() {
         },
     ];
     return (
-        <View style={styles.mainContainerStyle}>
+        <View style={[styles.mainContainerStyle, isLoading && { marginVertical: 26 }]}>
             <SkeletonLoader layout={layout} />
         </View>
     );
