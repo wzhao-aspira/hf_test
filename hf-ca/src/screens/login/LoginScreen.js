@@ -9,7 +9,7 @@ import { updateLoginStep } from "../../redux/AppSlice";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { DEFAULT_MARGIN, SCREEN_HEIGHT } from "../../constants/Dimension";
 import AppTheme from "../../assets/_default/AppTheme";
-import { getLoginLogo, getLoginSplash, getLogoRatio } from "../../helper/ImgHelper";
+import { getLogo, getLoginSplash, getLogoRatio } from "../../helper/ImgHelper";
 import SplitLine from "../../components/SplitLine";
 import OutlinedBtn from "../../components/OutlinedBtn";
 import { appConfig } from "../../services/AppConfigService";
@@ -83,7 +83,7 @@ export default function LoginScreen() {
                     },
                 ]}
                 contentFit="contain"
-                source={getLoginLogo()}
+                source={getLogo()}
             />
 
             <ScrollView

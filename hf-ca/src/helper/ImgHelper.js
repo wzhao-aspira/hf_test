@@ -17,10 +17,6 @@ export async function getLoginSplash() {
     return getDefaultLoginSplash();
 }
 
-export function getLoginLogo() {
-    return require("../assets/_default/images/login_logo.png");
-}
-
 export function getLogo() {
     return require("../assets/_default/images/logo.png");
 }
