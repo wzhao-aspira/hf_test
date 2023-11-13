@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { isNumber } from "lodash";
 import AppTheme from "../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
 import { genTestId } from "../helper/AppHelper";
@@ -23,13 +24,14 @@ const styles = StyleSheet.create({
 
 export default function WeatherItem(props) {
     const { testID = "", title, subTitle, content, style } = props;
+    const numTitle = isNumber(title) ? `${title}` : title;
     return (
         <View style={[styles.container, style]}>
             <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
                 <Text testID={genTestId(`${testID}WeatherItemTitleLabel`)} style={styles.title}>
-                    {title || "-"}
+                    {numTitle || "-"}
                 </Text>
-                {title && subTitle && (
+                {numTitle && subTitle && (
                     <Text
                         testID={genTestId(`${testID}WeatherItemSubTitleLabel`)}
                         style={[styles.title, { fontSize: 20, lineHeight: 28 }]}
