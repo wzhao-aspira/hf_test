@@ -101,7 +101,7 @@ function PreferencePointScreen() {
                         style={styles.refreshBar}
                     />
                 )}
-                {(isLoading || showSkeletonWhenOffline) && <PreferenceLoading />}
+                {(isLoading || showSkeletonWhenOffline) && <PreferenceLoading isLoading={isLoading} />}
                 {!isLoading && !showSkeletonWhenOffline && <PreferencePointContent data={data} />}
             </ScrollView>
         </Page>
