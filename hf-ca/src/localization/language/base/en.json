@@ -128,7 +128,8 @@
         "networkErrorMsg": "Please check your network settings.",
         "commonErrorTitle": "Sorry",
         "commonErrorMsg": "Something went wrong. Let's try one more time.",
-        "noResultsFoundMsg": "No results found. Please try again with a different location."
+        "noResultsFoundMsg": "No results found. Please try again with a different location.",
+        "notAllowSignOutInOfflineMsg": "You are not allowed to sign out offline, please proceed when back online."
     },
     "login": {
         "signIn": "Sign In",

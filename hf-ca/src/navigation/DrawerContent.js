@@ -163,9 +163,16 @@ export default function DrawerContent({ navigation }) {
     }, [drawerStatus]);
 
     const onSignOut = async () => {
-        handleError(AccountService.signOut(), { dispatch, showLoading: false, showError: false });
-        dispatch(updateLoginStep(LoginStep.login));
-        await AccountService.clearAppData(dispatch);
+        const notAllowSignOutInOfflineMsg = t("errMsg.notAllowSignOutInOfflineMsg");
+        const response = await handleError(AccountService.signOut(), {
+            dispatch,
+            showLoading: true,
+            networkErrorMsg: notAllowSignOutInOfflineMsg,
+        });
+        if (response.success) {
+            dispatch(updateLoginStep(LoginStep.login));
+            await AccountService.clearAppData(dispatch);
+        }
     };
 
     const renderProfileSection = () => {
