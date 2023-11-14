@@ -106,6 +106,7 @@ function AddIndividualProfileInfoDetailsScreen({ route }) {
                         ...styles.contentContainerStyle,
                         paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM,
                     }}
+                    style={{ marginBottom: -(PAGE_MARGIN_BOTTOM + safeAreaInsets.bottom) }}
                 >
                     <View style={styles.page_container}>
                         <HfDatePicker
