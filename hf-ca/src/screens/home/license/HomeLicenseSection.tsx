@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { isEmpty } from "lodash";
 import { Trans } from "react-i18next";
 import { faChevronRight } from "@fortawesome/pro-regular-svg-icons/faChevronRight";
@@ -43,18 +43,17 @@ function HomeLicenseSection(props: HomeLicenseSectionProps) {
                     <Trans i18nKey="license.myLicense" />
                 </Text>
                 {!isLicensesEmpty && (
-                    <View style={styles.viewAllContainer}>
-                        <Text
-                            testID={genTestId("viewAllLicenses")}
-                            style={HomeStyles.viewAllLabel}
-                            onPress={() => {
-                                NavigationService.navigate(Routers.licenseList);
-                            }}
-                        >
+                    <Pressable
+                        style={styles.viewAllContainer}
+                        onPress={() => {
+                            NavigationService.navigate(Routers.licenseList);
+                        }}
+                    >
+                        <Text testID={genTestId("viewAllLicenses")} style={HomeStyles.viewAllLabel}>
                             <Trans i18nKey="license.viewAllLicenses" />
                         </Text>
                         <FontAwesomeIcon icon={faChevronRight} size={15} color={AppTheme.colors.primary_2} />
-                    </View>
+                    </Pressable>
                 )}
             </View>
             <RefreshBar
