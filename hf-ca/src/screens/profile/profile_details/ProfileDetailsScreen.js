@@ -88,6 +88,8 @@ function ProfileDetailsScreen({ route }) {
 
     const { customerRecordAttention } = appConfig.data;
 
+    const notAllowRemoveProfileInOfflineMsg = t("profile.notAllowRemoveProfileInOfflineMsg");
+
     const removeCallback = async () => {
         NavigationService.navigate(Routers.manageProfile);
         const listResponse = await dispatch(ProfileThunk.refreshProfileList({ isForce: true }));
@@ -109,6 +111,7 @@ function ProfileDetailsScreen({ route }) {
             response = await handleError(removeProfile({ customerId: profileId }), {
                 dispatch,
                 showLoading: true,
+                networkErrorMsg: notAllowRemoveProfileInOfflineMsg,
             });
         }
 
@@ -119,7 +122,6 @@ function ProfileDetailsScreen({ route }) {
 
     const handleRemoveBtnClick = async () => {
         console.log("ProfileDetailScreen - handleRemoveBtnClick - getProfileListChangeStatus before remove profile");
-        const notAllowRemoveProfileInOfflineMsg = t("profile.notAllowRemoveProfileInOfflineMsg");
         const response = await dispatch(
             ProfileThunk.getProfileListChangeStatus({
                 showGlobalLoading: true,
