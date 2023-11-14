@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
@@ -27,15 +27,16 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
 
     const [status, setStatus] = useState<FileStatus>("unknown");
 
-    useEffect(() => {
-        async function checkFileStatus() {
-            const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
+    const checkFileStatus = useCallback(async () => {
+        const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
 
-            if (fileInfo.exists) setStatus("downloaded");
-            else setStatus("not downloaded yet");
-        }
-        checkFileStatus();
+        if (fileInfo.exists) setStatus("downloaded");
+        else setStatus("not downloaded yet");
     }, [fileDirectory]);
+
+    useEffect(() => {
+        checkFileStatus();
+    }, [checkFileStatus, fileDirectory]);
 
     async function downloadFile() {
         setStatus("downloading");
@@ -48,7 +49,7 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         const { data: response, success } = handleErrorResult;
 
         if (!success) {
-            setStatus("not downloaded yet");
+            checkFileStatus();
             return;
         }
 

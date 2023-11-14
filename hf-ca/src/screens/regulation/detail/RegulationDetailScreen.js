@@ -4,6 +4,7 @@ import { isEmpty } from "lodash";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId, openLink, isIos } from "../../../helper/AppHelper";
+import DialogHelper from "../../../helper/DialogHelper";
 import CommonHeader from "../../../components/CommonHeader";
 import RenderHTML from "../../../components/RenderHTML";
 import PrimaryBtn from "../../../components/PrimaryBtn";
@@ -97,7 +98,15 @@ export default function RegulationDetailScreen(props) {
                                         style={styles.button}
                                         testID="downloadBtn"
                                         label={t("regulation.download")}
-                                        onPress={downloadFile}
+                                        onPress={() => {
+                                            if (isNotDownloaded) downloadFile();
+                                            if (isDownloaded)
+                                                DialogHelper.showSelectDialog({
+                                                    title: t("regulation.Reminder"),
+                                                    message: t("regulation.ReminderMessage"),
+                                                    okAction: downloadFile,
+                                                });
+                                        }}
                                     />
                                 )}
                                 {isDownloading && (
