@@ -488,7 +488,7 @@
         "viewFromWeb": "View from Web",
         "viewFromDownload": "View from Download",
         "Reminder": "Reminder",
-        "ReminderMessage": "This downloaded file will overwrite the information of the previously downloaded file, are you sure you to proceed?"
+        "ReminderMessage": "This downloaded file will overwrite the information of the previously downloaded file. Are you sure you want to proceed?"
     },
     "versionUpgrade": {
         "newVersionAvailable": "New Version Available",
