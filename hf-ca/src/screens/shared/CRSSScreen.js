@@ -65,6 +65,8 @@ export default function CRSSScreen({ route }) {
     const passwordRef = React.createRef();
     const [password, setPassword] = useState(null);
 
+    const notAllowRemoveProfileInOfflineMsg = t("profile.notAllowRemoveProfileInOfflineMsg");
+
     useEffect(() => {
         const backListener = BackHandler.addEventListener("hardwareBackPress", () => {
             if (isCRSSVerify) {
@@ -128,7 +130,9 @@ export default function CRSSScreen({ route }) {
     const onUnlinkCustomerRecord = async () => {
         dispatch(appActions.toggleIndicator(true));
         const customerId = profileInPage.profileId;
-        const rst = await dispatch(ProfileThunk.getLatestCustomerLists());
+        const rst = await dispatch(
+            ProfileThunk.getLatestCustomerLists({ networkErrorMsg: notAllowRemoveProfileInOfflineMsg })
+        );
         if (!rst.success) {
             dispatch(appActions.toggleIndicator(false));
             return;
@@ -141,6 +145,7 @@ export default function CRSSScreen({ route }) {
                 const response = await handleError(removeProfile({ customerId }), {
                     dispatch,
                     showLoading: false,
+                    networkErrorMsg: notAllowRemoveProfileInOfflineMsg,
                 });
                 if (!response.success) {
                     dispatch(appActions.toggleIndicator(false));

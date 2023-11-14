@@ -395,17 +395,22 @@ const refreshProfileList =
         return { ...response, isReloadData: true };
     };
 
-const getLatestCustomerLists = () => async (dispatch) => {
-    const searchResult = { success: false, customerList: null };
-    const response = await handleError(getLatestCustomerList(), { dispatch });
-    if (response.success) {
-        const { result } = response.data.data;
-        const { profileList } = getProfileData(result);
-        searchResult.success = true;
-        searchResult.customerList = profileList;
-    }
-    return searchResult;
-};
+const getLatestCustomerLists =
+    ({ networkErrorMsg = "" }) =>
+    async (dispatch) => {
+        const searchResult = { success: false, customerList: null };
+        const response = await handleError(getLatestCustomerList(), {
+            dispatch,
+            networkErrorMsg,
+        });
+        if (response.success) {
+            const { result } = response.data.data;
+            const { profileList } = getProfileData(result);
+            searchResult.success = true;
+            searchResult.customerList = profileList;
+        }
+        return searchResult;
+    };
 
 export default {
     initProfileCommonData,
