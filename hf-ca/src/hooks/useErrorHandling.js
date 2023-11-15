@@ -106,7 +106,10 @@ function useErrorHandling() {
                     }
                 );
             } else {
-                const message = getErrorMessage(error);
+                let message = getErrorMessage(error);
+                if (error.code == "ECONNABORTED" || error.code == "ETIMEDOUT") {
+                    message = t("errMsg.timeoutErrorMessage");
+                }
                 const canNotFindCustomer = isNotFindCustomerError(error);
                 DialogHelper.showSimpleDialog({
                     title: "common.error",
