@@ -164,7 +164,7 @@
         "menu": "Menu"
     },
     "home": {
-        "greeting": "Welcome, {{name}}!"
+        "greeting": "Welcome"
     },
     "profile": {
         "addProfile": "Associate Customer Record",
