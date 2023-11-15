@@ -4,6 +4,7 @@ import { faIdCard } from "@fortawesome/pro-light-svg-icons/faIdCard";
 import { faHouse as faHouseSolid } from "@fortawesome/pro-solid-svg-icons/faHouse";
 import { faUser as faUserSolid } from "@fortawesome/pro-solid-svg-icons/faUser";
 import { faIdCard as faIdCardSolid } from "@fortawesome/pro-solid-svg-icons/faIdCard";
+import { faBars } from "@fortawesome/pro-light-svg-icons/faBars";
 import i18n from "../localization/i18n";
 
 const tabIcons = [
@@ -14,7 +15,7 @@ const tabIcons = [
         unselected: faHouse,
     },
     {
-        label: i18n.t("tabBar.myMenu"),
+        label: i18n.t("tabBar.myLicenses"),
         id: "license",
         selected: faIdCardSolid,
         unselected: faIdCard,
@@ -24,6 +25,12 @@ const tabIcons = [
         id: "me",
         selected: faUserSolid,
         unselected: faUser,
+    },
+    {
+        label: i18n.t("tabBar.menu"),
+        id: "menu",
+        selected: faBars,
+        unselected: faBars,
     },
 ];
 

@@ -5,6 +5,7 @@ import { TAB_BAR_HEIGHT } from "../constants/Dimension";
 import AppTheme from "../assets/_default/AppTheme";
 import tabIcons from "../constants/TabConfig";
 import { genTestId } from "../helper/AppHelper";
+import Routers from "../constants/Routers";
 
 const styles = StyleSheet.create({
     container: {
@@ -38,6 +39,11 @@ function TabContent(props) {
                     const keyStr = tabIcon?.label;
 
                     const onPress = () => {
+                        if (route.name === Routers.menu) {
+                            navigation?.openDrawer();
+                            return;
+                        }
+
                         const event = navigation.emit({
                             type: "tabPress",
                             target: route.key,

@@ -159,7 +159,8 @@
     },
     "tabBar": {
         "tabHome": "Home",
-        "myMenu": "My Menu"
+        "myLicenses": "My Licenses",
+        "menu": "Menu"
     },
     "home": {
         "greeting": "Welcome, {{name}}!"
