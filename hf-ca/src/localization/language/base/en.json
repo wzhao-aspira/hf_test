@@ -489,7 +489,9 @@
         "viewFromWeb": "View from Web",
         "viewFromDownload": "View from Download",
         "Reminder": "Reminder",
-        "ReminderMessage": "This downloaded file will overwrite the information of the previously downloaded file. Are you sure you want to proceed?"
+        "ReminderMessage": "This downloaded file will overwrite the information of the previously downloaded file. Are you sure you want to proceed?",
+        "clearDocument": "Clear Existing Document",
+        "ClearExistingDocumentReminderMessage": "Are you sure you want to delete the existing document?"
     },
     "versionUpgrade": {
         "newVersionAvailable": "New Version Available",

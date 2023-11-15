@@ -1,6 +1,9 @@
-import { View, StyleSheet, useWindowDimensions, Text, ScrollView } from "react-native";
-import { useTranslation } from "react-i18next";
+import { View, StyleSheet, useWindowDimensions, Text, ScrollView, Pressable } from "react-native";
+import { useTranslation, Trans } from "react-i18next";
 import { isEmpty } from "lodash";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faTrash } from "@fortawesome/pro-solid-svg-icons/faTrash";
+
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId, openLink, isIos } from "../../../helper/AppHelper";
@@ -54,7 +57,7 @@ export default function RegulationDetailScreen(props) {
     const { regulation } = route.params;
     const { regulationTitle, regulationDetail, regulationSize, fileFormat, regulationUrl } = regulation;
 
-    const { downloadFile, openFile, status } = useFileOperations({
+    const { downloadFile, openFile, status, deleteFile } = useFileOperations({
         downloadURL: regulationUrl,
         folderName,
     });
@@ -93,6 +96,36 @@ export default function RegulationDetailScreen(props) {
                     <View style={{ marginHorizontal: DEFAULT_MARGIN, marginTop: 10 }}>
                         {!isEmpty(regulationUrl) && (
                             <>
+                                {isDownloaded && (
+                                    <Pressable
+                                        testID={genTestId("delete button")}
+                                        accessibilityLabel={t("regulation.clearDocument")}
+                                        onPress={() => {
+                                            DialogHelper.showSelectDialog({
+                                                title: t("regulation.Reminder"),
+                                                message: t("regulation.ClearExistingDocumentReminderMessage"),
+                                                okAction: deleteFile,
+                                            });
+                                        }}
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            alignContent: "center",
+                                            gap: 5,
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} size={22} />
+                                        <Text
+                                            style={{
+                                                ...AppTheme.typography.hyperLink,
+                                                lineHeight: 20,
+                                                color: AppTheme.colors.font_color_2,
+                                            }}
+                                        >
+                                            <Trans i18nKey="regulation.clearDocument" />
+                                        </Text>
+                                    </Pressable>
+                                )}
                                 {(isNotDownloaded || isDownloaded) && (
                                     <PrimaryBtn
                                         style={styles.button}
