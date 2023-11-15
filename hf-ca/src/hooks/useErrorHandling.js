@@ -60,6 +60,7 @@ function useErrorHandling() {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const error = useSelector(selectors.selectError);
+    const showOfflineToast = useSelector(selectors.selectShowOfflineToast);
 
     // use useEffect to avoid an error from react
     useEffect(() => {
@@ -82,17 +83,16 @@ function useErrorHandling() {
                             dispatch(appActions.clearError());
                         },
                     });
-                } else {
+                } else if (showOfflineToast) {
+                    // Toast only shows once for offline
                     const message = t("errMsg.noNetworkToast");
                     showToast(message, {
                         position: Toast.positions.CENTER,
                         opacity: 0.9,
                         duration: 3000,
                         backgroundColor: AppTheme.colors.font_color_3,
-                        onShown: () => {
-                            dispatch(appActions.clearError());
-                        },
                     });
+                    dispatch(appActions.setShowToastOffline(false));
                 }
             } else if (globalDataForAPI.lastPromise) {
                 retryRequest(
@@ -124,7 +124,7 @@ function useErrorHandling() {
                 });
             }
         }
-    }, [dispatch, error, t]);
+    }, [dispatch, error, showOfflineToast, t]);
 }
 
 export default useErrorHandling;

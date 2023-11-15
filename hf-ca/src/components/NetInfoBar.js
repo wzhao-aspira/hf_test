@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { debounce } from "lodash";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { selectCurrentRouter } from "../redux/AppSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCurrentRouter, selectors, actions as appActions } from "../redux/AppSlice";
 import AppTheme from "../assets/_default/AppTheme";
 import { selectLastUpdateTimeFromServer } from "../redux/LicenseSelector";
 import Routers from "../constants/Routers";
@@ -37,6 +37,11 @@ export default function NetInfoBar() {
     const [netConnected, setNetConnected] = useState(true);
     const [showNetInfo, setShowNetInfo] = useState(false);
     const currentRouter = useSelector(selectCurrentRouter);
+    const dispatch = useDispatch();
+    const errorIsNetError = useSelector(selectors.selectErrorIsNetError);
+    const showNetErrorByDialog = useSelector(selectors.selectShowNetErrorByDialog);
+    const [showNetError, setShowNetError] = useState(false);
+
     const netInfo = useNetInfo() || {};
     if (netInfo.isConnected == null) {
         netInfo.isConnected = true;
@@ -45,17 +50,15 @@ export default function NetInfoBar() {
     const lastUpdateTimeFromServer = useSelector(selectLastUpdateTimeFromServer);
     const licenseRefreshedOnText = t("netStatus.licenseRefreshedOn");
     const text = netConnected ? t("netStatus.backOnline") : t("netStatus.offline");
-    const backgroundColor = netConnected ? AppTheme.colors.success : AppTheme.colors.font_color_2;
+    let backgroundColor = netConnected ? AppTheme.colors.success : AppTheme.colors.font_color_2;
+    backgroundColor = showNetError ? AppTheme.colors.error : backgroundColor;
+
     const detectNetChange = () => {
-        if (netConnected && isConnected) {
+        if (netConnected == isConnected) {
             // no change
             return;
         }
-        if (!netConnected && !isConnected) {
-            // no change
-            return;
-        }
-        // console.log(`net status changed:${isConnected}`);
+
         clearTimeout(dismissNetInfo);
         setNetConnected(isConnected);
         setShowNetInfo(true);
@@ -72,6 +75,38 @@ export default function NetInfoBar() {
     useEffect(() => {
         debounceDetect();
     }, [debounceDetect]);
+
+    useEffect(() => {
+        if (errorIsNetError) {
+            setShowNetError(true);
+            console.log("isConnected:", isConnected);
+            if (!isConnected) {
+                // device is offline mode, just clear error
+                clearTimeout(dismissNetInfo);
+                dismissNetInfo = setTimeout(() => {
+                    setShowNetError(false);
+                    if (!showNetErrorByDialog) {
+                        dispatch(appActions.clearError());
+                    }
+                }, 1000);
+            } else {
+                // device is online mode
+                // NetInfo bar show offline state
+                setShowNetInfo(true);
+                setNetConnected(false);
+
+                // clear error and close NetInfo bar after 1 second
+                clearTimeout(dismissNetInfo);
+                dismissNetInfo = setTimeout(() => {
+                    setShowNetError(false);
+                    if (!showNetErrorByDialog) {
+                        dispatch(appActions.clearError());
+                    }
+                    setShowNetInfo(false);
+                }, 1000);
+            }
+        }
+    }, [dispatch, errorIsNetError, isConnected, showNetErrorByDialog]);
 
     if (!showNetInfo) {
         return null;
