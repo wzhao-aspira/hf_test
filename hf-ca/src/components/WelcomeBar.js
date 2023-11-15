@@ -10,10 +10,10 @@ import { getLicense } from "../redux/LicenseSlice";
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "flex-end",
         paddingRight: 10,
+        paddingBottom: 10,
         justifyContent: "space-between",
-        height: 50,
         backgroundColor: AppTheme.colors.font_color_4,
         borderBottomColor: AppTheme.colors.primary_900,
         borderBottomWidth: 2,
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         ...AppTheme.typography.secondary_heading,
         paddingHorizontal: DEFAULT_MARGIN,
         color: AppTheme.colors.font_color_1,
-        flex: 1,
     },
     switchCustomer: {
         width: 110,
@@ -46,9 +45,12 @@ function WelcomeBar() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label} numberOfLines={1} ellipsizeMode="tail">
-                {t("home.greeting", { name: currentInUseProfile.displayName })}
-            </Text>
+            <View style={{ flex: 1 }}>
+                <Text style={styles.label}>{t("home.greeting")}</Text>
+                <Text style={{ ...styles.label, paddingTop: 7 }} numberOfLines={1} ellipsizeMode="tail">
+                    {currentInUseProfile.displayName}!
+                </Text>
+            </View>
             {showSwitchProfile && (
                 <View style={styles.switchCustomer}>
                     <SwitchCustomer
