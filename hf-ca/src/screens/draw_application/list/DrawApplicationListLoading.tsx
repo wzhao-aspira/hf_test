@@ -2,6 +2,7 @@ import { View, StyleSheet } from "react-native";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, SCREEN_WIDTH } from "../../../constants/Dimension";
 import SkeletonLoader from "../../../components/SkeletonLoader";
+import DrawApplicationListScrollView from "./DrawApplicationListScrollView";
 
 const styles = StyleSheet.create({
     mainContainerStyle: {
@@ -39,9 +40,11 @@ function DrawApplicationListLoading() {
         },
     ];
     return (
-        <View style={styles.mainContainerStyle}>
-            <SkeletonLoader layout={layout} />
-        </View>
+        <DrawApplicationListScrollView>
+            <View style={styles.mainContainerStyle}>
+                <SkeletonLoader layout={layout} />
+            </View>
+        </DrawApplicationListScrollView>
     );
 }
 

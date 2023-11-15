@@ -1,10 +1,9 @@
-import { StyleSheet, ScrollView, RefreshControl, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { isEmpty } from "lodash";
 import { useSelector } from "react-redux";
-import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../../constants/Dimension";
+import { DEFAULT_MARGIN } from "../../../../constants/Dimension";
 import { genTestId } from "../../../../helper/AppHelper";
 import DrawApplicationListEmpty from "../DrawApplicationListEmpty";
 import AppTheme from "../../../../assets/_default/AppTheme";
@@ -17,6 +16,7 @@ import ListItem from "./DrawApplicationListItem";
 import { DrawApplicationListTabName, DrawTabData } from "../../../../types/drawApplication";
 import { useAppDispatch } from "../../../../hooks/redux";
 import RefreshBar from "../../../../components/RefreshBar";
+import DrawApplicationListScrollView from "../DrawApplicationListScrollView";
 
 interface TabContentProps {
     tabName?: DrawApplicationListTabName;
@@ -118,7 +118,6 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
 }
 
 function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps) {
-    const insets = useSafeAreaInsets();
     const dispatch = useAppDispatch();
 
     const refreshing = useSelector(DrawSelectors.selectIsDrawListLoading);
@@ -141,24 +140,7 @@ function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps)
     }
 
     return (
-        <ScrollView
-            testID={genTestId("drawApplicationList")}
-            contentContainerStyle={{
-                flexGrow: 1,
-                marginTop: 14,
-                paddingBottom: insets.bottom + PAGE_MARGIN_BOTTOM,
-            }}
-            refreshControl={
-                <RefreshControl
-                    colors={[AppTheme.colors.primary]}
-                    tintColor={AppTheme.colors.primary}
-                    refreshing={refreshing}
-                    onRefresh={() => {
-                        getDrawListByProfileId();
-                    }}
-                />
-            }
-        >
+        <DrawApplicationListScrollView>
             <View style={styles.tabContainer}>
                 <RefreshBar
                     refreshTime={lastUpdateDate}
@@ -168,7 +150,7 @@ function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps)
                 {instructions && <DrawListAttention html={instructions} />}
                 <TabListContent tabName={tabName} tabData={tabData} />
             </View>
-        </ScrollView>
+        </DrawApplicationListScrollView>
     );
 }
 
