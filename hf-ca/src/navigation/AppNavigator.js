@@ -46,7 +46,7 @@ import AddIndividualProfileInfoScreen from "../screens/profile/add_profile/AddIn
 import AddIndividualProfileInfoDetailsScreen from "../screens/profile/add_profile/AddIndividualProfileInfoDetailsScreen";
 import AddBusinessVesselProfileInfoScreen from "../screens/profile/add_profile/AddBusinessVesselProfileInfoScreen";
 import NetInfoBar from "../components/NetInfoBar";
-import MyMenuTabScreen from "../screens/my_menu/MyMenuTabScreen";
+import MyLicensesTabScreen from "../screens/my_licenses/MyLicenses";
 import SettingsTabScreen from "../screens/setting/SettingsTabScreen";
 import DrawApplicationListScreen from "../screens/draw_application/list/DrawApplicationListScreen";
 import RegulationListScreen from "../screens/regulation/list/RegulationListScreen";
@@ -250,8 +250,9 @@ function TabNav() {
         // https://reactnavigation.org/docs/bottom-tab-navigator#tabbar
         <BottomTab.Navigator screenOptions={screenOpt} tabBar={TabContent}>
             <BottomTab.Screen name={Routers.home} component={HomeScreen} />
-            <BottomTab.Screen name={Routers.myMenu} component={MyMenuTabScreen} />
+            <BottomTab.Screen name={Routers.myLicenses} component={MyLicensesTabScreen} />
             <BottomTab.Screen name={Routers.settings} component={SettingsTabScreen} />
+            <BottomTab.Screen name={Routers.menu} component="" />
         </BottomTab.Navigator>
     );
 }

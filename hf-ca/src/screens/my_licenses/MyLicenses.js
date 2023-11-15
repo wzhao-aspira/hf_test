@@ -75,7 +75,7 @@ function RenderContent() {
     );
 }
 
-export default function MyMenuTabScreen() {
+export default function MyLicensesTabScreen() {
     const { t } = useTranslation();
     const primaryColor = AppTheme.colors.hunting_green;
 
@@ -85,7 +85,7 @@ export default function MyMenuTabScreen() {
         <Page style={styles.content}>
             <HeaderBar />
             <View style={{ backgroundColor: primaryColor }}>
-                <Text style={styles.title}>{t("tabBar.myMenu")}</Text>
+                <Text style={styles.title}>{t("tabBar.myLicenses")}</Text>
                 <SplitLine style={styles.line} />
                 <Text style={styles.description}>{activeProfile?.displayName}</Text>
             </View>
