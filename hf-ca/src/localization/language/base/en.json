@@ -102,6 +102,7 @@
         "apiVersion": "API v{{apiVersion}}"
     },
     "errMsg": {
+        "timeoutErrorMessage": "Request Timeout",
         "noNetworkToast": "No network connection\n Use cache data",
         "noNetworkDialog": "Please check your network setting.",
         "noNetworkDialogTitle": "No Network Connection",
