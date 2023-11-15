@@ -133,20 +133,19 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         }
     }
 
-    /* 
     async function deleteFile() {
         const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
 
         if (fileInfo.exists) {
             await FileSystem.deleteAsync(fileDirectory);
-            setStatus("not downloaded yet");
+            checkFileStatus();
             console.log("File deleted successfully");
         } else {
             console.log("File not found");
         }
-    } */
+    }
 
-    return { status, downloadFile, openFile /* deleteFile */ };
+    return { status, downloadFile, openFile, deleteFile };
 }
 
 export default useDownloadFile;
