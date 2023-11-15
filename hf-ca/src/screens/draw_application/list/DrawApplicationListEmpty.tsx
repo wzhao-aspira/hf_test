@@ -1,15 +1,15 @@
-import { StyleSheet, View, Text, ScrollView, RefreshControl } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import AppTheme from "../../../assets/_default/AppTheme";
-import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
+import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId } from "../../../helper/AppHelper";
 import DrawSelectors from "../../../redux/DrawApplicationSelector";
 import profileSelectors from "../../../redux/ProfileSelector";
 import { getDrawList } from "../../../redux/DrawApplicationSlice";
 import { useAppDispatch } from "../../../hooks/redux";
 import RefreshBar from "../../../components/RefreshBar";
+import DrawApplicationListScrollView from "./DrawApplicationListScrollView";
 
 export const styles = StyleSheet.create({
     emptyContainer: {
@@ -37,10 +37,8 @@ export const styles = StyleSheet.create({
 
 function DrawApplicationListEmpty() {
     const { t } = useTranslation();
-    const insets = useSafeAreaInsets();
     const dispatch = useAppDispatch();
 
-    const refreshing = useSelector(DrawSelectors.selectIsDrawListLoading);
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const lastUpdateDate = useSelector(DrawSelectors.selectLastUpdateDate);
 
@@ -50,24 +48,7 @@ function DrawApplicationListEmpty() {
         }
     };
     return (
-        <ScrollView
-            testID={genTestId("drawApplicationList")}
-            contentContainerStyle={{
-                flexGrow: 1,
-                marginTop: 14,
-                paddingBottom: insets.bottom + PAGE_MARGIN_BOTTOM,
-            }}
-            refreshControl={
-                <RefreshControl
-                    colors={[AppTheme.colors.primary]}
-                    tintColor={AppTheme.colors.primary}
-                    refreshing={refreshing}
-                    onRefresh={() => {
-                        getDrawListByProfileId();
-                    }}
-                />
-            }
-        >
+        <DrawApplicationListScrollView>
             <RefreshBar
                 refreshTime={lastUpdateDate}
                 style={styles.refreshBar}
@@ -83,7 +64,7 @@ function DrawApplicationListEmpty() {
                     </Text>
                 </View>
             </View>
-        </ScrollView>
+        </DrawApplicationListScrollView>
     );
 }
 
