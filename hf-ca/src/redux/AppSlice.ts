@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { isEmpty } from "lodash";
 import LoginStep from "../constants/LoginStep";
 import { isConnectError } from "../network/commonUtil";
 
@@ -12,6 +13,7 @@ interface InitialState {
     loginStep: number;
     indicator: boolean;
     error: any;
+    showOfflineToast: boolean;
     showPrimaryProfileInactiveMsg: boolean;
     primaryInactivatedWhenSignIn: boolean;
     currentRouter: string;
@@ -22,6 +24,7 @@ const initialState: InitialState = {
     loginStep: LoginStep.splash,
     indicator: false,
     error: {},
+    showOfflineToast: true,
     showPrimaryProfileInactiveMsg: false,
     primaryInactivatedWhenSignIn: false,
     currentRouter: null,
@@ -35,6 +38,9 @@ const appSlice = createSlice({
             if (!isConnectError(state.error) || !isConnectError(action?.payload)) {
                 state.error = action?.payload;
             }
+        },
+        setShowToastOffline(state, action) {
+            state.showOfflineToast = action?.payload;
         },
         clearError(state) {
             state.error = {};
@@ -85,12 +91,21 @@ export const selectPrimaryInactivatedWhenSignIn = createSelector(
 );
 export const selectError = createSelector(selectAppState, (state) => state.error);
 export const selectCurrentRouter = createSelector(selectAppState, (app) => app.currentRouter);
+export const selectShowOfflineToast = createSelector(selectAppState, (app) => app.showOfflineToast);
+export const selectShowNetErrorByDialog = createSelector(selectError, (error) => error.networkErrorByDialog);
+export const selectErrorIsNetError = createSelector(selectError, (error) => {
+    const isNetError = !isEmpty(error) && isConnectError(error);
+    return isNetError;
+});
 
 const selectUser = createSelector(selectAppState, (app) => app.user);
 const selectors = {
     selectUsername,
     selectUser,
     selectError,
+    selectErrorIsNetError,
+    selectShowOfflineToast,
+    selectShowNetErrorByDialog,
     selectCurrentRouter,
 };
 
