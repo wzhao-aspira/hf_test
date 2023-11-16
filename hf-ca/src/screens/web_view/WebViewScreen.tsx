@@ -74,6 +74,7 @@ function WebViewScreen(props: WebViewScreenProps) {
                 onBackClick={() => {
                     onBackButtonPress();
                 }}
+                isWebViewScreen
             />
             <WebView
                 ref={webview}

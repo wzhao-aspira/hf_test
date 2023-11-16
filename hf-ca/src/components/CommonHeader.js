@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Trans } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/pro-light-svg-icons/faChevronLeft";
 import AppTheme from "../assets/_default/AppTheme";
@@ -66,10 +67,14 @@ function CommonHeader({
     rightComponent = null,
     subTitle = "",
     subTitleStyle = {},
+    isWebViewScreen = false,
 }) {
     const blank = rightComponent ? LEFT_BLACK : DEFAULT_MARGIN;
     const rightComponentWidth = blank + LEFT_WIDTH - RIGHT_PADDING;
     const leftContainerMarginRight = blank - DEFAULT_MARGIN;
+
+    const isWebViewScreenWithTitle = isWebViewScreen && title;
+
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -77,10 +82,24 @@ function CommonHeader({
                     accessibilityLabel="Go Back"
                     testID={genTestId(`${testID}BackToPreviousPageButton`)}
                     onPress={showLeft ? onBackClick : null}
-                    style={[styles.headerLeftContainer, { marginRight: leftContainerMarginRight }]}
+                    style={[
+                        styles.headerLeftContainer,
+                        { marginRight: leftContainerMarginRight },
+                        isWebViewScreen && { width: 100 },
+                        isWebViewScreenWithTitle && { width: 50, alignItems: "center" },
+                    ]}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 >
                     {showLeft && <FontAwesomeIcon icon={leftIcon} size={20} color={AppTheme.colors.primary_2} />}
+                    {isWebViewScreen && (
+                        <Text
+                            style={{
+                                ...AppTheme.typography.card_small_m,
+                            }}
+                        >
+                            <Trans i18nKey="webview.BackToApp" />
+                        </Text>
+                    )}
                 </Pressable>
                 <View style={styles.headerTextContainer}>
                     <Text testID={genTestId(`${testID}HeaderTitleLabel`)} style={styles.headerText} numberOfLines={2}>

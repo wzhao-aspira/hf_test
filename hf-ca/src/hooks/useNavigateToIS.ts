@@ -1,5 +1,7 @@
 import { useCallback } from "react";
 
+import { t } from "i18next";
+
 import { useDispatch } from "react-redux";
 import Routers, { useAppNavigation } from "../constants/Routers";
 
@@ -51,6 +53,7 @@ function useNavigateToIS() {
 
             navigation.navigate(Routers.webView, {
                 url: ISURLWithAdditionalInfo,
+                title: t("webview.CDFWSalesAndServices"),
             });
 
             return true;

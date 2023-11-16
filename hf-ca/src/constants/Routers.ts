@@ -74,7 +74,7 @@ export type RouteParams = {
     };
     webViewScreen: {
         url: string;
-        title?: RoutersUnion;
+        title?: string;
     };
     licenseDetailScreen: {
         licenseData: License;
