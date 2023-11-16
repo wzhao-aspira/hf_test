@@ -96,6 +96,8 @@ function WebViewScreen(props: WebViewScreenProps) {
                             if (!isEmpty(urlString)) {
                                 openLink(urlString);
                             }
+                        } else if (message?.eventName == "backToMobileApp") {
+                            onBackButtonPress();
                         }
                     } catch (error) {
                         console.log(error);
