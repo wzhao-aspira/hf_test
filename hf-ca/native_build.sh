@@ -33,6 +33,10 @@ updateIOSNativeInfo() {
     sed -i ".bak" "s/2.0.0.0/$buildNumber/g" $infoPlist
 
     cat $infoPlist
+
+    #replace firebase config file
+    rm ${WORKSPACE}/hf-ca/ios/GoogleService-Info.plist
+    cp ${WORKSPACE}/credentials/${FIREBASE_DIR}/GoogleService-Info.plist ${WORKSPACE}/hf-ca/ios/GoogleService-Info.plist
 }
 
 updateAndroidNativeInfo(){
@@ -53,6 +57,21 @@ updateAndroidNativeInfo(){
     fi
 
     cat $gradle
+
+    #replace firebase config file
+    rm ${WORKSPACE}/hf-ca/android/app/google-services.json
+    cp ${WORKSPACE}/credentials/${FIREBASE_DIR}/google-services.json ${WORKSPACE}/hf-ca/android/app/google-services.json
+}
+
+updateFirebaseDirectory() {
+    if [ $CHANNEL == prod ]; then
+        FIREBASE_DIR="firebase-prod"
+    else
+        FIREBASE_DIR="firebase"
+    fi
+    
+    echo "firebase directory"
+    echo $FIREBASE_DIR
 }
 
 updateReleaseChannel() {
@@ -102,6 +121,7 @@ buildAndroid() {
 
 buildIOS() {
     echo "ready to build iOS"
+
     appJSON="${WORKSPACE}/hf-ca/app.json"
     cat $appJSON
 
@@ -117,7 +137,7 @@ buildIOS() {
     xcodebuild -alltargets clean
 
     # -------pod install--------
-    pod install --verbose
+    pod install --repo-update --verbose
 
     schemeName=CDFWMobile
     xcodebuild -workspace $schemeName.xcworkspace -archivePath  "build/$schemeName.xcarchive" -scheme $schemeName -configuration Release archive -allowProvisioningUpdates
@@ -145,6 +165,7 @@ cleanFolder
 yarn
 addBuildNum
 updateReleaseChannel
+updateFirebaseDirectory
 if [ $PLATFORM == ios ]; then
     buildIOS
 else

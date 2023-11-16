@@ -23,6 +23,7 @@ import { updateLoginStep } from "./src/redux/AppSlice";
 import LoginStep from "./src/constants/LoginStep";
 import ProfileThunk from "./src/redux/ProfileThunk";
 import appThunkActions from "./src/redux/AppThunk";
+import AppAnalyticsHelper from "./src/helper/AppAnalyticsHelper";
 
 SplashScreen.preventAutoHideAsync().catch((e) => console.log(e));
 
@@ -64,6 +65,7 @@ export default function App() {
         await Promise.all([
             ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP),
             Font.loadAsync(AppContract.fonts),
+            AppAnalyticsHelper.init(),
             openRealm(),
             getAppConfigData(),
         ]).catch((error) => {
@@ -114,6 +116,7 @@ export default function App() {
             />
         );
     }
+
     return (
         <I18nextProvider i18n={i18n}>
             <Provider store={store}>
