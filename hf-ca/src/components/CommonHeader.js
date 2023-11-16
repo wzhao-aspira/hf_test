@@ -94,7 +94,7 @@ function CommonHeader({
                     {isWebViewScreen && (
                         <Text
                             style={{
-                                ...AppTheme.typography.card_small_m,
+                                ...AppTheme.typography.hyperLink,
                             }}
                         >
                             <Trans i18nKey="webview.BackToApp" />
