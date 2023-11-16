@@ -500,5 +500,9 @@
         "btnCancel": "Cancel",
         "openIosStoreError": "unable to open App Store.",
         "openAndroidStoreError": "unable to open Play Store."
+    },
+    "webview": {
+        "BackToApp": "Back to App",
+        "CDFWSalesAndServices": "CDFW Sales and Services"
     }
 }
