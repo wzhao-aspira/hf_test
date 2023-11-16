@@ -7,7 +7,7 @@ export default {
     colors: {
         black: "#000000",
         transparent: "transparent",
-        primary: "#00509D", // Primary_700
+        primary: "#045070", // Primary_700
         primary_600: "#006CD4",
         primary_800: "#00417F",
         primary_900: "#003160",
