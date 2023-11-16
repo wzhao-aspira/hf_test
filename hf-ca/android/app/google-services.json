@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "169481287570",
+    "project_id": "ca-mobile-app-uat",
+    "storage_bucket": "ca-mobile-app-uat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169481287570:android:3d7e651d7abf449966734b",
+        "android_client_info": {
+          "package_name": "com.aspiraconnect.hf.ca"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnnapMSxW0wlajsOXAL2LePhKhXa7AgPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
