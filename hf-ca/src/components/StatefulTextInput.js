@@ -66,7 +66,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
         onChangeText,
         disabled,
         inputProps,
-        keyboardType,
+        keyboardType = "ascii-capable",
         helpTextStyle,
         onClickHelpText,
         display = true,

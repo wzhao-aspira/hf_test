@@ -229,6 +229,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
             <View style={styles.searchBarContainer}>
                 <TextInput
                     testID={genTestId(`${testID}LocationInput`)}
+                    keyboardType="ascii-capable"
                     placeholder={t(placeholder)}
                     onChangeText={(text) => {
                         if (recentDisplayed) {

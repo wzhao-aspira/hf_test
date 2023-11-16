@@ -25,6 +25,9 @@ if (!i18n.isInitialized) {
                     translation: merge(baseEN, en),
                 },
             },
+            interpolation: {
+                escapeValue: false,
+            },
         });
 }
 

@@ -120,6 +120,7 @@ const CountdownTextInput = React.forwardRef((props, ref) => {
         return (
             <TextInput
                 testID={genTestId(`${testID}Input`)}
+                keyboardType="ascii-capable"
                 placeholder={hint}
                 placeholderTextColor={AppTheme.colors.font_color_3}
                 style={statefulStyle(
