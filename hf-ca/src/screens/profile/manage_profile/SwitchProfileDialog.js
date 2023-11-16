@@ -88,10 +88,10 @@ export default function SwitchProfileDialog({
         const profile = response.profiles.find((item) => item.customerId === profileId);
         if (profile) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
+            await switchProfileCallback(showListUpdatedMsg);
             if (postProcess) {
                 postProcess(profileId);
             }
-            await switchProfileCallback(showListUpdatedMsg);
         } else {
             DialogHelper.showSimpleDialog({
                 title: "common.reminder",
