@@ -218,6 +218,7 @@ function ProfileDetailsScreen({ route }) {
                                         html: customerRecordAttention,
                                     }}
                                     contentWidth={width}
+                                    customerID={profileId}
                                 />
                             </View>
                         )
