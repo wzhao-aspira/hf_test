@@ -10,6 +10,8 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
 
     displayName?: string;
 
+    businessName?: string;
+
     dateOfBirth?: string;
 
     gender?: string;
@@ -91,6 +93,7 @@ export default class ProfileDetail extends Realm.Object<ProfileDetail> {
             customerTypeId: "int?",
             goidNumber: "string?",
             displayName: "string?",
+            businessName: "string?",
             dateOfBirth: "string?",
             gender: "string?",
             genderShortForm: "string?",
