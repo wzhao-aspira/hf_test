@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
 });
 
 let dismissNetInfo;
+let recoverColorOffline;
+let recoverColorOnline;
 
 export default function NetInfoBar() {
     const { t } = useTranslation();
@@ -82,8 +84,8 @@ export default function NetInfoBar() {
             console.log("isConnected:", isConnected);
             if (!isConnected) {
                 // device is offline mode, just clear error
-                clearTimeout(dismissNetInfo);
-                dismissNetInfo = setTimeout(() => {
+                clearTimeout(recoverColorOffline);
+                recoverColorOffline = setTimeout(() => {
                     setShowNetError(false);
                     if (!showNetErrorByDialog) {
                         dispatch(appActions.clearError());
@@ -96,8 +98,8 @@ export default function NetInfoBar() {
                 setNetConnected(false);
 
                 // clear error and close NetInfo bar after 1 second
-                clearTimeout(dismissNetInfo);
-                dismissNetInfo = setTimeout(() => {
+                clearTimeout(recoverColorOnline);
+                recoverColorOnline = setTimeout(() => {
                     setShowNetError(false);
                     if (!showNetErrorByDialog) {
                         dispatch(appActions.clearError());
