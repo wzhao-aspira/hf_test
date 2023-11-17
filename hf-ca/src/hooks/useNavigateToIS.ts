@@ -21,8 +21,18 @@ function useNavigateToIS() {
     const navigation = useAppNavigation();
 
     const getAdditionalInfoQueryString = useCallback(
-        (openInBrowser = false) => {
-            const focusCustomerID = currentInUseProfileID;
+        (
+            {
+                openInBrowser,
+                customerID,
+            }: {
+                openInBrowser?: boolean;
+                customerID?: string;
+            } = {
+                openInBrowser: false,
+            }
+        ) => {
+            const focusCustomerID = customerID || currentInUseProfileID;
             const accessToken = retrieveAccessToken();
             const webStaticInfo = getISWebStaticInfo(openInBrowser);
 

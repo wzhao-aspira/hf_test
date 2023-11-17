@@ -1,17 +1,21 @@
 import { Linking } from "react-native";
 import RNRenderHtml from "react-native-render-html";
-import type { RenderHTMLProps } from "react-native-render-html";
+import type { RenderHTMLProps as RNRenderHTMLProps } from "react-native-render-html";
 
 import useNavigateToIS from "../hooks/useNavigateToIS";
 
+interface RenderHTMLProps extends RNRenderHTMLProps {
+    customerID: string;
+}
+
 function RenderHTML(props: RenderHTMLProps) {
-    const { renderersProps } = props;
+    const { renderersProps, customerID = null, ...restProps } = props;
 
     const { getAdditionalInfoQueryString } = useNavigateToIS();
 
     return (
         <RNRenderHtml
-            {...props}
+            {...restProps}
             renderersProps={{
                 a: {
                     onPress: (event, href) => {
@@ -20,7 +24,10 @@ function RenderHTML(props: RenderHTMLProps) {
                         const shouldAutoLogin = href.includes(AUTO_LOGIN_FLAG);
 
                         const URL = shouldAutoLogin
-                            ? href.replace(AUTO_LOGIN_FLAG, getAdditionalInfoQueryString(true))
+                            ? href.replace(
+                                  AUTO_LOGIN_FLAG,
+                                  getAdditionalInfoQueryString({ openInBrowser: true, customerID })
+                              )
                             : href;
 
                         Linking.openURL(URL);
