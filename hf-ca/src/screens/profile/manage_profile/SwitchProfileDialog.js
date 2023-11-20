@@ -10,7 +10,7 @@ import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
 import profileThunkActions from "../../../redux/ProfileThunk";
 import NavigationService from "../../../navigation/NavigationService";
 import DialogHelper from "../../../helper/DialogHelper";
-import { selectors as appSelectors } from "../../../redux/AppSlice";
+import { selectors as appSelectors, actions as appActions } from "../../../redux/AppSlice";
 import Routers from "../../../constants/Routers";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { genTestId } from "../../../helper/AppHelper";
@@ -44,6 +44,7 @@ export default function SwitchProfileDialog({
     isSwitchToPrimary,
     currentRoute,
     showListUpdatedMsg = true,
+    closeLoadingBeforeProfileCallback = false,
 }) {
     const dispatch = useDispatch();
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
@@ -88,6 +89,9 @@ export default function SwitchProfileDialog({
         const profile = response.profiles.find((item) => item.customerId === profileId);
         if (profile) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
+            if (closeLoadingBeforeProfileCallback) {
+                dispatch(appActions.toggleIndicator(false));
+            }
             await switchProfileCallback(showListUpdatedMsg);
             if (postProcess) {
                 postProcess(profileId);
@@ -112,7 +116,12 @@ export default function SwitchProfileDialog({
                     dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
                 }
             } else {
-                await switchToOthers(profileId);
+                try {
+                    dispatch(appActions.toggleIndicator(true));
+                    await switchToOthers(profileId);
+                } finally {
+                    dispatch(appActions.toggleIndicator(false));
+                }
             }
         } catch (error) {
             console.log("switch error", error);
@@ -122,7 +131,7 @@ export default function SwitchProfileDialog({
     return (
         <DialogWrapper
             closeModal={() => {
-                NavigationService.back();
+                hideDialog();
             }}
         >
             <View style={dialogStyles.switchProfileContainer}>

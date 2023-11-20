@@ -13,19 +13,20 @@ import { commonStyles, profileScreenStyles } from "./Styles";
 import { genTestId } from "../../../helper/AppHelper";
 import NavigationService from "../../../navigation/NavigationService";
 import Routers from "../../../constants/Routers";
-import DialogHelper from "../../../helper/DialogHelper";
 import ProfileThunk from "../../../redux/ProfileThunk";
 import useFocus from "../../../hooks/useFocus";
 import AppTheme from "../../../assets/_default/AppTheme";
 import ProfileItemLoading from "./ProfileItemLoading";
 import { REQUEST_STATUS } from "../../../constants/Constants";
+import { useDialog } from "../../../components/dialog/index";
 
 function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey }) {
     const { t } = useTranslation();
+    const { openCustomDialog, closeDialog } = useDialog();
 
     function handleSwitchClick() {
-        DialogHelper.showCustomDialog({
-            renderDialogContent: () => <SwitchProfileDialog hideDialog={() => NavigationService.back()} />,
+        openCustomDialog({
+            renderContent: () => <SwitchProfileDialog hideDialog={closeDialog} closeLoadingBeforeProfileCallback />,
         });
     }
 

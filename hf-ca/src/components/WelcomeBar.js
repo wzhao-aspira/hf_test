@@ -57,6 +57,7 @@ function WelcomeBar() {
                         postProcess={(profileId) => {
                             refreshLicense(profileId);
                         }}
+                        closeLoadingBeforeProfileCallback
                     />
                 </View>
             )}

@@ -13,6 +13,7 @@ import useErrorHandling from "../hooks/useErrorHandling";
 import PrimaryProfileInactiveDialog from "./profile/manage_profile/PrimaryProfileInactiveDialog";
 import { checkVersion } from "../services/VersionCheckService";
 import AppStateManager from "../helper/AppStateManager";
+import { RootModal } from "../components/dialog/index";
 
 export default function RootScreen() {
     const loginStep = useSelector(selectLoginStep);
@@ -45,6 +46,7 @@ export default function RootScreen() {
                 />
                 <AppNavigator />
                 <PrimaryProfileInactiveDialog />
+                <RootModal />
                 <Indicator testID={genTestId("appIndicator")} visible={indicator} />
             </SafeAreaView>
         </SafeAreaProvider>

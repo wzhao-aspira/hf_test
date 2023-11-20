@@ -14,6 +14,7 @@ import AccountService from "../services/AccountService";
 import Routers from "../constants/Routers";
 import NavigationService from "../navigation/NavigationService";
 import { clearProfileListUpdateTime } from "../helper/AutoRefreshHelper";
+import { useDialog } from "../components/dialog/index";
 
 export function getErrorMessage(error) {
     const errors = error.response?.data?.errors;
@@ -61,6 +62,7 @@ function useErrorHandling() {
     const { t } = useTranslation();
     const error = useSelector(selectors.selectError);
     const showOfflineToast = useSelector(selectors.selectShowOfflineToast);
+    const { openSimpleDialog } = useDialog();
 
     // use useEffect to avoid an error from react
     useEffect(() => {
@@ -75,11 +77,11 @@ function useErrorHandling() {
 
                 if (error.networkErrorByDialog) {
                     const message = getNetworkErrorMessage(t, error);
-                    DialogHelper.showSimpleDialog({
+                    openSimpleDialog({
                         title: t("errMsg.noNetworkDialogTitle"),
                         message,
                         okText: "common.gotIt",
-                        okAction: () => {
+                        onConfirm: () => {
                             dispatch(appActions.clearError());
                         },
                     });
@@ -127,7 +129,7 @@ function useErrorHandling() {
                 });
             }
         }
-    }, [dispatch, error, showOfflineToast, t]);
+    }, [dispatch, error, openSimpleDialog, showOfflineToast, t]);
 }
 
 export default useErrorHandling;
