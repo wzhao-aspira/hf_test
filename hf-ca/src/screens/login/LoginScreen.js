@@ -14,6 +14,7 @@ import SplitLine from "../../components/SplitLine";
 import OutlinedBtn from "../../components/OutlinedBtn";
 import { appConfig } from "../../services/AppConfigService";
 
+const loginAreaPadding = 40;
 const logoWidth = 90;
 const logoHeight = logoWidth / getLogoRatio();
 
@@ -36,7 +37,8 @@ const styles = StyleSheet.create({
         height: logoHeight,
     },
     loginArea: {
-        padding: 40,
+        paddingTop: loginAreaPadding,
+        paddingHorizontal: loginAreaPadding,
     },
     loginAreaContainer: {
         backgroundColor: AppTheme.colors.page_bg,
@@ -51,6 +53,13 @@ const styles = StyleSheet.create({
         ...AppTheme.typography.sub_text,
         color: AppTheme.colors.font_color_2,
         marginBottom: 36,
+    },
+    bottomText: {
+        ...AppTheme.typography.card_small_r,
+        color: AppTheme.colors.font_color_2,
+        textAlign: "center",
+        marginTop: 20,
+        marginBottom: 5,
     },
 });
 
@@ -92,7 +101,7 @@ export default function LoginScreen() {
                 contentContainerStyle={styles.loginArea}
                 showsVerticalScrollIndicator={false}
             >
-                <>
+                <View style={{ minHeight: 0.5 * SCREEN_HEIGHT - inset.bottom - loginAreaPadding }}>
                     <Text style={styles.title}>{t("login.splashTitle")}</Text>
                     <SplitLine style={{ backgroundColor: AppTheme.colors.font_color_1 }} />
                     <Text style={styles.subTitle}>{appConfig.data?.welcomeWords}</Text>
@@ -107,7 +116,15 @@ export default function LoginScreen() {
                         label={t("login.createAccount")}
                         onPress={() => dispatch(updateLoginStep(LoginStep.signUp))}
                     />
-                </>
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: "flex-end",
+                        }}
+                    >
+                        <Text style={styles.bottomText}>{t("login.splashBottomCopyRightText")}</Text>
+                    </View>
+                </View>
             </ScrollView>
         </View>
     );

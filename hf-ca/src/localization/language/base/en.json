@@ -138,7 +138,8 @@
         "signOutTipMessage": "Are you sure you want to sign out?",
         "createAccount": "Create Account",
         "splashTitle": "CDFW License App",
-        "splashSubTitle": "Welcome to CDFW's Online License Sales and Services"
+        "splashSubTitle": "Welcome to CDFW's Online License Sales and Services",
+        "splashBottomCopyRightText": "California Department of Fish and Wildlife"
     },
     "signIn": {
         "userId": "User Email Address",
