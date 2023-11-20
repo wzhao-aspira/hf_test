@@ -15,7 +15,7 @@
         "purchaseTitle": "To Internet Sales",
         "myActiveLicenses": "My Active Licenses",
         "viewDrawApplication": "View Draw Application/Results",
-        "viewHarvestReport": "View Harvest Report",
+        "viewHarvestReport": "Harvest Reports",
         "myActivePermits": "My Permits/Reservations",
         "purchaseLicense": "Purchase License"
     },
@@ -52,7 +52,7 @@
         "feeNotice": "* Include any application fee, agent handing fees and license buyer surcharge.",
         "vesselOwnerInformation": "Vessel Owner Information",
         "submitHarvestReport": "Submit Harvest Report",
-        "viewHarvestReport": "View Harvest Report History",
+        "viewHarvestReport": "View Harvest Report",
         "unableToProcessReport": "Unable to process report, please contact CDFW."
     },
     "common": {
@@ -297,7 +297,7 @@
         "information": "Information",
         "regulations": "Regulations",
         "usefulLinks": "Useful Links",
-        "harvestReport": "Harvest Report"
+        "harvestReport": "Harvest Reports"
     },
     "setting": {
         "title": "Settings",
