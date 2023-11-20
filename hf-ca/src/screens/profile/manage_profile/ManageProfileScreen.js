@@ -25,8 +25,8 @@ function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey }) {
     const { openCustomDialog, closeDialog } = useDialog();
 
     function handleSwitchClick() {
-        DialogHelper.showCustomDialog({
-            renderDialogContent: () => <SwitchProfileDialog hideDialog={() => NavigationService.back()} />,
+        openCustomDialog({
+            renderContent: () => <SwitchProfileDialog hideDialog={closeDialog} closeLoadingBeforeProfileCallback />,
         });
     }
 
