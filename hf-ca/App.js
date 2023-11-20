@@ -24,6 +24,7 @@ import LoginStep from "./src/constants/LoginStep";
 import ProfileThunk from "./src/redux/ProfileThunk";
 import appThunkActions from "./src/redux/AppThunk";
 import AppAnalyticsHelper from "./src/helper/AppAnalyticsHelper";
+import { DialogProvider } from "./src/components/dialog/index";
 
 SplashScreen.preventAutoHideAsync().catch((e) => console.log(e));
 
@@ -120,7 +121,9 @@ export default function App() {
     return (
         <I18nextProvider i18n={i18n}>
             <Provider store={store}>
-                <RootScreen />
+                <DialogProvider>
+                    <RootScreen />
+                </DialogProvider>
             </Provider>
         </I18nextProvider>
     );

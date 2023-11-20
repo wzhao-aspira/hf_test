@@ -7,8 +7,7 @@ import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import AppTheme from "../assets/_default/AppTheme";
 import SwitchProfileDialog from "../screens/profile/manage_profile/SwitchProfileDialog";
 import { genTestId } from "../helper/AppHelper";
-import DialogHelper from "../helper/DialogHelper";
-import NavigationService from "../navigation/NavigationService";
+import { useDialog } from "./dialog/index";
 
 const styles = StyleSheet.create({
     container: {
@@ -23,24 +22,24 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function SwitchCustomer({ postProcess }) {
+export default function SwitchCustomer({ postProcess, closeLoadingBeforeProfileCallback }) {
     const { t } = useTranslation();
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
     const showSwitchProfile = otherProfiles.length > 0;
+    const { openCustomDialog, closeDialog } = useDialog();
 
     function handleSwitchClick() {
-        DialogHelper.showCustomDialog({
-            renderDialogContent: () => (
+        openCustomDialog({
+            renderContent: () => (
                 <SwitchProfileDialog
-                    hideDialog={() => {
-                        NavigationService.back();
-                    }}
+                    hideDialog={closeDialog}
                     postProcess={(profileId) => {
                         if (postProcess) {
                             postProcess(profileId);
                         }
                     }}
                     showListUpdatedMsg={false}
+                    closeLoadingBeforeProfileCallback={closeLoadingBeforeProfileCallback}
                 />
             ),
         });

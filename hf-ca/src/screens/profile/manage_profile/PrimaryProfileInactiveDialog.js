@@ -4,11 +4,9 @@ import { t } from "i18next";
 
 import { Dialog } from "../../../components/Dialog";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
-import NavigationService from "../../../navigation/NavigationService";
-import DialogHelper from "../../../helper/DialogHelper";
 import { actions, selectors as appSelectors, selectIsPrimaryProfileInactive } from "../../../redux/AppSlice";
 import { genTestId } from "../../../helper/AppHelper";
-
+import { useDialog } from "../../../components/dialog/index";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import SwitchProfileDialog from "./SwitchProfileDialog";
 import { primaryProfileInactiveStyles } from "./Styles";
@@ -22,7 +20,7 @@ function PrimaryProfileInactiveDialog() {
     const individualProfiles = useSelector(profileSelectors.selectIndividualProfiles);
     const userID = useSelector(appSelectors.selectUsername);
     const showDialog = useSelector(selectIsPrimaryProfileInactive);
-
+    const { openCustomDialog, closeDialog } = useDialog();
     const hasAssociatedProfile = associatedProfiles.length > 0;
     const hasIndividualProfile = individualProfiles.length > 0;
     const currentRoute = Routers.current;
@@ -32,13 +30,9 @@ function PrimaryProfileInactiveDialog() {
         dispatch(actions.togglePrimaryInactivatedWhenSignIn(false));
 
         if (hasIndividualProfile) {
-            DialogHelper.showCustomDialog({
-                renderDialogContent: () => (
-                    <SwitchProfileDialog
-                        hideDialog={() => NavigationService.back()}
-                        isSwitchToPrimary
-                        currentRoute={currentRoute}
-                    />
+            openCustomDialog({
+                renderContent: () => (
+                    <SwitchProfileDialog hideDialog={closeDialog} isSwitchToPrimary currentRoute={currentRoute} />
                 ),
             });
         } else {
