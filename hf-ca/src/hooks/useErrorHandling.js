@@ -129,7 +129,9 @@ function useErrorHandling() {
                 });
             }
         }
-    }, [dispatch, error, openSimpleDialog, showOfflineToast, t]);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, error, showOfflineToast, t]);
 }
 
 export default useErrorHandling;
