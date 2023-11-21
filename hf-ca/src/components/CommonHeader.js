@@ -85,8 +85,8 @@ function CommonHeader({
                     style={[
                         styles.headerLeftContainer,
                         { marginRight: leftContainerMarginRight },
-                        isWebViewScreen && { width: 100 },
-                        isWebViewScreenWithTitle && { width: 50, alignItems: "center" },
+                        isWebViewScreen && { width: 100, alignItems: "center" },
+                        isWebViewScreenWithTitle && { width: 50 },
                     ]}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 >
