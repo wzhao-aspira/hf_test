@@ -108,23 +108,19 @@ export default function SwitchProfileDialog({
 
     const handleSwitch = async (profileId) => {
         hideDialog();
-        try {
-            if (isSwitchToPrimary) {
-                const response = await handleError(switchToPrimary(profileId), { dispatch, showLoading: true });
-                if (response.success) {
-                    NavigationService.navigate(Routers.manageProfile);
-                    dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
-                }
-            } else {
-                try {
-                    dispatch(appActions.toggleIndicator(true));
-                    await switchToOthers(profileId);
-                } finally {
-                    dispatch(appActions.toggleIndicator(false));
-                }
+        if (isSwitchToPrimary) {
+            const response = await handleError(switchToPrimary(profileId), { dispatch, showLoading: true });
+            if (response.success) {
+                NavigationService.navigate(Routers.manageProfile);
+                dispatch(profileThunkActions.refreshProfileList({ isForce: true }));
             }
-        } catch (error) {
-            console.log("switch error", error);
+        } else {
+            try {
+                dispatch(appActions.toggleIndicator(true));
+                await switchToOthers(profileId);
+            } finally {
+                dispatch(appActions.toggleIndicator(false));
+            }
         }
     };
 

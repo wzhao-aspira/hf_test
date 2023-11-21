@@ -17,7 +17,6 @@ import { genTestId, openLink } from "../helper/AppHelper";
 import { updateLoginStep } from "../redux/AppSlice";
 import LoginStep from "../constants/LoginStep";
 import NavigationService from "./NavigationService";
-import DialogHelper from "../helper/DialogHelper";
 import { retrieveItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
@@ -25,6 +24,7 @@ import AccountService from "../services/AccountService";
 import useNavigateToISPurchaseLicense from "../screens/licenses/hooks/useNavigateToISPurchaseLicense";
 import { appConfig } from "../services/AppConfigService";
 import useNavigateToISViewCustomerHarvestReports from "../screens/licenses/hooks/useNavigateToISViewCustomerHarvestReports";
+import { useDialog } from "../components/dialog/index";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -109,10 +109,11 @@ const styles = StyleSheet.create({
     },
 });
 
+const testIDPrefix = "HamburgerMenu";
+
 function MenuItem(props) {
     const { title, onClick, showSplitLine = true, testID } = props;
     const { t } = useTranslation();
-    const testIDPrefix = "HamburgerMenu";
 
     return (
         <>
@@ -143,24 +144,10 @@ function MenuItem(props) {
     );
 }
 
-export default function DrawerContent({ navigation }) {
-    const { t } = useTranslation();
+function RenderSignOutSection() {
+    const { openSelectDialog } = useDialog();
     const dispatch = useDispatch();
-    const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
-
-    const drawerStatus = useDrawerStatus();
-    const drawerContentScrollView = useRef();
-
-    const { navigateToIS } = useNavigateToISPurchaseLicense();
-    const { navigateToViewCustomerHarvestReports } = useNavigateToISViewCustomerHarvestReports();
-
-    const testIDPrefix = "HamburgerMenu";
-
-    useEffect(() => {
-        if (drawerStatus == "open") {
-            drawerContentScrollView.current.scrollTo({ x: 0, y: 0, animated: false });
-        }
-    }, [drawerStatus]);
+    const { t } = useTranslation();
 
     const onSignOut = async () => {
         const notAllowSignOutInOfflineMsg = t("errMsg.notAllowSignOutInOfflineMsg");
@@ -174,6 +161,46 @@ export default function DrawerContent({ navigation }) {
             await AccountService.clearAppData(dispatch);
         }
     };
+
+    return (
+        <View style={styles.sectionContentContainer}>
+            <Pressable
+                testID={genTestId(`${testIDPrefix}SignOutItemButton`)}
+                onPress={() => {
+                    openSelectDialog({
+                        title: "login.signOut",
+                        message: "login.signOutTipMessage",
+                        okText: "common.gotIt",
+                        onConfirm: () => {
+                            onSignOut();
+                        },
+                    });
+                }}
+            >
+                <Text testID={genTestId(`${testIDPrefix}SignOutItemButtonLabel`)} style={styles.menuTitle}>
+                    <Trans i18nKey="login.signOut" />
+                </Text>
+            </Pressable>
+        </View>
+    );
+}
+
+export default function DrawerContent({ navigation }) {
+    const { t } = useTranslation();
+
+    const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
+
+    const drawerStatus = useDrawerStatus();
+    const drawerContentScrollView = useRef();
+
+    const { navigateToIS } = useNavigateToISPurchaseLicense();
+    const { navigateToViewCustomerHarvestReports } = useNavigateToISViewCustomerHarvestReports();
+
+    useEffect(() => {
+        if (drawerStatus == "open") {
+            drawerContentScrollView.current.scrollTo({ x: 0, y: 0, animated: false });
+        }
+    }, [drawerStatus]);
 
     const renderProfileSection = () => {
         return (
@@ -322,29 +349,6 @@ export default function DrawerContent({ navigation }) {
         );
     };
 
-    const renderSignOutSection = () => {
-        return (
-            <View style={styles.sectionContentContainer}>
-                <Pressable
-                    testID={genTestId(`${testIDPrefix}SignOutItemButton`)}
-                    onPress={() => {
-                        DialogHelper.showSelectDialog({
-                            title: "login.signOut",
-                            message: "login.signOutTipMessage",
-                            okAction: () => {
-                                onSignOut();
-                            },
-                        });
-                    }}
-                >
-                    <Text testID={genTestId(`${testIDPrefix}SignOutItemButtonLabel`)} style={styles.menuTitle}>
-                        <Trans i18nKey="login.signOut" />
-                    </Text>
-                </Pressable>
-            </View>
-        );
-    };
-
     const renderBottomSection = () => {
         const appVersionNumber = t("common.appVersion", { appVersion: Constants.expoConfig?.version });
         const apiVersionNumber = t("common.apiVersion", { apiVersion: appConfig.data.apiVersion });
@@ -405,7 +409,7 @@ export default function DrawerContent({ navigation }) {
                 {renderGeneralSection()}
                 {renderAccountSection()}
                 {renderContactUsSection()}
-                {renderSignOutSection()}
+                <RenderSignOutSection />
             </ScrollView>
             {renderBottomSection()}
         </View>
