@@ -36,7 +36,7 @@ function TabContent(props) {
                     const tabIcon = isFocused ? tabIcons[index] : tabIcons[index];
 
                     const tabColor = isFocused ? AppTheme.colors.secondary_900 : AppTheme.colors.primary_2;
-                    const keyStr = tabIcon?.label;
+                    const keyStr = tabIcon?.id;
 
                     const onPress = () => {
                         if (route.name === Routers.menu) {
