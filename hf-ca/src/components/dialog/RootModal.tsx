@@ -28,7 +28,9 @@ function Content({ dialogState }: { dialogState: DialogConfig }) {
                 okText={okText}
                 okAction={() => {
                     closeDialog();
-                    onConfirm();
+                    setTimeout(() => {
+                        onConfirm();
+                    });
                 }}
             />
         );
@@ -42,11 +44,17 @@ function Content({ dialogState }: { dialogState: DialogConfig }) {
             cancelText={cancelText}
             cancelAction={() => {
                 closeDialog();
-                onCancel();
+                if (onCancel) {
+                    setTimeout(() => {
+                        onCancel();
+                    });
+                }
             }}
             okAction={() => {
                 closeDialog();
-                onConfirm();
+                setTimeout(() => {
+                    onConfirm();
+                });
             }}
         />
     );
