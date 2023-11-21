@@ -85,7 +85,7 @@ export default function MyLicensesTabScreen() {
         <Page style={styles.content}>
             <HeaderBar />
             <View style={{ backgroundColor: primaryColor }}>
-                <Text style={styles.title}>{t("tabBar.myLicenses")}</Text>
+                <Text style={styles.title}>{t("tabBar.MyMenu")}</Text>
                 <SplitLine style={styles.line} />
                 <Text style={styles.description}>{activeProfile?.displayName}</Text>
             </View>

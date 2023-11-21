@@ -160,8 +160,7 @@
     },
     "tabBar": {
         "tabHome": "Home",
-        "myLicenses": "My Licenses",
-        "menu": "Menu"
+        "MyMenu": "My Menu"
     },
     "home": {
         "greeting": "Welcome"

@@ -15,7 +15,7 @@ const tabIcons = [
         unselected: faHouse,
     },
     {
-        label: i18n.t("tabBar.myLicenses"),
+        label: i18n.t("tabBar.MyMenu"),
         id: "license",
         selected: faIdCardSolid,
         unselected: faIdCard,
@@ -27,7 +27,6 @@ const tabIcons = [
         unselected: faUser,
     },
     {
-        label: i18n.t("tabBar.menu"),
         id: "menu",
         selected: faBars,
         unselected: faBars,
