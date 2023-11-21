@@ -73,14 +73,16 @@ function TabContent(props) {
                                 icon={isFocused ? tabIcon.selected : tabIcon.unselected}
                                 size={24}
                             />
-                            <Text
-                                style={{
-                                    ...styles.label,
-                                    color: tabColor,
-                                }}
-                            >
-                                {tabIcon?.label}
-                            </Text>
+                            {tabIcon?.label && (
+                                <Text
+                                    style={{
+                                        ...styles.label,
+                                        color: tabColor,
+                                    }}
+                                >
+                                    {tabIcon?.label}
+                                </Text>
+                            )}
                         </Pressable>
                     );
                 })}
