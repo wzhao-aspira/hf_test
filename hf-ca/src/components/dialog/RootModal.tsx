@@ -12,7 +12,7 @@ function Content({ dialogState }: { dialogState: DialogConfig }) {
         cancelText,
         isSelect = false,
         onCancel,
-        onConfirm,
+        onConfirm = () => {},
         renderContent,
     } = dialogState || {};
 

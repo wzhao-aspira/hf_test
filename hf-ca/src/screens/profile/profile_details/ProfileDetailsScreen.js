@@ -22,13 +22,13 @@ import { genTestId } from "../../../helper/AppHelper";
 import { getAddressList, getInfoList, styles } from "./ProfileDetailsUtils";
 import { ProfileShortNameOrIcon } from "../manage_profile/ProfileItem";
 import { handleError } from "../../../network/APIUtil";
-import DialogHelper from "../../../helper/DialogHelper";
 import ProfileThunk from "../../../redux/ProfileThunk";
 
 import useFocus from "../../../hooks/useFocus";
 import ProfileDetailsLoading from "./ProfileDetailsLoading";
 import { appConfig } from "../../../services/AppConfigService";
 import RenderHTML from "../../../components/RenderHTML";
+import { useDialog } from "../../../components/dialog/index";
 
 function RenderItem({ item, divider }) {
     if (!item.value) {
@@ -77,6 +77,7 @@ function ProfileDetailsScreen({ route }) {
     const { width } = useWindowDimensions();
     const dispatch = useDispatch();
     const { t } = useTranslation();
+    const { openSimpleDialog, openSelectDialog } = useDialog();
 
     const [loading, setLoading] = useState(false);
     const [noCacheData, setNoCacheData] = useState(false);
@@ -96,7 +97,7 @@ function ProfileDetailsScreen({ route }) {
         if (listResponse.primaryIsInactivated || listResponse.ciuIsInactivated || listResponse.needCRSSVerify) {
             return;
         }
-        DialogHelper.showSimpleDialog({
+        openSimpleDialog({
             title: "common.reminder",
             message: "profile.profileListUpdated",
             okText: "common.gotIt",
@@ -136,11 +137,11 @@ function ProfileDetailsScreen({ route }) {
             return;
         }
 
-        DialogHelper.showSelectDialog({
+        openSelectDialog({
             title: "profile.removeProfile",
             okText: "profile.removeProfile",
             message: "profile.removeProfileMsg",
-            okAction: () => handleRemove(response.profiles),
+            onConfirm: () => handleRemove(response.profiles),
         });
     };
 
