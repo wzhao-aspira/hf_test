@@ -110,7 +110,8 @@ export default function RegulationDetailScreen(props) {
                                         style={{
                                             display: "flex",
                                             flexDirection: "row",
-                                            alignContent: "center",
+                                            alignItems: "center",
+                                            alignSelf: "flex-start",
                                             gap: 5,
                                         }}
                                     >
