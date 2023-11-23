@@ -7,7 +7,7 @@ import { faTrash } from "@fortawesome/pro-solid-svg-icons/faTrash";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId, openLink, isIos } from "../../../helper/AppHelper";
-import DialogHelper from "../../../helper/DialogHelper";
+import { useDialog } from "../../../components/dialog/index";
 import CommonHeader from "../../../components/CommonHeader";
 import RenderHTML from "../../../components/RenderHTML";
 import PrimaryBtn from "../../../components/PrimaryBtn";
@@ -64,6 +64,7 @@ export default function RegulationDetailScreen(props) {
     const isNotDownloaded = status === "not downloaded yet";
     const isDownloading = status === "downloading";
     const isDownloaded = status === "downloaded";
+    const { openSelectDialog } = useDialog();
 
     return (
         <View style={styles.container}>
@@ -101,10 +102,10 @@ export default function RegulationDetailScreen(props) {
                                         testID={genTestId("delete button")}
                                         accessibilityLabel={t("regulation.clearDocument")}
                                         onPress={() => {
-                                            DialogHelper.showSelectDialog({
+                                            openSelectDialog({
                                                 title: t("regulation.Reminder"),
                                                 message: t("regulation.ClearExistingDocumentReminderMessage"),
-                                                okAction: deleteFile,
+                                                onConfirm: deleteFile,
                                             });
                                         }}
                                         style={{
@@ -134,10 +135,10 @@ export default function RegulationDetailScreen(props) {
                                         onPress={() => {
                                             if (isNotDownloaded) downloadFile();
                                             if (isDownloaded)
-                                                DialogHelper.showSelectDialog({
+                                                openSelectDialog({
                                                     title: t("regulation.Reminder"),
                                                     message: t("regulation.ReminderMessage"),
-                                                    okAction: downloadFile,
+                                                    onConfirm: downloadFile,
                                                 });
                                         }}
                                     />
