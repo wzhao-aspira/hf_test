@@ -41,6 +41,10 @@ export async function handleError<T>(
 
         return { success: true, data: response };
     } catch (error) {
+        if (showLoading) {
+            dispatch(appActions.toggleIndicator(false));
+        }
+
         if (
             showError &&
             (isEmpty(skippedBusinessErrorCode) ? true : !isBusinessErrorCode(error, skippedBusinessErrorCode))
