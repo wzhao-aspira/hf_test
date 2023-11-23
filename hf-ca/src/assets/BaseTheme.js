@@ -1,7 +1,7 @@
 import color from "color";
 
 const shadow = "#1C2831";
-const primary2 = "#324755";
+const primary2 = "#045070";
 
 export default {
     colors: {
