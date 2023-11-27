@@ -51,7 +51,7 @@ function PreferencePointContent({ data }) {
 
 function PreferencePointScreen() {
     const dispatch = useDispatch();
-    const title = useTitle("preferencePoint.firstNamePreferencePoint", "preferencePoint.myPreferencePoint");
+    const title = useTitle("preferencePoint.preferencePoint", "preferencePoint.myPreferencePoint");
 
     const safeAreaInsets = useSafeAreaInsets();
 
@@ -79,7 +79,7 @@ function PreferencePointScreen() {
     return (
         <Page style={styles.container}>
             <CommonHeader
-                title={title}
+                titleComponent={title}
                 rightComponent={<SwitchCustomer postProcess={(profileId) => getPreferencePointData(true, profileId)} />}
             />
             <ScrollView
