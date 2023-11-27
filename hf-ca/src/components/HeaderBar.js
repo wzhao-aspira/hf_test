@@ -1,9 +1,9 @@
-import { View, StyleSheet } from "react-native";
-import { Image } from "expo-image";
+import { View, StyleSheet, Image } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { getLogo, getLogoRatio } from "../helper/ImgHelper";
 import { DEFAULT_MARGIN } from "../constants/Dimension";
 import { genTestId } from "../helper/AppHelper";
+import SwitchCustomer from "./SwitchCustomer";
 
 const styles = StyleSheet.create({
     container: {
@@ -18,18 +18,21 @@ const styles = StyleSheet.create({
         height: 35,
         marginLeft: DEFAULT_MARGIN,
     },
+    switchContainer: {
+        width: 110,
+        marginRight: DEFAULT_MARGIN,
+    },
 });
 
-function HeaderBar() {
+function HeaderBar({ showSwitchCust = false }) {
     return (
         <View style={styles.container}>
-            <Image
-                contentFit="contain"
-                style={styles.logo}
-                source={getLogo()}
-                testID={genTestId("logo")}
-                cachePolicy="none"
-            />
+            <Image style={styles.logo} source={getLogo()} testID={genTestId("logo")} />
+            {showSwitchCust && (
+                <View style={styles.switchContainer}>
+                    <SwitchCustomer />
+                </View>
+            )}
         </View>
     );
 }

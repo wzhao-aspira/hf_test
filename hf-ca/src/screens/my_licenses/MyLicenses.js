@@ -83,7 +83,7 @@ export default function MyLicensesTabScreen() {
 
     return (
         <Page style={styles.content}>
-            <HeaderBar />
+            <HeaderBar showSwitchCust />
             <View style={{ backgroundColor: primaryColor }}>
                 <Text style={styles.title}>{t("tabBar.MyMenu")}</Text>
                 <SplitLine style={styles.line} />
