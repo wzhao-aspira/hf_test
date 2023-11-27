@@ -3,7 +3,6 @@
     "license": {
         "lastUpdated": "Last updated: ",
         "myLicense": "My Licenses",
-        "firstNameLicense": "{{firstName}}'s Licenses",
         "license": "License",
         "licenses": "Licenses",
         "viewAllLicenses": "View All Licenses",
@@ -99,7 +98,8 @@
         "clickRefresh": "Click here to refresh",
         "refreshedOn": "Refreshed on:",
         "appVersion": "App v{{appVersion}}",
-        "apiVersion": "API v{{apiVersion}}"
+        "apiVersion": "API v{{apiVersion}}",
+        "headerDisplayName": "{{headerDisplayName}}'s"
     },
     "errMsg": {
         "timeoutErrorMessage": "Request Timeout",
@@ -243,7 +243,7 @@
     },
     "preferencePoint": {
         "myPreferencePoint": "My Preference Points",
-        "firstNamePreferencePoint": "{{firstName}}'s Preference Points",
+        "preferencePoint": "Preference Points",
         "viewPreferencePoint": "View Preference Points",
         "drawType": "Draw Type",
         "currentPoint": "Current Points",
@@ -392,7 +392,7 @@
     },
     "accessPermits": {
         "myAccessPermits": "My Access Permits",
-        "firstNameAccessPermits": "{{firstName}}'s Access Permits",
+        "accessPermits": "Access Permits",
         "noAccessPermits": "No Permits/Reservations found",
         "purchaseAccessPermit": "Purchase Daily Draw",
         "huntCode": "Hunt Code",
@@ -440,8 +440,8 @@
     },
     "drawApplicationList": {
         "myDrawApplications": "My Draw Application",
+        "myDraws": "My Draws",
         "draws": "Draws",
-        "firstNameDraws": "{{firstName}}'s Draws",
         "emptyDrawTitle": "No draw applications found",
         "emptyDrawSubTitle": "Once you apply for a draw(s), you can view your draw applications here.",
         "successful": "Successful",

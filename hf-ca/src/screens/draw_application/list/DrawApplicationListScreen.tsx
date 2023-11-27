@@ -103,7 +103,7 @@ function DrawListContent() {
 }
 
 function DrawApplicationListScreen() {
-    const title = useTitle("drawApplicationList.firstNameDraws", "drawApplicationList.draws");
+    const title = useTitle("drawApplicationList.draws", "drawApplicationList.myDraws");
     const dispatch = useAppDispatch();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
@@ -120,7 +120,7 @@ function DrawApplicationListScreen() {
     return (
         <Page style={styles.container}>
             <CommonHeader
-                title={title}
+                titleComponent={title}
                 rightComponent={<SwitchCustomer postProcess={(profileId) => getDrawListByProfileId(profileId)} />}
             />
             <View style={{ flex: 1, backgroundColor: AppTheme.colors.page_bg }}>

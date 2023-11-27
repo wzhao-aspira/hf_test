@@ -65,13 +65,6 @@ const selectCurrentInUseProfile = createSelector(
     }
 );
 
-const selectCurrentProfileFirstName = createSelector(selectCurrentInUseProfile, (profile: Profile) => {
-    if (isAssociatedProfile(profile?.profileType)) {
-        return "";
-    }
-    return profile?.displayName?.split(" ")[0];
-});
-
 const selectPrimaryProfile = createSelector(
     selectPrimaryProfileID,
     selectProfileList,
@@ -146,7 +139,6 @@ const selectors = {
     selectProfileDetailsById,
     selectSortedByDisplayNameOtherProfileList,
     selectOtherProfileListWithoutPrimary,
-    selectCurrentProfileFirstName,
     selectIsPrimaryOrCiuProfile,
     selectAssociatedProfiles,
     selectIndividualProfiles,

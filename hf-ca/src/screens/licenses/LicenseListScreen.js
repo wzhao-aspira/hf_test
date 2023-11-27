@@ -50,7 +50,7 @@ function LicenseListScreen() {
         ? moment(reduxData.lastUpdateTimeFromServer).format(LAST_UPDATE_TIME_DISPLAY_FORMAT)
         : null;
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
-    const title = useTitle("license.firstNameLicense", "license.licenses");
+    const title = useTitle("license.licenses", "license.myLicense");
     const getLicenseOfActiveProfile = (isForce, profileId = activeProfileId) => {
         if (profileId) {
             dispatch(getLicense({ isForce, searchParams: { activeProfileId: profileId } }));
@@ -69,7 +69,7 @@ function LicenseListScreen() {
     return (
         <Page style={styles.container}>
             <CommonHeader
-                title={title}
+                titleComponent={title}
                 rightComponent={
                     <SwitchCustomer postProcess={(profileId) => getLicenseOfActiveProfile(true, profileId)} />
                 }

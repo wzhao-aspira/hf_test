@@ -27,6 +27,7 @@ import LicenseDetailLoading from "./LicenseDetailLoading";
 import { appConfig } from "../../services/AppConfigService";
 import useNavigateToISViewHarvestReport from "./hooks/useNavigateToISViewHarvestReport";
 import profileSelectors from "../../redux/ProfileSelector";
+import useTitle from "../../hooks/useTitle";
 
 const styles = StyleSheet.create({
     container: {
@@ -139,6 +140,8 @@ function LicenseDetailScreen(props) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
+
+    const title = useTitle("licenseDetails.licenseDetails", "licenseDetails.licenseDetails");
 
     const reduxData = useSelector(selectLicenseForList);
     const licenseRefreshing = reduxData.requestStatus === REQUEST_STATUS.pending;
@@ -424,7 +427,7 @@ function LicenseDetailScreen(props) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("licenseDetails.licenseDetails")} />
+            <CommonHeader titleComponent={title} />
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}

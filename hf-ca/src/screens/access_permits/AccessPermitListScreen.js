@@ -61,7 +61,7 @@ const showData = (data, refreshing, loadingData, attention, customer, isShowSkel
 };
 
 export default function AccessPermitListScreen() {
-    const title = useTitle("accessPermits.firstNameAccessPermits", "accessPermits.myAccessPermits");
+    const title = useTitle("accessPermits.accessPermits", "accessPermits.myAccessPermits");
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
@@ -89,7 +89,7 @@ export default function AccessPermitListScreen() {
     return (
         <View style={styles.container}>
             <CommonHeader
-                title={title}
+                titleComponent={title}
                 rightComponent={
                     <SwitchCustomer postProcess={(profileId) => getAccessPermitOfActiveProfile(profileId)} />
                 }

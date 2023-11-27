@@ -43,30 +43,18 @@ const styles = StyleSheet.create({
     headerText: {
         ...AppTheme.typography.section_header,
         color: AppTheme.colors.font_color_1,
-    },
-    subHeaderContainer: {
-        flexDirection: "row",
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: -25,
-        paddingVertical: 5,
-    },
-    headerSubTitleText: {
-        ...AppTheme.typography.card_small_r,
-        color: AppTheme.colors.font_color_2,
+        textAlign: "center",
     },
 });
 
 function CommonHeader({
     testID = "",
-    title,
+    title = "",
+    titleComponent = null,
     onBackClick = NavigationService.back,
     leftIcon = faChevronLeft,
     showLeft = true,
     rightComponent = null,
-    subTitle = "",
-    subTitleStyle = {},
     isWebViewScreen = false,
 }) {
     const blank = rightComponent ? LEFT_BLACK : DEFAULT_MARGIN;
@@ -101,24 +89,20 @@ function CommonHeader({
                         </Text>
                     )}
                 </Pressable>
-                <View style={styles.headerTextContainer}>
-                    <Text testID={genTestId(`${testID}HeaderTitleLabel`)} style={styles.headerText} numberOfLines={2}>
-                        {title}
-                    </Text>
-                </View>
+                {title && (
+                    <View style={styles.headerTextContainer}>
+                        <Text
+                            testID={genTestId(`${testID}HeaderTitleLabel`)}
+                            style={styles.headerText}
+                            numberOfLines={2}
+                        >
+                            {title}
+                        </Text>
+                    </View>
+                )}
+                {titleComponent && titleComponent}
                 <View style={[styles.headerRightContainer, { width: rightComponentWidth }]}>{rightComponent}</View>
             </View>
-            {subTitle && (
-                <View style={styles.subHeaderContainer}>
-                    <Text
-                        testID={genTestId(`${testID}SubTitleLabel`)}
-                        style={[styles.headerSubTitleText, subTitleStyle]}
-                        numberOfLines={1}
-                    >
-                        {subTitle}
-                    </Text>
-                </View>
-            )}
         </View>
     );
 }
