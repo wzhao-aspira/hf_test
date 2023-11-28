@@ -1,6 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { isUndefined } from "lodash";
 
 export async function storeItem(key, item) {
+    if (isUndefined(item) || item === null) {
+        return;
+    }
     try {
         await AsyncStorage.setItem(key, JSON.stringify(item));
     } catch (error) {
