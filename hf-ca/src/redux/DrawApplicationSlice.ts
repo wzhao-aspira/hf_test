@@ -10,6 +10,7 @@ import { getDrawApplicationDataFromDB, saveDrawApplicationDataToDB } from "../db
 import convertDrawResultsListToDrawApplicationList from "../screens/draw_application/detail/utils/convertDrawResultsListToDrawApplicationList";
 import { folderName } from "../screens/draw_application/detail/DrawApplicationDetailScreen";
 import cleanUpInvalidFiles from "../components/notificationAndAttachment/utils/cleanUpInvalidFiles";
+import { selectors as profileSelectors } from "./ProfileSlice";
 
 interface InitialState {
     instructions: string;
@@ -69,7 +70,7 @@ function getDrawApplicationDownloadableFileIDList(drawApplicationList: DrawAppli
 
 export const getDrawList = createAsyncThunk(
     "drawApplication/getDrawList",
-    async (activeProfileId: string, { dispatch }) => {
+    async (activeProfileId: string, { dispatch, getState }) => {
         let result;
         const dataFromAPI = await handleError(getDrawApplicationList(activeProfileId), {
             dispatch,
@@ -83,7 +84,9 @@ export const getDrawList = createAsyncThunk(
             await saveDrawApplicationDataToDB(dataForOffline);
 
             const downloadableFileIDList = getDrawApplicationDownloadableFileIDList(result.data);
-            cleanUpInvalidFiles({ downloadableFileIDList, folderName });
+
+            const currentInUseProfileID = profileSelectors.selectCurrentInUseProfileID(getState());
+            cleanUpInvalidFiles({ downloadableFileIDList, folderName, profileID: currentInUseProfileID });
         } else {
             const data = await getDrawApplicationDataFromDB(activeProfileId);
             result = { success: true, data, isUseCacheData: true };

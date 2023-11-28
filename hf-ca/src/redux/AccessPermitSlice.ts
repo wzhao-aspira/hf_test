@@ -8,6 +8,7 @@ import { AccessPermit, AccessPermitItem } from "../types/accessPermit";
 import { saveAccessPermitDataToDB, getAccessPermitDataFromDB } from "../db";
 import cleanUpInvalidFiles from "../components/notificationAndAttachment/utils/cleanUpInvalidFiles";
 import { folderName } from "../screens/access_permits/AccessPermitDetailScreen";
+import { selectors as profileSelectors } from "./ProfileSlice";
 
 interface AccessPermitState {
     data: AccessPermit;
@@ -31,7 +32,7 @@ function getAccessPermitDownloadableFileIDList(accessPermitsData: AccessPermitIt
 
 export const getAccessPermit = createAsyncThunk(
     "accessPermit/getAccessPermit",
-    async ({ searchParams }: { searchParams: { activeProfileId: string } }, { dispatch }) => {
+    async ({ searchParams }: { searchParams: { activeProfileId: string } }, { dispatch, getState }) => {
         let result;
         const dataFromAPI = await handleError(getAccessPermitData(searchParams), {
             dispatch,
@@ -46,7 +47,8 @@ export const getAccessPermit = createAsyncThunk(
 
             const downloadableFileIDList = getAccessPermitDownloadableFileIDList(dataFromAPI?.data?.accessPermits);
 
-            cleanUpInvalidFiles({ folderName, downloadableFileIDList });
+            const currentInUseProfileID = profileSelectors.selectCurrentInUseProfileID(getState());
+            cleanUpInvalidFiles({ folderName, downloadableFileIDList, profileID: currentInUseProfileID });
         } else {
             const data = await getAccessPermitDataFromDB(activeProfileId);
             result = { success: true, data, offline: true };
