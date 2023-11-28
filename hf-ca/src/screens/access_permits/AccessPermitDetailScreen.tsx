@@ -11,6 +11,7 @@ import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM, SCREEN_WIDTH } from "../../constant
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
 import NotificationAndAttachment from "../../components/notificationAndAttachment/NotificationAndAttachment";
+import useTitle from "../../hooks/useTitle";
 
 const styles = StyleSheet.create({
     container: {
@@ -67,6 +68,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
 
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
+    const headerTitleComponent = useTitle("accessPermits.PermitDetails", "accessPermits.PermitDetails");
 
     const {
         title,
@@ -101,7 +103,7 @@ function AccessPermitDetailScreen(props: AccessPermitDetailScreenProps) {
 
     return (
         <Page style={styles.container}>
-            <CommonHeader title={t("accessPermits.PermitDetails")} subTitle={null} />
+            <CommonHeader titleComponent={headerTitleComponent} />
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={{ paddingBottom: safeAreaInsets.bottom + PAGE_MARGIN_BOTTOM }}
