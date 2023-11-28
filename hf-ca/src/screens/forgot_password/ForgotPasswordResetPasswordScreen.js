@@ -15,7 +15,7 @@ import { emptyValidate } from "./ForgotPasswordScreenUtils";
 import ForgotPasswordStyles from "./ForgotPasswordScreenStyles";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { SimpleDialog } from "../../components/Dialog";
-import DialogHelper from "../../helper/DialogHelper";
+import { useDialog } from "../../components/dialog/index";
 import { setPasswordChangeInd } from "../../helper/LocalAuthHelper";
 import { handleError } from "../../network/APIUtil";
 import { showToast } from "../../helper/AppHelper";
@@ -32,7 +32,7 @@ function dialogReducer(state, action) {
 
 export default function ForgotPasswordScreen({ route }) {
     const { t } = useTranslation();
-
+    const { openSimpleDialog } = useDialog();
     const dispatch = useDispatch();
 
     const { params } = route;
@@ -71,7 +71,7 @@ export default function ForgotPasswordScreen({ route }) {
             return false;
         }
         if (newPassword != confirmPassword) {
-            DialogHelper.showSimpleDialog({
+            openSimpleDialog({
                 title: isChangePassword ? "common.error" : "common.alert",
                 message: "errMsg.passwordDotNotMatch",
                 okText: "common.gotIt",

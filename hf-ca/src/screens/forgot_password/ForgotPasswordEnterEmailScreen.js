@@ -16,7 +16,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import Attention from "../../components/Attention";
 import PrimaryBtn from "../../components/PrimaryBtn";
-import DialogHelper from "../../helper/DialogHelper";
+import { useDialog } from "../../components/dialog/index";
 import CountdownTextInput from "../../components/CountdownTextInput";
 import { genTestId } from "../../helper/AppHelper";
 import { handleError } from "../../network/APIUtil";
@@ -25,7 +25,7 @@ import { appConfig } from "../../services/AppConfigService";
 export default function ForgotPasswordEnterEmailScreen() {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-
+    const { openSimpleDialog } = useDialog();
     const [emailAddress, setEmailAddress] = useState("");
     const [emailValidationCode, setEmailValidationCode] = useState();
     const [isShowCountdown, setIsShowCountdown] = useState(false);
@@ -49,7 +49,7 @@ export default function ForgotPasswordEnterEmailScreen() {
     const emailAddressValidation = () => {
         const isValidEmailAddress = emailValidator.validate(emailAddress.trim());
         if (!isValidEmailAddress) {
-            DialogHelper.showSimpleDialog({
+            openSimpleDialog({
                 title: "common.error",
                 message: "signIn.userIdInvalid",
                 okText: "common.gotIt",

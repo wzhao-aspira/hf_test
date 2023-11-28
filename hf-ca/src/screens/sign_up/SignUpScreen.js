@@ -10,7 +10,7 @@ import Page from "../../components/Page";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../constants/Dimension";
 import { updateLoginStep, selectLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
-import DialogHelper from "../../helper/DialogHelper";
+import { useDialog } from "../../components/dialog/index";
 import NavigationService from "../../navigation/NavigationService";
 
 const styles = StyleSheet.create({
@@ -30,15 +30,16 @@ function SignUpScreen() {
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
     const loginStep = useSelector(selectLoginStep);
+    const { openSelectDialog } = useDialog();
 
     const onBackClick = () => {
         Keyboard.dismiss();
-        DialogHelper.showSelectDialog({
+        openSelectDialog({
             title: "signUp.exitSignUp",
             message: "signUp.areYouSureExitSignUp",
             okText: "common.yes",
             cancelText: "common.no",
-            okAction: () => {
+            onConfirm: () => {
                 if (loginStep == LoginStep.signIn) {
                     NavigationService.back();
                 } else {

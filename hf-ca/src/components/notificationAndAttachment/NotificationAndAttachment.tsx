@@ -10,7 +10,7 @@ import { DEFAULT_MARGIN, DEFAULT_RADIUS } from "../../constants/Dimension";
 import PrimaryBtn from "../PrimaryBtn";
 
 import { genTestId } from "../../helper/AppHelper";
-import DialogHelper from "../../helper/DialogHelper";
+import { useDialog } from "../dialog/index";
 
 import type { FileInfo } from "../../types/notificationAndAttachment";
 
@@ -67,7 +67,7 @@ interface FileProps {
 function File(props: FileProps) {
     const { fileInfo, folderName, cardMarginHorizontal } = props;
     const { id, type, name, title, description, available, downloadId } = fileInfo;
-
+    const { openSelectDialog } = useDialog();
     const { t } = useTranslation();
     const { downloadFile, openFile, deleteFile, status } = useFileOperations({
         fileID: id,
@@ -105,16 +105,16 @@ function File(props: FileProps) {
                     <View>
                         <Pressable
                             onPress={() => {
-                                DialogHelper.showSelectDialog({
+                                openSelectDialog({
                                     title: "notificationAndAttachment.deleteFile",
                                     message: "notificationAndAttachment.deleteFileMessage",
                                     okText: "common.yes",
-                                    okAction: () => {
+                                    onConfirm: () => {
                                         deleteFile();
                                         setShouldShowDropdown(false);
                                     },
                                     cancelText: "common.no",
-                                    cancelAction: () => {
+                                    onCancel: () => {
                                         setShouldShowDropdown(false);
                                     },
                                 });
