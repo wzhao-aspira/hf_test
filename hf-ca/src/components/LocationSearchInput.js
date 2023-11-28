@@ -13,7 +13,7 @@ import { DEFAULT_MARGIN } from "../constants/Dimension";
 import getSalesAgentsSearchHistory from "../helper/SalesAgentsHelper";
 import { SUGGESTED_LOCATIONS } from "../constants/Constants";
 import { getCurrentLocation, searchLocationByText } from "../services/SalesAgentsService";
-import DialogHelper from "../helper/DialogHelper";
+import { useDialog } from "./dialog/index";
 import { handleError } from "../network/APIUtil";
 
 const styles = StyleSheet.create({
@@ -108,6 +108,7 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
     const [value, setValue] = useState("");
     const [dropdownData, setDropdownData] = useState([]);
     const [recentDisplayed, setRecentDisplayed] = useState(false);
+    const { openSelectDialog } = useDialog();
 
     const onSearch = async (text) => {
         if (isEmpty(text.trim())) {
@@ -163,12 +164,12 @@ const LocationSearchInput = React.forwardRef((props, ref) => {
                 onClickCurrentLocationAction(searchResult.value[0]);
             }
         } else {
-            DialogHelper.showSelectDialog({
+            openSelectDialog({
                 title: "location.locationAccessNeeded",
                 message: "location.locationAccessNeededMsg",
                 okText: "common.yes",
                 cancelText: "common.no",
-                okAction: () => {
+                onConfirm: () => {
                     if (isIos()) {
                         Linking.openURL("app-settings:");
                     } else {

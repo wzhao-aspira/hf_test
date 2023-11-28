@@ -8,8 +8,7 @@ import { handleError } from "../../../../network/APIUtil";
 
 import { isAndroid, showToast } from "../../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../../constants/Routers";
-import DialogHelper from "../../../../helper/DialogHelper";
-
+import { useDialog } from "../../../../components/dialog/index";
 import contentDispositionParser from "../../../../utils/contentDispositionParser";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
@@ -21,7 +20,7 @@ export function formatDownloadURL(downloadURL: string) {
 function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string; folderName: string }) {
     const dispatch = useAppDispatch();
     const navigation = useAppNavigation();
-
+    const { openSimpleDialog } = useDialog();
     const formattedDownloadURL = formatDownloadURL(downloadURL);
     const fileDirectory = `${FileSystem.documentDirectory}${folderName}/${formattedDownloadURL}`;
 
@@ -118,7 +117,7 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
                     const errorMessage = error?.message;
 
                     if (errorMessage === "No app associated with this mime type") {
-                        DialogHelper.showSimpleDialog({
+                        openSimpleDialog({
                             message: `Sorry, this file ${fileName} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format.`,
                             okText: "common.gotIt",
                         });

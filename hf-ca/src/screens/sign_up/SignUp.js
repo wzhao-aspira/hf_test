@@ -13,7 +13,7 @@ import RenderHTML from "../../components/RenderHTML";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import AccountService from "../../services/AccountService";
-import DialogHelper from "../../helper/DialogHelper";
+import { useDialog } from "../../components/dialog/index";
 import { handleError } from "../../network/APIUtil";
 import { setLoginCredential } from "../../helper/LocalAuthHelper";
 import { updateLoginStep } from "../../redux/AppSlice";
@@ -67,6 +67,8 @@ function SignUp() {
     const emailValidationCodeRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
+    const { openSimpleDialog } = useDialog();
+
     const isEmptyValidationCode = () => {
         const emptyValidationCode = emptyValidate(
             mobileAccount?.emailValidationCode,
@@ -97,7 +99,7 @@ function SignUp() {
             return;
         }
         if (!emailValidator.validate(mobileAccount?.userID)) {
-            DialogHelper.showSimpleDialog({
+            openSimpleDialog({
                 title: "common.error",
                 message: "signIn.userIdInvalid",
                 okText: "common.gotIt",
@@ -118,7 +120,7 @@ function SignUp() {
         if (errorReported) return;
         const userID = mobileAccount?.userID.trim();
         if (!emailValidator.validate(userID)) {
-            DialogHelper.showSimpleDialog({
+            openSimpleDialog({
                 title: "common.error",
                 message: "signIn.userIdInvalid",
                 okText: "common.gotIt",
@@ -126,7 +128,7 @@ function SignUp() {
             return;
         }
         if (mobileAccount?.password !== mobileAccount?.confirmPassword) {
-            DialogHelper.showSimpleDialog({
+            openSimpleDialog({
                 title: "common.error",
                 message: "errMsg.passwordDotNotMatch",
                 okText: "common.gotIt",

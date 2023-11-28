@@ -5,11 +5,11 @@ import { actions as licenseActions } from "../../../redux/LicenseSlice";
 import { clearCurrentProfileDetailsUpdateTime } from "../../../helper/AutoRefreshHelper";
 import { selectors } from "../../../redux/ProfileSlice";
 import { PROFILE_TYPE_IDS } from "../../../constants/Constants";
-import DialogHelper from "../../../helper/DialogHelper";
+import { useDialog } from "../../../components/dialog/index";
 
 function useNavigateToISSubmitHarvestReport(licenseId: string) {
     const dispatch = useAppDispatch();
-
+    const { openSimpleDialog } = useDialog();
     const { navigateToIS } = useNavigateToIS();
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
     const profileDetails = useSelector(selectors.selectProfileDetailsById(currentInUseProfileId));
@@ -17,7 +17,7 @@ function useNavigateToISSubmitHarvestReport(licenseId: string) {
     return {
         navigateToSubmitHarvestReport: async () => {
             if (PROFILE_TYPE_IDS.business == profileType) {
-                DialogHelper.showSimpleDialog({
+                openSimpleDialog({
                     title: "common.reminder",
                     message: "licenseDetails.unableToProcessReport",
                     okText: "common.gotIt",

@@ -8,7 +8,7 @@ import { downloadNotification, downloadAttachment } from "../../../network/api_c
 
 import { isAndroid, showToast } from "../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../constants/Routers";
-import DialogHelper from "../../../helper/DialogHelper";
+import { useDialog } from "../../dialog/index";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 type FileTypes = "notificationPDF" | "attachment";
@@ -31,6 +31,7 @@ function useDownloadFile({
 
     const fileDirectory = `${FileSystem.documentDirectory}${folderName}/${fileID}`;
     const fileURI = `${fileDirectory}/${fileName}`;
+    const { openSimpleDialog } = useDialog();
 
     const [status, setStatus] = useState<FileStatus>("unknown");
 
@@ -104,7 +105,7 @@ function useDownloadFile({
                     const errorMessage = error?.message;
 
                     if (errorMessage === "No app associated with this mime type") {
-                        DialogHelper.showSimpleDialog({
+                        openSimpleDialog({
                             message: `Sorry, this file ${fileName} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format.`,
                             okText: "common.gotIt",
                         });

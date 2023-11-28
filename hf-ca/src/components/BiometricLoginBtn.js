@@ -17,7 +17,7 @@ import {
 import AppContract from "../assets/BaseContract";
 import QuickAccessChecker from "./QuickAccessChecker";
 import OutlinedBtn from "./OutlinedBtn";
-import DialogHelper from "../helper/DialogHelper";
+import { useDialog } from "./dialog/index";
 import HFAppModule from "../native_modules/HFAppModule";
 
 export default function BiometricLoginBtn({ onAuthSuccess }) {
@@ -26,6 +26,7 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
     const [type, setTypeName] = React.useState("");
     const quickAccessChecker = useRef();
     const useAuthStr = `${t("auth.use")} ${type}`;
+    const { openSimpleDialog } = useDialog();
 
     const startAuth = async (onSuccess, onError) => {
         const userID = await getLastBiometricLoginUser();
@@ -42,11 +43,11 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
 
         const currentUserBiometricsChanged = await getUserBiometricChanged(userID);
         if (currentUserBiometricsChanged) {
-            DialogHelper.showSimpleDialog({
+            openSimpleDialog({
                 title: "common.reminder",
                 message: "auth.biometricsChanged",
                 okText: "common.gotIt",
-                okAction: () => {
+                onConfirm: () => {
                     setShowBtn(false);
                     setUserBiometricChanged(userID, false);
                     resetOnboardingPage(userID);
@@ -68,11 +69,11 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
                 // Check if the user password changed
                 const isPasswordChanged = await getPasswordChangeInd(userID);
                 if (isPasswordChanged != null && isPasswordChanged) {
-                    DialogHelper.showSimpleDialog({
+                    openSimpleDialog({
                         title: "common.reminder",
                         message: "auth.passwordChangeNeedLoginManually",
                         okText: "common.gotIt",
-                        okAction: () => {
+                        onConfirm: () => {
                             setShowBtn(false);
                             resetOnboardingPage(userID);
                             updateAuthInfo(false, userID);
@@ -108,6 +109,7 @@ export default function BiometricLoginBtn({ onAuthSuccess }) {
                 startAuth(onAuthSuccess, () => setShowBtn(false));
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [onAuthSuccess]
     );
     useEffect(() => {

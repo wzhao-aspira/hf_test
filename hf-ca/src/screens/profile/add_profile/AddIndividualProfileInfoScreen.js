@@ -15,7 +15,7 @@ import CommonHeader from "../../../components/CommonHeader";
 import NavigationService from "../../../navigation/NavigationService";
 import Routers from "../../../constants/Routers";
 import OutlinedBtn from "../../../components/OutlinedBtn";
-import DialogHelper from "../../../helper/DialogHelper";
+import { useDialog } from "../../../components/dialog/index";
 import { handleError } from "../../../network/APIUtil";
 import AccountService from "../../../services/AccountService";
 import LoginStep from "../../../constants/LoginStep";
@@ -49,7 +49,7 @@ function AddIndividualProfileInfoScreen({ route }) {
     const identificationOwners = useSelector(profileSelectors.selectYouthIdentityOwners);
     const selectOne = { id: -1, name: t("profile.selectOne") };
     const allIdentificationTypes = useSelector(profileSelectors.selectIdentityTypes(selectOne));
-
+    const { openSelectDialog } = useDialog();
     const [profile, setProfile] = useState({
         isPrimary: isAddPrimaryProfile,
         profileType: individualProfileTypes[0],
@@ -174,10 +174,10 @@ function AddIndividualProfileInfoScreen({ route }) {
                                 style={{ marginTop: 20 }}
                                 label={t("login.signOut")}
                                 onPress={() => {
-                                    DialogHelper.showSelectDialog({
+                                    openSelectDialog({
                                         title: "login.signOut",
                                         message: "login.signOutTipMessage",
-                                        okAction: () => {
+                                        onConfirm: () => {
                                             onSignOut();
                                         },
                                     });

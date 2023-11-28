@@ -15,7 +15,7 @@ import { insertSearchItem } from "../../helper/SalesAgentsHelper";
 import profileSelectors from "../../redux/ProfileSelector";
 import { genTestId, isIos } from "../../helper/AppHelper";
 import SalesAgentsMap from "./SalesAgentsMap";
-import DialogHelper from "../../helper/DialogHelper";
+import { useDialog } from "../../components/dialog/index";
 import { getSuggestionSalesAgentsFromService, getCurrentLocationWithoutPopup } from "../../services/SalesAgentsService";
 import { SharedStyles } from "../../styles/CommonStyles";
 import AppContract from "../../assets/_default/AppContract";
@@ -61,7 +61,7 @@ export default function SalesAgentsScreen({ route }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const profileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
-
+    const { openSimpleDialog, openSelectDialog } = useDialog();
     const [display, setDisplay] = useState(displayEnum.map);
     const [mapCenter, setMapCenter] = useState(lastLocation);
     const [loading, setLoading] = useState(false);
@@ -116,11 +116,11 @@ export default function SalesAgentsScreen({ route }) {
         setShowFloatingButton(searchResult.length > 0);
 
         if (searchResult.length == 0) {
-            DialogHelper.showSimpleDialog({
+            openSimpleDialog({
                 title: "common.noResultsFound",
                 message: "errMsg.noResultsFoundMsg",
                 okText: "common.tryAgain",
-                okAction: () => {
+                onConfirm: () => {
                     setDisplay(displayEnum.map);
                 },
             });
@@ -158,12 +158,12 @@ export default function SalesAgentsScreen({ route }) {
         if (!item) {
             return;
         }
-        DialogHelper.showSelectDialog({
+        openSelectDialog({
             title: "salesAgents.getDirectionsTitle",
             message: "salesAgents.getDirectionsMsg",
             okText: "salesAgents.openInMaps",
             cancelText: "common.cancel",
-            okAction: () => {
+            onConfirm: () => {
                 directToMap(`${item.address}, ${item.city}`);
             },
         });
