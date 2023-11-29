@@ -6,19 +6,25 @@ const schemaName = "FileInfo";
 export default class FileInfo extends Realm.Object<FileInfo> {
     type: string;
 
+    id: string;
+
+    name: string;
+
     title: string;
 
     description?: string;
 
     downloadId: string;
 
-    isShow: boolean;
+    available: boolean;
 
     static schema = {
         name: schemaName,
         embedded: true,
         properties: {
             type: "string",
+            id: "string",
+            name: "string",
             title: "string?",
             description: "string?",
             downloadId: "string?",
