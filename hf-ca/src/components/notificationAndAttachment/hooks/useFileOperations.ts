@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
 
-import { useAppDispatch } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { handleError } from "../../../network/APIUtil";
 import { downloadNotification, downloadAttachment } from "../../../network/api_client/DrawResultsApi";
+
+import { selectors as ProfileSelector } from "../../../redux/ProfileSlice";
 
 import { isAndroid, showToast } from "../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../constants/Routers";
@@ -13,7 +15,7 @@ import { useDialog } from "../../dialog/index";
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 type FileTypes = "notificationPDF" | "attachment";
 
-function useDownloadFile({
+function useFileOperations({
     fileID,
     fileType,
     fileName,
@@ -29,7 +31,9 @@ function useDownloadFile({
     const dispatch = useAppDispatch();
     const navigation = useAppNavigation();
 
-    const fileDirectory = `${FileSystem.documentDirectory}${folderName}/${fileID}`;
+    const currentInUseProfileID = useAppSelector(ProfileSelector.selectCurrentInUseProfileID);
+
+    const fileDirectory = `${FileSystem.documentDirectory}${folderName}/${currentInUseProfileID}/${fileID}`;
     const fileURI = `${fileDirectory}/${fileName}`;
     const { openSimpleDialog } = useDialog();
 
@@ -135,4 +139,4 @@ function useDownloadFile({
     return { status, downloadFile, openFile, deleteFile };
 }
 
-export default useDownloadFile;
+export default useFileOperations;

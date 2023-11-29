@@ -3,14 +3,18 @@ import * as FileSystem from "expo-file-system";
 async function cleanUpInvalidFiles({
     folderName,
     downloadableFileIDList,
+    profileID,
 }: {
     folderName: string;
     downloadableFileIDList: string[];
+    profileID?: string;
 }) {
     if (!downloadableFileIDList) return;
 
     try {
-        const filesDirectory = `${FileSystem.documentDirectory}${folderName}`;
+        const filesDirectory = profileID
+            ? `${FileSystem.documentDirectory}${folderName}/${profileID}` // Files belonging to specific customers
+            : `${FileSystem.documentDirectory}${folderName}`; // files not belonging to specific customers
 
         const dirInfo = await FileSystem.getInfoAsync(filesDirectory);
 
