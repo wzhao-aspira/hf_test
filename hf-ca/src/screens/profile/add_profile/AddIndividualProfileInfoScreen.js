@@ -133,6 +133,7 @@ function AddIndividualProfileInfoScreen({ route }) {
                 >
                     <View style={styles.page_container}>
                         <HfDatePicker
+                            defaultDate={moment().year(2000).toDate()}
                             testID="DateOfBirth"
                             label={t("profile.dateOfBirth")}
                             ref={dateOfBirthRef}

@@ -95,6 +95,7 @@ const HfDatePicker = React.forwardRef((props, ref) => {
         testID,
         minimumDate,
         maximumDate,
+        defaultDate = new Date(),
     } = props;
     const hasError = errorObj.error;
     useImperativeHandle(ref, () => ({
@@ -154,7 +155,7 @@ const HfDatePicker = React.forwardRef((props, ref) => {
             <DateTimePickerModal
                 testID={genTestId(`${testID}DateTimePicker`)}
                 display="spinner"
-                date={value ? moment(value, valueFormat).toDate() : new Date()}
+                date={value ? moment(value, valueFormat).toDate() : defaultDate}
                 isVisible={visible}
                 minimumDate={minimumDate}
                 maximumDate={maximumDate}
