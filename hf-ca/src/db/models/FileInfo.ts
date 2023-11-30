@@ -8,7 +8,7 @@ export default class FileInfo extends Realm.Object<FileInfo> {
 
     id: string;
 
-    name: string;
+    name: string | null;
 
     title: string;
 
@@ -24,7 +24,7 @@ export default class FileInfo extends Realm.Object<FileInfo> {
         properties: {
             type: "string",
             id: "string",
-            name: "string",
+            name: "string?",
             title: "string?",
             description: "string?",
             downloadId: "string?",
