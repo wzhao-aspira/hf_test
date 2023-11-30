@@ -3,6 +3,8 @@ import axios from "axios";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
 
+import { t } from "i18next";
+
 import { useAppDispatch } from "../../../../hooks/redux";
 import { handleError } from "../../../../network/APIUtil";
 
@@ -118,7 +120,9 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
 
                     if (errorMessage === "No app associated with this mime type") {
                         openSimpleDialog({
-                            message: `Sorry, this file ${fileName} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format.`,
+                            message: t("notificationAndAttachment.NoAppAssociatedWithThisMimeTypeErrorMessage", {
+                                fileName,
+                            }),
                             okText: "common.gotIt",
                         });
                     } else {

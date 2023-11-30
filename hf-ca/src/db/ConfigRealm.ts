@@ -17,7 +17,7 @@ import DrawApplicationListInfo from "./models/DrawApplicationListInfo";
 import CopyHuntsInfo from "./models/CopyHuntsInfo";
 import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDate";
 
-const schemaVersion = 16;
+const schemaVersion = 17;
 
 export let realm: Realm;
 

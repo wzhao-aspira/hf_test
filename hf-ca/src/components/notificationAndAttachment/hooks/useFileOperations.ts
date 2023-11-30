@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
+
+import { t } from "i18next";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { handleError } from "../../../network/APIUtil";
@@ -39,15 +41,16 @@ function useFileOperations({
 
     const [status, setStatus] = useState<FileStatus>("unknown");
 
-    useEffect(() => {
-        async function checkFileStatus() {
-            const fileInfo = await FileSystem.getInfoAsync(fileURI);
+    const checkFileStatus = useCallback(async () => {
+        const fileInfo = await FileSystem.getInfoAsync(fileURI);
 
-            if (fileInfo.exists) setStatus("downloaded");
-            else setStatus("not downloaded yet");
-        }
-        checkFileStatus();
+        if (fileInfo.exists) setStatus("downloaded");
+        else setStatus("not downloaded yet");
     }, [fileURI]);
+
+    useEffect(() => {
+        checkFileStatus();
+    }, [checkFileStatus, fileURI]);
 
     async function downloadFile() {
         setStatus("downloading");
@@ -64,7 +67,7 @@ function useFileOperations({
         const { data: response, success } = handleErrorResult;
 
         if (!success) {
-            setStatus("not downloaded yet");
+            checkFileStatus();
             return;
         }
 
@@ -110,7 +113,9 @@ function useFileOperations({
 
                     if (errorMessage === "No app associated with this mime type") {
                         openSimpleDialog({
-                            message: `Sorry, this file ${fileName} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format.`,
+                            message: t("notificationAndAttachment.NoAppAssociatedWithThisMimeTypeErrorMessage", {
+                                fileName,
+                            }),
                             okText: "common.gotIt",
                         });
                     } else {
@@ -129,7 +134,7 @@ function useFileOperations({
 
         if (fileInfo.exists) {
             await FileSystem.deleteAsync(fileDirectory);
-            setStatus("not downloaded yet");
+            checkFileStatus();
             console.log("File deleted successfully");
         } else {
             console.log("File not found");

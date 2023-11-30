@@ -413,7 +413,8 @@
         "Open": "Open",
         "deleteFile": "Delete File?",
         "deleteFileMessage": "Are you sure you wish to delete this file?",
-        "deleteDownloaded": "Delete Download"
+        "deleteDownloaded": "Delete Download",
+        "NoAppAssociatedWithThisMimeTypeErrorMessage": "Sorry, this file {{fileName}} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format."
     },
     "salesAgents": {
         "salesAgents": "Find License Agent",
