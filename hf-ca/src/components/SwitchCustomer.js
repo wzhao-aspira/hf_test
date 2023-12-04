@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function SwitchCustomer({ postProcess, closeLoadingBeforeProfileCallback }) {
+export default function SwitchCustomer({ postProcess, closeLoadingBeforeProfileCallback = false }) {
     const { t } = useTranslation();
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
     const showSwitchProfile = otherProfiles.length > 0;

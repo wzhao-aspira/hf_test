@@ -30,6 +30,7 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
         filename,
         fileId,
         fileTitle,
+        isMultiChoice,
     } = drawItem;
 
     return {
@@ -57,6 +58,7 @@ const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
         filename,
         fileId,
         fileTitle,
+        isMultiChoice,
     };
 };
 
@@ -68,14 +70,14 @@ export const formateDrawList = (list: DrawStatusList) => {
             drawType: group.drawType,
             partyNumber: group.partyNumber,
             drawStatus: items[0]?.drawStatus || "",
+            isMultiChoice: items[0]?.isMultiChoice,
             items: items?.map((item) => convertDrawApplicationItem(item)),
         };
     });
 
     const generatedHuntsList = list.generatedHuntsList?.map((item) => convertDrawApplicationItem(item));
-    const multiChoiceCopyHuntsList = list.multiChoiceCopyHuntsList?.map((item) => convertDrawApplicationItem(item));
 
-    return { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList };
+    return { copyHuntsList, generatedHuntsList };
 };
 
 export async function getDrawApplicationList(profileId: string): Promise<DrawApplicationList> {
@@ -92,7 +94,7 @@ export async function getDrawApplicationList(profileId: string): Promise<DrawApp
 }
 
 export function getDrawTabDataIsEmpty(data: DrawTabData) {
-    const { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList } = data || {};
+    const { copyHuntsList, generatedHuntsList } = data || {};
 
-    return isEmpty(copyHuntsList) && isEmpty(generatedHuntsList) && isEmpty(multiChoiceCopyHuntsList);
+    return isEmpty(copyHuntsList) && isEmpty(generatedHuntsList);
 }

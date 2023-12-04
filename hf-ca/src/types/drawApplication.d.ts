@@ -44,6 +44,7 @@ export interface DrawResultsListItem {
     huntFirstOpenDate?: string;
     huntLastCloseDate?: string;
     isGeneratedDraw?: boolean;
+    isMultiChoice?: boolean;
 }
 
 export interface CopyHuntsItem {
@@ -51,12 +52,12 @@ export interface CopyHuntsItem {
     drawType: string;
     drawStatus: string;
     partyNumber: string;
+    isMultiChoice: boolean;
     items?: DrawResultsListItem[];
 }
 export interface DrawTabData {
     copyHuntsList?: CopyHuntsItem[];
     generatedHuntsList?: DrawResultsListItem[];
-    multiChoiceCopyHuntsList?: DrawResultsListItem[];
 }
 export interface DrawApplicationList {
     instructions?: string;

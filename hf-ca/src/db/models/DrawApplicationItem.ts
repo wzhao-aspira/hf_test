@@ -50,6 +50,8 @@ export default class DrawApplicationItem extends Realm.Object<DrawApplicationIte
 
     fileTitle?: string;
 
+    isMultiChoice: boolean;
+
     static schema = {
         name: schemaName,
         embedded: true,
@@ -77,6 +79,7 @@ export default class DrawApplicationItem extends Realm.Object<DrawApplicationIte
             filename: "string?",
             fileId: "string?",
             fileTitle: "string?",
+            isMultiChoice: "bool",
         },
     };
 }
