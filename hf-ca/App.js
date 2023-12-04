@@ -25,8 +25,11 @@ import ProfileThunk from "./src/redux/ProfileThunk";
 import appThunkActions from "./src/redux/AppThunk";
 import AppAnalyticsHelper from "./src/helper/AppAnalyticsHelper";
 import { DialogProvider } from "./src/components/dialog/index";
+import configureNetworkDetect from "./src/services/ApiHealthService";
 
 SplashScreen.preventAutoHideAsync().catch((e) => console.log(e));
+
+configureNetworkDetect();
 
 if (!global.btoa) {
     global.btoa = encode;
