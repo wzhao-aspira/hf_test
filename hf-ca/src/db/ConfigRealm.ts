@@ -18,7 +18,7 @@ import CopyHuntsInfo from "./models/CopyHuntsInfo";
 import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDate";
 import { sentryCaptureException } from "../helper/AppHelper";
 
-const schemaVersion = 17;
+const schemaVersion = 18;
 
 export let realm: Realm;
 

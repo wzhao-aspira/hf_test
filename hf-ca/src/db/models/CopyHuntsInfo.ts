@@ -13,6 +13,8 @@ export default class CopyHuntsInfo extends Realm.Object<CopyHuntsInfo> {
 
     partyNumber: string;
 
+    isMultiChoice: boolean;
+
     items: DrawApplicationItem[];
 
     static schema = {
@@ -23,6 +25,7 @@ export default class CopyHuntsInfo extends Realm.Object<CopyHuntsInfo> {
             drawType: "string",
             drawStatus: "string",
             partyNumber: "string",
+            isMultiChoice: "bool",
             items: { type: "list", objectType: "DrawApplicationItem" },
         },
     };

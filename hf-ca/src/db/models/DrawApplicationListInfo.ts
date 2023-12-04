@@ -10,15 +10,12 @@ export default class DrawApplicationListInfo extends Realm.Object<DrawApplicatio
 
     generatedHuntsList: DrawApplicationItem[];
 
-    multiChoiceCopyHuntsList: DrawApplicationItem[];
-
     static schema = {
         name: schemaName,
         embedded: true,
         properties: {
             copyHuntsList: { type: "list", objectType: "CopyHuntsInfo" },
             generatedHuntsList: { type: "list", objectType: "DrawApplicationItem" },
-            multiChoiceCopyHuntsList: { type: "list", objectType: "DrawApplicationItem" },
         },
     };
 }

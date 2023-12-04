@@ -40,21 +40,15 @@ function getDrawApplicationDownloadableFileIDList(drawApplicationList: DrawAppli
     if (
         Array.isArray(successList?.copyHuntsList) &&
         Array.isArray(unSuccessList?.copyHuntsList) &&
-        Array.isArray(successList?.generatedHuntsList) &&
-        Array.isArray(successList?.multiChoiceCopyHuntsList) &&
-        Array.isArray(unSuccessList?.multiChoiceCopyHuntsList)
+        Array.isArray(successList?.generatedHuntsList)
     ) {
         const copyHuntsList = [
             ...successList.copyHuntsList.flatMap((item) => item?.items),
             ...unSuccessList.copyHuntsList.flatMap((item) => item?.items),
         ];
         const generatedHuntsList = [...successList.generatedHuntsList, ...unSuccessList.generatedHuntsList];
-        const multiChoiceCopyHuntsList = [
-            ...successList.multiChoiceCopyHuntsList,
-            ...unSuccessList.multiChoiceCopyHuntsList,
-        ];
 
-        const drawApplicationItemList = [...copyHuntsList.flat(), ...generatedHuntsList, ...multiChoiceCopyHuntsList];
+        const drawApplicationItemList = [...copyHuntsList.flat(), ...generatedHuntsList];
 
         const fileInfoList = convertDrawResultsListToDrawApplicationList(drawApplicationItemList).flatMap(
             (item) => item.fileInfoList

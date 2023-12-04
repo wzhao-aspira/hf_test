@@ -60,7 +60,7 @@ const groupTitles = {
 
 function TabListContent({ tabName, tabData }: TabContentProps) {
     const { t } = useTranslation();
-    const { copyHuntsList, generatedHuntsList, multiChoiceCopyHuntsList } = tabData;
+    const { copyHuntsList, generatedHuntsList } = tabData;
     return (
         <View>
             {!isEmpty(copyHuntsList) && (
@@ -68,15 +68,27 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
                     <Text style={styles.groupTitle} testID={genTestId("copyHuntGroupTitle")}>
                         {t(groupTitles[tabName].copyHuntGroupTitle)}
                     </Text>
-                    {copyHuntsList.map((item) => (
-                        <ListItem
-                            copyData={item}
-                            key={item.year + item.drawType + item.partyNumber}
-                            tabName={tabName}
-                            groupName="copyHunt"
-                            drawDetailData={item.items}
-                        />
-                    ))}
+                    {copyHuntsList.map((copyHuntItem) =>
+                        copyHuntItem.isMultiChoice ? (
+                            copyHuntItem.items?.map((multiChoiceItem) => (
+                                <ListItem
+                                    itemData={multiChoiceItem}
+                                    key={multiChoiceItem.id}
+                                    tabName={tabName}
+                                    groupName="multiChoiceCopy"
+                                    drawDetailData={[multiChoiceItem]}
+                                />
+                            ))
+                        ) : (
+                            <ListItem
+                                copyData={copyHuntItem}
+                                key={copyHuntItem.year + copyHuntItem.drawType + copyHuntItem.partyNumber}
+                                tabName={tabName}
+                                groupName="copyHunt"
+                                drawDetailData={copyHuntItem.items}
+                            />
+                        )
+                    )}
                 </View>
             )}
 
@@ -91,23 +103,6 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
                             key={item.id}
                             tabName={tabName}
                             groupName="generatedHunt"
-                            drawDetailData={[item]}
-                        />
-                    ))}
-                </View>
-            )}
-
-            {!isEmpty(multiChoiceCopyHuntsList) && (
-                <View style={styles.groupContainer}>
-                    <Text style={styles.groupTitle} testID={genTestId("multiChoiceGroupTitle")}>
-                        {t(groupTitles[tabName].multiChoiceGroupTitle)}
-                    </Text>
-                    {multiChoiceCopyHuntsList.map((item) => (
-                        <ListItem
-                            itemData={item}
-                            key={item.id}
-                            tabName={tabName}
-                            groupName="multiChoiceCopy"
                             drawDetailData={[item]}
                         />
                     ))}
