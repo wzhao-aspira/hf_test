@@ -671,6 +671,12 @@ export interface DrawResultsListVM {
     'alternateSeq'?: string | null;
     /**
      * 
+     * @type {boolean}
+     * @memberof DrawResultsListVM
+     */
+    'isMultiChoice'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof DrawResultsListVM
      */
@@ -846,12 +852,6 @@ export interface DrawStatusList {
      * @memberof DrawStatusList
      */
     'generatedHuntsList'?: Array<DrawResultsListVM> | null;
-    /**
-     * 
-     * @type {Array<DrawResultsListVM>}
-     * @memberof DrawStatusList
-     */
-    'multiChoiceCopyHuntsList'?: Array<DrawResultsListVM> | null;
 }
 /**
  * 
@@ -3951,6 +3951,121 @@ export class DrawResultsApi extends BaseAPI implements DrawResultsApiInterface {
      */
     public v1CustomersCustomerIdDrawResultsGet(customerId: string, options?: AxiosRequestConfig) {
         return DrawResultsApiFp(this.configuration).v1CustomersCustomerIdDrawResultsGet(customerId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * HealthApi - axios parameter creator
+ * @export
+ */
+export const HealthApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Health Check API
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1HealthGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/Health`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * HealthApi - functional programming interface
+ * @export
+ */
+export const HealthApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = HealthApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Health Check API
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1HealthGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1HealthGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * HealthApi - factory interface
+ * @export
+ */
+export const HealthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = HealthApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Health Check API
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1HealthGet(options?: any): AxiosPromise<string> {
+            return localVarFp.v1HealthGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * HealthApi - interface
+ * @export
+ * @interface HealthApi
+ */
+export interface HealthApiInterface {
+    /**
+     * 
+     * @summary Health Check API
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HealthApiInterface
+     */
+    v1HealthGet(options?: AxiosRequestConfig): AxiosPromise<string>;
+
+}
+
+/**
+ * HealthApi - object-oriented interface
+ * @export
+ * @class HealthApi
+ * @extends {BaseAPI}
+ */
+export class HealthApi extends BaseAPI implements HealthApiInterface {
+    /**
+     * 
+     * @summary Health Check API
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HealthApi
+     */
+    public v1HealthGet(options?: AxiosRequestConfig) {
+        return HealthApiFp(this.configuration).v1HealthGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

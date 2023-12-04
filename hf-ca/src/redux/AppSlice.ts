@@ -89,6 +89,7 @@ export const selectPrimaryInactivatedWhenSignIn = createSelector(
     selectAppState,
     (state) => state.primaryInactivatedWhenSignIn
 );
+
 export const selectError = createSelector(selectAppState, (state) => state.error);
 export const selectCurrentRouter = createSelector(selectAppState, (app) => app.currentRouter);
 export const selectShowOfflineToast = createSelector(selectAppState, (app) => app.showOfflineToast);

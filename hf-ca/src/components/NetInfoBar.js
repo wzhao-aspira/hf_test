@@ -45,34 +45,38 @@ export default function NetInfoBar() {
     const [showNetError, setShowNetError] = useState(false);
 
     const netInfo = useNetInfo() || {};
-    if (netInfo.isConnected == null) {
-        netInfo.isConnected = true;
+    // console.log(netInfo);
+    if (netInfo.isInternetReachable == null) {
+        netInfo.isInternetReachable = true;
     }
-    const { isConnected = true } = netInfo;
+    const { isInternetReachable = true } = netInfo;
     const lastUpdateTimeFromServer = useSelector(selectLastUpdateTimeFromServer);
     const licenseRefreshedOnText = t("netStatus.licenseRefreshedOn");
     const text = netConnected ? t("netStatus.backOnline") : t("netStatus.offline");
     let backgroundColor = netConnected ? AppTheme.colors.success : AppTheme.colors.font_color_2;
     backgroundColor = showNetError ? AppTheme.colors.error : backgroundColor;
 
-    const detectNetChange = () => {
-        if (netConnected == isConnected) {
-            // no change
-            return;
-        }
-
+    const toggleNetBar = () => {
         clearTimeout(dismissNetInfo);
-        setNetConnected(isConnected);
+        setNetConnected(isInternetReachable);
         setShowNetInfo(true);
-        if (isConnected) {
+        if (isInternetReachable) {
             dismissNetInfo = setTimeout(() => {
                 setShowNetInfo(false);
             }, 5000);
         }
     };
 
+    const detectNetChange = () => {
+        if (netConnected == isInternetReachable) {
+            // no change
+            return;
+        }
+        toggleNetBar();
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const debounceDetect = useCallback(debounce(detectNetChange, 200), [isConnected]);
+    const debounceDetect = useCallback(debounce(detectNetChange, 200), [isInternetReachable]);
 
     useEffect(() => {
         debounceDetect();
@@ -81,8 +85,7 @@ export default function NetInfoBar() {
     useEffect(() => {
         if (errorIsNetError) {
             setShowNetError(true);
-            console.log("isConnected:", isConnected);
-            if (!isConnected) {
+            if (!isInternetReachable) {
                 // device is offline mode, just clear error
                 clearTimeout(recoverColorOffline);
                 recoverColorOffline = setTimeout(() => {
@@ -104,11 +107,11 @@ export default function NetInfoBar() {
                     if (!showNetErrorByDialog) {
                         dispatch(appActions.clearError());
                     }
-                    setShowNetInfo(false);
+                    // setShowNetInfo(false);
                 }, 1000);
             }
         }
-    }, [dispatch, errorIsNetError, isConnected, showNetErrorByDialog]);
+    }, [dispatch, errorIsNetError, isInternetReachable, showNetErrorByDialog]);
 
     if (!showNetInfo) {
         return null;
@@ -135,7 +138,7 @@ export default function NetInfoBar() {
 
     return (
         <View style={[styles.messageContainer, { backgroundColor }]}>
-            {!netConnected && Routers.home === currentRouter ? (
+            {!netConnected && Routers.home === currentRouter && lastUpdateTimeFromServer ? (
                 renderOfflineWithLicenseLastUpdateTime()
             ) : (
                 <Text style={[styles.message]}>{text}</Text>
