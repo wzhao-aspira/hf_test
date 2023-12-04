@@ -9,9 +9,9 @@ interface RenderHTMLProps extends RNRenderHTMLProps {
 }
 
 function RenderHTML(props: RenderHTMLProps) {
-    const { renderersProps, customerID = null, ...restProps } = props;
+    const { renderersProps, ...restProps } = props;
 
-    const { getAdditionalInfoQueryString } = useNavigateToIS();
+    const { navigateToIS } = useNavigateToIS();
 
     return (
         <RNRenderHtml
@@ -22,15 +22,15 @@ function RenderHTML(props: RenderHTMLProps) {
                         const AUTO_LOGIN_FLAG = "AUTO_LOGIN_QUERY_PARAMETERS";
 
                         const shouldAutoLogin = href.includes(AUTO_LOGIN_FLAG);
-
-                        const URL = shouldAutoLogin
-                            ? href.replace(
-                                  AUTO_LOGIN_FLAG,
-                                  getAdditionalInfoQueryString({ openInBrowser: true, customerID })
-                              )
-                            : href;
-
-                        Linking.openURL(URL);
+                        if (shouldAutoLogin) {
+                            const targetPath = href.substring(
+                                href.indexOf("AutoLoginForMobile?targetPath=%2") + 33,
+                                href.indexOf("&AUTO_LOGIN_QUERY_PARAMETERS")
+                            );
+                            navigateToIS({ targetPath: `/${targetPath}` });
+                        } else {
+                            Linking.openURL(href);
+                        }
                     },
                 },
                 ...renderersProps,
