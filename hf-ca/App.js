@@ -9,6 +9,7 @@ import { Image } from "expo-image";
 import * as Font from "expo-font";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { isEmpty } from "lodash";
+import * as Sentry from "@sentry/react-native";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
 import i18n from "./src/localization/i18n";
@@ -16,7 +17,7 @@ import { fetchPicture, getAppConfigData, getLoadingSplashFromFile } from "./src/
 import AppContract from "./src/assets/_default/AppContract";
 import { openRealm } from "./src/db";
 import { getErrorMessage } from "./src/hooks/useErrorHandling";
-import { getActiveUserID, showToast } from "./src/helper/AppHelper";
+import { getActiveUserID, showToast, enabledSentry } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links_old/UsefulLinksHelper";
 import { restoreToken } from "./src/network/tokenUtil";
 import { updateLoginStep } from "./src/redux/AppSlice";
@@ -26,6 +27,11 @@ import appThunkActions from "./src/redux/AppThunk";
 import AppAnalyticsHelper from "./src/helper/AppAnalyticsHelper";
 import { DialogProvider } from "./src/components/dialog/index";
 import configureNetworkDetect from "./src/services/ApiHealthService";
+
+Sentry.init({
+    enabled: enabledSentry(),
+    dsn: "https://d55674d518ec65559ec0c4353f7fe43c@o368395.ingest.sentry.io/4506278491979776",
+});
 
 SplashScreen.preventAutoHideAsync().catch((e) => console.log(e));
 
@@ -58,7 +64,7 @@ const checkLogin = async () => {
     store.dispatch(updateLoginStep(LoginStep.login));
 };
 
-export default function App() {
+function App() {
     const [isSplashReady, setIsSplashReady] = useState(false);
     const [cachedSplash, setCachedSplash] = useState();
     let hasError = false;
@@ -76,7 +82,8 @@ export default function App() {
             const errorMessage = getErrorMessage(error);
             console.log(errorMessage);
 
-            showToast(errorMessage, { duration: 0, delay: false });
+            showToast(errorMessage, { duration: 0, delay: 0 });
+            Sentry.captureException(error);
             hasError = true;
         });
         clearUnusedDownloadedFiles();
@@ -131,3 +138,5 @@ export default function App() {
         </I18nextProvider>
     );
 }
+
+export default Sentry.wrap(App);
