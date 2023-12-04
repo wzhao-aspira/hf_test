@@ -3,6 +3,7 @@ import { camelCase, isEmpty } from "lodash";
 import Toast from "react-native-root-toast";
 import Constants from "expo-constants";
 import i18next from "i18next";
+import * as Sentry from "@sentry/react-native";
 import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
 import { retrieveItem, storeItem } from "./StorageHelper";
@@ -151,4 +152,12 @@ export function getISWebStaticInfo(openInBrowser = false) {
     )}&mobileAppVersion=${encodeURIComponent(version)}`;
 
     return appStaticInfo;
+}
+
+export function enabledSentry() {
+    return CHANNEL.includes("PROD");
+}
+
+export function sentryCaptureException(error) {
+    Sentry.captureException(error);
 }

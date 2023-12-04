@@ -16,6 +16,7 @@ import DrawApplication from "./models/DrawApplication";
 import DrawApplicationListInfo from "./models/DrawApplicationListInfo";
 import CopyHuntsInfo from "./models/CopyHuntsInfo";
 import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDate";
+import { sentryCaptureException } from "../helper/AppHelper";
 
 const schemaVersion = 17;
 
@@ -48,7 +49,10 @@ export async function openRealm() {
         //         // Migration
         //     }
         // },
-    }).catch((e) => console.log(e));
+    }).catch((e) => {
+        console.error(e);
+        sentryCaptureException(e);
+    });
 }
 
 export function closeRealm() {
