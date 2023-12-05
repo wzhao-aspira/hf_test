@@ -56,12 +56,12 @@ const AppContract = {
     ],
     contactList: [
         {
-            titleKey: "contactCDFW",
-            url: "https://wildlife.ca.gov/Contact",
-        },
-        {
             titleKey: "contactAspira",
             url: "https://www.ca.wildlifelicense.com/internetsales/Home/ContactAspira",
+        },
+        {
+            titleKey: "contactCDFW",
+            url: "https://wildlife.ca.gov/Contact",
         },
         {
             titleKey: "FAQ",

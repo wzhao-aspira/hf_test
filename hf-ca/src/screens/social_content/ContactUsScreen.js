@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from "react-native";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
@@ -15,26 +15,28 @@ function ContactUsScreen() {
         <Page style={styles.container}>
             <CommonHeader title={t("common.contactUs")} />
             <Text style={styles.title}>{t("common.contactUs")}</Text>
-            <View style={styles.list}>
-                <FlatList
-                    scrollEnabled={false}
-                    contentContainerStyle={styles.contentContainerStyle}
-                    data={contactList}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => {
-                        const onlyShowTitle = index === contactList.length - 1;
-                        return (
-                            <ContractItem
-                                item={item}
-                                onlyShowTitle={onlyShowTitle}
-                                onPress={() => {
-                                    openLink(item.url);
-                                }}
-                            />
-                        );
-                    }}
-                />
-            </View>
+            <ScrollView>
+                <View style={styles.list}>
+                    <FlatList
+                        scrollEnabled={false}
+                        contentContainerStyle={styles.contentContainerStyle}
+                        data={contactList}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => {
+                            const onlyShowTitle = index === contactList.length - 1;
+                            return (
+                                <ContractItem
+                                    item={item}
+                                    onlyShowTitle={onlyShowTitle}
+                                    onPress={() => {
+                                        openLink(item.url);
+                                    }}
+                                />
+                            );
+                        }}
+                    />
+                </View>
+            </ScrollView>
         </Page>
     );
 }

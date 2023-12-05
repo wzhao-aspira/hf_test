@@ -15,24 +15,32 @@ export function getContactUsLinks(i18n, t) {
         contactCDFWLink,
         contactAspiraLink,
         faqLink,
+        contactCDFWDescription,
         contactCDFWEmail,
         contactCDFWPhone,
         cdfwWorkingHours,
+        noFormatContactCDFWPhone,
+        contactAspiraDescription,
         contactAspiraEmail,
         contactAspiraPhone,
         aspiraWorkingHours,
+        noFormatContactAspiraPhone,
     } = appConfig.data;
-    if (contactCDFWLink) {
-        newContactList[0].url = contactCDFWLink;
-        newContactList[0].email = contactCDFWEmail;
-        newContactList[0].phone = contactCDFWPhone;
-        newContactList[0].workingHours = cdfwWorkingHours;
-    }
     if (contactAspiraLink) {
-        newContactList[1].url = contactAspiraLink;
-        newContactList[1].email = contactAspiraEmail;
-        newContactList[1].phone = contactAspiraPhone;
-        newContactList[1].workingHours = aspiraWorkingHours;
+        newContactList[0].url = contactAspiraLink;
+        newContactList[0].desc = contactAspiraDescription;
+        newContactList[0].email = contactAspiraEmail;
+        newContactList[0].phone = contactAspiraPhone;
+        newContactList[0].noFormatPhone = noFormatContactAspiraPhone;
+        newContactList[0].workingHours = aspiraWorkingHours;
+    }
+    if (contactCDFWLink) {
+        newContactList[1].url = contactCDFWLink;
+        newContactList[1].desc = contactCDFWDescription;
+        newContactList[1].email = contactCDFWEmail;
+        newContactList[1].phone = contactCDFWPhone;
+        newContactList[1].noFormatPhone = noFormatContactCDFWPhone;
+        newContactList[1].workingHours = cdfwWorkingHours;
     }
     if (faqLink) {
         newContactList[2].url = faqLink;
