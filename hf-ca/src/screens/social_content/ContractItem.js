@@ -1,8 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Linking, Pressable } from "react-native";
 import { useTranslation } from "react-i18next";
+import { isEmpty } from "lodash";
 import AppTheme from "../../assets/_default/AppTheme";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { genTestId } from "../../helper/AppHelper";
+import RenderHTML from "../../components/RenderHTML";
+import { SCREEN_WIDTH } from "../../constants/Dimension";
 
 const EMAIL_WIDTH = 50;
 const styles = StyleSheet.create({
@@ -24,7 +27,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     title: {
-        flex: 1,
         fontFamily: "Bold",
         fontSize: 16,
         color: AppTheme.colors.font_color_1,
@@ -49,15 +51,45 @@ const styles = StyleSheet.create({
     content: {
         fontSize: 12,
     },
+    titleContentContainer: {
+        flexDirection: "column",
+        width: "66%",
+        marginRight: 10,
+    },
+    linkButtonText: {
+        ...AppTheme.typography.overlay_sub_text,
+        textDecorationLine: "underline",
+        color: AppTheme.colors.fishing_blue,
+    },
 });
+
+function LinkButton({ text, href, onPress }) {
+    return (
+        <View>
+            <Pressable
+                onPress={() => {
+                    if (onPress) {
+                        onPress();
+                    } else if (!isEmpty(href)) {
+                        Linking.openURL(href);
+                    }
+                }}
+            >
+                <Text style={styles.linkButtonText}>{text}</Text>
+            </Pressable>
+        </View>
+    );
+}
 
 function ContractItem({ item, onlyShowTitle, onPress }) {
     const { t } = useTranslation();
-
     return (
         <View style={styles.container}>
             <View style={[styles.itemContainer, styles.titleContainer]}>
-                <Text style={styles.title}>{item.title}</Text>
+                <View style={styles.titleContentContainer}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    {item.desc && <RenderHTML source={{ html: item.desc }} contentWidth={SCREEN_WIDTH} />}
+                </View>
                 <PrimaryBtn
                     testID={genTestId(`website_${item.title}`)}
                     label={t("contact.webSite")}
@@ -72,11 +104,11 @@ function ContractItem({ item, onlyShowTitle, onPress }) {
                     <View style={styles.bottomLine} />
                     <View style={[styles.itemContainer]}>
                         <Text style={styles.email}>{t("contact.email")}</Text>
-                        <Text style={styles.content}>{item.email}</Text>
+                        <LinkButton text={item.email} onPress={() => {}} />
                     </View>
                     <View style={styles.itemContainer}>
                         <Text style={styles.call}>{t("contact.call")}</Text>
-                        <Text style={styles.content}>{item.phone}</Text>
+                        <LinkButton text={item.phone} href={`tel:${item.noFormatPhone}`} />
                     </View>
                     <View style={styles.workingHours}>
                         <Text style={styles.content}>{item.workingHours}</Text>
