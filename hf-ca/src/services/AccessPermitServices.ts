@@ -89,8 +89,7 @@ export async function getAccessPermitData(searchParams: { activeProfileId: strin
     const { activeProfileId } = searchParams;
     const getActivePermitsResult = await getActivePermitsByCustomerId(activeProfileId);
     const { result } = getActivePermitsResult.data;
-    // @ts-ignore
-    const { lastUpdateDate } = getActivePermitsResult;
+    const lastUpdateDate = getActivePermitsResult?.headers?.["last-updated-date"];
 
     const { instructions, activePermitList, customerInfo } = result;
     const accessPermits = activePermitList.map((item) => {

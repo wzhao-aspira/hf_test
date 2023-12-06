@@ -45,7 +45,7 @@ import WebViewScreen from "../screens/web_view/WebViewScreen";
 import AddIndividualProfileInfoScreen from "../screens/profile/add_profile/AddIndividualProfileInfoScreen";
 import AddIndividualProfileInfoDetailsScreen from "../screens/profile/add_profile/AddIndividualProfileInfoDetailsScreen";
 import AddBusinessVesselProfileInfoScreen from "../screens/profile/add_profile/AddBusinessVesselProfileInfoScreen";
-import NetInfoBar from "../components/NetInfoBar";
+import NetInfoBar from "../components/NetInfoBar/NetInfoBar";
 import MyLicensesTabScreen from "../screens/my_licenses/MyLicenses";
 import SettingsTabScreen from "../screens/setting/SettingsTabScreen";
 import DrawApplicationListScreen from "../screens/draw_application/list/DrawApplicationListScreen";

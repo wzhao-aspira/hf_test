@@ -12,8 +12,7 @@ import { getPreferencePoints } from "../network/api_client/PreferencePointsApi";
 // eslint-disable-next-line import/prefer-default-export
 export async function getPreferencePointsByProfileId(profileId: string) {
     const response = await getPreferencePoints(profileId);
-    // @ts-ignore
-    const { lastUpdateDate } = response;
+    const lastUpdateDate = response?.headers?.["last-updated-date"];
 
     const { result, errors } = response.data;
     const preferencePointList = result;

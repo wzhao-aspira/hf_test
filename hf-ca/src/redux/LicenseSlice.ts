@@ -39,7 +39,7 @@ export const getLicense = createAsyncThunk(
         const licenses = { success: false, data: null };
         let isAPISucceed = false;
         if (useCache == false) {
-            const results = await handleError<ReturnType<typeof getLicenseData>>(getLicenseData(searchParams), {
+            const results = await handleError(getLicenseData(searchParams), {
                 networkErrorByDialog: false,
                 dispatch,
             });

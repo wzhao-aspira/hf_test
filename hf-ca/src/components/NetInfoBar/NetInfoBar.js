@@ -1,15 +1,15 @@
 import { useNetInfo } from "@react-native-community/netinfo";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { debounce } from "lodash";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCurrentRouter, selectors, actions as appActions } from "../redux/AppSlice";
-import AppTheme from "../assets/_default/AppTheme";
-import { selectLastUpdateTimeFromServer } from "../redux/LicenseSelector";
-import Routers from "../constants/Routers";
-import { SCREEN_WIDTH } from "../constants/Dimension";
-import { OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT } from "../constants/Constants";
+import { selectors, actions as appActions } from "../../redux/AppSlice";
+import AppTheme from "../../assets/_default/AppTheme";
+import { SCREEN_WIDTH } from "../../constants/Dimension";
+import { OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT } from "../../constants/Constants";
+
+import useLastUpdateDate from "./hooks/useLastUpdateDate";
 
 const styles = StyleSheet.create({
     message: {
@@ -36,23 +36,26 @@ let recoverColorOnline;
 
 export default function NetInfoBar() {
     const { t } = useTranslation();
-    const [netConnected, setNetConnected] = useState(true);
-    const [showNetInfo, setShowNetInfo] = useState(false);
-    const currentRouter = useSelector(selectCurrentRouter);
     const dispatch = useDispatch();
+
     const errorIsNetError = useSelector(selectors.selectErrorIsNetError);
     const showNetErrorByDialog = useSelector(selectors.selectShowNetErrorByDialog);
+
+    const lastUpdateDate = useLastUpdateDate();
+
+    const [netConnected, setNetConnected] = useState(true);
+    const [showNetInfo, setShowNetInfo] = useState(false);
     const [showNetError, setShowNetError] = useState(false);
 
     const netInfo = useNetInfo() || {};
-    // console.log(netInfo);
     if (netInfo.isInternetReachable == null) {
         netInfo.isInternetReachable = true;
     }
+
     const { isInternetReachable = true } = netInfo;
-    const lastUpdateTimeFromServer = useSelector(selectLastUpdateTimeFromServer);
-    const licenseRefreshedOnText = t("netStatus.licenseRefreshedOn");
+    const refreshedOnText = t("netStatus.refreshedOn");
     const text = netConnected ? t("netStatus.backOnline") : t("netStatus.offline");
+
     let backgroundColor = netConnected ? AppTheme.colors.success : AppTheme.colors.font_color_2;
     backgroundColor = showNetError ? AppTheme.colors.error : backgroundColor;
 
@@ -117,7 +120,7 @@ export default function NetInfoBar() {
         return null;
     }
 
-    const renderOfflineWithLicenseLastUpdateTime = () => {
+    const renderOfflineWithLastUpdateTime = () => {
         return SCREEN_WIDTH < OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT ? (
             <>
                 <Text style={[styles.message]}>{text}</Text>
@@ -125,21 +128,21 @@ export default function NetInfoBar() {
                     style={[styles.message]}
                     numberOfLines={1}
                     ellipsizeMode="tail"
-                >{`${licenseRefreshedOnText} ${lastUpdateTimeFromServer}`}</Text>
+                >{`${refreshedOnText} ${lastUpdateDate}`}</Text>
             </>
         ) : (
             <Text
                 style={[styles.message]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
-            >{`${text} - ${licenseRefreshedOnText} ${lastUpdateTimeFromServer}`}</Text>
+            >{`${text} - ${refreshedOnText} ${lastUpdateDate}`}</Text>
         );
     };
 
     return (
         <View style={[styles.messageContainer, { backgroundColor }]}>
-            {!netConnected && Routers.home === currentRouter && lastUpdateTimeFromServer ? (
-                renderOfflineWithLicenseLastUpdateTime()
+            {!netConnected && lastUpdateDate ? (
+                renderOfflineWithLastUpdateTime()
             ) : (
                 <Text style={[styles.message]}>{text}</Text>
             )}
