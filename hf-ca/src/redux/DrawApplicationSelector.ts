@@ -33,6 +33,11 @@ const selectLastUpdateDate = createSelector(selectDrawApplicationState, (draw) =
     return getFormattedLastUpdateDate(lastUpdateDate);
 });
 
+const selectRawLastUpdateDate = createSelector(selectDrawApplicationState, (draw) => {
+    const { lastUpdateDate } = draw;
+    return lastUpdateDate;
+});
+
 const selectors = {
     selectSuccessfulData,
     selectUnsuccessfulData,
@@ -47,6 +52,7 @@ const selectors = {
     selectIsUseCacheData,
     selectNoCacheData,
     selectLastUpdateDate,
+    selectRawLastUpdateDate,
 };
 
 export default selectors;
