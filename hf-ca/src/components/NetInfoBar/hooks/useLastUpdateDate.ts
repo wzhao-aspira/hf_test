@@ -1,41 +1,50 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { useAppSelector as useSelector } from "../../../hooks/redux";
 
-import { selectLastUpdateTimeFromServer } from "../../../redux/LicenseSelector";
+import licenseSelectors from "../../../redux/LicenseSelector";
 import drawApplicationSelectors from "../../../redux/DrawApplicationSelector";
 import accessPermitSelectors from "../../../redux/AccessPermitSelector";
 import preferencePointSelectors from "../../../redux/PreferencePointSelector";
 
+import { getFormattedLastUpdateDate } from "../../../utils/DateUtils";
+
 function useLastUpdateDate() {
-    const licenseLastUpdateDate = useSelector(selectLastUpdateTimeFromServer);
-    const drawApplicationLastUpdateDate = useSelector(drawApplicationSelectors.selectLastUpdateDate);
-    const accessPermitLastUpdateDate = useSelector(accessPermitSelectors.selectLastUpdateDate);
-    const preferencePointLastUpdateDate = useSelector(preferencePointSelectors.selectLastUpdateDate);
+    const licenseLastUpdateDate = useSelector(licenseSelectors.selectRawLastUpdateTimeDate);
+    const drawApplicationLastUpdateDate = useSelector(drawApplicationSelectors.selectRawLastUpdateDate);
+    const accessPermitLastUpdateDate = useSelector(accessPermitSelectors.selectRawLastUpdateDate);
+    const preferencePointLastUpdateDate = useSelector(preferencePointSelectors.selectRawLastUpdateDate);
 
     const [latestUpdateDate, setLatestUpdateDate] = useState(null);
 
+    const compareAndUpdateTheDate = useCallback(
+        (date: string) => {
+            if (!latestUpdateDate || new Date(date) > new Date(latestUpdateDate)) setLatestUpdateDate(date);
+        },
+        [latestUpdateDate]
+    );
+
     useEffect(() => {
-        console.log({ latestUpdateDate });
+        console.log({ latestUpdateDateForOfflineBar: latestUpdateDate });
     }, [latestUpdateDate]);
 
     useEffect(() => {
-        setLatestUpdateDate(licenseLastUpdateDate);
-    }, [licenseLastUpdateDate]);
+        compareAndUpdateTheDate(licenseLastUpdateDate);
+    }, [compareAndUpdateTheDate, licenseLastUpdateDate]);
 
     useEffect(() => {
-        setLatestUpdateDate(drawApplicationLastUpdateDate);
-    }, [drawApplicationLastUpdateDate]);
+        compareAndUpdateTheDate(drawApplicationLastUpdateDate);
+    }, [compareAndUpdateTheDate, drawApplicationLastUpdateDate]);
 
     useEffect(() => {
-        setLatestUpdateDate(accessPermitLastUpdateDate);
-    }, [accessPermitLastUpdateDate]);
+        compareAndUpdateTheDate(accessPermitLastUpdateDate);
+    }, [compareAndUpdateTheDate, accessPermitLastUpdateDate]);
 
     useEffect(() => {
-        setLatestUpdateDate(preferencePointLastUpdateDate);
-    }, [preferencePointLastUpdateDate]);
+        compareAndUpdateTheDate(preferencePointLastUpdateDate);
+    }, [compareAndUpdateTheDate, preferencePointLastUpdateDate]);
 
-    return latestUpdateDate;
+    return getFormattedLastUpdateDate(latestUpdateDate);
 }
 
 export default useLastUpdateDate;

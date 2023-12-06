@@ -19,11 +19,16 @@ export const selectLastUpdateDate = createSelector(selectPreferencePointState, (
     return getFormattedLastUpdateDate(preferencePointState.lastUpdateDate);
 });
 
+const selectRawLastUpdateDate = createSelector(selectPreferencePointState, (preferencePointState) => {
+    return preferencePointState.lastUpdateDate;
+});
+
 const selectors = {
     selectPreferencePointList,
     selectPreferencePointRequestStatus,
     selectShowSkeletonWhenOffline,
     selectLastUpdateDate,
+    selectRawLastUpdateDate,
 };
 
 export default selectors;
