@@ -18,3 +18,12 @@ export const selectShowSkeletonWhenOffline = createSelector(selectPreferencePoin
 export const selectLastUpdateDate = createSelector(selectPreferencePointState, (preferencePointState) => {
     return getFormattedLastUpdateDate(preferencePointState.lastUpdateDate);
 });
+
+const selectors = {
+    selectPreferencePointList,
+    selectPreferencePointRequestStatus,
+    selectShowSkeletonWhenOffline,
+    selectLastUpdateDate,
+};
+
+export default selectors;

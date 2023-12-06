@@ -28,8 +28,7 @@ export const formateDateForDashboard = (item) => {
 
 export async function getLatestLicenseDataByCustomerId(customerId) {
     const searchResult = await licensesAPIs.getLicensesByCustomerID(customerId);
-    // @ts-ignore
-    const { lastUpdateTime } = searchResult;
+    const lastUpdateTime = searchResult?.headers?.["last-updated-date"];
     const { result, errors } = searchResult.data;
     const licenseList = result;
 

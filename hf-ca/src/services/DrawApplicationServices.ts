@@ -82,9 +82,9 @@ export const formateDrawList = (list: DrawStatusList) => {
 
 export async function getDrawApplicationList(profileId: string): Promise<DrawApplicationList> {
     const response = await getDrawApplicationListByCustomerId(profileId);
+
     const { result } = response.data;
-    // @ts-ignore
-    const { lastUpdateDate } = response;
+    const lastUpdateDate = response?.headers?.["last-updated-date"];
 
     const successList = formateDrawList(result.successList || {});
     const unSuccessList = formateDrawList(result.unSuccessList || {});

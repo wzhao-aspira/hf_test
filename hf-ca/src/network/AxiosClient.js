@@ -42,34 +42,16 @@ instance.interceptors.request.use(async (cfg) => {
     return cfg;
 });
 
-instance.interceptors.response.use(
-    (response) => {
-        // console.log("response data ====,", response);
-        // status 2xx
-        const result = {
-            success: true,
-            data: response.data,
-            lastUpdateTime: response.headers["last-license-updated-date"],
-            lastUpdateDate: response.headers["last-updated-date"],
-        };
-        /**
-         * do some things for business error
-         * like: if (response.data.code != 1) return Promise.reject(customerError)
-         */
-        return result;
-    }
-    // (error) => {
-    //     // dispatch(appActions.setError(error));
-    //     console.log(error);
-    //     // status out of 2xx
-    //     // Object.assign(result, error);
-    //     const result = {
-    //         success: false,
-    //         error,
-    //     };
+instance.interceptors.response.use((response) => {
+    const result = {
+        success: true,
+        data: response.data,
+        headers: {
+            "last-updated-date": response.headers["last-updated-date"],
+        },
+    };
 
-    //     return result;
-    // }
-);
+    return result;
+});
 
 export default request;

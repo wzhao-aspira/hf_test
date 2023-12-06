@@ -1,8 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
-import moment from "moment";
 import type { RootState } from "./Store";
 import { formateDateForList, formateDateForDashboard } from "../services/LicenseService";
-import { LAST_UPDATE_TIME_DISPLAY_FORMAT } from "../constants/Constants";
+import { getFormattedLastUpdateDate } from "../utils/DateUtils";
 
 const selectLicenseState = (state: RootState) => state.license;
 
@@ -25,10 +24,7 @@ export const selectLicenseForList = createSelector(selectLicenseState, (licenseS
 });
 
 export const selectLastUpdateTimeFromServer = createSelector(selectLicenseForList, (licenseDataForList) => {
-    const lastUpdateTimeFromServer = licenseDataForList.lastUpdateTimeFromServer
-        ? moment(licenseDataForList.lastUpdateTimeFromServer).format(LAST_UPDATE_TIME_DISPLAY_FORMAT)
-        : null;
-    return lastUpdateTimeFromServer;
+    return getFormattedLastUpdateDate(licenseDataForList.lastUpdateTimeFromServer);
 });
 
 export const selectLicenseForDashboard = createSelector(selectLicenseState, (licenseState) => {

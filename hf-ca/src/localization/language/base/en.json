@@ -432,7 +432,7 @@
     "netStatus": {
         "offline": "Offline",
         "backOnline": "Back Online",
-        "licenseRefreshedOn": "License Refreshed On:"
+        "refreshedOn": "Refreshed On:"
     },
     "me": {
         "account": "Account",
