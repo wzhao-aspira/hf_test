@@ -1,48 +1,31 @@
-import { useState, useEffect, useCallback } from "react";
-
-import { useAppSelector as useSelector } from "../../../hooks/redux";
-
-import licenseSelectors from "../../../redux/LicenseSelector";
-import drawApplicationSelectors from "../../../redux/DrawApplicationSelector";
-import accessPermitSelectors from "../../../redux/AccessPermitSelector";
-import preferencePointSelectors from "../../../redux/PreferencePointSelector";
-
+import { useState, useEffect } from "react";
 import { getFormattedLastUpdateDate } from "../../../utils/DateUtils";
+import { KEY_CONSTANT } from "../../../constants/Constants";
+import { retrieveItem } from "../../../helper/StorageHelper";
+import { useAppSelector as useSelector } from "../../../hooks/redux";
+import profileSelectors from "../../../redux/ProfileSelector";
 
-function useLastUpdateDate() {
-    const licenseLastUpdateDate = useSelector(licenseSelectors.selectRawLastUpdateTimeDate);
-    const drawApplicationLastUpdateDate = useSelector(drawApplicationSelectors.selectRawLastUpdateDate);
-    const accessPermitLastUpdateDate = useSelector(accessPermitSelectors.selectRawLastUpdateDate);
-    const preferencePointLastUpdateDate = useSelector(preferencePointSelectors.selectRawLastUpdateDate);
+function useLastUpdateDate(showNetInfo: boolean) {
+    const currentInUseProfileID = useSelector(profileSelectors.selectCurrentInUseProfileID);
 
     const [latestUpdateDate, setLatestUpdateDate] = useState(null);
-
-    const compareAndUpdateTheDate = useCallback(
-        (date: string) => {
-            if (!latestUpdateDate || new Date(date) > new Date(latestUpdateDate)) setLatestUpdateDate(date);
-        },
-        [latestUpdateDate]
-    );
 
     useEffect(() => {
         console.log({ latestUpdateDateForOfflineBar: latestUpdateDate });
     }, [latestUpdateDate]);
 
     useEffect(() => {
-        compareAndUpdateTheDate(licenseLastUpdateDate);
-    }, [compareAndUpdateTheDate, licenseLastUpdateDate]);
+        async function retrieveLastUpdateDate() {
+            const lastUpdateDateOfCustomers = await retrieveItem(KEY_CONSTANT.lastUpdateDateOfCustomers);
+            const parsedLastUpdateDateOfCustomers = JSON.parse(lastUpdateDateOfCustomers);
 
-    useEffect(() => {
-        compareAndUpdateTheDate(drawApplicationLastUpdateDate);
-    }, [compareAndUpdateTheDate, drawApplicationLastUpdateDate]);
+            const lastUpdateDate = parsedLastUpdateDateOfCustomers[currentInUseProfileID];
 
-    useEffect(() => {
-        compareAndUpdateTheDate(accessPermitLastUpdateDate);
-    }, [compareAndUpdateTheDate, accessPermitLastUpdateDate]);
+            setLatestUpdateDate(lastUpdateDate);
+        }
 
-    useEffect(() => {
-        compareAndUpdateTheDate(preferencePointLastUpdateDate);
-    }, [compareAndUpdateTheDate, preferencePointLastUpdateDate]);
+        retrieveLastUpdateDate();
+    }, [currentInUseProfileID, showNetInfo]);
 
     return getFormattedLastUpdateDate(latestUpdateDate);
 }

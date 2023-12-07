@@ -1,7 +1,6 @@
 import { isEmpty } from "lodash";
-import { PROFILE_TYPE_IDS, PROFILE_TYPES, KEY_CONSTANT } from "../constants/Constants";
+import { PROFILE_TYPE_IDS, PROFILE_TYPES } from "../constants/Constants";
 import { updateProfileDetailToDB } from "../db";
-import { storeItem, retrieveItem } from "../helper/StorageHelper";
 import {
     getProfiles,
     findAndLinkAuditProfile,
@@ -156,23 +155,6 @@ export async function findAndLinkProfile(profile) {
 
 export async function linkCRSSProfile(customerId, password, isPrimaryCustomer) {
     return linkProfileBasedOnCustomerId({ customerId, password, isPrimaryCustomer });
-}
-
-export async function removeAccountCurrentInUseProfileID(accountID) {
-    const currentInUseProfileIDOfAccounts = await retrieveItem(KEY_CONSTANT.currentInUseProfileIDOfAccounts);
-
-    if (currentInUseProfileIDOfAccounts) {
-        const parsedAccountsCurrentInUseProfileID = JSON.parse(currentInUseProfileIDOfAccounts);
-
-        if (parsedAccountsCurrentInUseProfileID[accountID]) {
-            delete parsedAccountsCurrentInUseProfileID[accountID];
-
-            await storeItem(
-                KEY_CONSTANT.currentInUseProfileIDOfAccounts,
-                JSON.stringify(parsedAccountsCurrentInUseProfileID)
-            );
-        }
-    }
 }
 
 export const convertProfileDetail = (customer: CustomerVM): ProfileDetail => {

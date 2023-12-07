@@ -41,11 +41,11 @@ export default function NetInfoBar() {
     const errorIsNetError = useSelector(selectors.selectErrorIsNetError);
     const showNetErrorByDialog = useSelector(selectors.selectShowNetErrorByDialog);
 
-    const lastUpdateDate = useLastUpdateDate();
-
     const [netConnected, setNetConnected] = useState(true);
     const [showNetInfo, setShowNetInfo] = useState(false);
     const [showNetError, setShowNetError] = useState(false);
+
+    const lastUpdateDate = useLastUpdateDate(showNetInfo);
 
     const netInfo = useNetInfo() || {};
     if (netInfo.isInternetReachable == null) {

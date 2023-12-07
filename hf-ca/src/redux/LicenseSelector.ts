@@ -38,13 +38,3 @@ export const selectLicenseForDashboard = createSelector(selectLicenseState, (lic
 });
 
 export const selectUpdateTime = createSelector(selectLicenseState, (license) => license.updateTime);
-
-const selectRawLastUpdateTimeDate = createSelector(selectLicenseForList, (licenseState) => {
-    return licenseState.lastUpdateTimeFromServer;
-});
-
-const selectors = {
-    selectRawLastUpdateTimeDate,
-};
-
-export default selectors;
