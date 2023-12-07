@@ -115,7 +115,9 @@ function LicenseListScreen() {
                                     <LicenseItem
                                         key={license.id}
                                         onPress={() => {
-                                            NavigationService.navigate(Routers.licenseDetail, { licenseData: license });
+                                            NavigationService.navigate(Routers.licenseDetail, {
+                                                licenseId: license.id,
+                                            });
                                         }}
                                         itemData={license}
                                         itemKey={license.id}

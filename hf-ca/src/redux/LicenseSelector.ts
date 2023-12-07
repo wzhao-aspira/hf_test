@@ -2,6 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "./Store";
 import { formateDateForList, formateDateForDashboard } from "../services/LicenseService";
 import { getFormattedLastUpdateDate } from "../utils/DateUtils";
+import { REQUEST_STATUS } from "../constants/Constants";
 
 const selectLicenseState = (state: RootState) => state.license;
 
@@ -38,3 +39,22 @@ export const selectLicenseForDashboard = createSelector(selectLicenseState, (lic
 });
 
 export const selectUpdateTime = createSelector(selectLicenseState, (license) => license.updateTime);
+
+export const selectLicenseForDetailSwiper = createSelector(selectLicenseState, (licenseState) => {
+    const licenseData = licenseState.data;
+    const data = licenseData?.map((item) => {
+        const { validFrom, validTo } = formateDateForList(item);
+        return { ...item, validFrom, validTo };
+    });
+
+    return data;
+});
+
+export const selectIsLicenseRefreshing = createSelector(
+    selectLicenseState,
+    (reduxData) => reduxData.requestStatus === REQUEST_STATUS.pending
+);
+export const selectIsLicenseListChanged = createSelector(
+    selectLicenseState,
+    (reduxData) => reduxData.isLicenseListChanged
+);
