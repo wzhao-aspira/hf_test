@@ -1,4 +1,4 @@
-import { View, FlatList, RefreshControl } from "react-native";
+import { View, FlatList, RefreshControl, DeviceEventEmitter } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import HomeDiscoverySectionLoading from "./HomeDiscoverySectionLoading";
@@ -21,6 +21,7 @@ import { actions as appActions, selectPrimaryInactivatedWhenSignIn } from "../..
 import Routers from "../../constants/Routers";
 import { checkNeedAutoRefreshData } from "../../utils/GenUtil";
 import { getProfileListUpdateTime } from "../../helper/AutoRefreshHelper";
+import { TabState } from "../../navigation/TabContent";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -97,6 +98,25 @@ export default function HomeScreen() {
         }
         return null;
     };
+
+    useEffect(() => {
+        // need to reset tab stack when switch customer
+        DeviceEventEmitter.addListener("switchProfile", () => {
+            const { currentTabIndex } = TabState;
+            if (currentTabIndex == 0) {
+                TabState.menuTabReset = true;
+                TabState.settingTabReset = true;
+            }
+            if (currentTabIndex == 1) {
+                TabState.homeTabReset = true;
+                TabState.settingTabReset = true;
+            }
+            if (currentTabIndex == 2) {
+                TabState.menuTabReset = true;
+                TabState.homeTabReset = true;
+            }
+        });
+    }, []);
 
     return (
         <View style={{ flex: 1 }}>
