@@ -187,6 +187,8 @@
         "currentlyInUse": "Currently In Use",
         "switchProfile": "Switch Customer",
         "otherProfiles": "Other Customer Records",
+        "maxCustomer": "(Maximum {{maxCustomer}} Customers)",
+        "maxCustomerHasBeenReached": "(Max {{maxCustomer}} Customers has been reached)",
         "selectOne": "[Select One]",
         "fgNumber": "FG #",
         "address": "Address",

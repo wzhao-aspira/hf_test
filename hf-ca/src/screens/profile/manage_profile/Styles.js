@@ -28,24 +28,30 @@ export const commonStyles = StyleSheet.create({
         paddingVertical: 20,
         ...AppTheme.shadow,
     },
-
     profileShortNameContainer: {
         ...profileItemCommonStyle.profileTypeContainer,
         borderRadius: 18,
         borderColor: AppTheme.colors.primary_2,
         borderWidth: 3,
     },
-
+    profileShortNameContainerDisable: {
+        ...profileItemCommonStyle.profileTypeContainer,
+        borderRadius: 18,
+        borderColor: AppTheme.colors.font_color_3,
+        borderWidth: 3,
+    },
     profileShortName: {
         ...AppTheme.typography.card_title,
         color: AppTheme.colors.font_color_1,
     },
-
     profileDisplayName: {
         ...AppTheme.typography.card_title,
         color: AppTheme.colors.font_color_1,
     },
-
+    profileDisplayNameDisable: {
+        ...AppTheme.typography.card_title,
+        color: AppTheme.colors.font_color_3,
+    },
     profileItemNumber: {
         marginTop: 5,
         ...AppTheme.typography.card_small_r,
@@ -56,6 +62,11 @@ export const commonStyles = StyleSheet.create({
         backgroundColor: AppTheme.colors.divider,
         marginTop: 22,
         marginHorizontal: -20,
+    },
+    addProfileSecondLine: {
+        marginTop: 5,
+        ...AppTheme.typography.card_small_r,
+        color: AppTheme.colors.font_color_3,
     },
 });
 

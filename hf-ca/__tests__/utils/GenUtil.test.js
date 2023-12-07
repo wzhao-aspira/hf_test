@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 /* eslint-disable no-undef */
 import moment from "moment";
-import { isImageFormat, sum, checkNeedAutoRefreshData, shortName } from "../../src/utils/GenUtil";
+import { isImageFormat, sum, checkNeedAutoRefreshData, shortName, numberOnly } from "../../src/utils/GenUtil";
 
 describe("Test sum", () => {
     test("call sum normally", () => {
@@ -91,5 +91,19 @@ describe("Test shortName", () => {
         const expectResult = "EL";
         const result = shortName(value);
         expect(result).toBe(expectResult);
+    });
+});
+
+describe("Test numberOnly", () => {
+    test("number only true", () => {
+        const value = 1;
+        const expectResult = true;
+        expect(numberOnly(value)).toBe(expectResult);
+    });
+
+    test("number only false", () => {
+        const value = "1A2s";
+        const expectResult = false;
+        expect(numberOnly(value)).toBe(expectResult);
     });
 });
