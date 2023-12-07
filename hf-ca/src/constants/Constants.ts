@@ -14,7 +14,6 @@ export const KEY_CONSTANT = {
     loginCredential: "loginCredential",
     lastBiometricLoginUser: "lastBiometricLoginUser",
     lastBiometricLoginUserAuthInfo: "lastBiometricLoginUserAuthInfo",
-    currentInUseProfileID: "currentInUseProfileID",
     keySalesAgentsRecentSearch: "keySalesAgentsRecentSearch",
     usefulLinks: "usefulLinks",
     regulations: "regulations",
@@ -25,7 +24,7 @@ export const KEY_CONSTANT = {
     keyIsEmptyPreferencePointOnlineDataCached: "keyIsEmptyPreferencePointOnlineDataCached",
     keyUpdatePromoteCount: "keyUpdatePromoteCount",
     keyVersionInfo: "keyVersionInfo",
-    lastUpdateDateOfCustomers: "lastUpdateDateOfCustomers",
+    lastUpdateDate: "lastUpdateDate",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = {
