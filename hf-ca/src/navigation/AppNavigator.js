@@ -193,7 +193,6 @@ function DrawerNav() {
 function MainNav() {
     return (
         <MainStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={Routers.tabNav}>
-            <MainStack.Screen name={Routers.accessPermitDetail} component={AccessPermitDetailScreen} />
             <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
             <MainStack.Screen name={Routers.addIndividualProfile} component={AddIndividualProfileInfoScreen} />
             <MainStack.Screen
@@ -201,32 +200,9 @@ function MainNav() {
                 component={AddIndividualProfileInfoDetailsScreen}
             />
             <MainStack.Screen name={Routers.addBusinessVesselProfile} component={AddBusinessVesselProfileInfoScreen} />
-            <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
-            <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
-            <MainStack.Screen name={Routers.drawApplicationDetail} component={DrawApplicationDetailScreen} />
-            <MainStack.Screen name={Routers.drawApplicationList} component={DrawApplicationListScreen} />
-            <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
-            <MainStack.Screen
-                name={Routers.forgotPasswordResetPassword}
-                component={ForgotPasswordResetPasswordScreen}
-            />
-            <MainStack.Screen name={Routers.licenseDetail} component={LicenseDetailScreen} />
-            <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
-            <MainStack.Screen name={Routers.accessPermitList} component={AccessPermitListScreen} />
-            <MainStack.Screen name={Routers.accessPermit} component={AccessPermitScreen} />
-            <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
-            <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />
-            <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
-            <MainStack.Screen name={Routers.quickAccessSetting} component={QuickAccessMethodsScreen} />
-            <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
-            <MainStack.Screen name={Routers.tabNav} component={TabNav} />
-            <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
-            <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
-            <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
-            <MainStack.Screen name={Routers.regulationList} component={RegulationListScreen} />
-            <MainStack.Screen name={Routers.regulationDetail} component={RegulationDetailScreen} />
+            <MainStack.Screen name={Routers.tabNav} component={BottomTabBar} />
         </MainStack.Navigator>
     );
 }
@@ -245,14 +221,65 @@ function SignUpNav() {
     );
 }
 
-function TabNav() {
+function MainStackFactory(initialRouteName = Routers.home) {
+    return (
+        <MainStack.Navigator screenOptions={screenOpt} headerMode="none" initialRouteName={initialRouteName}>
+            <MainStack.Screen name={Routers.home} component={HomeScreen} />
+            <MainStack.Screen name={Routers.myLicenses} component={MyLicensesTabScreen} />
+            <MainStack.Screen name={Routers.settings} component={SettingsTabScreen} />
+            <MainStack.Screen name={Routers.accessPermitDetail} component={AccessPermitDetailScreen} />
+            <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
+            <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
+            <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
+            <MainStack.Screen name={Routers.drawApplicationDetail} component={DrawApplicationDetailScreen} />
+            <MainStack.Screen name={Routers.drawApplicationList} component={DrawApplicationListScreen} />
+            <MainStack.Screen name={Routers.followUs} component={FollowUsScreen} />
+            <MainStack.Screen
+                name={Routers.forgotPasswordResetPassword}
+                component={ForgotPasswordResetPasswordScreen}
+            />
+            <MainStack.Screen name={Routers.licenseDetail} component={LicenseDetailScreen} />
+            <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
+            <MainStack.Screen name={Routers.accessPermitList} component={AccessPermitListScreen} />
+            <MainStack.Screen name={Routers.accessPermit} component={AccessPermitScreen} />
+            <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />
+            <MainStack.Screen name={Routers.preferencePoint} component={PreferencePointScreen} />
+            <MainStack.Screen name={Routers.profileDetails} component={ProfileDetailsScreen} />
+            <MainStack.Screen name={Routers.quickAccessSetting} component={QuickAccessMethodsScreen} />
+            <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
+            <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
+            <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
+            <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
+            <MainStack.Screen name={Routers.regulationList} component={RegulationListScreen} />
+            <MainStack.Screen name={Routers.regulationDetail} component={RegulationDetailScreen} />
+        </MainStack.Navigator>
+    );
+}
+
+function TabHome() {
+    return MainStackFactory(Routers.home);
+}
+
+function TabMenu() {
+    return MainStackFactory(Routers.myLicenses);
+}
+
+function TabSetting() {
+    return MainStackFactory(Routers.settings);
+}
+
+function TabDrawer() {
+    return MainStackFactory(Routers.settings);
+}
+
+function BottomTabBar() {
     return (
         // https://reactnavigation.org/docs/bottom-tab-navigator#tabbar
         <BottomTab.Navigator screenOptions={screenOpt} tabBar={TabContent}>
-            <BottomTab.Screen name={Routers.home} component={HomeScreen} />
-            <BottomTab.Screen name={Routers.myLicenses} component={MyLicensesTabScreen} />
-            <BottomTab.Screen name={Routers.settings} component={SettingsTabScreen} />
-            <BottomTab.Screen name={Routers.menu} component="" />
+            <BottomTab.Screen name={Routers.home} component={TabHome} />
+            <BottomTab.Screen name={Routers.myLicenses} component={TabMenu} />
+            <BottomTab.Screen name={Routers.settings} component={TabSetting} />
+            <BottomTab.Screen name={Routers.menu} component={TabDrawer} />
         </BottomTab.Navigator>
     );
 }

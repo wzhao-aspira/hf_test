@@ -10,6 +10,7 @@ import * as Font from "expo-font";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { isEmpty } from "lodash";
 import * as Sentry from "@sentry/react-native";
+import { LogBox } from "react-native";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
 import i18n from "./src/localization/i18n";
@@ -27,6 +28,8 @@ import appThunkActions from "./src/redux/AppThunk";
 import AppAnalyticsHelper from "./src/helper/AppAnalyticsHelper";
 import { DialogProvider } from "./src/components/dialog/index";
 import configureNetworkDetect from "./src/services/ApiHealthService";
+
+LogBox.ignoreLogs(["Found screens with the same name nested inside one another."]);
 
 Sentry.init({
     enabled: enabledSentry(),
