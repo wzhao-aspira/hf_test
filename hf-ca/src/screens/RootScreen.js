@@ -5,11 +5,8 @@ import { StatusBar } from "expo-status-bar";
 
 import { useAppSelector as useSelector } from "../hooks/redux";
 import { selectIndicator, selectLoginStep } from "../redux/AppSlice";
-import profileSelectors from "../redux/ProfileSelector";
 
 import LoginStep from "../constants/LoginStep";
-import { KEY_CONSTANT } from "../constants/Constants";
-import { storeItem } from "../helper/StorageHelper";
 
 import AppNavigator from "../navigation/AppNavigator";
 import { Indicator } from "../components/Dialog";
@@ -21,22 +18,12 @@ import { checkVersion } from "../services/VersionCheckService";
 import AppStateManager from "../helper/AppStateManager";
 import { RootModal } from "../components/dialog/index";
 
-function useSaveCurrentInUseCustomerIDIntoLocalStorage() {
-    const currentInUseProfileID = useSelector(profileSelectors.selectCurrentInUseProfileID);
-
-    useEffect(() => {
-        console.log(`${KEY_CONSTANT.currentInUseProfileID}: ${currentInUseProfileID} saved into local storage`);
-        storeItem(KEY_CONSTANT.currentInUseProfileID, currentInUseProfileID);
-    }, [currentInUseProfileID]);
-}
-
 export default function RootScreen() {
     const loginStep = useSelector(selectLoginStep);
     const indicator = useSelector(selectIndicator);
     const appState = useRef(null);
     const isLogin = loginStep == LoginStep.login;
 
-    useSaveCurrentInUseCustomerIDIntoLocalStorage();
     useErrorHandling();
     useEffect(() => {
         AppStateManager.addAppStateListener((state) => {

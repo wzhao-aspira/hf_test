@@ -5,7 +5,7 @@ import { needRefreshToken } from "./tokenUtil";
 import { globalDataForAPI, url } from "./commonUtil";
 import { refreshToken } from "./identityAPI";
 import { whiteList, StorageCache, axiosCache } from "./cache";
-import { retrieveItem, storeItem } from "../helper/StorageHelper";
+import { storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 
 export const instance = axiosCache(
@@ -45,32 +45,11 @@ instance.interceptors.request.use(async (cfg) => {
 });
 
 export async function clearLastUpdateDate() {
-    await storeItem(KEY_CONSTANT.lastUpdateDateOfCustomers, JSON.stringify({}));
+    await storeItem(KEY_CONSTANT.lastUpdateDate, "");
 }
 
 async function saveLastUpdateDateIntoLocalStorage(lastUpdatedDate) {
-    if (!lastUpdatedDate) return;
-
-    const currentInUseProfileID = await retrieveItem(KEY_CONSTANT.currentInUseProfileID);
-
-    if (currentInUseProfileID && lastUpdatedDate) {
-        const lastUpdateDateOfCustomers = await retrieveItem(KEY_CONSTANT.lastUpdateDateOfCustomers);
-
-        if (lastUpdateDateOfCustomers) {
-            const parsedLastUpdateDateOfAccounts = JSON.parse(lastUpdateDateOfCustomers);
-
-            parsedLastUpdateDateOfAccounts[currentInUseProfileID] = lastUpdatedDate;
-
-            await storeItem(KEY_CONSTANT.lastUpdateDateOfCustomers, JSON.stringify(parsedLastUpdateDateOfAccounts));
-        } else {
-            await storeItem(
-                KEY_CONSTANT.lastUpdateDateOfCustomers,
-                JSON.stringify({
-                    [currentInUseProfileID]: lastUpdatedDate,
-                })
-            );
-        }
-    }
+    if (lastUpdatedDate) await storeItem(KEY_CONSTANT.lastUpdateDate, lastUpdatedDate);
 }
 
 instance.interceptors.response.use((response) => {
