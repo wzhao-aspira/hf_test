@@ -70,9 +70,14 @@ const styles = StyleSheet.create({
         marginHorizontal: DEFAULT_MARGIN,
         marginBottom: 23,
     },
+    manageProfileSecondLine: {
+        ...AppTheme.typography.card_small_r,
+        marginTop: -10,
+        marginBottom: 16,
+    },
 });
 
-const renderItem = (title, callBack, secondLine) => {
+const renderItem = (title, callBack, secondLine, secondLineStyle) => {
     return (
         <View>
             <Pressable
@@ -83,7 +88,11 @@ const renderItem = (title, callBack, secondLine) => {
                 <View style={styles.itemContainer}>
                     <View>
                         <Text style={styles.itemTitle}>{title}</Text>
-                        {secondLine && <Text style={styles.itemText}>{secondLine}</Text>}
+                        {secondLine && (
+                            <Text style={secondLineStyle != null ? secondLineStyle : styles.itemText}>
+                                {secondLine}
+                            </Text>
+                        )}
                     </View>
 
                     <FontAwesomeIcon
@@ -120,7 +129,8 @@ function RenderContent() {
                     () => {
                         NavigationService.navigate(Routers.manageProfile);
                     },
-                    manageProfileSecondLine
+                    manageProfileSecondLine,
+                    styles.manageProfileSecondLine
                 )}
                 <SeparateLine />
                 {renderItem(t("setting.changePassword"), () => {
