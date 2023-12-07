@@ -6,6 +6,8 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import { genTestId } from "../../helper/AppHelper";
 import RenderHTML from "../../components/RenderHTML";
 import { SCREEN_WIDTH } from "../../constants/Dimension";
+import contactUsViaEmail from "../../helper/MailHelper";
+import useDialog from "../../components/dialog/useDialog";
 
 const EMAIL_WIDTH = 50;
 const styles = StyleSheet.create({
@@ -83,6 +85,7 @@ function LinkButton({ text, href, onPress }) {
 
 function ContractItem({ item, onlyShowTitle, onPress }) {
     const { t } = useTranslation();
+    const { openSimpleDialog } = useDialog();
     return (
         <View style={styles.container}>
             <View style={[styles.itemContainer, styles.titleContainer]}>
@@ -104,7 +107,13 @@ function ContractItem({ item, onlyShowTitle, onPress }) {
                     <View style={styles.bottomLine} />
                     <View style={[styles.itemContainer]}>
                         <Text style={styles.email}>{t("contact.email")}</Text>
-                        <LinkButton text={item.email} onPress={() => {}} />
+                        <LinkButton
+                            text={item.email}
+                            onPress={() => {
+                                console.log(`send email:${item.email}`);
+                                contactUsViaEmail(item.email, openSimpleDialog);
+                            }}
+                        />
                     </View>
                     <View style={styles.itemContainer}>
                         <Text style={styles.call}>{t("contact.call")}</Text>
