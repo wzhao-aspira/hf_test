@@ -505,5 +505,15 @@
     "webview": {
         "BackToApp": "Back to App",
         "CDFWSalesAndServices": "CDFW Sales and Services"
+    },
+    "mail":{
+        "subject": "CDFW License App Feedback",
+        "appVersion": "App version",
+        "device": "Device",
+        "osVersion": "OS version",
+        "emailNotSetup": "Email not set up",
+        "emailNotSetupMsg":
+            "Email is not currently set up. Please launch the Settings app and set up at least one email account under the Mail settings."
+
     }
 }
