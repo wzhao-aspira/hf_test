@@ -8,7 +8,7 @@ import MobileAppUsersAPIs, {
     changeUserPassword,
 } from "../network/api_client/MobileAppUsersAPIs";
 import { signIn, tokenRevocation } from "../network/identityAPI";
-import { instance } from "../network/AxiosClient";
+import { instance, clearLastUpdateDate } from "../network/AxiosClient";
 import { handleError } from "../network/APIUtil";
 import { clearToken } from "../network/tokenUtil";
 import { globalDataForAPI } from "../network/commonUtil";
@@ -108,6 +108,7 @@ async function clearAppData(dispatch) {
     dispatch({ type: "USER_LOGOUT" });
     const userID = await getActiveUserID();
     await setActiveUserID(null);
+    await clearLastUpdateDate();
     clearToken(userID);
     // clear local DB data
     await clearProfileSummaryFromDB();
@@ -116,6 +117,7 @@ async function clearAppData(dispatch) {
     await removeAccessPermitFromDB();
     await removeLicenseListData();
     await deleteDrawApplicationDataFromDB();
+    //
 }
 
 export default {
