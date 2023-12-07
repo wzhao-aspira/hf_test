@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         marginBottom: 10,
+        justifyContent: "space-between",
     },
     title: {
         fontFamily: "Bold",
@@ -55,8 +56,7 @@ const styles = StyleSheet.create({
     },
     titleContentContainer: {
         flexDirection: "column",
-        width: "66%",
-        marginRight: 10,
+        width: "60%",
     },
     linkButtonText: {
         ...AppTheme.typography.overlay_sub_text,

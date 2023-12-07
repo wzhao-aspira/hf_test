@@ -16,12 +16,16 @@ import { handleError } from "../../../network/APIUtil";
 import { getProfileTypes } from "../../../services/ProfileService";
 import { selectUsername } from "../../../redux/AppSlice";
 import { selectors as profileSelectors } from "../../../redux/ProfileSlice";
+import getAssociatedCustomerMaximum from "../../../helper/ProfileHelper";
 
 export default function OtherProfiles({ isLoading }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const userName = useSelector(selectUsername);
     const otherProfilesWithoutPrimary = useSelector(profileSelectors.selectOtherProfileListWithoutPrimary);
+    const maxCustomerNumber = getAssociatedCustomerMaximum();
+    const profileListIds = useSelector(profileSelectors.selectProfileIDs);
+    const addProfileDisableInd = maxCustomerNumber > 0 && profileListIds.length >= Number.parseInt(maxCustomerNumber);
 
     const handleAddProfile = async () => {
         console.log("OtherProfiles - handleAddProfile - getProfileListChangeStatus before add profile");
@@ -68,16 +72,43 @@ export default function OtherProfiles({ isLoading }) {
                     style={{ marginTop: 16 }}
                     onPress={() => handleAddProfile()}
                     testID={genTestId("addProfile")}
+                    disabled={addProfileDisableInd}
                 >
                     <View style={commonStyles.profileContainer}>
-                        <View style={commonStyles.profileShortNameContainer}>
-                            <FontAwesomeIcon icon={faPlus} size={24} color={AppTheme.colors.primary_2} />
+                        <View
+                            style={
+                                addProfileDisableInd
+                                    ? commonStyles.profileShortNameContainerDisable
+                                    : commonStyles.profileShortNameContainer
+                            }
+                        >
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                size={24}
+                                color={addProfileDisableInd ? AppTheme.colors.font_color_3 : AppTheme.colors.primary_2}
+                            />
                         </View>
-                        <View>
-                            <Text style={commonStyles.profileDisplayName}>{t("profile.addProfile")}</Text>
+                        <View style={{ flex: 1 }}>
+                            <Text
+                                style={
+                                    addProfileDisableInd
+                                        ? commonStyles.profileDisplayNameDisable
+                                        : commonStyles.profileDisplayName
+                                }
+                            >
+                                {t("profile.addProfile")}
+                            </Text>
+                            {addProfileDisableInd && (
+                                <Text style={commonStyles.addProfileSecondLine}>
+                                    {t("profile.maxCustomerHasBeenReached", { maxCustomer: maxCustomerNumber })}
+                                </Text>
+                            )}
                         </View>
-                        <View style={{ flexGrow: 1 }} />
-                        <FontAwesomeIcon icon={faChevronRight} size={22} color={AppTheme.colors.primary_2} />
+                        <FontAwesomeIcon
+                            icon={faChevronRight}
+                            size={22}
+                            color={addProfileDisableInd ? AppTheme.colors.font_color_3 : AppTheme.colors.primary_2}
+                        />
                     </View>
                 </Pressable>
             )}

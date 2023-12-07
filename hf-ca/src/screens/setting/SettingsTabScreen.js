@@ -15,6 +15,7 @@ import { selectUsername } from "../../redux/AppSlice";
 import HeaderBar from "../../components/HeaderBar";
 import SplitLine from "../../components/SplitLine";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
+import getAssociatedCustomerMaximum from "../../helper/ProfileHelper";
 
 const styles = StyleSheet.create({
     title: {
@@ -102,17 +103,25 @@ function RenderContent() {
     const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const userName = useSelector(selectUsername);
     const [quickAccessEnabled, setQuickAccessEnabled] = useState(false);
+    const maxCustomerNumber = getAssociatedCustomerMaximum();
+    let manageProfileSecondLine = null;
+    if (maxCustomerNumber > 0) {
+        manageProfileSecondLine = t("profile.maxCustomer", { maxCustomer: maxCustomerNumber });
+    }
     if (!activeProfile) {
         return null;
     }
-
     return (
         <ScrollView contentContainerStyle={{ paddingBottom: PAGE_MARGIN_BOTTOM }}>
             <Text style={styles.sectionTitle}>{t("me.account")}</Text>
             <View style={styles.sectionContainer}>
-                {renderItem(t("profile.manageProfile"), () => {
-                    NavigationService.navigate(Routers.manageProfile);
-                })}
+                {renderItem(
+                    t("profile.manageProfile"),
+                    () => {
+                        NavigationService.navigate(Routers.manageProfile);
+                    },
+                    manageProfileSecondLine
+                )}
                 <SeparateLine />
                 {renderItem(t("setting.changePassword"), () => {
                     NavigationService.navigate(Routers.forgotPasswordResetPassword, {

@@ -72,3 +72,7 @@ export function getDownloadFileName(url) {
     }
     return fileName;
 }
+
+export function numberOnly(number) {
+    return /^-?[0-9]+$/.test(number);
+}
