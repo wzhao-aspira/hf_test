@@ -425,6 +425,18 @@ function LicenseDetailScreen(props) {
         return text;
     };
 
+    useEffect(() => {
+        // refresh when change profile
+        dispatch(ProfileThunk.initResidentMethodTypes());
+        dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce: true })).then(
+            (response) => {
+                if (response?.success) {
+                    dispatch(getLicense({ isForce: true, searchParams: { activeProfileId: currentInUseProfileId } }));
+                }
+            }
+        );
+    }, [currentInUseProfileId, dispatch]);
+
     return (
         <Page style={styles.container}>
             <CommonHeader titleComponent={title} />

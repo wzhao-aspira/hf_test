@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, Pressable } from "react-native";
+import { View, ScrollView, Text, Pressable, DeviceEventEmitter } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { t } from "i18next";
 import { faPlus } from "@fortawesome/pro-regular-svg-icons/faPlus";
@@ -85,6 +85,8 @@ export default function SwitchProfileDialog({
         if (!response.success || response.primaryIsInactivated) {
             return;
         }
+
+        DeviceEventEmitter.emit("switchProfile");
 
         const profile = response.profiles.find((item) => item.customerId === profileId);
         if (profile) {
