@@ -140,7 +140,7 @@ function CarouselContent({ item, index }) {
                     console.log(`deltaY:${deltaY}`);
 
                     if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) {
-                        NavigationService.navigate(Routers.licenseDetail, { licenseData: item });
+                        NavigationService.navigate(Routers.licenseDetail, { licenseId: item.id });
                     }
                 }}
             >

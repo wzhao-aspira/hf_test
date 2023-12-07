@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
-import { isEmpty } from "lodash";
+import { isEmpty, xor } from "lodash";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {
     getIsEmptyOnlineDataCachedInd,
@@ -23,6 +23,7 @@ interface LicenseState {
     isAPISucceed: boolean;
     isShowSkeletonWhenOffline: boolean;
     lastUpdateTimeFromServer: null | string;
+    isLicenseListChanged: boolean;
 }
 
 export const getLicense = createAsyncThunk(
@@ -32,12 +33,19 @@ export const getLicense = createAsyncThunk(
             searchParams,
             isForce = false,
             useCache = false,
-        }: { searchParams: { activeProfileId: string }; isForce?: boolean; useCache?: boolean },
-        { dispatch }
+            checkIsListChanged = false,
+        }: {
+            searchParams: { activeProfileId: string };
+            isForce?: boolean;
+            useCache?: boolean;
+            checkIsListChanged?: boolean;
+        },
+        { dispatch, getState }
     ) => {
         console.log(`LicenseSlice - getLicense - isForce:${isForce}, useCache:${useCache}`);
         const licenses = { success: false, data: null };
         let isAPISucceed = false;
+        let isLicenseListChanged = false;
         if (useCache == false) {
             const results = await handleError(getLicenseData(searchParams), {
                 networkErrorByDialog: false,
@@ -48,6 +56,18 @@ export const getLicense = createAsyncThunk(
             if (isAPISucceed) {
                 licenses.success = isAPISucceed;
                 licenses.data = results.data.formattedResult;
+
+                // check license list is changed when refresh on license details page
+                // @ts-expect-error
+                const { license } = getState();
+                if (checkIsListChanged && !isEmpty(license.data)) {
+                    // @ts-ignore
+                    const licenseIds = license.data.map((d) => d.id);
+                    const newLicenseIds = results.data.formattedResult.map((d) => d.id);
+                    const differenceIds = xor(licenseIds, newLicenseIds);
+                    console.log("difference license ids:", differenceIds);
+                    isLicenseListChanged = differenceIds.length > 0;
+                }
             } else {
                 const licensesFromDB = await getLicenseListDataFromDB(searchParams);
                 licenses.success = true;
@@ -68,7 +88,7 @@ export const getLicense = createAsyncThunk(
             dispatch,
         });
         const { lastUpdateTime } = licenseLastUpdateTime.data || {};
-        return { ...licenses, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime };
+        return { ...licenses, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime, isLicenseListChanged };
     },
     {
         condition: ({ isForce = false }, { getState }) => {
@@ -95,6 +115,7 @@ const initialState: LicenseState = {
     isAPISucceed: true,
     isShowSkeletonWhenOffline: false,
     lastUpdateTimeFromServer: null,
+    isLicenseListChanged: false,
 };
 
 const licenseSlice = createSlice({
@@ -113,6 +134,10 @@ const licenseSlice = createSlice({
             state.updateTime = moment().unix();
             state.lastUpdateTimeFromServer = payload;
         },
+        updateIsLicenseListChanged(state, action: PayloadAction<boolean>) {
+            const { payload } = action;
+            state.isLicenseListChanged = payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getLicense.rejected, (state, action) => {
@@ -125,7 +150,8 @@ const licenseSlice = createSlice({
         });
         builder.addCase(getLicense.fulfilled, (state, action) => {
             const payload = action?.payload;
-            const { success, data, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime } = payload;
+            const { success, data, isAPISucceed, isShowSkeletonWhenOffline, lastUpdateTime, isLicenseListChanged } =
+                payload;
             if (success) {
                 // Check if is empty data from the API, if not then need to show the skeleton
                 if (isAPISucceed) {
@@ -137,6 +163,7 @@ const licenseSlice = createSlice({
                 state.lastUpdateTimeFromServer = lastUpdateTime;
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 state.data = data;
+                state.isLicenseListChanged = isLicenseListChanged;
             } else {
                 state.requestStatus = REQUEST_STATUS.rejected;
             }

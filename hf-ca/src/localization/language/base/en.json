@@ -16,7 +16,8 @@
         "viewDrawApplication": "View Draw Application/Results",
         "viewHarvestReport": "Harvest Reports",
         "myActivePermits": "My Permits/Reservations",
-        "purchaseLicense": "Purchase License"
+        "purchaseLicense": "Purchase License",
+        "LicenseListChanged": "Please note that your related license information has recently been updated."
     },
     "licenseDetails": {
         "stateOfCalifornia": "STATE OF CALIFORNIA",
