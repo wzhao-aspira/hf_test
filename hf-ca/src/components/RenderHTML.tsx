@@ -5,11 +5,11 @@ import type { RenderHTMLProps as RNRenderHTMLProps } from "react-native-render-h
 import useNavigateToIS from "../hooks/useNavigateToIS";
 
 interface RenderHTMLProps extends RNRenderHTMLProps {
-    customerID: string;
+    customerID?: string;
 }
 
 function RenderHTML(props: RenderHTMLProps) {
-    const { renderersProps, ...restProps } = props;
+    const { renderersProps, customerID = null, ...restProps } = props;
 
     const { navigateToIS } = useNavigateToIS();
 
@@ -27,7 +27,7 @@ function RenderHTML(props: RenderHTMLProps) {
                                 href.indexOf("AutoLoginForMobile?targetPath=%2") + 33,
                                 href.indexOf("&AUTO_LOGIN_QUERY_PARAMETERS")
                             );
-                            navigateToIS({ targetPath: `/${targetPath}` });
+                            navigateToIS({ targetPath: `/${targetPath}`, customerID });
                         } else {
                             Linking.openURL(href);
                         }
