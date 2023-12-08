@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { View, StyleSheet, ScrollView, RefreshControl, Pressable, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import { useDispatch, useSelector } from "react-redux";
-import { isEmpty } from "lodash";
+import { isEmpty, debounce } from "lodash";
 import { faAngleRight } from "@fortawesome/pro-solid-svg-icons/faAngleRight";
 import { faAngleLeft } from "@fortawesome/pro-solid-svg-icons/faAngleLeft";
 
@@ -151,18 +151,16 @@ function LicenseDetailScreen(props) {
         profileDetails.noCacheData ||
         isLicenseListChanged;
 
-    const onNextClick = () => {
-        swiperRef.current.scrollToIndex({ index: currentSliderIndex + 1 });
-    };
-    const onPrevClick = () => {
-        swiperRef.current.scrollToIndex({ index: currentSliderIndex - 1 });
-    };
-    const onIndexChanged = (params) => {
-        const newIndex = params?.index;
+    const onNextClick = debounce(() => swiperRef.current.scrollToIndex({ index: currentSliderIndex + 1 }), 200);
+    const onPrevClick = debounce(() => swiperRef.current.scrollToIndex({ index: currentSliderIndex - 1 }), 200);
+
+    const handleViewableItemsChanged = useCallback((info) => {
+        const newIndex = info?.changed[0]?.index;
         if (typeof newIndex === "number" && newIndex > -1 && newIndex < licenseList.length) {
             setCurrentSliderIndex(newIndex);
         }
-    };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const getLicenseOfActiveProfile = async (isForce) => {
         setInitSliderIndex(currentSliderIndex);
@@ -226,9 +224,8 @@ function LicenseDetailScreen(props) {
                     <SwiperFlatList
                         ref={swiperRef}
                         index={initSliderIndex}
-                        loop={false}
                         windowSize={2}
-                        onChangeIndex={onIndexChanged}
+                        onViewableItemsChanged={handleViewableItemsChanged}
                     >
                         {licenseList?.map((item) => (
                             <LicenseDetailScrollView
