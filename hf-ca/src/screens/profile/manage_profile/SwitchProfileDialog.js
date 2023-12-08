@@ -17,11 +17,12 @@ import { genTestId } from "../../../helper/AppHelper";
 import { handleError } from "../../../network/APIUtil";
 import { goToAddNewPrimaryProfilePage, switchToPrimary } from "../../../services/ProfileService";
 
-function AddPrimaryProfile({ currentRoute }) {
+function AddPrimaryProfile({ currentRoute, hideDialog }) {
     const userID = useSelector(appSelectors.selectUsername);
     return (
         <Pressable
             onPress={() => {
+                hideDialog();
                 goToAddNewPrimaryProfilePage(userID, currentRoute);
             }}
             testID={genTestId("addPrimaryProfile")}
@@ -138,7 +139,7 @@ export default function SwitchProfileDialog({
                         <Text testID={genTestId("noPrimaryAvailable")} style={primaryProfileInactiveStyles.subTitle}>
                             {t("profile.noPrimaryAvailable")}
                         </Text>
-                        <AddPrimaryProfile currentRoute={currentRoute} />
+                        <AddPrimaryProfile currentRoute={currentRoute} hideDialog={hideDialog} />
                     </View>
                 ) : (
                     <ProfileItem
