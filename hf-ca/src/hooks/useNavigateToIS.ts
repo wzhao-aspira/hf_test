@@ -42,7 +42,7 @@ function useNavigateToIS() {
     );
 
     const navigateToIS = useCallback(
-        async ({ targetPath }: { targetPath: string }) => {
+        async ({ targetPath, customerID }: { targetPath: string; customerID?: string }) => {
             const checkTokenResponse = await handleError(Miscellaneous.checkTokenAPI(), {
                 dispatch,
                 showLoading: true,
@@ -51,9 +51,8 @@ function useNavigateToIS() {
             if (!checkTokenResponse.success) {
                 return false;
             }
-
             const internetSalesBaseURL = appConfig.data?.internetSalesBaseURL;
-            const additionalInfoQueryString = getAdditionalInfoQueryString();
+            const additionalInfoQueryString = getAdditionalInfoQueryString({ customerID });
 
             const ISURLWithAdditionalInfo = `${internetSalesBaseURL}CustomerSearch/AutoLoginForMobile?targetPath=${encodeURIComponent(
                 targetPath
