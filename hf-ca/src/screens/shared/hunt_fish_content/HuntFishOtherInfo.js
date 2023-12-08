@@ -33,7 +33,7 @@ function HuntFishOtherInfo() {
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
     const { navigateToViewCustomerHarvestReports } = useNavigateToISViewCustomerHarvestReports();
 
-    const { isDrawResultAvailable, isAccessPermitsAvailable } = appConfig.data;
+    const { isDrawResultAvailable, isAccessPermitsAvailable, isPreferencePointAvailable } = appConfig.data;
     return (
         <View>
             <Text style={styles.sectionTitle}>{t("license.importantInformation")}</Text>
@@ -60,12 +60,14 @@ function HuntFishOtherInfo() {
                         }}
                     />
                 )}
-                <HuntFishOtherInfoItem
-                    title={t("preferencePoint.viewPreferencePoint")}
-                    onPress={() => {
-                        NavigationService.navigate(Routers.preferencePoint);
-                    }}
-                />
+                {isPreferencePointAvailable && (
+                    <HuntFishOtherInfoItem
+                        title={t("preferencePoint.viewPreferencePoint")}
+                        onPress={() => {
+                            NavigationService.navigate(Routers.preferencePoint);
+                        }}
+                    />
+                )}
                 <HuntFishOtherInfoItem
                     title={t("license.viewHarvestReport")}
                     onPress={() => {

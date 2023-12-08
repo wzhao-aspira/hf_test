@@ -1870,6 +1870,12 @@ export interface MobileAppConfigurationVM {
     'isDrawResultAvailable'?: boolean | null;
     /**
      * 
+     * @type {boolean}
+     * @memberof MobileAppConfigurationVM
+     */
+    'isPreferencePointAvailable'?: boolean | null;
+    /**
+     * 
      * @type {string}
      * @memberof MobileAppConfigurationVM
      */
@@ -1885,7 +1891,19 @@ export interface MobileAppConfigurationVM {
      * @type {string}
      * @memberof MobileAppConfigurationVM
      */
+    'noFormatContactCDFWPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
     'cdfwWorkingHours'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactCDFWDescription'?: string | null;
     /**
      * 
      * @type {string}
@@ -1903,7 +1921,19 @@ export interface MobileAppConfigurationVM {
      * @type {string}
      * @memberof MobileAppConfigurationVM
      */
+    'noFormatContactAspiraPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
     'aspiraWorkingHours'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'contactAspiraDescription'?: string | null;
     /**
      * 
      * @type {string}
@@ -1922,6 +1952,12 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'apiVersion'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileAppConfigurationVM
+     */
+    'associatedCustomerMaximum'?: number | null;
 }
 /**
  * 

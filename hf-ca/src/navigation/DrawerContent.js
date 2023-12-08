@@ -223,7 +223,7 @@ export default function DrawerContent({ navigation }) {
     };
 
     const renderGeneralSection = () => {
-        const { isDrawResultAvailable, isAccessPermitsAvailable } = appConfig.data;
+        const { isDrawResultAvailable, isAccessPermitsAvailable, isPreferencePointAvailable } = appConfig.data;
         return (
             <>
                 <View style={styles.sectionTitleContainer}>
@@ -257,13 +257,15 @@ export default function DrawerContent({ navigation }) {
                             testID="MyActivePermits"
                         />
                     )}
-                    <MenuItem
-                        onClick={() => {
-                            navigation.navigate(Routers.preferencePoint);
-                        }}
-                        title="preferencePoint.viewPreferencePoint"
-                        testID="ViewPreferencePoint"
-                    />
+                    {isPreferencePointAvailable && (
+                        <MenuItem
+                            onClick={() => {
+                                navigation.navigate(Routers.preferencePoint);
+                            }}
+                            title="preferencePoint.viewPreferencePoint"
+                            testID="ViewPreferencePoint"
+                        />
+                    )}
                     <MenuItem
                         onClick={() => {
                             navigateToViewCustomerHarvestReports();
