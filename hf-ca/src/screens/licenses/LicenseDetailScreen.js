@@ -119,6 +119,7 @@ function LicenseDetailScrollView({ children, licenseRefreshing, getLicenseOfActi
 }
 
 function LicenseDetailScreen(props) {
+    const detailPageRef = useRef(0);
     const swiperRef = useRef(null);
     const dispatch = useDispatch();
     const { openSimpleDialog } = useDialog();
@@ -143,24 +144,28 @@ function LicenseDetailScreen(props) {
 
     const [currentSliderIndex, setCurrentSliderIndex] = useState(itemIndex);
     const [initSliderIndex, setInitSliderIndex] = useState(itemIndex);
+    const [isLicenseListEmpty, setIsLicenseListEmpty] = useState(false);
 
     const isLoading =
         isEmpty(licenseList) ||
         licenseRefreshing ||
         profileRefreshing ||
         profileDetails.noCacheData ||
-        isLicenseListChanged;
+        isLicenseListChanged ||
+        isLicenseListEmpty;
 
     const onNextClick = debounce(() => swiperRef.current.scrollToIndex({ index: currentSliderIndex + 1 }), 200);
     const onPrevClick = debounce(() => swiperRef.current.scrollToIndex({ index: currentSliderIndex - 1 }), 200);
 
-    const handleViewableItemsChanged = useCallback((info) => {
-        const newIndex = info?.changed[0]?.index;
-        if (typeof newIndex === "number" && newIndex > -1 && newIndex < licenseList.length) {
-            setCurrentSliderIndex(newIndex);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const handleViewableItemsChanged = useCallback(
+        (info) => {
+            const newIndex = info?.changed[0]?.index;
+            if (typeof newIndex === "number" && newIndex > -1 && newIndex < licenseList.length) {
+                setCurrentSliderIndex(newIndex);
+            }
+        },
+        [licenseList.length]
+    );
 
     const getLicenseOfActiveProfile = async (isForce) => {
         setInitSliderIndex(currentSliderIndex);
@@ -209,6 +214,22 @@ function LicenseDetailScreen(props) {
             }
         );
     }, [currentInUseProfileId, dispatch]);
+
+    useEffect(() => {
+        // back from other page and licenseList Changed.
+        if (detailPageRef.current === 0) {
+            detailPageRef.current = 1;
+            return;
+        }
+        console.log("back to details page and license list changed");
+        if (licenseList.length != 0) {
+            setCurrentSliderIndex(0);
+            setInitSliderIndex(0);
+            setIsLicenseListEmpty(false);
+        } else {
+            setIsLicenseListEmpty(true);
+        }
+    }, [licenseList]);
 
     return (
         <Page style={styles.container}>

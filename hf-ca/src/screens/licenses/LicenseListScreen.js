@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { StyleSheet, RefreshControl, View, Text, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
 });
 
 function LicenseListScreen() {
+    const scrollRef = useRef(null);
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const reduxData = useSelector(selectLicenseForList);
@@ -66,6 +67,10 @@ function LicenseListScreen() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        scrollRef.current.scrollTo({ x: 0, y: 0, animated: false });
+    }, [data]);
+
     return (
         <Page style={styles.container}>
             <CommonHeader
@@ -76,6 +81,7 @@ function LicenseListScreen() {
             />
 
             <ScrollView
+                ref={scrollRef}
                 testID={genTestId("licenseList")}
                 contentContainerStyle={{
                     flexGrow: 1,
