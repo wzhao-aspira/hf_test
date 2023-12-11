@@ -1,12 +1,9 @@
-import { StyleSheet, View, Text } from "react-native";
-import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
 
 import { isEmpty } from "lodash";
 import { useSelector } from "react-redux";
 import { DEFAULT_MARGIN } from "../../../../constants/Dimension";
-import { genTestId } from "../../../../helper/AppHelper";
 import DrawApplicationListEmpty from "../DrawApplicationListEmpty";
-import AppTheme from "../../../../assets/_default/AppTheme";
 import DrawSelectors from "../../../../redux/DrawApplicationSelector";
 import profileSelectors from "../../../../redux/ProfileSelector";
 import { getDrawList } from "../../../../redux/DrawApplicationSlice";
@@ -33,41 +30,14 @@ export const styles = StyleSheet.create({
     groupContainer: {
         marginTop: 20,
     },
-    groupTitle: {
-        ...AppTheme.typography.section_header,
-        color: AppTheme.colors.font_color_1,
-        marginBottom: 15,
-    },
 });
 
-const groupTitles = {
-    successful: {
-        copyHuntGroupTitle: "drawApplicationList.successfulCopyTitle",
-        generatedHuntGroupTitle: "drawApplicationList.successfulGeneratedTitle",
-        multiChoiceGroupTitle: "drawApplicationList.successfulMultiTitle",
-    },
-    unsuccessful: {
-        copyHuntGroupTitle: "drawApplicationList.unsuccessfulCopyTitle",
-        generatedHuntGroupTitle: "drawApplicationList.unsuccessfulGeneratedTitle",
-        multiChoiceGroupTitle: "drawApplicationList.unsuccessfulMultiTitle",
-    },
-    pending: {
-        copyHuntGroupTitle: "drawApplicationList.pendingCopyTitle",
-        generatedHuntGroupTitle: "drawApplicationList.pendingGeneratedTitle",
-        multiChoiceGroupTitle: "drawApplicationList.pendingMultiTitle",
-    },
-};
-
 function TabListContent({ tabName, tabData }: TabContentProps) {
-    const { t } = useTranslation();
     const { copyHuntsList, generatedHuntsList } = tabData;
     return (
-        <View>
+        <View style={styles.groupContainer}>
             {!isEmpty(copyHuntsList) && (
-                <View style={styles.groupContainer}>
-                    <Text style={styles.groupTitle} testID={genTestId("copyHuntGroupTitle")}>
-                        {t(groupTitles[tabName].copyHuntGroupTitle)}
-                    </Text>
+                <View>
                     {copyHuntsList.map((copyHuntItem) =>
                         copyHuntItem.isMultiChoice ? (
                             copyHuntItem.items?.map((multiChoiceItem) => (
@@ -93,10 +63,7 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
             )}
 
             {!isEmpty(generatedHuntsList) && (
-                <View style={styles.groupContainer}>
-                    <Text style={styles.groupTitle} testID={genTestId("generatedHuntGroupTitle")}>
-                        {t(groupTitles[tabName].generatedHuntGroupTitle)}
-                    </Text>
+                <View>
                     {generatedHuntsList.map((item) => (
                         <ListItem
                             itemData={item}
