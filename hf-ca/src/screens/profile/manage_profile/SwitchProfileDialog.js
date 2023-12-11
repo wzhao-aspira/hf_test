@@ -80,6 +80,7 @@ export default function SwitchProfileDialog({
             if (postProcess) {
                 postProcess(profileId);
             }
+            DeviceEventEmitter.emit("switchProfile");
             return;
         }
 
