@@ -143,7 +143,6 @@ function LicenseDetailScreen(props) {
     }
 
     const [currentSliderIndex, setCurrentSliderIndex] = useState(itemIndex);
-    const [initSliderIndex, setInitSliderIndex] = useState(itemIndex);
     const [isLicenseListEmpty, setIsLicenseListEmpty] = useState(false);
 
     const isLoading =
@@ -168,7 +167,6 @@ function LicenseDetailScreen(props) {
     );
 
     const getLicenseOfActiveProfile = async (isForce) => {
-        setInitSliderIndex(currentSliderIndex);
         dispatch(ProfileThunk.initResidentMethodTypes());
         dispatch(ProfileThunk.initProfileDetails({ profileId: currentInUseProfileId, isForce })).then((response) => {
             if (response?.success) {
@@ -224,12 +222,11 @@ function LicenseDetailScreen(props) {
         console.log("back to details page and license list changed");
         if (licenseList.length != 0) {
             setCurrentSliderIndex(0);
-            setInitSliderIndex(0);
             setIsLicenseListEmpty(false);
         } else {
             setIsLicenseListEmpty(true);
         }
-    }, [licenseList]);
+    }, [licenseList.length]);
 
     return (
         <Page style={styles.container}>
@@ -244,7 +241,7 @@ function LicenseDetailScreen(props) {
                     />
                     <SwiperFlatList
                         ref={swiperRef}
-                        index={initSliderIndex}
+                        index={currentSliderIndex}
                         windowSize={2}
                         onViewableItemsChanged={handleViewableItemsChanged}
                     >
