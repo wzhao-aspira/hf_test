@@ -79,6 +79,7 @@ function HuntFishOtherInfo() {
                     onPress={() => {
                         NavigationService.navigate(Routers.profileDetails, {
                             profileId: currentInUseProfileId,
+                            isCIU: true,
                         });
                     }}
                 />
