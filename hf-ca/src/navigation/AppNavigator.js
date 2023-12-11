@@ -203,6 +203,7 @@ function MainNav() {
             <MainStack.Screen name={Routers.crss} component={CRSSScreen} />
             <MainStack.Screen name={Routers.deleteAccount} component={DeleteAccountScreen} />
             <MainStack.Screen name={Routers.tabNav} component={BottomTabBar} />
+            <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
         </MainStack.Navigator>
     );
 }
@@ -249,7 +250,6 @@ function MainStackFactory(initialRouteName = Routers.home) {
             <MainStack.Screen name={Routers.solunar} component={SolunarScreen} />
             <MainStack.Screen name={Routers.usefulLinks} component={UsefulLinksScreen} />
             <MainStack.Screen name={Routers.weather} component={WeatherScreen} />
-            <MainStack.Screen name={Routers.webView} component={WebViewScreen} />
             <MainStack.Screen name={Routers.regulationList} component={RegulationListScreen} />
             <MainStack.Screen name={Routers.regulationDetail} component={RegulationDetailScreen} />
         </MainStack.Navigator>
