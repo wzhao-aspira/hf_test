@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     headerText: {
         ...AppTheme.typography.section_header,
         color: AppTheme.colors.font_color_1,
+        alignSelf: "stretch",
         textAlign: "center",
     },
 });
