@@ -72,8 +72,9 @@ function ProfileHeader({ profile }) {
 
 function ProfileDetailsScreen({ route }) {
     const { params } = route;
-    const profileId = params?.profileId;
+    const ciuID = useSelector(selectors.selectCurrentInUseProfileID);
     const isCIU = params?.isCIU;
+    const profileId = isCIU ? ciuID : params?.profileId;
 
     const { width } = useWindowDimensions();
     const dispatch = useDispatch();
@@ -82,7 +83,6 @@ function ProfileDetailsScreen({ route }) {
 
     const [loading, setLoading] = useState(false);
     const [noCacheData, setNoCacheData] = useState(false);
-    const ciuID = useSelector(selectors.selectCurrentInUseProfileID);
     const profileDetails = useSelector(selectors.selectProfileDetailsById(isCIU ? ciuID : profileId));
     const isPrimaryOrCiu = useSelector(selectors.selectIsPrimaryOrCiuProfile(profileId));
 
