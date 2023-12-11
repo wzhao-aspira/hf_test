@@ -211,6 +211,7 @@ export default function DrawerContent({ navigation }) {
                 onPress={() =>
                     navigation.navigate(Routers.profileDetails, {
                         profileId: activeProfile.profileId,
+                        isCIU: true,
                     })
                 }
                 profileItemStyles={{
