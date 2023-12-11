@@ -20,7 +20,7 @@ import ProfileItemLoading from "./ProfileItemLoading";
 import { REQUEST_STATUS } from "../../../constants/Constants";
 import { useDialog } from "../../../components/dialog/index";
 
-function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey }) {
+function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey, isCIU = false }) {
     const { t } = useTranslation();
     const { openCustomDialog, closeDialog } = useDialog();
 
@@ -55,6 +55,7 @@ function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey }) {
                     onPress={() => {
                         NavigationService.navigate(Routers.profileDetails, {
                             profileId: profile.profileId,
+                            isCIU,
                         });
                     }}
                     profileItemStyles={{ container: commonStyles.profileContainer }}
@@ -99,6 +100,7 @@ export default function ManageProfileScreen() {
                 <View style={profileScreenStyles.contentContainer}>
                     <ProfileWithTitle
                         isLoading={profileListRequestStatus == REQUEST_STATUS.pending}
+                        isCIU
                         profile={currentInUseProfile}
                         titleKey="profile.currentlyInUse"
                         showSwitchProfile={
