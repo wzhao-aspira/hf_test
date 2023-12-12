@@ -64,12 +64,14 @@ export function SimpleDialogView({
                     <Text testID={genTestId(`${testID}SimpleDialogTitle`)} style={styles.title}>
                         {i18n.exists(title) ? t(title) : title}
                     </Text>
-                    <Text
-                        testID={genTestId(`${testID}SimpleDialogMessage`)}
-                        style={{ ...styles.message, ...messageStyle }}
-                    >
-                        {i18n.exists(message) ? t(message) : message}
-                    </Text>
+                    {message && (
+                        <Text
+                            testID={genTestId(`${testID}SimpleDialogMessage`)}
+                            style={{ ...styles.message, ...messageStyle }}
+                        >
+                            {i18n.exists(message) ? t(message) : message}
+                        </Text>
+                    )}
                     <PrimaryBtn
                         testID={`${testID}SimpleDialogOKButton`}
                         onPress={okAction}

@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
+import type { Canceler } from "axios";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
 
@@ -14,6 +15,7 @@ import { useDialog } from "../../../../components/dialog/index";
 import contentDispositionParser from "../../../../utils/contentDispositionParser";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
+const cancelDownloadMessage = "download request canceled" as const;
 
 export function formatDownloadURL(downloadURL: string) {
     return downloadURL.replace(/\W/g, "_");
@@ -23,9 +25,11 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
     const dispatch = useAppDispatch();
     const navigation = useAppNavigation();
     const { openSimpleDialog } = useDialog();
+
     const formattedDownloadURL = formatDownloadURL(downloadURL);
     const fileDirectory = `${FileSystem.documentDirectory}${folderName}/${formattedDownloadURL}`;
 
+    const cancelDownloadRef = useRef<Canceler>();
     const [status, setStatus] = useState<FileStatus>("unknown");
 
     const checkFileStatus = useCallback(async () => {
@@ -42,14 +46,28 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
     async function downloadFile() {
         setStatus("downloading");
 
-        const handleErrorResult = await handleError(axios.get<File>(downloadURL, { responseType: "blob" }), {
+        const source = axios.CancelToken.source();
+        cancelDownloadRef.current = source.cancel;
+
+        const requestPromise = axios
+            .get<File>(downloadURL, { responseType: "blob", cancelToken: source.token })
+            .catch((error) => {
+                if (axios.isCancel(error)) {
+                    console.log("download request canceled", error.message);
+                    return cancelDownloadMessage;
+                }
+
+                throw error;
+            });
+
+        const handleErrorResult = await handleError(requestPromise, {
             dispatch,
-            showLoading: true,
+            showLoading: false,
         });
 
         const { data: response, success } = handleErrorResult;
 
-        if (!success) {
+        if (!success || response === cancelDownloadMessage) {
             checkFileStatus();
             return;
         }
@@ -95,6 +113,10 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
 
         const blobFileData = response.data;
         fr.readAsDataURL(blobFileData); // Read the blob data as a data URL
+    }
+
+    function cancelDownload() {
+        cancelDownloadRef.current(cancelDownloadMessage);
     }
 
     async function openFile() {
@@ -148,7 +170,7 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         }
     }
 
-    return { status, downloadFile, openFile, deleteFile };
+    return { status, downloadFile, cancelDownload, openFile, deleteFile };
 }
 
 export default useDownloadFile;

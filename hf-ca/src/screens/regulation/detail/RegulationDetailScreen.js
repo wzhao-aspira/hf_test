@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { View, StyleSheet, useWindowDimensions, Text, ScrollView, Pressable } from "react-native";
 import { useTranslation, Trans } from "react-i18next";
 import { isEmpty } from "lodash";
@@ -57,14 +58,32 @@ export default function RegulationDetailScreen(props) {
     const { regulation } = route.params;
     const { regulationTitle, regulationDetail, regulationSize, fileFormat, regulationUrl } = regulation;
 
-    const { downloadFile, openFile, status, deleteFile } = useFileOperations({
+    const { downloadFile, cancelDownload, openFile, status, deleteFile } = useFileOperations({
         downloadURL: regulationUrl,
         folderName,
     });
     const isNotDownloaded = status === "not downloaded yet";
     const isDownloading = status === "downloading";
     const isDownloaded = status === "downloaded";
-    const { openSelectDialog } = useDialog();
+    const { openSelectDialog, openSimpleDialog, closeDialog } = useDialog();
+
+    useEffect(() => {
+        if (isDownloading) {
+            openSimpleDialog({
+                title: "Downloading",
+                message: "",
+                okText: "Cancel",
+                onConfirm: cancelDownload,
+            });
+        } else {
+            closeDialog();
+        }
+
+        return () => {
+            closeDialog();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isDownloading]);
 
     return (
         <View style={styles.container}>
