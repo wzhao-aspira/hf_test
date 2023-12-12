@@ -6,10 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import StatefulTextInput from "../../../components/StatefulTextInput";
-import HfDatePicker from "../../../components/HfDatePicker";
 import AppTheme from "../../../assets/_default/AppTheme";
-import { DEFAULT_DATE_FORMAT, PROFILE_TYPE_IDS, PROFILE_TYPES } from "../../../constants/Constants";
-import { emptyError, emptyValidate } from "./ProfileValidate";
+import {
+    DATE_OF_BIRTH_DISPLAY_FORMAT,
+    DEFAULT_DATE_FORMAT,
+    PROFILE_TYPE_IDS,
+    PROFILE_TYPES,
+} from "../../../constants/Constants";
+import { emptyError, emptyValidate, validateDateOfBirth } from "./ProfileValidate";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 import CommonHeader from "../../../components/CommonHeader";
 import NavigationService from "../../../navigation/NavigationService";
@@ -26,6 +30,7 @@ import Page from "../../../components/Page";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
 import profileSelectors from "../../../redux/ProfileSelector";
 import { appConfig } from "../../../services/AppConfigService";
+import DateOfBirthInput from "../../../components/DateOfBirthInput";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -55,7 +60,6 @@ function AddIndividualProfileInfoScreen({ route }) {
         profileType: individualProfileTypes[0],
     });
 
-    const dateOfBirthRef = useRef();
     const lastNameRef = useRef();
 
     const getProfileDataBasedOnProfileType = (selectedProfileType) => {
@@ -79,12 +83,13 @@ function AddIndividualProfileInfoScreen({ route }) {
         return { newProfile, defaultIdentificationTypes };
     };
 
+    const [dateOfBirthMsg, setDateOfBirthMsg] = useState("");
     const onContinue = () => {
-        const errorOfDateOfBirth = emptyValidate(profile.dateOfBirth, t("errMsg.emptyDateOfBirth"));
-        dateOfBirthRef?.current.setError(errorOfDateOfBirth);
+        const dateOfBirthValidateErrorMsg = validateDateOfBirth(profile.dateOfBirth, DATE_OF_BIRTH_DISPLAY_FORMAT, t);
+        setDateOfBirthMsg(dateOfBirthValidateErrorMsg);
         const errorOfLastName = emptyValidate(profile.lastName, t("errMsg.emptyLastName"));
         lastNameRef?.current.setError(errorOfLastName);
-        const errorReported = errorOfDateOfBirth.error || errorOfLastName.error;
+        const errorReported = dateOfBirthValidateErrorMsg || errorOfLastName.error;
         if (errorReported) {
             return;
         }
@@ -132,23 +137,23 @@ function AddIndividualProfileInfoScreen({ route }) {
                     }}
                 >
                     <View style={styles.page_container}>
-                        <HfDatePicker
-                            defaultDate={moment().year(2000).toDate()}
+                        <DateOfBirthInput
                             testID="DateOfBirth"
                             label={t("profile.dateOfBirth")}
-                            ref={dateOfBirthRef}
-                            hint={DEFAULT_DATE_FORMAT}
                             style={{ marginTop: 20 }}
                             labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                            onConfirm={(date) => {
-                                const dateOfBirth = moment(date).format(DEFAULT_DATE_FORMAT);
-                                setProfile({ ...profile, dateOfBirth });
+                            onValidate={(dateOfBirth) => {
+                                const dateOfBirthValidateErrorMsg = validateDateOfBirth(
+                                    dateOfBirth,
+                                    DATE_OF_BIRTH_DISPLAY_FORMAT,
+                                    t
+                                );
+                                setDateOfBirthMsg(dateOfBirthValidateErrorMsg);
                             }}
-                            maximumDate={new Date()}
                             value={profile.dateOfBirth}
-                            validate={(date) => {
-                                return emptyValidate(date, t("errMsg.emptyDateOfBirth"));
-                            }}
+                            setValue={(dateOfBirth) => setProfile({ ...profile, dateOfBirth })}
+                            errorMsg={dateOfBirthMsg}
+                            setErrorMsg={() => setDateOfBirthMsg()}
                         />
                         <StatefulTextInput
                             testID="LastName"
