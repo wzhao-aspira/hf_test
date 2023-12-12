@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import AppTheme from "../assets/_default/AppTheme";
@@ -6,13 +6,15 @@ import { DEFAULT_MARGIN } from "../constants/Dimension";
 import { selectors as profileSelectors } from "../redux/ProfileSlice";
 import SwitchCustomer from "./SwitchCustomer";
 import { getLicense } from "../redux/LicenseSlice";
+import { getLogo, getLogoRatio } from "../helper/ImgHelper";
+import { genTestId } from "../helper/AppHelper";
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: "flex-end",
         paddingRight: 10,
-        paddingBottom: 10,
+        paddingVertical: 16,
         justifyContent: "space-between",
         backgroundColor: AppTheme.colors.font_color_4,
         borderBottomColor: AppTheme.colors.primary_900,
@@ -24,8 +26,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: DEFAULT_MARGIN,
         color: AppTheme.colors.font_color_1,
     },
+    rightContainer: {
+        alignItems: "flex-end",
+    },
     switchCustomer: {
         width: 110,
+    },
+    logo: {
+        width: 35 * getLogoRatio(),
+        height: 35,
     },
 });
 
@@ -51,16 +60,20 @@ function WelcomeBar() {
                     {currentInUseProfile.displayName}!
                 </Text>
             </View>
-            {showSwitchProfile && (
-                <View style={styles.switchCustomer}>
-                    <SwitchCustomer
-                        postProcess={(profileId) => {
-                            refreshLicense(profileId);
-                        }}
-                        closeLoadingBeforeProfileCallback
-                    />
-                </View>
-            )}
+
+            <View style={styles.rightContainer}>
+                <Image style={styles.logo} source={getLogo()} testID={genTestId("logo")} />
+                {showSwitchProfile && (
+                    <View style={styles.switchCustomer}>
+                        <SwitchCustomer
+                            postProcess={(profileId) => {
+                                refreshLicense(profileId);
+                            }}
+                            closeLoadingBeforeProfileCallback
+                        />
+                    </View>
+                )}
+            </View>
         </View>
     );
 }
