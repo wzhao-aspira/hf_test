@@ -3,6 +3,7 @@ import { isUndefined } from "lodash";
 
 export async function storeItem(key, item) {
     if (isUndefined(item) || item === null) {
+        await AsyncStorage.removeItem(key);
         return;
     }
     try {
