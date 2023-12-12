@@ -7,7 +7,6 @@ import AppTheme from "../../assets/_default/AppTheme";
 import Page from "../../components/Page";
 import { getWeatherDataFromRedux } from "../../redux/WeatherSlice";
 import { REQUEST_STATUS } from "../../constants/Constants";
-import HeaderBar from "../../components/HeaderBar";
 import WelcomeBar from "../../components/WelcomeBar";
 import { genTestId } from "../../helper/AppHelper";
 import { getLicense } from "../../redux/LicenseSlice";
@@ -121,7 +120,6 @@ export default function HomeScreen() {
     return (
         <View style={{ flex: 1 }}>
             <Page style={{ paddingBottom: 0, backgroundColor: AppTheme.colors.page_bg }}>
-                <HeaderBar />
                 <WelcomeBar />
                 <FlatList
                     testID={genTestId("HomeContentFlatList")}
