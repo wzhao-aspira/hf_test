@@ -117,6 +117,7 @@ export default function CRSSScreen({ route }) {
                 showLoading: true,
             });
             if (ret.success) {
+                dispatch(ProfileThunk.switchCurrentInUseProfile(customer.customerId));
                 await refreshDataAndNavigateWhenSaveProfileCompleted(
                     dispatch,
                     mobileAccount,

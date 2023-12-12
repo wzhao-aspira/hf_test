@@ -50,6 +50,10 @@ export const saveProfile = async (dispatch, mobileAccount, isAddPrimaryProfile, 
             });
             return false;
         }
+        const customerId = ret.data?.customer?.customerId;
+        if (customerId) {
+            dispatch(ProfileThunk.switchCurrentInUseProfile(customerId));
+        }
         return true;
     }
     return false;
