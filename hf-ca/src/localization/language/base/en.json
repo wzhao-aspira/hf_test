@@ -111,7 +111,6 @@
         "emptyUserID": "Please enter User Email Address",
         "emptyPassword": "Please enter Password",
         "emptyConfirmPassword": "Please enter Confirm Password",
-        "emptyDateOfBirth": "Please enter Date of Birth",
         "emptyFirstName": "Please enter First Name",
         "emptyLastName": "Please enter Last Name",
         "emptyIdentificationType": "Please select Identification Type",
@@ -130,6 +129,9 @@
         "networkErrorMsg": "Please check your network settings.",
         "commonErrorTitle": "Sorry",
         "commonErrorMsg": "Something went wrong. Let's try one more time.",
+        "dateOfBirthRequired": "A date of birth is required.",
+        "dateOfBirthInvalid": "Please enter a valid date.",
+        "dateOfBirthMustBePast": "Your date of birth must be in the past.",
         "noResultsFoundMsg": "No results found. Please try again with a different location.",
         "notAllowSignOutInOfflineMsg": "You are not allowed to sign out offline, please proceed when back online."
     },
@@ -170,7 +172,7 @@
     "profile": {
         "addProfile": "Associate Customer Record",
         "customerType": "Customer Type",
-        "dateOfBirth": "Date of Birth",
+        "dateOfBirth": "Date of Birth (MM/DD/YYYY)",
         "firstName": "First Name",
         "lastName": "Last Name",
         "identificationOwner": "Identification Owner",
@@ -500,14 +502,12 @@
         "BackToApp": "Back to App",
         "CDFWSalesAndServices": "CDFW Sales and Services"
     },
-    "mail":{
+    "mail": {
         "subject": "CDFW License App Feedback",
         "appVersion": "App version",
         "device": "Device",
         "osVersion": "OS version",
         "emailNotSetup": "Email not set up",
-        "emailNotSetupMsg":
-            "Email is not currently set up. Please launch the Settings app and set up at least one email account under the Mail settings."
-
+        "emailNotSetupMsg": "Email is not currently set up. Please launch the Settings app and set up at least one email account under the Mail settings."
     }
 }

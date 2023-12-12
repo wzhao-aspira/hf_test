@@ -3,17 +3,15 @@ import { isEmpty } from "lodash";
 import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
 import { useDispatch } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useImmer } from "use-immer";
 import StatefulTextInput from "../../../components/StatefulTextInput";
 import PopupDropdown from "../../../components/PopupDropdown";
-import HfDatePicker from "../../../components/HfDatePicker";
 import IdentificationTypeSelector from "./IdentificationTypeSelector";
 import AppTheme from "../../../assets/_default/AppTheme";
-import { IDENTIFICATION_OWNER_YOUTH, DEFAULT_DATE_FORMAT, PROFILE_TYPE_IDS } from "../../../constants/Constants";
+import { IDENTIFICATION_OWNER_YOUTH, PROFILE_TYPE_IDS } from "../../../constants/Constants";
 import { emptyError, emptyValidate } from "./ProfileValidate";
 
 import CommonHeader from "../../../components/CommonHeader";
@@ -21,6 +19,7 @@ import PrimaryBtn from "../../../components/PrimaryBtn";
 import { refreshDataAndNavigateWhenSaveProfileCompleted, saveProfile } from "./AddProfileInfo";
 import Page from "../../../components/Page";
 import { DEFAULT_MARGIN, PAGE_MARGIN_BOTTOM } from "../../../constants/Dimension";
+import DateOfBirthInput from "../../../components/DateOfBirthInput";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -38,7 +37,6 @@ function AddIndividualProfileInfoDetailsScreen({ route }) {
     const { t } = useTranslation();
     const safeAreaInsets = useSafeAreaInsets();
     const dispatch = useDispatch();
-    const dateOfBirthRef = useRef();
     const lastNameRef = useRef();
     const firstNameRef = useRef();
     const identificationTypeSelectorRef = useRef();
@@ -109,21 +107,12 @@ function AddIndividualProfileInfoDetailsScreen({ route }) {
                     style={{ marginBottom: -(PAGE_MARGIN_BOTTOM + safeAreaInsets.bottom) }}
                 >
                     <View style={styles.page_container}>
-                        <HfDatePicker
+                        <DateOfBirthInput
                             testID="DateOfBirth"
                             label={t("profile.dateOfBirth")}
-                            ref={dateOfBirthRef}
-                            hint={DEFAULT_DATE_FORMAT}
                             style={{ marginTop: 20 }}
                             labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                            onConfirm={(date) => {
-                                const dateOfBirth = moment(date).format(DEFAULT_DATE_FORMAT);
-                                setProfile({ ...profile, dateOfBirth });
-                            }}
                             value={profile.dateOfBirth}
-                            validate={(date) => {
-                                return emptyValidate(date, t("errMsg.emptyDateOfBirth"));
-                            }}
                             disabled
                         />
                         <StatefulTextInput
