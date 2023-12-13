@@ -159,9 +159,9 @@ function LicenseDetailsItem(props) {
                 <View
                     style={{
                         flexDirection: "row",
-                        marginHorizontal: DEFAULT_MARGIN,
+                        marginHorizontal: 10,
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        justifyContent: "space-around",
                         marginTop: 10,
                     }}
                 >
