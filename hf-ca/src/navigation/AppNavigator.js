@@ -229,7 +229,6 @@ function MainStackFactory(initialRouteName = Routers.home) {
             <MainStack.Screen name={Routers.myLicenses} component={MyLicensesTabScreen} />
             <MainStack.Screen name={Routers.settings} component={SettingsTabScreen} />
             <MainStack.Screen name={Routers.accessPermitDetail} component={AccessPermitDetailScreen} />
-            <MainStack.Screen name={Routers.addProfile} component={AddProfileScreen} />
             <MainStack.Screen name={Routers.changeLocation} component={ChangeLocationScreen} />
             <MainStack.Screen name={Routers.contactUs} component={ContactUsScreen} />
             <MainStack.Screen name={Routers.drawApplicationDetail} component={DrawApplicationDetailScreen} />
