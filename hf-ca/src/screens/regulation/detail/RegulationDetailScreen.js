@@ -70,9 +70,9 @@ export default function RegulationDetailScreen(props) {
     useEffect(() => {
         if (isDownloading) {
             openSimpleDialog({
-                title: "Downloading",
+                title: "notificationAndAttachment.downloading",
                 message: "",
-                okText: "Cancel",
+                okText: "common.cancel",
                 onConfirm: cancelDownload,
             });
         } else {

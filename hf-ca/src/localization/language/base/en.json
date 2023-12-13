@@ -417,7 +417,8 @@
         "deleteFile": "Delete File?",
         "deleteFileMessage": "Are you sure you wish to delete this file?",
         "deleteDownloaded": "Delete Download",
-        "NoAppAssociatedWithThisMimeTypeErrorMessage": "Sorry, this file {{fileName}} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format."
+        "NoAppAssociatedWithThisMimeTypeErrorMessage": "Sorry, this file {{fileName}} cannot be opened because there is no app associated with its format on your device. Please try to find and install an app that can handle this format.",
+        "downloading": "Downloading ..."
     },
     "salesAgents": {
         "salesAgents": "Find License Agent",
@@ -500,14 +501,12 @@
         "BackToApp": "Back to App",
         "CDFWSalesAndServices": "CDFW Sales and Services"
     },
-    "mail":{
+    "mail": {
         "subject": "CDFW License App Feedback",
         "appVersion": "App version",
         "device": "Device",
         "osVersion": "OS version",
         "emailNotSetup": "Email not set up",
-        "emailNotSetupMsg":
-            "Email is not currently set up. Please launch the Settings app and set up at least one email account under the Mail settings."
-
+        "emailNotSetupMsg": "Email is not currently set up. Please launch the Settings app and set up at least one email account under the Mail settings."
     }
 }

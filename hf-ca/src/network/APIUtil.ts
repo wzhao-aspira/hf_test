@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import axios from "axios";
 import { actions as appActions } from "../redux/AppSlice";
 import { globalDataForAPI, isConnectError, isBusinessErrorCode } from "./commonUtil";
 
@@ -47,7 +48,8 @@ export async function handleError<T>(
 
         if (
             showError &&
-            (isEmpty(skippedBusinessErrorCode) ? true : !isBusinessErrorCode(error, skippedBusinessErrorCode))
+            (isEmpty(skippedBusinessErrorCode) ? true : !isBusinessErrorCode(error, skippedBusinessErrorCode)) &&
+            !axios.isCancel(error)
         ) {
             dispatch(appActions.setError({ ...error, networkErrorByDialog, networkErrorMsg }));
         }

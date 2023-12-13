@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { instance } from "../AxiosClient";
 import getAPIConfig from "../APIConfig";
 
@@ -9,14 +8,15 @@ export async function getActivePermitsByCustomerId(customerId: string) {
     return api.v1CustomersCustomerIdActivePermitsGet(customerId);
 }
 
-export async function downloadNotification(drawTicketLicenseId: string) {
+export async function downloadNotification(drawTicketLicenseId: string, cancelToken) {
     const api = new DrawResultsApi(getAPIConfig(), null, instance);
-    return api.buildNotificationAsync(drawTicketLicenseId, { responseType: "blob" });
+
+    return api.buildNotificationAsync(drawTicketLicenseId, { responseType: "blob", cancelToken });
 }
 
-export async function downloadAttachment(fileId: string) {
+export async function downloadAttachment(fileId: string, cancelToken) {
     const api = new DrawResultsApi(getAPIConfig(), null, instance);
-    return api.buildAttachmentAsync(fileId, { responseType: "blob" });
+    return api.buildAttachmentAsync(fileId, { responseType: "blob", cancelToken });
 }
 
 export async function getDrawApplicationListByCustomerId(customerId: string) {

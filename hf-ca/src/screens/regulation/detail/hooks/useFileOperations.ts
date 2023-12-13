@@ -49,25 +49,15 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         const source = axios.CancelToken.source();
         cancelDownloadRef.current = source.cancel;
 
-        const requestPromise = axios
-            .get<File>(downloadURL, { responseType: "blob", cancelToken: source.token })
-            .catch((error) => {
-                if (axios.isCancel(error)) {
-                    console.log("download request canceled", error.message);
-                    return cancelDownloadMessage;
-                }
-
-                throw error;
-            });
+        const requestPromise = axios.get<File>(downloadURL, { responseType: "blob", cancelToken: source.token });
 
         const handleErrorResult = await handleError(requestPromise, {
             dispatch,
-            showLoading: false,
         });
 
         const { data: response, success } = handleErrorResult;
 
-        if (!success || response === cancelDownloadMessage) {
+        if (!success) {
             checkFileStatus();
             return;
         }
