@@ -77,13 +77,15 @@ function useErrorHandling() {
 
                 if (error.networkErrorByDialog) {
                     const message = getNetworkErrorMessage(t, error);
-                    openSimpleDialog({
-                        title: t("errMsg.noNetworkDialogTitle"),
-                        message,
-                        okText: "common.gotIt",
-                        onConfirm: () => {
-                            dispatch(appActions.clearError());
-                        },
+                    setTimeout(() => {
+                        openSimpleDialog({
+                            title: t("errMsg.noNetworkDialogTitle"),
+                            message,
+                            okText: "common.gotIt",
+                            onConfirm: () => {
+                                dispatch(appActions.clearError());
+                            },
+                        });
                     });
                 } else if (showOfflineToast) {
                     // Toast only shows once for offline
@@ -113,19 +115,22 @@ function useErrorHandling() {
                     message = t("errMsg.timeoutErrorMessage");
                 }
                 const canNotFindCustomer = isNotFindCustomerError(error);
-                DialogHelper.showSimpleDialog({
-                    title: "common.error",
-                    okText: "common.gotIt",
-                    message,
-                    okAction: () => {
-                        dispatch(appActions.clearError());
-                        if (canNotFindCustomer) {
-                            clearProfileListUpdateTime();
-                            setTimeout(() => {
-                                NavigationService.navigate(Routers.manageProfile);
-                            });
-                        }
-                    },
+
+                setTimeout(() => {
+                    DialogHelper.showSimpleDialog({
+                        title: "common.error",
+                        okText: "common.gotIt",
+                        message,
+                        okAction: () => {
+                            dispatch(appActions.clearError());
+                            if (canNotFindCustomer) {
+                                clearProfileListUpdateTime();
+                                setTimeout(() => {
+                                    NavigationService.navigate(Routers.manageProfile);
+                                });
+                            }
+                        },
+                    });
                 });
             }
         }
