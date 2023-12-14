@@ -3,6 +3,7 @@ import type { RootState } from "./Store";
 import { IdentityTypeVM } from "../network/generated";
 import { isAssociatedProfile } from "../services/ProfileService";
 import { Profile } from "../types/profile";
+import { REQUEST_STATUS } from "../constants/Constants";
 
 const selectProfileState = (state: RootState) => state.profile;
 
@@ -104,6 +105,15 @@ const selectOtherProfileListWithoutPrimary = createSelector(
 const selectProfileDetailsById = (profileId) =>
     createSelector(selectProfileList, (profileList) => profileList.find((item) => item.profileId === profileId) || {});
 
+const selectProfileDetailRefreshing = createSelector(
+    selectProfileState,
+    (state) =>
+        state.profileDetailsRequestStatus === REQUEST_STATUS.pending ||
+        state.profileDetailsRequestStatus === REQUEST_STATUS.idle
+);
+
+const selectNoProfileDetailCacheData = createSelector(selectProfileState, (state) => state.noDetailCacheData);
+
 const selectIsPrimaryOrCiuProfile = (profileId) =>
     createSelector(
         selectCurrentInUseProfileID,
@@ -137,6 +147,8 @@ const selectors = {
     selectPrimaryProfile,
     selectProfileIDs,
     selectProfileDetailsById,
+    selectProfileDetailRefreshing,
+    selectNoProfileDetailCacheData,
     selectSortedByDisplayNameOtherProfileList,
     selectOtherProfileListWithoutPrimary,
     selectIsPrimaryOrCiuProfile,

@@ -323,8 +323,8 @@ const initProfileDetails =
         if (profileDetailsRequestStatus == REQUEST_STATUS.pending) {
             return result;
         }
-        dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.pending));
         if (isForce || checkNeedAutoRefreshData(getCurrentProfileDetailsUpdateTime())) {
+            dispatch(profileActions.setProfileDetailsRequestStatus(REQUEST_STATUS.pending));
             const response = await handleError(getProfileDetailsById(profileId), {
                 dispatch,
                 networkErrorByDialog: false,
@@ -350,6 +350,7 @@ const initProfileDetails =
                 const filteredVal = getState()?.profile?.profileList?.find((ele) => ele?.profileId == profileId);
                 result = { ...filteredVal, noCacheData: true };
             }
+            dispatch(profileActions.updateProfileDetailsNoCacheData(isEmpty(result)));
             result = { ...result, success: result.success };
         }
 
