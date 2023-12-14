@@ -21,7 +21,7 @@ interface InitialState {
 
 const initialState: InitialState = {
     user: {},
-    loginStep: LoginStep.splash,
+    loginStep: LoginStep.login,
     indicator: false,
     error: {},
     showOfflineToast: true,
@@ -112,5 +112,5 @@ const selectors = {
 
 const { reducer, actions } = appSlice;
 
-export { actions, selectors };
+export { actions, selectors, initialState as appInitialState };
 export default reducer;
