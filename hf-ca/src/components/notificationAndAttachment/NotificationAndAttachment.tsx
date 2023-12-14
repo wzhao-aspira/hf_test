@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Pressable, TouchableWithoutFeedback } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEllipsisH } from "@fortawesome/pro-regular-svg-icons/faEllipsisH";
@@ -67,9 +67,9 @@ interface FileProps {
 function File(props: FileProps) {
     const { fileInfo, folderName, cardMarginHorizontal } = props;
     const { id, type, name, title, description, available, downloadId } = fileInfo;
-    const { openSelectDialog } = useDialog();
+    const { openSelectDialog, openSimpleDialog, closeDialog } = useDialog();
     const { t } = useTranslation();
-    const { downloadFile, openFile, deleteFile, status } = useFileOperations({
+    const { downloadFile, cancelDownload, openFile, deleteFile, status } = useFileOperations({
         fileID: id,
         fileType: type,
         fileName: name,
@@ -84,6 +84,24 @@ function File(props: FileProps) {
     const isDownloaded = status === "downloaded";
     const shouldShowDropdownToggleButton = isDownloaded;
     const shouldShowFile = available || isDownloaded;
+
+    useEffect(() => {
+        if (isDownloading) {
+            openSimpleDialog({
+                title: "notificationAndAttachment.downloading",
+                message: "",
+                okText: "common.cancel",
+                onConfirm: cancelDownload,
+            });
+        } else {
+            closeDialog();
+        }
+
+        return () => {
+            closeDialog();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isDownloading]);
 
     if (!shouldShowFile) return null;
 

@@ -1,4 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import axios from "axios";
+import type { Canceler } from "axios";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
 
@@ -16,6 +18,7 @@ import { useDialog } from "../../dialog/index";
 
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 type FileTypes = "notificationPDF" | "attachment";
+const cancelDownloadMessage = "download request canceled" as const;
 
 function useFileOperations({
     fileID,
@@ -32,13 +35,14 @@ function useFileOperations({
 }) {
     const dispatch = useAppDispatch();
     const navigation = useAppNavigation();
+    const { openSimpleDialog } = useDialog();
 
     const currentInUseProfileID = useAppSelector(ProfileSelector.selectCurrentInUseProfileID);
 
     const fileDirectory = `${FileSystem.documentDirectory}${folderName}/${currentInUseProfileID}/${fileID}`;
     const fileURI = `${fileDirectory}/${fileName}`;
-    const { openSimpleDialog } = useDialog();
 
+    const cancelDownloadRef = useRef<Canceler>();
     const [status, setStatus] = useState<FileStatus>("unknown");
 
     const checkFileStatus = useCallback(async () => {
@@ -55,14 +59,16 @@ function useFileOperations({
     async function downloadFile() {
         setStatus("downloading");
 
-        const handleErrorResult = await handleError(
-            (fileType === "notificationPDF" && downloadNotification(downloadID)) ||
-                (fileType === "attachment" && downloadAttachment(downloadID)),
-            {
-                dispatch,
-                showLoading: true,
-            }
-        );
+        const source = axios.CancelToken.source();
+        cancelDownloadRef.current = source.cancel;
+
+        const requestPromise =
+            (fileType === "notificationPDF" && downloadNotification(downloadID, source.token)) ||
+            (fileType === "attachment" && downloadAttachment(downloadID, source.token));
+
+        const handleErrorResult = await handleError(requestPromise, {
+            dispatch,
+        });
 
         const { data: response, success } = handleErrorResult;
 
@@ -94,6 +100,10 @@ function useFileOperations({
         };
 
         fr.readAsDataURL(blobFileData); // Read the blob data as a data URL
+    }
+
+    function cancelDownload() {
+        cancelDownloadRef.current(JSON.stringify(cancelDownloadMessage));
     }
 
     function openFile() {
@@ -141,7 +151,7 @@ function useFileOperations({
         }
     }
 
-    return { status, downloadFile, openFile, deleteFile };
+    return { status, downloadFile, cancelDownload, openFile, deleteFile };
 }
 
 export default useFileOperations;
