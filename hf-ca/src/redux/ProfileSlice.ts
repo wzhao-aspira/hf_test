@@ -21,6 +21,7 @@ interface InitialState {
     profileDetailsRequestStatus: string;
     ciuProfileIsInactive: boolean;
     individualProfiles: Profile[];
+    noDetailCacheData: boolean;
 }
 
 const initialState: InitialState = {
@@ -37,6 +38,7 @@ const initialState: InitialState = {
     profileDetailsRequestStatus: REQUEST_STATUS.idle,
     ciuProfileIsInactive: false,
     individualProfiles: [],
+    noDetailCacheData: false,
 };
 
 const profileSlice = createSlice({
@@ -102,6 +104,9 @@ const profileSlice = createSlice({
             const profile = action.payload;
             const profileIndex = state.profileList.findIndex((item) => item.profileId === profile.profileId);
             state.profileList[profileIndex] = profile;
+        },
+        updateProfileDetailsNoCacheData: (state, action: PayloadAction<boolean>) => {
+            state.noDetailCacheData = action.payload;
         },
         setIndividualProfiles(state, action: PayloadAction<Profile[]>) {
             const profiles = action.payload || [];

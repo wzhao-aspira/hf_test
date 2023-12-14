@@ -16,7 +16,6 @@ import Page from "../../components/Page";
 import CommonHeader from "../../components/CommonHeader";
 import { selectors } from "../../redux/ProfileSlice";
 import ProfileThunk from "../../redux/ProfileThunk";
-import { REQUEST_STATUS } from "../../constants/Constants";
 import {
     selectIsLicenseListChanged,
     selectIsLicenseRefreshing,
@@ -130,10 +129,8 @@ function LicenseDetailScreen(props) {
     const licenseList = useSelector(selectLicenseForDetailSwiper);
     const licenseRefreshing = useSelector(selectIsLicenseRefreshing);
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
-    const profileDetails = useSelector(selectors.selectProfileDetailsById(currentInUseProfileId));
-    const profileDetailsStatus = useSelector(selectors.selectProfileDetailsRequestStatus);
-    const profileRefreshing =
-        profileDetailsStatus === REQUEST_STATUS.pending || profileDetailsStatus === REQUEST_STATUS.idle;
+    const noProfileDetailCacheData = useSelector(selectors.selectNoProfileDetailCacheData);
+    const profileRefreshing = useSelector(selectors.selectProfileDetailRefreshing);
 
     const { route } = props;
     const { licenseId } = route.params;
@@ -149,7 +146,7 @@ function LicenseDetailScreen(props) {
         isEmpty(licenseList) ||
         licenseRefreshing ||
         profileRefreshing ||
-        profileDetails.noCacheData ||
+        noProfileDetailCacheData ||
         isLicenseListChanged ||
         isLicenseListEmpty;
 
@@ -219,7 +216,7 @@ function LicenseDetailScreen(props) {
         } else {
             setIsLicenseListEmpty(true);
         }
-    }, [licenseList.length]);
+    }, [currentInUseProfileId, licenseList.length]);
 
     return (
         <Page style={styles.container}>
