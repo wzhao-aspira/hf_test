@@ -1,14 +1,15 @@
-import { useEffect } from "react";
 import { View, StyleSheet, useWindowDimensions, Text, ScrollView, Pressable } from "react-native";
 import { useTranslation, Trans } from "react-i18next";
 import { isEmpty } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTrash } from "@fortawesome/pro-solid-svg-icons/faTrash";
 
+import { SimpleDialog } from "../../../components/Dialog";
+import { useDialog } from "../../../components/dialog/index";
+
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId, openLink, isIos } from "../../../helper/AppHelper";
-import { useDialog } from "../../../components/dialog/index";
 import CommonHeader from "../../../components/CommonHeader";
 import RenderHTML from "../../../components/RenderHTML";
 import PrimaryBtn from "../../../components/PrimaryBtn";
@@ -65,30 +66,18 @@ export default function RegulationDetailScreen(props) {
     const isNotDownloaded = status === "not downloaded yet";
     const isDownloading = status === "downloading";
     const isDownloaded = status === "downloaded";
-    const { openSelectDialog, openSimpleDialog, closeDialog } = useDialog();
-
-    useEffect(() => {
-        if (isDownloading) {
-            openSimpleDialog({
-                title: "notificationAndAttachment.downloading",
-                message: "",
-                okText: "common.cancel",
-                onConfirm: cancelDownload,
-            });
-        } else {
-            closeDialog();
-        }
-
-        return () => {
-            closeDialog();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDownloading]);
+    const { openSelectDialog } = useDialog();
 
     return (
         <View style={styles.container}>
+            <SimpleDialog
+                title="notificationAndAttachment.downloading"
+                message=""
+                okText="common.cancel"
+                okAction={cancelDownload}
+                visible={isDownloading}
+            />
             <CommonHeader title={t("regulation.detailTitle")} />
-
             <ScrollView>
                 <View style={styles.content}>
                     <View style={styles.title}>
