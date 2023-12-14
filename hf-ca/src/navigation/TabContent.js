@@ -27,9 +27,6 @@ const styles = StyleSheet.create({
 });
 
 export const TabState = {
-    homeTabReset: false,
-    menuTabReset: false,
-    settingTabReset: false,
     currentTabIndex: 0,
 };
 
@@ -50,7 +47,6 @@ function TabContent(props) {
                             navigation?.openDrawer();
                             return;
                         }
-                        const { homeTabReset, menuTabReset, settingTabReset } = TabState;
                         TabState.currentTabIndex = index;
 
                         const event = navigation.emit({
@@ -61,31 +57,14 @@ function TabContent(props) {
 
                         if (!isFocused && !event.defaultPrevented) {
                             // The `merge: true` option makes sure that the params inside the tab screen are preserved
-                            const navParam = { name: route.name, merge: true };
-                            let needReset = false;
-                            if (index == 0 && homeTabReset) {
-                                TabState.homeTabReset = false;
-                                needReset = true;
-                                console.log("homeTabReset");
-                            }
-                            if (index == 1 && menuTabReset) {
-                                TabState.menuTabReset = false;
-                                needReset = true;
-                                console.log("menuTabReset");
-                            }
-                            if (index == 2 && settingTabReset) {
-                                TabState.settingTabReset = false;
-                                needReset = true;
-                                console.log("settingTabReset");
-                            }
-                            if (needReset) {
-                                Object.assign(navParam, {
-                                    params: {
-                                        screen: route.name,
-                                    },
-                                });
-                            }
-                            navigation.navigate(navParam);
+
+                            navigation.navigate({
+                                name: route.name,
+                                merge: true,
+                                params: {
+                                    screen: route.name,
+                                },
+                            });
                         }
                     };
 
