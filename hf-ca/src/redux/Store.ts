@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import type { ThunkAction, Action } from "@reduxjs/toolkit";
-import appReducer from "./AppSlice";
+import appReducer, { appInitialState } from "./AppSlice";
 import weatherReducer from "./WeatherSlice";
 import profileReducer from "./ProfileSlice";
 import licenseReducer from "./LicenseSlice";
@@ -8,7 +8,6 @@ import accountReducer from "./AccountSlice";
 import accessPermitReducer from "./AccessPermitSlice";
 import preferencePointReducer from "./PreferencePointSlice";
 import drawApplicationReducer from "./DrawApplicationSlice";
-import LoginStep from "../constants/LoginStep";
 
 const myAppReducer = combineReducers({
     app: appReducer,
@@ -25,13 +24,7 @@ const rootReducer = (state, action) => {
     if (action.type === "USER_LOGOUT") {
         return myAppReducer(
             {
-                app: {
-                    user: {},
-                    loginStep: LoginStep.login,
-                    indicator: false,
-                    error: {},
-                    showPrimaryProfileInactiveMsg: false,
-                },
+                app: appInitialState,
                 accessPermit: undefined,
                 weather: undefined,
                 profile: undefined,
@@ -53,7 +46,7 @@ const store = configureStore({
 });
 
 export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore["getState"]>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = AppStore["dispatch"];
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
 export default store;
