@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { View, Text, StyleSheet, Pressable, TouchableWithoutFeedback } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEllipsisH } from "@fortawesome/pro-regular-svg-icons/faEllipsisH";
@@ -11,6 +11,7 @@ import PrimaryBtn from "../PrimaryBtn";
 
 import { genTestId } from "../../helper/AppHelper";
 import { useDialog } from "../dialog/index";
+import { SimpleDialog } from "../Dialog";
 
 import type { FileInfo } from "../../types/notificationAndAttachment";
 
@@ -67,7 +68,7 @@ interface FileProps {
 function File(props: FileProps) {
     const { fileInfo, folderName, cardMarginHorizontal } = props;
     const { id, type, name, title, description, available, downloadId } = fileInfo;
-    const { openSelectDialog, openSimpleDialog, closeDialog } = useDialog();
+    const { openSelectDialog } = useDialog();
     const { t } = useTranslation();
     const { downloadFile, cancelDownload, openFile, deleteFile, status } = useFileOperations({
         fileID: id,
@@ -84,24 +85,6 @@ function File(props: FileProps) {
     const isDownloaded = status === "downloaded";
     const shouldShowDropdownToggleButton = isDownloaded;
     const shouldShowFile = available || isDownloaded;
-
-    useEffect(() => {
-        if (isDownloading) {
-            openSimpleDialog({
-                title: "notificationAndAttachment.downloading",
-                message: "",
-                okText: "common.cancel",
-                onConfirm: cancelDownload,
-            });
-        } else {
-            closeDialog();
-        }
-
-        return () => {
-            closeDialog();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDownloading]);
 
     if (!shouldShowFile) return null;
 
@@ -151,70 +134,82 @@ function File(props: FileProps) {
     );
 
     return (
-        <TouchableWithoutFeedback
-            accessible={false}
-            onPress={() => {
-                setShouldShowDropdown(false);
-            }}
-        >
-            <View
-                style={[styles.sectionContainer, !!cardMarginHorizontal && { marginHorizontal: cardMarginHorizontal }]}
+        <>
+            <SimpleDialog
+                title="notificationAndAttachment.downloading"
+                message=""
+                okText="common.cancel"
+                okAction={cancelDownload}
+                visible={isDownloading}
+            />
+            <TouchableWithoutFeedback
+                accessible={false}
+                onPress={() => {
+                    setShouldShowDropdown(false);
+                }}
             >
-                <Text style={[styles.sectionTitle]} testID={genTestId(`notificationOrAttachmentFileName${title}`)}>
-                    {title}
-                </Text>
-                {!!description && (
-                    <View style={styles.licenseInfo}>
-                        <Text
-                            testID={genTestId(`notificationOrAttachmentFileName${title}Description`)}
-                            style={{ marginTop: -10, marginBottom: 13 }}
-                        >
-                            {description}
-                        </Text>
+                <View
+                    style={[
+                        styles.sectionContainer,
+                        !!cardMarginHorizontal && { marginHorizontal: cardMarginHorizontal },
+                    ]}
+                >
+                    <Text style={[styles.sectionTitle]} testID={genTestId(`notificationOrAttachmentFileName${title}`)}>
+                        {title}
+                    </Text>
+                    {!!description && (
+                        <View style={styles.licenseInfo}>
+                            <Text
+                                testID={genTestId(`notificationOrAttachmentFileName${title}Description`)}
+                                style={{ marginTop: -10, marginBottom: 13 }}
+                            >
+                                {description}
+                            </Text>
+                        </View>
+                    )}
+                    <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
+                        {isNotDownloaded && available && (
+                            <PrimaryBtn
+                                testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                                label={t("notificationAndAttachment.Download")}
+                                onPress={() => {
+                                    downloadFile();
+                                }}
+                            />
+                        )}
+                        {isDownloading && (
+                            <PrimaryBtn
+                                testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                                label={t("notificationAndAttachment.Downloading")}
+                                disabled
+                                onPress={() => {
+                                    console.log(`downloading ${title}`);
+                                }}
+                            />
+                        )}
+                        {isDownloaded && (
+                            <PrimaryBtn
+                                testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                                label={t("notificationAndAttachment.Open")}
+                                onPress={() => {
+                                    openFile();
+                                }}
+                            />
+                        )}
                     </View>
-                )}
-                <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
-                    {isNotDownloaded && available && (
-                        <PrimaryBtn
-                            testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
-                            label={t("notificationAndAttachment.Download")}
-                            onPress={() => {
-                                downloadFile();
-                            }}
-                        />
-                    )}
-                    {isDownloading && (
-                        <PrimaryBtn
-                            testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
-                            label={t("notificationAndAttachment.Downloading")}
-                            disabled
-                            onPress={() => {
-                                console.log(`downloading ${title}`);
-                            }}
-                        />
-                    )}
-                    {isDownloaded && (
-                        <PrimaryBtn
-                            testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
-                            label={t("notificationAndAttachment.Open")}
-                            onPress={() => {
-                                openFile();
-                            }}
-                        />
+                    {shouldShowDropdown && Dropdown}
+                    {shouldShowDropdownToggleButton && (
+                        <Pressable
+                            accessibilityLabel="dropdown toggle button"
+                            style={styles.topRightBtn}
+                            onPress={() => setShouldShowDropdown(true)}
+                        >
+                            <FontAwesomeIcon icon={faEllipsisH} size={15} color={AppTheme.colors.primary_2} />
+                        </Pressable>
                     )}
                 </View>
-                {shouldShowDropdown && Dropdown}
-                {shouldShowDropdownToggleButton && (
-                    <Pressable
-                        accessibilityLabel="dropdown toggle button"
-                        style={styles.topRightBtn}
-                        onPress={() => setShouldShowDropdown(true)}
-                    >
-                        <FontAwesomeIcon icon={faEllipsisH} size={15} color={AppTheme.colors.primary_2} />
-                    </Pressable>
-                )}
-            </View>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+        </>
     );
 }
 
