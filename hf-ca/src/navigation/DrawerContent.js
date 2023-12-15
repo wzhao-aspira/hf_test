@@ -25,6 +25,7 @@ import useNavigateToISPurchaseLicense from "../screens/licenses/hooks/useNavigat
 import { appConfig } from "../services/AppConfigService";
 import useNavigateToISViewCustomerHarvestReports from "../screens/licenses/hooks/useNavigateToISViewCustomerHarvestReports";
 import { useDialog } from "../components/dialog/index";
+import { showSocialLinksMenu } from "../services/LinkService";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -333,13 +334,15 @@ export default function DrawerContent({ navigation }) {
                     </Text>
                 </View>
                 <View style={styles.sectionContentContainer}>
-                    <MenuItem
-                        onClick={() => {
-                            navigation.navigate(Routers.followUs);
-                        }}
-                        title="common.followUs"
-                        testID="FollowUs"
-                    />
+                    {!!showSocialLinksMenu() && (
+                        <MenuItem
+                            onClick={() => {
+                                navigation.navigate(Routers.followUs);
+                            }}
+                            title="common.followUs"
+                            testID="FollowUs"
+                        />
+                    )}
                     <MenuItem
                         onClick={() => {
                             navigation.navigate(Routers.contactUs);
