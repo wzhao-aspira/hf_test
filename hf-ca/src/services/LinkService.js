@@ -51,21 +51,32 @@ export function getContactUsLinks(i18n, t) {
 
 export function getSocialLinks(i18n, t) {
     const newSocialList = AppContract.socialList;
+    const tempSocialList = [];
     const { facebookLink, twitterLink, youTubeLink, instagramLink, linkedinLink } = appConfig.data;
     if (facebookLink) {
         newSocialList[0].url = facebookLink;
+        tempSocialList.push(newSocialList[0]);
     }
     if (twitterLink) {
         newSocialList[1].url = twitterLink;
+        tempSocialList.push(newSocialList[1]);
     }
     if (youTubeLink) {
         newSocialList[2].url = youTubeLink;
+        tempSocialList.push(newSocialList[2]);
     }
     if (instagramLink) {
         newSocialList[3].url = instagramLink;
+        tempSocialList.push(newSocialList[3]);
     }
     if (linkedinLink) {
         newSocialList[4].url = linkedinLink;
+        tempSocialList.push(newSocialList[4]);
     }
-    return getListData(i18n, t, newSocialList);
+    return getListData(i18n, t, tempSocialList);
+}
+
+export function showSocialLinksMenu() {
+    const { facebookLink, twitterLink, youTubeLink, instagramLink, linkedinLink } = appConfig.data;
+    return facebookLink || twitterLink || youTubeLink || instagramLink || linkedinLink;
 }
