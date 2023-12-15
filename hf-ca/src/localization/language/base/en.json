@@ -129,9 +129,9 @@
         "networkErrorMsg": "Please check your network settings.",
         "commonErrorTitle": "Sorry",
         "commonErrorMsg": "Something went wrong. Let's try one more time.",
-        "dateOfBirthRequired": "A date of birth is required.",
-        "dateOfBirthInvalid": "Please enter a valid date.",
-        "dateOfBirthMustBePast": "Your date of birth must be in the past.",
+        "dateOfBirthRequired": "A date of birth is required",
+        "dateOfBirthInvalid": "Please enter a valid date",
+        "dateOfBirthMustBePast": "Your date of birth must be in the past",
         "noResultsFoundMsg": "No results found. Please try again with a different location.",
         "notAllowSignOutInOfflineMsg": "You are not allowed to sign out offline, please proceed when back online."
     },
