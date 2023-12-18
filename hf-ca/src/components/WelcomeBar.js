@@ -70,6 +70,12 @@ function WelcomeBar() {
                                 refreshLicense(profileId);
                             }}
                             closeLoadingBeforeProfileCallback
+                            containerStyles={{
+                                justifyContent: "flex-end",
+                            }}
+                            textStyles={{
+                                flex: 0,
+                            }}
                         />
                     </View>
                 )}
