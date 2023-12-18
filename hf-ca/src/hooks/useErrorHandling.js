@@ -124,13 +124,11 @@ function useErrorHandling() {
                          * FIXME: It uses a workaround to avoid not showing an error message when the download request fails
                          * related ticket is AWO-218524
                          */
-                        openSimpleDialog({
-                            title: t("common.error"),
-                            message,
-                            okText: "common.gotIt",
-                            onConfirm: () => {
-                                dispatch(appActions.clearError());
-                            },
+                        showToast(message, {
+                            position: Toast.positions.CENTER,
+                            opacity: 0.9,
+                            duration: 3000,
+                            backgroundColor: AppTheme.colors.font_color_3,
                         });
                     } else {
                         DialogHelper.showSimpleDialog({
