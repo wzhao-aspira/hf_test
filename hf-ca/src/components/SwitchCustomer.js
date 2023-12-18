@@ -22,7 +22,12 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function SwitchCustomer({ postProcess, closeLoadingBeforeProfileCallback = false }) {
+export default function SwitchCustomer({
+    postProcess,
+    closeLoadingBeforeProfileCallback = false,
+    containerStyles = {},
+    textStyles = {},
+}) {
     const { t } = useTranslation();
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
     const showSwitchProfile = otherProfiles.length > 0;
@@ -51,9 +56,9 @@ export default function SwitchCustomer({ postProcess, closeLoadingBeforeProfileC
             onPress={handleSwitchClick}
             hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         >
-            <View style={styles.container}>
+            <View style={[styles.container, containerStyles]}>
                 <FontAwesomeIcon icon={faArrowRightArrowLeft} size={12} color={AppTheme.colors.primary} />
-                <Text style={styles.text} numberOfLines={2} ellipsizeMode="tail">
+                <Text style={[styles.text, textStyles]} numberOfLines={2} ellipsizeMode="tail">
                     {t("common.switchCustomer")}
                 </Text>
             </View>
