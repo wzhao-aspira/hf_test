@@ -79,7 +79,7 @@ export default function NetInfoBar() {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const debounceDetect = useCallback(debounce(detectNetChange, 200), [isInternetReachable]);
+    const debounceDetect = useCallback(debounce(detectNetChange, 200), [netConnected, isInternetReachable]);
 
     useEffect(() => {
         debounceDetect();
