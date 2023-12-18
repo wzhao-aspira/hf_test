@@ -15,6 +15,7 @@ interface HandleErrorOptions {
     dispatch: any;
     networkErrorByDialog?: boolean;
     networkErrorMsg?: string;
+    isDownloadFile?: boolean;
 }
 
 export async function handleError<T>(
@@ -27,6 +28,7 @@ export async function handleError<T>(
         networkErrorByDialog = true,
         networkErrorMsg = "",
         dispatch,
+        isDownloadFile = false,
     }: HandleErrorOptions
 ) {
     try {
@@ -51,7 +53,7 @@ export async function handleError<T>(
             (isEmpty(skippedBusinessErrorCode) ? true : !isBusinessErrorCode(error, skippedBusinessErrorCode)) &&
             !axios.isCancel(error)
         ) {
-            dispatch(appActions.setError({ ...error, networkErrorByDialog, networkErrorMsg }));
+            dispatch(appActions.setError({ ...error, networkErrorByDialog, networkErrorMsg, isDownloadFile }));
         }
         console.log(error);
 

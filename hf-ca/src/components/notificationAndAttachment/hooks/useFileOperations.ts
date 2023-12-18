@@ -68,6 +68,7 @@ function useFileOperations({
 
         const handleErrorResult = await handleError(requestPromise, {
             dispatch,
+            isDownloadFile: true,
         });
 
         const { data: response, success } = handleErrorResult;
