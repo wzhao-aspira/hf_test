@@ -110,9 +110,7 @@ export default function NetInfoBar() {
                     if (!showNetErrorByDialog) {
                         dispatch(appActions.clearError());
                     }
-                    if (isInternetReachable) {
-                        setShowNetInfo(false);
-                    }
+                    // setShowNetInfo(false);
                 }, 1000);
             }
         }
