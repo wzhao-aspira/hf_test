@@ -64,6 +64,8 @@ function useErrorHandling() {
     const showOfflineToast = useSelector(selectors.selectShowOfflineToast);
     const { openSimpleDialog } = useDialog();
 
+    const isDownloadFile = error?.isDownloadFile;
+
     // use useEffect to avoid an error from react
     useEffect(() => {
         if (!isEmpty(error)) {
@@ -117,20 +119,35 @@ function useErrorHandling() {
                 const canNotFindCustomer = isNotFindCustomerError(error);
 
                 setTimeout(() => {
-                    DialogHelper.showSimpleDialog({
-                        title: "common.error",
-                        okText: "common.gotIt",
-                        message,
-                        okAction: () => {
-                            dispatch(appActions.clearError());
-                            if (canNotFindCustomer) {
-                                clearProfileListUpdateTime();
-                                setTimeout(() => {
-                                    NavigationService.navigate(Routers.manageProfile);
-                                });
-                            }
-                        },
-                    });
+                    if (isDownloadFile) {
+                        /**
+                         * FIXME: It uses a workaround to avoid not showing an error message when the download request fails
+                         * related ticket is AWO-218524
+                         */
+                        openSimpleDialog({
+                            title: t("common.error"),
+                            message,
+                            okText: "common.gotIt",
+                            onConfirm: () => {
+                                dispatch(appActions.clearError());
+                            },
+                        });
+                    } else {
+                        DialogHelper.showSimpleDialog({
+                            title: "common.error",
+                            okText: "common.gotIt",
+                            message,
+                            okAction: () => {
+                                dispatch(appActions.clearError());
+                                if (canNotFindCustomer) {
+                                    clearProfileListUpdateTime();
+                                    setTimeout(() => {
+                                        NavigationService.navigate(Routers.manageProfile);
+                                    });
+                                }
+                            },
+                        });
+                    }
                 });
             }
         }
