@@ -8,7 +8,7 @@ cleanFolder() {
 }
 
 mergeMaster(){
-    if [ $branch = "origin/RTT" ]; then
+    if [ $originBranch = "origin/RTT" ]; then
         echo "Merge Master"
         git merge origin/master
         branch=${GIT_BRANCH/origin\//\HEAD:}
@@ -17,7 +17,7 @@ mergeMaster(){
 }
 
 addBuildNum() {
-    if [[ $branch = "origin/RTT" || $branch = "origin/Release_"* ]]; then
+    if [[ $originBranch = "origin/RTT" || $originBranch = "origin/Release_"* ]]; then
         echo "addBuildNum"
         buildInfo=$(node ./BuildHelper.js)
         echo $buildInfo
@@ -170,8 +170,8 @@ CHANNEL=$1
 # android, ios
 PLATFORM=$2
 # branch name
-branch=$3
-echo $branch
+originBranch=$3
+echo $originBranch
 # should need upload to testflight
 buildAppStreIPA=$4
 echo $buildAppStreIPA
