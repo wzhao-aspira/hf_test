@@ -7,16 +7,27 @@ cleanFolder() {
     mkdir -p build/artifacts
 }
 
+mergeMaster(){
+    if [ $branch = "origin/RTT" ]; then
+        echo "Merge Master"
+        git merge origin/master
+        branch=${GIT_BRANCH/origin\//\HEAD:}
+        git push origin $branch
+    fi
+}
+
 addBuildNum() {
-    echo "addBuildNum"
-    buildInfo=$(node ./BuildHelper.js)
-    echo $buildInfo
-    BUILD_NUMBER=$(echo $buildInfo | cut -d "-" -f 3)
-    BUILD_FILE_NAME=HF_CA_${CHANNEL}_$BUILD_NUMBER
-    echo $BUILD_FILE_NAME
-    git commit -am "AWO-000000 update version number and code"
-    branch=${GIT_BRANCH/origin\//\HEAD:}
-    git push origin $branch
+    if [[ $branch = "origin/RTT" || $branch = "origin/Release_"* ]]; then
+        echo "addBuildNum"
+        buildInfo=$(node ./BuildHelper.js)
+        echo $buildInfo
+        BUILD_NUMBER=$(echo $buildInfo | cut -d "-" -f 3)
+        BUILD_FILE_NAME=HF_CA_${CHANNEL}_$BUILD_NUMBER
+        echo $BUILD_FILE_NAME
+        git commit -am "AWO-000000 update version number and code"
+        branch=${GIT_BRANCH/origin\//\HEAD:}
+        git push origin $branch
+    fi
 }
 
 updateIOSNativeInfo() {
@@ -158,10 +169,15 @@ buildIOS() {
 CHANNEL=$1
 # android, ios
 PLATFORM=$2
+# branch name
+branch=$3
+echo $branch
 # should need upload to testflight
-buildAppStreIPA=$3
+buildAppStreIPA=$4
+echo $buildAppStreIPA
 cd $WORKSPACE/hf-ca
 cleanFolder
+mergeMaster
 yarn
 addBuildNum
 updateReleaseChannel
