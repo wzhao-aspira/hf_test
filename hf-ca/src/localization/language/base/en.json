@@ -133,6 +133,8 @@
         "dateOfBirthInvalid": "Please enter a valid date",
         "dateOfBirthMustBePast": "Your date of birth must be in the past",
         "noResultsFoundMsg": "No results found. Please try again with a different location.",
+        "maintainTitle": "Communication Error",
+        "maintainMsg": "Unable to communicate with the server. This may be due to server maintenance, which may last from midnight to 5am PST. Please try again later.",
         "notAllowSignOutInOfflineMsg": "You are not allowed to sign out offline, please proceed when back online."
     },
     "login": {
