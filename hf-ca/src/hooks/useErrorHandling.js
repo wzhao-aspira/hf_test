@@ -113,9 +113,17 @@ function useErrorHandling() {
                 );
             } else {
                 let message = getErrorMessage(error);
+                let title = t("common.error");
                 if (error.code == "ECONNABORTED" || error.code == "ETIMEDOUT") {
                     message = t("errMsg.timeoutErrorMessage");
                 }
+
+                // maintain error
+                if (error.code == "ServiceUnavailable") {
+                    message = t("errMsg.maintainMsg");
+                    title = t("errMsg.maintainTitle");
+                }
+
                 const canNotFindCustomer = isNotFindCustomerError(error);
 
                 setTimeout(() => {
@@ -132,7 +140,7 @@ function useErrorHandling() {
                         });
                     } else {
                         DialogHelper.showSimpleDialog({
-                            title: "common.error",
+                            title,
                             okText: "common.gotIt",
                             message,
                             okAction: () => {

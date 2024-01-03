@@ -44,6 +44,33 @@ instance.interceptors.request.use(async (cfg) => {
     return cfg;
 });
 
+function checkIsHTMLResponse(response) {
+    // Check the Content-Type header
+    if (response.headers["content-type"].indexOf("text/html") !== -1) {
+        return true;
+    }
+
+    // Check if tags exist in response
+    if (response.data?.includes && response.data?.includes("<html>")) {
+        return true;
+    }
+    return false;
+}
+
+instance.interceptors.response.use((response) => {
+    const isHTMLResponse = checkIsHTMLResponse(response);
+    if (isHTMLResponse) {
+        console.log("isHTMLResponse", isHTMLResponse);
+        const error = new Error("Service Unavailable");
+        error.response = response;
+        error.status = 503;
+        error.code = "ServiceUnavailable";
+        throw error;
+    }
+
+    return response;
+});
+
 export async function clearLastUpdateDate() {
     await storeItem(KEY_CONSTANT.lastUpdateDate, "");
 }
