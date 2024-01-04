@@ -46,7 +46,7 @@ instance.interceptors.request.use(async (cfg) => {
 
 function checkIsHTMLResponse(response) {
     // Check the Content-Type header
-    if (response.headers["content-type"].indexOf("text/html") !== -1) {
+    if (response.headers["content-type"] && response.headers["content-type"].indexOf("text/html") !== -1) {
         return true;
     }
 
