@@ -57,16 +57,11 @@ export default function HomeScreen() {
         setRefresh(isForce || needAutoRefreshProfile || needAutoRefreshLicense);
 
         const response = await dispatch(ProfileThunk.refreshProfileList({ isForce }));
-        if (
-            response.isReloadData &&
-            ((!response.success && !response.isNetworkError) ||
-                response.primaryIsInactivated ||
-                response.ciuIsInactivated)
-        ) {
+        if (response.isReloadData && (response.primaryIsInactivated || response.ciuIsInactivated)) {
             setRefresh(false);
             return;
         }
-        const useCache = !response.success && response.isNetworkError;
+        const useCache = !response.success;
         await getLicenseOfActiveProfile(isForce, useCache);
         setRefresh(false);
     };
