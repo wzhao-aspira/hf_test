@@ -74,8 +74,8 @@ export default function SwitchProfileDialog({
         const response = await dispatch(
             profileThunkActions.getProfileListChangeStatus({ showCRSSVerifyMsg: false, needCacheLicense: false })
         );
-        // if network error, user can switch the profile, other api error will block switch profile
-        if (!response.success && response.isNetworkError) {
+        // if api error, user can switch the profile, other api error will block switch profile
+        if (!response.success) {
             await dispatch(profileThunkActions.switchCurrentInUseProfile(profileId));
             if (postProcess) {
                 postProcess(profileId);
@@ -83,7 +83,7 @@ export default function SwitchProfileDialog({
             return;
         }
 
-        if (!response.success || response.primaryIsInactivated) {
+        if (response.primaryIsInactivated) {
             return;
         }
 
