@@ -31,12 +31,19 @@ export function isProdEnv() {
     return CHANNEL.includes("PROD");
 }
 
+export function isPerfEnv() {
+    return CHANNEL.includes("PERF");
+}
+
 export function getBaseURL() {
     if (isUATEnv()) {
         return AppContract.URL.uat;
     }
     if (isProdEnv()) {
         return AppContract.URL.prod;
+    }
+    if (isPerfEnv()) {
+        return AppContract.URL.perf;
     }
     return AppContract.URL.qa;
 }

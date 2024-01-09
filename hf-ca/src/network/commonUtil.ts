@@ -1,5 +1,5 @@
 import { isArray } from "lodash";
-import { isUATEnv, isProdEnv } from "../helper/AppHelper";
+import { isUATEnv, isProdEnv, isPerfEnv } from "../helper/AppHelper";
 
 let path = "/prod";
 
@@ -10,6 +10,8 @@ if (isUATEnv()) {
 } else if (isProdEnv()) {
     // todo change prod path
     console.warn("please check whether the deployPath is changed for prod.");
+} else if (isPerfEnv()) {
+    path = "";
 }
 
 export const deployPath = path;

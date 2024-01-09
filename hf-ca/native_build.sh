@@ -177,6 +177,18 @@ buildAppStreIPA=$4
 echo $buildAppStreIPA
 cd $WORKSPACE/hf-ca
 cleanFolder
+
+# disable charles for uat and prod
+if [[ $channel == "uat" || $channel == "prod" ]]; then
+	if [ $system == "Linux" ]; then
+		sed -i 's/android:networkSecurityConfig="@xml\/network_security_config"//g' ${WORKSPACE}/hf-ca/android/app/src/main/AndroidManifest.xml
+	else
+		sed -i '' 's/android:networkSecurityConfig="@xml\/network_security_config"//g' ${WORKSPACE}/hf-ca/android/app/src/main/AndroidManifest.xml
+	fi
+	rm ${WORKSPACE}/hf-ca/android/app/src/main/res/xml/network_security_config.xml
+
+fi
+
 mergeMaster
 yarn
 addBuildNum
