@@ -61,7 +61,7 @@ export default function HomeScreen() {
             setRefresh(false);
             return;
         }
-        const useCache = !response.success;
+        const useCache = response.isReloadData && !response.success;
         await getLicenseOfActiveProfile(isForce, useCache);
         setRefresh(false);
     };
