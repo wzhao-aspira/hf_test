@@ -236,7 +236,7 @@ const getProfileListChangeStatus =
             return profileResponse;
         }
 
-        const { result } = profileResponse.data.data;
+        const { result } = profileResponse?.data?.data || {};
         const { profileList, primaryProfileId, profileListIDs } = getProfileData(result);
         const differenceProfiles = xor(currentProfileIds, profileListIDs);
 
