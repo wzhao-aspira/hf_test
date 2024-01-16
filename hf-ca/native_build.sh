@@ -179,6 +179,8 @@ cd $WORKSPACE/hf-ca
 cleanFolder
 
 # disable charles for uat and prod
+system=$(uname)
+echo $system
 if [[ $channel == "uat" || $channel == "prod" ]]; then
 	if [ $system == "Linux" ]; then
 		sed -i 's/android:networkSecurityConfig="@xml\/network_security_config"//g' ${WORKSPACE}/hf-ca/android/app/src/main/AndroidManifest.xml
