@@ -178,6 +178,11 @@ echo $buildAppStreIPA
 cd $WORKSPACE/hf-ca
 cleanFolder
 
+mergeMaster
+yarn
+addBuildNum
+updateReleaseChannel
+updateFirebaseDirectory
 # disable charles for uat and prod
 system=$(uname)
 echo $system
@@ -190,12 +195,6 @@ if [[ $channel == "uat" || $channel == "prod" ]]; then
 	rm ${WORKSPACE}/hf-ca/android/app/src/main/res/xml/network_security_config.xml
 
 fi
-
-mergeMaster
-yarn
-addBuildNum
-updateReleaseChannel
-updateFirebaseDirectory
 if [ $PLATFORM == ios ]; then
     buildIOS
 else
