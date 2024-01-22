@@ -8,8 +8,7 @@ if (isUATEnv()) {
 
     path = "/uat_test";
 } else if (isProdEnv()) {
-    // todo change prod path
-    console.warn("please check whether the deployPath is changed for prod.");
+    path = "";
 } else if (isPerfEnv()) {
     path = "";
 }

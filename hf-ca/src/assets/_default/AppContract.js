@@ -19,7 +19,7 @@ const AppContract = {
     URL: {
         qa: "https://qa.ca.wildlifelicense.com/",
         uat: "https://uat.ca.wildlifelicense.com/",
-        prod: "https://can-psapi-rest.reserveamerica.com/",
+        prod: "https://www.ca.wildlifelicense.com",
         perf: "https://perf.ca.wildlifelicense.com",
     },
     internetSalesURL: {
