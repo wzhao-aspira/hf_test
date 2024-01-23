@@ -128,7 +128,9 @@ export default function SwitchProfileDialog({
     return (
         <DialogWrapper
             closeModal={() => {
-                hideDialog();
+                if (!isSwitchToPrimary) {
+                    hideDialog();
+                }
             }}
         >
             <View style={dialogStyles.switchProfileContainer}>
