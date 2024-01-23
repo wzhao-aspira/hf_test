@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { BackHandler, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -61,6 +61,14 @@ function AddIndividualProfileInfoScreen({ route }) {
     });
 
     const lastNameRef = useRef();
+    useEffect(() => {
+        const backListener = BackHandler.addEventListener("hardwareBackPress", () => {
+            return noBackBtn;
+        });
+        return () => {
+            backListener.remove();
+        };
+    }, [noBackBtn]);
 
     const getProfileDataBasedOnProfileType = (selectedProfileType) => {
         let defaultIdentificationOwner = {};
