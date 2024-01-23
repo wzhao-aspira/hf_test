@@ -149,7 +149,7 @@ function CarouselContent({ item, index }) {
                 </Text>
                 {renderTagDescription()}
                 <View style={{ flex: 1 }} />
-                <SeparateLine style={{ marginHorizontal: -20 }} />
+                <SeparateLine style={{ marginHorizontal: -10 }} />
                 <View style={styles.cardBottomContainer}>
                     {renderValidDate(altTextValidFromTo)}
                     {renderLicenseTag()}
