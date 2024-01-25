@@ -7,26 +7,36 @@ cleanFolder() {
     mkdir -p build/artifacts
 }
 
-mergeMaster(){
-    if [ $originBranch = "origin/RTT" ]; then
-        echo "Merge Master"
-        git merge origin/master
-        branch=${GIT_BRANCH/origin\//\HEAD:}
-        git push origin $branch
-    fi
-}
-
 addBuildNum() {
     echo "addBuildNum"
+
+    # copy app.json from version project for master branch
+    versionWorkSpace=${WORKSPACE}/version
+    if [ $originBranch = "origin/master" ]; then
+        rm -f ./app.json
+        cp $versionWorkSpace/app.json ./
+    fi
+
     buildInfo=$(node ./BuildHelper.js)
     echo $buildInfo
     BUILD_NUMBER=$(echo $buildInfo | cut -d "-" -f 3)
     BUILD_FILE_NAME=HF_CA_${CHANNEL}_$BUILD_NUMBER
     echo $BUILD_FILE_NAME
-    if [[ $originBranch = "origin/RTT" || $originBranch = "origin/Release_"* ]]; then
+
+    # push app.json for Release branch
+    if [ $originBranch = "origin/Release_"* ]; then
         git commit -am "AWO-000000 update version number and code"
         branch=${GIT_BRANCH/origin\//\HEAD:}
         git push origin $branch
+    fi
+
+    # push app.json for master branch
+    if [ $originBranch = "origin/master" ]; then
+        cp ./app.json $versionWorkSpace
+        cd $versionWorkSpace
+        git commit -am "update version number and code"
+        git push origin HEAD:master
+        cd $WORKSPACE/hf-ca
     fi
 }
 
@@ -178,7 +188,6 @@ echo $buildAppStreIPA
 cd $WORKSPACE/hf-ca
 cleanFolder
 
-mergeMaster
 yarn
 addBuildNum
 updateReleaseChannel
