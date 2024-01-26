@@ -24,7 +24,7 @@ addBuildNum() {
     echo $BUILD_FILE_NAME
 
     # push app.json for Release branch
-    if [ $originBranch = "origin/Release_"* ]; then
+    if [[ $originBranch = "origin/Release_"* ]]; then
         git commit -am "AWO-000000 update version number and code"
         branch=${GIT_BRANCH/origin\//\HEAD:}
         git push origin $branch
