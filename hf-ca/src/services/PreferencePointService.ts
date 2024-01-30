@@ -9,7 +9,6 @@ import {
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { getPreferencePoints } from "../network/api_client/PreferencePointsApi";
 
-// eslint-disable-next-line import/prefer-default-export
 export async function getPreferencePointsByProfileId(profileId: string) {
     const response = await getPreferencePoints(profileId);
     const lastUpdateDate = response?.headers?.["last-updated-date"];

@@ -44,7 +44,9 @@ function WelcomeBar() {
     const currentInUseProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
     const otherProfiles = useSelector(profileSelectors.selectSortedByDisplayNameOtherProfileList);
     const showSwitchProfile = otherProfiles.length > 0;
-    if (!currentInUseProfile) return null;
+    if (!currentInUseProfile) {
+        return null;
+    }
 
     const refreshLicense = async (activeProfileId) => {
         if (activeProfileId) {

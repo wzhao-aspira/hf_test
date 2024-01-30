@@ -4,3 +4,4 @@ BuildHelper.js
 # __tests__/**/*.js
 # __mocks__/**/*.js
 src/external/**
+src/network/generated/**

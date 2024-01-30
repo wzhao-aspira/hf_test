@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import { BaseCache, CacheValue } from "./type";
 import { retrieveItem, storeItem, retrieveAllKeys } from "../../helper/StorageHelper";
 

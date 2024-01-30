@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import analytics from "@react-native-firebase/analytics";
 
 const analyticsInstance = analytics();

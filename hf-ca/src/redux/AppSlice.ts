@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { isEmpty } from "lodash";

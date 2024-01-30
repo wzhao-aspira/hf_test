@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { isEmpty } from "lodash";
 import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -87,7 +86,9 @@ function AddIndividualProfileInfoDetailsScreen({ route }) {
     };
     const onSave = async () => {
         const errorReported = validate();
-        if (errorReported) return;
+        if (errorReported) {
+            return;
+        }
 
         const isSaveSuccess = await saveProfile(dispatch, mobileAccount, isAddPrimaryProfile, profile, routeScreen);
         if (!isSaveSuccess) {

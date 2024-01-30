@@ -57,13 +57,17 @@ function ProfileItem({ profile, onPress, showGoToDetailsPageButton, showNameInOn
         nameProps = { numberOfLines: 1, ellipsizeMode: "tail" };
     }
 
-    if (!profile) return null;
+    if (!profile) {
+        return null;
+    }
 
     return (
         <Pressable
             accessible
             onPress={() => {
-                if (onPress) onPress();
+                if (onPress) {
+                    onPress();
+                }
             }}
             style={profileItemStyles.pressable}
             testID={genTestId(`profile_${profile?.profileId}`)}

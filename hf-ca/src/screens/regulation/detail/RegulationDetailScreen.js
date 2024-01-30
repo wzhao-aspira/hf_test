@@ -142,13 +142,16 @@ export default function RegulationDetailScreen(props) {
                                         testID="downloadBtn"
                                         label={t("regulation.download")}
                                         onPress={() => {
-                                            if (isNotDownloaded) downloadFile();
-                                            if (isDownloaded)
+                                            if (isNotDownloaded) {
+                                                downloadFile();
+                                            }
+                                            if (isDownloaded) {
                                                 openSelectDialog({
                                                     title: t("regulation.Reminder"),
                                                     message: t("regulation.ReminderMessage"),
                                                     onConfirm: downloadFile,
                                                 });
+                                            }
                                         }}
                                     />
                                 )}

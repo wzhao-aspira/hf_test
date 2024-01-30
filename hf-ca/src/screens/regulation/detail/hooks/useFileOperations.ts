@@ -35,8 +35,11 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
     const checkFileStatus = useCallback(async () => {
         const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
 
-        if (fileInfo.exists) setStatus("downloaded");
-        else setStatus("not downloaded yet");
+        if (fileInfo.exists) {
+            setStatus("downloaded");
+        } else {
+            setStatus("not downloaded yet");
+        }
     }, [fileDirectory]);
 
     useEffect(() => {
@@ -95,7 +98,9 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
                 setStatus("not downloaded yet");
 
                 const errorMessage = error?.message;
-                if (errorMessage) showToast(errorMessage);
+                if (errorMessage) {
+                    showToast(errorMessage);
+                }
 
                 console.log({ error });
             }

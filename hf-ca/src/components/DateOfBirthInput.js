@@ -61,7 +61,9 @@ function DateOfBirthInput(props) {
                     value={value}
                     onChangeText={(masked) => {
                         setErrorMsg("");
-                        if (setValue) setValue(masked);
+                        if (setValue) {
+                            setValue(masked);
+                        }
                     }}
                     mask={mask}
                     keyboardType={keyboardType}

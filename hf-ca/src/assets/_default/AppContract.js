@@ -1,5 +1,3 @@
-/* eslint-disable global-require */
-
 import { merge } from "lodash";
 import BaseContract from "../BaseContract";
 import SecurityUtil from "../../utils/SecurityUtil";

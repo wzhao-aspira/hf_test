@@ -75,7 +75,9 @@ export default function QuickAccessMethodsScreen() {
                     title={authType}
                     label={t("auth.useQuickAuth", { authType })}
                     onPress={async () => {
-                        if (accessType === 1) return;
+                        if (accessType === 1) {
+                            return;
+                        }
                         const userID = await getActiveUserID();
                         startBiometricAuth(
                             userID,

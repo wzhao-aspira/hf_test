@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import Realm from "realm";
 import DrawApplicationItem from "./DrawApplicationItem";
 import CopyHuntsInfo from "./CopyHuntsInfo";

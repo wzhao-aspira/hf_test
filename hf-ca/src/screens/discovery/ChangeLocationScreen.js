@@ -14,7 +14,9 @@ export default function ChangeLocationScreen() {
     const dispatch = useDispatch();
 
     const onItemPressAction = async (location) => {
-        if (isEmpty(location)) return;
+        if (isEmpty(location)) {
+            return;
+        }
         await storeItem(KEY_CONSTANT.keyLatLon, [location.center[1], location.center[0]]);
         dispatch(getWeatherDataFromRedux({ isForce: true }));
         NavigationService.back();

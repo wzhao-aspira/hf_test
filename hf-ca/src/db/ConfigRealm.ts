@@ -1,4 +1,3 @@
-/* eslint-disable import/no-mutable-exports */
 import Realm from "realm";
 import AppContract from "../assets/_default/AppContract";
 import ProfileSummary from "./models/ProfileSummary";

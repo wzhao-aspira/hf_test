@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import Realm from "realm";
 import FileInfo from "./FileInfo";
 

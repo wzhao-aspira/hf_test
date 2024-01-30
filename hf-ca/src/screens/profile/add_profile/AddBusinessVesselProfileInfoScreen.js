@@ -42,7 +42,9 @@ function AddBusinessVesselProfileInfoScreen({ route }) {
         } else if (PROFILE_TYPE_IDS.vessel === profileType.id) {
             errorReported = vesselProfileInfoRef.current.validate();
         }
-        if (errorReported) return;
+        if (errorReported) {
+            return;
+        }
 
         const isSaveSuccess = await saveProfile(dispatch, mobileAccount, false, profile, routeScreen);
         if (!isSaveSuccess) {

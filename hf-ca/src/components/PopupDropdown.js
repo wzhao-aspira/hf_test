@@ -127,7 +127,9 @@ const PopupDropdown = React.forwardRef((props, ref) => {
                         return;
                     }
                     setErrorObj({ error: false });
-                    if (onSelect) onSelect(index, item);
+                    if (onSelect) {
+                        onSelect(index, item);
+                    }
                 }}
             >
                 <View style={{ ...styles.optionContainer }}>
