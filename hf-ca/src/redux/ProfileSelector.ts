@@ -48,7 +48,9 @@ const selectOtherProfileIDs = createSelector(
     selectProfileIDs,
     selectCurrentInUseProfileID,
     (profileIDs, currentInUseProfileID) => {
-        if (!profileIDs || profileIDs.length <= 0) return [];
+        if (!profileIDs || profileIDs.length <= 0) {
+            return [];
+        }
 
         return profileIDs.filter((profileID) => profileID != currentInUseProfileID);
     }
@@ -80,14 +82,18 @@ const selectOtherProfileList = createSelector(
     selectProfileList,
     selectOtherProfileIDs,
     (profileList, otherProfileIDs) => {
-        if (!otherProfileIDs || otherProfileIDs?.length <= 0) return [];
+        if (!otherProfileIDs || otherProfileIDs?.length <= 0) {
+            return [];
+        }
 
         return profileList.filter((profile) => otherProfileIDs.includes(profile.profileId));
     }
 );
 
 const selectSortedByDisplayNameOtherProfileList = createSelector(selectOtherProfileList, (otherProfileList) => {
-    if (otherProfileList?.length <= 0) return [];
+    if (otherProfileList?.length <= 0) {
+        return [];
+    }
 
     return otherProfileList.sort((profileA, profileB) => {
         return profileA.displayName.localeCompare(profileB.displayName);
@@ -128,7 +134,9 @@ const selectAssociatedProfiles = createSelector(
 
 const selectIndividualProfiles = createSelector(selectProfileState, (state) => {
     const { individualProfiles } = state;
-    if (individualProfiles?.length <= 0) return [];
+    if (individualProfiles?.length <= 0) {
+        return [];
+    }
     return individualProfiles;
 });
 

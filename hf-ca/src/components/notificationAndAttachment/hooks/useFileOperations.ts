@@ -48,8 +48,11 @@ function useFileOperations({
     const checkFileStatus = useCallback(async () => {
         const fileInfo = await FileSystem.getInfoAsync(fileURI);
 
-        if (fileInfo.exists) setStatus("downloaded");
-        else setStatus("not downloaded yet");
+        if (fileInfo.exists) {
+            setStatus("downloaded");
+        } else {
+            setStatus("not downloaded yet");
+        }
     }, [fileURI]);
 
     useEffect(() => {

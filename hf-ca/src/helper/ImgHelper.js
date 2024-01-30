@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import { Image as RNImage } from "react-native";
 import { isEmpty } from "lodash";
 import * as FileSystem from "expo-file-system";

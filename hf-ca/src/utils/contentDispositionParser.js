@@ -1,7 +1,6 @@
 /* code is reference from https://github.com/yurks/content-disposition-parser/blob/main/index.js */
 /* eslint-disable no-empty */
-/* eslint-disable no-param-reassign */
-/* eslint-disable consistent-return */
+
 const reParamSplit = /\s*;\s*/;
 const reHeaderSplit = /\s*:\s*/;
 const rePropertySplit = /\s*=\s*(.+)/;

@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import { isEqual } from "lodash";
 import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";

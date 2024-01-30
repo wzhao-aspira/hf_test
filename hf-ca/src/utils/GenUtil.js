@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import moment from "moment";
 import { isEmpty } from "lodash";
 import { AUTO_REFRESH_TIMEOUT } from "../constants/Constants";

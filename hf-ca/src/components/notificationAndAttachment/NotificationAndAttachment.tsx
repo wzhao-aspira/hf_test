@@ -86,7 +86,9 @@ function File(props: FileProps) {
     const shouldShowDropdownToggleButton = isDownloaded;
     const shouldShowFile = available || isDownloaded;
 
-    if (!shouldShowFile) return null;
+    if (!shouldShowFile) {
+        return null;
+    }
 
     const Dropdown = (
         <View

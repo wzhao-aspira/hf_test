@@ -24,7 +24,9 @@ import {
 import { clearIsEmptyOnlineDataCachedInd } from "./PreferencePointService";
 
 async function verifyPassword(accountPassword: string) {
-    if (!accountPassword) return "failed: password is empty";
+    if (!accountPassword) {
+        return "failed: password is empty";
+    }
 
     return "passed";
 }

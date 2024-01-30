@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createContext, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import { DialogConfig } from "./type";
@@ -26,10 +25,7 @@ export const DialogContext = createContext(null);
 export function DialogProvider({ children }) {
     const [dialogState, dialogDispatch] = useImmerReducer(dialogReducer, initialState);
 
-    return (
-        // eslint-disable-next-line react/jsx-no-constructed-context-values
-        <DialogContext.Provider value={{ dialogState, dialogDispatch }}>{children}</DialogContext.Provider>
-    );
+    return <DialogContext.Provider value={{ dialogState, dialogDispatch }}>{children}</DialogContext.Provider>;
 }
 
 export const useDialogContext = () => useContext(DialogContext);

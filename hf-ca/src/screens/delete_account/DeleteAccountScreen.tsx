@@ -63,7 +63,9 @@ function DeleteAccountScreen() {
     async function pressVerifyAndContinueButtonHandler() {
         const result = await handlePasswordInputInlineError();
 
-        if (result === "passed") setShouldShowConfirmDialog(true);
+        if (result === "passed") {
+            setShouldShowConfirmDialog(true);
+        }
     }
 
     async function pressProceedDeleteHandler() {

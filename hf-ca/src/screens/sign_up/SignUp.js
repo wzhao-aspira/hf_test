@@ -117,7 +117,9 @@ function SignUp() {
     };
     const onSave = async () => {
         const errorReported = validate();
-        if (errorReported) return;
+        if (errorReported) {
+            return;
+        }
         const userID = mobileAccount?.userID.trim();
         if (!emailValidator.validate(userID)) {
             openSimpleDialog({
@@ -145,7 +147,9 @@ function SignUp() {
         if (!storedMobileAccount.success) {
             return;
         }
-        if (!storedMobileAccount) return;
+        if (!storedMobileAccount) {
+            return;
+        }
         const signInResult = await handleError(AccountService.authSignIn(userID, mobileAccount?.password), {
             dispatch,
             showLoading: true,

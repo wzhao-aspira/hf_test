@@ -3,7 +3,6 @@ import getAPIConfig from "../APIConfig";
 
 import { PreferencePointsApi } from "../generated";
 
-// eslint-disable-next-line import/prefer-default-export
 export async function getPreferencePoints(profileId: string) {
     const api = new PreferencePointsApi(getAPIConfig(), null, instance);
     return api.v1CustomersCustomerIdPreferencePointsGet(profileId);

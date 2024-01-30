@@ -76,7 +76,9 @@ export async function clearLastUpdateDate() {
 }
 
 async function saveLastUpdateDateIntoLocalStorage(lastUpdatedDate) {
-    if (lastUpdatedDate) await storeItem(KEY_CONSTANT.lastUpdateDate, lastUpdatedDate);
+    if (lastUpdatedDate) {
+        await storeItem(KEY_CONSTANT.lastUpdateDate, lastUpdatedDate);
+    }
 }
 
 instance.interceptors.response.use((response) => {

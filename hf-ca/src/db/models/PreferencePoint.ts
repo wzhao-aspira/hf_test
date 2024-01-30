@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import Realm from "realm";
 
 export default class PreferencePoint extends Realm.Object<PreferencePoint> {

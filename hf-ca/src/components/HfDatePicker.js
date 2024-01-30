@@ -165,12 +165,16 @@ const HfDatePicker = React.forwardRef((props, ref) => {
                     setVisible(false);
                     setErrorObj({ ...validate(dateStr) });
 
-                    if (onConfirm) onConfirm(date);
+                    if (onConfirm) {
+                        onConfirm(date);
+                    }
                 }}
                 onCancel={() => {
                     setVisible(false);
 
-                    if (onCancel) onCancel();
+                    if (onCancel) {
+                        onCancel();
+                    }
                 }}
             />
         </View>

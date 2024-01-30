@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import moment from "moment";
 import { BaseCache, Cacheable, CacheInstance, CacheValue } from "./type";
 

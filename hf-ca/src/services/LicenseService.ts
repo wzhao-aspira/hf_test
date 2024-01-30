@@ -117,7 +117,9 @@ export async function getIsEmptyOnlineDataCachedInd(searchParams: { activeProfil
     const isEmptyOnlineDataCachedInd = await retrieveItem(
         `${KEY_CONSTANT.keyIsEmptyOnlineDataCached}_${activeProfileId}`
     );
-    if (isEmptyOnlineDataCachedInd == null) return false;
+    if (isEmptyOnlineDataCachedInd == null) {
+        return false;
+    }
     return isEmptyOnlineDataCachedInd;
 }
 

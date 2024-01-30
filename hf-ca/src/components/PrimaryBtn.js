@@ -30,7 +30,9 @@ function PrimaryBtn({ label = "Primary Btn", onPress, testID, style = {}, disabl
             style={[styles.container, disabled && styles.disableContainer, { ...style }]}
             disabled={disabled}
             onPress={() => {
-                if (onPress) onPress();
+                if (onPress) {
+                    onPress();
+                }
             }}
         >
             <Text numberOfLines={1} style={[styles.label, labelStyle]}>

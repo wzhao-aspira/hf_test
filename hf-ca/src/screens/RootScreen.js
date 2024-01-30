@@ -1,4 +1,3 @@
-/* eslint-disable react/style-prop-object */
 import React, { useEffect, useRef } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";

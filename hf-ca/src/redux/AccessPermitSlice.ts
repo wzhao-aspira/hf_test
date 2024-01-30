@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getAccessPermitData } from "../services/AccessPermitServices";
 import { REQUEST_STATUS } from "../constants/Constants";
@@ -19,7 +18,9 @@ interface AccessPermitState {
 const initialState: AccessPermitState = { data: null, requestStatus: REQUEST_STATUS.idle, offline: false };
 
 function getAccessPermitDownloadableFileIDList(accessPermitsData: AccessPermitItem[]) {
-    if (!accessPermitsData) return null;
+    if (!accessPermitsData) {
+        return null;
+    }
 
     const fileInfoList = accessPermitsData.flatMap((accessPermit) =>
         accessPermit.huntDays.flatMap((huntDay) => huntDay.fileInfoList)

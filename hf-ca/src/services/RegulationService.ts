@@ -3,7 +3,6 @@ import { KEY_CONSTANT } from "../constants/Constants";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { getRegulations } from "../network/api_client/StaticDataApi";
 
-// eslint-disable-next-line import/prefer-default-export
 export async function getRegulationData() {
     const response = await getRegulations();
 

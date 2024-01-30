@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { StyleSheet } from "react-native";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";

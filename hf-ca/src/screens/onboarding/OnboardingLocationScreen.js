@@ -89,7 +89,9 @@ export default function OnboardingLocationScreen(props) {
                         storeItem(KEY_CONSTANT.keyOnboardingLocation, { result: true });
                         Location.requestForegroundPermissionsAsync()
                             .finally(() => {
-                                if (onFinish) onFinish();
+                                if (onFinish) {
+                                    onFinish();
+                                }
                             })
                             .catch((err) => {
                                 console.log(err);
@@ -102,7 +104,9 @@ export default function OnboardingLocationScreen(props) {
                     label={t("onboarding.location.notNow")}
                     onPress={() => {
                         storeItem(KEY_CONSTANT.keyOnboardingLocation, { result: true });
-                        if (onFinish) onFinish();
+                        if (onFinish) {
+                            onFinish();
+                        }
                     }}
                 />
             </View>

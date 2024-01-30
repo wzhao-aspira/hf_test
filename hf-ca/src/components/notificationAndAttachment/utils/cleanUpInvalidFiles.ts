@@ -9,7 +9,9 @@ async function cleanUpInvalidFiles({
     downloadableFileIDList: string[];
     profileID?: string;
 }) {
-    if (!downloadableFileIDList) return;
+    if (!downloadableFileIDList) {
+        return;
+    }
 
     try {
         const filesDirectory = profileID
