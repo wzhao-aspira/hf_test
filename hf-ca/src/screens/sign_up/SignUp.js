@@ -180,6 +180,7 @@ function SignUp() {
                     const error = emptyValidate(mobileAccount?.userID, t("errMsg.emptyUserID"));
                     userIDRef?.current.setError(error);
                 }}
+                disabled={isEmailValidationCodeBeSended}
             />
             {isShowAcknowledgement && (
                 <View style={styles.disclaimerCard}>
