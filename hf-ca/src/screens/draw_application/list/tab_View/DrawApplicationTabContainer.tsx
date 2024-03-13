@@ -1,4 +1,5 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { genTestId } from "../../../../helper/AppHelper";
 
 import { isEmpty } from "lodash";
 import { useSelector } from "react-redux";
@@ -14,10 +15,13 @@ import { DrawApplicationListTabName, DrawTabData } from "../../../../types/drawA
 import { useAppDispatch } from "../../../../hooks/redux";
 import RefreshBar from "../../../../components/RefreshBar";
 import DrawApplicationListScrollView from "../DrawApplicationListScrollView";
+import { Trans } from "react-i18next";
+import AppTheme from "../../../../assets/_default/AppTheme";
 
 interface TabContentProps {
     tabName?: DrawApplicationListTabName;
     tabData?: DrawTabData;
+    historicalData?: DrawTabData;
 }
 interface TabProps extends TabContentProps {
     isEmptyTab?: boolean;
@@ -30,8 +34,15 @@ export const styles = StyleSheet.create({
     groupContainer: {
         marginTop: 20,
     },
+    title_label: {
+        ...AppTheme.typography.section_header,
+        color: AppTheme.colors.font_color_2,
+        marginTop: 10,
+    },
 });
-
+function isTabDataEmpty(data: DrawTabData) {
+    return isEmpty(data?.copyHuntsList) && isEmpty(data?.generatedHuntsList);
+}
 function TabListContent({ tabName, tabData }: TabContentProps) {
     const { copyHuntsList, generatedHuntsList } = tabData;
     return (
@@ -79,7 +90,7 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
     );
 }
 
-function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps) {
+function DrawApplicationTabItem({ tabData = {}, historicalData = {}, tabName, isEmptyTab }: TabProps) {
     const dispatch = useAppDispatch();
 
     const refreshing = useSelector(DrawSelectors.selectIsDrawListLoading);
@@ -111,6 +122,19 @@ function DrawApplicationTabItem({ tabData = {}, tabName, isEmptyTab }: TabProps)
                 />
                 {instructions && <DrawListAttention html={instructions} />}
                 <TabListContent tabName={tabName} tabData={tabData} />
+                {!isTabDataEmpty(historicalData) && (
+                    <View>
+                        <Text testID={genTestId("HistoryDrawsLabel")} style={styles.title_label}>
+                            {tabName == "successful" && (
+                                <Trans i18nKey="drawApplicationList.historicalSuccessfulHunts" />
+                            )}
+                            {tabName == "unsuccessful" && (
+                                <Trans i18nKey="drawApplicationList.historicalUnsuccessfulHunts" />
+                            )}
+                        </Text>
+                        <TabListContent tabName={tabName} tabData={historicalData} />
+                    </View>
+                )}
             </View>
         </DrawApplicationListScrollView>
     );

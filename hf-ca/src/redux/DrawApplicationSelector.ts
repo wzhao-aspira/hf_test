@@ -15,10 +15,26 @@ const selectNoCacheData = createSelector(selectDrawApplicationState, (draw) => d
 
 const selectSuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.successfulData);
 const selectUnsuccessfulData = createSelector(selectDrawApplicationState, (draw) => draw.unsuccessfulData);
+const selectHistoricalSuccessfulData = createSelector(
+    selectDrawApplicationState,
+    (draw) => draw.historicalSuccessfulData
+);
+const selectHistoricalUnsuccessfulData = createSelector(
+    selectDrawApplicationState,
+    (draw) => draw.historicalUnsuccessfulData
+);
 const selectPendingList = createSelector(selectDrawApplicationState, (draw) => draw.pendingData);
 
-const selectSuccessfulDataIsEmpty = createSelector(selectSuccessfulData, (data) => getDrawTabDataIsEmpty(data));
-const selectUnsuccessfulDataIsEmpty = createSelector(selectUnsuccessfulData, (data) => getDrawTabDataIsEmpty(data));
+const selectSuccessfulDataIsEmpty = createSelector(
+    selectSuccessfulData,
+    selectHistoricalSuccessfulData,
+    (data, historyData) => getDrawTabDataIsEmpty(data, historyData)
+);
+const selectUnsuccessfulDataIsEmpty = createSelector(
+    selectUnsuccessfulData,
+    selectHistoricalUnsuccessfulData,
+    (data, historyData) => getDrawTabDataIsEmpty(data, historyData)
+);
 const selectPendingListIsEmpty = createSelector(selectPendingList, (data) => getDrawTabDataIsEmpty(data));
 const selectDrawListIsEmpty = createSelector(
     selectSuccessfulDataIsEmpty,
@@ -36,6 +52,8 @@ const selectLastUpdateDate = createSelector(selectDrawApplicationState, (draw) =
 const selectors = {
     selectSuccessfulData,
     selectUnsuccessfulData,
+    selectHistoricalSuccessfulData,
+    selectHistoricalUnsuccessfulData,
     selectPendingList,
     selectSuccessfulDataIsEmpty,
     selectUnsuccessfulDataIsEmpty,

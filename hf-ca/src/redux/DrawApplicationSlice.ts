@@ -14,7 +14,9 @@ import { selectors as profileSelectors } from "./ProfileSlice";
 interface InitialState {
     instructions: string;
     successfulData: DrawTabData;
+    historicalSuccessfulData: DrawTabData;
     unsuccessfulData: DrawTabData;
+    historicalUnsuccessfulData: DrawTabData;
     pendingData: DrawTabData;
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
     isUseCacheData: boolean;
@@ -25,7 +27,9 @@ interface InitialState {
 const initialState: InitialState = {
     instructions: "",
     successfulData: {},
+    historicalSuccessfulData: {},
     unsuccessfulData: {},
+    historicalUnsuccessfulData: {},
     pendingData: {},
     requestStatus: REQUEST_STATUS.idle,
     isUseCacheData: false,
@@ -106,8 +110,18 @@ const drawApplicationSlice = createSlice({
             if (result.success) {
                 state.requestStatus = REQUEST_STATUS.fulfilled;
                 if (!isEmpty(result.data)) {
-                    const { successList, unSuccessList, pendingList, instructions, lastUpdateDate } = result.data;
+                    const {
+                        successList,
+                        unSuccessList,
+                        historySuccessList,
+                        historyUnSuccessList,
+                        pendingList,
+                        instructions,
+                        lastUpdateDate,
+                    } = result.data;
                     state.successfulData = successList;
+                    state.historicalSuccessfulData = historySuccessList;
+                    state.historicalUnsuccessfulData = historyUnSuccessList;
                     state.unsuccessfulData = unSuccessList;
                     state.pendingData = pendingList;
                     state.instructions = instructions;

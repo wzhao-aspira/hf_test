@@ -460,7 +460,9 @@
         "status": "Status",
         "result": "Result",
         "alternateForHunt": "Alternate for Hunt",
-        "partyNumber": "Party#"
+        "partyNumber": "Party#",
+        "historicalSuccessfulHunts": "Historical Successful",
+        "historicalUnsuccessfulHunts": "Historical Unsuccessful"
     },
     "drawApplicationDetail": {
         "of": "{{position}} Of {{totalNumber}} Choices",

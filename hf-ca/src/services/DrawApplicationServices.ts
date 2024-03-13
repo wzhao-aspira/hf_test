@@ -88,13 +88,29 @@ export async function getDrawApplicationList(profileId: string): Promise<DrawApp
 
     const successList = formateDrawList(result.successList || {});
     const unSuccessList = formateDrawList(result.unSuccessList || {});
+    const historySuccessList = formateDrawList(result.historySuccessList || {});
+    const historyUnSuccessList = formateDrawList(result.historyUnSuccessList || {});
     const pendingList = formateDrawList(result.pendingList || {});
 
-    return { instructions: result.instructions, successList, unSuccessList, pendingList, lastUpdateDate };
+    return {
+        instructions: result.instructions,
+        successList,
+        historySuccessList,
+        historyUnSuccessList,
+        unSuccessList,
+        pendingList,
+        lastUpdateDate,
+    };
 }
 
-export function getDrawTabDataIsEmpty(data: DrawTabData) {
+export function getDrawTabDataIsEmpty(data: DrawTabData, historyData?: DrawTabData) {
     const { copyHuntsList, generatedHuntsList } = data || {};
+    const { copyHuntsList: historyCopyHuntsList, generatedHuntsList: historyGeneratedHuntsList } = historyData || {};
 
-    return isEmpty(copyHuntsList) && isEmpty(generatedHuntsList);
+    return (
+        isEmpty(copyHuntsList) &&
+        isEmpty(generatedHuntsList) &&
+        isEmpty(historyCopyHuntsList) &&
+        isEmpty(historyGeneratedHuntsList)
+    );
 }

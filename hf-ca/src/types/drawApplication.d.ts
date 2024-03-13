@@ -63,6 +63,8 @@ export interface DrawApplicationList {
     instructions?: string;
     successList?: DrawTabData;
     unSuccessList?: DrawTabData;
+    historyUnSuccessList: DrawTabData;
+    historySuccessList: DrawTabData;
     pendingList?: DrawTabData;
     lastUpdateDate?: string;
 }
