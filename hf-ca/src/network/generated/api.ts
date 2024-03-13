@@ -801,7 +801,19 @@ export interface DrawResultsVM {
      * @type {DrawStatusList}
      * @memberof DrawResultsVM
      */
+    'historySuccessList'?: DrawStatusList;
+    /**
+     * 
+     * @type {DrawStatusList}
+     * @memberof DrawResultsVM
+     */
     'unSuccessList'?: DrawStatusList;
+    /**
+     * 
+     * @type {DrawStatusList}
+     * @memberof DrawResultsVM
+     */
+    'historyUnSuccessList'?: DrawStatusList;
     /**
      * 
      * @type {DrawStatusList}
@@ -1660,6 +1672,18 @@ export interface LicenseVM {
      * @memberof LicenseVM
      */
     'huntTagDescription'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LicenseVM
+     */
+    'licenseReportConfirmationText'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LicenseVM
+     */
+    'wasReportedLate'?: boolean | null;
 }
 /**
  * 

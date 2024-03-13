@@ -12,6 +12,10 @@ export default class DrawApplication extends Realm.Object<DrawApplication> {
 
     unSuccessList: DrawApplicationListInfo;
 
+    historySuccessList: DrawApplicationListInfo;
+
+    historyUnSuccessList: DrawApplicationListInfo;
+
     pendingList: DrawApplicationListInfo;
 
     lastUpdateDate?: string;
@@ -24,6 +28,8 @@ export default class DrawApplication extends Realm.Object<DrawApplication> {
             instructions: "string?",
             successList: "DrawApplicationListInfo",
             unSuccessList: "DrawApplicationListInfo",
+            historySuccessList: "DrawApplicationListInfo",
+            historyUnSuccessList: "DrawApplicationListInfo",
             pendingList: "DrawApplicationListInfo",
             lastUpdateDate: "string?",
         },

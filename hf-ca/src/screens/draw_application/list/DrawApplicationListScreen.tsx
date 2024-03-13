@@ -26,14 +26,30 @@ export const styles = StyleSheet.create({
 
 function SuccessfulRoute() {
     const data = useSelector(drawSelectors.selectSuccessfulData);
+    const historicalData = useSelector(drawSelectors.selectHistoricalSuccessfulData);
     const isEmptyData = useSelector(drawSelectors.selectSuccessfulDataIsEmpty);
-    return <DrawApplicationTabContainer tabData={data} tabName="successful" isEmptyTab={isEmptyData} />;
+    return (
+        <DrawApplicationTabContainer
+            tabData={data}
+            historicalData={historicalData}
+            tabName="successful"
+            isEmptyTab={isEmptyData}
+        />
+    );
 }
 
 function UnsuccessfulRoute() {
     const data = useSelector(drawSelectors.selectUnsuccessfulData);
+    const historicalData = useSelector(drawSelectors.selectHistoricalUnsuccessfulData);
     const isEmptyData = useSelector(drawSelectors.selectUnsuccessfulDataIsEmpty);
-    return <DrawApplicationTabContainer tabData={data} tabName="unsuccessful" isEmptyTab={isEmptyData} />;
+    return (
+        <DrawApplicationTabContainer
+            tabData={data}
+            historicalData={historicalData}
+            tabName="unsuccessful"
+            isEmptyTab={isEmptyData}
+        />
+    );
 }
 
 function PendingRoute() {
