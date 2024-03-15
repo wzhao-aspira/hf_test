@@ -161,6 +161,8 @@ function SignUp() {
         }
     };
 
+    const emailInputDisabled = isEmailValidationCodeBeSended;
+
     return (
         <View>
             <StatefulTextInput
@@ -170,7 +172,10 @@ function SignUp() {
                 ref={userIDRef}
                 style={{ marginTop: 20 }}
                 labelStyle={{ color: AppTheme.colors.font_color_1 }}
-                inputStyle={{ backgroundColor: AppTheme.colors.font_color_4 }}
+                inputStyle={{
+                    backgroundColor: emailInputDisabled ? AppTheme.colors.body_100 : AppTheme.colors.font_color_4,
+                    borderWidth: emailInputDisabled ? 0 : 1,
+                }}
                 onChangeText={(userID) => {
                     setMobileAccount({ ...mobileAccount, userID });
                     userIDRef.current.setError(emptyError);
@@ -180,7 +185,7 @@ function SignUp() {
                     const error = emptyValidate(mobileAccount?.userID, t("errMsg.emptyUserID"));
                     userIDRef?.current.setError(error);
                 }}
-                disabled={isEmailValidationCodeBeSended}
+                disabled={emailInputDisabled}
             />
             {isShowAcknowledgement && (
                 <View style={styles.disclaimerCard}>
