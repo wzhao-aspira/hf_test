@@ -1,16 +1,14 @@
-/* eslint-disable react/style-prop-object */
 import "react-native-url-polyfill/auto";
 import { decode, encode } from "base-64";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
 import { I18nextProvider } from "react-i18next";
 import { useEffect, useState } from "react";
-import { Image } from "expo-image";
 import * as Font from "expo-font";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { isEmpty } from "lodash";
 import * as Sentry from "@sentry/react-native";
-import { LogBox } from "react-native";
+import { Image, LogBox } from "react-native";
 import RootScreen from "./src/screens/RootScreen";
 import store from "./src/redux/Store";
 import i18n from "./src/localization/i18n";
@@ -104,15 +102,13 @@ function App() {
             }
         }
         showSplash();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!isSplashReady) {
         return (
             <Image
-                cachePolicy="none"
-                source={cachedSplash}
-                contentFit="cover"
+                source={cachedSplash ?? defaultLoadingSplash}
+                resizeMode="cover"
                 style={{ flex: 1 }}
                 onLoadEnd={async () => {
                     startTime = Date.now();

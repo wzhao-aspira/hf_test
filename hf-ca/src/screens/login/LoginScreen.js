@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import { View, StyleSheet, ScrollView, Text, Image } from "react-native";
 import { useDispatch } from "react-redux";
-import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import LoginStep from "../../constants/LoginStep";
@@ -9,7 +8,7 @@ import { updateLoginStep } from "../../redux/AppSlice";
 import PrimaryBtn from "../../components/PrimaryBtn";
 import { DEFAULT_MARGIN, SCREEN_HEIGHT } from "../../constants/Dimension";
 import AppTheme from "../../assets/_default/AppTheme";
-import { getLogo, getLoginSplash, getLogoRatio } from "../../helper/ImgHelper";
+import { getLogo, getLoginSplash, getLogoRatio, getDefaultLoginSplash } from "../../helper/ImgHelper";
 import SplitLine from "../../components/SplitLine";
 import OutlinedBtn from "../../components/OutlinedBtn";
 import { appConfig } from "../../services/AppConfigService";
@@ -81,17 +80,16 @@ export default function LoginScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={image} contentFit="cover" transition={200} cachePolicy="none" />
+                <Image style={styles.image} source={image ?? getDefaultLoginSplash()} resizeMode="cover" />
             </View>
             <Image
-                cachePolicy="none"
                 style={[
                     styles.logo,
                     {
                         transform: [{ translateY: inset.top + DEFAULT_MARGIN / 2 }, { translateX: -logoWidth / 2 }],
                     },
                 ]}
-                contentFit="contain"
+                resizeMode="contain"
                 source={getLogo()}
             />
 

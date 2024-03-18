@@ -1,6 +1,5 @@
 import { isEqual } from "lodash";
 import * as FileSystem from "expo-file-system";
-import { Image } from "expo-image";
 import { retrieveItem, storeItem } from "../helper/StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { isImageFormat } from "../utils/GenUtil";
@@ -49,7 +48,6 @@ async function cacheImage(url: string, localStorageKey: string, fileName: string
                 to: `${FileSystem.documentDirectory}${fileName}.jpg`,
             }).catch((e) => console.log(e));
             await storeItem(localStorageKey, url);
-            await Image.clearDiskCache();
         }
     }
 }
