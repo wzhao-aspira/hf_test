@@ -107,6 +107,18 @@ updateReleaseChannel() {
     cat ./src/constants/BuildType.js
 }
 
+updateSubPath() {
+    echo "updateSubPath"
+    system=$(uname)
+    echo $system
+    if [ $system == "Linux" ]; then
+        sed -i "s|export const deployPath = path;|path = \"$sub_path\";\\nexport const deployPath = path;|" ./src/network/commonUtil.ts
+    else
+        sed -i '.bak' "s|export const deployPath = path;|path = \"$sub_path\";\\nexport const deployPath = path;|" ./src/network/commonUtil.ts
+    fi
+    cat ./src/network/commonUtil.ts
+}
+
 buildAndroid() {
     echo ready to run android
 
@@ -182,8 +194,11 @@ PLATFORM=$2
 # branch name
 originBranch=$3
 echo $originBranch
+# sub path
+sub_path=$4
+echo $sub_path
 # should need upload to testflight
-buildAppStreIPA=$4
+buildAppStreIPA=$5
 echo $buildAppStreIPA
 cd $WORKSPACE/hf-ca
 cleanFolder
@@ -191,6 +206,10 @@ cleanFolder
 yarn
 addBuildNum
 updateReleaseChannel
+# if sub path is not empty, update sub path
+if [ -n $sub_path ]; then
+    updateSubPath
+fi
 updateFirebaseDirectory
 # disable charles for uat and prod
 system=$(uname)
