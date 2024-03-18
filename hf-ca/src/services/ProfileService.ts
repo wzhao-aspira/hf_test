@@ -35,6 +35,7 @@ import Routers from "../constants/Routers";
 import { clearCustomerDetailById } from "../db/ProfileDetail";
 import { clearCustomerSummaryById } from "../db/ProfileSummary";
 import { getLicenseData, getLicenseListDataFromDB } from "./LicenseService";
+import { getPreferencePointsByProfileId } from "./PreferencePointService";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
@@ -255,12 +256,19 @@ export async function getLatestCustomerList() {
     return getProfiles();
 }
 
+export function syncAllDataToDB(profileId) {
+    Promise.all([getPreferencePointsByProfileId(profileId)]);
+}
+
 export async function saveCustomerLicenseToDB(profileListIDs) {
     console.log("ProfileService - saveCustomerLicenseToDB - profileListIDs:", profileListIDs);
     await Promise.all(
         profileListIDs.map(async (profileId) => {
             try {
                 await getLicenseData({ activeProfileId: profileId });
+
+                // save all data to DB by all customers
+                syncAllDataToDB(profileId);
             } catch (error) {
                 console.log(error);
             }
