@@ -207,7 +207,7 @@ yarn
 addBuildNum
 updateReleaseChannel
 # if sub path is not empty, update sub path
-if [ -n $sub_path ]; then
+if [ -n "$sub_path" ]; then
     updateSubPath
 fi
 updateFirebaseDirectory
