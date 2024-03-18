@@ -11,7 +11,7 @@ export function getLocationImage() {
 export async function getLoginSplash() {
     const keyLoginSplash = await retrieveItem(KEY_CONSTANT.keyLoginSplash);
     if (!isEmpty(keyLoginSplash)) {
-        return `${FileSystem.documentDirectory}login_splash.jpg`;
+        return { uri: `${FileSystem.documentDirectory}login_splash.jpg` };
     }
     return getDefaultLoginSplash();
 }
