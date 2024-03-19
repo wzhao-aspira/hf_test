@@ -162,7 +162,7 @@ export function getISWebStaticInfo(openInBrowser = false) {
 }
 
 export function enabledSentry() {
-    return CHANNEL.includes("PROD");
+    return !__DEV__ && CHANNEL.includes("PROD");
 }
 
 export function sentryCaptureException(error) {
