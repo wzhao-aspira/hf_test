@@ -69,7 +69,7 @@ export const getLicense = createAsyncThunk(
                     isLicenseListChanged = differenceIds.length > 0;
                 }
                 // sync all data by current in use customer
-                dispatch(getPreferencePoint({ searchParams, isForce: true }));
+                dispatch(getPreferencePoint({ searchParams, isForce: true, showError: false }));
             } else {
                 const licensesFromDB = await getLicenseListDataFromDB(searchParams);
                 licenses.success = true;
