@@ -24,13 +24,20 @@ interface PreferencePointState {
 
 export const getPreferencePoint = createAsyncThunk(
     "preferencePoint/getPreferencePoint",
-    async ({ searchParams }: { searchParams: { activeProfileId: string }; isForce?: boolean }, { dispatch }) => {
+    async (
+        {
+            searchParams,
+            showError,
+        }: { searchParams: { activeProfileId: string }; isForce?: boolean; showError?: boolean },
+        { dispatch }
+    ) => {
         const { activeProfileId } = searchParams;
         const results = await handleError<ReturnType<typeof getPreferencePointsByProfileId>>(
             getPreferencePointsByProfileId(activeProfileId),
             {
                 networkErrorByDialog: false,
                 dispatch,
+                showError,
             }
         );
         console.log(`api preference point list:${JSON.stringify(results)}`);
