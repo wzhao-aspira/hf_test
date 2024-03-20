@@ -125,7 +125,11 @@ function DrawApplicationListScreen() {
 
     const getDrawListByProfileId = (profileId = activeProfileId) => {
         if (profileId) {
-            dispatch(getDrawList(profileId));
+            dispatch(
+                getDrawList({
+                    profileId,
+                })
+            );
         }
     };
 

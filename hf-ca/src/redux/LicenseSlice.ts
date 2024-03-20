@@ -15,6 +15,7 @@ import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
 import { License } from "../types/license";
 import { getPreferencePoint } from "./PreferencePointSlice";
+import { getDrawList } from "./DrawApplicationSlice";
 import { getAccessPermit } from "./AccessPermitSlice";
 
 interface LicenseState {
@@ -74,6 +75,12 @@ export const getLicense = createAsyncThunk(
                 dispatch(
                     getAccessPermit({
                         searchParams: { activeProfileId: searchParams.activeProfileId },
+                        showError: false,
+                    })
+                );
+                dispatch(
+                    getDrawList({
+                        profileId: searchParams.activeProfileId,
                         showError: false,
                     })
                 );

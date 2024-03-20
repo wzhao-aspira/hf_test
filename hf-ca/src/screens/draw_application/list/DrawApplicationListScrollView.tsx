@@ -18,7 +18,11 @@ function DrawApplicationListScrollView({ children }) {
 
     const getDrawListByProfileId = () => {
         if (activeProfileId) {
-            dispatch(getDrawList(activeProfileId));
+            dispatch(
+                getDrawList({
+                    profileId: activeProfileId,
+                })
+            );
         }
     };
     return (

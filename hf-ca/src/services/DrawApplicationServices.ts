@@ -4,6 +4,7 @@ import { getDrawApplicationListByCustomerId } from "../network/api_client/DrawRe
 import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import { DrawResultsListVM, DrawStatusList } from "../network/generated";
+import { saveDrawApplicationDataToDB } from "../db";
 
 const convertDrawApplicationItem = (drawItem: DrawResultsListVM) => {
     const {
@@ -92,7 +93,7 @@ export async function getDrawApplicationList(profileId: string): Promise<DrawApp
     const historyUnSuccessList = formateDrawList(result.historyUnSuccessList || {});
     const pendingList = formateDrawList(result.pendingList || {});
 
-    return {
+    const res = {
         instructions: result.instructions,
         successList,
         historySuccessList,
@@ -101,6 +102,13 @@ export async function getDrawApplicationList(profileId: string): Promise<DrawApp
         pendingList,
         lastUpdateDate,
     };
+    if (response?.data?.isValidResponse) {
+        console.log("save DrawApplicationList for:" + profileId);
+        const dataForOffline = { ...res, profileId: profileId };
+        await saveDrawApplicationDataToDB(dataForOffline);
+    }
+
+    return res;
 }
 
 export function getDrawTabDataIsEmpty(data: DrawTabData, historyData?: DrawTabData) {

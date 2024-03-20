@@ -1,3 +1,4 @@
+import type { RootState } from "./Store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { isEmpty } from "lodash";
 import { DrawTabData, DrawApplicationList } from "../types/drawApplication";
@@ -5,7 +6,7 @@ import ValueOf from "../types/valueOf";
 import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import { getDrawApplicationList } from "../services/DrawApplicationServices";
-import { getDrawApplicationDataFromDB, saveDrawApplicationDataToDB } from "../db";
+import { getDrawApplicationDataFromDB } from "../db";
 import convertDrawResultsListToDrawApplicationList from "../screens/draw_application/detail/utils/convertDrawResultsListToDrawApplicationList";
 import { folderName } from "../screens/draw_application/detail/DrawApplicationDetailScreen";
 import cleanUpInvalidFiles from "../components/notificationAndAttachment/utils/cleanUpInvalidFiles";
@@ -67,30 +68,48 @@ function getDrawApplicationDownloadableFileIDList(drawApplicationList: DrawAppli
 
 export const getDrawList = createAsyncThunk(
     "drawApplication/getDrawList",
-    async (activeProfileId: string, { dispatch, getState }) => {
+    async (
+        {
+            profileId,
+            showError = true,
+        }: {
+            profileId: string;
+            showError?: boolean;
+        },
+        { dispatch, getState }
+    ) => {
         let result;
-        const dataFromAPI = await handleError(getDrawApplicationList(activeProfileId), {
+
+        const dataFromAPI = await handleError(getDrawApplicationList(profileId), {
             dispatch,
             networkErrorByDialog: false,
+            showError,
         });
         if (dataFromAPI.success) {
             result = { ...dataFromAPI, isUseCacheData: false };
             console.log("get draw application data from api");
 
-            const dataForOffline = { ...dataFromAPI.data, profileId: activeProfileId };
-            await saveDrawApplicationDataToDB(dataForOffline);
-
             const downloadableFileIDList = getDrawApplicationDownloadableFileIDList(result.data);
 
-            const currentInUseProfileID = profileSelectors.selectCurrentInUseProfileID(getState());
+            const currentInUseProfileID = profileSelectors.selectCurrentInUseProfileID(getState() as RootState);
             cleanUpInvalidFiles({ downloadableFileIDList, folderName, profileID: currentInUseProfileID });
         } else {
-            const data = await getDrawApplicationDataFromDB(activeProfileId);
+            const data = await getDrawApplicationDataFromDB(profileId);
             result = { success: true, data, isUseCacheData: true };
             console.log("get draw application data from db");
         }
 
         return result;
+    },
+    {
+        condition: (_, { getState }) => {
+            const rs: RootState = getState() as RootState;
+            if (rs.drawApplication.requestStatus == REQUEST_STATUS.pending) {
+                console.log("drawApplication.requestStatus == REQUEST_STATUS.pending, Skip request this time...");
+                return false;
+            }
+            return true;
+        },
     }
 );
 
