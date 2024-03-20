@@ -1,4 +1,5 @@
 import { getActiveUserID, setActiveUserID } from "../helper/AppHelper";
+import { isEmpty } from "lodash";
 import MobileAppUsersAPIs, {
     sendMobileAppUsersValidationCodeByEmail,
     createMobileAppUser,
@@ -6,11 +7,12 @@ import MobileAppUsersAPIs, {
     forgotPasswordValidationCodeValidation,
     resetPasswordWhenForgot,
     changeUserPassword,
+    postMobileAppUsersLoginAudit,
 } from "../network/api_client/MobileAppUsersAPIs";
 import { signIn, tokenRevocation } from "../network/identityAPI";
 import { instance, clearLastUpdateDate } from "../network/AxiosClient";
 import { handleError } from "../network/APIUtil";
-import { clearToken } from "../network/tokenUtil";
+import { clearToken, restoreToken } from "../network/tokenUtil";
 import { globalDataForAPI } from "../network/commonUtil";
 import { restBiometricLoginDataByUserId } from "../helper/LocalAuthHelper";
 import { MobileAppUserResetPasswordCommand, PasswordChangeVM } from "../network/generated";
@@ -105,6 +107,29 @@ async function signOut() {
     return response;
 }
 
+async function uploadDeviceInfo(loginType: number) {
+    if (__DEV__) {
+        return;
+    }
+    const res = await hasAccessToken();
+    // console.log("uploadDeviceInfo", JSON.stringify(res) + ",loginType, " + loginType);
+    if (res.success) {
+        handleError(postMobileAppUsersLoginAudit({ loginType: loginType }), {
+            showError: false,
+            dispatch: null,
+        });
+    }
+}
+
+async function hasAccessToken() {
+    const lastUsedMobileAccountId = await getActiveUserID();
+    if (!isEmpty(lastUsedMobileAccountId)) {
+        const hasToken = await restoreToken(lastUsedMobileAccountId);
+        return { success: !!hasToken, lastUsedMobileAccountId: lastUsedMobileAccountId };
+    }
+    return { success: false };
+}
+
 async function clearAppData(dispatch) {
     // clear up redux
     dispatch({ type: "USER_LOGOUT" });
@@ -134,4 +159,6 @@ export default {
     forgotPasswordValidation,
     forgotAndResetPassword,
     changePassword,
+    uploadDeviceInfo,
+    hasAccessToken,
 };

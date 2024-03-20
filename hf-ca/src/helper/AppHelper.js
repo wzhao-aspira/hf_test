@@ -8,6 +8,7 @@ import BuildType from "../constants/BuildType";
 import AppContract from "../assets/_default/AppContract";
 import { retrieveItem, storeItem } from "./StorageHelper";
 import { KEY_CONSTANT } from "../constants/Constants";
+import * as Device from "expo-device";
 
 export const CHANNEL = BuildType.toUpperCase();
 
@@ -167,4 +168,27 @@ export function enabledSentry() {
 
 export function sentryCaptureException(error) {
     Sentry.captureException(error);
+}
+
+export function getDeviceInfo() {
+    let deviceType;
+    try {
+        deviceType = Device.DeviceType[Device.deviceType];
+    } catch (error) {
+        deviceType = Device.DeviceType[0];
+        console.log("fail to get device type");
+    }
+    return (
+        encodeURIComponent(Device.osName) +
+        "/" +
+        encodeURIComponent(Device.osVersion) +
+        "/" +
+        encodeURIComponent(Device.brand) +
+        "/" +
+        encodeURIComponent(Device.manufacturer) +
+        "/" +
+        encodeURIComponent(Device.modelName) +
+        "/" +
+        encodeURIComponent(deviceType)
+    );
 }

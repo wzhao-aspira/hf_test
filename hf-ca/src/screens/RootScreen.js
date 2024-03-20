@@ -16,6 +16,8 @@ import PrimaryProfileInactiveDialog from "./profile/manage_profile/PrimaryProfil
 import { checkVersion } from "../services/VersionCheckService";
 import AppStateManager from "../helper/AppStateManager";
 import { RootModal } from "../components/dialog/index";
+import AccountService from "../services/AccountService";
+import { LOGIN_TYPE } from "../constants/Constants";
 
 export default function RootScreen() {
     const loginStep = useSelector(selectLoginStep);
@@ -31,6 +33,7 @@ export default function RootScreen() {
                 if (state == "active") {
                     console.log("App has come to the foreground!");
                     checkVersion();
+                    AccountService.uploadDeviceInfo(LOGIN_TYPE.Reactive);
                 }
             }
             appState.current = state;
