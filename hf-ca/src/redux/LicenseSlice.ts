@@ -14,7 +14,7 @@ import { REQUEST_STATUS } from "../constants/Constants";
 import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
 import { License } from "../types/license";
-import { getPreferencePoint } from "./PreferencePointSlice";
+import { getPreferencePoint, actions as preferencePointActions } from "./PreferencePointSlice";
 import { getDrawList } from "./DrawApplicationSlice";
 import { getAccessPermit } from "./AccessPermitSlice";
 
@@ -71,6 +71,7 @@ export const getLicense = createAsyncThunk(
                     isLicenseListChanged = differenceIds.length > 0;
                 }
                 // sync all data of the current in use customer
+                dispatch(preferencePointActions.clearUpdateTime()); // go to PreferencePoint page when license refreshed but getPreferencePoint failed, need to refresh page.
                 dispatch(getPreferencePoint({ searchParams, isForce: true, showError: false }));
                 dispatch(
                     getAccessPermit({
