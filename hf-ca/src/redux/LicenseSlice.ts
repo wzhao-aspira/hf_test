@@ -15,6 +15,7 @@ import { handleError } from "../network/APIUtil";
 import ValueOf from "../types/valueOf";
 import { License } from "../types/license";
 import { getPreferencePoint } from "./PreferencePointSlice";
+import { getAccessPermit } from "./AccessPermitSlice";
 
 interface LicenseState {
     data: License[];
@@ -68,8 +69,14 @@ export const getLicense = createAsyncThunk(
                     console.log("difference license ids:", differenceIds);
                     isLicenseListChanged = differenceIds.length > 0;
                 }
-                // sync all data by current in use customer
+                // sync all data of the current in use customer
                 dispatch(getPreferencePoint({ searchParams, isForce: true, showError: false }));
+                dispatch(
+                    getAccessPermit({
+                        searchParams: { activeProfileId: searchParams.activeProfileId },
+                        showError: false,
+                    })
+                );
             } else {
                 const licensesFromDB = await getLicenseListDataFromDB(searchParams);
                 licenses.success = true;

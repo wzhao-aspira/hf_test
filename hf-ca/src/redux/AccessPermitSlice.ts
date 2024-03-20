@@ -9,6 +9,8 @@ import cleanUpInvalidFiles from "../components/notificationAndAttachment/utils/c
 import { folderName } from "../screens/access_permits/AccessPermitDetailScreen";
 import { selectors as profileSelectors } from "./ProfileSlice";
 
+import type { RootState } from "./Store";
+
 interface AccessPermitState {
     data: AccessPermit;
     requestStatus: ValueOf<typeof REQUEST_STATUS>;
@@ -31,15 +33,25 @@ function getAccessPermitDownloadableFileIDList(accessPermitsData: AccessPermitIt
     return downloadableFileIDList;
 }
 
-export const getAccessPermit = createAsyncThunk(
+export const getAccessPermit = createAsyncThunk<
+    any,
+    { searchParams: { activeProfileId: string }; showError: boolean },
+    { state: RootState }
+>(
     "accessPermit/getAccessPermit",
-    async ({ searchParams }: { searchParams: { activeProfileId: string } }, { dispatch, getState }) => {
+    async ({ searchParams, showError = true }, { dispatch, getState }) => {
         let result;
+
         const dataFromAPI = await handleError(getAccessPermitData(searchParams), {
             dispatch,
             networkErrorByDialog: false,
+            showError,
         });
+
+        console.log("getAccessPermit dataFromAPI");
+
         const { activeProfileId } = searchParams;
+
         if (dataFromAPI.success) {
             result = { ...dataFromAPI, offline: false };
             const dataForOffline = { ...dataFromAPI.data, profileId: activeProfileId };
@@ -56,7 +68,21 @@ export const getAccessPermit = createAsyncThunk(
             console.log("get access permit data from db");
         }
 
+        console.log("getAccessPermit result");
+
         return result;
+    },
+    {
+        condition: (actionPayload, { getState }) => {
+            const { accessPermit } = getState();
+            const { requestStatus } = accessPermit as AccessPermitState;
+
+            if (requestStatus == REQUEST_STATUS.pending) {
+                return false;
+            }
+
+            return true;
+        },
     }
 );
 

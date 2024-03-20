@@ -3,6 +3,8 @@ import DateUtils from "../utils/DateUtils";
 import AppContract from "../assets/_default/AppContract";
 import { getActivePermitsByCustomerId } from "../network/api_client/DrawResultsApi";
 import type { ActivePermitListVM } from "../network/api_client/DrawResultsApi";
+import { saveAccessPermitDataToDB } from "../db";
+import { handleError } from "../network/APIUtil";
 
 const formateHuntDay = (huntDay, outputFormat) => {
     return huntDay && DateUtils.dateToFormat(huntDay, outputFormat, AppContract.inputFormat.fmt_2);
@@ -98,6 +100,22 @@ export async function getAccessPermitData(searchParams: { activeProfileId: strin
     const customer = convertCustomerInfo(customerInfo);
     const data = { attention: instructions, accessPermits, customer, lastUpdateDate };
     return data;
+}
+
+export async function getAccessPermitDataAndSaveToDB(profileId: string) {
+    const response = await handleError(getAccessPermitData({ activeProfileId: profileId }), {
+        dispatch: (actionPayload) => {
+            console.log("mock dispatch function for getAccessPermitDataAndSaveToDB ", JSON.stringify(actionPayload));
+        },
+        showLoading: false,
+        showError: false,
+    });
+
+    if (response.success) {
+        const dataForOffline = { ...response.data, profileId };
+        await saveAccessPermitDataToDB(dataForOffline);
+        console.log("access permit data successfully saved into the database", profileId);
+    }
 }
 
 export function getLoadingData() {
