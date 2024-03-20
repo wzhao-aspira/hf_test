@@ -100,7 +100,11 @@ function DrawApplicationTabItem({ tabData = {}, historicalData = {}, tabName, is
 
     const getDrawListByProfileId = () => {
         if (activeProfileId) {
-            dispatch(getDrawList(activeProfileId));
+            dispatch(
+                getDrawList({
+                    profileId: activeProfileId,
+                })
+            );
         }
     };
 

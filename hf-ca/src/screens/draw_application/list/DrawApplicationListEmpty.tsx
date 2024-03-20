@@ -44,7 +44,11 @@ function DrawApplicationListEmpty() {
 
     const getDrawListByProfileId = () => {
         if (activeProfileId) {
-            dispatch(getDrawList(activeProfileId));
+            dispatch(
+                getDrawList({
+                    profileId: activeProfileId,
+                })
+            );
         }
     };
     return (

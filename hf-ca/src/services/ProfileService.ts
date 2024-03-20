@@ -36,6 +36,7 @@ import { clearCustomerDetailById } from "../db/ProfileDetail";
 import { clearCustomerSummaryById } from "../db/ProfileSummary";
 import { getLicenseData, getLicenseListDataFromDB } from "./LicenseService";
 import { getPreferencePointsByProfileId } from "./PreferencePointService";
+import { getDrawApplicationList } from "./DrawApplicationServices";
 import { getAccessPermitDataAndSaveToDB } from "./AccessPermitServices";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
@@ -258,7 +259,11 @@ export async function getLatestCustomerList() {
 }
 
 export function syncAllDataToDB(profileId) {
-    Promise.all([getPreferencePointsByProfileId(profileId), getAccessPermitDataAndSaveToDB(profileId)]);
+    Promise.all([
+        getPreferencePointsByProfileId(profileId),
+        getAccessPermitDataAndSaveToDB(profileId),
+        getDrawApplicationList(profileId),
+    ]);
 }
 
 export async function saveCustomerLicenseToDB(profileListIDs) {
