@@ -186,9 +186,7 @@ function SignUp() {
                     userIDRef?.current.setError(error);
                 }}
                 disabled={emailInputDisabled}
-                inputProps={{
-                    selection: emailInputDisabled ? { start: 0 } : undefined,
-                }}
+                inputProps={{ multiline: true, textAlignVertical: "center" }}
             />
             {isShowAcknowledgement && (
                 <View style={styles.disclaimerCard}>
