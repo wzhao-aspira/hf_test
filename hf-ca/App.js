@@ -6,7 +6,6 @@ import { I18nextProvider } from "react-i18next";
 import { useEffect, useState } from "react";
 import * as Font from "expo-font";
 import * as ScreenOrientation from "expo-screen-orientation";
-import { isEmpty } from "lodash";
 import * as Sentry from "@sentry/react-native";
 import { Image, LogBox } from "react-native";
 import RootScreen from "./src/screens/RootScreen";
@@ -16,9 +15,8 @@ import { fetchPicture, getAppConfigData, getLoadingSplashFromFile } from "./src/
 import AppContract from "./src/assets/_default/AppContract";
 import { openRealm } from "./src/db";
 import { getErrorMessage } from "./src/hooks/useErrorHandling";
-import { getActiveUserID, showToast, enabledSentry } from "./src/helper/AppHelper";
+import { showToast, enabledSentry } from "./src/helper/AppHelper";
 import { clearUnusedDownloadedFiles } from "./src/screens/useful_links_old/UsefulLinksHelper";
-import { restoreToken } from "./src/network/tokenUtil";
 import { updateLoginStep } from "./src/redux/AppSlice";
 import LoginStep from "./src/constants/LoginStep";
 import ProfileThunk from "./src/redux/ProfileThunk";
@@ -26,6 +24,8 @@ import appThunkActions from "./src/redux/AppThunk";
 import AppAnalyticsHelper from "./src/helper/AppAnalyticsHelper";
 import { DialogProvider } from "./src/components/dialog/index";
 import configureNetworkDetect from "./src/services/ApiHealthService";
+import AccountService from "./src/services/AccountService";
+import { LOGIN_TYPE } from "./src/constants/Constants";
 
 LogBox.ignoreLogs(["Found screens with the same name nested inside one another."]);
 
@@ -52,15 +52,12 @@ if (__DEV__) {
 const defaultLoadingSplash = require("./src/assets/_default/images/splash.png");
 
 const checkLogin = async () => {
-    const lastUsedMobileAccountId = await getActiveUserID();
-    if (!isEmpty(lastUsedMobileAccountId)) {
-        const hasAccessToken = await restoreToken(lastUsedMobileAccountId);
-        if (hasAccessToken) {
-            await store.dispatch(appThunkActions.initUserData({ userID: lastUsedMobileAccountId }));
-            await store.dispatch(ProfileThunk.initProfile(false));
-            store.dispatch(updateLoginStep(LoginStep.home));
-            return;
-        }
+    const res = await AccountService.hasAccessToken();
+    if (res.success) {
+        await store.dispatch(appThunkActions.initUserData({ userID: res.lastUsedMobileAccountId }));
+        await store.dispatch(ProfileThunk.initProfile(false));
+        store.dispatch(updateLoginStep(LoginStep.home));
+        return;
     }
     store.dispatch(updateLoginStep(LoginStep.login));
 };
@@ -102,6 +99,7 @@ function App() {
             }
         }
         showSplash();
+        AccountService.uploadDeviceInfo(LOGIN_TYPE.Reopen);
     }, []);
 
     if (!isSplashReady) {

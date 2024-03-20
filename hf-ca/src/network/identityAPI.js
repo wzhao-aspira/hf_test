@@ -1,5 +1,5 @@
 import { saveJwtToken } from "./tokenUtil";
-import { getBaseURL } from "../helper/AppHelper";
+import { getBaseURL, getDeviceInfo } from "../helper/AppHelper";
 import { url, signOutURL, globalDataForAPI, clientSecret, clientId } from "./commonUtil";
 
 export async function signIn(instance, username, password) {
@@ -9,6 +9,7 @@ export async function signIn(instance, username, password) {
         url,
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
+            "Device-Info": getDeviceInfo(),
         },
         baseURL: getBaseURL(),
         data,

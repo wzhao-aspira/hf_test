@@ -5,9 +5,11 @@ import { MobileAppUsersApi } from "../generated";
 import type {
     ForgotPasswordSendValidationCommand,
     MobileAppUserDeletionVM,
+    MobileAppUserLoginAuditVM,
     MobileAppUserResetPasswordCommand,
     PasswordChangeVM,
 } from "../generated";
+import { getDeviceInfo } from "../../helper/AppHelper";
 
 export async function sendMobileAppUsersValidationCodeByEmail(mobileAppUserSendValidationCommand) {
     const api = new MobileAppUsersApi(getAPIConfig(false), null, instance);
@@ -42,6 +44,15 @@ export async function createMobileAppUser(mobileAppUserSendValidationCommand) {
 function deleteMobileAppUser({ password }: MobileAppUserDeletionVM) {
     const api = new MobileAppUsersApi(getAPIConfig(), null, instance);
     return api.v1MobileAppUsersDelete({ password });
+}
+
+export async function postMobileAppUsersLoginAudit(params: MobileAppUserLoginAuditVM) {
+    const api = new MobileAppUsersApi(getAPIConfig(), null, instance);
+    return api.v1MobileAppUsersLoginAuditPost(params, {
+        headers: {
+            "Device-Info": getDeviceInfo(),
+        },
+    });
 }
 
 export default { deleteMobileAppUser };

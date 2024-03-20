@@ -2049,6 +2049,19 @@ export interface MobileAppUserDeletionVM {
 /**
  * 
  * @export
+ * @interface MobileAppUserLoginAuditVM
+ */
+export interface MobileAppUserLoginAuditVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileAppUserLoginAuditVM
+     */
+    'loginType'?: number;
+}
+/**
+ * 
+ * @export
  * @interface MobileAppUserResetPasswordCommand
  */
 export interface MobileAppUserResetPasswordCommand {
@@ -5117,6 +5130,40 @@ export const MobileAppUsersApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @summary Insert Login Audit
+         * @param {MobileAppUserLoginAuditVM} [mobileAppUserLoginAuditVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersLoginAuditPost: async (mobileAppUserLoginAuditVM?: MobileAppUserLoginAuditVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppUsers/LoginAudit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(mobileAppUserLoginAuditVM, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Reset Password (use email validation code to reset)
          * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
          * @param {*} [options] Override http request option.
@@ -5297,6 +5344,17 @@ export const MobileAppUsersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Insert Login Audit
+         * @param {MobileAppUserLoginAuditVM} [mobileAppUserLoginAuditVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppUsersLoginAuditPost(mobileAppUserLoginAuditVM?: MobileAppUserLoginAuditVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppUsersLoginAuditPost(mobileAppUserLoginAuditVM, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Reset Password (use email validation code to reset)
          * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
          * @param {*} [options] Override http request option.
@@ -5382,6 +5440,16 @@ export const MobileAppUsersApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
+         * @summary Insert Login Audit
+         * @param {MobileAppUserLoginAuditVM} [mobileAppUserLoginAuditVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppUsersLoginAuditPost(mobileAppUserLoginAuditVM?: MobileAppUserLoginAuditVM, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppUsersLoginAuditPost(mobileAppUserLoginAuditVM, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Reset Password (use email validation code to reset)
          * @param {MobileAppUserResetPasswordCommand} [mobileAppUserResetPasswordCommand] 
          * @param {*} [options] Override http request option.
@@ -5459,6 +5527,16 @@ export interface MobileAppUsersApiInterface {
      * @memberof MobileAppUsersApiInterface
      */
     v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress?: string, validationCode?: string, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+    /**
+     * 
+     * @summary Insert Login Audit
+     * @param {MobileAppUserLoginAuditVM} [mobileAppUserLoginAuditVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApiInterface
+     */
+    v1MobileAppUsersLoginAuditPost(mobileAppUserLoginAuditVM?: MobileAppUserLoginAuditVM, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
 
     /**
      * 
@@ -5544,6 +5622,18 @@ export class MobileAppUsersApi extends BaseAPI implements MobileAppUsersApiInter
      */
     public v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress?: string, validationCode?: string, options?: AxiosRequestConfig) {
         return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersForgotPasswordValidationCodeValidationGet(emailAddress, validationCode, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Insert Login Audit
+     * @param {MobileAppUserLoginAuditVM} [mobileAppUserLoginAuditVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppUsersApi
+     */
+    public v1MobileAppUsersLoginAuditPost(mobileAppUserLoginAuditVM?: MobileAppUserLoginAuditVM, options?: AxiosRequestConfig) {
+        return MobileAppUsersApiFp(this.configuration).v1MobileAppUsersLoginAuditPost(mobileAppUserLoginAuditVM, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -88,3 +88,4 @@ export const BtnTypeEnum = {
     Primary: "Primary",
     Secondary: "Secondary",
 };
+export const LOGIN_TYPE = { Reopen: 2, Reactive: 3 };
