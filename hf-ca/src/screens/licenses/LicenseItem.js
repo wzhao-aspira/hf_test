@@ -100,6 +100,18 @@ function getValidDates(itemData) {
     return null;
 }
 
+function getLicenseReportConfirmationText(itemData) {
+    const licenseReportConfirmationText = itemData?.licenseReportConfirmationText;
+    if (licenseReportConfirmationText) {
+        return (
+            <Text testID={genTestId("reportStatus")} style={styles.validDateLabel}>
+                {licenseReportConfirmationText}
+            </Text>
+        );
+    }
+    return null;
+}
+
 function getLicenseTag(itemData) {
     const { mobileAppNeedPhysicalDocument } = itemData;
     if (mobileAppNeedPhysicalDocument) {
@@ -122,6 +134,7 @@ function LicenseItem(props) {
                         {getProductName(itemData)}
                         {getTagDescription(itemData)}
                         {getValidDates(itemData)}
+                        {getLicenseReportConfirmationText(itemData)}
                         {getLicenseTag(itemData)}
                     </View>
                     <View style={styles.productNameArrowContainer}>

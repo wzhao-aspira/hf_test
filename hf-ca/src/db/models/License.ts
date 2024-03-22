@@ -55,6 +55,8 @@ export default class License extends Realm.Object<License> {
 
     huntTagDescription?: string;
 
+    licenseReportConfirmationText?: string;
+
     static schema = {
         name: "License",
         primaryKey: "pk",
@@ -86,6 +88,7 @@ export default class License extends Realm.Object<License> {
             licenseNotInReportingPeriodAttention: "string?",
             licenseReportId: "string?",
             huntTagDescription: "string?",
+            licenseReportConfirmationText: "string?",
         },
     };
 }

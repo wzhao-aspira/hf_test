@@ -53,7 +53,8 @@
         "vesselOwnerInformation": "Vessel Owner Information",
         "submitHarvestReport": "Submit Harvest Report",
         "viewHarvestReport": "View Harvest Report",
-        "unableToProcessReport": "Unable to process report, please contact CDFW."
+        "unableToProcessReport": "Unable to process report, please contact CDFW.",
+        "reportStatus": "Harvest Report Status"
     },
     "common": {
         "ok": "OK",

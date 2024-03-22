@@ -42,6 +42,7 @@ export interface License {
     licenseReportId: string;
     licenseNotInReportingPeriodAttention: string;
     huntTagDescription: string;
+    licenseReportConfirmationText: string;
 }
 
 export interface LicenseLastUpdateTime {

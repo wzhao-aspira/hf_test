@@ -53,7 +53,7 @@ const renderValidDate = (date) => {
         <View>
             <Text
                 testID={genTestId(`date-${date}`)}
-                style={{ ...AppTheme.typography.card_small_r }}
+                style={{ ...AppTheme.typography.card_small_r, paddingTop: 5 }}
                 numberOfLines={1}
                 ellipsizeMode="tail"
             >
@@ -65,8 +65,31 @@ const renderValidDate = (date) => {
     );
 };
 
+const renderReportStatus = (reportStatus) => {
+    return reportStatus ? (
+        <View>
+            <Text
+                testID={genTestId(`reportStatus`)}
+                style={{ ...AppTheme.typography.card_small_r, paddingVertical: 2 }}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+            >
+                {reportStatus}
+            </Text>
+        </View>
+    ) : (
+        <View />
+    );
+};
+
 function CarouselContent({ item, index }) {
-    const { altTextValidFromTo, name, huntTagDescription, mobileAppNeedPhysicalDocument } = item;
+    const {
+        altTextValidFromTo,
+        name,
+        huntTagDescription,
+        mobileAppNeedPhysicalDocument,
+        licenseReportConfirmationText,
+    } = item;
 
     const [pressState, setPressState] = useState({});
 
@@ -152,6 +175,7 @@ function CarouselContent({ item, index }) {
                 <SeparateLine style={{ marginHorizontal: -10 }} />
                 <View style={styles.cardBottomContainer}>
                     {renderValidDate(altTextValidFromTo)}
+                    {renderReportStatus(licenseReportConfirmationText)}
                     {renderLicenseTag()}
                 </View>
             </Pressable>

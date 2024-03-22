@@ -131,6 +131,7 @@ function LicenseDetailsItem(props) {
         licenseNotInReportingPeriodAttention,
         licenseReportId,
         huntTagDescription,
+        licenseReportConfirmationText,
     } = licenseData || {};
 
     const { navigateToSubmitHarvestReport } = useNavigateToISSubmitHarvestReport(id);
@@ -300,6 +301,18 @@ function LicenseDetailsItem(props) {
                                 html: printedDescriptiveText,
                             }}
                         />
+                    </View>
+                </View>
+            )}
+            {licenseReportConfirmationText && (
+                <View style={styles.sectionContent}>
+                    <View style={{ paddingHorizontal: DEFAULT_MARGIN, paddingTop: 10 }}>
+                        <Text style={styles.labelText} testID={genTestId("reportStatus")}>
+                            <Trans i18nKey="licenseDetails.reportStatus" />
+                        </Text>
+                        <Text style={styles.valueText} testID={genTestId("reportStatusValue")}>
+                            {licenseReportConfirmationText}
+                        </Text>
                     </View>
                 </View>
             )}
