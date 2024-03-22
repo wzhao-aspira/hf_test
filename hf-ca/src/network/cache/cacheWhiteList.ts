@@ -9,6 +9,7 @@ const whiteList = [
     "DrawResults",
     "ActivePermits",
     "PreferencePoints",
+    "Licenses",
 ];
 
 export default whiteList;
