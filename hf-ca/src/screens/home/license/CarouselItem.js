@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     cardBottomContainer: {
         flexDirection: "column",
         justifyContent: "center",
-        height: 44,
+        height: 55,
         marginTop: 5,
     },
     tagDescription: {
