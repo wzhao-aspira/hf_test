@@ -135,6 +135,7 @@ const getCRSSVerifyProfiles = async (result = []) => {
 const preCacheLicense = (needCacheLicense, profileListIDs) => async (dispatch) => {
     if (needCacheLicense) {
         saveCustomerLicenseToDB(profileListIDs);
+        dispatch(preferencePointActions.clearUpdateTime());
         dispatch(licenseActions.clearUpdateTime());
     }
 };
