@@ -46,7 +46,7 @@ export const getPreferencePoint = createAsyncThunk(
         const isAPISucceed = results.success;
         const isEmptyOnlineDataCached = await getIsEmptyOnlineDataCachedInd(activeProfileId);
         const dbResult = await getPreferencePointListFromDB(activeProfileId);
-        const preferencePointData = values(dbResult);
+        const preferencePointData = values(dbResult?.toJSON());
 
         const lastUpdateDateResponse = await getPreferencePointsLastUpdateDateFromDB(activeProfileId);
 

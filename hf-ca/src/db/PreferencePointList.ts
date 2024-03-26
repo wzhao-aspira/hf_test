@@ -5,7 +5,7 @@ import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDat
 
 export async function getPreferencePointListFromDB(activeProfileId: string) {
     console.log("Get preference point list");
-    return realm.objects(PreferencePoint).filtered("profileId = $0", activeProfileId)?.toJSON();
+    return realm.objects(PreferencePoint).filtered("profileId = $0", activeProfileId);
 }
 
 export async function savePreferencePointListToDB(
