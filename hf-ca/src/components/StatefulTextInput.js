@@ -80,6 +80,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
         onClickNote,
         onBlur,
         testID = "",
+        textContentType = "none",
     } = props;
 
     const [secureTextEntry, setSecureTextEntry] = useState(password);
@@ -105,6 +106,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TextInput
                     testID={genTestId(`${testID}Input`)}
+                    textContentType={textContentType}
                     autoComplete={autoComplete}
                     autogrow={autogrow}
                     multiline={multiline}

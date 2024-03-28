@@ -91,6 +91,8 @@ function SignInScreen(route) {
                     <Text style={styles.titleStyle}>{sighInLabel}</Text>
 
                     <StatefulTextInput
+                        textContentType={"username"}
+                        keyboardType={"email-address"}
                         ref={userIdRef}
                         value={userId}
                         label={t("signIn.userId")}
@@ -109,6 +111,7 @@ function SignInScreen(route) {
                     />
 
                     <StatefulTextInput
+                        textContentType={"password"}
                         ref={passwordRef}
                         value={password}
                         password
