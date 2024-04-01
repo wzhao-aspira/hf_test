@@ -52,6 +52,7 @@ export default function ForgotPasswordScreen({ route }) {
     const [confirmPassword, setConfirmPassword] = useState();
     const [errorDialog, dialogDispatch] = useReducer(dialogReducer, { message: "", show: false });
 
+    const hiddenUserNameRef = createRef();
     const currentPasswordRef = createRef();
     const newPasswordRef = createRef();
     const confirmPasswordRef = createRef();
@@ -136,6 +137,7 @@ export default function ForgotPasswordScreen({ route }) {
                     //fix autofill order issue
                     isIos() && (
                         <TextInput
+                            ref={hiddenUserNameRef}
                             textContentType={"username"}
                             keyboardType={"email-address"}
                             autoCorrect={false}
@@ -246,6 +248,7 @@ export default function ForgotPasswordScreen({ route }) {
 
         return new Promise((resolve) => {
             setTimeout(() => {
+                hiddenUserNameRef.current?.clear();
                 newPasswordRef.current?.clearText();
                 confirmPasswordRef.current?.clearText();
                 resolve();

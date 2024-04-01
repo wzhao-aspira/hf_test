@@ -68,6 +68,7 @@ const SignUp = React.forwardRef((props, ref) => {
     const emailValidationCodeRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
+    const hiddenUserNameRef = useRef();
     const { openSimpleDialog } = useDialog();
 
     useImperativeHandle(ref, () => ({
@@ -77,6 +78,7 @@ const SignUp = React.forwardRef((props, ref) => {
 
             return new Promise((resolve) => {
                 setTimeout(() => {
+                    hiddenUserNameRef.current?.clear();
                     passwordRef.current?.clearText();
                     confirmPasswordRef.current?.clearText();
                     resolve();
@@ -276,6 +278,7 @@ const SignUp = React.forwardRef((props, ref) => {
                         //fix autofill order issue
                         isIos() && (
                             <TextInput
+                                ref={hiddenUserNameRef}
                                 textContentType={"username"}
                                 keyboardType={"email-address"}
                                 autoCorrect={false}
