@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
@@ -22,6 +22,7 @@ export default function RootScreen() {
     const indicator = useSelector(selectIndicator);
     const appState = useRef(null);
     const isLogin = loginStep == LoginStep.login;
+    const [version, setVersion] = useState(0);
 
     useErrorHandling();
     useEffect(() => {
@@ -38,9 +39,15 @@ export default function RootScreen() {
         checkVersion();
     }, []);
 
+    useEffect(() => {
+        if (isLogin) {
+            setVersion((v) => v + 1);
+        }
+    }, [isLogin]);
+
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }} edges={!isLogin ? null : ["left", "right"]}>
+            <SafeAreaView key={version} style={{ flex: 1 }} edges={!isLogin ? null : ["left", "right"]}>
                 <StatusBar
                     translucent={isLogin}
                     style="dark"
