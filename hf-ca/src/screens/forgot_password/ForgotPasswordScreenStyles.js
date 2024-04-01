@@ -7,6 +7,7 @@ const ForgotPasswordStyles = StyleSheet.create({
         flexDirection: "column",
         paddingHorizontal: 40,
         flex: 1,
+        marginBottom: 20,
     },
     attention_label: {
         ...SharedStyles.page_content_title,
