@@ -1,6 +1,6 @@
 import { createRef, useReducer, useState } from "react";
-import { View } from "react-native";
-import { useDispatch } from "react-redux";
+import { TextInput, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../components/CommonHeader";
@@ -8,7 +8,7 @@ import Page from "../../components/Page";
 import { SharedStyles } from "../../styles/CommonStyles";
 import StatefulTextInput from "../../components/StatefulTextInput";
 import AppTheme from "../../assets/_default/AppTheme";
-import { updateLoginStep } from "../../redux/AppSlice";
+import { selectUsername, updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import AccountService from "../../services/AccountService";
 import { emptyValidate } from "./ForgotPasswordScreenUtils";
@@ -18,8 +18,10 @@ import { SimpleDialog } from "../../components/Dialog";
 import { useDialog } from "../../components/dialog/index";
 import { setPasswordChangeInd } from "../../helper/LocalAuthHelper";
 import { handleError } from "../../network/APIUtil";
-import { showToast } from "../../helper/AppHelper";
+import { getSecondTextContentTypeForIOS, isIOSVersionEqual, isIos, showToast } from "../../helper/AppHelper";
 import Attention from "../../components/Attention";
+import NavigationService from "../../navigation/NavigationService";
+import { CA_PASSWORD_RULES } from "../../constants/Constants";
 
 function dialogReducer(state, action) {
     if (action.type === "closeDialog") {
@@ -35,6 +37,8 @@ export default function ForgotPasswordScreen({ route }) {
     const { openSimpleDialog } = useDialog();
     const dispatch = useDispatch();
 
+    const userName = useSelector(selectUsername);
+
     const { params } = route;
     const { emailAddress, isChangePassword, validationCode } = params;
     const commonHeader = isChangePassword
@@ -42,6 +46,7 @@ export default function ForgotPasswordScreen({ route }) {
         : t("forgotPassword.resetPassword.resetPassword");
     const buttonText = isChangePassword ? t("setting.changePassword") : t("forgotPassword.resetPassword.reset");
 
+    const [currentUserName, setCurrentUserName] = useState(isChangePassword ? userName : emailAddress);
     const [currentPassword, setCurrentPassword] = useState();
     const [newPassword, setNewPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -83,6 +88,10 @@ export default function ForgotPasswordScreen({ route }) {
 
     const onReset = async () => {
         const isResetPasswordPassed = resetPasswordValidation();
+
+        newPasswordRef.current?.setSecureEntry();
+        confirmPasswordRef.current?.setSecureEntry();
+
         if (isResetPasswordPassed) {
             if (isChangePassword) {
                 const changePasswordResponse = await handleError(
@@ -123,8 +132,36 @@ export default function ForgotPasswordScreen({ route }) {
     const renderResetPasswordSection = () => {
         return (
             <>
+                {
+                    //fix autofill order issue
+                    isIos() && (
+                        <TextInput
+                            textContentType={"username"}
+                            keyboardType={"email-address"}
+                            autoCorrect={false}
+                            spellCheck={false}
+                            value={currentUserName}
+                            style={{
+                                width: 1,
+                                height: 1,
+                                fontSize: 1,
+                                backgroundColor: AppTheme.colors.transparent,
+                                color: AppTheme.colors.transparent,
+                            }}
+                            onChangeText={(text) => {
+                                if (isChangePassword && text != userName) {
+                                    setCurrentUserName(userName);
+                                } else if (text != emailAddress) {
+                                    setCurrentUserName(emailAddress);
+                                }
+                            }}
+                        />
+                    )
+                }
                 <StatefulTextInput
                     testID="NewPassword"
+                    textContentType={isIos() ? "newPassword" : "none"}
+                    passwordRules={CA_PASSWORD_RULES}
                     ref={newPasswordRef}
                     style={{ marginTop: 30 }}
                     hint={t("common.pleaseEnter")}
@@ -148,6 +185,7 @@ export default function ForgotPasswordScreen({ route }) {
                 />
                 <StatefulTextInput
                     testID="ConfirmPassword"
+                    textContentType={isIos() ? getSecondTextContentTypeForIOS() : "none"}
                     ref={confirmPasswordRef}
                     style={{ marginTop: 30 }}
                     hint={t("common.pleaseEnter")}
@@ -177,6 +215,7 @@ export default function ForgotPasswordScreen({ route }) {
         return (
             <StatefulTextInput
                 testID="CurrentPassword"
+                textContentType={isIos() ? "password" : "none"}
                 ref={currentPasswordRef}
                 style={{ marginTop: 30 }}
                 hint={t("common.pleaseEnter")}
@@ -204,7 +243,16 @@ export default function ForgotPasswordScreen({ route }) {
     return (
         <Page>
             <View style={{ flex: 1 }}>
-                <CommonHeader title={commonHeader} />
+                <CommonHeader
+                    title={commonHeader}
+                    onBackClick={() => {
+                        newPasswordRef.current?.clearText();
+                        confirmPasswordRef.current?.clearText();
+                        setTimeout(() => {
+                            NavigationService.back();
+                        }, 100);
+                    }}
+                />
                 <KeyboardAwareScrollView>
                     <View style={ForgotPasswordStyles.page_container}>
                         {isChangePassword && (

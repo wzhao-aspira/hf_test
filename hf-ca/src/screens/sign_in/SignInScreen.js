@@ -13,7 +13,7 @@ import appThunkActions from "../../redux/AppThunk";
 import LoginStep from "../../constants/LoginStep";
 import { SimpleDialog } from "../../components/Dialog";
 import { validateRequiredInput, styles } from "./SignInUtils";
-import { genTestId } from "../../helper/AppHelper";
+import { genTestId, isIos } from "../../helper/AppHelper";
 import OnBoardingHelper from "../../helper/OnBoardingHelper";
 import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
@@ -40,6 +40,8 @@ function SignInScreen(route) {
     const [showErrorDialog, setShowErrorDialog] = useState(false);
 
     const doSignIn = async (uid = userId, pwd = password) => {
+        passwordRef.current?.setSecureEntry();
+
         const response = await handleError(AccountService.authSignIn(uid, pwd), { dispatch, showLoading: true });
         if (!response.success) {
             return;
@@ -89,10 +91,9 @@ function SignInScreen(route) {
             <KeyboardAwareScrollView contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.container}>
                     <Text style={styles.titleStyle}>{sighInLabel}</Text>
-
                     <StatefulTextInput
-                        textContentType={"username"}
-                        keyboardType={"email-address"}
+                        textContentType={isIos() ? "username" : "none"}
+                        keyboardType={isIos() ? "email-address" : "ascii-capable"}
                         ref={userIdRef}
                         value={userId}
                         label={t("signIn.userId")}
@@ -109,9 +110,8 @@ function SignInScreen(route) {
                             validateRequiredInput(userId.trim(), userIdRef, userIdEmptyMsg);
                         }}
                     />
-
                     <StatefulTextInput
-                        textContentType={"password"}
+                        textContentType={isIos() ? "password" : "none"}
                         ref={passwordRef}
                         value={password}
                         password
@@ -123,7 +123,11 @@ function SignInScreen(route) {
                         labelStyle={styles.labelStyle}
                         inputStyle={styles.inputStyle}
                         onClickNote={() => {
-                            NavigationService.navigate(Routers.forgotPasswordEnterEmail);
+                            userIdRef.current?.clearText();
+                            passwordRef.current?.clearText();
+                            setTimeout(() => {
+                                NavigationService.navigate(Routers.forgotPasswordEnterEmail);
+                            }, 100);
                         }}
                         onChangeText={(text) => {
                             setPassword(text);
@@ -133,9 +137,7 @@ function SignInScreen(route) {
                             validateRequiredInput(password, passwordRef, passwordEmptyMsg);
                         }}
                     />
-
                     <PrimaryBtn style={styles.marginTopStyle(30)} label={sighInLabel} onPress={clickSignIn} />
-
                     <BiometricLoginBtn
                         onAuthSuccess={(authInfo) => {
                             console.log("onAuthSuccess", authInfo);
@@ -143,7 +145,6 @@ function SignInScreen(route) {
                             doSignIn(userID, pwd);
                         }}
                     />
-
                     <Text testID={genTestId("signUpText")} style={styles.signUpStr}>
                         {t("signIn.noAccount")}
                     </Text>
@@ -151,7 +152,11 @@ function SignInScreen(route) {
                         testID={genTestId("signUpLink")}
                         style={styles.clickHereCreateOneBtn}
                         onPress={() => {
-                            route?.navigation?.push(Routers.signUpNav);
+                            userIdRef.current?.clearText();
+                            passwordRef.current?.clearText();
+                            setTimeout(() => {
+                                route?.navigation?.push(Routers.signUpNav);
+                            }, 100);
                         }}
                     >
                         {` ${t("signIn.clickHereCreateOne")}`}

@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import React, { useImperativeHandle, useRef, useState } from "react";
+import { View, StyleSheet, Text, ScrollView, TextInput } from "react-native";
 import { useTranslation, Trans } from "react-i18next";
 import emailValidator from "email-validator";
 import { useDispatch } from "react-redux";
@@ -20,7 +20,8 @@ import { updateLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import { DEFAULT_RADIUS, SCREEN_WIDTH, SCREEN_HEIGHT } from "../../constants/Dimension";
 import { appConfig } from "../../services/AppConfigService";
-import { genTestId } from "../../helper/AppHelper";
+import { genTestId, getSecondTextContentTypeForIOS, isIOSVersionEqual, isIos } from "../../helper/AppHelper";
+import { CA_PASSWORD_RULES } from "../../constants/Constants";
 
 const styles = StyleSheet.create({
     disclaimerCard: {
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function SignUp() {
+const SignUp = React.forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const [mobileAccount, setMobileAccount] = useState();
@@ -68,6 +69,13 @@ function SignUp() {
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
     const { openSimpleDialog } = useDialog();
+
+    useImperativeHandle(ref, () => ({
+        clearText: () => {
+            passwordRef.current?.clearText();
+            confirmPasswordRef.current?.clearText();
+        },
+    }));
 
     const isEmptyValidationCode = () => {
         const emptyValidationCode = emptyValidate(
@@ -137,6 +145,10 @@ function SignUp() {
             });
             return;
         }
+
+        passwordRef.current?.setSecureEntry();
+        confirmPasswordRef.current?.setSecureEntry();
+
         const storedMobileAccount = await handleError(
             AccountService.createMobileAccount(userID, mobileAccount?.emailValidationCode, mobileAccount?.password),
             {
@@ -252,8 +264,29 @@ function SignUp() {
                             setIsShowCountdown(false);
                         }}
                     />
+                    {
+                        //fix autofill order issue
+                        isIos() && (
+                            <TextInput
+                                textContentType={"username"}
+                                keyboardType={"email-address"}
+                                autoCorrect={false}
+                                spellCheck={false}
+                                value={mobileAccount?.userID}
+                                style={{
+                                    width: 1,
+                                    height: 1,
+                                    fontSize: 1,
+                                    backgroundColor: AppTheme.colors.transparent,
+                                    color: AppTheme.colors.transparent,
+                                }}
+                            />
+                        )
+                    }
                     <StatefulTextInput
                         testID="Password"
+                        textContentType={isIos() ? "newPassword" : "none"}
+                        passwordRules={CA_PASSWORD_RULES}
                         label={t("common.password")}
                         hint={t("common.pleaseEnter")}
                         password
@@ -273,6 +306,7 @@ function SignUp() {
                     />
                     <StatefulTextInput
                         testID="ConfirmPassword"
+                        textContentType={isIos() ? getSecondTextContentTypeForIOS() : "none"}
                         label={t("common.confirmPassword")}
                         hint={t("common.pleaseEnter")}
                         password
@@ -298,6 +332,6 @@ function SignUp() {
             )}
         </View>
     );
-}
+});
 
 export default SignUp;

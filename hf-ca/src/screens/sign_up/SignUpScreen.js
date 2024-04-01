@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { StyleSheet, View, Keyboard } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -32,6 +32,8 @@ function SignUpScreen() {
     const loginStep = useSelector(selectLoginStep);
     const { openSelectDialog } = useDialog();
 
+    const signUpRef = useRef();
+
     const onBackClick = () => {
         Keyboard.dismiss();
         openSelectDialog({
@@ -40,11 +42,14 @@ function SignUpScreen() {
             okText: "common.yes",
             cancelText: "common.no",
             onConfirm: () => {
-                if (loginStep == LoginStep.signIn) {
-                    NavigationService.back();
-                } else {
-                    dispatch(updateLoginStep(LoginStep.login));
-                }
+                signUpRef.current?.clearText();
+                setTimeout(() => {
+                    if (loginStep == LoginStep.signIn) {
+                        NavigationService.back();
+                    } else {
+                        dispatch(updateLoginStep(LoginStep.login));
+                    }
+                }, 100);
             },
         });
     };
@@ -65,7 +70,7 @@ function SignUpScreen() {
                     }}
                 >
                     <View style={styles.page_container}>
-                        <SignUp />
+                        <SignUp ref={signUpRef} />
                     </View>
                 </KeyboardAwareScrollView>
             </Page>

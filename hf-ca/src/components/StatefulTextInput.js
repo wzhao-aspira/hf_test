@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle } from "react";
+import React, { useState, useImperativeHandle, useRef } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import AppTheme from "../assets/_default/AppTheme";
 import { statefulStyle } from "../styles/CommonStyles";
@@ -81,7 +81,10 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
         onBlur,
         testID = "",
         textContentType = "none",
+        passwordRules = undefined,
     } = props;
+
+    const textInputRef = useRef();
 
     const [secureTextEntry, setSecureTextEntry] = useState(password);
     const showPassLabel = secureTextEntry ? "Show" : "Hide";
@@ -89,6 +92,12 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
         setError: (obj) => {
             setErrorObj({ ...obj });
             return obj.error;
+        },
+        setSecureEntry: () => {
+            setSecureTextEntry(true);
+        },
+        clearText: () => {
+            textInputRef.current?.clear();
         },
     }));
     if (!display) {
@@ -106,6 +115,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TextInput
                     testID={genTestId(`${testID}Input`)}
+                    ref={textInputRef}
                     textContentType={textContentType}
                     autoComplete={autoComplete}
                     autogrow={autogrow}
@@ -140,6 +150,7 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
                     {...inputProps}
                     keyboardType={keyboardType}
                     secureTextEntry={secureTextEntry}
+                    passwordRules={passwordRules}
                 />
                 {password && (
                     <Pressable
