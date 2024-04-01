@@ -192,3 +192,24 @@ export function getDeviceInfo() {
         encodeURIComponent(deviceType)
     );
 }
+
+export function isIOSVersionAfter(minVersion) {
+    const currentVersion = parseInt(Platform.Version);
+    const result = Platform.OS === "ios" && currentVersion >= minVersion;
+    return result;
+}
+
+export function isIOSVersionEqual(version) {
+    const currentVersion = parseInt(Platform.Version);
+    const result = Platform.OS === "ios" && currentVersion == version;
+    return result;
+}
+
+export function getSecondTextContentTypeForIOS() {
+    let textContentType = "newPassword";
+    if (isIOSVersionEqual(16)) {
+        textContentType = "password";
+    }
+
+    return textContentType;
+}
