@@ -12,6 +12,7 @@ import { updateLoginStep, selectLoginStep } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import { useDialog } from "../../components/dialog/index";
 import NavigationService from "../../navigation/NavigationService";
+import { isIos } from "../../helper/AppHelper";
 
 const styles = StyleSheet.create({
     page_container: {
@@ -41,15 +42,23 @@ function SignUpScreen() {
             message: "signUp.areYouSureExitSignUp",
             okText: "common.yes",
             cancelText: "common.no",
-            onConfirm: () => {
-                signUpRef.current?.clearText();
-                setTimeout(() => {
+            onConfirm: async () => {
+                if (isIos()) {
+                    await signUpRef.current?.clearText();
+                    setTimeout(() => {
+                        if (loginStep == LoginStep.signIn) {
+                            NavigationService.back();
+                        } else {
+                            dispatch(updateLoginStep(LoginStep.login));
+                        }
+                    }, 100);
+                } else {
                     if (loginStep == LoginStep.signIn) {
                         NavigationService.back();
                     } else {
                         dispatch(updateLoginStep(LoginStep.login));
                     }
-                }, 100);
+                }
             },
         });
     };

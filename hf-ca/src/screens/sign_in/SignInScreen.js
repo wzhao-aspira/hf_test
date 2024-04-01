@@ -123,11 +123,15 @@ function SignInScreen(route) {
                         labelStyle={styles.labelStyle}
                         inputStyle={styles.inputStyle}
                         onClickNote={() => {
-                            userIdRef.current?.clearText();
-                            passwordRef.current?.clearText();
-                            setTimeout(() => {
+                            if (isIos()) {
+                                userIdRef.current?.clearText();
+                                passwordRef.current?.clearText();
+                                setTimeout(() => {
+                                    NavigationService.navigate(Routers.forgotPasswordEnterEmail);
+                                }, 100);
+                            } else {
                                 NavigationService.navigate(Routers.forgotPasswordEnterEmail);
-                            }, 100);
+                            }
                         }}
                         onChangeText={(text) => {
                             setPassword(text);
@@ -152,11 +156,15 @@ function SignInScreen(route) {
                         testID={genTestId("signUpLink")}
                         style={styles.clickHereCreateOneBtn}
                         onPress={() => {
-                            userIdRef.current?.clearText();
-                            passwordRef.current?.clearText();
-                            setTimeout(() => {
+                            if (isIos()) {
+                                userIdRef.current?.clearText();
+                                passwordRef.current?.clearText();
+                                setTimeout(() => {
+                                    route?.navigation?.push(Routers.signUpNav);
+                                }, 100);
+                            } else {
                                 route?.navigation?.push(Routers.signUpNav);
-                            }, 100);
+                            }
                         }}
                     >
                         {` ${t("signIn.clickHereCreateOne")}`}

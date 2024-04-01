@@ -72,8 +72,16 @@ const SignUp = React.forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         clearText: () => {
-            passwordRef.current?.clearText();
-            confirmPasswordRef.current?.clearText();
+            passwordRef.current?.blur();
+            confirmPasswordRef.current?.blur();
+
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    passwordRef.current?.clearText();
+                    confirmPasswordRef.current?.clearText();
+                    resolve();
+                }, 150);
+            });
         },
     }));
 

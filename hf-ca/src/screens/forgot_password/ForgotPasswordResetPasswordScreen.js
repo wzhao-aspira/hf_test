@@ -240,17 +240,33 @@ export default function ForgotPasswordScreen({ route }) {
         );
     };
 
+    const clearPasswordText = () => {
+        newPasswordRef.current?.blur();
+        confirmPasswordRef.current?.blur();
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                newPasswordRef.current?.clearText();
+                confirmPasswordRef.current?.clearText();
+                resolve();
+            }, 150);
+        });
+    };
+
     return (
         <Page>
             <View style={{ flex: 1 }}>
                 <CommonHeader
                     title={commonHeader}
-                    onBackClick={() => {
-                        newPasswordRef.current?.clearText();
-                        confirmPasswordRef.current?.clearText();
-                        setTimeout(() => {
+                    onBackClick={async () => {
+                        if (isIos()) {
+                            await clearPasswordText();
+                            setTimeout(() => {
+                                NavigationService.back();
+                            }, 100);
+                        } else {
                             NavigationService.back();
-                        }, 100);
+                        }
                     }}
                 />
                 <KeyboardAwareScrollView>

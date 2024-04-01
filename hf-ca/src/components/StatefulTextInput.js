@@ -99,6 +99,11 @@ const StatefulTextInput = React.forwardRef((props, ref) => {
         clearText: () => {
             textInputRef.current?.clear();
         },
+        blur: () => {
+            if (textInputRef.current?.isFocused()) {
+                textInputRef.current?.blur();
+            }
+        },
     }));
     if (!display) {
         return null;
