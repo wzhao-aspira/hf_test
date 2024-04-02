@@ -17,6 +17,7 @@ import { useAppDispatch } from "../../../hooks/redux";
 import { genTestId } from "../../../helper/AppHelper";
 import useTitle from "../../../hooks/useTitle";
 import SwitchCustomer from "../../../components/SwitchCustomer";
+import { SCREEN_WIDTH } from "../../../constants/Dimension";
 
 export const styles = StyleSheet.create({
     container: {
@@ -58,27 +59,31 @@ function PendingRoute() {
     return <DrawApplicationTabContainer tabData={data} tabName="pending" isEmptyTab={isEmptyData} />;
 }
 
-const renderTabBar = (props) => (
-    <TabBar
-        {...props}
-        pressColor={AppTheme.colors.page_bg}
-        indicatorStyle={{ backgroundColor: AppTheme.colors.indicator }}
-        style={{ backgroundColor: AppTheme.colors.body_50, shadowColor: AppTheme.colors.body_50 }}
-        renderLabel={({ route, focused }) => (
-            <Text
-                style={{
-                    color: AppTheme.colors.black,
-                    fontWeight: focused ? "500" : "normal",
-                    paddingHorizontal: focused ? 0 : 6,
-                    textAlign: "center",
-                }}
-                testID={genTestId(`drawApplicationTab_${route.key}`)}
-            >
-                {route.title}
-            </Text>
-        )}
-    />
-);
+const renderTabBar = (props) => {
+    const tabSize = props?.navigationState?.routes?.length || 3;
+    return (
+        <TabBar
+            {...props}
+            pressColor={AppTheme.colors.page_bg}
+            indicatorStyle={{ backgroundColor: AppTheme.colors.indicator }}
+            style={{ backgroundColor: AppTheme.colors.body_50, shadowColor: AppTheme.colors.body_50 }}
+            tabStyle={{ width: SCREEN_WIDTH / tabSize }}
+            renderLabel={({ route, focused }) => (
+                <Text
+                    style={{
+                        color: AppTheme.colors.black,
+                        fontWeight: focused ? "500" : "normal",
+                        paddingHorizontal: focused ? 0 : 6,
+                        textAlign: "center",
+                    }}
+                    testID={genTestId(`drawApplicationTab_${route.key}`)}
+                >
+                    {route.title}
+                </Text>
+            )}
+        />
+    );
+};
 
 const renderScene = SceneMap({
     successful: SuccessfulRoute,
