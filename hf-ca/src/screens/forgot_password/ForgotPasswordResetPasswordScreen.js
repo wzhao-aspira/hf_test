@@ -257,8 +257,8 @@ export default function ForgotPasswordScreen({ route }) {
     };
 
     return (
-        <Page>
-            <View>
+        <Page style={{ paddingBottom: 0 }}>
+            <View style={{ flex: 1 }}>
                 <CommonHeader
                     title={commonHeader}
                     onBackClick={async () => {
