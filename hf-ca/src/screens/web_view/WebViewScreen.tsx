@@ -74,6 +74,7 @@ function WebViewScreen(props: WebViewScreenProps) {
                 onBackClick={() => {
                     onBackButtonPress();
                 }}
+                headerTextStyle={{ fontSize: 14 }}
                 isWebViewScreen
             />
             <WebView
