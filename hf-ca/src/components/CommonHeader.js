@@ -56,6 +56,7 @@ function CommonHeader({
     showLeft = true,
     rightComponent = null,
     isWebViewScreen = false,
+    headerTextStyle = {},
 }) {
     const blank = rightComponent ? LEFT_BLACK : DEFAULT_MARGIN;
     const rightComponentWidth = blank + LEFT_WIDTH - RIGHT_PADDING;
@@ -93,7 +94,7 @@ function CommonHeader({
                     <View style={styles.headerTextContainer}>
                         <Text
                             testID={genTestId(`${testID}HeaderTitleLabel`)}
-                            style={styles.headerText}
+                            style={{ ...styles.headerText, ...headerTextStyle }}
                             numberOfLines={2}
                         >
                             {title}

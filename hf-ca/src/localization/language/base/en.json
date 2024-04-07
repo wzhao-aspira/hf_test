@@ -11,7 +11,7 @@
         "noLicenseIntroduction": "Purchase your hunting or fishing license now",
         "physicalDocumentNeeded": "PHYSICAL DOCUMENT MUST BE IN IMMEDIATE POSSESSION",
         "importantInformation": "Important Information",
-        "purchaseTitle": "To Internet Sales",
+        "purchaseTitle": "CDFW Online License Sales and Services",
         "myActiveLicenses": "My Active Licenses",
         "viewDrawApplication": "View Draw Application/Results",
         "viewHarvestReport": "Harvest Reports",
@@ -506,7 +506,7 @@
     },
     "webview": {
         "BackToApp": "Back to App",
-        "CDFWSalesAndServices": "CDFW Sales and Services"
+        "CDFWSalesAndServices": "CDFW\nOnline License Sales and Services"
     },
     "mail": {
         "subject": "CDFW License App Feedback",
