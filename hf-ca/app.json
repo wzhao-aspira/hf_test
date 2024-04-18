@@ -2,7 +2,7 @@
   "expo": {
     "name": "CDFW License",
     "slug": "hf-ca",
-    "version": "2404.3.7",
+    "version": "2404.3.8",
     "orientation": "portrait",
     "icon": "./src/assets/_default/images/icon.png",
     "userInterfaceStyle": "light",
@@ -25,7 +25,7 @@
       "requireFullScreen": true,
       "supportsTablet": true,
       "bundleIdentifier": "com.aspiraconnect.hf.ca",
-      "buildNumber": "2404.3.7.0",
+      "buildNumber": "2404.3.8.0",
       "userInterfaceStyle": "light",
       "config": {
         "usesNonExemptEncryption": false
@@ -40,7 +40,7 @@
     },
     "android": {
       "package": "com.aspiraconnect.hf.ca",
-      "versionCode": 800,
+      "versionCode": 820,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
