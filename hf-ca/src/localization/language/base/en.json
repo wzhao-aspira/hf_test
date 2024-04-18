@@ -291,9 +291,9 @@
     "onboarding": {
         "location": {
             "title": "Location Access",
-            "subTitle": "Enable location to get a better experience and features catered specifically to your location.",
-            "turnOnLocation": "Turn on Location",
-            "notNow": "Not Now"
+            "subTitle": "Enabling location services will allow you to find nearby CDFW license agents and display local weather and solunar information.",
+            "turnOnLocation": "Next",
+            "notNow": "Cancel"
         }
     },
     "hamburgerMenu": {

@@ -64,7 +64,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Show current location on map."
+          "locationWhenInUsePermission": "Show the current location on map, find out the license agents nearby and show the weather and solunar information."
         }
       ]
     ]
