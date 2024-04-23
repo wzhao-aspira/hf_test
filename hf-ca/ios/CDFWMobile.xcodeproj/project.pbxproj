@@ -12,6 +12,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		6E1DE8D92B03584D00753FC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E1DE8D82B03584D00753FC6 /* GoogleService-Info.plist */; };
+		6EB73EBB2BCE67F500D6C634 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6EB73EBA2BCE67F500D6C634 /* PrivacyInfo.xcprivacy */; };
 		6ECD042A2A96FF2D00B049DF /* HFNativeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD04292A96FF2D00B049DF /* HFNativeModule.m */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		B83CCA63C3F56E9642C7B8E6 /* Pods_CDFWMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 702A0C1BA82278C0127BD60A /* Pods_CDFWMobile.framework */; };
@@ -28,6 +29,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CDFWMobile/main.m; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-CDFWMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDFWMobile.debug.xcconfig"; path = "Target Support Files/Pods-CDFWMobile/Pods-CDFWMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		6E1DE8D82B03584D00753FC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6EB73EBA2BCE67F500D6C634 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6ECD04282A96FF2D00B049DF /* HFNativeModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFNativeModule.h; sourceTree = "<group>"; };
 		6ECD04292A96FF2D00B049DF /* HFNativeModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFNativeModule.m; sourceTree = "<group>"; };
 		702A0C1BA82278C0127BD60A /* Pods_CDFWMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDFWMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +100,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6EB73EBA2BCE67F500D6C634 /* PrivacyInfo.xcprivacy */,
 				6E1DE8D82B03584D00753FC6 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* CDFWMobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -219,6 +222,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				6E1DE8D92B03584D00753FC6 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				6EB73EBB2BCE67F500D6C634 /* PrivacyInfo.xcprivacy in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,7 +335,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-CDFWMobile/Pods-CDFWMobile-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-				"${PODS_ROOT}/Sentry/Sources/Resources/PrivacyInfo.xcprivacy",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Sentry/Sentry.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-launcher/EXDevLauncher.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-menu/EXDevMenu.bundle",
 			);
@@ -339,7 +343,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/PrivacyInfo.xcprivacy",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Sentry.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevLauncher.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevMenu.bundle",
 			);
