@@ -661,16 +661,14 @@ PODS:
   - RNScreens (3.22.1):
     - React-Core
     - React-RCTImage
-  - RNSentry (5.20.0):
+  - RNSentry (5.22.0):
     - hermes-engine
     - React-Core
     - React-hermes
-    - Sentry/HybridSDK (= 8.21.0)
+    - Sentry/HybridSDK (= 8.24.0)
   - RNSVG (13.11.0):
     - React-Core
-  - Sentry/HybridSDK (8.21.0):
-    - SentryPrivate (= 8.21.0)
-  - SentryPrivate (8.21.0)
+  - Sentry/HybridSDK (8.24.0)
   - SocketRocket (0.6.1)
   - Turf (2.7.0)
   - Yoga (1.14.0)
@@ -775,7 +773,6 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Sentry
-    - SentryPrivate
     - SocketRocket
     - Turf
 
@@ -1029,10 +1026,9 @@ SPEC CHECKSUMS:
   rnmapbox-maps: de67407973410cb0159c8cee4544c6ba59f6154a
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
-  RNSentry: 5381e9284aec59a546e4a7d40e33ad0839b99c1e
+  RNSentry: 7ae2a06a5563de39ec09dcb1e751ac0c67f1883c
   RNSVG: 03e4d258ca355d7836a0a5dd4d4dc63c1eb49cbb
-  Sentry: ebc12276bd17613a114ab359074096b6b3725203
-  SentryPrivate: d651efb234cf385ec9a1cdd3eff94b5e78a0e0fe
+  Sentry: 2f6baed15a3f8056b875fc903dc3dcb2903117f4
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
   Yoga: 8796b55dba14d7004f980b54bcc9833ee45b28ce
