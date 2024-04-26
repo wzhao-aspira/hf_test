@@ -162,14 +162,14 @@ PODS:
     - hermes-engine/Pre-built (= 0.72.3)
   - hermes-engine/Pre-built (0.72.3)
   - libevent (2.1.12)
-  - MapboxCommon (23.6.0)
-  - MapboxCoreMaps (10.14.0):
-    - MapboxCommon (~> 23.6)
-  - MapboxMaps (10.14.0):
-    - MapboxCommon (= 23.6.0)
-    - MapboxCoreMaps (= 10.14.0)
+  - MapboxCommon (23.9.1)
+  - MapboxCoreMaps (10.16.6):
+    - MapboxCommon (~> 23.9)
+  - MapboxMaps (10.16.6):
+    - MapboxCommon (= 23.9.1)
+    - MapboxCoreMaps (= 10.16.6)
     - MapboxMobileEvents (= 1.0.10)
-    - Turf (~> 2.0)
+    - Turf (= 2.7.0)
   - MapboxMobileEvents (1.0.10)
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
@@ -618,14 +618,14 @@ PODS:
     - React-Core
   - RNGestureHandler (2.12.0):
     - React-Core
-  - rnmapbox-maps (10.0.10):
-    - MapboxMaps (~> 10.14.0)
+  - rnmapbox-maps (10.1.19):
+    - MapboxMaps (~> 10.16.4)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.10)
+    - rnmapbox-maps/DynamicLibrary (= 10.1.19)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.10):
-    - MapboxMaps (~> 10.14.0)
+  - rnmapbox-maps/DynamicLibrary (10.1.19):
+    - MapboxMaps (~> 10.16.4)
     - React
     - React-Core
     - Turf
@@ -973,9 +973,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   hermes-engine: 10fbd3f62405c41ea07e71973ea61e1878d07322
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  MapboxCommon: 4a0251dd470ee37e7fadda8e285c01921a5e1eb0
-  MapboxCoreMaps: eb07203bbb0b1509395db5ab89cd3ad6c2e3c04c
-  MapboxMaps: af50ec61a7eb3b032c3f7962c6bd671d93d2a209
+  MapboxCommon: 20466d839cc43381c44df09d19f7f794b55b9a93
+  MapboxCoreMaps: c21f433decbb295874f0c2464e492166db813b56
+  MapboxMaps: c3b36646b9038706bbceb5de203bcdd0f411e9d0
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
@@ -988,7 +988,7 @@ SPEC CHECKSUMS:
   React-Core: aaacca67f9ca54f142827e67f44bfbd815875eb6
   React-CoreModules: 32fab1d62416849a3b6dac6feff9d54e5ddc2d1e
   React-cxxreact: 37765b4975541105b2a3322a4b473417c158c869
-  React-debug: d1e045638a6107a245f32c0961baa44da754fcc0
+  React-debug: c11b61bebaa2617f44904a2529f879694269f242
   React-hermes: 935ae71fb3d7654e947beba8498835cd5e479707
   React-jsi: ec628dc7a15ffea969f237b0ea6d2fde212b19dd
   React-jsiexecutor: 59d1eb03af7d30b7d66589c410f13151271e8006
@@ -999,7 +999,7 @@ SPEC CHECKSUMS:
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
   react-native-webview: b8ec89966713985111a14d6e4bf98d8b54bced0d
-  React-NativeModulesApple: f33f522e5c8d47d5f2c68503ba092891fbf30b97
+  React-NativeModulesApple: fcb2b13972e8a9ab74f39cb32d28355a4cfec273
   React-perflogger: 6bd153e776e6beed54c56b0847e1220a3ff92ba5
   React-RCTActionSheet: c0b62af44e610e69d9a2049a682f5dba4e9dff17
   React-RCTAnimation: fe7005136b58f58871cab2f70732343b6e330d30
@@ -1013,9 +1013,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: ea3a68a49873a54ced927c90923fc6932baf344a
   React-rncore: 9672a017af4a7da7495d911f0b690cbcae9dd18d
   React-runtimeexecutor: 369ae9bb3f83b65201c0c8f7d50b72280b5a1dbc
-  React-runtimescheduler: d00668d7b9870e1f710dbf3f8b19d5be78e29273
-  React-utils: 42cb9c4623dce9fb7431dcb01d2bf8c5bec3907a
-  ReactCommon: f1f9defd59d1a0187e2343501453299ef7a77b7a
+  React-runtimescheduler: edea90cc2976e03e311aa4041e7af27ec2df22f7
+  React-utils: ca62ba94ee51fe4e8c85a5283e2aae78abf6bf22
+  ReactCommon: e531f8d84ee83cf7b472535faab59e698988c9ad
   RealmJS: 62267ccc7bec0b40dcd5a64cd63a21346648230c
   RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
   RNDateTimePicker: 3942382593f104af226ad9c56e16166960c7ae30
@@ -1023,7 +1023,7 @@ SPEC CHECKSUMS:
   RNFBApp: b43d4829366a5065e17f9af3b03a0c4890eaeb85
   RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
-  rnmapbox-maps: de67407973410cb0159c8cee4544c6ba59f6154a
+  rnmapbox-maps: f63954bbaa2b9ac1b39d2bbb8d739c6485b56f7d
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
   RNSentry: 7ae2a06a5563de39ec09dcb1e751ac0c67f1883c

@@ -3441,10 +3441,10 @@
     redux-thunk "^2.4.2"
     reselect "^4.1.8"
 
-"@rnmapbox/maps@^10.0.10":
-  version "10.0.10"
-  resolved "https://registry.yarnpkg.com/@rnmapbox/maps/-/maps-10.0.10.tgz#d78b1fe6f1e2152d5069fd1a8385419495a5335e"
-  integrity sha512-FlgkZ039MbFsfXYdivoWivotRSwzEHF6XQeKK1aOfxy909hzD35do+satA3hV/WPhlCGEEIBuga8kiRoJvFTqw==
+"@rnmapbox/maps@^10.1.19":
+  version "10.1.19"
+  resolved "https://registry.yarnpkg.com/@rnmapbox/maps/-/maps-10.1.19.tgz#a8712f4c7eadbf69ff3807a4b03b2a30024f1cab"
+  integrity sha512-zcKMlsbgSYMlyNT6KaTDMELatRIUH0LRmCjiMAXwqncStSIetsli20ctkwcN+ZI2a4x5Cwa2ZhJIkZnHFcPGIw==
   dependencies:
     "@turf/along" "6.5.0"
     "@turf/distance" "6.5.0"
