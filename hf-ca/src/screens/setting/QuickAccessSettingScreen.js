@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Page from "../../components/Page";
 
@@ -49,13 +48,13 @@ function SettingItem({ title, label, enable = true, checked = false, onPress, te
 
     return (
         <View style={styles.itemContainer}>
-            <TouchableOpacity style={styles.touchable} onPress={onPress} testID={genTestId(testId)}>
+            <Pressable style={styles.touchable} onPress={onPress} testID={genTestId(testId)}>
                 <View>
                     <Text style={styles.itemTitle}>{title}</Text>
                     <Text style={styles.itemLabel}>{label}</Text>
                 </View>
                 <SVGIcon pathList={checked ? pathList.circleChecked : pathList.circleUnchecked} />
-            </TouchableOpacity>
+            </Pressable>
             <View style={styles.line} />
         </View>
     );

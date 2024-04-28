@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../constants/Dimension";
 import SkeletonLoader from "../../components/SkeletonLoader";
@@ -68,11 +67,11 @@ const issuerLocationsListLoading = React.memo(() => {
     };
 
     return (
-        <ScrollView style={styles.cardContainer}>
+        <View style={styles.cardContainer}>
             {renderCard()}
             {renderCard()}
             {renderCard()}
-        </ScrollView>
+        </View>
     );
 });
 

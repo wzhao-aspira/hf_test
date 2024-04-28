@@ -1,6 +1,5 @@
 import { faMapMarker } from "@fortawesome/pro-light-svg-icons/faMapMarker";
-import { FlatList } from "react-native-gesture-handler";
-import { View, StyleSheet, Text, Linking } from "react-native";
+import { View, StyleSheet, Text, Linking, FlatList } from "react-native";
 import { isEmpty } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { BtnSizeEnum, BtnTypeEnum } from "../../constants/Constants";
