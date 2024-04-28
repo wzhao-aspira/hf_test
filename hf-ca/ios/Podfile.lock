@@ -616,7 +616,8 @@ PODS:
     - React-Core
   - RNFileViewer (2.1.5):
     - React-Core
-  - RNGestureHandler (2.12.0):
+  - RNGestureHandler (2.16.0):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - rnmapbox-maps (10.1.19):
     - MapboxMaps (~> 10.16.4)
@@ -988,7 +989,7 @@ SPEC CHECKSUMS:
   React-Core: aaacca67f9ca54f142827e67f44bfbd815875eb6
   React-CoreModules: 32fab1d62416849a3b6dac6feff9d54e5ddc2d1e
   React-cxxreact: 37765b4975541105b2a3322a4b473417c158c869
-  React-debug: c11b61bebaa2617f44904a2529f879694269f242
+  React-debug: f76c8c0c1573b535c7eb6c601f80b02db81ea8df
   React-hermes: 935ae71fb3d7654e947beba8498835cd5e479707
   React-jsi: ec628dc7a15ffea969f237b0ea6d2fde212b19dd
   React-jsiexecutor: 59d1eb03af7d30b7d66589c410f13151271e8006
@@ -999,7 +1000,7 @@ SPEC CHECKSUMS:
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
   react-native-webview: b8ec89966713985111a14d6e4bf98d8b54bced0d
-  React-NativeModulesApple: fcb2b13972e8a9ab74f39cb32d28355a4cfec273
+  React-NativeModulesApple: f6b4d698da0303082cb95d0bd90e99de59c67180
   React-perflogger: 6bd153e776e6beed54c56b0847e1220a3ff92ba5
   React-RCTActionSheet: c0b62af44e610e69d9a2049a682f5dba4e9dff17
   React-RCTAnimation: fe7005136b58f58871cab2f70732343b6e330d30
@@ -1013,16 +1014,16 @@ SPEC CHECKSUMS:
   React-RCTVibration: ea3a68a49873a54ced927c90923fc6932baf344a
   React-rncore: 9672a017af4a7da7495d911f0b690cbcae9dd18d
   React-runtimeexecutor: 369ae9bb3f83b65201c0c8f7d50b72280b5a1dbc
-  React-runtimescheduler: edea90cc2976e03e311aa4041e7af27ec2df22f7
-  React-utils: ca62ba94ee51fe4e8c85a5283e2aae78abf6bf22
-  ReactCommon: e531f8d84ee83cf7b472535faab59e698988c9ad
+  React-runtimescheduler: b22e06afc00bfedfa4e6a249fcf479705a552094
+  React-utils: 6411570318735a49317f0f1ab46fc1586ec282a5
+  ReactCommon: 0bc6b4c42003637f6720518485237a39deeb4f70
   RealmJS: 62267ccc7bec0b40dcd5a64cd63a21346648230c
   RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
   RNDateTimePicker: 3942382593f104af226ad9c56e16166960c7ae30
   RNFBAnalytics: 6edaaa229d1062bd86a15da2deed2117e51fb33a
   RNFBApp: b43d4829366a5065e17f9af3b03a0c4890eaeb85
   RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
-  RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
+  RNGestureHandler: 3ca879eb9e4fbddcf90539dac20992ddfe6d63a3
   rnmapbox-maps: f63954bbaa2b9ac1b39d2bbb8d739c6485b56f7d
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3

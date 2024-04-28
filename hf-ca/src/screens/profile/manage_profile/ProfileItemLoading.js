@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, DEFAULT_RADIUS, SCREEN_WIDTH } from "../../../constants/Dimension";
 import SkeletonLoader from "../../../components/SkeletonLoader";
@@ -35,15 +34,11 @@ const ProfileItemLoading = React.memo(() => {
         },
     ];
 
-    const renderCard = () => {
-        return (
-            <View style={styles.card}>
-                <SkeletonLoader layout={layout} />
-            </View>
-        );
-    };
-
-    return <ScrollView>{renderCard()}</ScrollView>;
+    return (
+        <View style={styles.card}>
+            <SkeletonLoader layout={layout} />
+        </View>
+    );
 });
 
 export default ProfileItemLoading;

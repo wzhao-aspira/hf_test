@@ -1,10 +1,9 @@
-import { Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
+import { Pressable, RefreshControl, ScrollView, Text, View, useWindowDimensions } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLinkSlash } from "@fortawesome/pro-regular-svg-icons/faLinkSlash";
 
-import { RefreshControl } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { isEmpty } from "lodash";
 import { selectors } from "../../../redux/ProfileSlice";
