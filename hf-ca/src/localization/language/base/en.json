@@ -515,5 +515,19 @@
         "osVersion": "OS version",
         "emailNotSetup": "Email not set up",
         "emailNotSetupMsg": "Email is not currently set up. Please launch the Settings app and set up at least one email account under the Mail settings."
+    },
+    "mobileAlerts": {
+        "listTitle": "CDFW Alerts",
+        "detailTitle": "CDFW Alert",
+        "messageDisplayUntil": "This message will be displayed until {{displayEndDate}}",
+        "of":"{{position}} Of {{totalNumber}} Alerts",
+        "viewUnreadCDFWAlerts": "View Unread CDFW Alerts ({{unreadAlertCount}})",
+        "viewCDFWAlerts": "View CDFW Alerts",
+        "noAlertsTitle": "No CDFW Alerts Found",
+        "noAlertsIntroduction": "No CDFW alert for today.",
+        "dialogTitle": "CDFW Alert",
+        "dialogContent": "You have {{unreadCount}} unread CDFW alerts. Select View to see alerts or Close to continue to homepage. ",
+        "dialogOKText": "View",
+        "dialogCancelText": "Close"
     }
 }

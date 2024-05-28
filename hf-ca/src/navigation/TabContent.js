@@ -6,6 +6,10 @@ import AppTheme from "../assets/_default/AppTheme";
 import tabIcons from "../constants/TabConfig";
 import { genTestId } from "../helper/AppHelper";
 import Routers from "../constants/Routers";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons/faCircleExclamation";
+import { selectMobileAppAlertUnreadCount } from "../redux/MobileAppAlertSelector";
+import { useSelector } from "react-redux";
+import { appConfig } from "../services/AppConfigService";
 
 const styles = StyleSheet.create({
     container: {
@@ -24,14 +28,35 @@ const styles = StyleSheet.create({
         ...AppTheme.typography.card_small_r,
         marginTop: 3,
     },
+    exclaimationMark: {
+        position: "absolute",
+        right: 24,
+        top: 5,
+    },
 });
 
 export const TabState = {
     currentTabIndex: 0,
 };
 
+function ExclaimationMarkForHamburger() {
+    const mobileAppAlertUnreadCount = useSelector(selectMobileAppAlertUnreadCount);
+
+    const { mobileAppAlertsEnabled } = appConfig.data;
+    if (!mobileAppAlertsEnabled) {
+        return null;
+    }
+    const shouldShowExclaimationMark = mobileAppAlertUnreadCount > 0;
+    return (
+        shouldShowExclaimationMark && (
+            <FontAwesomeIcon style={styles.exclaimationMark} color="red" icon={faCircleExclamation} size={16} />
+        )
+    );
+}
+
 function TabContent(props) {
     const { state, navigation } = props;
+
     return (
         <Shadow style={{ width: "100%" }} containerStyle={styles.container} distance={8}>
             <View style={styles.container}>
@@ -42,8 +67,9 @@ function TabContent(props) {
                     const tabColor = isFocused ? AppTheme.colors.secondary_900 : AppTheme.colors.primary_2;
                     const keyStr = tabIcon?.id;
 
+                    const isHamburgerMenu = route.name === Routers.menu;
                     const onPress = () => {
-                        if (route.name === Routers.menu) {
+                        if (isHamburgerMenu) {
                             navigation?.openDrawer();
                             return;
                         }
@@ -80,6 +106,7 @@ function TabContent(props) {
                             }}
                             key={keyStr}
                         >
+                            {isHamburgerMenu && <ExclaimationMarkForHamburger />}
                             <FontAwesomeIcon
                                 color={tabColor}
                                 icon={isFocused ? tabIcon.selected : tabIcon.unselected}

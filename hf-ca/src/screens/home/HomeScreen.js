@@ -10,6 +10,8 @@ import { REQUEST_STATUS } from "../../constants/Constants";
 import WelcomeBar from "../../components/WelcomeBar";
 import { genTestId } from "../../helper/AppHelper";
 import { getLicense } from "../../redux/LicenseSlice";
+import { getMobileAppAlert } from "../../redux/MobileAppAlertSlice";
+import { selectMobileAppAlertUpdateTime } from "../../redux/MobileAppAlertSelector";
 import { selectLicenseForDashboard, selectUpdateTime } from "../../redux/LicenseSelector";
 import HomeLicenseSection from "./license/HomeLicenseSection";
 import HomeLicenseSectionLoading from "./license/HomeLicenseSectionLoading";
@@ -20,6 +22,8 @@ import { actions as appActions, selectPrimaryInactivatedWhenSignIn } from "../..
 import Routers from "../../constants/Routers";
 import { checkNeedAutoRefreshData } from "../../utils/GenUtil";
 import { getProfileListUpdateTime } from "../../helper/AutoRefreshHelper";
+import { HomeMobileAppAlertButton } from "./HomeMobileAppAlertButton";
+import { appConfig } from "../../services/AppConfigService";
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
@@ -35,12 +39,20 @@ export default function HomeScreen() {
     const activeProfileId = useSelector(profileSelectors.selectCurrentInUseProfileID);
     const primaryInactivatedWhenSignIn = useSelector(selectPrimaryInactivatedWhenSignIn);
     const licenseUpdateTime = useSelector(selectUpdateTime);
+    const mobileAppAlertUpdateTime = useSelector(selectMobileAppAlertUpdateTime);
     const [refresh, setRefresh] = useState(false);
 
     const getLicenseOfActiveProfile = async (isForce, useCache) => {
         console.log("HomeScreen - getLicenseOfActiveProfile - activeProfileId:", activeProfileId);
         if (activeProfileId) {
             await dispatch(getLicense({ isForce, searchParams: { activeProfileId }, useCache }));
+        }
+    };
+
+    const getMobileAppAlertOfCurrentLoggedInUser = async (isForce, useCache) => {
+        console.log("HomeScreen - getMobileAppAlert");
+        if (activeProfileId) {
+            await dispatch(getMobileAppAlert({ isForce, useCache }));
         }
     };
 
@@ -51,10 +63,11 @@ export default function HomeScreen() {
         }
     }, [dispatch, primaryInactivatedWhenSignIn]);
 
-    const getProfileAndLicense = async (isForce) => {
+    const getData = async (isForce) => {
         const needAutoRefreshProfile = checkNeedAutoRefreshData(getProfileListUpdateTime());
         const needAutoRefreshLicense = checkNeedAutoRefreshData(licenseUpdateTime);
-        setRefresh(isForce || needAutoRefreshProfile || needAutoRefreshLicense);
+        const needAutoRefreshMobileAppAlert = checkNeedAutoRefreshData(mobileAppAlertUpdateTime);
+        setRefresh(isForce || needAutoRefreshProfile || needAutoRefreshLicense || needAutoRefreshMobileAppAlert);
 
         const response = await dispatch(ProfileThunk.refreshProfileList({ isForce }));
         if (response.isReloadData && (response.primaryIsInactivated || response.ciuIsInactivated)) {
@@ -63,31 +76,38 @@ export default function HomeScreen() {
         }
         const useCache = response.isReloadData && !response.success;
         await getLicenseOfActiveProfile(isForce, useCache);
+        await getMobileAppAlertOfCurrentLoggedInUser(isForce, useCache);
         setRefresh(false);
     };
 
     useFocus(async () => {
         console.log("home focus");
         dispatch(appActions.setCurrentRouter(Routers.home));
-        await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: false })), getProfileAndLicense(false)]).catch();
+        await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: false })), getData(false)]).catch();
     });
 
     const refreshData = async () => {
-        await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: true })), getProfileAndLicense(true)]).catch();
+        await Promise.all([dispatch(getWeatherDataFromRedux({ isForce: true })), getData(true)]).catch();
     };
 
     const renderItem = (index) => {
+        const { mobileAppAlertsEnabled } = appConfig.data;
+
         if (index == 0) {
             if (refresh || profileListRefreshing || licenseRefreshing || isShowSkeletonWhenOffline) {
                 return <HomeLicenseSectionLoading />;
             }
             return <HomeLicenseSection licenses={licenseData} onRefresh={() => refreshData()} />;
         }
+
         if (index == 1) {
             if (weatherRequestStatus == REQUEST_STATUS.pending) {
                 return <HomeDiscoverySectionLoading />;
             }
             return <HomeDiscoverySection />;
+        }
+        if (index == 2 && mobileAppAlertsEnabled) {
+            return <HomeMobileAppAlertButton isLoading={refresh} />;
         }
         return null;
     };
@@ -113,7 +133,7 @@ export default function HomeScreen() {
                             }}
                         />
                     }
-                    data={["Licenses", "Discovery"]}
+                    data={["Licenses", "Discovery", "MobileAlertsButton"]}
                     renderItem={({ index }) => {
                         return renderItem(index);
                     }}

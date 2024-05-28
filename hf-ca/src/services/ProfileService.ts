@@ -38,6 +38,7 @@ import { getLicenseData, getLicenseListDataFromDB } from "./LicenseService";
 import { getPreferencePointsByProfileId } from "./PreferencePointService";
 import { getDrawApplicationList } from "./DrawApplicationServices";
 import { getAccessPermitDataAndSaveToDB } from "./AccessPermitServices";
+import { getMobileAppAlertData } from "./MobileAppAlertService";
 
 export async function getIdentityTypes(): Promise<IdentityTypesVM> {
     const ret = await getIdentityTypesData();
@@ -263,6 +264,7 @@ export function syncAllDataToDB(profileId) {
         getPreferencePointsByProfileId(profileId),
         getAccessPermitDataAndSaveToDB(profileId),
         getDrawApplicationList(profileId),
+        getMobileAppAlertData(),
     ]);
 }
 

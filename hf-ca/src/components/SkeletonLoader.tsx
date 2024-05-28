@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Animated } from "react-native";
+import React, { RefObject } from "react";
+import { View, Animated, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import ShimmerPlaceholder from "react-native-shimmer-placeholder";
+import ShimmerPlaceholder, { ShimmerPlaceholderProps } from "react-native-shimmer-placeholder";
 import color from "color";
 
 const item1 = {
@@ -27,19 +27,19 @@ const item3 = {
 
 const defaultLayout = [item1, item3, item2];
 
-function createRefArray(layoutArray) {
-    const ret = [];
+function createRefArray<T>(layoutArray) {
+    const ret: RefObject<T>[] = [];
     layoutArray.forEach((layout) => {
         if (Array.isArray(layout)) {
-            ret.push(...createRefArray(layout));
+            ret.push(...createRefArray<T>(layout));
         } else {
-            ret.push(React.createRef());
+            ret.push(React.createRef<T>());
         }
     });
     return ret;
 }
 
-const PlaceHolder = React.forwardRef((prop, ref) => {
+const PlaceHolder = React.forwardRef((prop: ShimmerPlaceholderProps, ref: RefObject<ShimmerPlaceholder>) => {
     const { shimmerColors } = prop;
     return (
         <ShimmerPlaceholder
@@ -58,7 +58,7 @@ const getKey = () => {
 
 function SkeletonLoader(props) {
     const { layout = defaultLayout, colors = ["#DDD", color("#eee").alpha(0.4).rgb().toString(), "#DDD"] } = props;
-    const refs = createRefArray(layout);
+    const refs = createRefArray<ShimmerPlaceholder>(layout);
     React.useEffect(() => {
         const anims = refs.map((ref) => {
             return ref?.current?.getAnimated();
@@ -98,5 +98,38 @@ function SkeletonLoader(props) {
         </View>
     );
 }
+
+const placeholderStyle = StyleSheet.create({
+    defaultshimmerStyle: {
+        borderRadius: 10,
+    },
+});
+
+export type PlaceholderProps = Omit<
+    {
+        isLoading: boolean;
+    } & ShimmerPlaceholderProps,
+    "visible"
+>;
+export const LoadingShimmer = (props: PlaceholderProps) => {
+    const shimmerColors = ["#DDD", color("#eee").alpha(0.4).rgb().toString(), "#DDD"];
+
+    const visible = !props.isLoading;
+
+    return (
+        <ShimmerPlaceholder
+            key={getKey()}
+            LinearGradient={LinearGradient}
+            {...props}
+            visible={visible}
+            style={[props.style]}
+            shimmerColors={shimmerColors}
+            stopAutoRun={false}
+            shimmerStyle={[placeholderStyle.defaultshimmerStyle, props.shimmerStyle]}
+        >
+            {props.children}
+        </ShimmerPlaceholder>
+    );
+};
 
 export default SkeletonLoader;

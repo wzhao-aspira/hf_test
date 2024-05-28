@@ -1,3 +1,7 @@
+/**
+ * Raynor Chen @ May.23th, 2024:
+ * Todo: replace this with shared/EmptyContent
+ */
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Trans, useTranslation } from "react-i18next";
 import AppTheme from "../../assets/_default/AppTheme";

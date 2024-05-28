@@ -8,6 +8,7 @@ import accountReducer from "./AccountSlice";
 import accessPermitReducer from "./AccessPermitSlice";
 import preferencePointReducer from "./PreferencePointSlice";
 import drawApplicationReducer from "./DrawApplicationSlice";
+import { mobileAppAlertReducer } from "./MobileAppAlertSlice";
 
 const myAppReducer = combineReducers({
     app: appReducer,
@@ -18,6 +19,7 @@ const myAppReducer = combineReducers({
     account: accountReducer,
     preferencePoint: preferencePointReducer,
     drawApplication: drawApplicationReducer,
+    mobileAppAlert: mobileAppAlertReducer,
 });
 
 const rootReducer = (state, action) => {
@@ -32,6 +34,7 @@ const rootReducer = (state, action) => {
                 account: undefined,
                 preferencePoint: undefined,
                 drawApplication: undefined,
+                mobileAppAlert: undefined,
             },
             action
         );

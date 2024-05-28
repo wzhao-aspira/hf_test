@@ -17,6 +17,7 @@ import { License } from "../types/license";
 import { getPreferencePoint, actions as preferencePointActions } from "./PreferencePointSlice";
 import { getDrawList } from "./DrawApplicationSlice";
 import { getAccessPermit } from "./AccessPermitSlice";
+import { getMobileAppAlert } from "./MobileAppAlertSlice";
 
 interface LicenseState {
     data: License[];
@@ -82,6 +83,11 @@ export const getLicense = createAsyncThunk(
                 dispatch(
                     getDrawList({
                         profileId: searchParams.activeProfileId,
+                        showError: false,
+                    })
+                );
+                dispatch(
+                    getMobileAppAlert({
                         showError: false,
                     })
                 );

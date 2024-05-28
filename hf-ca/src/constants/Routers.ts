@@ -27,6 +27,8 @@ const Routers = {
     home: "homeScreen",
     licenseDetail: "licenseDetailScreen",
     licenseList: "licenseList",
+    mobileAlertsList: "mobileAlertsList",
+    mobileAlertDetail: "mobileALertDetail",
     login: "loginScreen",
     mainNav: "mainNav",
     manageProfile: "ManageProfile",

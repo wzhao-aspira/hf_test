@@ -5,6 +5,7 @@ import { StyleSheet, View, Text, Pressable, StyleProp, ViewStyle } from "react-n
 import { isEmpty } from "lodash";
 import AppTheme from "../assets/_default/AppTheme";
 import { genTestId } from "../helper/AppHelper";
+import { LoadingShimmer } from "./SkeletonLoader";
 
 const styles = StyleSheet.create({
     container: {
@@ -23,10 +24,19 @@ const styles = StyleSheet.create({
     },
 });
 
+const loadingSkeletonStyles = StyleSheet.create({
+    refreshedOn: {
+        width: 200,
+        borderRadius: 5,
+        height: 10,
+    },
+});
+
 interface RefreshBarProps {
     style: StyleProp<ViewStyle>;
     onRefresh: () => void;
     refreshTime?: string;
+    isLoading?: boolean;
 }
 
 export default function RefreshBar(props: RefreshBarProps) {
@@ -36,20 +46,24 @@ export default function RefreshBar(props: RefreshBarProps) {
     return (
         <View style={[styles.container, style]}>
             {!isEmpty(refreshTime) && (
-                <Text style={styles.label} numberOfLines={1} ellipsizeMode="tail">
-                    {t("common.refreshedOn")} {refreshTime}
-                </Text>
+                <LoadingShimmer shimmerStyle={loadingSkeletonStyles.refreshedOn} isLoading={props.isLoading}>
+                    <Text style={styles.label} numberOfLines={1} ellipsizeMode="tail">
+                        {t("common.refreshedOn")} {refreshTime}
+                    </Text>
+                </LoadingShimmer>
             )}
-            <Pressable
-                testID={genTestId("clickToRefresh")}
-                onPress={() => {
-                    onRefresh?.();
-                }}
-                style={styles.horizontalContainer}
-            >
-                <Text style={{ ...styles.label, marginHorizontal: 5 }}>{t("common.clickRefresh")}</Text>
-                <FontAwesomeIcon icon={faArrowsRotate} color={AppTheme.colors.refresh_time} size={16} />
-            </Pressable>
+            {!props.isLoading && (
+                <Pressable
+                    testID={genTestId("clickToRefresh")}
+                    onPress={() => {
+                        onRefresh?.();
+                    }}
+                    style={styles.horizontalContainer}
+                >
+                    <Text style={{ ...styles.label, marginHorizontal: 5 }}>{t("common.clickRefresh")}</Text>
+                    <FontAwesomeIcon icon={faArrowsRotate} color={AppTheme.colors.refresh_time} size={16} />
+                </Pressable>
+            )}
         </View>
     );
 }

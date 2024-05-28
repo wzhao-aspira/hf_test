@@ -3,6 +3,7 @@ import { faChevronRight } from "@fortawesome/pro-light-svg-icons/faChevronRight"
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { genTestId } from "../../../helper/AppHelper";
+import { ExclaimerWithNumber } from "../../../components/ExclaimerWithNumber";
 
 export const styles = StyleSheet.create({
     otherInfoItem: {
@@ -13,9 +14,14 @@ export const styles = StyleSheet.create({
     otherInfoTitle: {
         ...AppTheme.typography.card_title,
         color: AppTheme.colors.font_color_1,
+        marginRight: 10,
+    },
+    otherInfoTitleContainer: {
         marginVertical: 18,
         marginLeft: 16,
         flex: 1,
+        display: "flex",
+        flexDirection: "row",
     },
     otherInfoRightArrow: {
         marginLeft: 5,
@@ -28,9 +34,14 @@ export const styles = StyleSheet.create({
         width: "100%",
     },
 });
-
-function HuntFishOtherInfoItem(props) {
-    const { title, onPress } = props;
+interface HuntFishOtherInfoItemProps {
+    title: string;
+    onPress: () => unknown;
+    showExclaimer?: boolean;
+    exclaimerNumber?: number;
+}
+function HuntFishOtherInfoItem(props: HuntFishOtherInfoItemProps) {
+    const { title, onPress, exclaimerNumber, showExclaimer } = props;
     return (
         <View>
             <Pressable
@@ -41,9 +52,14 @@ function HuntFishOtherInfoItem(props) {
                 }}
             >
                 <View style={styles.otherInfoItem}>
-                    <Text style={styles.otherInfoTitle} testID={genTestId(`${title}-label`)}>
-                        {title}
-                    </Text>
+                    <View style={styles.otherInfoTitleContainer}>
+                        <View>
+                            <Text style={styles.otherInfoTitle} testID={genTestId(`${title}-label`)}>
+                                {title}
+                            </Text>
+                        </View>
+                        {showExclaimer && <ExclaimerWithNumber number={exclaimerNumber} />}
+                    </View>
                     <FontAwesomeIcon
                         style={styles.otherInfoRightArrow}
                         icon={faChevronRight}

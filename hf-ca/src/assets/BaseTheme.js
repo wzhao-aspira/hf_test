@@ -46,6 +46,7 @@ export default {
         indicator: "#00509D",
         question_date_picker_disable_color: "#ABABAD",
         refresh_time: "#054B6A",
+        exclaimer_red: "red",
     },
 
     typography: {
