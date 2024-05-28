@@ -26,6 +26,7 @@ import ForgotPasswordResetPasswordScreen from "../screens/forgot_password/Forgot
 import HomeScreen from "../screens/home/HomeScreen";
 import LicenseDetailScreen from "../screens/licenses/LicenseDetailScreen";
 import LicenseListScreen from "../screens/licenses/LicenseListScreen";
+import { MobileAlertsListScreen } from "../screens/mobile_alerts/MobileAlertsListScreen";
 import LoginScreen from "../screens/login/LoginScreen";
 import ManageProfileScreen from "../screens/profile/manage_profile/ManageProfileScreen";
 import ModalScreen from "./ModalScreen";
@@ -52,6 +53,7 @@ import DrawApplicationListScreen from "../screens/draw_application/list/DrawAppl
 import RegulationListScreen from "../screens/regulation/list/RegulationListScreen";
 import RegulationDetailScreen from "../screens/regulation/detail/RegulationDetailScreen";
 import { isIos } from "../helper/AppHelper";
+import { MobileAlertDetailScreen } from "../screens/mobile_alerts/MobileAlertDetailScreen";
 
 const NavTheme = {
     colors: {
@@ -240,6 +242,8 @@ function MainStackFactory(initialRouteName = Routers.home) {
             />
             <MainStack.Screen name={Routers.licenseDetail} component={LicenseDetailScreen} />
             <MainStack.Screen name={Routers.licenseList} component={LicenseListScreen} />
+            <MainStack.Screen name={Routers.mobileAlertsList} component={MobileAlertsListScreen} />
+            <MainStack.Screen name={Routers.mobileAlertDetail} component={MobileAlertDetailScreen} />
             <MainStack.Screen name={Routers.accessPermitList} component={AccessPermitListScreen} />
             <MainStack.Screen name={Routers.accessPermit} component={AccessPermitScreen} />
             <MainStack.Screen name={Routers.manageProfile} component={ManageProfileScreen} />

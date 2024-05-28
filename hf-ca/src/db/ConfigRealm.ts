@@ -15,9 +15,10 @@ import DrawApplication from "./models/DrawApplication";
 import DrawApplicationListInfo from "./models/DrawApplicationListInfo";
 import CopyHuntsInfo from "./models/CopyHuntsInfo";
 import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDate";
+import { MobileAppAlert } from "./models/MobileAppAlert";
 import { sentryCaptureException } from "../helper/AppHelper";
 
-const schemaVersion = 20;
+const schemaVersion = 21;
 
 export let realm: Realm;
 
@@ -39,6 +40,7 @@ export async function openRealm() {
             CopyHuntsInfo,
             DrawApplicationListInfo,
             DrawApplication,
+            MobileAppAlert,
         ],
         path: `${AppContract.contractName}.realm`,
         schemaVersion,

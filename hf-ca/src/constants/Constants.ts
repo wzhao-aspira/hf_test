@@ -22,9 +22,11 @@ export const KEY_CONSTANT = {
     keyWeatherData: "keyWeatherData",
     keyIsEmptyOnlineDataCached: "keyIsEmptyOnlineDataCached",
     keyIsEmptyPreferencePointOnlineDataCached: "keyIsEmptyPreferencePointOnlineDataCached",
+    keyIsEmptyMobileAppAlertOnlineDataCached: "keyIsEmptyMobileAppAlertOnlineDataCached",
     keyUpdatePromoteCount: "keyUpdatePromoteCount",
     keyVersionInfo: "keyVersionInfo",
     lastUpdateDate: "lastUpdateDate",
+    mobileAppAlertLastUpdateTime: "mobileAppAlertLastUpdateTime",
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = {
@@ -39,8 +41,10 @@ export const OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT = 360;
 export const CATEGORY = { Hunting: 1, Fishing: 2 };
 export const IDENTIFICATION_TYPE_GO_ID = "1";
 export const DEFAULT_DATE_FORMAT = "MM DD YYYY";
-export const DATE_OF_BIRTH_DISPLAY_FORMAT = "MM/DD/YYYY";
-export const LAST_UPDATE_TIME_DISPLAY_FORMAT = "MM/DD/YYYY hh:mm A";
+export const DEFAULT_DATE_DISPLAY_FORMAT = "MM/DD/YYYY";
+export const DEFAULT_DATE_TIME_DISPLAY_FORMAT = "MM/DD/YYYY hh:mm A";
+export const DATE_OF_BIRTH_DISPLAY_FORMAT = DEFAULT_DATE_DISPLAY_FORMAT;
+export const LAST_UPDATE_TIME_DISPLAY_FORMAT = DEFAULT_DATE_TIME_DISPLAY_FORMAT;
 export const PROFILE_TYPE_IDS = {
     adult: 1,
     youth: 3,

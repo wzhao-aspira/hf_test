@@ -26,6 +26,8 @@ import { appConfig } from "../services/AppConfigService";
 import useNavigateToISViewCustomerHarvestReports from "../screens/licenses/hooks/useNavigateToISViewCustomerHarvestReports";
 import { useDialog } from "../components/dialog/index";
 import { showSocialLinksMenu } from "../services/LinkService";
+import { ExclaimerWithNumber } from "../components/ExclaimerWithNumber";
+import { selectMobileAppAlertUnreadCount } from "../redux/MobileAppAlertSelector";
 
 const styles = StyleSheet.create({
     logoContainer: {
@@ -79,12 +81,16 @@ const styles = StyleSheet.create({
     },
     menuTitleContainer: {
         width: "90%",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
     },
     menuTitle: {
         ...AppTheme.typography.section_header,
         color: AppTheme.colors.font_color_1,
         marginLeft: 17,
         marginVertical: 5,
+        marginRight: 10,
     },
     menuSplitLine: {
         backgroundColor: AppTheme.colors.body_100,
@@ -112,8 +118,16 @@ const styles = StyleSheet.create({
 
 const testIDPrefix = "HamburgerMenu";
 
-function MenuItem(props) {
-    const { title, onClick, showSplitLine = true, testID } = props;
+interface MenuItemProps {
+    title: string;
+    onClick: () => unknown;
+    showSplitLine?: boolean;
+    testID: string;
+    showExclaimer?: boolean;
+    exclaimerNumber?: number;
+}
+function MenuItem(props: MenuItemProps) {
+    const { title, onClick, showSplitLine = true, testID, showExclaimer, exclaimerNumber } = props;
     const { t } = useTranslation();
 
     return (
@@ -136,6 +150,7 @@ function MenuItem(props) {
                         >
                             {t(title)}
                         </Text>
+                        {showExclaimer && <ExclaimerWithNumber number={exclaimerNumber} />}
                     </View>
                     <FontAwesomeIcon icon={faChevronRight} size={16} color={AppTheme.colors.font_color_1} />
                 </View>
@@ -192,7 +207,7 @@ export default function DrawerContent({ navigation }) {
     const activeProfile = useSelector(profileSelectors.selectCurrentInUseProfile);
 
     const drawerStatus = useDrawerStatus();
-    const drawerContentScrollView = useRef();
+    const drawerContentScrollView = useRef<ScrollView>();
 
     const { navigateToIS } = useNavigateToISPurchaseLicense();
     const { navigateToViewCustomerHarvestReports } = useNavigateToISViewCustomerHarvestReports();
@@ -224,8 +239,11 @@ export default function DrawerContent({ navigation }) {
         );
     };
 
+    const mobileAppAlertUnreadCount = useSelector(selectMobileAppAlertUnreadCount);
     const renderGeneralSection = () => {
-        const { isDrawResultAvailable, isAccessPermitsAvailable, isPreferencePointAvailable } = appConfig.data;
+        const { isDrawResultAvailable, isAccessPermitsAvailable, isPreferencePointAvailable, mobileAppAlertsEnabled } =
+            appConfig.data;
+
         return (
             <>
                 <View style={styles.sectionTitleContainer}>
@@ -282,6 +300,17 @@ export default function DrawerContent({ navigation }) {
                         title="huntAndFish.purchaseTitle"
                         testID="PurchaseLicense"
                     />
+                    {mobileAppAlertsEnabled && (
+                        <MenuItem
+                            onClick={async () => {
+                                NavigationService.navigate(Routers.mobileAlertsList);
+                            }}
+                            title="mobileAlerts.listTitle"
+                            testID="cdfwAlerts"
+                            showExclaimer={mobileAppAlertUnreadCount > 0}
+                            exclaimerNumber={mobileAppAlertUnreadCount}
+                        />
+                    )}
                 </View>
             </>
         );

@@ -10,6 +10,8 @@ import selectors from "../../../redux/ProfileSelector";
 import { appConfig } from "../../../services/AppConfigService";
 import useNavigateToISViewCustomerHarvestReports from "../../licenses/hooks/useNavigateToISViewCustomerHarvestReports";
 
+import { selectMobileAppAlertUnreadCount } from "../../../redux/MobileAppAlertSelector";
+
 const styles = StyleSheet.create({
     sectionTitle: {
         ...AppTheme.typography.section_header,
@@ -33,7 +35,10 @@ function HuntFishOtherInfo() {
     const currentInUseProfileId = useSelector(selectors.selectCurrentInUseProfileID);
     const { navigateToViewCustomerHarvestReports } = useNavigateToISViewCustomerHarvestReports();
 
-    const { isDrawResultAvailable, isAccessPermitsAvailable, isPreferencePointAvailable } = appConfig.data;
+    const { isDrawResultAvailable, isAccessPermitsAvailable, isPreferencePointAvailable, mobileAppAlertsEnabled } =
+        appConfig.data;
+    const mobileAppAlertUnreadCount = useSelector(selectMobileAppAlertUnreadCount);
+
     return (
         <View>
             <Text style={styles.sectionTitle}>{t("license.importantInformation")}</Text>
@@ -83,6 +88,17 @@ function HuntFishOtherInfo() {
                         });
                     }}
                 />
+
+                {mobileAppAlertsEnabled && (
+                    <HuntFishOtherInfoItem
+                        title={t("mobileAlerts.listTitle")}
+                        onPress={() => {
+                            NavigationService.navigate(Routers.mobileAlertsList);
+                        }}
+                        showExclaimer={mobileAppAlertUnreadCount > 0}
+                        exclaimerNumber={mobileAppAlertUnreadCount}
+                    />
+                )}
             </View>
         </View>
     );

@@ -19,9 +19,9 @@ export const selectLicenseForList = createSelector(selectLicenseState, (licenseS
         return accumulator;
     }, new Map());
 
-    groupedData = Array.from(groupedData.values());
+    const groupedDataResult = Array.from(groupedData.values());
 
-    return { ...licenseState, data: groupedData };
+    return { ...licenseState, data: groupedDataResult };
 });
 
 export const selectLastUpdateTimeFromServer = createSelector(selectLicenseForList, (licenseDataForList) => {

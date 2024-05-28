@@ -1757,6 +1757,105 @@ export interface LinkCustomerResultVMExecutionResult {
 /**
  * 
  * @export
+ * @interface MarkMobileAppIdAsReadVM
+ */
+export interface MarkMobileAppIdAsReadVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof MarkMobileAppIdAsReadVM
+     */
+    'readDate'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof MarkMobileAppIdAsReadVM
+     */
+    'mobileAppAlertId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MobileAppAlertVM
+ */
+export interface MobileAppAlertVM {
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileAppAlertVM
+     */
+    'mobileAppAlertId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppAlertVM
+     */
+    'subject'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppAlertVM
+     */
+    'message'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppAlertVM
+     */
+    'displayBeginDate'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppAlertVM
+     */
+    'displayEndDate'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileAppAlertVM
+     */
+    'isRead'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppAlertVM
+     */
+    'readDate'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileAppAlertVM
+     */
+    'order'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MobileAppAlertVMListExecutionResult
+ */
+export interface MobileAppAlertVMListExecutionResult {
+    /**
+     * 
+     * @type {Array<MobileAppAlertVM>}
+     * @memberof MobileAppAlertVMListExecutionResult
+     */
+    'result'?: Array<MobileAppAlertVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileAppAlertVMListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof MobileAppAlertVMListExecutionResult
+     */
+    'errors'?: Array<StringStringKeyValuePair> | null;
+}
+/**
+ * 
+ * @export
  * @interface MobileAppConfigurationVM
  */
 export interface MobileAppConfigurationVM {
@@ -1982,6 +2081,12 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'associatedCustomerMaximum'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileAppConfigurationVM
+     */
+    'mobileAppAlertsEnabled'?: boolean | null;
 }
 /**
  * 
@@ -5010,6 +5115,198 @@ export class MiscellaneousApi extends BaseAPI implements MiscellaneousApiInterfa
      */
     public v1MiscellaneousTokenCheckGet(options?: AxiosRequestConfig) {
         return MiscellaneousApiFp(this.configuration).v1MiscellaneousTokenCheckGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * MobileAppAlertsApi - axios parameter creator
+ * @export
+ */
+export const MobileAppAlertsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get mobile app alerts for current logged in user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppAlertsGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppAlerts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Mark mobile app alert as read for current user.
+         * @param {Array<MarkMobileAppIdAsReadVM>} [markMobileAppIdAsReadVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppAlertsPut: async (markMobileAppIdAsReadVM?: Array<MarkMobileAppIdAsReadVM>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/MobileAppAlerts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(markMobileAppIdAsReadVM, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MobileAppAlertsApi - functional programming interface
+ * @export
+ */
+export const MobileAppAlertsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MobileAppAlertsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get mobile app alerts for current logged in user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppAlertsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MobileAppAlertVMListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppAlertsGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Mark mobile app alert as read for current user.
+         * @param {Array<MarkMobileAppIdAsReadVM>} [markMobileAppIdAsReadVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1MobileAppAlertsPut(markMobileAppIdAsReadVM?: Array<MarkMobileAppIdAsReadVM>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1MobileAppAlertsPut(markMobileAppIdAsReadVM, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * MobileAppAlertsApi - factory interface
+ * @export
+ */
+export const MobileAppAlertsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MobileAppAlertsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get mobile app alerts for current logged in user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppAlertsGet(options?: any): AxiosPromise<MobileAppAlertVMListExecutionResult> {
+            return localVarFp.v1MobileAppAlertsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Mark mobile app alert as read for current user.
+         * @param {Array<MarkMobileAppIdAsReadVM>} [markMobileAppIdAsReadVM] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1MobileAppAlertsPut(markMobileAppIdAsReadVM?: Array<MarkMobileAppIdAsReadVM>, options?: any): AxiosPromise<ExecutionResult> {
+            return localVarFp.v1MobileAppAlertsPut(markMobileAppIdAsReadVM, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * MobileAppAlertsApi - interface
+ * @export
+ * @interface MobileAppAlertsApi
+ */
+export interface MobileAppAlertsApiInterface {
+    /**
+     * 
+     * @summary Get mobile app alerts for current logged in user.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppAlertsApiInterface
+     */
+    v1MobileAppAlertsGet(options?: AxiosRequestConfig): AxiosPromise<MobileAppAlertVMListExecutionResult>;
+
+    /**
+     * 
+     * @summary Mark mobile app alert as read for current user.
+     * @param {Array<MarkMobileAppIdAsReadVM>} [markMobileAppIdAsReadVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppAlertsApiInterface
+     */
+    v1MobileAppAlertsPut(markMobileAppIdAsReadVM?: Array<MarkMobileAppIdAsReadVM>, options?: AxiosRequestConfig): AxiosPromise<ExecutionResult>;
+
+}
+
+/**
+ * MobileAppAlertsApi - object-oriented interface
+ * @export
+ * @class MobileAppAlertsApi
+ * @extends {BaseAPI}
+ */
+export class MobileAppAlertsApi extends BaseAPI implements MobileAppAlertsApiInterface {
+    /**
+     * 
+     * @summary Get mobile app alerts for current logged in user.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppAlertsApi
+     */
+    public v1MobileAppAlertsGet(options?: AxiosRequestConfig) {
+        return MobileAppAlertsApiFp(this.configuration).v1MobileAppAlertsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Mark mobile app alert as read for current user.
+     * @param {Array<MarkMobileAppIdAsReadVM>} [markMobileAppIdAsReadVM] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MobileAppAlertsApi
+     */
+    public v1MobileAppAlertsPut(markMobileAppIdAsReadVM?: Array<MarkMobileAppIdAsReadVM>, options?: AxiosRequestConfig) {
+        return MobileAppAlertsApiFp(this.configuration).v1MobileAppAlertsPut(markMobileAppIdAsReadVM, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

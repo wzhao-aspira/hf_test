@@ -24,6 +24,7 @@ import {
     removePreferencePointListFromDB,
 } from "../db";
 import { clearIsEmptyOnlineDataCachedInd } from "./PreferencePointService";
+import { removeMobileAppAlertData } from "../db/MobileAppAlert";
 
 async function verifyPassword(accountPassword: string) {
     if (!accountPassword) {
@@ -143,6 +144,7 @@ async function clearAppData(dispatch) {
     await clearIsEmptyOnlineDataCachedInd();
     await removeAccessPermitFromDB();
     await removeLicenseListData();
+    await removeMobileAppAlertData();
     await deleteDrawApplicationDataFromDB();
     //
 }

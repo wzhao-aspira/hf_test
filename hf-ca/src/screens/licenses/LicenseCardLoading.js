@@ -1,3 +1,7 @@
+/**
+ * @todo: Technical debt: Home Page License carousel loading has a
+ * Layout Shift when Loading -> loaded.
+ */
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import AppTheme from "../../assets/_default/AppTheme";
