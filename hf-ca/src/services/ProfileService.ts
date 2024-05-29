@@ -264,14 +264,14 @@ export function syncAllDataToDB(profileId) {
         getPreferencePointsByProfileId(profileId),
         getAccessPermitDataAndSaveToDB(profileId),
         getDrawApplicationList(profileId),
-        getMobileAppAlertData(),
     ]);
 }
 
 export async function saveCustomerLicenseToDB(profileListIDs) {
     console.log("ProfileService - saveCustomerLicenseToDB - profileListIDs:", profileListIDs);
-    await Promise.all(
-        profileListIDs.map(async (profileId) => {
+    await Promise.all([
+        getMobileAppAlertData(),
+        ...profileListIDs.map(async (profileId) => {
             try {
                 await getLicenseData({ activeProfileId: profileId });
 
@@ -280,8 +280,8 @@ export async function saveCustomerLicenseToDB(profileListIDs) {
             } catch (error) {
                 console.log(error);
             }
-        })
-    );
+        }),
+    ]);
 }
 
 export async function getCustomerLicenseFromDB(customerId) {

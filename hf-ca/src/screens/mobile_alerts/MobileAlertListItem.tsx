@@ -8,6 +8,7 @@ import { DEFAULT_DATE_DISPLAY_FORMAT } from "../../constants/Constants";
 import moment from "moment";
 import { LoadingShimmer } from "../../components/SkeletonLoader";
 import { MobileAppAlert } from "../../types/mobileAppAlert";
+import { genTestId } from "../../helper/AppHelper";
 
 export const styles = StyleSheet.create({
     mainContainerStyle: {
@@ -91,7 +92,10 @@ interface MobileAppAlertListItemProps {
 export function MobileAppAlertListItem(props: MobileAppAlertListItemProps) {
     const dateSent = moment(props.mobileAppAlert.displayBeginDate).format(DEFAULT_DATE_DISPLAY_FORMAT);
     return (
-        <View style={[styles.mainContainerStyle, !props.mobileAppAlert.isRead && styles.mainContainerStyle_Unread]}>
+        <View
+            testID={genTestId("mobileAppAlertListItem")}
+            style={[styles.mainContainerStyle, !props.mobileAppAlert.isRead && styles.mainContainerStyle_Unread]}
+        >
             <Pressable
                 onPress={() => props.onpress(props.mobileAppAlert.mobileAppAlertId)}
                 key={props.mobileAppAlert.mobileAppAlertId}
