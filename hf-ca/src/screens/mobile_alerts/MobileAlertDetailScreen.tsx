@@ -63,7 +63,7 @@ function MobileAlertDetailView(prop: MobileAlertDetailViewProps) {
     const { width } = useWindowDimensions();
     const { mobileAppAlert } = prop;
     const displayBeginDate = moment(mobileAppAlert.displayBeginDate).format(DEFAULT_DATE_DISPLAY_FORMAT);
-    const displayEndDate = moment(mobileAppAlert.displayEndDate).format(DEFAULT_DATE_DISPLAY_FORMAT);
+    const displayEndDate = moment(mobileAppAlert.displayEndDate).add(-1, "day").format(DEFAULT_DATE_DISPLAY_FORMAT);
     return (
         <View style={styles.container}>
             <View style={styles.content}>
