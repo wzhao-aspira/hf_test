@@ -9,7 +9,7 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import { genTestId } from "../../helper/AppHelper";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { useDialog } from "../../components/dialog/index";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 export const styles = StyleSheet.create({
     container: {
         display: "flex",
@@ -34,6 +34,7 @@ export function HomeMobileAppAlertButton(props: HomeMobileAppALertButtonProps) {
     const mobileAppAlertUnreadCount = useSelector(selectMobileAppAlertUnreadCount);
     const { t } = useTranslation();
     const { openSelectDialog } = useDialog();
+    const [dialogShown, setDialogShown] = useState(false);
     function showUnreadAlertDialog(mobileAppAlertCount: number) {
         setTimeout(() => {
             openSelectDialog({
@@ -48,10 +49,11 @@ export function HomeMobileAppAlertButton(props: HomeMobileAppALertButtonProps) {
         });
     }
     useEffect(() => {
-        if (mobileAppAlertUnreadCount > 0) {
+        if (mobileAppAlertUnreadCount > 0 && !dialogShown) {
             showUnreadAlertDialog(mobileAppAlertUnreadCount);
+            setDialogShown(true);
         }
-    }, []);
+    }, [mobileAppAlertUnreadCount]);
     const hasUnreadMobileAppAlert = mobileAppAlertUnreadCount != 0;
     if (!hasUnreadMobileAppAlert) {
         return null;
