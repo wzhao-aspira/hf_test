@@ -56,7 +56,7 @@ function createSkeletonData(): MobileAppAlert[] {
 function MobileAlertsListScreen() {
     const headerTitle = t("mobileAlerts.listTitle");
     const mobileAppAlertData = useSelector(selectMobileAppAlertListData);
-    const data = mobileAppAlertData.data;
+    const data = mobileAppAlertData?.data || [];
     const isShowSkeletonWhenOffline = mobileAppAlertData.isShowSkeletonWhenOffline;
     const skeletonData = createSkeletonData();
     const dispatch = useDispatch<AppDispatch>();
