@@ -116,7 +116,6 @@ function MobileAlertsListScreen() {
                     {!isLoading && isEmpty(data) && (
                         <EmptyContent
                             title={t("mobileAlerts.noAlertsTitle")}
-                            subtitle={t("mobileAlerts.noAlertsIntroduction")}
                             showButton={true}
                             buttonText="Go Back"
                             onButtonPress={() => navigation.goBack()}
