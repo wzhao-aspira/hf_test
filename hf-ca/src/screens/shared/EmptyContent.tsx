@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
 });
 interface EmptyContentProps {
     title: string;
-    subtitle: string;
+    subtitle?: string;
     showButton: boolean;
     buttonText?: string;
     onButtonPress?: () => unknown;
