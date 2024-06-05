@@ -150,8 +150,16 @@ function LicenseDetailScreen(props) {
         isLicenseListChanged ||
         isLicenseListEmpty;
 
-    const onNextClick = debounce(() => swiperRef.current.scrollToIndex({ index: currentSliderIndex + 1 }), 200);
-    const onPrevClick = debounce(() => swiperRef.current.scrollToIndex({ index: currentSliderIndex - 1 }), 200);
+    const onNextClick = debounce(() => {
+        if (swiperRef?.current) {
+            swiperRef.current.scrollToIndex({ index: currentSliderIndex + 1 });
+        }
+    }, 200);
+    const onPrevClick = debounce(() => {
+        if (swiperRef?.current) {
+            swiperRef.current.scrollToIndex({ index: currentSliderIndex - 1 });
+        }
+    }, 200);
 
     const handleViewableItemsChanged = useCallback(
         (info) => {
