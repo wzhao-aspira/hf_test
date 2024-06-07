@@ -32,6 +32,7 @@ async function getMobileAppAlertDataFromAPI() {
 }
 
 export async function getMobileAppAlertData() {
+    await syncMobileAppAlertReadStatusIfNecessary();
     const requestResult = await getMobileAppAlertDataFromAPI();
     const { formattedResult, lastUpdateTime, errors } = requestResult;
     if (!isEmpty(formattedResult)) {
@@ -75,7 +76,7 @@ export async function markMobileAppAlertAsReadInDB(markAsReadVms: Array<MarkMobi
     return await markMobileAppAlertAsReadDbCommand(markAsReadVms);
 }
 
-export async function syncMobileAppAlertReadStatusIfNecessary() {
+async function syncMobileAppAlertReadStatusIfNecessary() {
     console.log("Mobild App Alert - Finding locally pending synchronization data");
     const realmObjects = await getAllPendingSynchronizeObjects();
     const markMobileAppAlertAsReadReadVMs = realmObjects.map((x) => {

@@ -8,7 +8,6 @@ import {
     isMobileAppAlertEmptyResultCached,
     markMobileAppAlertAsRead as markMobileAppAlertAsReadOnServer,
     markMobileAppAlertAsReadInDB,
-    syncMobileAppAlertReadStatusIfNecessary,
 } from "../services/MobileAppAlertService";
 import { MobileAppAlert } from "../types/mobileAppAlert";
 import { REQUEST_STATUS } from "../constants/Constants";
@@ -46,7 +45,6 @@ export const getMobileAppAlert = createAsyncThunk(
         const mobileAppAlerts = { success: false, data: null as MobileAppAlert[] };
         let isAPISucceed = false;
         if (!useCache) {
-            await dispatch(syncMobileAppAlertReadStatusToServerIfNecessary());
             const results = await handleError(getMobileAppAlertData(), {
                 networkErrorByDialog: false,
                 dispatch,
@@ -102,14 +100,6 @@ export const markMobileAppAlertsAsRead = createAsyncThunk(
         if (!result.success) {
             markMobileAppAlertNeedSynchronize(markAsReadVms);
         }
-    }
-);
-
-export const syncMobileAppAlertReadStatusToServerIfNecessary = createAsyncThunk(
-    "mobileAppAlert/syncMobileAppAlertReadStatusToServerIfNecessary",
-    async () => {
-        const synchronizationStatus = await syncMobileAppAlertReadStatusIfNecessary();
-        return synchronizationStatus;
     }
 );
 
