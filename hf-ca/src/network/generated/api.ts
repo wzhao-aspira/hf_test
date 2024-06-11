@@ -2087,6 +2087,12 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'mobileAppAlertsEnabled'?: boolean | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'unreadAlertMessage'?: string | null;
 }
 /**
  * 
