@@ -67,7 +67,10 @@ function MobileAlertsListScreen() {
         await dispatch(getMobileAppAlert({ isForce }));
         setIsDataLoading(false);
     };
-    const isLoading = isDataLoading || isShowSkeletonWhenOffline;
+    const isLoading =
+        isDataLoading ||
+        isShowSkeletonWhenOffline ||
+        (isEmpty(data) && ["rejected", "pending"].includes(mobileAppAlertData.requestStatus));
 
     useFocus(() => {
         console.log(`MobileAlertsListScreen - getData - useFocus`);
