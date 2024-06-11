@@ -10,6 +10,8 @@ import { genTestId } from "../../helper/AppHelper";
 import { DEFAULT_MARGIN } from "../../constants/Dimension";
 import { useDialog } from "../../components/dialog/index";
 import { useEffect, useState } from "react";
+import { appConfig } from "../../services/AppConfigService";
+
 export const styles = StyleSheet.create({
     container: {
         display: "flex",
@@ -36,12 +38,14 @@ export function HomeMobileAppAlertButton(props: HomeMobileAppALertButtonProps) {
     const { openSelectDialog } = useDialog();
     const [dialogShown, setDialogShown] = useState(false);
     function showUnreadAlertDialog(mobileAppAlertCount: number) {
+        const dialogMessage = appConfig.data.unreadAlertMessage.replace(
+            /{{UnreadCount}}/gi,
+            mobileAppAlertCount.toString()
+        );
         setTimeout(() => {
             openSelectDialog({
                 title: t("mobileAlerts.dialogTitle"),
-                message: t("mobileAlerts.dialogContent", {
-                    unreadCount: mobileAppAlertCount,
-                }),
+                message: dialogMessage,
                 okText: "mobileAlerts.dialogOKText",
                 cancelText: "mobileAlerts.dialogCancelText",
                 onConfirm: navigateToMobileAppAlert,
