@@ -8,8 +8,10 @@ import { genTestId } from "../helper/AppHelper";
 import Routers from "../constants/Routers";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons/faCircleExclamation";
 import { selectMobileAppAlertUnreadCount } from "../redux/MobileAppAlertSelector";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { appConfig } from "../services/AppConfigService";
+import { getMobileAppAlert } from "../redux/MobileAppAlertSlice";
+import { useEffect } from "react";
 
 const styles = StyleSheet.create({
     container: {
@@ -41,6 +43,10 @@ export const TabState = {
 
 function ExclaimationMarkForHamburger() {
     const mobileAppAlertUnreadCount = useSelector(selectMobileAppAlertUnreadCount);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getMobileAppAlert({}));
+    }, []);
 
     const { mobileAppAlertsEnabled } = appConfig.data;
     if (!mobileAppAlertsEnabled) {
