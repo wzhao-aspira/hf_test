@@ -15,6 +15,7 @@ import RenderHTML from "../../../components/RenderHTML";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 
 import useFileOperations from "./hooks/useFileOperations";
+import { useEffect, useState } from "react";
 
 const styles = StyleSheet.create({
     container: {
@@ -59,14 +60,26 @@ export default function RegulationDetailScreen(props) {
     const { regulation } = route.params;
     const { regulationTitle, regulationDetail, regulationSize, fileFormat, regulationUrl } = regulation;
 
-    const { downloadFile, cancelDownload, openFile, status, deleteFile } = useFileOperations({
+    const { cancelDownload, openFile, status, deleteFile, downloadFile, checkUpdate } = useFileOperations({
         downloadURL: regulationUrl,
         folderName,
     });
     const isNotDownloaded = status === "not downloaded yet";
     const isDownloading = status === "downloading";
     const isDownloaded = status === "downloaded";
+    const isCheckingUpdate = status === "checking update";
+    const isDownloadingUpdatedFile = status === "downloading updated file";
     const { openSelectDialog } = useDialog();
+    const [checkedUpdate, setCheckedUpdate] = useState<boolean>(false);
+    useEffect(() => {
+        if (isNotDownloaded) {
+            setCheckedUpdate(true);
+        }
+        if (isDownloaded && !checkedUpdate) {
+            setCheckedUpdate(true);
+            checkUpdate();
+        }
+    }, [status]);
 
     return (
         <View style={styles.container}>
@@ -76,6 +89,20 @@ export default function RegulationDetailScreen(props) {
                 okText="common.cancel"
                 okAction={cancelDownload}
                 visible={isDownloading}
+            />
+            <SimpleDialog
+                title="regulation.checkingUpdate"
+                message=""
+                okText="common.cancel"
+                okAction={cancelDownload}
+                visible={isCheckingUpdate}
+            />
+            <SimpleDialog
+                title="regulation.downloadingNewRegulationFile"
+                message=""
+                okText="common.cancel"
+                okAction={cancelDownload}
+                visible={isDownloadingUpdatedFile}
             />
             <CommonHeader title={t("regulation.detailTitle")} />
             <ScrollView>

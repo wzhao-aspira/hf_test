@@ -27,6 +27,9 @@ export const KEY_CONSTANT = {
     keyVersionInfo: "keyVersionInfo",
     lastUpdateDate: "lastUpdateDate",
     mobileAppAlertLastUpdateTime: "mobileAppAlertLastUpdateTime",
+    getDownloadedFileETagKey(formattedDownloadURL: string) {
+        return `downloadedFile:${formattedDownloadURL}:ETag`;
+    },
 };
 export const DEBUG_MODE = false;
 export const REQUEST_STATUS = {
