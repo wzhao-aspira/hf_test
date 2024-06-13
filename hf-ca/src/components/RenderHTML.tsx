@@ -6,7 +6,6 @@ import useNavigateToIS from "../hooks/useNavigateToIS";
 
 interface RenderHTMLProps extends RNRenderHTMLProps {
     customerID?: string;
-    testID?: string;
 }
 
 function RenderHTML(props: RenderHTMLProps) {

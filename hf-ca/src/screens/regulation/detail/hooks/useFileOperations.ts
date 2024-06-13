@@ -13,17 +13,8 @@ import { isAndroid, showToast } from "../../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../../constants/Routers";
 import { useDialog } from "../../../../components/dialog/index";
 import contentDispositionParser from "../../../../utils/contentDispositionParser";
-import { getHeaderCaseInsensitive } from "../../../../network/cache/utils";
-import { retrieveItem, storeItem } from "../../../../helper/StorageHelper";
-import { KEY_CONSTANT } from "../../../../constants/Constants";
 
-type FileStatus =
-    | "unknown"
-    | "not downloaded yet"
-    | "downloading"
-    | "downloaded"
-    | "checking update"
-    | "downloading updated file";
+type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 const cancelDownloadMessage = "download request canceled" as const;
 
 export function formatDownloadURL(downloadURL: string) {
@@ -55,41 +46,13 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         checkFileStatus();
     }, [checkFileStatus, fileDirectory]);
 
-    async function checkUpdate() {
-        await downloadFileCore(false);
-    }
-
     async function downloadFile() {
-        await downloadFileCore(true);
-    }
-
-    async function downloadFileCore(force: boolean) {
-        const shouldCheckUpdate = !force && status === "downloaded";
-        let etag = null as string;
-        if (shouldCheckUpdate) {
-            const { fileURI } = await getFileURI();
-            etag = await getETagValueFromStore(fileURI);
-            setStatus("checking update");
-        } else {
-            setStatus("downloading");
-        }
+        setStatus("downloading");
 
         const source = axios.CancelToken.source();
         cancelDownloadRef.current = source.cancel;
-        const headers = {};
-        if (shouldCheckUpdate) {
-            headers["If-None-Match"] = etag;
-        }
-        const requestPromise = axios.get<File>(downloadURL, {
-            responseType: "blob",
-            cancelToken: source.token,
-            headers,
-            validateStatus: function (statusCode) {
-                const defaultCondition = statusCode >= 200 && statusCode < 300;
-                const notModifiedCondition = statusCode === 304;
-                return defaultCondition || notModifiedCondition; // default
-            },
-        });
+
+        const requestPromise = axios.get<File>(downloadURL, { responseType: "blob", cancelToken: source.token });
 
         const handleErrorResult = await handleError(requestPromise, {
             dispatch,
@@ -102,17 +65,6 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
             return;
         }
 
-        if (shouldCheckUpdate) {
-            if (handleErrorResult.data.status === 304) {
-                console.log(
-                    `Update Check 304: Downloading file ${downloadURL} with ETag ${etag} responses 304 (Not Modified), download file skipped`
-                );
-                checkFileStatus();
-                return;
-            } else {
-                setStatus("downloading updated file");
-            }
-        }
         const fr = new FileReader();
 
         fr.onload = async () => {
@@ -131,8 +83,7 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
                 }
 
                 const fileURI = `${fileDirectory}/${fileName}`;
-                const newETag = getHeaderCaseInsensitive("etag", handleErrorResult.data.headers);
-                await saveETagValueToStore(fileURI, newETag);
+
                 await FileSystem.makeDirectoryAsync(fileDirectory, { intermediates: true });
                 await FileSystem.writeAsStringAsync(
                     fileURI,
@@ -163,23 +114,13 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         cancelDownloadRef.current(cancelDownloadMessage);
     }
 
-    async function getFileURI() {
+    async function openFile() {
         const fileNameList = await FileSystem.readDirectoryAsync(fileDirectory);
 
         const fileName = fileNameList[0];
-        if (!fileName) {
-            return {
-                fileURI: null,
-                fileName: null,
-            };
-        }
+
         const fileURI = `${fileDirectory}/${fileName}`;
 
-        return { fileURI, fileName };
-    }
-
-    async function openFile() {
-        const { fileURI, fileName } = await getFileURI();
         if (!fileURI) {
             return;
         }
@@ -224,18 +165,7 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         }
     }
 
-    async function saveETagValueToStore(fileURI: string, etag: string) {
-        if (etag) {
-            await storeItem(KEY_CONSTANT.getDownloadedFileETagKey(fileURI), etag);
-        }
-    }
-
-    async function getETagValueFromStore(fileURI: string) {
-        const value = await retrieveItem(KEY_CONSTANT.getDownloadedFileETagKey(fileURI));
-        return value as string;
-    }
-
-    return { status, downloadFile, cancelDownload, openFile, deleteFile, checkUpdate };
+    return { status, downloadFile, cancelDownload, openFile, deleteFile };
 }
 
 export default useDownloadFile;
