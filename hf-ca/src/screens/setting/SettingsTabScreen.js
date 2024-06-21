@@ -12,7 +12,7 @@ import NavigationService from "../../navigation/NavigationService";
 import Routers from "../../constants/Routers";
 import { selectors as profileSelectors } from "../../redux/ProfileSlice";
 import { selectUsername } from "../../redux/AppSlice";
-import HeaderBar from "../../components/HeaderBar";
+import WelcomeBar from "../../components/WelcomeBar";
 import SplitLine from "../../components/SplitLine";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
 import getAssociatedCustomerMaximum from "../../helper/ProfileHelper";
@@ -170,7 +170,7 @@ export default function SettingsTabScreen() {
 
     return (
         <Page style={{ paddingBottom: 0 }}>
-            <HeaderBar />
+            <WelcomeBar />
             <View style={{ backgroundColor: AppTheme.colors.primary_2 }}>
                 <Text style={styles.title}>{t("setting.title")}</Text>
                 <SplitLine style={styles.line} />

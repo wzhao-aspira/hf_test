@@ -5,8 +5,7 @@ import { faShoppingCart } from "@fortawesome/pro-light-svg-icons/faShoppingCart"
 import { useSelector } from "react-redux";
 import AppTheme from "../../assets/_default/AppTheme";
 import Page from "../../components/Page";
-import HeaderBar from "../../components/HeaderBar";
-
+import WelcomeBar from "../../components/WelcomeBar";
 import SplitLine from "../../components/SplitLine";
 import { PAGE_MARGIN_BOTTOM, DEFAULT_MARGIN } from "../../constants/Dimension";
 import HuntFishOtherInfo from "../shared/hunt_fish_content/HuntFishOtherInfo";
@@ -83,7 +82,7 @@ export default function MyLicensesTabScreen() {
 
     return (
         <Page style={styles.content}>
-            <HeaderBar showSwitchCust />
+            <WelcomeBar />
             <View style={{ backgroundColor: primaryColor }}>
                 <Text style={styles.title}>{t("tabBar.MyMenu")}</Text>
                 <SplitLine style={styles.line} />
