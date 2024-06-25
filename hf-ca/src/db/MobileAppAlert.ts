@@ -10,6 +10,7 @@ export async function getMobileAppAlertRealmQuery() {
 
 export async function saveMobileAppAlertData(mobileAppAlerts: Array<Partial<MobileAppAlert>>) {
     console.log("Save mobile app alert data");
+    removeMobileAppAlertData();
     mobileAppAlerts.forEach((x) => {
         x.needSynchronizeReadState = false;
         realm.write(() => {
