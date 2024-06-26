@@ -5,7 +5,8 @@ import { BackHandler } from "react-native";
 import { openAppStore } from "../helper/AppHelper";
 import NavigationService from "../navigation/NavigationService";
 import { SelectDialogView, SimpleDialogView } from "./Dialog";
-
+import { useDispatch } from "react-redux";
+import { actions as appActions } from "../redux/AppSlice";
 export const UpgradeDialog = {
     show: false,
 };
@@ -13,6 +14,9 @@ export const UpgradeDialog = {
 export default function VersionUpgrade(props) {
     const { optionalUpdate, forceUpdate, message, url, onCancel } = props;
     const { t } = useTranslation();
+
+    const dispatch = useDispatch();
+    dispatch(appActions.setNeedForceUpdate(forceUpdate));
 
     useFocusEffect(
         React.useCallback(() => {
