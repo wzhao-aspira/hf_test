@@ -7,7 +7,7 @@ import { isConnectError } from "../network/commonUtil";
 interface User {
     username?: string;
 }
-interface InitialState {
+interface AppState {
     user: User;
     loginStep: number;
     indicator: boolean;
@@ -16,9 +16,10 @@ interface InitialState {
     showPrimaryProfileInactiveMsg: boolean;
     primaryInactivatedWhenSignIn: boolean;
     currentRouter: string;
+    needForceUpdate: boolean;
 }
 
-const initialState: InitialState = {
+const initialState: AppState = {
     user: {},
     loginStep: LoginStep.login,
     indicator: false,
@@ -27,6 +28,7 @@ const initialState: InitialState = {
     showPrimaryProfileInactiveMsg: false,
     primaryInactivatedWhenSignIn: false,
     currentRouter: null,
+    needForceUpdate: false,
 };
 
 const appSlice = createSlice({
@@ -65,6 +67,9 @@ const appSlice = createSlice({
         setCurrentRouter: (state, action: PayloadAction<string>) => {
             state.currentRouter = action?.payload;
         },
+        setNeedForceUpdate: (state, action: PayloadAction<boolean>) => {
+            state.needForceUpdate = action?.payload;
+        },
     },
 });
 
@@ -76,7 +81,7 @@ export const {
     togglePrimaryInactivatedWhenSignIn,
 } = appSlice.actions;
 
-const selectAppState = (/** @type{import('./Store').RootState */ state) => state.app;
+const selectAppState = (/** @type{import('./Store').RootState */ state: { app: AppState }) => state.app;
 export const selectUsername = (state) => state.app.user.username;
 export const selectLoginStep = (state) => state.app.loginStep;
 export const selectIndicator = (state) => state.app.indicator;
@@ -98,6 +103,8 @@ export const selectErrorIsNetError = createSelector(selectError, (error) => {
     return isNetError;
 });
 
+export const selectNeedForceUpdate = createSelector(selectAppState, (state) => state.needForceUpdate);
+
 const selectUser = createSelector(selectAppState, (app) => app.user);
 const selectors = {
     selectUsername,
@@ -107,6 +114,7 @@ const selectors = {
     selectShowOfflineToast,
     selectShowNetErrorByDialog,
     selectCurrentRouter,
+    selectNeedForceUpdate,
 };
 
 const { reducer, actions } = appSlice;
