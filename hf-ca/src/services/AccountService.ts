@@ -105,7 +105,12 @@ async function createMobileAccount(userID: string, validationCode: string, passw
 }
 
 async function synchronizeDataBeforeSignOut() {
-    await syncMobileAppAlertReadStatusIfNecessary();
+    try {
+        await syncMobileAppAlertReadStatusIfNecessary();
+    } catch (e) {
+        console.warn("Error when synchronizing data before logout");
+        console.warn(e);
+    }
 }
 
 async function signOut() {
