@@ -76,7 +76,7 @@ export async function markMobileAppAlertAsReadInDB(markAsReadVms: Array<MarkMobi
     return await markMobileAppAlertAsReadDbCommand(markAsReadVms);
 }
 
-async function syncMobileAppAlertReadStatusIfNecessary() {
+export async function syncMobileAppAlertReadStatusIfNecessary() {
     console.log("Mobild App Alert - Finding locally pending synchronization data");
     const realmObjects = await getAllPendingSynchronizeObjects();
     const markMobileAppAlertAsReadReadVMs = realmObjects.map((x) => {
