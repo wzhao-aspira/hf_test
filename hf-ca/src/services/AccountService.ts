@@ -25,6 +25,7 @@ import {
 } from "../db";
 import { clearIsEmptyOnlineDataCachedInd } from "./PreferencePointService";
 import { removeMobileAppAlertData } from "../db/MobileAppAlert";
+import { syncMobileAppAlertReadStatusIfNecessary } from "./MobileAppAlertService";
 
 async function verifyPassword(accountPassword: string) {
     if (!accountPassword) {
@@ -103,7 +104,12 @@ async function createMobileAccount(userID: string, validationCode: string, passw
     return ret?.data.result;
 }
 
+async function synchronizeDataBeforeSignOut() {
+    await syncMobileAppAlertReadStatusIfNecessary();
+}
+
 async function signOut() {
+    await synchronizeDataBeforeSignOut();
     const response = await tokenRevocation(instance, globalDataForAPI.jwtToken.refresh_token);
     return response;
 }
