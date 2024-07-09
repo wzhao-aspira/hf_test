@@ -5,7 +5,7 @@ import { MobileAppAlert } from "./models/MobileAppAlert";
 
 export async function getMobileAppAlertRealmQuery() {
     console.log("Get MobileAppAlert data from DB");
-    return realm.objects(MobileAppAlert).sorted("order", false);
+    return realm.objects(MobileAppAlert).sorted("order", false).toJSON() as unknown as Array<MobileAppAlert>;
 }
 
 export async function saveMobileAppAlertData(mobileAppAlerts: Array<Partial<MobileAppAlert>>) {
@@ -44,7 +44,7 @@ export async function markMobileAppAlertAsReadDbCommand(markAsReadVms: Array<Mar
         });
     });
 }
-export function getByIds(ids: number[]) {
+function getByIds(ids: number[]) {
     const MobileAppAlerts = realm.objects(MobileAppAlert);
     const realmObjects = MobileAppAlerts.filtered("mobileAppAlertId IN $0", ids);
 
