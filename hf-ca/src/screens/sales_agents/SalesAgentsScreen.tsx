@@ -211,6 +211,7 @@ export default function SalesAgentsScreen({ route }) {
         }
         return (
             <Pressable
+                testID={genTestId("searchThisAreaButton")}
                 style={styles.searchThisAreaBtn}
                 onPress={() => {
                     getSalesAgents({

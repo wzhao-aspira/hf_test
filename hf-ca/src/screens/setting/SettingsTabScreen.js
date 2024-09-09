@@ -16,6 +16,7 @@ import WelcomeBar from "../../components/WelcomeBar";
 import SplitLine from "../../components/SplitLine";
 import QuickAccessChecker from "../../components/QuickAccessChecker";
 import getAssociatedCustomerMaximum from "../../helper/ProfileHelper";
+import { genTestId } from "../../helper/AppHelper";
 
 const styles = StyleSheet.create({
     title: {
@@ -81,6 +82,7 @@ const renderItem = (title, callBack, secondLine, secondLineStyle) => {
     return (
         <View>
             <Pressable
+                testID={genTestId(title)}
                 onPress={() => {
                     callBack();
                 }}

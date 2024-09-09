@@ -175,8 +175,18 @@ function DrawApplicationItem(props: DrawApplicationItemProps) {
                     {labelValueList.map((labelValue) => {
                         return (
                             <View key={labelValue.label} style={styles.labelValueRow}>
-                                <Text style={styles.labelText}>{labelValue.label}</Text>
-                                <Text style={styles.valueText}>{labelValue.value}</Text>
+                                <Text
+                                    style={styles.labelText}
+                                    testID={genTestId(`drawApplicationLabel${labelValue.label}`, index)}
+                                >
+                                    {labelValue.label}
+                                </Text>
+                                <Text
+                                    style={styles.valueText}
+                                    testID={genTestId(`drawApplicationLabel${labelValue.label}Content`, index)}
+                                >
+                                    {labelValue.value}
+                                </Text>
                             </View>
                         );
                     })}
@@ -266,8 +276,18 @@ function DrawApplicationDetailScreen(props: DrawApplicationDetailScreenProps) {
                             {getLabelValueLis(DrawApplicationChoices[0]).map((labelValue) => {
                                 return (
                                     <View key={labelValue.label} style={styles.labelValueRow}>
-                                        <Text style={styles.labelText}>{labelValue.label}</Text>
-                                        <Text style={styles.valueText}>{labelValue.value}</Text>
+                                        <Text
+                                            style={styles.labelText}
+                                            testID={genTestId(`drawApplicationLabel${labelValue.label}`)}
+                                        >
+                                            {labelValue.label}
+                                        </Text>
+                                        <Text
+                                            style={styles.valueText}
+                                            testID={genTestId(`drawApplicationLabel${labelValue.label}Content`)}
+                                        >
+                                            {labelValue.value}
+                                        </Text>
                                     </View>
                                 );
                             })}

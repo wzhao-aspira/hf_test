@@ -46,11 +46,15 @@ function AccessPermitListItem(props) {
                 style={styles.touchableStyle}
                 key={itemKey}
                 onPress={onPress}
-                testID={genTestId(`accessPermitListItem_${itemKey}`)}
+                testID={genTestId("accessPermitListItem", itemKey)}
             >
                 <View style={styles.itemContent}>
                     <View style={styles.itemText}>
-                        <Text testID={genTestId(name)} numberOfLines={0} style={styles.productName}>
+                        <Text
+                            testID={genTestId("accessPermitListItemName", itemKey)}
+                            numberOfLines={0}
+                            style={styles.productName}
+                        >
                             {name}
                         </Text>
                     </View>

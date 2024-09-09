@@ -59,6 +59,7 @@ function ProfileWithTitle({ isLoading, profile, showSwitchProfile, titleKey, isC
                         });
                     }}
                     profileItemStyles={{ container: commonStyles.profileContainer }}
+                    titleKey={titleKey}
                 />
             )}
         </View>

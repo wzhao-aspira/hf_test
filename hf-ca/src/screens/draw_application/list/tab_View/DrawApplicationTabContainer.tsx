@@ -55,6 +55,7 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
                                 <ListItem
                                     itemData={multiChoiceItem}
                                     key={multiChoiceItem.id}
+                                    itemKey={multiChoiceItem.id}
                                     tabName={tabName}
                                     groupName="multiChoiceCopy"
                                     drawDetailData={[multiChoiceItem]}
@@ -64,6 +65,7 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
                             <ListItem
                                 copyData={copyHuntItem}
                                 key={copyHuntItem.year + copyHuntItem.drawType + copyHuntItem.partyNumber}
+                                itemKey={copyHuntItem.year + copyHuntItem.drawType + copyHuntItem.partyNumber}
                                 tabName={tabName}
                                 groupName="copyHunt"
                                 drawDetailData={copyHuntItem.items}
@@ -79,6 +81,7 @@ function TabListContent({ tabName, tabData }: TabContentProps) {
                         <ListItem
                             itemData={item}
                             key={item.id}
+                            itemKey={item.id}
                             tabName={tabName}
                             groupName="generatedHunt"
                             drawDetailData={[item]}

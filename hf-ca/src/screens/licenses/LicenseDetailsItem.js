@@ -99,8 +99,13 @@ function RenderFeeSection({ licenseData }) {
             <View style={[styles.licenseInfo, { marginTop: 10 }]} key={item.label} testID={genTestId("feeSection")}>
                 {!!item.content && (
                     <>
-                        <Text style={[styles.labelText, { width: 100 }]}>{item.label}</Text>
-                        <Text style={[styles.valueText, { width: SCREEN_WIDTH - 4 * DEFAULT_MARGIN - 100 }]}>
+                        <Text style={[styles.labelText, { width: 100 }]} testID={genTestId(item.label)}>
+                            {item.label}
+                        </Text>
+                        <Text
+                            style={[styles.valueText, { width: SCREEN_WIDTH - 4 * DEFAULT_MARGIN - 100 }]}
+                            testID={genTestId(`${item.label}Value`)}
+                        >
                             {item.content}
                         </Text>
                     </>

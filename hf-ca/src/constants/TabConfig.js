@@ -16,18 +16,18 @@ const tabIcons = [
     },
     {
         label: i18n.t("tabBar.MyMenu"),
-        id: "license",
+        id: "myMenu",
         selected: faIdCardSolid,
         unselected: faIdCard,
     },
     {
         label: i18n.t("setting.title"),
-        id: "me",
+        id: "settings",
         selected: faUserSolid,
         unselected: faUser,
     },
     {
-        id: "menu",
+        id: "hamburgerMenu",
         selected: faBars,
         unselected: faBars,
     },

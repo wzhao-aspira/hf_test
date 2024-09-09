@@ -54,25 +54,25 @@ export function SalesAgentsItem({ item, index, onDirectionsClick }) {
         <View style={styles.shadowBox}>
             <View style={{ alignItems: "center" }}>
                 <FontAwesomeIcon icon={faMapMarker} size={30} color={AppTheme.colors.primary} />
-                <Text testID={genTestId(`Agent${index + 1}`)} style={styles.indexLabel}>
+                <Text testID={genTestId("salesAgents", index)} style={styles.indexLabel}>
                     {index + 1}
                 </Text>
             </View>
             <View style={styles.contentContainer}>
-                <Text testID={genTestId(`Agent${index + 1}Name`)} style={styles.titleLabel}>
+                <Text testID={genTestId("salesAgentsName", index)} style={styles.titleLabel}>
                     {item.name}
                 </Text>
-                <Text testID={genTestId(`Agent${index + 1}Address`)} style={styles.addressLabel}>
+                <Text testID={genTestId("salesAgentsAddress", index)} style={styles.addressLabel}>
                     {item.address}, {item.city}, {item.zip}
                 </Text>
-                <Text testID={genTestId(`Agent${index + 1}DistanceUnit`)} style={styles.addressLabel}>
+                <Text testID={genTestId("salesAgentsDistanceUnit", index)} style={styles.addressLabel}>
                     {item.distance} {item.distanceUnit.toLowerCase()}
                     (s)
                 </Text>
                 <View style={styles.bottomContainer}>
                     {!isEmpty(item.phoneNumber) && (
                         <ConfirmButton
-                            testID="Call"
+                            testIdSuffix={index}
                             style={{ marginRight: 20 }}
                             size={BtnSizeEnum.Small}
                             type={BtnTypeEnum.Secondary}
@@ -85,7 +85,7 @@ export function SalesAgentsItem({ item, index, onDirectionsClick }) {
                         />
                     )}
                     <ConfirmButton
-                        testID="Directions"
+                        testIdSuffix={index}
                         label="salesAgents.directions"
                         size={BtnSizeEnum.Small}
                         type={BtnTypeEnum.Primary}

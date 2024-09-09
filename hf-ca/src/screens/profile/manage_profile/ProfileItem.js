@@ -49,7 +49,14 @@ export function ProfileShortNameOrIcon({
     );
 }
 
-function ProfileItem({ profile, onPress, showGoToDetailsPageButton, showNameInOneLine, profileItemStyles = {} }) {
+function ProfileItem({
+    profile,
+    onPress,
+    showGoToDetailsPageButton,
+    showNameInOneLine,
+    profileItemStyles = {},
+    titleKey,
+}) {
     const { t } = useTranslation();
     let nameProps = {};
 
@@ -70,16 +77,23 @@ function ProfileItem({ profile, onPress, showGoToDetailsPageButton, showNameInOn
                 }
             }}
             style={profileItemStyles.pressable}
-            testID={genTestId(`profile_${profile?.profileId}`)}
+            testID={genTestId("profile", profile?.profileId)}
         >
             <View style={profileItemStyles.container}>
                 <ProfileShortNameOrIcon profile={profile} shortNameContainer={profileItemStyles.shortNameContainer} />
 
                 <View style={{ flex: 1 }}>
-                    <Text style={commonStyles.profileDisplayName} testID={genTestId("profileName")} {...nameProps}>
+                    <Text
+                        style={commonStyles.profileDisplayName}
+                        testID={genTestId(`profileName${titleKey || ""}`, profile?.profileId)}
+                        {...nameProps}
+                    >
                         {profile?.displayName}
                     </Text>
-                    <Text style={commonStyles.profileItemNumber} testID={genTestId("profileGoIdNumber")}>
+                    <Text
+                        style={commonStyles.profileItemNumber}
+                        testID={genTestId(`profileGoIdNumber${titleKey || ""}`, profile?.profileId)}
+                    >
                         {getGOIDLabel(t, profile)} #: {profile?.goIDNumber}
                     </Text>
                 </View>

@@ -35,10 +35,10 @@ function RenderItem({ item, divider }) {
     }
     return (
         <View style={styles.infoItem} key={item.type}>
-            <Text style={styles.infoType} testID={genTestId("itemLabel")}>
+            <Text style={styles.infoType} testID={genTestId(`profileLabel${item.type}`)}>
                 {item.type}
             </Text>
-            <Text style={styles.infoValue} testID={genTestId("itemValue")}>
+            <Text style={styles.infoValue} testID={genTestId(`profileLabel${item.type}Content`)}>
                 {item.value || "-"}
             </Text>
 

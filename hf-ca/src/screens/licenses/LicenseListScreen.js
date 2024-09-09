@@ -115,7 +115,9 @@ function LicenseListScreen() {
                         return (
                             <View key={item.groupKey}>
                                 <View style={styles.groupTitleContainer}>
-                                    <Text style={styles.groupTitle}>{item.title}</Text>
+                                    <Text style={styles.groupTitle} testID={genTestId("licenseGroup", item.groupKey)}>
+                                        {item.title}
+                                    </Text>
                                 </View>
                                 {item.data?.map((license) => (
                                     <LicenseItem
@@ -126,7 +128,7 @@ function LicenseListScreen() {
                                             });
                                         }}
                                         itemData={license}
-                                        itemKey={license.id}
+                                        groupKey={item.groupKey}
                                     />
                                 ))}
                             </View>
