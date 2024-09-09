@@ -61,15 +61,23 @@ export function showToast(message, option = {}) {
     });
 }
 
-export function genTestId(testID) {
+export function genTestId(testID, suffix) {
+    let formattedTestId;
+
     if (isAndroid()) {
         const idPrefix = `${AppContract.appId}:id/`;
         if (testID.includes(idPrefix)) {
             return idPrefix + testID.split(idPrefix)[1];
         }
-        return idPrefix + camelCase(testID);
+        formattedTestId = idPrefix + camelCase(testID);
+    } else {
+        formattedTestId = camelCase(testID);
     }
-    return camelCase(testID);
+
+    if (suffix !== null && suffix !== undefined && suffix !== "") {
+        formattedTestId += `_${suffix}`;
+    }
+    return formattedTestId;
 }
 
 export async function getActiveUserID() {

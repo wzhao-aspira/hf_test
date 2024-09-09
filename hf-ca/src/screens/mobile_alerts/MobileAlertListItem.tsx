@@ -92,11 +92,9 @@ interface MobileAppAlertListItemProps {
 export function MobileAppAlertListItem(props: MobileAppAlertListItemProps) {
     const dateSent = moment(props.mobileAppAlert.displayBeginDate).format(DEFAULT_DATE_DISPLAY_FORMAT);
     return (
-        <View
-            testID={genTestId("mobileAppAlertListItem")}
-            style={[styles.mainContainerStyle, !props.mobileAppAlert.isRead && styles.mainContainerStyle_Unread]}
-        >
+        <View style={[styles.mainContainerStyle, !props.mobileAppAlert.isRead && styles.mainContainerStyle_Unread]}>
             <Pressable
+                testID={genTestId("mobileAppAlertListItem", props.mobileAppAlert.mobileAppAlertId)}
                 onPress={() => props.onpress(props.mobileAppAlert.mobileAppAlertId)}
                 key={props.mobileAppAlert.mobileAppAlertId}
                 style={styles.pressable}
@@ -114,6 +112,10 @@ export function MobileAppAlertListItem(props: MobileAppAlertListItemProps) {
                     <View style={styles.titleContainer}>
                         <LoadingShimmer shimmerStyle={loadingSkeletonStyles.title} isLoading={props.isLoading}>
                             <Text
+                                testID={genTestId(
+                                    "mobileAppAlertListItemSubject",
+                                    props.mobileAppAlert.mobileAppAlertId
+                                )}
                                 numberOfLines={2}
                                 style={[styles.title, !props.mobileAppAlert.isRead && styles.title_unread]}
                             >
@@ -127,7 +129,15 @@ export function MobileAppAlertListItem(props: MobileAppAlertListItemProps) {
                     </View>
                     <View style={styles.dateSentWrapper}>
                         <LoadingShimmer shimmerStyle={loadingSkeletonStyles.dateSent} isLoading={props.isLoading}>
-                            <Text style={styles.dateSent}>Date Sent: {dateSent}</Text>
+                            <Text
+                                testID={genTestId(
+                                    "mobileAppAlertListItemDateSent",
+                                    props.mobileAppAlert.mobileAppAlertId
+                                )}
+                                style={styles.dateSent}
+                            >
+                                Date Sent: {dateSent}
+                            </Text>
                         </LoadingShimmer>
                     </View>
                 </View>

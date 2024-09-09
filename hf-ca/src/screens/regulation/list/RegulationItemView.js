@@ -62,20 +62,16 @@ function RegulationItemView(props) {
                         onPress();
                     }
                 }}
-                testID={genTestId(`regulation_${regulationId}`)}
+                testID={genTestId("regulation", itemIndex)}
             >
                 <View style={styles.itemContent}>
                     <View style={styles.leftIcon}>
-                        <Text style={styles.huntDay} testID={genTestId(`regulationIndex_${itemIndex}`)}>
+                        <Text style={styles.huntDay} testID={genTestId("regulationIndex", itemIndex)}>
                             {itemIndex}
                         </Text>
                     </View>
                     <View style={styles.itemText}>
-                        <Text
-                            testID={genTestId(`regulationTitle_${regulationTitle}`)}
-                            numberOfLines={1}
-                            style={styles.title}
-                        >
+                        <Text testID={genTestId("regulationTitle", itemIndex)} numberOfLines={1} style={styles.title}>
                             {regulationTitle}
                         </Text>
                     </View>

@@ -48,11 +48,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const renderValidDate = (date) => {
+const renderValidDate = (date, index) => {
     return date ? (
         <View>
             <Text
-                testID={genTestId(`date-${date}`)}
+                testID={genTestId(`carouselLicenseValidFromTo`, index)}
                 style={{ ...AppTheme.typography.card_small_r, paddingTop: 5 }}
                 numberOfLines={1}
                 ellipsizeMode="tail"
@@ -65,11 +65,11 @@ const renderValidDate = (date) => {
     );
 };
 
-const renderReportStatus = (reportStatus) => {
+const renderReportStatus = (reportStatus, index) => {
     return reportStatus ? (
         <View>
             <Text
-                testID={genTestId(`reportStatus`)}
+                testID={genTestId(`carouselLicenseReportStatus`, index)}
                 style={{ ...AppTheme.typography.card_small_r, paddingVertical: 2 }}
                 numberOfLines={1}
                 ellipsizeMode="tail"
@@ -97,7 +97,10 @@ function CarouselContent({ item, index }) {
         if (isEmpty(huntTagDescription)) {
             return (
                 <View style={styles.tagDescription}>
-                    <Text testID={genTestId("license")} style={{ ...AppTheme.typography.card_small_m }}>
+                    <Text
+                        testID={genTestId("carouselLicenseTagDescValue", index)}
+                        style={{ ...AppTheme.typography.card_small_m }}
+                    >
                         <Trans i18nKey="license.license" />
                     </Text>
                 </View>
@@ -105,11 +108,11 @@ function CarouselContent({ item, index }) {
         }
         return (
             <View style={styles.tagDescription}>
-                <Text testID={genTestId("TagDescName")} style={styles.huntTagDescNameValue}>
+                <Text testID={genTestId("carouselLicenseTagDescName", index)} style={styles.huntTagDescNameValue}>
                     <Trans i18nKey="license.tagDescription" />
                 </Text>
                 <Text
-                    testID={genTestId("TagDescValue")}
+                    testID={genTestId("carouselLicenseTagDescValue", index)}
                     numberOfLines={1}
                     ellipsizeMode="tail"
                     style={styles.huntTagDescNameValue}
@@ -123,7 +126,7 @@ function CarouselContent({ item, index }) {
     const renderLicenseTag = () => {
         if (mobileAppNeedPhysicalDocument) {
             return (
-                <Text testID={genTestId("licenseTag")} style={styles.licenseTag}>
+                <Text testID={genTestId("carouselLicenseIndicator", index)} style={styles.licenseTag}>
                     {appConfig.data.documentRequiredIndicator}
                 </Text>
             );
@@ -134,7 +137,7 @@ function CarouselContent({ item, index }) {
     return (
         <View style={styles.card}>
             <Pressable
-                testID={genTestId("carouselItem")}
+                testID={genTestId("carouselLicense", index)}
                 style={{ height: "100%" }}
                 onPressIn={(event) => {
                     // fix issue AWO-216369 [HFCA app] - When slide license card from home page, system direct user to license details.
@@ -167,15 +170,15 @@ function CarouselContent({ item, index }) {
                     }
                 }}
             >
-                <Text testID={genTestId(`carouselItem-${name}`)} style={styles.cardTitle} numberOfLines={2}>
+                <Text testID={genTestId("carouselLicenseName", index)} style={styles.cardTitle} numberOfLines={2}>
                     {name}
                 </Text>
                 {renderTagDescription()}
                 <View style={{ flex: 1 }} />
                 <SeparateLine style={{ marginHorizontal: -10 }} />
                 <View style={styles.cardBottomContainer}>
-                    {renderValidDate(altTextValidFromTo)}
-                    {renderReportStatus(licenseReportConfirmationText)}
+                    {renderValidDate(altTextValidFromTo, index)}
+                    {renderReportStatus(licenseReportConfirmationText, index)}
                     {renderLicenseTag()}
                 </View>
             </Pressable>

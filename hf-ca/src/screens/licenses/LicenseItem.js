@@ -59,25 +59,29 @@ export const styles = StyleSheet.create({
     },
 });
 
-function getProductName(itemData) {
+function getProductName(itemData, testIdSuffix) {
     const { name } = itemData;
     return (
-        <Text testID={genTestId(name)} numberOfLines={0} style={styles.productName}>
+        <Text testID={genTestId("licenseItemName", testIdSuffix)} numberOfLines={0} style={styles.productName}>
             {name}
         </Text>
     );
 }
 
-function getTagDescription(itemData) {
+function getTagDescription(itemData, testIdSuffix) {
     const { name, huntTagDescription } = itemData;
     return (
         !!huntTagDescription && (
             <View style={styles.huntTagDesc}>
-                <Text testID={genTestId(`${name}_tag_desc_name`)} numberOfLines={0} style={styles.huntTagDescNameValue}>
+                <Text
+                    testID={genTestId("licenseTagDescName", testIdSuffix)}
+                    numberOfLines={0}
+                    style={styles.huntTagDescNameValue}
+                >
                     <Trans i18nKey="license.tagDescription" />
                 </Text>
                 <Text
-                    testID={genTestId(`${name}_tag_desc_value`)}
+                    testID={genTestId("licenseTagDescValue", testIdSuffix)}
                     numberOfLines={0}
                     style={styles.huntTagDescNameValue}
                 >
@@ -88,11 +92,11 @@ function getTagDescription(itemData) {
     );
 }
 
-function getValidDates(itemData) {
+function getValidDates(itemData, testIdSuffix) {
     const altTextValidFromTo = itemData?.altTextValidFromTo;
     if (altTextValidFromTo) {
         return (
-            <Text testID={genTestId(`${altTextValidFromTo}`)} style={styles.validDateLabel}>
+            <Text testID={genTestId("licenseValidFromTo", testIdSuffix)} style={styles.validDateLabel}>
                 {altTextValidFromTo}
             </Text>
         );
@@ -100,11 +104,11 @@ function getValidDates(itemData) {
     return null;
 }
 
-function getLicenseReportConfirmationText(itemData) {
+function getLicenseReportConfirmationText(itemData, testIdSuffix) {
     const licenseReportConfirmationText = itemData?.licenseReportConfirmationText;
     if (licenseReportConfirmationText) {
         return (
-            <Text testID={genTestId("reportStatus")} style={styles.validDateLabel}>
+            <Text testID={genTestId("licenseReportStatus", testIdSuffix)} style={styles.validDateLabel}>
                 {licenseReportConfirmationText}
             </Text>
         );
@@ -112,11 +116,11 @@ function getLicenseReportConfirmationText(itemData) {
     return null;
 }
 
-function getLicenseTag(itemData) {
+function getLicenseTag(itemData, testIdSuffix) {
     const { mobileAppNeedPhysicalDocument } = itemData;
     if (mobileAppNeedPhysicalDocument) {
         return (
-            <Text testID={genTestId("licenseTag")} style={styles.licenseTag}>
+            <Text testID={genTestId("licenseIndicator", testIdSuffix)} style={styles.licenseTag}>
                 {appConfig.data.documentRequiredIndicator}
             </Text>
         );
@@ -125,17 +129,23 @@ function getLicenseTag(itemData) {
 }
 
 function LicenseItem(props) {
-    const { itemData, itemKey, onPress } = props;
+    const { itemData, groupKey, onPress } = props;
+    const testIdSuffix = `${groupKey}_${itemData.id}`;
     return (
         <View style={styles.mainContainerStyle}>
-            <Pressable style={styles.touchableStyle} key={itemKey} onPress={onPress} testID={genTestId("licenseItem")}>
+            <Pressable
+                style={styles.touchableStyle}
+                key={itemData.id}
+                onPress={onPress}
+                testID={genTestId("licenseItem", testIdSuffix)}
+            >
                 <View style={styles.itemContent}>
                     <View style={styles.itemText}>
-                        {getProductName(itemData)}
-                        {getTagDescription(itemData)}
-                        {getValidDates(itemData)}
-                        {getLicenseReportConfirmationText(itemData)}
-                        {getLicenseTag(itemData)}
+                        {getProductName(itemData, testIdSuffix)}
+                        {getTagDescription(itemData, testIdSuffix)}
+                        {getValidDates(itemData, testIdSuffix)}
+                        {getLicenseReportConfirmationText(itemData, testIdSuffix)}
+                        {getLicenseTag(itemData, testIdSuffix)}
                     </View>
                     <View style={styles.productNameArrowContainer}>
                         <FontAwesomeIcon icon={faAngleRight} size={25} color={AppTheme.colors.primary_2} />

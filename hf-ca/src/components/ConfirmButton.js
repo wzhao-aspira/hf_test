@@ -119,7 +119,7 @@ export default function ConfirmButton(props) {
     const { t } = useTranslation();
 
     const {
-        testID = "",
+        testIdSuffix = "",
         style = null,
         textStyle = null,
         disabled = false,
@@ -160,7 +160,7 @@ export default function ConfirmButton(props) {
 
     return (
         <Pressable
-            testID={genTestId(`${testID}ConfirmButton`)}
+            testID={genTestId(`${label}ConfirmButton`, testIdSuffix)}
             disabled={disabled}
             style={[touchableStyle, style]}
             onPress={() => {
@@ -168,7 +168,11 @@ export default function ConfirmButton(props) {
             }}
             onLayout={onLayout}
         >
-            <Text testID={genTestId(`${testID}ConfirmButtonLabel`)} numberOfLines={1} style={[labelStyle, textStyle]}>
+            <Text
+                testID={genTestId(`${label}ConfirmButtonLabel`, testIdSuffix)}
+                numberOfLines={1}
+                style={[labelStyle, textStyle]}
+            >
                 {t(label)}
             </Text>
         </Pressable>

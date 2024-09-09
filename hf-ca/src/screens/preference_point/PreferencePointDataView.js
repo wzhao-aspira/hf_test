@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppTheme from "../../assets/_default/AppTheme";
 import { DEFAULT_MARGIN, SCREEN_HEIGHT } from "../../constants/Dimension";
+import { genTestId } from "../../helper/AppHelper";
 
 const styles = StyleSheet.create({
     rowContainer: {
@@ -38,13 +39,18 @@ const styles = StyleSheet.create({
     },
 });
 
-function ItemRow({ rowData = [], textStyles = {} }) {
+function ItemRow({ rowData = [], textStyles = {}, testIds, rowId }) {
     return (
         <View style={{ flexDirection: "column" }}>
             <View style={styles.rowContainer}>
-                {rowData.map((item) => (
+                {rowData.map((item, index) => (
                     <View style={styles.cell} key={item}>
-                        <Text style={[styles.text, textStyles]}>{item} </Text>
+                        <Text
+                            style={[styles.text, textStyles]}
+                            testID={testIds && testIds[index] ? genTestId(testIds[index], rowId) : undefined}
+                        >
+                            {item}{" "}
+                        </Text>
                     </View>
                 ))}
             </View>
@@ -78,6 +84,12 @@ function PreferencePointDataView({ data = [] }) {
                                 item.currentPreferencePoints,
                                 item.lastParticipationLicenseYear,
                             ]}
+                            testIds={[
+                                `preferencePointDrawType`,
+                                `preferencePointCurrentPoints`,
+                                `preferencePointLastYearApplied`,
+                            ]}
+                            rowId={item.pk}
                         />
                     ))}
                 </ScrollView>

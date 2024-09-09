@@ -68,14 +68,30 @@ function MobileAlertDetailView(prop: MobileAlertDetailViewProps) {
         <View style={styles.container}>
             <View style={styles.content}>
                 <ScrollView>
-                    <Text style={styles.title}>{mobileAppAlert.subject}</Text>
-                    <Text style={styles.dateSent}>Date Sent: {displayBeginDate}</Text>
-                    <View style={styles.textContent}>
+                    <Text
+                        style={styles.title}
+                        testID={genTestId("mobileAppAlertDetailSubject", mobileAppAlert.mobileAppAlertId)}
+                    >
+                        {mobileAppAlert.subject}
+                    </Text>
+                    <Text
+                        style={styles.dateSent}
+                        testID={genTestId("mobileAppAlertDetailDateSent", mobileAppAlert.mobileAppAlertId)}
+                    >
+                        Date Sent: {displayBeginDate}
+                    </Text>
+                    <View
+                        style={styles.textContent}
+                        testID={genTestId("mobileAppAlertDetailMessage", mobileAppAlert.mobileAppAlertId)}
+                    >
                         <RenderHTML contentWidth={width} source={{ html: mobileAppAlert.message }} />
                     </View>
                 </ScrollView>
                 <View style={styles.endDateContainer}>
-                    <Text style={styles.endDateText}>
+                    <Text
+                        style={styles.endDateText}
+                        testID={genTestId("mobileAppAlertDetailDisplayEndDate", mobileAppAlert.mobileAppAlertId)}
+                    >
                         <Trans i18nKey={"mobileAlerts.messageDisplayUntil"} tOptions={{ displayEndDate }} />
                     </Text>
                 </View>

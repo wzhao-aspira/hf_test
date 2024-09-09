@@ -156,13 +156,13 @@ function File(props: FileProps) {
                         !!cardMarginHorizontal && { marginHorizontal: cardMarginHorizontal },
                     ]}
                 >
-                    <Text style={[styles.sectionTitle]} testID={genTestId(`notificationOrAttachmentFileName${title}`)}>
+                    <Text style={[styles.sectionTitle]} testID={genTestId("notificationOrAttachmentTitle", id)}>
                         {title}
                     </Text>
                     {!!description && (
                         <View style={styles.licenseInfo}>
                             <Text
-                                testID={genTestId(`notificationOrAttachmentFileName${title}Description`)}
+                                testID={genTestId("notificationOrAttachmentDescription", id)}
                                 style={{ marginTop: -10, marginBottom: 13 }}
                             >
                                 {description}
@@ -172,7 +172,7 @@ function File(props: FileProps) {
                     <View style={{ marginHorizontal: DEFAULT_MARGIN, marginBottom: 16, flexDirection: "row" }}>
                         {isNotDownloaded && available && (
                             <PrimaryBtn
-                                testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                                testID={genTestId("notificationOrAttachmentDownloadBtn", id)}
                                 label={t("notificationAndAttachment.Download")}
                                 onPress={() => {
                                     downloadFile();
@@ -181,7 +181,7 @@ function File(props: FileProps) {
                         )}
                         {isDownloading && (
                             <PrimaryBtn
-                                testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                                testID={genTestId("notificationOrAttachmentDownloadingBtn")}
                                 label={t("notificationAndAttachment.Downloading")}
                                 disabled
                                 onPress={() => {
@@ -191,7 +191,7 @@ function File(props: FileProps) {
                         )}
                         {isDownloaded && (
                             <PrimaryBtn
-                                testID={genTestId(`notificationOrAttachmentFileName${title}ActionButton`)}
+                                testID={genTestId("notificationOrAttachmentOpenBtn")}
                                 label={t("notificationAndAttachment.Open")}
                                 onPress={() => {
                                     openFile();

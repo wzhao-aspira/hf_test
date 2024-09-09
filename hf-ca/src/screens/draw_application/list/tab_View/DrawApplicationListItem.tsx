@@ -58,29 +58,30 @@ interface ListItemResultSectionProps {
     copyData?: CopyHuntsItem;
     tabName: DrawApplicationListTabName;
     groupName?: DrawApplicationListGroupName;
+    itemKey: string;
 }
 
-function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListItemResultSectionProps) {
+function ListItemResultSection({ tabName, itemData, groupName, copyData, itemKey }: ListItemResultSectionProps) {
     const { drawnSequence, isDrawSequenceDisplayed } = itemData || {};
     const { items } = copyData || {};
     const { t } = useTranslation();
     if (tabName === "unsuccessful") {
         return (
-            <Text style={{ ...styles.subTitle }} testID={genTestId("unsuccessfulText")}>
+            <Text style={{ ...styles.subTitle }} testID={genTestId("drawApplicationUnsuccessfulText", itemKey)}>
                 {t("drawApplicationList.unsuccessful")}
             </Text>
         );
     }
     if (groupName === "multiChoiceCopy") {
         return (
-            <Text style={{ ...styles.subTitle }} testID={genTestId("successfulText")}>
+            <Text style={{ ...styles.subTitle }} testID={genTestId("drawApplicationSuccessfulText", itemKey)}>
                 {t("drawApplicationList.successful")}
             </Text>
         );
     }
     if (groupName === "generatedHunt") {
         return (
-            <Text style={{ ...styles.subTitle }} testID={genTestId(`successfulText_${drawnSequence}`)}>
+            <Text style={{ ...styles.subTitle }} testID={genTestId("drawApplicationSuccessfulText", itemKey)}>
                 {t("drawApplicationList.successful")}
                 {isDrawSequenceDisplayed && ` ${t("accessPermits.Reservation#")}${drawnSequence}`}
             </Text>
@@ -92,7 +93,7 @@ function ListItemResultSection({ tabName, itemData, groupName, copyData }: ListI
         drawWonItem && (
             <Text
                 style={{ ...styles.subTitle }}
-                testID={genTestId(`successfulFor_${drawWonItem.huntName}`)}
+                testID={genTestId("drawApplicationSuccessfulText", itemKey)}
                 key={drawWonItem.huntName}
             >
                 {t("drawApplicationList.successfulFor")} {drawWonItem.huntCode}
@@ -108,9 +109,10 @@ interface ItemProps {
     tabName: DrawApplicationListTabName;
     drawDetailData: DrawResultsListItem[];
     groupName?: DrawApplicationListGroupName;
+    itemKey: string;
 }
 
-function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: ItemProps) {
+function ListItem({ itemData, tabName, groupName, copyData, drawDetailData, itemKey }: ItemProps) {
     const { t } = useTranslation();
 
     const {
@@ -176,7 +178,11 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
             >
                 <View style={styles.itemContent}>
                     <View style={styles.itemText}>
-                        <Text testID={genTestId(`title_${huntName}`)} numberOfLines={0} style={styles.title}>
+                        <Text
+                            testID={genTestId("drawApplicationTitle", itemKey)}
+                            numberOfLines={0}
+                            style={styles.title}
+                        >
                             {itemTitle} {itemExtTitle}
                         </Text>
 
@@ -184,7 +190,7 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
                             <Text style={styles.subTitle}>{t("drawApplicationList.status")}:</Text>
                             <Text
                                 style={{ ...styles.subTitle, marginLeft: 2 }}
-                                testID={genTestId(`status_${drawStatus}`)}
+                                testID={genTestId("drawApplicationStatus", itemKey)}
                             >
                                 {drawStatus}
                             </Text>
@@ -194,7 +200,10 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
                             <View style={{ flexDirection: "row" }}>
                                 <Text style={styles.subTitle}>{t("drawApplicationList.partyNumber")}:</Text>
                                 <View style={{ flex: 1, marginLeft: 2 }}>
-                                    <Text style={{ ...styles.subTitle }} testID={genTestId("partyNumber")}>
+                                    <Text
+                                        style={{ ...styles.subTitle }}
+                                        testID={genTestId("drawApplicationPartyNumber", itemKey)}
+                                    >
                                         {partyNumber}
                                     </Text>
                                 </View>
@@ -210,12 +219,16 @@ function ListItem({ itemData, tabName, groupName, copyData, drawDetailData }: It
                                         tabName={tabName}
                                         itemData={itemData}
                                         copyData={copyData}
+                                        itemKey={itemKey}
                                     />
                                 </View>
                             </View>
                         )}
                         {isAlternateItem && (
-                            <Text style={{ ...styles.subTitle }} testID={genTestId("alternateText")}>
+                            <Text
+                                style={{ ...styles.subTitle }}
+                                testID={genTestId("drawApplicationAlternate", itemKey)}
+                            >
                                 {t("drawApplicationList.alternateForHunt")} {alternateItem.huntCode}
                                 {!isEmpty(alternateItem.huntName) && ` -  ${alternateItem.huntName}`}
                             </Text>

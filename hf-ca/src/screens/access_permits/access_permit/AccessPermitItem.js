@@ -62,7 +62,7 @@ function AccessPermitItem(props) {
     const { t } = useTranslation();
     return (
         <View style={styles.mainContainer}>
-            <Pressable key={itemKey} onPress={onPress} testID={genTestId(`accessPermitListItem_${itemKey}`)}>
+            <Pressable key={itemKey} onPress={onPress} testID={genTestId("accessPermitItem", itemKey)}>
                 <View style={styles.itemContent}>
                     {isGeneratedDraw && (
                         <View style={styles.leftIcon}>
@@ -72,23 +72,27 @@ function AccessPermitItem(props) {
                         </View>
                     )}
                     <View style={styles.itemText}>
-                        <Text testID={genTestId(`huntDay_${huntDay}`)} numberOfLines={0} style={styles.title}>
+                        <Text
+                            testID={genTestId("accessPermitItemHuntDay", itemKey)}
+                            numberOfLines={0}
+                            style={styles.title}
+                        >
                             {huntDay}
                         </Text>
                         <View style={{ flexDirection: "row" }}>
-                            <Text style={styles.subTitle} testID={genTestId(`huntCode_${huntCode}`)}>
+                            <Text style={styles.subTitle} testID={genTestId("accessPermitItemHuntCode", itemKey)}>
                                 {t("accessPermits.huntCode")}: {huntCode}
                             </Text>
                             {isDisplayReservation && (
                                 <Text
                                     style={{ ...styles.subTitle, marginLeft: 8 }}
-                                    testID={genTestId(`reservation_${drawnSequence}`)}
+                                    testID={genTestId("accessPermitItemReservation", itemKey)}
                                 >
                                     {t("accessPermits.Reservation#")}: {drawnSequence}
                                 </Text>
                             )}
                         </View>
-                        <Text style={styles.subTitle} testID={genTestId(`huntName_${huntName}`)}>
+                        <Text style={styles.subTitle} testID={genTestId("accessPermitItemHuntName", itemKey)}>
                             {t("accessPermits.huntName")}: {huntName}
                         </Text>
                     </View>

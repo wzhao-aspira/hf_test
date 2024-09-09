@@ -53,11 +53,20 @@ function renderInfoSection(sectionName, sectionInformation) {
                         key={`${sectionName}_${item.label}_kv`}
                         style={[{ flex: 1 }, index === 1 && { marginLeft: DEFAULT_MARGIN }]}
                     >
-                        <Text style={styles.labelText}>{item.label}</Text>
+                        <Text style={styles.labelText} testID={genTestId(item.label)}>
+                            {item.label}
+                        </Text>
                         {item.content ? (
-                            <Text style={item.label ? styles.valueText : styles.labelText}>{item.content}</Text>
+                            <Text
+                                style={item.label ? styles.valueText : styles.labelText}
+                                testID={genTestId(`${item.label}Value`)}
+                            >
+                                {item.content}
+                            </Text>
                         ) : (
-                            <Text style={styles.valueText}>{item.label && <Trans i18nKey="common.na" />}</Text>
+                            <Text style={styles.valueText} testID={genTestId(`${item.label}Value`)}>
+                                {item.label && <Trans i18nKey="common.na" />}
+                            </Text>
                         )}
                     </View>
                 ))}

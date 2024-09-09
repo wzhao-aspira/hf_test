@@ -58,7 +58,12 @@ function WelcomeBar() {
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
                 <Text style={styles.label}>{t("home.greeting")}</Text>
-                <Text style={{ ...styles.label, paddingTop: 7 }} numberOfLines={1} ellipsizeMode="tail">
+                <Text
+                    style={{ ...styles.label, paddingTop: 7 }}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    testID={genTestId("welcomeProfileName")}
+                >
                     {currentInUseProfile.displayName}!
                 </Text>
             </View>
