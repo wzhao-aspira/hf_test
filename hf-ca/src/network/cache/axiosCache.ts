@@ -27,11 +27,10 @@ const requestInterceptor = (urlWhiteList: string[] | null) => async (config: Axi
         }
 
         const lastCached = await Cache.get(url);
-        const source = axios.CancelToken.source();
-        config.cancelToken = source.token;
-
         // if cache with max-age and isn't expired, cancel the request and result data from cache
-        if (lastCached && lastCached.maxAge && !isCachedExpired(lastCached)) {
+        if (!config.cancelToken && lastCached && lastCached.maxAge && !isCachedExpired(lastCached)) {
+            const source = axios.CancelToken.source();
+            config.cancelToken = source.token;
             source.cancel(JSON.stringify({ type: CancelType, data: lastCached }), config);
             return config;
         }
