@@ -96,6 +96,7 @@
     "@babel/plugin-transform-arrow-functions": "^7.22.5",
     "@babel/plugin-transform-shorthand-properties": "^7.22.5",
     "@babel/plugin-transform-template-literals": "^7.22.5",
+    "@types/lodash": "^4.17.13",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "eslint": "^8.45.0",
     "husky": "^4.2.5",

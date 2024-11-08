@@ -29,12 +29,15 @@ export const KEY_CONSTANT = {
     mobileAppAlertLastUpdateTime: "mobileAppAlertLastUpdateTime",
 };
 export const DEBUG_MODE = false;
+
 export const REQUEST_STATUS = {
     idle: "idle",
     pending: "pending",
     fulfilled: "fulfilled",
     rejected: "rejected",
 } as const;
+export type REQUEST_STATUS_UNION = (typeof REQUEST_STATUS)[keyof typeof REQUEST_STATUS];
+
 export const AUTO_REFRESH_TIMEOUT = 0.5 * 60 * 60;
 export const OFFLINE_BAR_SHOW_TWO_LINES_BREAK_POINT = 360;
 

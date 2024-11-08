@@ -1,7 +1,14 @@
 import AppContract from "../assets/_default/AppContract";
 import { appConfig } from "./AppConfigService";
 
-export const getListData = (i18n, t, list = []) => {
+import type { i18n, TFunction } from "i18next";
+import type { Contact, Social } from "../assets/_default/AppContract";
+
+export const getListData = (
+    i18n: i18n,
+    t: TFunction<"translation", undefined, "translation">,
+    list: Contact[] | Social[] = []
+) => {
     const data = list?.map((item) => {
         const title = i18n.exists(`contact.${item.titleKey}`) ? t(`contact.${item.titleKey}`) : item.titleKey;
         return { ...item, title };
@@ -9,7 +16,7 @@ export const getListData = (i18n, t, list = []) => {
     return data;
 };
 
-export function getContactUsLinks(i18n, t) {
+export function getContactUsLinks(i18n: i18n, t: TFunction<"translation", undefined, "translation">) {
     const newContactList = AppContract.contactList;
     const {
         contactCDFWLink,
@@ -49,9 +56,9 @@ export function getContactUsLinks(i18n, t) {
     return getListData(i18n, t, newContactList);
 }
 
-export function getSocialLinks(i18n, t) {
+export function getSocialLinks(i18n: i18n, t: TFunction<"translation", undefined, "translation">) {
     const newSocialList = AppContract.socialList;
-    const tempSocialList = [];
+    const tempSocialList: { titleKey: string; url: string }[] = [];
     const { facebookLink, twitterLink, youTubeLink, instagramLink, linkedinLink } = appConfig.data;
     if (facebookLink) {
         newSocialList[0].url = facebookLink;
