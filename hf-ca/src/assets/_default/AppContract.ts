@@ -2,6 +2,21 @@ import { merge } from "lodash";
 import BaseContract from "../BaseContract";
 import SecurityUtil from "../../utils/SecurityUtil";
 
+export interface Contact {
+    titleKey: string;
+    url: string;
+    desc: string;
+    email: string;
+    phone: string;
+    noFormatPhone: string;
+    workingHours: string;
+}
+
+export interface Social {
+    titleKey: string;
+    url: string;
+}
+
 const AppContract = {
     divisionCountry: "US",
     contractName: "CA",
@@ -52,7 +67,7 @@ const AppContract = {
             titleKey: "LinkedIn",
             url: "https://www.linkedin.com/company/california-department-of-fish-and-wildlife",
         },
-    ],
+    ] as Social[],
     contactList: [
         {
             titleKey: "contactAspira",
@@ -66,10 +81,12 @@ const AppContract = {
             titleKey: "FAQ",
             url: "https://www.ca.wildlifelicense.com/internetsales/Home/FAQ",
         },
-    ],
+    ] as Contact[],
     mapBoxAccessToken: SecurityUtil.xorDecrypt(
         "MRheDAsreQ8rHBkwKi8/Jxk5GCUlUCAlCT4ZJTErIA8rHBkwQBUkHywLGjNAVXwLBR9FDDYrMSQ7HxonKjd4JQUlCTMLK3FoMyM+ETcxfwNwNzZaMzcBCw5HPVkCFg==",
+        // @ts-expect-error
         true
     ),
 };
+
 export default merge(BaseContract, AppContract);

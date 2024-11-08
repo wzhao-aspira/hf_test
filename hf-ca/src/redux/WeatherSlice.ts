@@ -7,14 +7,25 @@ import { showToast } from "../helper/AppHelper";
 import AppContract from "../assets/_default/AppContract";
 import { handleError } from "../network/APIUtil";
 
-const initialState = {
+import type { RootState } from "./Store";
+
+import type { REQUEST_STATUS_UNION } from "../constants/Constants";
+
+interface WeatherState {
+    weatherData: null;
+    requestStatus: REQUEST_STATUS_UNION;
+    updateTime: null;
+    fahrenheitInd: boolean;
+}
+
+const initialState: WeatherState = {
     weatherData: null,
     requestStatus: REQUEST_STATUS.idle,
     updateTime: null,
     fahrenheitInd: AppContract.divisionCountry == "US",
 };
 
-export const getWeatherDataFromRedux = createAsyncThunk(
+export const getWeatherDataFromRedux = createAsyncThunk<any, { isForce?: boolean }, { state: RootState }>(
     "weather/getWeatherDataFromRedux",
     // eslint-disable-next-line no-empty-pattern
     async ({}, { dispatch }) => {

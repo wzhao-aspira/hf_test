@@ -13,7 +13,7 @@ export async function storeItem(key, item) {
     }
 }
 
-export async function retrieveItem(key) {
+export async function retrieveItem(key: string) {
     try {
         const retrievedItem = await AsyncStorage.getItem(key);
         const item = JSON.parse(retrievedItem);
@@ -25,7 +25,7 @@ export async function retrieveItem(key) {
 }
 
 export async function retrieveAllKeys() {
-    let keys = [];
+    let keys: readonly string[] = [];
     try {
         keys = await AsyncStorage.getAllKeys();
     } catch (error) {
