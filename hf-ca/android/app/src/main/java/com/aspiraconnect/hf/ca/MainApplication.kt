@@ -1,7 +1,12 @@
 package com.aspiraconnect.hf.ca
 
 import android.app.Application
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
+import android.os.Build
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactNativeHost
@@ -46,6 +51,15 @@ class MainApplication : Application(), ReactApplication {
     fun getReactContext(): ReactContext? {
         return reactNativeHost.reactInstanceManager?.currentReactContext
     }
+
+    override fun registerReceiver(receiver: BroadcastReceiver?, filter: IntentFilter?): Intent? {
+        if (Build.VERSION.SDK_INT >= 34 && applicationInfo.targetSdkVersion >= 34) {
+            return super.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
+        } else {
+            return super.registerReceiver(receiver, filter)
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         SoLoader.init(this,  /* native exopackage */false)
