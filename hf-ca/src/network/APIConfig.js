@@ -8,9 +8,9 @@ const getConfig = (needAuthorization = true) => {
         baseOptions = { headers: { Authorization: `Bearer ${globalDataForAPI.jwtToken.access_token}` } };
     }
     if (needAuthorization) {
-        return new Configuration({ baseOptions, basePath: `${getBaseURL()}${deployPath}/api` });
+        return new Configuration({ baseOptions, basePath: `${getBaseURL()}${deployPath}/mobile-api` });
     }
-    return new Configuration({ basePath: `${getBaseURL()}${deployPath}/api` });
+    return new Configuration({ basePath: `${getBaseURL()}${deployPath}/mobile-api` });
 };
 
 export default getConfig;

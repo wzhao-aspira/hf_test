@@ -30,14 +30,14 @@ const AppContract = {
         Regular: require("./fonts/Roboto-Regular.ttf"),
     },
     URL: {
-        qa: "https://qa.ca.wildlifelicense.com/",
-        uat: "https://uat.ca.wildlifelicense.com/",
-        prod: "https://www.ca.wildlifelicense.com",
+        qa: "https://qacalicenses.aspirafocus.com/",
+        uat: "https://uatcalicenses.aspirafocus.com/",
+        prod: "https://www.licenses.wildlife.ca.gov",
         perf: "https://perf.ca.wildlifelicense.com",
     },
     internetSalesURL: {
         // TODO: Waiting BA provide links for UAT & PROD
-        qa: "https://qa.ca.wildlifelicense.com/prod/internetsales/",
+        qa: "https://qacalicenses.aspirafocus.com/prod/internetsales/",
         uat: "https://uat.ca.wildlifelicense.com/uat_test/internetsales/",
         prod: "https://qa.ca.wildlifelicense.com/prod/internetsales/",
     },

@@ -2,7 +2,7 @@ import { configure } from "@react-native-community/netinfo";
 import { getBaseURL } from "../helper/AppHelper";
 import { deployPath } from "../network/commonUtil";
 
-const apiHealthCheckUrl = `${getBaseURL()}${deployPath}/api/v1/Health`;
+const apiHealthCheckUrl = `${getBaseURL()}${deployPath}/mobile-api/v1/Health`;
 
 export default function configureNetworkDetect() {
     configure({
