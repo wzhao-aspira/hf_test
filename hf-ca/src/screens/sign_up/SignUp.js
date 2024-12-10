@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         backgroundColor: AppTheme.colors.font_color_4,
         borderRadius: DEFAULT_RADIUS,
         padding: 20,
-        top: 128,
+        top: 220,
         marginBottom: 10,
         position: "absolute",
         zIndex: 1,
@@ -70,6 +70,15 @@ const SignUp = React.forwardRef((props, ref) => {
     const confirmPasswordRef = useRef();
     const hiddenUserNameRef = useRef();
     const { openSimpleDialog } = useDialog();
+
+    const {
+        userAcknowledgementTopInstructions,
+        userAcknowledgementBottomInstructions,
+        sendValidationCodeTopInstructions,
+        sendValidationCodeBottomInstructions,
+        setPasswordTopInstructions,
+        setPasswordBottomInstructions,
+    } = appConfig.data;
 
     useImperativeHandle(ref, () => ({
         clearText: () => {
@@ -187,12 +196,42 @@ const SignUp = React.forwardRef((props, ref) => {
 
     return (
         <View>
+            {isShowAcknowledgement && !isEmailValidationCodeBeSended && (
+                <View style={{ marginTop: 10 }}>
+                    <RenderHTML
+                        testID={genTestId("userAcknowledgementTopInstructions")}
+                        source={{
+                            html: userAcknowledgementTopInstructions,
+                        }}
+                    />
+                </View>
+            )}
+            {!isShowAcknowledgement && !isEmailValidationCodeBeSended && (
+                <View style={{ marginTop: 10 }}>
+                    <RenderHTML
+                        testID={genTestId("sendValidationCodeTopInstructions")}
+                        source={{
+                            html: sendValidationCodeTopInstructions,
+                        }}
+                    />
+                </View>
+            )}
+            {isEmailValidationCodeBeSended && (
+                <View style={{ marginTop: 10 }}>
+                    <RenderHTML
+                        testID={genTestId("setPasswordTopInstructions")}
+                        source={{
+                            html: setPasswordTopInstructions,
+                        }}
+                    />
+                </View>
+            )}
             <StatefulTextInput
                 testID="UserID"
                 label={t("common.userID")}
                 hint={t("common.pleaseEnterEmail")}
                 ref={userIDRef}
-                style={{ marginTop: 20 }}
+                style={{ marginTop: 10 }}
                 labelStyle={{ color: AppTheme.colors.font_color_1 }}
                 inputStyle={{
                     backgroundColor: emailInputDisabled ? AppTheme.colors.body_100 : AppTheme.colors.font_color_4,
@@ -209,6 +248,26 @@ const SignUp = React.forwardRef((props, ref) => {
                 }}
                 disabled={emailInputDisabled}
             />
+            {isShowAcknowledgement && !isEmailValidationCodeBeSended && (
+                <View style={{ marginTop: 10 }}>
+                    <RenderHTML
+                        testID={genTestId("userAcknowledgementBottomInstructions")}
+                        source={{
+                            html: userAcknowledgementBottomInstructions,
+                        }}
+                    />
+                </View>
+            )}
+            {!isShowAcknowledgement && !isEmailValidationCodeBeSended && (
+                <View style={{ marginTop: 10 }}>
+                    <RenderHTML
+                        testID={genTestId("sendValidationCodeBottomInstructions")}
+                        source={{
+                            html: sendValidationCodeBottomInstructions,
+                        }}
+                    />
+                </View>
+            )}
             {isShowAcknowledgement && (
                 <View style={styles.disclaimerCard}>
                     <ScrollView style={styles.disclaimerText}>
@@ -236,7 +295,7 @@ const SignUp = React.forwardRef((props, ref) => {
                     </View>
                 </View>
             )}
-            {!isEmailValidationCodeBeSended && (
+            {!isEmailValidationCodeBeSended && !isShowAcknowledgement && (
                 <PrimaryBtn
                     style={{ marginTop: 42 }}
                     label={t("common.sendValidationCode")}
@@ -338,6 +397,14 @@ const SignUp = React.forwardRef((props, ref) => {
                             confirmPasswordRef?.current.setError(error);
                         }}
                     />
+                    <View style={{ marginTop: 10 }}>
+                        <RenderHTML
+                            testID={genTestId("setPasswordBottomInstructions")}
+                            source={{
+                                html: setPasswordBottomInstructions,
+                            }}
+                        />
+                    </View>
                     <PrimaryBtn style={{ marginTop: 40 }} label={t("common.create")} onPress={onSave} />
                 </>
             )}

@@ -23,6 +23,8 @@ import { resetBiometricIDLoginBlock, setLoginCredential, setPasswordChangeInd } 
 import { handleError } from "../../network/APIUtil";
 import ProfileThunk from "../../redux/ProfileThunk";
 import { actions as ProfileActions } from "../../redux/ProfileSlice";
+import { appConfig } from "../../services/AppConfigService";
+import RenderHTML from "../../components/RenderHTML";
 
 function SignInScreen(route) {
     const { t } = useTranslation();
@@ -38,6 +40,8 @@ function SignInScreen(route) {
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState();
     const [showErrorDialog, setShowErrorDialog] = useState(false);
+
+    const { signInTopInstructions, signInBottomInstructions } = appConfig.data;
 
     const doSignIn = async (uid = userId, pwd = password) => {
         passwordRef.current?.setSecureEntry();
@@ -91,6 +95,12 @@ function SignInScreen(route) {
             <KeyboardAwareScrollView contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.container}>
                     <Text style={styles.titleStyle}>{sighInLabel}</Text>
+                    <RenderHTML
+                        testID={genTestId("signInTopInstructions")}
+                        source={{
+                            html: signInTopInstructions,
+                        }}
+                    />
                     <StatefulTextInput
                         textContentType={isIos() ? "username" : "none"}
                         keyboardType={isIos() ? "email-address" : "ascii-capable"}
@@ -139,6 +149,12 @@ function SignInScreen(route) {
                         }}
                         onBlur={() => {
                             validateRequiredInput(password, passwordRef, passwordEmptyMsg);
+                        }}
+                    />
+                    <RenderHTML
+                        testID={genTestId("signInBottomInstructions")}
+                        source={{
+                            html: signInBottomInstructions,
                         }}
                     />
                     <PrimaryBtn style={styles.marginTopStyle(30)} label={sighInLabel} onPress={clickSignIn} />
