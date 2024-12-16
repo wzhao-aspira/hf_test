@@ -1,12 +1,12 @@
 import { isArray } from "lodash";
 import { isUATEnv, isProdEnv, isPerfEnv } from "../helper/AppHelper";
 
-let path = "/prod";
+let path = "/workpacket";
 
 if (isUATEnv()) {
     console.log("isUATEnv");
 
-    path = "/uat_test";
+    path = "/UAT_Test";
 } else if (isProdEnv()) {
     path = "";
 } else if (isPerfEnv()) {
