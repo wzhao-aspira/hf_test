@@ -37,6 +37,11 @@ export async function getRegulations() {
     return api.v1StaticDataRegulationsGet();
 }
 
+export async function getRegulationETags() {
+    const api = new StaticDataApi(getAPIConfig(false), null, instance);
+    return api.v1StaticDataRegulationETagsGet();
+}
+
 export async function getUsefulLinks() {
     const api = new StaticDataApi(getAPIConfig(false), null, instance);
     return api.v1StaticDataUsefulLinksGet();

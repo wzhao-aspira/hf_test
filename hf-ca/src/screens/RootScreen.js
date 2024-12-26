@@ -16,6 +16,7 @@ import PrimaryProfileInactiveDialog from "./profile/manage_profile/PrimaryProfil
 import { checkVersion } from "../services/VersionCheckService";
 import AppStateManager from "../helper/AppStateManager";
 import { RootModal } from "../components/dialog/index";
+import { checkRegulationUpdate } from "../components/RegulationUpdateChecker";
 
 export default function RootScreen() {
     const loginStep = useSelector(selectLoginStep);
@@ -44,6 +45,12 @@ export default function RootScreen() {
             setVersion((v) => v + 1);
         }
     }, [isLogin]);
+
+    useEffect(() => {
+        if (loginStep === 10) {
+            checkRegulationUpdate();
+        }
+    }, [loginStep]);
 
     return (
         <SafeAreaProvider>
