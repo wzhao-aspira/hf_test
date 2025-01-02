@@ -3,9 +3,7 @@ import axios from "axios";
 import type { Canceler } from "axios";
 import * as FileSystem from "expo-file-system";
 import FileViewer from "react-native-file-viewer";
-
 import { t } from "i18next";
-
 import { useAppDispatch } from "../../../../hooks/redux";
 import { handleError } from "../../../../network/APIUtil";
 
@@ -13,7 +11,6 @@ import { isAndroid, showToast } from "../../../../helper/AppHelper";
 import Routers, { useAppNavigation } from "../../../../constants/Routers";
 import { useDialog } from "../../../../components/dialog/index";
 import contentDispositionParser from "../../../../utils/contentDispositionParser";
-
 type FileStatus = "unknown" | "not downloaded yet" | "downloading" | "downloaded";
 const cancelDownloadMessage = "download request canceled" as const;
 
@@ -21,7 +18,7 @@ export function formatDownloadURL(downloadURL: string) {
     return downloadURL.replace(/\W/g, "_");
 }
 
-function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string; folderName: string }) {
+function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { downloadURL: string; downloadCallback: (etag: string, fileURI: string) => void, folderName: string }) {
     const dispatch = useAppDispatch();
     const navigation = useAppNavigation();
     const { openSimpleDialog } = useDialog();
@@ -70,7 +67,6 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
         fr.onload = async () => {
             try {
                 const contentDispositionValue = response?.headers?.["content-disposition"] as string;
-
                 const fileNameFromContentDisposition =
                     // @ts-expect-error
                     contentDispositionValue && contentDispositionParser(contentDispositionValue)?.filename;
@@ -91,7 +87,8 @@ function useDownloadFile({ downloadURL, folderName = "" }: { downloadURL: string
                     fr.result.split(",")[1], // The blob data in base64 format
                     { encoding: FileSystem.EncodingType.Base64 } // Specify that the encoding type is base64
                 );
-
+                const etag = response?.headers?.["etag"] as string;
+                downloadCallback(etag, fileURI);
                 setStatus("downloaded");
                 console.log(`The file ${fileURI} saved`);
             } catch (error) {

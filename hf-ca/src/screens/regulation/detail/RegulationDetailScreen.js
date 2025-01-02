@@ -15,6 +15,8 @@ import RenderHTML from "../../../components/RenderHTML";
 import PrimaryBtn from "../../../components/PrimaryBtn";
 
 import useFileOperations from "./hooks/useFileOperations";
+import { getRegulationById, deleteRegulationById, saveRegulationDownloadInfo } from "../../../db/Regulation";
+import { useEffect, useState } from "react";
 
 const styles = StyleSheet.create({
     container: {
@@ -57,16 +59,43 @@ export default function RegulationDetailScreen(props) {
     const { width } = useWindowDimensions();
     const { route } = props;
     const { regulation } = route.params;
-    const { regulationTitle, regulationDetail, regulationSize, fileFormat, regulationUrl } = regulation;
+    const { regulationTitle, regulationDetail, regulationSize, fileFormat, regulationUrl, regulationId } = regulation;
 
+    const markAsDownloaded = (etag, path) => {
+        const regulationDownloadedInfo = {
+            ...regulation,
+            ...{
+                downloadedPath: path,
+                downloadedRegulationETag: etag,
+                downloadedTimestamp: new Date().getTime(),
+                regulationStatus: 1,
+            },
+        };
+        saveRegulationDownloadInfo(regulationDownloadedInfo);
+    };
+    const deleteRegulationFileAndInfo = () => {
+        deleteFile();
+        deleteRegulationById(regulationId);
+    };
     const { downloadFile, cancelDownload, openFile, status, deleteFile } = useFileOperations({
         downloadURL: regulationUrl,
+        downloadCallback: markAsDownloaded,
         folderName,
     });
+
     const isNotDownloaded = status === "not downloaded yet";
     const isDownloading = status === "downloading";
     const isDownloaded = status === "downloaded";
     const { openSelectDialog } = useDialog();
+
+    useEffect(() => {
+        console.log("get previewDownloadInfo");
+        const previewDownloadInfo = getRegulationById(regulation.regulationId);
+        console.log(previewDownloadInfo);
+        if (!!previewDownloadInfo && previewDownloadInfo.regulationStatus === 2) {
+            downloadFile();
+        }
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -113,7 +142,7 @@ export default function RegulationDetailScreen(props) {
                                             openSelectDialog({
                                                 title: t("regulation.Reminder"),
                                                 message: t("regulation.ClearExistingDocumentReminderMessage"),
-                                                onConfirm: deleteFile,
+                                                onConfirm: deleteRegulationFileAndInfo,
                                             });
                                         }}
                                         style={{

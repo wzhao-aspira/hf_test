@@ -20,7 +20,7 @@ interface DialogParamInterface {
     cancelAction?: () => void;
     withModal?: boolean;
     custom?: boolean;
-    renderDialogContent?: () => React.FunctionComponent;
+    renderDialogContent?: () => JSX.Element | React.FunctionComponent;
 }
 
 function showSimpleDialog(param: DialogParamInterface) {

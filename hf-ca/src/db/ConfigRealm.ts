@@ -16,6 +16,7 @@ import DrawApplicationListInfo from "./models/DrawApplicationListInfo";
 import CopyHuntsInfo from "./models/CopyHuntsInfo";
 import PreferencePointLastUpdateDate from "./models/PreferencePointLastUpdateDate";
 import { MobileAppAlert } from "./models/MobileAppAlert";
+import  Regulation from "./models/Regulation";
 import { sentryCaptureException } from "../helper/AppHelper";
 
 const schemaVersion = 21;
@@ -41,6 +42,7 @@ export async function openRealm() {
             DrawApplicationListInfo,
             DrawApplication,
             MobileAppAlert,
+            Regulation
         ],
         path: `${AppContract.contractName}.realm`,
         schemaVersion,

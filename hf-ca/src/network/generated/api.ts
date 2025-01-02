@@ -2141,6 +2141,24 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'setPasswordBottomInstructions'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'outdatedRegulationHeading'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'outdatedRegulationTopInstructions'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'outdatedRegulationBottomInstructions'?: string | null;
 }
 /**
  * 
@@ -2507,6 +2525,68 @@ export interface ProblemDetails {
      * @memberof ProblemDetails
      */
     'instance'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface RegulationETagVM
+ */
+export interface RegulationETagVM {
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationETagVM
+     */
+    'regulationId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationETagVM
+     */
+    'regulationTitle'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationETagVM
+     */
+    'regulationUrl'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegulationETagVM
+     */
+    'regulationETag'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof RegulationETagVM
+     */
+    'eTagTimestamp'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface RegulationETagVMIListExecutionResult
+ */
+export interface RegulationETagVMIListExecutionResult {
+    /**
+     * 
+     * @type {Array<RegulationETagVM>}
+     * @memberof RegulationETagVMIListExecutionResult
+     */
+    'result'?: Array<RegulationETagVM> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegulationETagVMIListExecutionResult
+     */
+    'isValidResponse'?: boolean;
+    /**
+     * 
+     * @type {Array<StringStringKeyValuePair>}
+     * @memberof RegulationETagVMIListExecutionResult
+     */
+    'errors'?: Array<StringStringKeyValuePair> | null;
 }
 /**
  * 
@@ -6258,6 +6338,36 @@ export const StaticDataApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
+         * @summary Get Regulation ETags
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataRegulationETagsGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/v1/StaticData/RegulationETags`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get Regulations
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6448,6 +6558,16 @@ export const StaticDataApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get Regulation ETags
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1StaticDataRegulationETagsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegulationETagVMIListExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1StaticDataRegulationETagsGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get Regulations
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6535,6 +6655,15 @@ export const StaticDataApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
+         * @summary Get Regulation ETags
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1StaticDataRegulationETagsGet(options?: any): AxiosPromise<RegulationETagVMIListExecutionResult> {
+            return localVarFp.v1StaticDataRegulationETagsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get Regulations
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6613,6 +6742,15 @@ export interface StaticDataApiInterface {
      * @memberof StaticDataApiInterface
      */
     v1StaticDataIdentityTypesGet(options?: AxiosRequestConfig): AxiosPromise<IdentityTypesVMExecutionResult>;
+
+    /**
+     * 
+     * @summary Get Regulation ETags
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApiInterface
+     */
+    v1StaticDataRegulationETagsGet(options?: AxiosRequestConfig): AxiosPromise<RegulationETagVMIListExecutionResult>;
 
     /**
      * 
@@ -6699,6 +6837,17 @@ export class StaticDataApi extends BaseAPI implements StaticDataApiInterface {
      */
     public v1StaticDataIdentityTypesGet(options?: AxiosRequestConfig) {
         return StaticDataApiFp(this.configuration).v1StaticDataIdentityTypesGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Regulation ETags
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StaticDataApi
+     */
+    public v1StaticDataRegulationETagsGet(options?: AxiosRequestConfig) {
+        return StaticDataApiFp(this.configuration).v1StaticDataRegulationETagsGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
