@@ -77,9 +77,14 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
                     showToast("can not get the filename");
                     return;
                 }
+                //Delete previously downloaded files   
+                const preFileDirectory = await FileSystem.getInfoAsync(fileDirectory);
+                if (preFileDirectory.exists) {                    
+                    await FileSystem.deleteAsync(fileDirectory);
+                    console.log("Previously downloaded files deleted successfully");
+                }
 
                 const fileURI = `${fileDirectory}/${fileName}`;
-
                 await FileSystem.makeDirectoryAsync(fileDirectory, { intermediates: true });
                 await FileSystem.writeAsStringAsync(
                     fileURI,
@@ -88,7 +93,7 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
                     { encoding: FileSystem.EncodingType.Base64 } // Specify that the encoding type is base64
                 );
                 const etag = response?.headers?.["etag"] as string;
-                downloadCallback(etag, fileURI);
+                downloadCallback(etag, fileDirectory);
                 setStatus("downloaded");
                 console.log(`The file ${fileURI} saved`);
             } catch (error) {
