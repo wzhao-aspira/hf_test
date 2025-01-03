@@ -93,7 +93,7 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
                     { encoding: FileSystem.EncodingType.Base64 } // Specify that the encoding type is base64
                 );
                 const etag = response?.headers?.["etag"] as string;
-                downloadCallback(etag, fileURI);
+                downloadCallback(etag, fileDirectory);
                 setStatus("downloaded");
                 console.log(`The file ${fileURI} saved`);
             } catch (error) {
