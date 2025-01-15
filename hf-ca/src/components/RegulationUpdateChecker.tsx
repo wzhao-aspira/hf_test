@@ -33,7 +33,7 @@ export async function checkRegulationUpdate() {
         return;
     }
     const downloadedRegulations: any = getAllRegulations();
-    const outdetedRegulations = downloadedRegulations.filter(n => n.regulationStatus !== 2 && eTagResult.some(m => m.regulationId === n.regulationId && !!m.regulationETag && m.regulationETag !== n.downloadedRegulationETag && m.eTagTimestamp > n.downloadedTimestamp));
+    const outdetedRegulations = downloadedRegulations.filter(n => eTagResult.some(m => m.regulationId === n.regulationId && !!m.regulationETag && m.regulationETag !== n.downloadedRegulationETag && m.eTagTimestamp > n.downloadedTimestamp));
     if (outdetedRegulations.length > 0) {
         markRegulationAsOutdated(outdetedRegulations.map(n => n.regulationId));
         DialogHelper.showCustomDialog({
