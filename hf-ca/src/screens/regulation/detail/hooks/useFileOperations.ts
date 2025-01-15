@@ -28,6 +28,7 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
 
     const cancelDownloadRef = useRef<Canceler>();
     const [status, setStatus] = useState<FileStatus>("unknown");
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const checkFileStatus = useCallback(async () => {
         const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
@@ -37,6 +38,7 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
         } else {
             setStatus("not downloaded yet");
         }
+        setIsInitialized(true);
     }, [fileDirectory]);
 
     useEffect(() => {
@@ -79,7 +81,7 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
                 }
                 //Delete previously downloaded files   
                 const preFileDirectory = await FileSystem.getInfoAsync(fileDirectory);
-                if (preFileDirectory.exists) {                    
+                if (preFileDirectory.exists) {
                     await FileSystem.deleteAsync(fileDirectory);
                     console.log("Previously downloaded files deleted successfully");
                 }
@@ -167,7 +169,7 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
         }
     }
 
-    return { status, downloadFile, cancelDownload, openFile, deleteFile };
+    return { status, downloadFile, cancelDownload, openFile, deleteFile, isInitialized };
 }
 
 export default useDownloadFile;
