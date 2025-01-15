@@ -77,7 +77,7 @@ export default function RegulationDetailScreen(props) {
         deleteFile();
         deleteRegulationById(regulationId);
     };
-    const { downloadFile, cancelDownload, openFile, status, deleteFile } = useFileOperations({
+    const { downloadFile, cancelDownload, openFile, status, deleteFile, isInitialized } = useFileOperations({
         downloadURL: regulationUrl,
         downloadCallback: markAsDownloaded,
         folderName,
@@ -89,13 +89,16 @@ export default function RegulationDetailScreen(props) {
     const { openSelectDialog } = useDialog();
 
     useEffect(() => {
+        if (!isInitialized) {
+            return;
+        }
         console.log("get previewDownloadInfo");
         const previewDownloadInfo = getRegulationById(regulation.regulationId);
         console.log(previewDownloadInfo);
         if (!!previewDownloadInfo && previewDownloadInfo.regulationStatus === 2) {
             downloadFile();
         }
-    }, []);
+    }, [isInitialized]);
 
     return (
         <View style={styles.container}>
