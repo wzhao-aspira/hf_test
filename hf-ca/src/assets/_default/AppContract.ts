@@ -31,7 +31,7 @@ const AppContract = {
     },
     URL: {
         qa: "https://qacalicenses.aspirafocus.com/",
-        uat: "https://uatcalicenses.aspirafocus.com/",
+        uat: "https://uat.ca.wildlifelicense.com/",
         prod: "https://www.licenses.wildlife.ca.gov",
         perf: "https://perf.ca.wildlifelicense.com",
     },
