@@ -11,7 +11,7 @@ import NavigationService from "../../../navigation/NavigationService";
 import Routers from "../../../constants/Routers";
 import { appConfig } from "../../../services/AppConfigService";
 
-const ItemHeight = 160;
+const ItemHeight = 175;
 
 const styles = StyleSheet.create({
     card: {
