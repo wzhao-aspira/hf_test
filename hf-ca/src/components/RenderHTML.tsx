@@ -9,13 +9,18 @@ interface RenderHTMLProps extends RNRenderHTMLProps {
 }
 
 function RenderHTML(props: RenderHTMLProps) {
-    const { renderersProps, customerID = null, ...restProps } = props;
+    const { renderersProps, customerID = null, source, ...restProps } = props;
 
     const { navigateToIS } = useNavigateToIS();
+
+    if ("html" in source && !source?.html) {
+        return null;
+    }
 
     return (
         <RNRenderHtml
             {...restProps}
+            source={source}
             renderersProps={{
                 a: {
                     onPress: (event, href) => {
