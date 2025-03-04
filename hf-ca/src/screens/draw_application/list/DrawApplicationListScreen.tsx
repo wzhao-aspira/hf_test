@@ -61,6 +61,11 @@ function PendingRoute() {
 
 const renderTabBar = (props) => {
     const tabSize = props?.navigationState?.routes?.length || 3;
+
+    // The spread key into JSX warning has been fixed in react-native-tab-view@4.0.0-rc.11
+    // If you think it is necessary to fix it, you can upgrade the package.
+    // Reference: https://github.com/react-navigation/react-navigation/releases/tag/react-native-tab-view%404.0.0-rc.11
+
     return (
         <TabBar
             {...props}

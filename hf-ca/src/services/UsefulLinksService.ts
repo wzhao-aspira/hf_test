@@ -37,3 +37,7 @@ export async function getUsefulLinksData(): Promise<UsefulLinkData[]> {
 
     return result;
 }
+
+export default {
+    getUsefulLinksData,
+};

@@ -8,3 +8,5 @@ export const DEFAULT_BTN_RADIUS = 4;
 export const TAB_BAR_HEIGHT = 56;
 export const PAGE_MARGIN_BOTTOM = 32;
 export const DRAWER_WIDTH = SCREEN_WIDTH * 0.77;
+
+export const PAGE_HEADER_HEIGHT = 64;

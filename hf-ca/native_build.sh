@@ -141,13 +141,19 @@ buildAndroid() {
     yarn
     
     cd  ${WORKSPACE}/hf-ca/android
+    rm -rf build/ 
+    rm -rf .cxx/
+    rm -rf .gradle/
+    rm -rf app/build/
+    rm -rf app/.cxx/
+
     if [ $ANDROID_BUILD_TYPE = apk ]; then
         echo "build apk start"
-        ./gradlew clean assembleRelease 
+        ./gradlew clean :app:assembleRelease --no-build-cache
         mv ${WORKSPACE}/hf-ca/android/app/build/outputs/apk/release/*.apk $WORKSPACE/hf-ca/build/artifacts/$BUILD_FILE_NAME.$ANDROID_BUILD_TYPE
     else
         echo "build aab start"
-        ./gradlew clean :app:bundleRelease 
+        ./gradlew clean :app:bundleRelease --no-build-cache
         mv ${WORKSPACE}/hf-ca/android/app/build/outputs/bundle/release/*.aab $WORKSPACE/hf-ca/build/artifacts/$BUILD_FILE_NAME.$ANDROID_BUILD_TYPE
     fi
 }

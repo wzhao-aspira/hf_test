@@ -62,7 +62,7 @@ export default function RootScreen() {
                 />
                 <AppNavigator />
                 <PrimaryProfileInactiveDialog />
-                <Indicator testID={genTestId("appIndicator")} visible={indicator} />
+                {indicator && <Indicator testID={genTestId("appIndicator")} visible={indicator} />}
                 <RootModal />
             </SafeAreaView>
         </SafeAreaProvider>

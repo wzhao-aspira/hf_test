@@ -1,4 +1,5 @@
 import "react-native-url-polyfill/auto";
+import "regenerator-runtime/runtime";
 import { decode, encode } from "base-64";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";

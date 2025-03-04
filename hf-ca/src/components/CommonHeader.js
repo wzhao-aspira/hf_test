@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/pro-light-svg-icons/faChevronLeft";
 import AppTheme from "../assets/_default/AppTheme";
 import NavigationService from "../navigation/NavigationService";
-import { DEFAULT_MARGIN } from "../constants/Dimension";
+import { DEFAULT_MARGIN, PAGE_HEADER_HEIGHT } from "../constants/Dimension";
 import { genTestId } from "../helper/AppHelper";
 
 // LEFT_BLACK + LEFT_WIDTH = RIGHT_WIDTH + RIGHT_PADDING
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         flexDirection: "row",
-        height: 64,
+        height: PAGE_HEADER_HEIGHT,
         width: "100%",
         alignItems: "center",
         paddingLeft: DEFAULT_MARGIN,
