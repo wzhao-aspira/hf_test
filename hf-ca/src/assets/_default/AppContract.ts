@@ -30,7 +30,7 @@ const AppContract = {
         Regular: require("./fonts/Roboto-Regular.ttf"),
     },
     URL: {
-        qa: "https://qacalicenses.aspirafocus.com/",
+        qa: "https://qa.ca.wildlifelicense.com/",
         uat: "https://uat.ca.wildlifelicense.com/",
         prod: "https://www.licenses.wildlife.ca.gov",
         perf: "https://perf.ca.wildlifelicense.com",

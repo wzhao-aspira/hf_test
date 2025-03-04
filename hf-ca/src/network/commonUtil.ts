@@ -1,7 +1,7 @@
 import { isArray } from "lodash";
 import { isUATEnv, isProdEnv, isPerfEnv } from "../helper/AppHelper";
 
-let path = "/workpacket";
+let path = "/prod";
 
 if (isUATEnv()) {
     console.log("isUATEnv");
