@@ -294,6 +294,12 @@
             "subTitle": "Enabling location services will allow you to find nearby CDFW license agents and display local weather and solunar information.",
             "turnOnLocation": "Next",
             "notNow": "Cancel"
+        },
+        "notification": {
+            "title": "Enable Notifications",
+            "subTitle": "Enabling notifications will notify you once the regulation update file has been successfully updated.",
+            "turnOnNotification": "Next",
+            "notNow": "Cancel"
         }
     },
     "hamburgerMenu": {
