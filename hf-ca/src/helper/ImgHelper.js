@@ -8,6 +8,10 @@ export function getLocationImage() {
     return require("../assets/_default/images/location.png");
 }
 
+export function getNotificationImage() {
+    return require("../assets/_default/images/notification.png");
+}
+
 export async function getLoginSplash() {
     const keyLoginSplash = await retrieveItem(KEY_CONSTANT.keyLoginSplash);
     if (!isEmpty(keyLoginSplash)) {
