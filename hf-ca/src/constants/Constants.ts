@@ -5,6 +5,7 @@ export const KEY_CONSTANT = {
     keyResidentMethodTypes: "keyResidentMethodTypes",
     keyLatLon: "keyLatLon",
     keyOnboardingLocation: "keyOnboardingLocation",
+    keyOnboardingNotificationPermission:"keyOnboardingNotificationPermission",
     keyLastUsedMobileAccountId: "keyLastUsedMobileAccountId",
     keyOnboardingBiometric: "keyOnboardingBiometricLogin",
     localAuthOnboardingHasAppear: "localAuthOnboardingHasAppear",
