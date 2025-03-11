@@ -5,7 +5,7 @@ export const KEY_CONSTANT = {
     keyResidentMethodTypes: "keyResidentMethodTypes",
     keyLatLon: "keyLatLon",
     keyOnboardingLocation: "keyOnboardingLocation",
-    keyOnboardingNotificationPermission:"keyOnboardingNotificationPermission",
+    keyOnboardingNotificationPermission: "keyOnboardingNotificationPermission",
     keyLastUsedMobileAccountId: "keyLastUsedMobileAccountId",
     keyOnboardingBiometric: "keyOnboardingBiometricLogin",
     localAuthOnboardingHasAppear: "localAuthOnboardingHasAppear",
@@ -28,6 +28,7 @@ export const KEY_CONSTANT = {
     keyVersionInfo: "keyVersionInfo",
     lastUpdateDate: "lastUpdateDate",
     mobileAppAlertLastUpdateTime: "mobileAppAlertLastUpdateTime",
+    allowsCellularUpdateRegulation: "AllowsCellularUpdateRegulation"
 };
 export const DEBUG_MODE = false;
 
