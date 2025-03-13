@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ImageBackground, Pressable, ActivityIndicator }
 import Mapbox, { MarkerView } from "@rnmapbox/maps";
 import { isEmpty, debounce } from "lodash";
 import AppTheme from "../../assets/_default/AppTheme";
-import { isIos } from "../../helper/AppHelper";
 import { SalesAgentsItem } from "./SalesAgentsList";
 import AppContract from "../../assets/_default/AppContract";
 
@@ -52,14 +51,8 @@ function IssuerLocationMarker({ coordinate = [0, 0], label = "", onPress }) {
         <MarkerView coordinate={coordinate} allowOverlap>
             <Pressable
                 onPressOut={() => {
-                    if (isIos()) {
-                        console.log(`onPressOut:${coordinate}`);
-                        onPress?.(coordinate);
-                    }
-                }}
-                onPress={() => {
+                    console.log(`onPressOut:${coordinate}`);
                     onPress?.(coordinate);
-                    console.log(`onPress:${coordinate}`);
                 }}
             >
                 <ImageBackground source={markerBg} style={styles.marker} resizeMethod="resize">
