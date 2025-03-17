@@ -14,7 +14,7 @@ export default class Regulation extends Realm.Object<Regulation> {
 
     downloadedTimestamp?: number;
 
-    regulationStatus?: number;  // 1: downloaded; 2: outdated;
+    regulationStatus?: number;  //Finished = 1,  AutoUpdateQueued = 2, AutoUpdateStarted = 3, AutoUpdateFailed = 4, AutoUpdateCompleted = 5, UpdateNotified = 6
 
     static schema = {
         name: "Regulation",

@@ -1,7 +1,8 @@
 export enum RegulationUpdateStatus {
-    finished = 1,
-    autoUpdateQueued = 2,
-    autoUpdateStarted = 3,
-    autoUpdateFailed = 4,
-    autoUpdateCompletedUnview = 5
+    Finished = 1,
+    AutoUpdateQueued = 2,
+    AutoUpdateStarted = 3,
+    AutoUpdateFailed = 4,
+    AutoUpdateCompleted = 5,
+    UpdateNotified = 6
 }
