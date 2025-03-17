@@ -62,6 +62,10 @@ export function showToast(message, option = {}) {
 }
 
 export function genTestId(testID, suffix) {
+    if (typeof testID !== "string") {
+        return undefined;
+    }
+
     let formattedTestId;
 
     if (isAndroid()) {
