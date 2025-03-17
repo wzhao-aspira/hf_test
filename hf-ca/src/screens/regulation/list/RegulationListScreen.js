@@ -12,10 +12,11 @@ import { DEFAULT_MARGIN } from "../../../constants/Dimension";
 import { genTestId } from "../../../helper/AppHelper";
 import { handleError } from "../../../network/APIUtil";
 import { getCacheRegulations, getRegulationData, saveCacheRegulations } from "../../../services/RegulationService";
-
+import { getAllRegulations } from "../../../db/Regulation";
 import getRegulationFileIDList from "../detail/utils/getRegulationFileIDList";
 import { folderName } from "../detail/RegulationDetailScreen";
 import cleanUpInvalidFiles from "../../../components/notificationAndAttachment/utils/cleanUpInvalidFiles";
+import useFocus from "../../../hooks/useFocus";
 
 const styles = StyleSheet.create({
     container: {
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function RegulationListContent({ data }) {
+function RegulationListContent({ data, updateStatusData }) {
     if (isEmpty(data)) {
         return (
             <View style={styles.emptyContainer}>
@@ -49,7 +50,7 @@ function RegulationListContent({ data }) {
             </View>
         );
     }
-    return <RegulationListDataView data={data} />;
+    return <RegulationListDataView data={data} updateStatusData={updateStatusData} />;
 }
 
 function RegulationListScreen() {
@@ -59,6 +60,7 @@ function RegulationListScreen() {
     const [refreshing, setRefreshing] = useState(false);
     const [showSkeletonWhenOffline, setShowSkeletonWhenOffline] = useState(false);
     const [regulationData, setRegulationData] = useState(null);
+    const [updateStatusData, setUpdateStatusData] = useState([]);
 
     console.log(`isLoading:${refreshing}`);
     console.log(`showSkeletonWhenOffline:${showSkeletonWhenOffline}`);
@@ -85,20 +87,29 @@ function RegulationListScreen() {
         }
 
         const cacheRegulationData = await getCacheRegulations();
+        const regulationStatusData = getAllRegulations();
         if (isEmpty(cacheRegulationData)) {
             setShowSkeletonWhenOffline(true);
         } else {
             setShowSkeletonWhenOffline(false);
             setRegulationData(cacheRegulationData);
+            setUpdateStatusData(regulationStatusData);
         }
 
         setRefreshing(false);
     };
 
     useEffect(() => {
+        console.log("RegulationListScreen - useEffect");
         getRegulationListData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useFocus(() => {
+        console.log("RegulationListScreen - useFocus");
+        const regulationStatusData = getAllRegulations();
+        setUpdateStatusData(regulationStatusData);
+    });
 
     return (
         <Page style={styles.container}>
@@ -115,7 +126,9 @@ function RegulationListScreen() {
                 }
             >
                 {(refreshing || showSkeletonWhenOffline) && <RegulationListLoading />}
-                {!refreshing && !showSkeletonWhenOffline && <RegulationListContent data={regulationData} />}
+                {!refreshing && !showSkeletonWhenOffline && (
+                    <RegulationListContent data={regulationData} updateStatusData={updateStatusData} />
+                )}
             </ScrollView>
         </Page>
     );
