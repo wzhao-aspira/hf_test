@@ -13,10 +13,14 @@ import { genTestId, openLink, isIos } from "../../../helper/AppHelper";
 import CommonHeader from "../../../components/CommonHeader";
 import RenderHTML from "../../../components/RenderHTML";
 import PrimaryBtn from "../../../components/PrimaryBtn";
-
 import useFileOperations from "./hooks/useFileOperations";
 import { getRegulationById, deleteRegulationById, saveRegulationDownloadInfo } from "../../../db/Regulation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import DialogHelper from "../../../helper/DialogHelper";
+import { RegulationUpdateStatus } from "../../../constants/RegulationUpdateStatus";
+import { appConfig } from "../../../services/AppConfigService";
+import { markDownloadAsFinishedByID } from "../../../services/RegulationService";
+import { REGULATON_DOWNLOAD_FOLDER } from "../../../constants/Constants";
 
 const styles = StyleSheet.create({
     container: {
@@ -52,15 +56,13 @@ const styles = StyleSheet.create({
     },
 });
 
-export const folderName = "regulation_files";
-
 export default function RegulationDetailScreen(props) {
     const { t } = useTranslation();
     const { width } = useWindowDimensions();
     const { route } = props;
     const { regulation } = route.params;
     const { regulationTitle, regulationDetail, regulationSize, fileFormat, regulationUrl, regulationId } = regulation;
-
+    const { regulationBackgroundUpdateInProgressReminder } = appConfig.data;
     const markAsDownloaded = (etag, path) => {
         const regulationDownloadedInfo = {
             ...regulation,
@@ -73,14 +75,31 @@ export default function RegulationDetailScreen(props) {
         };
         saveRegulationDownloadInfo(regulationDownloadedInfo);
     };
-    const deleteRegulationFileAndInfo = () => {
-        deleteFile();
-        deleteRegulationById(regulationId);
+
+    const operateFileCheck = () => {
+        console.log("RegulationDetailScreen - operateFileCheck");
+        const regulationStatusInfo = getRegulationById(regulation.regulationId);
+        if (
+            !!regulationStatusInfo &&
+            regulationStatusInfo.regulationStatus === RegulationUpdateStatus.AutoUpdateStarted
+        ) {
+            DialogHelper.showSimpleDialog({
+                title: t("regulation.Reminder"),
+                message: regulationBackgroundUpdateInProgressReminder,
+            });
+            return false;
+        }
+        return true;
     };
-    const { downloadFile, cancelDownload, openFile, status, deleteFile, isInitialized } = useFileOperations({
+
+    const deleteRegulationFileAndInfo = () => {
+        deleteFile(() => deleteRegulationById(regulationId));
+    };
+    const { downloadFile, cancelDownload, openFile, status, deleteFile } = useFileOperations({
         downloadURL: regulationUrl,
         downloadCallback: markAsDownloaded,
-        folderName,
+        folderName: REGULATON_DOWNLOAD_FOLDER,
+        operateFileCheck: operateFileCheck,
     });
 
     const isNotDownloaded = status === "not downloaded yet";
@@ -89,16 +108,9 @@ export default function RegulationDetailScreen(props) {
     const { openSelectDialog } = useDialog();
 
     useEffect(() => {
-        if (!isInitialized) {
-            return;
-        }
-        console.log("get previewDownloadInfo");
-        const previewDownloadInfo = getRegulationById(regulation.regulationId);
-        console.log(previewDownloadInfo);
-        if (!!previewDownloadInfo && previewDownloadInfo.regulationStatus === 2) {
-            downloadFile();
-        }
-    }, [isInitialized]);
+        console.log("RegulationDetailScreen - useEffect");
+        markDownloadAsFinishedByID(regulation.regulationId);
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -201,7 +213,9 @@ export default function RegulationDetailScreen(props) {
                                         style={styles.button}
                                         testID="viewFromDownloadBtn"
                                         label={t("regulation.viewFromDownload")}
-                                        onPress={openFile}
+                                        onPress={() =>
+                                            openFile(() => markDownloadAsFinishedByID(regulation.regulationId))
+                                        }
                                     />
                                 )}
                                 {isIos() && (
