@@ -1,4 +1,4 @@
-import { Modal } from "react-native";
+import { Modal, View } from "react-native";
 import { SimpleDialogView, SelectDialogView } from "../Dialog";
 import { DialogConfig } from "./type";
 import useDialog from "./useDialog";
@@ -66,8 +66,10 @@ export default function RootModal() {
     console.log(dialogState);
 
     return (
-        <Modal visible={open} animationType="none" transparent>
-            <Content dialogState={dialogState} />
-        </Modal>
+        <View>
+            <Modal visible={open} animationType="none" transparent>
+                <Content dialogState={dialogState} />
+            </Modal>
+        </View>
     );
 }
