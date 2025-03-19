@@ -31,7 +31,7 @@ export default {
         if (onboardingNotificationPermission !== 1) {
             try {
                 const settings = await notifee.getNotificationSettings();
-                if (settings.authorizationStatus == AuthorizationStatus.DENIED) {
+                if (settings.authorizationStatus !== AuthorizationStatus.AUTHORIZED) {
                     console.log(`onboardingNotificationPermission:false`);
                     result.push(OnboardingType.notification);
                 }

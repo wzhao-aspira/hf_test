@@ -8,6 +8,7 @@ import PrimaryBtn from "../../components/PrimaryBtn";
 import OutlinedBtn from "../../components/OutlinedBtn";
 import { getNotificationImage } from "../../helper/ImgHelper";
 import notifee from "@notifee/react-native";
+import { appConfig } from "../../services/AppConfigService";
 
 const styles = StyleSheet.create({
     content: {
@@ -54,18 +55,14 @@ const styles = StyleSheet.create({
 export default function OnboardingNotificationScreen(props) {
     const { onFinish } = props;
     const { t } = useTranslation();
-
+    const { enableNotificationsTitle, enableNotificationsBody } = appConfig.data;
     return (
         <View style={styles.content}>
             <View style={styles.titleView}>
                 <View style={{ justifyContent: "center" }}>
-                    <Text style={styles.title}>
-                        <Trans i18nKey="onboarding.notification.title" />
-                    </Text>
+                    {enableNotificationsTitle && <Text style={styles.title}>{enableNotificationsTitle}</Text>}
                     <SplitLine style={{ alignSelf: "center", backgroundColor: AppTheme.colors.font_color_1 }} />
-                    <Text style={styles.subTitle}>
-                        <Trans i18nKey="onboarding.notification.subTitle" />
-                    </Text>
+                    {enableNotificationsBody && <Text style={styles.subTitle}>{enableNotificationsBody}</Text>}
                 </View>
             </View>
 
