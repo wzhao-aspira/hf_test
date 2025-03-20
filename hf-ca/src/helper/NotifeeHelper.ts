@@ -8,23 +8,33 @@ import { KEY_CONSTANT } from "../constants/Constants";
 export function registerNotifeeEvent() {
     notifee.onForegroundEvent(async ({ type, detail }) => {
         console.log("open notifee on Foreground");
-        notifeePressEvent(type, detail);
+        if (type === EventType.PRESS) {
+            handleNotificationPress(detail.notification);
+        }
     });
 
     notifee.onBackgroundEvent(async ({ type, detail }) => {
         console.log("open notifee on Background");
-        notifeePressEvent(type, detail);
+        if (type === EventType.PRESS) {
+            handleNotificationPress(detail.notification);
+        }
+    });
+
+    notifee.getInitialNotification().then(notification => {
+        if (notification) {
+            handleNotificationPress(notification);
+        }
     });
 }
 
-async function notifeePressEvent(pressType, detail) {
-    const versionResult = await retrieveItem(KEY_CONSTANT.keyVersionInfo);
-    if (!!versionResult && versionResult.updateOption === 2) {
-        return;
-    }
+async function handleNotificationPress(notification) {
+    try {
+        const versionResult = await retrieveItem(KEY_CONSTANT.keyVersionInfo);
+        if (!!versionResult && versionResult.updateOption === 2) {
+            return;
+        }
 
-    if (pressType === EventType.PRESS) {
-        const data = detail.notification.data;
+        const data = notification.data;
         if (data.type === "VIEW_REGULATION" && !!data.id) {
             const cacheRegulation = await getCacheRegulations();
             if (cacheRegulation && cacheRegulation.regulationList) {
@@ -35,6 +45,9 @@ async function notifeePressEvent(pressType, detail) {
                 }
             }
         }
+    }
+    catch (error) {
+        console.log(error);
     }
 };
 
