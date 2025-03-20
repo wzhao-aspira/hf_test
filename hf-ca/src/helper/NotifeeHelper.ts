@@ -18,11 +18,6 @@ export function registerNotifeeEvent() {
 }
 
 async function notifeePressEvent(pressType, detail) {
-    const navigationState = navigationRef?.current?.getState();
-    if (!navigationState) {
-        return;
-    }
-
     const versionResult = await retrieveItem(KEY_CONSTANT.keyVersionInfo);
     if (!!versionResult && versionResult.updateOption === 2) {
         return;
