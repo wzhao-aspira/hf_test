@@ -43,6 +43,8 @@ const downloadFile = async ({ url, folder, onStart, onComplete, onError }: { url
         onComplete?.(result, folderUri);
 
     } catch (error) {
+        console.log("download file error");
+        console.log(error);
         onError?.();
     }
 };

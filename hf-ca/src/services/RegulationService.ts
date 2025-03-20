@@ -83,8 +83,6 @@ export function reDownloadFailedRegulations() {
         return;
     }
     const failedDownloadedRegulations = regulations.filter(n => n.regulationStatus === RegulationUpdateStatus.AutoUpdateFailed);
-    console.log("re-download failed regulations.");
-    console.log(failedDownloadedRegulations);
     regulationFileDownload(failedDownloadedRegulations);
 }
 
@@ -164,7 +162,7 @@ async function notifyDownloadComplete(regulationId: string, regulationTitle: str
     });
     await notifee.displayNotification({
         title: regulationDownloadedNotificationTitle,
-        body: regulationDownloadedNotificationBody.replace("{{RegulationTitle}}", regulationTitle),
+        body: regulationDownloadedNotificationBody?.replace("{{RegulationTitle}}", regulationTitle),
         android: {
             channelId,
             importance: AndroidImportance.HIGH,
