@@ -7,7 +7,7 @@ const downloadFile = async ({ url, folder, onStart, onComplete, onError }: { url
         onStart?.();
 
         const formattedDownloadURL = formatDownloadURL(url);
-        const tempFolderUri = `${FileSystem.documentDirectory}temp${folder}/${formattedDownloadURL}/`;
+        const tempFolderUri = `${FileSystem.documentDirectory}temp_${folder}/${formattedDownloadURL}/`;
         await FileSystem.makeDirectoryAsync(tempFolderUri, { intermediates: true });
         const tempFileName = "tempfile";
         const tempDestinationUri = tempFolderUri + tempFileName;

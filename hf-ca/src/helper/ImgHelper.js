@@ -28,6 +28,10 @@ export function getDefaultLoginSplash() {
     return require("../assets/_default/images/login_splash.jpg");
 }
 
+export function getDefaultAppIcon() {
+    return require("../assets/_default/images/icon.png");
+}
+
 export function getLogoRatio() {
     return 581 / 768;
 }

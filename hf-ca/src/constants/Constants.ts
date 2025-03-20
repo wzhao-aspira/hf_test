@@ -101,3 +101,5 @@ export const LOGIN_TYPE = { Reopen: 2 };
 
 export const CA_PASSWORD_RULES =
     "required: upper; required: lower; required: digit; required: [-().&@?'#,/&quot;+]; max-consecutive: 2; minlength: 8; maxlength: 32;";
+
+export const REGULATON_DOWNLOAD_FOLDER = "regulation_files";
