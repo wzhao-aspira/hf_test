@@ -18,7 +18,7 @@ export function formatDownloadURL(downloadURL: string) {
     return downloadURL.replace(/\W/g, "_");
 }
 
-function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { downloadURL: string; downloadCallback: (etag: string, fileURI: string) => void, folderName: string }) {
+function useDownloadFile({ downloadURL, downloadCallback, operateFileCheck, folderName = "" }: { downloadURL: string; downloadCallback: (etag: string, fileURI: string) => void, operateFileCheck: () => Boolean, folderName: string }) {
     const dispatch = useAppDispatch();
     const navigation = useAppNavigation();
     const { openSimpleDialog } = useDialog();
@@ -28,7 +28,6 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
 
     const cancelDownloadRef = useRef<Canceler>();
     const [status, setStatus] = useState<FileStatus>("unknown");
-    const [isInitialized, setIsInitialized] = useState(false);
 
     const checkFileStatus = useCallback(async () => {
         const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
@@ -38,7 +37,6 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
         } else {
             setStatus("not downloaded yet");
         }
-        setIsInitialized(true);
     }, [fileDirectory]);
 
     useEffect(() => {
@@ -46,8 +44,11 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
     }, [checkFileStatus, fileDirectory]);
 
     async function downloadFile() {
-        setStatus("downloading");
+        if (operateFileCheck && !operateFileCheck()) {
+            return;
+        }
 
+        setStatus("downloading");
         const source = axios.CancelToken.source();
         cancelDownloadRef.current = source.cancel;
 
@@ -118,7 +119,10 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
         cancelDownloadRef.current(cancelDownloadMessage);
     }
 
-    async function openFile() {
+    async function openFile(cb?: () => void) {
+        if (operateFileCheck && !operateFileCheck()) {
+            return;
+        }
         const fileNameList = await FileSystem.readDirectoryAsync(fileDirectory);
 
         const fileName = fileNameList[0];
@@ -132,6 +136,7 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
         if (isAndroid()) {
             FileViewer.open(fileURI)
                 .then(() => {
+                    cb?.();
                     console.log(`${fileURI} file opened`);
                 })
                 .catch((error) => {
@@ -154,10 +159,14 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
             navigation.navigate(Routers.webView, {
                 url: fileURI,
             });
+            cb?.();
         }
     }
 
-    async function deleteFile() {
+    async function deleteFile(cb?: () => void) {
+        if (operateFileCheck && !operateFileCheck()) {
+            return;
+        }
         const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
 
         if (fileInfo.exists) {
@@ -167,9 +176,10 @@ function useDownloadFile({ downloadURL, downloadCallback, folderName = "" }: { d
         } else {
             console.log("File not found");
         }
+        cb?.();
     }
 
-    return { status, downloadFile, cancelDownload, openFile, deleteFile, isInitialized };
+    return { status, downloadFile, cancelDownload, openFile, deleteFile };
 }
 
 export default useDownloadFile;

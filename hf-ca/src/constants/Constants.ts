@@ -5,6 +5,7 @@ export const KEY_CONSTANT = {
     keyResidentMethodTypes: "keyResidentMethodTypes",
     keyLatLon: "keyLatLon",
     keyOnboardingLocation: "keyOnboardingLocation",
+    keyOnboardingNotificationPermission: "keyOnboardingNotificationPermission",
     keyLastUsedMobileAccountId: "keyLastUsedMobileAccountId",
     keyOnboardingBiometric: "keyOnboardingBiometricLogin",
     localAuthOnboardingHasAppear: "localAuthOnboardingHasAppear",
@@ -27,6 +28,7 @@ export const KEY_CONSTANT = {
     keyVersionInfo: "keyVersionInfo",
     lastUpdateDate: "lastUpdateDate",
     mobileAppAlertLastUpdateTime: "mobileAppAlertLastUpdateTime",
+    allowsCellularUpdateRegulation: "AllowsCellularUpdateRegulation"
 };
 export const DEBUG_MODE = false;
 
@@ -99,3 +101,5 @@ export const LOGIN_TYPE = { Reopen: 2 };
 
 export const CA_PASSWORD_RULES =
     "required: upper; required: lower; required: digit; required: [-().&@?'#,/&quot;+]; max-consecutive: 2; minlength: 8; maxlength: 32;";
+
+export const REGULATON_DOWNLOAD_FOLDER = "regulation_files";

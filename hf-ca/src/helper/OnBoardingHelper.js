@@ -3,10 +3,12 @@ import { isEmpty } from "lodash";
 import { KEY_CONSTANT } from "../constants/Constants";
 import { checkAuthOnboarding } from "./LocalAuthHelper";
 import { retrieveItem } from "./StorageHelper";
+import notifee, { AuthorizationStatus } from "@notifee/react-native";
 
 export const OnboardingType = {
     biometricLogin: 1,
     location: 2,
+    notification: 3,
 };
 
 export default {
@@ -19,6 +21,19 @@ export default {
                 console.log(`permissionResponse:${JSON.stringify(permissionResponse)}`);
                 if (permissionResponse.status == "undetermined") {
                     result.push(OnboardingType.location);
+                }
+            } catch (error) {
+                console.log(JSON.stringify(error));
+            }
+        }
+
+        const onboardingNotificationPermission = await retrieveItem(KEY_CONSTANT.keyOnboardingNotificationPermission);
+        if (onboardingNotificationPermission !== 1) {
+            try {
+                const settings = await notifee.getNotificationSettings();
+                if (settings.authorizationStatus !== AuthorizationStatus.AUTHORIZED) {
+                    console.log(`onboardingNotificationPermission:false`);
+                    result.push(OnboardingType.notification);
                 }
             } catch (error) {
                 console.log(JSON.stringify(error));

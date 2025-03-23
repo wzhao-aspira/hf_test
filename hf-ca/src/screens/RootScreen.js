@@ -17,12 +17,15 @@ import { checkVersion } from "../services/VersionCheckService";
 import AppStateManager from "../helper/AppStateManager";
 import { RootModal } from "../components/dialog/index";
 import { checkRegulationUpdate } from "../components/RegulationUpdateChecker";
+import { registerNotifeeEvent } from "../helper/NotifeeHelper";
+import { reDownloadFailedRegulations } from "../services/RegulationService";
 
 export default function RootScreen() {
     const loginStep = useSelector(selectLoginStep);
     const indicator = useSelector(selectIndicator);
     const appState = useRef(null);
     const isLogin = loginStep == LoginStep.login;
+    const isHome = loginStep == LoginStep.home;
     const [version, setVersion] = useState(0);
 
     useErrorHandling();
@@ -33,10 +36,15 @@ export default function RootScreen() {
                 if (state == "active") {
                     console.log("App has come to the foreground!");
                     checkVersion();
+                    if (isHome) {
+                        reDownloadFailedRegulations();
+                    }
                 }
             }
             appState.current = state;
         });
+
+        registerNotifeeEvent();
         checkVersion();
     }, []);
 
@@ -47,10 +55,10 @@ export default function RootScreen() {
     }, [isLogin]);
 
     useEffect(() => {
-        if (loginStep === 10) {
+        if (isHome) {
             checkRegulationUpdate();
         }
-    }, [loginStep]);
+    }, [isHome]);
 
     return (
         <SafeAreaProvider>

@@ -27,6 +27,8 @@ import { DialogProvider } from "./src/components/dialog/index";
 import configureNetworkDetect from "./src/services/ApiHealthService";
 import AccountService from "./src/services/AccountService";
 import { LOGIN_TYPE } from "./src/constants/Constants";
+import OnBoardingHelper from "./src/helper/OnBoardingHelper";
+import { isEmpty } from "lodash";
 
 LogBox.ignoreLogs(["Found screens with the same name nested inside one another."]);
 
@@ -57,7 +59,12 @@ const checkLogin = async () => {
     if (res.success) {
         await store.dispatch(appThunkActions.initUserData({ userID: res.lastUsedMobileAccountId }));
         await store.dispatch(ProfileThunk.initProfile(false));
-        store.dispatch(updateLoginStep(LoginStep.home));
+        const onBoardingScreens = await OnBoardingHelper.checkOnBoarding(res.lastUsedMobileAccountId);
+        if (!isEmpty(onBoardingScreens)) {
+            store.dispatch(updateLoginStep(LoginStep.onBoarding));
+        } else {
+            store.dispatch(updateLoginStep(LoginStep.home));
+        }
         return;
     }
     store.dispatch(updateLoginStep(LoginStep.login));

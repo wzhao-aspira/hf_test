@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
 import AppTheme from "../../../assets/_default/AppTheme";
 import { genTestId } from "../../../helper/AppHelper";
+import { RegulationUpdateStatus } from "../../../constants/RegulationUpdateStatus";
 
 export const styles = StyleSheet.create({
     mainContainer: {
@@ -47,10 +48,23 @@ export const styles = StyleSheet.create({
         height: 1,
         backgroundColor: AppTheme.colors.divider,
     },
+    newBadge: {
+        backgroundColor: AppTheme.colors.exclaimer_red,
+        borderRadius: 15,
+        paddingHorizontal: 2,
+        paddingVertical: 4,
+        position: "absolute",
+        right: -3,
+        top: -3,
+    },
+    newText: {
+        color: AppTheme.colors.font_color_4,
+        fontSize: 8,
+    },
 });
 
 function RegulationItemView(props) {
-    const { itemData, onPress, itemIndex } = props;
+    const { itemData, onPress, itemIndex, updateStatus } = props;
     const { regulationTitle, regulationId } = itemData;
     return (
         <View style={styles.mainContainer}>
@@ -69,6 +83,12 @@ function RegulationItemView(props) {
                         <Text style={styles.huntDay} testID={genTestId("regulationIndex", itemIndex)}>
                             {itemIndex}
                         </Text>
+                        {(updateStatus === RegulationUpdateStatus.AutoUpdateCompleted ||
+                            updateStatus === RegulationUpdateStatus.UpdateNotified) && (
+                            <View style={styles.newBadge}>
+                                <Text style={styles.newText}>New</Text>
+                            </View>
+                        )}
                     </View>
                     <View style={styles.itemText}>
                         <Text testID={genTestId("regulationTitle", itemIndex)} numberOfLines={1} style={styles.title}>

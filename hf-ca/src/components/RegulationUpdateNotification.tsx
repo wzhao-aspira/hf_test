@@ -1,5 +1,5 @@
 import { appConfig } from "../services/AppConfigService";
-import { SimpleDialog } from "./Dialog";
+import { SimpleDialogView } from "./Dialog";
 import NavigationService from "../navigation/NavigationService";
 import { useSelector } from "react-redux";
 import { selectNeedForceUpdate } from "../redux/AppSlice";
@@ -10,15 +10,14 @@ export function RegulationUpdateNotification(props) {
         outdatedRegulationTopInstructions,
         outdatedRegulationBottomInstructions } =
         appConfig.data;
-
+  
     const dialogContent = `${outdatedRegulationTopInstructions || ""}\r\n\r\n${outdetedRegulations.map(n => "•  " + n.regulationTitle).join("\r\n")}\r\n\r\n${outdatedRegulationBottomInstructions || ""}`;
-    return (
-        <SimpleDialog
+    return (!needForceUpdate &&
+        <SimpleDialogView
             title={outdatedRegulationHeading}
             message={dialogContent}
             messageStyle={{ textAlign: "left" }}
-            okAction={() => { NavigationService.back(); }}
-            visible={!needForceUpdate}
+            okAction={() => { NavigationService.back(); }}         
         />
     );
 }

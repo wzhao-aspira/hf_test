@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppContract from "../../assets/_default/AppContract";
 import OnboardingLocationScreen from "./OnboardingLocationScreen";
+import OnboardingNotificationScreen from "./OnboardingNotificationScreen";
 import { updateLoginStep, selectUsername } from "../../redux/AppSlice";
 import LoginStep from "../../constants/LoginStep";
 import OnBoardingHelper, { OnboardingType } from "../../helper/OnBoardingHelper";
@@ -12,6 +13,7 @@ import { saveOnboardingPageAppear, setLastBiometricLoginUser } from "../../helpe
 export default function OnBoardingScreen() {
     const dispatch = useDispatch();
     const [location, setLocation] = useState(false);
+    const [notification, setNotification] = useState(false);
     const [biometricLogin, setBiometricLogin] = useState(false);
     const [onBoardingTypes, setOnBoardingTypes] = useState([]);
 
@@ -28,6 +30,8 @@ export default function OnBoardingScreen() {
                 setBiometricLogin(true);
             } else if (result.includes(OnboardingType.location)) {
                 setLocation(true);
+            } else if (result.includes(OnboardingType.notification)) {
+                setNotification(true);
             } else {
                 jump();
             }
@@ -50,6 +54,8 @@ export default function OnBoardingScreen() {
                         setBiometricLogin(false);
                         if (onBoardingTypes.includes(OnboardingType.location)) {
                             setLocation(true);
+                        } else if (onBoardingTypes.includes(OnboardingType.notification)) {
+                            setNotification(true);
                         } else {
                             jump();
                         }
@@ -58,6 +64,18 @@ export default function OnBoardingScreen() {
             )}
             {location && (
                 <OnboardingLocationScreen
+                    onFinish={() => {
+                        if (onBoardingTypes.includes(OnboardingType.notification)) {
+                            setLocation(false);
+                            setNotification(true);
+                        } else {
+                            jump();
+                        }
+                    }}
+                />
+            )}
+            {notification && (
+                <OnboardingNotificationScreen
                     onFinish={() => {
                         jump();
                     }}

@@ -45,7 +45,7 @@ function LinkButton({ text, href }) {
     );
 }
 
-function RegulationListDataView({ data }) {
+function RegulationListDataView({ data, updateStatusData }) {
     const { t } = useTranslation();
     const { width } = useWindowDimensions();
 
@@ -77,10 +77,14 @@ function RegulationListDataView({ data }) {
 
             {regulationList.map((item, index) => {
                 console.log(`regulation item:${JSON.stringify(item)}`);
+                const updateStatus = updateStatusData.find(
+                    (n) => n.regulationId === item.regulationId
+                )?.regulationStatus;
                 return (
                     <RegulationItemView
                         key={item.regulationId}
                         itemData={item}
+                        updateStatus={updateStatus}
                         itemIndex={index + 1}
                         onPress={() => {
                             console.log("click regulation item");

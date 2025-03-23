@@ -5,26 +5,26 @@ import Regulation from "./models/Regulation";
 export function getAllRegulations() {
     try {
         const regulations = realm.objects(Regulation);
-        return regulations;
+        return regulations.toJSON();
     } catch (error) {
         console.error('Error querying all regulations:', error);
         return [];
     }
 };
 
-export function markRegulationAsOutdated(regulationIds: Array<string>) {
+export function updateRegulationStatus(regulationIds: Array<string>, status: number) {
     try {
         realm.write(() => {
             regulationIds.forEach((id) => {
                 const regulation = realm.objectForPrimaryKey(Regulation, id);
                 if (regulation) {
-                    regulation.regulationStatus = 2;
+                    regulation.regulationStatus = status;
                 }
             });
         });
-        console.log('mark regulation as outdated completed.');
+        console.log(`Update regulations ${regulationIds} stauts = ${status}.`);
     } catch (error) {
-        console.error('Error updating regulations:', error);
+        console.error('Error updating regulation status:', error);
     }
 };
 
@@ -33,7 +33,7 @@ export function saveRegulationDownloadInfo(regulation) {
         realm.write(() => {
             realm.create(Regulation, regulation, Realm.UpdateMode.Modified);
         });
-        console.log('save regulation download info completed.', regulation.id);
+        console.log('save regulation download info completed.', regulation.regulationId);
     } catch (error) {
         console.error('Error upserting regulation:', error);
     }
