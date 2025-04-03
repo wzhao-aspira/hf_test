@@ -95,16 +95,18 @@ export function SimpleDialog(props) {
         okAction = () => {},
     } = props;
     return (
-        <Modal visible={visible} animationType="none" transparent>
-            <SimpleDialogView
-                testID={testID}
-                title={title}
-                message={message}
-                okText={okText}
-                okAction={okAction}
-                {...props}
-            />
-        </Modal>
+        <View>
+            <Modal visible={visible} animationType="none" transparent>
+                <SimpleDialogView
+                    testID={testID}
+                    title={title}
+                    message={message}
+                    okText={okText}
+                    okAction={okAction}
+                    {...props}
+                />
+            </Modal>
+        </View> 
     );
 }
 
@@ -188,20 +190,22 @@ export function SelectDialog(props) {
     } = props;
 
     return (
-        <Modal visible={visible} animationType="none" transparent>
-            <SelectDialogView
-                testID={testID}
-                title={title}
-                message={message}
-                okText={okText}
-                okAction={okAction}
-                cancelText={cancelText}
-                cancelAction={cancelAction}
-                horizontalCTA={horizontalCTA}
-            >
-                {children}
-            </SelectDialogView>
-        </Modal>
+        <View>
+            <Modal visible={visible} animationType="none" transparent>
+                <SelectDialogView
+                    testID={testID}
+                    title={title}
+                    message={message}
+                    okText={okText}
+                    okAction={okAction}
+                    cancelText={cancelText}
+                    cancelAction={cancelAction}
+                    horizontalCTA={horizontalCTA}
+                >
+                    {children}
+                </SelectDialogView>
+            </Modal>
+        </View> 
     );
 }
 
@@ -232,21 +236,25 @@ export function DialogWrapper(props) {
 export function Dialog(props) {
     const { testID = "", visible = false, children = null, closeModal } = props;
     return (
-        <Modal visible={visible} animationType="none" transparent>
-            <DialogWrapper testID={testID} closeModal={closeModal}>
-                {children}
-            </DialogWrapper>
-        </Modal>
+        <View>
+            <Modal visible={visible} animationType="none" transparent>
+                <DialogWrapper testID={testID} closeModal={closeModal}>
+                    {children}
+                </DialogWrapper>
+            </Modal>
+        </View>
     );
 }
 
 export function Indicator(props) {
     const { visible } = props;
     return (
-        <Modal visible={visible} animationType="none" transparent>
-            <View style={[styles.centeredView, { backgroundColor: AppTheme.colors.backdrop_light }]}>
-                <ActivityIndicator size="small" color={AppTheme.colors.primary} />
-            </View>
-        </Modal>
+        <View>
+            <Modal visible={visible} animationType="none" transparent>
+                <View style={[styles.centeredView, { backgroundColor: AppTheme.colors.backdrop_light }]}>
+                    <ActivityIndicator size="small" color={AppTheme.colors.primary} />
+                </View>
+            </Modal>
+        </View> 
     );
 }

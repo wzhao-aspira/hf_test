@@ -1,4 +1,4 @@
-import { Modal } from "react-native";
+import { Modal, View } from "react-native";
 import { SimpleDialogView, SelectDialogView } from "../components/Dialog";
 import { DialogActions } from "../helper/DialogHelper";
 import NavigationService from "./NavigationService";
@@ -61,15 +61,17 @@ export default function ModalScreen({ route = {} }) {
         );
     }
     return (
-        <Modal animationType="none" transparent>
-            <Content
-                title={title}
-                message={message}
-                okText={okText}
-                cancelText={cancelText}
-                isSelect={isSelect}
-                custom={custom}
-            />
-        </Modal>
+        <View> 
+            <Modal animationType="none" transparent>
+                <Content
+                    title={title}
+                    message={message}
+                    okText={okText}
+                    cancelText={cancelText}
+                    isSelect={isSelect}
+                    custom={custom}
+                />
+            </Modal> 
+        </View>
     );
 }
