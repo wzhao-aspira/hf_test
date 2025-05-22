@@ -110,6 +110,12 @@
     "prettier": "^2.8.8",
     "typescript": "^5.3.3"
   },
+  "resolutions": {
+    "undici": "6.21.2",
+    "image-size": "1.2.1",
+    "@babel/runtime": "7.26.10",
+    "@babel/helpers": "7.26.10"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
