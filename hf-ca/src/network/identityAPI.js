@@ -1,6 +1,7 @@
 import { saveJwtToken } from "./tokenUtil";
 import { getBaseURL, getDeviceInfo } from "../helper/AppHelper";
 import { url, signOutURL, globalDataForAPI, clientSecret, clientId } from "./commonUtil";
+import Constants from "expo-constants";
 
 export async function signIn(instance, username, password) {
     const data = { client_secret: clientSecret, grant_type: "password", client_id: clientId, username, password };
@@ -10,6 +11,7 @@ export async function signIn(instance, username, password) {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "Device-Info": getDeviceInfo(),
+            "App-Version": Constants.expoConfig?.version,
         },
         baseURL: getBaseURL(),
         data,
