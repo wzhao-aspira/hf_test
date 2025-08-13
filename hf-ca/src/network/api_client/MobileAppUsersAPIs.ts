@@ -1,5 +1,6 @@
 import { instance } from "../AxiosClient";
 import getAPIConfig from "../APIConfig";
+import Constants from "expo-constants";
 
 import { MobileAppUsersApi } from "../generated";
 import type {
@@ -51,6 +52,7 @@ export async function postMobileAppUsersLoginAudit(params: MobileAppUserLoginAud
     return api.v1MobileAppUsersLoginAuditPost(params, {
         headers: {
             "Device-Info": getDeviceInfo(),
+            "App-Version": Constants.expoConfig?.version,
         },
     });
 }

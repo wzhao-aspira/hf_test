@@ -575,6 +575,12 @@ export interface DocumentAndTransactionDetailsVM {
      * @memberof DocumentAndTransactionDetailsVM
      */
     'amount'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DocumentAndTransactionDetailsVM
+     */
+    'transactionDateCreated'?: string;
 }
 
 
@@ -1684,6 +1690,12 @@ export interface LicenseVM {
      * @memberof LicenseVM
      */
     'wasReportedLate'?: boolean | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof LicenseVM
+     */
+    'purchaseDateOnText'?: string | null;
 }
 /**
  * 
@@ -2195,6 +2207,12 @@ export interface MobileAppConfigurationVM {
      * @memberof MobileAppConfigurationVM
      */
     'regulationBackgroundUpdateInProgressReminder'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileAppConfigurationVM
+     */
+    'showPurchaseDateOnLicenseDuration'?: string | null;
 }
 /**
  * 

@@ -57,6 +57,7 @@ export async function getLatestLicenseDataByCustomerId(customerId) {
             licenseReportId,
             huntTagDescription,
             licenseReportConfirmationText,
+            purchaseDateOnText
         } = item;
         const { duplicateWatermark, documentNumber, amount } = {
             ...item.document,
@@ -92,6 +93,7 @@ export async function getLatestLicenseDataByCustomerId(customerId) {
             licenseReportId,
             huntTagDescription,
             licenseReportConfirmationText,
+            purchaseDateOnText
         };
     });
     return { formattedResult, lastUpdateTime, errors };
