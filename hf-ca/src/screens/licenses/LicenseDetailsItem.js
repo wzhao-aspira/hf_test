@@ -137,6 +137,7 @@ function LicenseDetailsItem(props) {
         licenseReportId,
         huntTagDescription,
         licenseReportConfirmationText,
+        purchaseDateOnText,
     } = licenseData || {};
 
     const { navigateToSubmitHarvestReport } = useNavigateToISSubmitHarvestReport(id);
@@ -279,6 +280,11 @@ function LicenseDetailsItem(props) {
                                 height={63}
                                 maxWidth={SCREEN_WIDTH - 4 * DEFAULT_MARGIN}
                             />
+                        )}
+                        {!!purchaseDateOnText && (
+                            <View testID={genTestId("purchaseDateOn")} style={{ alignItems: "center" }}>
+                                <Text>{purchaseDateOnText}</Text>
+                            </View>
                         )}
                     </View>
                 </View>
