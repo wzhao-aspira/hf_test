@@ -1,7 +1,13 @@
 import color from "color";
+import { isAndroid } from "../helper/AppHelper";
 
 const shadow = "#1C2831";
 const primary2 = "#045070";
+
+const baseTypographyAttr = isAndroid ? {
+    //temp fix for Android text cut off issue https://github.com/facebook/react-native/issues/53286#issuecomment-3224926859
+    lineHeight: undefined,
+} : {};
 
 export default {
     colors: {
@@ -56,16 +62,19 @@ export default {
             fontFamily: "Lato_Bold",
             fontSize: 30,
             lineHeight: 30,
+            ...baseTypographyAttr
         },
         secondary_heading: {
             fontFamily: "Lato_Bold",
             fontSize: 20,
             lineHeight: 20,
+            ...baseTypographyAttr
         },
         section_header: {
             fontFamily: "Lato_Bold",
             fontSize: 18,
             lineHeight: 18,
+            ...baseTypographyAttr
         },
 
         // roboto font
@@ -73,58 +82,72 @@ export default {
         temperature: {
             fontFamily: "Bold",
             fontSize: 30,
+            ...baseTypographyAttr
         },
         sub_text: {
             fontFamily: "Regular",
             fontSize: 18,
+            ...baseTypographyAttr
         },
         temperature_switch: {
             fontFamily: "Bold",
             fontSize: 16,
+            ...baseTypographyAttr
         },
         card_title: {
             fontFamily: "Medium",
             fontSize: 16,
+            ...baseTypographyAttr
         },
         sub_section: {
             fontFamily: "Regular",
             fontSize: 16,
+            ...baseTypographyAttr
         },
         setting_sub_title: {
             fontFamily: "Regular",
             fontSize: 15,
+            ...baseTypographyAttr
         },
         overlay_hyperLink: {
             fontFamily: "Bold",
             fontSize: 14,
+            ...baseTypographyAttr
         },
         button_text: {
             fontFamily: "Medium",
             fontSize: 14,
+            ...baseTypographyAttr
         },
         overlay_sub_text: {
             fontFamily: "Regular",
             fontSize: 14,
+            ...baseTypographyAttr
         },
         hyperLink: {
             fontFamily: "Bold",
             fontSize: 12,
+            ...baseTypographyAttr
         },
         card_small_m: {
             fontFamily: "Medium",
             fontSize: 12,
+            ...baseTypographyAttr
         },
         card_small_r: {
             fontFamily: "Regular",
             fontSize: 12,
+            ...baseTypographyAttr
         },
         am_pm: {
             fontFamily: "Bold",
             fontSize: 10,
+            ...baseTypographyAttr
         },
         refresh_time: {
             fontFamily: "Regular",
             fontSize: 10,
+            ...baseTypographyAttr
         },
     },
 
