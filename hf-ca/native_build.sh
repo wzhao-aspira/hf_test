@@ -119,6 +119,22 @@ updateSubPath() {
     cat ./src/network/commonUtil.ts
 }
 
+updateNewRelicConfig() {
+    echo "updateNewRelicConfig"
+
+    #replace new relic config
+    if [ $CHANNEL == prod ]; then
+        NEWRELIC_DIR="new-relic-prod"
+    else
+        NEWRELIC_DIR="new-relic"
+    fi
+    
+    echo "new relic directory"
+    echo $NEWRELIC_DIR
+    rm ${WORKSPACE}/hf-ca/newrelic_config.json
+    cp ${WORKSPACE}/credentials/${NEWRELIC_DIR}/newrelic_config.json ${WORKSPACE}/hf-ca/newrelic_config.json
+}
+
 buildAndroid() {
     echo ready to run android
 
@@ -217,6 +233,7 @@ if [ -n "$sub_path" ]; then
     updateSubPath
 fi
 updateFirebaseDirectory
+updateNewRelicConfig
 # disable charles for uat and prod
 system=$(uname)
 echo $system
