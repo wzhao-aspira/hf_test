@@ -1,12 +1,14 @@
 package com.aspiraconnect.hf.ca;
  
-import android.os.Build
-import android.os.Bundle
- 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
+import android.os.Build
+import android.os.Bundle
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
  
 import expo.modules.ReactActivityDelegateWrapper
  
@@ -17,6 +19,19 @@ class MainActivity : ReactActivity() {
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
     super.onCreate(null)
+    if (Build.VERSION.SDK_INT >= 35) {
+      val rootView = findViewById<View>(android.R.id.content)
+      ViewCompat.setOnApplyWindowInsetsListener(rootView) { _, insets ->
+        val innerPadding = insets.getInsets(WindowInsetsCompat.Type.ime())
+        rootView.setPadding(
+          innerPadding.left,
+          innerPadding.top,
+          innerPadding.right,
+          innerPadding.bottom
+        )
+        insets
+      }
+    }
   }
  
   /**

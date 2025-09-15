@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import { TabView, SceneMap, TabBar, TabBarItem } from "react-native-tab-view";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import useFocus from "../../../hooks/useFocus";
@@ -62,10 +62,6 @@ function PendingRoute() {
 const renderTabBar = (props) => {
     const tabSize = props?.navigationState?.routes?.length || 3;
 
-    // The spread key into JSX warning has been fixed in react-native-tab-view@4.0.0-rc.11
-    // If you think it is necessary to fix it, you can upgrade the package.
-    // Reference: https://github.com/react-navigation/react-navigation/releases/tag/react-native-tab-view%404.0.0-rc.11
-
     return (
         <TabBar
             {...props}
@@ -73,19 +69,27 @@ const renderTabBar = (props) => {
             indicatorStyle={{ backgroundColor: AppTheme.colors.indicator }}
             style={{ backgroundColor: AppTheme.colors.body_50, shadowColor: AppTheme.colors.body_50 }}
             tabStyle={{ width: SCREEN_WIDTH / tabSize }}
-            renderLabel={({ route, focused }) => (
-                <Text
-                    style={{
-                        color: AppTheme.colors.black,
-                        fontWeight: focused ? "500" : "normal",
-                        paddingHorizontal: focused ? 0 : 6,
-                        textAlign: "center",
-                    }}
-                    testID={genTestId(`drawApplicationTab_${route.key}`)}
-                >
-                    {route.title}
-                </Text>
-            )}
+            renderTabBarItem={(itemProps) => {
+                return (
+                    <TabBarItem
+                        {...itemProps}
+                        key={itemProps.route.key}
+                        label={({ focused }) => (
+                            <Text
+                                style={{
+                                    color: AppTheme.colors.black,
+                                    fontWeight: focused ? "500" : "normal",
+                                    paddingHorizontal: focused ? 0 : 6,
+                                    textAlign: "center",
+                                }}
+                                testID={genTestId(`drawApplicationTab_${itemProps.route.key}`)}
+                            >
+                                {itemProps.route.title}
+                            </Text>
+                        )}
+                    />
+                );
+            }}
         />
     );
 };
