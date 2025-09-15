@@ -29,6 +29,7 @@ import AccountService from "./src/services/AccountService";
 import { LOGIN_TYPE } from "./src/constants/Constants";
 import OnBoardingHelper from "./src/helper/OnBoardingHelper";
 import { isEmpty } from "lodash";
+import initNewRelicAgent from "./src/utils/NewRelicSetup";
 
 LogBox.ignoreLogs(["Found screens with the same name nested inside one another."]);
 
@@ -106,6 +107,7 @@ function App() {
                 setCachedSplash(defaultLoadingSplash);
             }
         }
+        initNewRelicAgent();
         showSplash();
         AccountService.uploadDeviceInfo(LOGIN_TYPE.Reopen);
     }, []);
