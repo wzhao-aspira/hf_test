@@ -33,7 +33,6 @@ import initNewRelicAgent from "./src/utils/NewRelicSetup";
 
 LogBox.ignoreLogs(["Found screens with the same name nested inside one another."]);
 
-initNewRelicAgent();
 Sentry.init({
     enabled: enabledSentry(),
     dsn: "https://d55674d518ec65559ec0c4353f7fe43c@o368395.ingest.sentry.io/4506278491979776",
@@ -108,6 +107,7 @@ function App() {
                 setCachedSplash(defaultLoadingSplash);
             }
         }
+        initNewRelicAgent();
         showSplash();
         AccountService.uploadDeviceInfo(LOGIN_TYPE.Reopen);
     }, []);
