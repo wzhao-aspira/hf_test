@@ -18,7 +18,9 @@ export default function ChangeLocationScreen() {
             return;
         }
         await storeItem(KEY_CONSTANT.keyLatLon, [location.center[1], location.center[0]]);
-        dispatch(getWeatherDataFromRedux({ isForce: true }));
+        setTimeout(() => {
+            dispatch(getWeatherDataFromRedux({ isForce: true }));
+        }, 100);
         NavigationService.back();
     };
     const onClickCurrentLocationAction = async (currentLocation) => {
