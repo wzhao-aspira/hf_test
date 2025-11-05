@@ -32,7 +32,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@rnmapbox/maps": "^10.1.33",
     "@sentry/react-native": "~6.14.0",
-    "axios": "^1.4.0",
+    "axios": "^1.13.2",
     "base-64": "^1.0.0",
     "color": "^4.2.3",
     "deprecated-react-native-prop-types": "^4.1.0",
@@ -114,7 +114,9 @@
   },
   "resolutions": {
     "undici": "6.21.2",
-    "image-size": "1.2.1"
+    "image-size": "1.2.1",
+    "tar-fs": "2.1.4",
+    "tmp": "0.2.4"
   },
   "husky": {
     "hooks": {
