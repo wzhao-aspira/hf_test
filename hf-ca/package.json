@@ -92,7 +92,6 @@
     "use-immer": "^0.9.0"
   },
   "devDependencies": {
-    "@a1/eslint-config-aspira": "^2.1.3",
     "@babel/core": "^7.25.2",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
