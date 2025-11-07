@@ -1,0 +1,61 @@
+name: iOS Dependencies Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ios-setup:
+    runs-on: macos-latest
+
+    defaults:
+      run:
+        working-directory: hf-ca # your main project folder
+
+    steps:
+      - name: 🧩 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: ⚙️ Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 💎 Set up Ruby (for CocoaPods)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler-cache: true
+
+      - name: 📦 Install dependencies
+        run: |
+          echo "===== Installing dependencies ====="
+          # brew install cocoapods
+          # npm install -g yarn
+          echo "Node version: $(node -v)"
+          echo "Yarn version: $(yarn -v)"
+          yarn install
+          echo "===== Dependencies installed successfully ====="
+
+      - name: 🧹 Clean Xcode build
+        run: |
+          echo "===== Cleaning Xcode build folder ====="
+          cd ios
+          rm -rf build/
+          echo "Running xcodebuild clean..."
+          xcodebuild -alltargets clean
+          echo "===== Xcode clean completed ====="
+
+      - name: 🧱 Install CocoaPods
+        run: |
+          echo "===== Installing CocoaPods ====="
+          cd ios
+          pod --version
+          pod install --repo-update --verbose
+          echo "===== CocoaPods installation complete ====="
+
+      - name: ✅ Finish
+        run: |
+          echo "✅ iOS environment setup and dependency installation finished successfully."
